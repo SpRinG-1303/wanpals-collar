@@ -1,25 +1,28 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
+import { useLanguage, type Language } from "@/context/LanguageContext";
 
-export const Route = createFileRoute("/language")({ component: Language });
+export const Route = createFileRoute("/language")({ component: LanguagePicker });
 
-const opts = [
-  { id: "en", flag: "🇬🇧", title: "English Only", sub: "Use English throughout" },
-  { id: "jp", flag: "🇯🇵", title: "日本語 Japanese Only", sub: "日本語のみで使用" },
-  { id: "mix", flag: "🌐", title: "Mixed (EN + JP)", sub: "両方の言語を表示" },
+const opts: { id: Language; flag: string; title: string; sub: string }[] = [
+  { id: "english", flag: "🇬🇧", title: "English Only", sub: "Use English throughout" },
+  { id: "japanese", flag: "🇯🇵", title: "日本語 Japanese Only", sub: "日本語のみで使用" },
+  { id: "mixed", flag: "🌐", title: "Mixed (EN + JP)", sub: "両方の言語を表示 / Show both" },
 ];
 
-function Language() {
-  const [sel, setSel] = useState("mix");
+function LanguagePicker() {
+  const { language, setLanguage } = useLanguage();
+  const [sel, setSel] = useState<Language>(language);
   const nav = useNavigate();
   const choose = () => {
-    if (typeof window !== "undefined") localStorage.setItem("wancare-lang", sel);
+    setLanguage(sel);
     nav({ to: "/auth" });
   };
   return (
     <div className="min-h-screen paw-bg flex flex-col p-6 max-w-md mx-auto">
-      <h1 className="text-2xl font-black text-primary mt-8">言語を選択</h1>
-      <p className="text-sm text-muted-foreground">Select Language</p>
+      <h1 className="text-2xl font-black text-primary mt-8">
+        {sel === "english" ? "Select Language" : sel === "japanese" ? "言語を選択" : "言語を選択 / Select Language"}
+      </h1>
       <div className="mt-8 space-y-3">
         {opts.map((o) => (
           <button
@@ -39,7 +42,7 @@ function Language() {
       </div>
       <div className="mt-auto pt-8">
         <button onClick={choose} className="w-full bg-primary text-primary-foreground font-bold py-4 rounded-2xl shadow-card">
-          続ける / Continue
+          {sel === "english" ? "Continue" : sel === "japanese" ? "続ける" : "続ける / Continue"}
         </button>
       </div>
     </div>
