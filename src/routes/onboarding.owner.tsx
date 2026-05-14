@@ -1,17 +1,18 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { PREFECTURES } from "@/lib/mock";
+import { useT } from "@/context/LanguageContext";
 
 export const Route = createFileRoute("/onboarding/owner")({ component: Step3 });
 
 function Step3() {
   const nav = useNavigate();
+  const t = useT();
   return (
     <div className="min-h-screen bg-background p-6 max-w-md mx-auto pb-32">
       <div className="flex justify-center gap-2 mt-2 text-2xl">
         <span>🐾</span><span>🐾</span><span>🐾</span>
       </div>
-      <h1 className="text-2xl font-black mt-4">オーナー情報</h1>
-      <p className="text-sm text-muted-foreground">About You</p>
+      <h1 className="text-2xl font-black mt-4">{t("オーナー情報", "About You")}</h1>
 
       <div className="flex justify-center my-6">
         <div className="text-7xl">👩‍🦰🐕</div>
@@ -19,15 +20,15 @@ function Step3() {
 
       <div className="space-y-3">
         <div className="bg-card p-4 rounded-2xl shadow-soft">
-          <label className="text-xs font-bold">オーナー名 / Your Name <span className="text-destructive">*</span></label>
-          <input className="w-full mt-1 bg-transparent outline-none text-sm" placeholder="例: 田中花子"/>
+          <label className="text-xs font-bold">{t("オーナー名", "Your Name")} <span className="text-destructive">*</span></label>
+          <input className="w-full mt-1 bg-transparent outline-none text-sm" placeholder={t("例: 田中花子", "e.g. Hanako Tanaka")}/>
         </div>
         <div className="bg-card p-4 rounded-2xl shadow-soft">
-          <label className="text-xs font-bold flex justify-between">年齢 / Age <span className="text-muted-foreground font-normal">任意</span></label>
+          <label className="text-xs font-bold flex justify-between">{t("年齢", "Age")} <span className="text-muted-foreground font-normal">{t("任意", "Optional")}</span></label>
           <input className="w-full mt-1 bg-transparent outline-none text-sm" placeholder="32"/>
         </div>
         <div className="bg-card p-4 rounded-2xl shadow-soft">
-          <label className="text-xs font-bold">都道府県 / Prefecture</label>
+          <label className="text-xs font-bold">{t("都道府県", "Prefecture")}</label>
           <select className="w-full mt-1 bg-transparent outline-none text-sm">
             {PREFECTURES.map((p) => <option key={p}>{p}</option>)}
           </select>
@@ -35,7 +36,7 @@ function Step3() {
       </div>
 
       <div className="fixed bottom-0 inset-x-0 p-4 bg-background border-t border-border max-w-md mx-auto">
-        <button onClick={() => nav({ to: "/home" })} className="w-full bg-primary text-primary-foreground font-bold py-4 rounded-2xl shadow-card">完了 / Complete Setup</button>
+        <button onClick={() => nav({ to: "/home" })} className="w-full bg-primary text-primary-foreground font-bold py-4 rounded-2xl shadow-card">{t("完了", "Complete Setup")}</button>
       </div>
     </div>
   );
