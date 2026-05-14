@@ -9,38 +9,281 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as ReportRouteImport } from './routes/report'
+import { Route as MapRouteImport } from './routes/map'
+import { Route as LanguageRouteImport } from './routes/language'
+import { Route as HomeRouteImport } from './routes/home'
+import { Route as CommunityRouteImport } from './routes/community'
+import { Route as ClinicsRouteImport } from './routes/clinics'
+import { Route as BreedsRouteImport } from './routes/breeds'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AiRouteImport } from './routes/ai'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as OnboardingOwnerRouteImport } from './routes/onboarding.owner'
+import { Route as OnboardingDogRouteImport } from './routes/onboarding.dog'
+import { Route as OnboardingAvatarRouteImport } from './routes/onboarding.avatar'
 
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReportRoute = ReportRouteImport.update({
+  id: '/report',
+  path: '/report',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MapRoute = MapRouteImport.update({
+  id: '/map',
+  path: '/map',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LanguageRoute = LanguageRouteImport.update({
+  id: '/language',
+  path: '/language',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HomeRoute = HomeRouteImport.update({
+  id: '/home',
+  path: '/home',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CommunityRoute = CommunityRouteImport.update({
+  id: '/community',
+  path: '/community',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ClinicsRoute = ClinicsRouteImport.update({
+  id: '/clinics',
+  path: '/clinics',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BreedsRoute = BreedsRouteImport.update({
+  id: '/breeds',
+  path: '/breeds',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AiRoute = AiRouteImport.update({
+  id: '/ai',
+  path: '/ai',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OnboardingOwnerRoute = OnboardingOwnerRouteImport.update({
+  id: '/onboarding/owner',
+  path: '/onboarding/owner',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OnboardingDogRoute = OnboardingDogRouteImport.update({
+  id: '/onboarding/dog',
+  path: '/onboarding/dog',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OnboardingAvatarRoute = OnboardingAvatarRouteImport.update({
+  id: '/onboarding/avatar',
+  path: '/onboarding/avatar',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/ai': typeof AiRoute
+  '/auth': typeof AuthRoute
+  '/breeds': typeof BreedsRoute
+  '/clinics': typeof ClinicsRoute
+  '/community': typeof CommunityRoute
+  '/home': typeof HomeRoute
+  '/language': typeof LanguageRoute
+  '/map': typeof MapRoute
+  '/report': typeof ReportRoute
+  '/settings': typeof SettingsRoute
+  '/onboarding/avatar': typeof OnboardingAvatarRoute
+  '/onboarding/dog': typeof OnboardingDogRoute
+  '/onboarding/owner': typeof OnboardingOwnerRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/ai': typeof AiRoute
+  '/auth': typeof AuthRoute
+  '/breeds': typeof BreedsRoute
+  '/clinics': typeof ClinicsRoute
+  '/community': typeof CommunityRoute
+  '/home': typeof HomeRoute
+  '/language': typeof LanguageRoute
+  '/map': typeof MapRoute
+  '/report': typeof ReportRoute
+  '/settings': typeof SettingsRoute
+  '/onboarding/avatar': typeof OnboardingAvatarRoute
+  '/onboarding/dog': typeof OnboardingDogRoute
+  '/onboarding/owner': typeof OnboardingOwnerRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/ai': typeof AiRoute
+  '/auth': typeof AuthRoute
+  '/breeds': typeof BreedsRoute
+  '/clinics': typeof ClinicsRoute
+  '/community': typeof CommunityRoute
+  '/home': typeof HomeRoute
+  '/language': typeof LanguageRoute
+  '/map': typeof MapRoute
+  '/report': typeof ReportRoute
+  '/settings': typeof SettingsRoute
+  '/onboarding/avatar': typeof OnboardingAvatarRoute
+  '/onboarding/dog': typeof OnboardingDogRoute
+  '/onboarding/owner': typeof OnboardingOwnerRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/ai'
+    | '/auth'
+    | '/breeds'
+    | '/clinics'
+    | '/community'
+    | '/home'
+    | '/language'
+    | '/map'
+    | '/report'
+    | '/settings'
+    | '/onboarding/avatar'
+    | '/onboarding/dog'
+    | '/onboarding/owner'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/ai'
+    | '/auth'
+    | '/breeds'
+    | '/clinics'
+    | '/community'
+    | '/home'
+    | '/language'
+    | '/map'
+    | '/report'
+    | '/settings'
+    | '/onboarding/avatar'
+    | '/onboarding/dog'
+    | '/onboarding/owner'
+  id:
+    | '__root__'
+    | '/'
+    | '/ai'
+    | '/auth'
+    | '/breeds'
+    | '/clinics'
+    | '/community'
+    | '/home'
+    | '/language'
+    | '/map'
+    | '/report'
+    | '/settings'
+    | '/onboarding/avatar'
+    | '/onboarding/dog'
+    | '/onboarding/owner'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AiRoute: typeof AiRoute
+  AuthRoute: typeof AuthRoute
+  BreedsRoute: typeof BreedsRoute
+  ClinicsRoute: typeof ClinicsRoute
+  CommunityRoute: typeof CommunityRoute
+  HomeRoute: typeof HomeRoute
+  LanguageRoute: typeof LanguageRoute
+  MapRoute: typeof MapRoute
+  ReportRoute: typeof ReportRoute
+  SettingsRoute: typeof SettingsRoute
+  OnboardingAvatarRoute: typeof OnboardingAvatarRoute
+  OnboardingDogRoute: typeof OnboardingDogRoute
+  OnboardingOwnerRoute: typeof OnboardingOwnerRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/report': {
+      id: '/report'
+      path: '/report'
+      fullPath: '/report'
+      preLoaderRoute: typeof ReportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/map': {
+      id: '/map'
+      path: '/map'
+      fullPath: '/map'
+      preLoaderRoute: typeof MapRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/language': {
+      id: '/language'
+      path: '/language'
+      fullPath: '/language'
+      preLoaderRoute: typeof LanguageRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/home': {
+      id: '/home'
+      path: '/home'
+      fullPath: '/home'
+      preLoaderRoute: typeof HomeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/community': {
+      id: '/community'
+      path: '/community'
+      fullPath: '/community'
+      preLoaderRoute: typeof CommunityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/clinics': {
+      id: '/clinics'
+      path: '/clinics'
+      fullPath: '/clinics'
+      preLoaderRoute: typeof ClinicsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/breeds': {
+      id: '/breeds'
+      path: '/breeds'
+      fullPath: '/breeds'
+      preLoaderRoute: typeof BreedsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ai': {
+      id: '/ai'
+      path: '/ai'
+      fullPath: '/ai'
+      preLoaderRoute: typeof AiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,22 +291,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/onboarding/owner': {
+      id: '/onboarding/owner'
+      path: '/onboarding/owner'
+      fullPath: '/onboarding/owner'
+      preLoaderRoute: typeof OnboardingOwnerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/onboarding/dog': {
+      id: '/onboarding/dog'
+      path: '/onboarding/dog'
+      fullPath: '/onboarding/dog'
+      preLoaderRoute: typeof OnboardingDogRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/onboarding/avatar': {
+      id: '/onboarding/avatar'
+      path: '/onboarding/avatar'
+      fullPath: '/onboarding/avatar'
+      preLoaderRoute: typeof OnboardingAvatarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AiRoute: AiRoute,
+  AuthRoute: AuthRoute,
+  BreedsRoute: BreedsRoute,
+  ClinicsRoute: ClinicsRoute,
+  CommunityRoute: CommunityRoute,
+  HomeRoute: HomeRoute,
+  LanguageRoute: LanguageRoute,
+  MapRoute: MapRoute,
+  ReportRoute: ReportRoute,
+  SettingsRoute: SettingsRoute,
+  OnboardingAvatarRoute: OnboardingAvatarRoute,
+  OnboardingDogRoute: OnboardingDogRoute,
+  OnboardingOwnerRoute: OnboardingOwnerRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
