@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import AppShell from "@/components/AppShell";
 import { useEffect, useState } from "react";
 import { DAILY_FACTS } from "@/lib/mock";
-import { Battery, Signal, Brain, Microscope, Activity, Thermometer, MapPin, Wind, Sun, GitMerge, type LucideIcon } from "lucide-react";
+import { Brain, Microscope, Activity, Thermometer, MapPin, Wind, Sun, GitMerge, Check, BatteryMedium, Signal, Bluetooth, type LucideIcon } from "lucide-react";
 import { motion } from "framer-motion";
 import { T, useT, useLanguage } from "@/context/LanguageContext";
 
