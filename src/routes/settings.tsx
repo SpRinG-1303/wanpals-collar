@@ -3,6 +3,7 @@ import AppShell from "@/components/AppShell";
 import { useEffect, useState } from "react";
 import { ChevronRight, Sun, Moon, Crown } from "lucide-react";
 import { useT, useLanguage, type Language } from "@/context/LanguageContext";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 export const Route = createFileRoute("/settings")({ component: Settings });
 
