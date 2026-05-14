@@ -26,13 +26,14 @@ export function TopBar({ titleJp, titleEn }: { titleJp?: string; titleEn?: strin
             🐕
           </Link>
           <div className="text-sm font-bold truncate flex-1 text-center">{t(jp, en)}</div>
-          <div className="flex items-center gap-2">
-            <button className="w-10 h-10 rounded-full bg-muted flex items-center justify-center" aria-label={t("通知", "Notifications")}>
-              <Bell className="w-5 h-5" />
+          <div className="flex items-center gap-1.5">
+            <LanguageSwitcher />
+            <button className="w-9 h-9 rounded-full bg-muted flex items-center justify-center" aria-label={t("通知", "Notifications")}>
+              <Bell className="w-4 h-4" />
             </button>
             <button
               onClick={() => setSosOpen(true)}
-              className="pulse-red bg-destructive text-destructive-foreground rounded-full px-3 h-10 text-xs font-bold flex items-center gap-1"
+              className="pulse-red bg-destructive text-destructive-foreground rounded-full px-2.5 h-9 text-xs font-bold flex items-center gap-1"
             >
               🆘 SOS
             </button>
