@@ -3,6 +3,7 @@ import { Home, MapPin, Bot, Stethoscope, Users, Bell } from "lucide-react";
 import { motion } from "framer-motion";
 import { useState, useEffect, type ReactNode } from "react";
 import { T, useT } from "@/context/LanguageContext";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 const tabs = [
   { to: "/home", icon: Home, jp: "ホーム", en: "Home" },
