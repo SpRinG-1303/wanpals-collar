@@ -101,22 +101,62 @@ function Home() {
         </div>
       </div>
 
-      {/* Collar Connect */}
-      <div className="mt-3 bg-card rounded-2xl p-4 shadow-card">
-        <div className="flex items-center justify-between">
-          <div>
-            <div className="text-xs text-muted-foreground">{t("カラー接続状況", "Collar Status")}</div>
-            <div className="font-bold flex items-center gap-2">WanCare Collar v2 <span className="text-success text-xs">● {t("接続済", "Connected")}</span></div>
+      {/* Collar Status */}
+      <div
+        className="mt-3 bg-card rounded-2xl border border-[#F3F4F6]"
+        style={{ padding: 20, boxShadow: "0 2px 8px rgba(0,0,0,0.06)" }}
+      >
+        <T jp="カラーステータス" en="Collar Status" className="block text-[18px] font-bold text-[#1A1A2E] mb-4" as="div" />
+
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: "#DCFCE7" }}>
+            <Check size={20} style={{ color: "#22C55E" }} strokeWidth={3} />
           </div>
-          <div className="text-right text-xs">
-            <div className="flex items-center gap-1 justify-end"><Battery className="w-3.5 h-3.5"/><span className="font-bold">78%</span></div>
-            <div className="flex items-center gap-1 justify-end mt-1"><Signal className="w-3.5 h-3.5"/><span>3/4</span></div>
+          <div className="flex-1">
+            <div className="text-[15px] font-semibold text-[#1A1A2E]">{t("接続済み", "Connected")}</div>
+            <div className="text-[12px] text-[#6B7280]">{t("最終同期: 2分前", "Last sync: 2 minutes ago")}</div>
           </div>
         </div>
-        <div className="mt-2 flex justify-between text-[11px] text-muted-foreground">
-          <span>{t("最終同期: 2分前", "Last sync: 2 min ago")}</span>
-          <button className="text-sakura font-bold">{t("再接続", "Reconnect")} →</button>
+
+        <div className="my-5 h-px" style={{ background: "#F3F4F6" }} />
+
+        <div className="flex items-center justify-between mb-[14px]">
+          <div className="flex items-center" style={{ gap: 6 }}>
+            <BatteryMedium size={18} style={{ color: "#6B7280" }} />
+            <span className="text-[14px] font-medium text-[#6B7280]">{t("バッテリー", "Battery")}</span>
+          </div>
+          <div className="flex items-center">
+            <div className="rounded-[4px] overflow-hidden" style={{ width: 120, height: 8, background: "#E5E7EB" }}>
+              <div className="h-full rounded-[4px]" style={{ width: "87%", background: "#22C55E" }} />
+            </div>
+            <span className="ml-2 text-[14px] font-semibold text-[#1A1A2E]">87%</span>
+          </div>
         </div>
+
+        <div className="flex items-center justify-between mb-5">
+          <div className="flex items-center" style={{ gap: 6 }}>
+            <Signal size={18} style={{ color: "#6B7280" }} />
+            <span className="text-[14px] font-medium" style={{ color: "#3B82F6" }}>{t("信号強度", "Signal Strength")}</span>
+          </div>
+          <div className="flex items-center">
+            <div className="flex items-end" style={{ gap: 3 }}>
+              {[6, 10, 14, 18].map((h) => (
+                <div key={h} className="rounded-[2px]" style={{ width: 4, height: h, background: "#3B82F6" }} />
+              ))}
+            </div>
+            <span className="ml-2 text-[14px] font-semibold text-[#1A1A2E]">{t("優秀", "Excellent")}</span>
+          </div>
+        </div>
+
+        <button
+          className="w-full flex items-center justify-center gap-2 rounded-[12px] font-semibold transition-colors"
+          style={{ background: "#EFF6FF", color: "#3B82F6", height: 48, fontSize: 15 }}
+          onMouseEnter={(e) => (e.currentTarget.style.background = "#DBEAFE")}
+          onMouseLeave={(e) => (e.currentTarget.style.background = "#EFF6FF")}
+        >
+          <Bluetooth size={18} style={{ color: "#3B82F6" }} />
+          <span>{t("カラーを接続", "Connect Collar")}</span>
+        </button>
       </div>
 
       {/* Sensors grid */}
