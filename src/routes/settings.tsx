@@ -3,6 +3,7 @@ import AppShell from "@/components/AppShell";
 import { useEffect, useState } from "react";
 import { ChevronRight, Sun, Moon, Crown } from "lucide-react";
 import { useT, useLanguage, type Language } from "@/context/LanguageContext";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 export const Route = createFileRoute("/settings")({ component: Settings });
 
@@ -61,18 +62,8 @@ function Settings() {
       </Section>
 
       <Section title={t("言語", "Language")}>
-        <div className="grid grid-cols-3 gap-2">
-          {(["english", "japanese", "mixed"] as Language[]).map((l) => (
-            <button
-              key={l}
-              onClick={() => setLanguage(l)}
-              className={`py-2 rounded-xl text-xs font-bold border-2 ${language === l ? "border-sakura bg-sakura-soft text-primary" : "border-transparent bg-muted text-muted-foreground"}`}
-            >
-              {langLabel[l]}
-            </button>
-          ))}
-        </div>
-        <button onClick={() => nav({ to: "/language" })} className="w-full text-left text-sm flex items-center justify-between mt-2">
+        <LanguageSwitcher variant="panel" />
+        <button onClick={() => nav({ to: "/language" })} className="w-full text-left text-sm flex items-center justify-between mt-3">
           <span>{t("言語を変更", "Change Language")}</span><ChevronRight className="w-4 h-4 text-muted-foreground"/>
         </button>
       </Section>
