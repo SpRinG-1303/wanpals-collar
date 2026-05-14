@@ -122,24 +122,68 @@ function Home() {
       {/* Sensors grid */}
       <h2 className="mt-5 mb-2 text-sm font-black flex items-center gap-2">🤖 {t("AI センサー", "AI Sensors")} <span className="text-xs font-normal text-muted-foreground">8 active</span></h2>
       <div className="grid grid-cols-2 gap-3">
-        {sensors.map((s) => (
-          <Link to="/report" key={s.en} className="bg-card rounded-2xl p-3 shadow-card flex flex-col gap-1.5">
-            <div className="flex items-start justify-between">
-              <span className="text-2xl">{s.icon}</span>
-              <span className={`text-[9px] px-1.5 py-0.5 rounded-full font-bold ${s.color === "success" ? "bg-success/15 text-success" : "bg-sakura-soft text-primary"}`}>{t(s.statusJp, s.statusEn)}</span>
-            </div>
-            <T jp={s.jp} en={s.en} className="text-[11px] font-bold leading-tight" as="div" />
-            <div className="text-sm font-bold text-primary mt-0.5">{t(s.valJp, s.valEn)}</div>
-            {s.progress && (
-              <div className="h-1.5 bg-muted rounded-full overflow-hidden mt-1">
-                <div className="h-full bg-success rounded-full" style={{ width: `${s.progress}%` }}/>
+        {sensors.map((s) => {
+          const Icon = s.Icon;
+          return (
+            <Link
+              to="/report"
+              key={s.en}
+              className="relative bg-card rounded-2xl p-4 border border-[#F3F4F6] flex flex-col"
+              style={{ boxShadow: "0 2px 8px rgba(0,0,0,0.06)" }}
+            >
+              {s.ml && (
+                <span
+                  className="absolute top-2 right-2 text-white font-bold rounded-full"
+                  style={{
+                    fontSize: 10,
+                    padding: "3px 8px",
+                    background: "linear-gradient(135deg,#9333EA,#EC4899)",
+                    boxShadow: "0 2px 4px rgba(147,51,234,0.3)",
+                  }}
+                >
+                  ML Training
+                </span>
+              )}
+              <div
+                className="w-12 h-12 rounded-xl flex items-center justify-center"
+                style={{ background: s.iconBg }}
+              >
+                <Icon size={24} style={{ color: s.iconColor }} />
               </div>
-            )}
-            {s.rgb && <div className="flex gap-1 mt-1">{["#E53935","#4CAF82","#1A2F5A"].map(c=><span key={c} className="w-2 h-2 rounded-full" style={{background:c}}/>)}</div>}
-            {s.noteJp && <div className="text-[9px] text-muted-foreground mt-0.5">{t(s.noteJp, s.noteEn!)}</div>}
-            {s.link && <div className="text-[10px] text-sakura font-bold flex items-center mt-0.5">{t("レポートを見る", "View report")} <ChevronRight className="w-3 h-3"/></div>}
-          </Link>
-        ))}
+              <T jp={s.jp} en={s.en} className="mt-3 text-[15px] font-semibold leading-tight" as="div" />
+              <T jp={s.subJp} en={s.subEn} className="text-[12px] text-muted-foreground leading-tight mt-0.5" as="div" />
+              <div className="mt-2 flex items-center justify-between gap-2">
+                <div className="text-[18px] font-bold text-primary leading-tight">{t(s.valJp, s.valEn)}</div>
+                <span
+                  className={`w-2 h-2 rounded-full shrink-0 ${s.dot === "green" || s.dot === "blue" ? "animate-pulse" : ""}`}
+                  style={{ background: DOT_COLOR[s.dot] }}
+                />
+              </div>
+              {s.noteJp && (
+                <div
+                  className="text-[11px] mt-1"
+                  style={{ color: s.noteColor ?? "#6B7280" }}
+                >
+                  {t(s.noteJp, s.noteEn!)}
+                </div>
+              )}
+              {s.progress !== undefined && (
+                <div className="mt-3 h-1.5 rounded-full overflow-hidden" style={{ background: "#E5E7EB" }}>
+                  <div className="h-full rounded-full" style={{ width: `${s.progress}%`, background: "#3B82F6" }}/>
+                </div>
+              )}
+              {s.ml && (
+                <button
+                  onClick={(e) => { e.preventDefault(); }}
+                  className="mt-3 w-full rounded-lg text-[13px] font-medium hover:bg-[#E5E7EB] transition-colors"
+                  style={{ background: "#F3F4F6", color: "#6B7280", height: 34 }}
+                >
+                  {t("モデルを学習", "Train Model")}
+                </button>
+              )}
+            </Link>
+          );
+        })}
       </div>
 
       <div className="mt-4 grid grid-cols-2 gap-3">
