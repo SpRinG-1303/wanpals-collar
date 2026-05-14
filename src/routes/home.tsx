@@ -2,22 +2,44 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import AppShell from "@/components/AppShell";
 import { useEffect, useState } from "react";
 import { DAILY_FACTS } from "@/lib/mock";
-import { Battery, Signal, ChevronRight } from "lucide-react";
+import { Battery, Signal, Brain, Microscope, Activity, Thermometer, MapPin, Wind, Sun, GitMerge, type LucideIcon } from "lucide-react";
 import { motion } from "framer-motion";
 import { T, useT, useLanguage } from "@/context/LanguageContext";
 
 export const Route = createFileRoute("/home")({ component: Home });
 
-const sensors = [
-  { icon: "🐶", jp: "吠え分析", en: "BarkSense AI", valJp: "穏やか", valEn: "Calm", statusJp: "良好", statusEn: "Good", color: "success", noteJp: "ML学習中", noteEn: "Learning" },
-  { icon: "🔬", jp: "皮膚センサー", en: "SkinSense AI", valJp: "正常", valEn: "Normal", statusJp: "良好", statusEn: "Good", color: "success", noteJp: "ML学習中", noteEn: "Learning" },
-  { icon: "🏃", jp: "運動センサー", en: "MotionSense AI", valJp: "2,340歩", valEn: "2,340 steps", statusJp: "良好", statusEn: "Good", color: "success", progress: 78 },
-  { icon: "🌡️", jp: "体温センサー", en: "TemperatureSense AI", valJp: "38.5°C", valEn: "38.5°C", statusJp: "良好", statusEn: "Good", color: "success", noteJp: "正常範囲", noteEn: "Normal range" },
-  { icon: "📍", jp: "位置センサー", en: "LocationSense AI", valJp: "渋谷区, 東京", valEn: "Shibuya, Tokyo", statusJp: "追跡中", statusEn: "Tracking", color: "info", noteJp: "リアルタイム", noteEn: "Real-time" },
-  { icon: "💨", jp: "圧力センサー", en: "PressureSense AI", valJp: "正常範囲", valEn: "Normal", statusJp: "良好", statusEn: "Good", color: "success" },
-  { icon: "💡", jp: "光センサー", en: "LightSense AI", valJp: "室内", valEn: "Indoor", statusJp: "良好", statusEn: "Good", color: "success", rgb: true },
-  { icon: "🔗", jp: "総合分析", en: "CombineSense AI", valJp: "総合スコア 87", valEn: "Score 87", statusJp: "良好", statusEn: "Good", color: "success", link: true },
+type Dot = "green" | "blue" | "gray" | "red";
+type Sensor = {
+  Icon: LucideIcon;
+  iconBg: string;
+  iconColor: string;
+  jp: string; en: string;
+  subJp: string; subEn: string;
+  valJp: string; valEn: string;
+  dot: Dot;
+  ml?: boolean;
+  progress?: number;
+  noteJp?: string; noteEn?: string;
+  noteColor?: string;
+};
+
+const sensors: Sensor[] = [
+  { Icon: Brain, iconBg: "#F3E8FF", iconColor: "#9333EA", jp: "吠え分析", en: "BarkSense AI", subJp: "鳴き声解析", subEn: "Bark Analysis", valJp: "穏やか", valEn: "Calm", dot: "green", ml: true },
+  { Icon: Microscope, iconBg: "#FFF0F3", iconColor: "#E91E8C", jp: "皮膚センサー", en: "SkinSense AI", subJp: "皮膚の健康", subEn: "Skin Health", valJp: "正常", valEn: "Normal", dot: "green", ml: true },
+  { Icon: Activity, iconBg: "#EFF6FF", iconColor: "#3B82F6", jp: "運動センサー", en: "MotionSense", subJp: "活動量", subEn: "Activity Track", valJp: "2,340歩", valEn: "2,340 steps", dot: "blue", progress: 65 },
+  { Icon: Thermometer, iconBg: "#FFF1F1", iconColor: "#EF4444", jp: "体温センサー", en: "TempSense AI", subJp: "体温", subEn: "Body Temp", valJp: "38.5°C 正常", valEn: "38.5°C Normal", dot: "green", noteJp: "正常範囲", noteEn: "Normal Range" },
+  { Icon: MapPin, iconBg: "#F0FDF4", iconColor: "#22C55E", jp: "位置センサー", en: "LocationSense", subJp: "GPS + 地図", subEn: "GPS + Map", valJp: "渋谷区, 東京", valEn: "Shibuya, Tokyo", dot: "gray" },
+  { Icon: Wind, iconBg: "#F0FFFE", iconColor: "#06B6D4", jp: "圧力センサー", en: "PressureSense", subJp: "圧力データ", subEn: "Pressure Data", valJp: "正常範囲", valEn: "Normal Range", dot: "green", noteJp: "圧力データ", noteEn: "Pressure Data", noteColor: "#F59E0B" },
+  { Icon: Sun, iconBg: "#FFFBEB", iconColor: "#F59E0B", jp: "光センサー", en: "LightSense AI", subJp: "RGB光データ", subEn: "RGB Light Data", valJp: "室内", valEn: "Indoor", dot: "green" },
+  { Icon: GitMerge, iconBg: "#F5F3FF", iconColor: "#6366F1", jp: "総合分析", en: "CombineSense", subJp: "総合解析", subEn: "Combined Analysis", valJp: "87/100", valEn: "87/100", dot: "green" },
 ];
+
+const DOT_COLOR: Record<Dot, string> = {
+  green: "#4CAF82",
+  blue: "#3B82F6",
+  gray: "#9CA3AF",
+  red: "#EF4444",
+};
 
 function Home() {
   const [factIdx, setFactIdx] = useState(0);
@@ -100,24 +122,68 @@ function Home() {
       {/* Sensors grid */}
       <h2 className="mt-5 mb-2 text-sm font-black flex items-center gap-2">🤖 {t("AI センサー", "AI Sensors")} <span className="text-xs font-normal text-muted-foreground">8 active</span></h2>
       <div className="grid grid-cols-2 gap-3">
-        {sensors.map((s) => (
-          <Link to="/report" key={s.en} className="bg-card rounded-2xl p-3 shadow-card flex flex-col gap-1.5">
-            <div className="flex items-start justify-between">
-              <span className="text-2xl">{s.icon}</span>
-              <span className={`text-[9px] px-1.5 py-0.5 rounded-full font-bold ${s.color === "success" ? "bg-success/15 text-success" : "bg-sakura-soft text-primary"}`}>{t(s.statusJp, s.statusEn)}</span>
-            </div>
-            <T jp={s.jp} en={s.en} className="text-[11px] font-bold leading-tight" as="div" />
-            <div className="text-sm font-bold text-primary mt-0.5">{t(s.valJp, s.valEn)}</div>
-            {s.progress && (
-              <div className="h-1.5 bg-muted rounded-full overflow-hidden mt-1">
-                <div className="h-full bg-success rounded-full" style={{ width: `${s.progress}%` }}/>
+        {sensors.map((s) => {
+          const Icon = s.Icon;
+          return (
+            <Link
+              to="/report"
+              key={s.en}
+              className="relative bg-card rounded-2xl p-4 border border-[#F3F4F6] flex flex-col"
+              style={{ boxShadow: "0 2px 8px rgba(0,0,0,0.06)" }}
+            >
+              {s.ml && (
+                <span
+                  className="absolute top-2 right-2 text-white font-bold rounded-full"
+                  style={{
+                    fontSize: 10,
+                    padding: "3px 8px",
+                    background: "linear-gradient(135deg,#9333EA,#EC4899)",
+                    boxShadow: "0 2px 4px rgba(147,51,234,0.3)",
+                  }}
+                >
+                  ML Training
+                </span>
+              )}
+              <div
+                className="w-12 h-12 rounded-xl flex items-center justify-center"
+                style={{ background: s.iconBg }}
+              >
+                <Icon size={24} style={{ color: s.iconColor }} />
               </div>
-            )}
-            {s.rgb && <div className="flex gap-1 mt-1">{["#E53935","#4CAF82","#1A2F5A"].map(c=><span key={c} className="w-2 h-2 rounded-full" style={{background:c}}/>)}</div>}
-            {s.noteJp && <div className="text-[9px] text-muted-foreground mt-0.5">{t(s.noteJp, s.noteEn!)}</div>}
-            {s.link && <div className="text-[10px] text-sakura font-bold flex items-center mt-0.5">{t("レポートを見る", "View report")} <ChevronRight className="w-3 h-3"/></div>}
-          </Link>
-        ))}
+              <T jp={s.jp} en={s.en} className="mt-3 text-[15px] font-semibold leading-tight" as="div" />
+              <T jp={s.subJp} en={s.subEn} className="text-[12px] text-muted-foreground leading-tight mt-0.5" as="div" />
+              <div className="mt-2 flex items-center justify-between gap-2">
+                <div className="text-[18px] font-bold text-primary leading-tight">{t(s.valJp, s.valEn)}</div>
+                <span
+                  className={`w-2 h-2 rounded-full shrink-0 ${s.dot === "green" || s.dot === "blue" ? "animate-pulse" : ""}`}
+                  style={{ background: DOT_COLOR[s.dot] }}
+                />
+              </div>
+              {s.noteJp && (
+                <div
+                  className="text-[11px] mt-1"
+                  style={{ color: s.noteColor ?? "#6B7280" }}
+                >
+                  {t(s.noteJp, s.noteEn!)}
+                </div>
+              )}
+              {s.progress !== undefined && (
+                <div className="mt-3 h-1.5 rounded-full overflow-hidden" style={{ background: "#E5E7EB" }}>
+                  <div className="h-full rounded-full" style={{ width: `${s.progress}%`, background: "#3B82F6" }}/>
+                </div>
+              )}
+              {s.ml && (
+                <button
+                  onClick={(e) => { e.preventDefault(); }}
+                  className="mt-3 w-full rounded-lg text-[13px] font-medium hover:bg-[#E5E7EB] transition-colors"
+                  style={{ background: "#F3F4F6", color: "#6B7280", height: 34 }}
+                >
+                  {t("モデルを学習", "Train Model")}
+                </button>
+              )}
+            </Link>
+          );
+        })}
       </div>
 
       <div className="mt-4 grid grid-cols-2 gap-3">
