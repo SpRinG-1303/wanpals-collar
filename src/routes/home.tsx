@@ -191,7 +191,7 @@ function PostcardScene({ band }: { band: TimeBand }) {
   );
 }
 
-function HeroPostcard({ score }: { score: number }) {
+function HeroPostcard({ score, name, mood }: { score: number; name: string; mood: string }) {
   const t = useT();
   const band = getTimeBand();
   const labelJp = band === "morning" ? "おはよう" : band === "afternoon" ? "こんにちは" : band === "evening" ? "こんばんは" : "おやすみ";
@@ -218,12 +218,12 @@ function HeroPostcard({ score }: { score: number }) {
             {t(`${labelJp} / ${labelEn}`, `${labelEn} / ${labelJp}`)}
           </div>
           <div style={{ fontSize: 28, fontWeight: 800, color: JP.sumi, lineHeight: 1.1, marginTop: 4 }}>
-            {t("ハナ", "Hana")}
+            {name}
           </div>
           <div className="flex items-center" style={{ gap: 6, marginTop: 4 }}>
             <span style={{ width: 6, height: 6, borderRadius: "50%", background: JP.matcha, display: "inline-block" }} />
             <span style={{ fontSize: 12, color: JP.matcha, fontWeight: 500 }}>
-              {t("元気です", "Feeling great")}
+              {mood}
             </span>
           </div>
         </div>
