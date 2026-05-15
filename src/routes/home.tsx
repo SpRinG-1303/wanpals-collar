@@ -675,7 +675,107 @@ function Home() {
           </Link>
         </div>
       </div>
+
+      {editOpen && <EditProfileSheet onClose={() => setEditOpen(false)} />}
     </AppShell>
+  );
+}
+
+function EditProfileSheet({ onClose }: { onClose: () => void }) {
+  const t = useT();
+  const { pet, updatePet } = usePet();
+  const [name, setName] = useState(pet.name);
+  const [breedJp, setBreedJp] = useState(pet.breedJp);
+  const [age, setAge] = useState<string>(pet.age != null ? String(pet.age) : "");
+  const [weight, setWeight] = useState<string>(pet.weight != null ? String(pet.weight) : "");
+
+  const save = () => {
+    const b = BREEDS.find((x) => x.jp === breedJp);
+    updatePet({
+      name: name.trim(),
+      breedJp,
+      breedEn: b?.en ?? pet.breedEn,
+      breed: BREED_KEY_BY_JP[breedJp] ?? pet.breed,
+      age: age ? Number(age) : null,
+      weight: weight ? Number(weight) : null,
+    });
+    onClose();
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-end justify-center" style={{ background: "rgba(44,44,44,0.4)" }} onClick={onClose}>
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="w-full max-w-md flex flex-col"
+        style={{ background: "#FFFFFF", borderRadius: "32px 32px 0 0", boxShadow: "0 -8px 32px rgba(0,0,0,0.1)", maxHeight: "85vh" }}
+      >
+        <div className="mx-auto mt-3 mb-2 rounded-full" style={{ width: 32, height: 4, background: "#E8E0DC" }} />
+        <div className="px-5 pb-3 flex items-center justify-between">
+          <h3 className="text-[15px] font-semibold" style={{ color: "#2C2C2C" }}>{t("プロフィール編集", "Edit Profile")}</h3>
+          <button onClick={onClose}><X className="w-5 h-5" style={{ color: "#8A8A8A" }} /></button>
+        </div>
+        <div className="px-5 pb-4 space-y-3 overflow-y-auto">
+          <Field label={t("名前", "Name")}>
+            <input
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder={t("例: ハナ", "e.g. Hana")}
+              className="w-full h-[48px] rounded-[12px] px-4 text-[15px] outline-none"
+              style={{ background: "#FAFAF8", border: "1.5px solid #EDE8E4", color: "#2C2C2C" }}
+            />
+          </Field>
+          <Field label={t("犬種", "Breed")}>
+            <select
+              value={breedJp}
+              onChange={(e) => setBreedJp(e.target.value)}
+              className="w-full h-[48px] rounded-[12px] px-3 text-[15px] outline-none"
+              style={{ background: "#FAFAF8", border: "1.5px solid #EDE8E4", color: "#2C2C2C" }}
+            >
+              {BREEDS.map((b) => (
+                <option key={b.jp} value={b.jp}>{b.jp} / {b.en}</option>
+              ))}
+            </select>
+          </Field>
+          <div className="grid grid-cols-2 gap-3">
+            <Field label={t("年齢", "Age")}>
+              <input
+                value={age} onChange={(e) => setAge(e.target.value)} type="number" placeholder="3"
+                className="w-full h-[48px] rounded-[12px] px-4 text-[15px] outline-none"
+                style={{ background: "#FAFAF8", border: "1.5px solid #EDE8E4", color: "#2C2C2C" }}
+              />
+            </Field>
+            <Field label={t("体重 (kg)", "Weight (kg)")}>
+              <input
+                value={weight} onChange={(e) => setWeight(e.target.value)} type="number" placeholder="8.5"
+                className="w-full h-[48px] rounded-[12px] px-4 text-[15px] outline-none"
+                style={{ background: "#FAFAF8", border: "1.5px solid #EDE8E4", color: "#2C2C2C" }}
+              />
+            </Field>
+          </div>
+        </div>
+        <div className="px-5 pb-5 pt-2 space-y-2" style={{ borderTop: "1px solid #F5F0EC" }}>
+          <button
+            onClick={save}
+            className="w-full h-12 rounded-2xl text-white text-[15px] font-bold"
+            style={{ background: "linear-gradient(135deg, #E8829A, #D86F88)", boxShadow: "0 6px 18px rgba(232,130,154,0.35)" }}
+          >
+            {t("保存", "Save Changes")}
+          </button>
+          <button onClick={onClose} className="w-full h-10 text-[13px] font-medium" style={{ color: "#8A8A8A" }}>
+            {t("キャンセル", "Cancel")}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Field({ label, children }: { label: string; children: ReactNode }) {
+  return (
+    <div>
+      <div className="text-[12px] font-semibold mb-1.5" style={{ color: "#2C2C2C" }}>{label}</div>
+      {children}
+    </div>
   );
 }
 
