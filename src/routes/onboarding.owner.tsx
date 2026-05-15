@@ -3,6 +3,7 @@ import { useState } from "react";
 import { ChevronLeft, User, Calendar, MapPin, Search, Check, X } from "lucide-react";
 import { PREFECTURES } from "@/lib/mock";
 import { useT } from "@/context/LanguageContext";
+import { usePet } from "@/context/PetContext";
 import { JField } from "@/routes/auth";
 import { Stepper, } from "@/routes/onboarding.avatar";
 import { FormCard, FieldLabel } from "@/routes/onboarding.dog";
@@ -12,11 +13,19 @@ export const Route = createFileRoute("/onboarding/owner")({ component: Step3 });
 function Step3() {
   const nav = useNavigate();
   const t = useT();
-  const [pref, setPref] = useState("東京都");
+  const { pet, updatePet } = usePet();
+  const [ownerName, setOwnerName] = useState(pet.ownerName);
+  const [ownerAge, setOwnerAge] = useState<string>(pet.ownerAge != null ? String(pet.ownerAge) : "");
+  const [pref, setPref] = useState(pet.prefecture || "東京都");
   const [sheet, setSheet] = useState(false);
   const [burst, setBurst] = useState(false);
 
   const finish = () => {
+    updatePet({
+      ownerName: ownerName.trim(),
+      ownerAge: ownerAge ? Number(ownerAge) : null,
+      prefecture: pref,
+    });
     setBurst(true);
     setTimeout(() => nav({ to: "/home" }), 700);
   };
