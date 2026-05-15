@@ -40,8 +40,8 @@
 }
 
 :root {
-  /* Warm gray #F0EDE8 */
-  --background: oklch(0.943 0.006 65);
+  /* Washi white #FAFAF8 */
+  --background: oklch(0.984 0.002 90);
   /* Soft black #2D2D2D */
   --foreground: oklch(0.31 0 0);
   --card: oklch(1 0 0);
@@ -112,8 +112,14 @@
 }
 
 @layer utilities {
-  .shadow-card { box-shadow: 0 4px 16px rgba(180,150,140,0.12); }
-  .shadow-soft { box-shadow: 0 2px 8px rgba(180,150,140,0.08); }
+  .shadow-card { box-shadow: 0 2px 20px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.04); }
+  .shadow-soft { box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
+  .tabular-nums { font-variant-numeric: tabular-nums; }
+  @keyframes petalFall {
+    0% { transform: translateY(-10px) rotate(0deg); opacity: 0; }
+    15% { opacity: 0.7; }
+    100% { transform: translateY(160px) rotate(180deg); opacity: 0; }
+  }
   .paw-bg {
     background-image: radial-gradient(circle at 20% 20%, color-mix(in oklab, var(--sakura) 25%, transparent) 1.5px, transparent 2px),
                       radial-gradient(circle at 70% 60%, color-mix(in oklab, var(--sakura) 20%, transparent) 1.5px, transparent 2px),

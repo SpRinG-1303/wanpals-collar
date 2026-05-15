@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import AppShell from "@/components/AppShell";
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode, type CSSProperties } from "react";
 import { DAILY_FACTS } from "@/lib/mock";
 import {
   Brain, Microscope, Activity, Thermometer, MapPin, Wind, Sun, GitMerge,
@@ -11,46 +11,114 @@ import { T, useT, useLanguage } from "@/context/LanguageContext";
 
 export const Route = createFileRoute("/home")({ component: Home });
 
+/* ---------- Japanese palette ---------- */
+const JP = {
+  bg: "#FAFAF8",
+  card: "#FFFFFF",
+  sumi: "#2C2C2C",
+  usuzumi: "#8A8A8A",
+  divider: "#F5F0EC",
+  sakura: "#E8829A",
+  sakuraSoft: "#FFF0F3",
+  sakuraStrip: "linear-gradient(90deg,#FFE4EC,#FFF0F5)",
+  fuji: "#7B68C8",
+  fujiSoft: "#F0EEF8",
+  fujiStrip: "linear-gradient(90deg,#EDE0FF,#F5F0FF)",
+  matcha: "#6BAF92",
+  matchaSoft: "#E8F5EE",
+  matchaStrip: "linear-gradient(90deg,#E8F5EE,#F5FBF8)",
+  yuzu: "#D4A843",
+  yuzuSoft: "#FFF8DC",
+  yuzuStrip: "linear-gradient(90deg,#FFF8DC,#FFFEF5)",
+  sora: "#5B9BD5",
+  soraSoft: "#E8F2FF",
+  soraStrip: "linear-gradient(90deg,#E8F2FF,#F5F9FF)",
+  momiji: "#D4714E",
+  momijiSoft: "#FFE8DC",
+  momijiStrip: "linear-gradient(90deg,#FFE8DC,#FFF2EC)",
+};
+
+const CARD_SHADOW = "0 2px 20px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.04)";
+
+/* Refined card wrapper: white bg, left accent border, top color strip */
+function JCard({
+  accent,
+  strip,
+  children,
+  className = "",
+  style,
+}: {
+  accent: string;
+  strip: string;
+  children: ReactNode;
+  className?: string;
+  style?: CSSProperties;
+}) {
+  return (
+    <div
+      className={"relative " + className}
+      style={{
+        background: JP.card,
+        borderRadius: 20,
+        borderLeft: `4px solid ${accent}`,
+        boxShadow: CARD_SHADOW,
+        overflow: "hidden",
+        transition: "transform 0.2s ease",
+        ...style,
+      }}
+    >
+      <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 8, background: strip, pointerEvents: "none" }} />
+      <div style={{ paddingTop: 8 }}>{children}</div>
+    </div>
+  );
+}
+
+/* Section label with thin lines: ──── LABEL ──── */
+function SectionLabel({ jp, en }: { jp: string; en: string }) {
+  const t = useT();
+  return (
+    <div className="flex items-center" style={{ gap: 12, margin: "20px 0 10px" }}>
+      <div style={{ flex: 1, height: 1, background: "#E0DAD4" }} />
+      <div style={{ fontSize: 11, color: JP.usuzumi, letterSpacing: "0.15em", textTransform: "uppercase", fontWeight: 600 }}>
+        {t(jp, en)}
+      </div>
+      <div style={{ flex: 1, height: 1, background: "#E0DAD4" }} />
+    </div>
+  );
+}
+
+/* ---------- Sensors ---------- */
 type Sensor = {
   Icon: LucideIcon;
-  cardBg: string;
-  iconColor: string;
-  titleColor: string;
-  subColor: string;
-  valueColor: string;
-  dotColor: string;
-  shadow: string;
+  accent: string; iconBg: string; strip: string;
   jp: string; en: string;
   subJp: string; subEn: string;
   valJp: string; valEn: string;
   ml?: boolean;
-  mlGradient?: string;
-  mlButtonColor?: string;
   progress?: number;
-  progressColor?: string;
-  progressBg?: string;
   noteJp?: string; noteEn?: string;
 };
 
 const sensors: Sensor[] = [
-  { Icon: Brain, cardBg: "#EDE0FF", iconColor: "#9333EA", titleColor: "#4A1D96", subColor: "#7C5CB8", valueColor: "#3B0D6E", dotColor: "#9333EA", shadow: "0 4px 12px rgba(147,51,234,0.18)",
-    jp: "吠え分析", en: "BarkSense AI", subJp: "鳴き声解析", subEn: "Bark Analysis", valJp: "穏やか", valEn: "Calm", ml: true, mlGradient: "linear-gradient(135deg,#9333EA,#C084FC)", mlButtonColor: "#9333EA" },
-  { Icon: Microscope, cardBg: "#FADADD", iconColor: "#E91E8C", titleColor: "#7A0038", subColor: "#B05070", valueColor: "#5C0028", dotColor: "#22C55E", shadow: "0 4px 12px rgba(233,30,140,0.18)",
-    jp: "皮膚センサー", en: "SkinSense AI", subJp: "皮膚の健康", subEn: "Skin Health", valJp: "正常", valEn: "Normal", ml: true, mlGradient: "linear-gradient(135deg,#E91E8C,#FF6B9D)", mlButtonColor: "#E91E8C" },
-  { Icon: Activity, cardBg: "#D6EEFF", iconColor: "#2563EB", titleColor: "#1A3C7A", subColor: "#4A6A9A", valueColor: "#0F2456", dotColor: "#2563EB", shadow: "0 4px 12px rgba(100,160,220,0.22)",
-    jp: "運動センサー", en: "MotionSense", subJp: "活動量", subEn: "Activity Track", valJp: "2,340歩", valEn: "2,340 steps", progress: 65, progressColor: "#2563EB", progressBg: "#A8C8E8" },
-  { Icon: Thermometer, cardBg: "#FFE8D6", iconColor: "#EA580C", titleColor: "#7A2800", subColor: "#AA5030", valueColor: "#5C1800", dotColor: "#22C55E", shadow: "0 4px 12px rgba(234,88,12,0.18)",
-    jp: "体温センサー", en: "TempSense AI", subJp: "体温", subEn: "Body Temp", valJp: "38.5°C 正常", valEn: "38.5°C Normal", noteJp: "正常範囲", noteEn: "Normal Range" },
-  { Icon: MapPin, cardBg: "#D4F0E8", iconColor: "#059669", titleColor: "#064E3B", subColor: "#2D7A5F", valueColor: "#022C22", dotColor: "#9CA3AF", shadow: "0 4px 12px rgba(5,150,105,0.18)",
+  { Icon: Brain, accent: JP.fuji, iconBg: "#EDE0FF", strip: JP.fujiStrip,
+    jp: "吠え分析", en: "BarkSense AI", subJp: "鳴き声解析", subEn: "Bark Analysis", valJp: "穏やか", valEn: "Calm", ml: true },
+  { Icon: Microscope, accent: JP.sakura, iconBg: "#FFE4EC", strip: JP.sakuraStrip,
+    jp: "皮膚センサー", en: "SkinSense AI", subJp: "皮膚の健康", subEn: "Skin Health", valJp: "正常", valEn: "Normal", ml: true },
+  { Icon: Activity, accent: JP.sora, iconBg: "#E8F2FF", strip: JP.soraStrip,
+    jp: "運動センサー", en: "MotionSense", subJp: "活動量", subEn: "Activity Track", valJp: "2,340 歩", valEn: "2,340 steps", progress: 65 },
+  { Icon: Thermometer, accent: JP.momiji, iconBg: "#FFE8DC", strip: JP.momijiStrip,
+    jp: "体温センサー", en: "TempSense AI", subJp: "体温", subEn: "Body Temp", valJp: "38.5°C", valEn: "38.5°C", noteJp: "正常範囲", noteEn: "Normal Range" },
+  { Icon: MapPin, accent: JP.matcha, iconBg: "#E8F5EE", strip: JP.matchaStrip,
     jp: "位置センサー", en: "LocationSense", subJp: "GPS + 地図", subEn: "GPS + Map", valJp: "渋谷区, 東京", valEn: "Shibuya, Tokyo" },
-  { Icon: Wind, cardBg: "#FFF8EE", iconColor: "#D97706", titleColor: "#78350F", subColor: "#B45309", valueColor: "#451A03", dotColor: "#22C55E", shadow: "0 4px 12px rgba(217,119,6,0.18)",
-    jp: "圧力センサー", en: "PressureSense", subJp: "圧力データ", subEn: "Pressure Data", valJp: "正常範囲", valEn: "Normal Range", noteJp: "圧力データ", noteEn: "Pressure Data" },
-  { Icon: Sun, cardBg: "#FFF3CC", iconColor: "#CA8A04", titleColor: "#713F12", subColor: "#A16207", valueColor: "#422006", dotColor: "#22C55E", shadow: "0 4px 12px rgba(202,138,4,0.18)",
+  { Icon: Wind, accent: JP.yuzu, iconBg: "#FFF8DC", strip: JP.yuzuStrip,
+    jp: "圧力センサー", en: "PressureSense", subJp: "圧力データ", subEn: "Pressure Data", valJp: "正常範囲", valEn: "Normal Range" },
+  { Icon: Sun, accent: "#C4920A", iconBg: "#FFFBCC", strip: "linear-gradient(90deg,#FFF8DC,#FFFEF0)",
     jp: "光センサー", en: "LightSense AI", subJp: "RGB光データ", subEn: "RGB Light Data", valJp: "室内", valEn: "Indoor" },
-  { Icon: GitMerge, cardBg: "#F0E0FF", iconColor: "#7C3AED", titleColor: "#4C1D95", subColor: "#6D28D9", valueColor: "#2E1065", dotColor: "#22C55E", shadow: "0 4px 12px rgba(124,58,237,0.18)",
+  { Icon: GitMerge, accent: "#9B72CF", iconBg: "#F0E8FF", strip: "linear-gradient(90deg,#F0E8FF,#F8F5FF)",
     jp: "総合分析", en: "CombineSense", subJp: "総合解析", subEn: "Combined Analysis", valJp: "87/100", valEn: "87/100" },
 ];
 
+/* ---------- Hero (postcard-style, watercolour Japan) ---------- */
 type TimeBand = "morning" | "afternoon" | "evening" | "night";
 function getTimeBand(): TimeBand {
   const h = new Date().getHours();
@@ -60,199 +128,124 @@ function getTimeBand(): TimeBand {
   return "night";
 }
 
-const BAND_GRADIENT: Record<TimeBand, string> = {
-  morning: "linear-gradient(180deg,#FFF5F7 0%,#FFE8EE 40%,#E8F4F0 100%)",
-  afternoon: "linear-gradient(180deg,#E8F4FC 0%,#C8E6F0 50%,#D4E8D0 100%)",
-  evening: "linear-gradient(180deg,#FFE4CC 0%,#FFCBA4 40%,#E8A598 100%)",
-  night: "linear-gradient(180deg,#1A2440 0%,#2C3E6B 50%,#1E3A5F 100%)",
+const SCENE: Record<TimeBand, { bg: string; sun: string; fuji: string; blossom: string }> = {
+  morning:   { bg: "linear-gradient(135deg,#FFF8F0 0%,#FFE8EE 100%)", sun: "#FFD4A8", fuji: "#C5D8E8", blossom: "#FFB7C5" },
+  afternoon: { bg: "linear-gradient(135deg,#E8F4FF 0%,#D4EEFF 100%)", sun: "#F2C96E", fuji: "#8FB5C8", blossom: "#FFC8D0" },
+  evening:   { bg: "linear-gradient(135deg,#FFE8D0 0%,#FFD0B0 100%)", sun: "#F4A56B", fuji: "#7B6480", blossom: "#FFB7C5" },
+  night:     { bg: "linear-gradient(135deg,#E8EEF8 0%,#D4DCF0 100%)", sun: "#FFF4D8", fuji: "#9AA0B8", blossom: "#E8D8E4" },
 };
 
-function FujiScene({ band }: { band: TimeBand }) {
-  const fujiBody =
-    band === "morning" ? "#B8CDD9" :
-    band === "afternoon" ? "#8FB5C8" :
-    band === "evening" ? "#6B8A9A" : "#0F1E35";
-  const sunColor =
-    band === "morning" ? "#FFB7C5" :
-    band === "afternoon" ? "#F2C96E" :
-    band === "evening" ? "#F4A623" : "#FFF8E7";
-  const sunSize = band === "evening" ? 56 : 32;
-  const sunBottom = band === "evening" ? 70 : undefined;
-  const sunTop = band === "evening" ? undefined : 22;
-  const lakeColor =
-    band === "morning" ? "#C8E6E0" :
-    band === "afternoon" ? "#B8D8E0" :
-    band === "evening" ? "#9B7A8A" : "#16264A";
-  const blossomA = band === "night" ? "#FFE4EC" : "#FFB7C5";
-  const blossomB = band === "night" ? "#FFE4EC" : "#FFC8D0";
-  const blossomOpacity = band === "night" ? 0.55 : 0.95;
-  const trunkColor = band === "night" ? "#3A2A24" : "#8B6F5E";
-  const dogColor = band === "night" ? "#A0795A" : "#E8956D";
-
+function PostcardScene({ band }: { band: TimeBand }) {
+  const s = SCENE[band];
   return (
-    <div className="absolute inset-0 overflow-hidden" style={{ borderRadius: 24, background: BAND_GRADIENT[band] }}>
-      {/* Sun / Moon */}
+    <div className="absolute inset-y-0 right-0" style={{ width: "55%", background: s.bg, overflow: "hidden" }}>
+      {/* Sun / moon */}
       {band === "night" ? (
-        <div className="absolute" style={{ top: 18, right: 90 }}>
-          <div style={{ width: 32, height: 32, borderRadius: "50%", background: sunColor, boxShadow: `inset -10px 2px 0 0 ${BAND_GRADIENT[band].includes("1A2440") ? "#1A2440" : "#1E3A5F"}` }} />
-        </div>
+        <div style={{ position: "absolute", top: 22, right: 28, width: 38, height: 38, borderRadius: "50%", background: s.sun, boxShadow: `inset -10px 2px 0 0 #D4DCF0` }} />
       ) : (
-        <div className="absolute" style={{ top: sunTop, bottom: sunBottom, right: 90, width: sunSize, height: sunSize, borderRadius: "50%", background: sunColor, opacity: 0.85, filter: band === "evening" ? "blur(0.5px)" : "none" }} />
+        <div style={{ position: "absolute", top: 18, right: 24, width: 70, height: 70, borderRadius: "50%", background: s.sun, opacity: 0.6 }} />
       )}
 
-      {/* Stars (night only) */}
-      {band === "night" && [[20,18],[58,30],[110,14],[160,40],[210,22],[260,12],[300,34],[330,48],[80,52],[240,52]].map(([l,t],i)=>(
-        <div key={i} className="absolute rounded-full bg-white" style={{ left: l, top: t, width: i%3===0?2.5:1.5, height: i%3===0?2.5:1.5, opacity: 0.85 }}/>
+      {/* Stars (night) */}
+      {band === "night" && [[18,30],[44,18],[78,42],[110,22],[140,48],[60,60]].map(([l,t],i)=>(
+        <div key={i} style={{ position:"absolute", left:l, top:t, width: i%2?2:3, height: i%2?2:3, borderRadius:"50%", background:"#C8C0E8" }}/>
       ))}
 
-      {/* Clouds (afternoon only) */}
-      {band === "afternoon" && [[40,28,46],[180,18,40],[260,40,52]].map(([l,t,w],i)=>(
-        <div key={i} className="absolute rounded-full bg-white/80" style={{ left:l, top:t, width:w, height:(w as number)*0.45 }}/>
+      {/* Clouds (afternoon) */}
+      {band === "afternoon" && [[20,40,42],[100,22,36]].map(([l,t,w],i)=>(
+        <div key={i} style={{ position:"absolute", left:l, top:t, width:w, height:(w as number)*0.45, background:"#FFFFFF", opacity:0.85, borderRadius: 999 }}/>
       ))}
+
+      {/* Diagonal sakura branch */}
+      <svg style={{ position:"absolute", top: 8, left: 4, width: 130, height: 70 }} viewBox="0 0 130 70" fill="none">
+        <path d="M2 60 Q40 30 124 6" stroke="#C4A882" strokeWidth="1.5" strokeLinecap="round" />
+      </svg>
+      {/* Blossom dots along branch */}
+      {[[18,52,8],[34,42,6],[52,32,9],[72,22,7],[92,14,10],[110,8,6],[40,58,5,0.5],[80,40,4,0.55]].map((p,i)=>{
+        const [l,t,sz,op] = p as [number,number,number,number?];
+        return <div key={i} style={{ position:"absolute", left:l, top:t, width:sz, height:sz, borderRadius:"50%", background: s.blossom, opacity: op ?? 0.95 }}/>;
+      })}
 
       {/* Mount Fuji */}
-      <svg className="absolute" style={{ right: 30, bottom: 20, width: 140, height: 95 }} viewBox="0 0 140 95" fill="none">
-        {/* base mist */}
-        <ellipse cx="70" cy="88" rx="70" ry="6" fill="#FFFFFF" opacity={band === "night" ? 0.08 : 0.5} />
-        {/* fuji body */}
-        <path d="M70 8 L130 88 L10 88 Z" fill={fujiBody} />
-        {/* snow cap */}
-        <path d="M70 8 L88 32 Q70 24 52 32 Z" fill="#FFFFFF" opacity={band === "night" ? 0.7 : 0.95} />
-        {/* snow drips */}
-        <path d="M58 32 L62 42 L66 32 Z M74 32 L78 44 L82 32 Z" fill="#FFFFFF" opacity={band === "night" ? 0.5 : 0.9} />
+      <svg style={{ position:"absolute", bottom: 0, left: "50%", transform: "translateX(-50%)", width: 110, height: 80 }} viewBox="0 0 110 80" fill="none">
+        <path d="M55 6 L104 76 L6 76 Z" fill={s.fuji} />
+        <path d="M55 6 L70 28 Q55 22 40 28 Z" fill="#FFFFFF" opacity={band === "night" ? 0.7 : 0.95}/>
+        <ellipse cx="55" cy="76" rx="55" ry="4" fill="#FFFFFF" opacity={band === "night" ? 0.15 : 0.5}/>
       </svg>
-
-      {/* Lake */}
-      <svg className="absolute bottom-0 inset-x-0" viewBox="0 0 360 22" preserveAspectRatio="none" style={{ height: 22, width: "100%" }}>
-        <path d="M0 6 Q60 0 120 5 T240 5 T360 4 L360 22 L0 22 Z" fill={lakeColor} opacity={band === "night" ? 0.85 : 1}/>
-        <path d="M0 10 Q60 6 120 9 T240 9 T360 8" stroke="#FFFFFF" strokeWidth="0.6" fill="none" opacity={band === "night" ? 0.15 : 0.4}/>
-      </svg>
-
-      {/* Cherry blossom tree (left) */}
-      <div className="absolute" style={{ left: 14, bottom: 18, width: 80, height: 110 }}>
-        {/* trunk */}
-        <div style={{ position: "absolute", bottom: 0, left: 18, width: 4, height: 60, background: trunkColor, borderRadius: 2, transform: "rotate(-6deg)", transformOrigin: "bottom" }} />
-        {/* branches */}
-        <div style={{ position: "absolute", bottom: 38, left: 20, width: 30, height: 2, background: trunkColor, borderRadius: 2, transform: "rotate(-25deg)", transformOrigin: "left" }} />
-        <div style={{ position: "absolute", bottom: 52, left: 22, width: 24, height: 2, background: trunkColor, borderRadius: 2, transform: "rotate(-50deg)", transformOrigin: "left" }} />
-        <div style={{ position: "absolute", bottom: 28, left: 18, width: 22, height: 2, background: trunkColor, borderRadius: 2, transform: "rotate(-8deg)", transformOrigin: "left" }} />
-        {/* blossoms */}
-        {[
-          [42, 8, 14, blossomA], [54, 18, 11, blossomB], [60, 6, 10, blossomA],
-          [38, 26, 12, blossomB], [50, 32, 13, blossomA], [28, 14, 9, blossomB],
-          [46, 44, 10, blossomA], [62, 30, 9, blossomB], [34, 40, 11, blossomA],
-          [22, 28, 8, blossomB], [56, 54, 9, blossomA],
-        ].map(([l,t,s,c],i)=>(
-          <div key={i} className="absolute rounded-full" style={{ left: l as number, top: t as number, width: s as number, height: s as number, background: c as string, opacity: blossomOpacity }}/>
-        ))}
-      </div>
 
       {/* Falling petals */}
-      {!band.includes("night") && [
-        { left: 110, delay: "0s", dur: "7s" },
-        { left: 180, delay: "2s", dur: "6s" },
-        { left: 240, delay: "4s", dur: "8s" },
-        { left: 80, delay: "1s", dur: "9s" },
+      {band !== "night" && [
+        { left: "20%", delay: "0s", dur: "8s" },
+        { left: "55%", delay: "2.5s", dur: "9s" },
+        { left: "80%", delay: "5s", dur: "7s" },
       ].map((p,i)=>(
-        <div key={i} className="absolute rounded-full" style={{
-          left: p.left, top: -8, width: 6, height: 5,
-          background: "#FFB7C5", opacity: 0.7,
-          animation: `petalFall ${p.dur} linear ${p.delay} infinite`,
-          transform: `rotate(${(i*23)%30 - 15}deg)`,
+        <div key={i} style={{
+          position:"absolute", left: p.left, top: -6, width: 6, height: 4,
+          background: s.blossom, borderRadius: "50% 50% 50% 50% / 60% 60% 40% 40%",
+          opacity: 0.7, animation: `petalFall ${p.dur} linear ${p.delay} infinite`,
         }}/>
       ))}
-
-      {/* Shiba inu silhouette (bottom-left) */}
-      <div className="absolute" style={{ bottom: 26, left: 96 }}>
-        {band === "night" ? (
-          // sleeping curl
-          <div style={{ width: 34, height: 14, background: dogColor, borderRadius: "50%", opacity: 0.95 }} />
-        ) : (
-          <div style={{ width: 24, height: 18, background: dogColor, borderRadius: "55% 55% 45% 45%", position: "relative" }}>
-            {/* head */}
-            <div style={{ position: "absolute", top: -8, left: -2, width: 14, height: 14, background: dogColor, borderRadius: "50%" }}>
-              {/* ears */}
-              <div style={{ position: "absolute", top: -3, left: 0, width: 5, height: 7, background: dogColor, clipPath: "polygon(50% 0,100% 100%,0 100%)" }} />
-              <div style={{ position: "absolute", top: -3, right: 0, width: 5, height: 7, background: dogColor, clipPath: "polygon(50% 0,100% 100%,0 100%)" }} />
-              {/* eye */}
-              <div style={{ position: "absolute", top: 6, left: 4, width: 2, height: 2, background: "#2D2D2D", borderRadius: "50%" }} />
-            </div>
-            {/* tail */}
-            <div style={{ position: "absolute", top: -2, right: -4, width: 8, height: 8, border: `2px solid ${dogColor}`, borderRadius: "50%", borderLeftColor: "transparent", borderBottomColor: "transparent" }} />
-          </div>
-        )}
-      </div>
-
-      {/* Sakura branch watermark (top-right corner) */}
-      <svg className="absolute" style={{ top: 6, right: 6, width: 60, height: 40, opacity: 0.18 }} viewBox="0 0 60 40" fill="#FFB7C5">
-        <path d="M2 38 Q20 20 56 4" stroke="#FFB7C5" strokeWidth="1" fill="none"/>
-        <circle cx="14" cy="28" r="3"/><circle cx="22" cy="22" r="2.5"/><circle cx="32" cy="16" r="3"/>
-        <circle cx="42" cy="10" r="2.5"/><circle cx="50" cy="6" r="3"/>
-      </svg>
     </div>
   );
 }
 
-function JapanHeroCard({ score }: { score: number }) {
+function HeroPostcard({ score }: { score: number }) {
   const t = useT();
   const band = getTimeBand();
-  const greetJp = band === "morning" ? "おはよう、ハナ! 🐾"
-    : band === "afternoon" ? "こんにちは、ハナ! 🐾"
-    : band === "evening" ? "こんばんは、ハナ! 🐾"
-    : "おやすみ、ハナ! 🌙";
-  const greetEn = band === "morning" ? "Good Morning, Hana! 🐾"
-    : band === "afternoon" ? "Good Afternoon, Hana! 🐾"
-    : band === "evening" ? "Good Evening, Hana! 🐾"
-    : "Good Night, Hana! 🌙";
-  const moodJp = score >= 87 ? "ハナは今日とっても元気"
-    : score >= 60 ? "ハナは今日まずまずです"
-    : "ハナに注意が必要です";
-  const moodEn = score >= 87 ? "Hana is feeling great today"
-    : score >= 60 ? "Hana is doing okay today"
-    : "Hana needs attention today";
-
-  const textColor = band === "night" ? "#F5F0E8" : "#2D2D2D";
-  const subColor = band === "night" ? "rgba(245,240,232,0.75)" : "#9A8F8F";
+  const labelJp = band === "morning" ? "おはよう" : band === "afternoon" ? "こんにちは" : band === "evening" ? "こんばんは" : "おやすみ";
+  const labelEn = band === "morning" ? "Good Morning" : band === "afternoon" ? "Good Afternoon" : band === "evening" ? "Good Evening" : "Good Night";
 
   return (
     <div
       className="relative"
       style={{
-        margin: "12px 16px",
-        height: 180,
+        margin: "12px 16px 4px",
+        height: 160,
         borderRadius: 24,
         overflow: "hidden",
-        boxShadow: "0 8px 24px rgba(180,150,140,0.18)",
+        background: JP.card,
+        boxShadow: "0 4px 24px rgba(232,130,154,0.15)",
       }}
     >
-      <FujiScene band={band} />
+      <PostcardScene band={band} />
 
-      {/* Greeting (bottom-left) */}
-      <div className="absolute" style={{ left: 16, bottom: 14, maxWidth: "65%" }}>
-        <div style={{ fontSize: 20, fontWeight: 700, color: textColor, lineHeight: 1.15 }}>
-          {t(greetJp, greetEn)}
+      {/* Left content */}
+      <div style={{ position: "absolute", top: 0, bottom: 0, left: 0, width: "50%", padding: "20px 0 20px 20px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+        <div>
+          <div style={{ fontSize: 11, color: JP.sakura, letterSpacing: "0.05em", fontWeight: 600 }}>
+            {t(`${labelJp} / ${labelEn}`, `${labelEn} / ${labelJp}`)}
+          </div>
+          <div style={{ fontSize: 28, fontWeight: 800, color: JP.sumi, lineHeight: 1.1, marginTop: 4 }}>
+            {t("ハナ", "Hana")}
+          </div>
+          <div className="flex items-center" style={{ gap: 6, marginTop: 4 }}>
+            <span style={{ width: 6, height: 6, borderRadius: "50%", background: JP.matcha, display: "inline-block" }} />
+            <span style={{ fontSize: 12, color: JP.matcha, fontWeight: 500 }}>
+              {t("元気です", "Feeling great")}
+            </span>
+          </div>
         </div>
-        <div style={{ fontSize: 12, color: subColor, marginTop: 4 }}>
-          {t(moodJp, moodEn)}
-        </div>
-      </div>
 
-      {/* Health chip (bottom-right) */}
-      <div className="absolute" style={{ right: 12, bottom: 14 }}>
-        <div style={{
-          background: "rgba(255,255,255,0.85)",
-          color: "#E8A598",
-          fontSize: 11, fontWeight: 700,
-          borderRadius: 20, padding: "4px 10px",
-          backdropFilter: "blur(4px)",
-        }}>
-          {score}/100 ✨
+        <div>
+          <span style={{
+            display: "inline-block",
+            background: JP.sakuraSoft,
+            color: JP.sakura,
+            borderRadius: 20,
+            padding: "4px 12px",
+            fontSize: 11,
+            fontWeight: 700,
+            fontVariantNumeric: "tabular-nums",
+          }}>
+            {score} / 100 ✦
+          </span>
         </div>
       </div>
     </div>
   );
 }
 
+/* ---------- Page ---------- */
 function Home() {
   const [factIdx, setFactIdx] = useState(0);
   const [sosOpen, setSosOpen] = useState(false);
@@ -267,22 +260,7 @@ function Home() {
 
   return (
     <AppShell titleJp="" titleEn="" noPadding>
-      {/* Falling petals keyframes */}
-      <style>{`
-        @keyframes petalFall {
-          0% { transform: translateY(-10px) rotate(0deg); opacity: 0; }
-          15% { opacity: 0.7; }
-          100% { transform: translateY(190px) rotate(180deg); opacity: 0; }
-        }
-      `}</style>
-
-      {/* Background blobs */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden -z-10">
-        <div className="absolute rounded-full" style={{ top: -40, right: -40, width: 220, height: 220, background: "#FFB7C5", opacity: 0.04 }}/>
-        <div className="absolute rounded-full" style={{ bottom: 200, left: -60, width: 240, height: 240, background: "#B8D4C8", opacity: 0.04 }}/>
-      </div>
-
-      <JapanHeroCard score={score} />
+      <HeroPostcard score={score} />
 
       {sosOpen && (
         <div className="fixed inset-0 z-50 bg-black/50 flex items-end sm:items-center justify-center p-4" onClick={() => setSosOpen(false)}>
@@ -302,212 +280,275 @@ function Home() {
         </div>
       )}
 
-      <div className="px-4" style={{ background: "#F0EDE8" }}>
-      {/* Dog profile - Sakura Pink */}
-      <Section>
-        <div className="rounded-[20px] p-4 flex gap-4 items-center" style={{ background: "#FFE4EC", boxShadow: "0 4px 12px rgba(255,182,193,0.25)" }}>
-          <div className="relative">
-            <div className="w-16 h-16 rounded-full flex items-center justify-center text-3xl" style={{ background: "linear-gradient(135deg,#FDE2DC,#FFD6CB)", boxShadow: "0 0 0 3px #FFB7C5" }}>🐕</div>
-            <span className="absolute bottom-0 right-0 w-4 h-4 rounded-full" style={{ background: "#6BAE9A", border: "2px solid #fff" }}/>
-          </div>
-          <div className="flex-1 min-w-0">
-            <div className="font-bold text-base" style={{ color: "#8B3A52" }}>{t("ハナ", "Hana")}</div>
-            <div className="flex gap-1 mt-1 flex-wrap">
-              <span className="text-[10px] px-2 py-0.5 rounded-full font-bold" style={{ background: "#FFB7C5", color: "#8B3A52" }}>{t("柴犬", "Shiba Inu")}</span>
-              <span className="text-[10px] px-2 py-0.5 rounded-full" style={{ background: "#FFFFFF", color: "#8B3A52" }}>{t("3歳", "3 yrs")}</span>
-              <span className="text-[10px] px-2 py-0.5 rounded-full font-bold" style={{ background: "#D4F0E8", color: "#2D7A5F" }}>● {t("接続済", "Connected")}</span>
-            </div>
-            <div className="flex gap-3 mt-2">
-              <button className="text-[11px] font-bold" style={{ color: "#C4526E" }}>{t("プロフィール編集", "Edit Profile")} →</button>
-              <button className="text-[11px] font-bold" style={{ color: "#9B72CF" }}>+ {t("ペット追加", "Add Pet")}</button>
-            </div>
-          </div>
-        </div>
-      </Section>
-
-      {/* Daily fact - Warm Yellow */}
-      <motion.div key={factIdx} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
-        className="mt-3 rounded-[20px] p-4"
-        style={{ background: "#FFF3CC", boxShadow: "0 4px 12px rgba(242,201,110,0.25)" }}
-      >
-        <div className="flex justify-between items-start">
-          <div className="flex items-center gap-1.5 text-xs font-bold" style={{ color: "#8B6200" }}>
-            <PawPrint className="w-3.5 h-3.5" style={{ color: "#D4920A" }} /> {t("今日の豆知識", "Daily Dog Fact")}
-          </div>
-          <span className="text-[10px] font-bold" style={{ color: "#D4920A" }}>#{1247 + factIdx}</span>
-        </div>
-        <div className="mt-1 text-sm font-bold" style={{ color: "#5C4000" }}>
-          {language === "english" ? fact.en : fact.jp}
-        </div>
-        {language === "mixed" && <div className="text-xs mt-0.5" style={{ color: "#8B6200", opacity: .85 }}>{fact.en}</div>}
-      </motion.div>
-
-      {/* Health score - Mint Green */}
-      <div className="mt-3 rounded-[20px] p-5 flex items-center gap-4" style={{ background: "#D4F0E8", boxShadow: "0 4px 12px rgba(107,174,154,0.2)" }}>
-        <ScoreRing value={score} />
-        <div className="flex-1">
-          <div className="text-sm font-bold" style={{ color: "#1A5C4A" }}>{t("総合健康スコア", "Overall Health Score")}</div>
-          {language === "mixed" && <div className="text-[10px]" style={{ color: "#3D8A72" }}>Overall Health Score</div>}
-          <div className="mt-2 flex items-center gap-1.5 text-xs">
-            <span className="relative w-2 h-2"><span className="absolute inset-0 rounded-full" style={{ background: "#6BAE9A" }}/><span className="absolute inset-0 rounded-full animate-ping" style={{ background: "#6BAE9A" }}/></span>
-            <span className="font-bold" style={{ color: "#6BAE9A" }}>LIVE</span>
-            <span style={{ color: "#3D8A72" }}>· {t("全センサー稼働中", "All sensors active")}</span>
-          </div>
-        </div>
-      </div>
-
-      {/* Collar Status - Sky Blue */}
-      <div className="mt-3 rounded-[20px]" style={{ background: "#D6EEFF", padding: 20, boxShadow: "0 4px 12px rgba(100,160,220,0.2)" }}>
-        <div className="text-[18px] font-bold mb-4" style={{ color: "#1A3C5E" }}>{t("カラーステータス", "Collar Status")}</div>
-
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: "#FFFFFF" }}>
-            <Check size={20} style={{ color: "#3B82F6" }} strokeWidth={3} />
-          </div>
-          <div className="flex-1">
-            <div className="text-[15px] font-semibold" style={{ color: "#1A3C5E" }}>{t("接続済み", "Connected")}</div>
-            <div className="text-[12px]" style={{ color: "#5A7A9A" }}>{t("最終同期: 2分前", "Last sync: 2 minutes ago")}</div>
-          </div>
-        </div>
-
-        <div className="my-5 h-px" style={{ background: "rgba(255,255,255,0.6)" }} />
-
-        <div className="flex items-center justify-between mb-[14px]">
-          <div className="flex items-center" style={{ gap: 6 }}>
-            <BatteryMedium size={18} style={{ color: "#1A3C5E" }} />
-            <span className="text-[14px] font-medium" style={{ color: "#1A3C5E" }}>{t("バッテリー", "Battery")}</span>
-          </div>
-          <div className="flex items-center">
-            <div className="rounded-[4px] overflow-hidden" style={{ width: 120, height: 8, background: "#A8C8E8" }}>
-              <div className="h-full rounded-[4px]" style={{ width: "87%", background: "#3B82F6" }} />
-            </div>
-            <span className="ml-2 text-[14px] font-semibold" style={{ color: "#1A3C5E" }}>87%</span>
-          </div>
-        </div>
-
-        <div className="flex items-center justify-between mb-5">
-          <div className="flex items-center" style={{ gap: 6 }}>
-            <Signal size={18} style={{ color: "#3B82F6" }} />
-            <span className="text-[14px] font-medium" style={{ color: "#3B82F6" }}>{t("信号強度", "Signal Strength")}</span>
-          </div>
-          <div className="flex items-center">
-            <div className="flex items-end" style={{ gap: 3 }}>
-              {[6, 10, 14, 18].map((h) => (
-                <div key={h} className="rounded-[2px]" style={{ width: 4, height: h, background: "#3B82F6" }} />
-              ))}
-            </div>
-            <span className="ml-2 text-[14px] font-semibold" style={{ color: "#1A3C5E" }}>{t("優秀", "Excellent")}</span>
-          </div>
-        </div>
-
-        <button
-          className="w-full flex items-center justify-center gap-2 rounded-[12px] font-semibold transition-colors"
-          style={{ background: "rgba(255,255,255,0.6)", color: "#2563EB", height: 48, fontSize: 15 }}
-          onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.85)")}
-          onMouseLeave={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.6)")}
-        >
-          <Bluetooth size={18} style={{ color: "#2563EB" }} />
-          <span>{t("カラーを接続", "Connect Collar")}</span>
-        </button>
-      </div>
-
-      {/* Sensors grid */}
-      <div className="mt-5 mb-2 flex items-center gap-2">
-        <h2 className="text-[18px] font-semibold" style={{ color: "#2D2D2D" }}>{t("AI センサー", "AI Sensors")}</h2>
-        <span className="text-[11px] font-bold rounded-full" style={{ background: "#EDE0FF", color: "#7C3AED", padding: "2px 8px" }}>8 active</span>
-      </div>
-      <div className="grid grid-cols-2 gap-3">
-        {sensors.map((s) => {
-          const Icon = s.Icon;
-          return (
-            <Link
-              to="/report"
-              key={s.en}
-              className="relative rounded-2xl p-4 flex flex-col"
-              style={{ background: s.cardBg, boxShadow: s.shadow }}
-            >
-              {s.ml && (
-                <span
-                  className="absolute top-2 right-2 text-white font-bold rounded-full"
-                  style={{ fontSize: 10, padding: "3px 8px",
-                    background: s.mlGradient,
-                    boxShadow: "0 2px 4px rgba(0,0,0,0.12)" }}
-                >
-                  ML Training
-                </span>
-              )}
-              <div className="w-12 h-12 rounded-xl flex items-center justify-center" style={{ background: "#FFFFFF" }}>
-                <Icon size={24} style={{ color: s.iconColor }} />
+      <div style={{ padding: "0 16px" }}>
+        {/* Dog profile */}
+        <div style={{ marginTop: 8 }}>
+          <JCard accent={JP.sakura} strip={JP.sakuraStrip}>
+            <div style={{ padding: 16 }} className="flex gap-3 items-center">
+              <div className="relative">
+                <div className="flex items-center justify-center" style={{ width: 52, height: 52, borderRadius: "50%", background: "#FFF6F8", border: `2px solid #FFB7C5`, fontSize: 26 }}>🐕</div>
+                <span style={{ position: "absolute", bottom: 0, right: 0, width: 12, height: 12, borderRadius: "50%", background: JP.matcha, border: "2px solid #fff" }}/>
               </div>
-              <div className="mt-3 text-[15px] font-semibold leading-tight" style={{ color: s.titleColor }}>{t(s.jp, s.en)}</div>
-              <div className="text-[12px] leading-tight mt-0.5" style={{ color: s.subColor }}>{t(s.subJp, s.subEn)}</div>
-              <div className="mt-2 flex items-center justify-between gap-2">
-                <div className="text-[16px] font-bold leading-tight" style={{ color: s.valueColor }}>{t(s.valJp, s.valEn)}</div>
-                <span
-                  className="w-2 h-2 rounded-full shrink-0 animate-pulse"
-                  style={{ background: s.dotColor }}
-                />
+              <div className="flex-1 min-w-0">
+                <div style={{ fontSize: 20, fontWeight: 700, color: JP.sumi, lineHeight: 1.1 }}>{t("ハナ", "Hana")}</div>
+                <div className="flex flex-wrap" style={{ gap: 6, marginTop: 6 }}>
+                  <Chip bg={JP.sakuraSoft} color={JP.sakura} border="#FFD0DC">{t("柴犬", "Shiba Inu")}</Chip>
+                  <Chip bg={JP.yuzuSoft} color={JP.yuzu} border="#F0E2A8">{t("3歳", "3 yrs")}</Chip>
+                  <Chip bg={JP.matchaSoft} color={JP.matcha} border="#C8E2D4">● {t("接続済", "Connected")}</Chip>
+                </div>
+                <div className="flex" style={{ gap: 14, marginTop: 8 }}>
+                  <button style={{ fontSize: 13, color: JP.sakura, fontWeight: 600 }}>{t("プロフィール編集", "Edit Profile")} →</button>
+                  <button style={{ fontSize: 13, color: JP.fuji, fontWeight: 600 }}>+ {t("ペット追加", "Add Pet")}</button>
+                </div>
               </div>
-              {s.noteJp && (
-                <div className="text-[11px] mt-1" style={{ color: s.subColor }}>
-                  {t(s.noteJp, s.noteEn!)}
-                </div>
-              )}
-              {s.progress !== undefined && (
-                <div className="mt-3 h-1.5 rounded-full overflow-hidden" style={{ background: s.progressBg ?? "#FFFFFF" }}>
-                  <div className="h-full rounded-full" style={{ width: `${s.progress}%`, background: s.progressColor ?? "#2563EB" }}/>
-                </div>
-              )}
-              {s.ml && (
-                <button
-                  onClick={(e) => { e.preventDefault(); }}
-                  className="mt-3 w-full rounded-lg text-[13px] font-medium transition-colors"
-                  style={{ background: "#FFFFFF", color: s.mlButtonColor, height: 34 }}
-                >
-                  {t("モデルを学習", "Train Model")}
-                </button>
-              )}
-            </Link>
-          );
-        })}
-      </div>
+            </div>
+          </JCard>
+        </div>
 
-      <div className="mt-4 mb-4 grid grid-cols-2 gap-3">
-        <Link to="/report" className="rounded-full flex items-center justify-center text-[14px] font-bold gap-2"
-          style={{ background: "#2D2D2D", color: "#fff", height: 52 }}>
-          📊 {t("健康レポート", "Health Report")}
-        </Link>
-        <Link to="/breeds" className="rounded-full flex items-center justify-center text-[14px] font-bold gap-2"
-          style={{ background: "#EDE0FF", color: "#7C3AED", height: 52 }}>
-          📚 {t("犬種図鑑", "Breeds")}
-        </Link>
-      </div>
+        {/* Daily fact */}
+        <motion.div key={factIdx} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} style={{ marginTop: 8 }}>
+          <JCard accent={JP.yuzu} strip={JP.yuzuStrip} style={{ background: "#FFFDF5" }}>
+            <div style={{ padding: 16 }}>
+              <div className="flex justify-between items-center">
+                <div className="flex items-center" style={{ gap: 6 }}>
+                  <PawPrint size={14} strokeWidth={1.75} style={{ color: JP.yuzu }} />
+                  <span style={{ fontSize: 12, fontWeight: 700, color: JP.yuzu, letterSpacing: "0.02em" }}>
+                    {t("今日の豆知識", "Daily Dog Fact")}
+                  </span>
+                </div>
+                <span style={{ fontSize: 11, fontWeight: 700, color: JP.yuzu, fontVariantNumeric: "tabular-nums" }}>#{1247 + factIdx}</span>
+              </div>
+              <div style={{ marginTop: 10, fontSize: 15, lineHeight: 1.5, color: "#3C3020", fontWeight: 500 }}>
+                {language === "english" ? fact.en : fact.jp}
+              </div>
+              {language === "mixed" && (
+                <div style={{ marginTop: 6, fontSize: 11, color: JP.usuzumi, lineHeight: 1.5 }}>{fact.en}</div>
+              )}
+            </div>
+          </JCard>
+        </motion.div>
+
+        {/* Health score */}
+        <div style={{ marginTop: 8 }}>
+          <JCard accent={JP.matcha} strip={JP.matchaStrip}>
+            <div style={{ padding: 16 }} className="flex items-center gap-4">
+              <ScoreRing value={score} />
+              <div className="flex-1">
+                <div style={{ fontSize: 16, fontWeight: 600, color: JP.sumi, letterSpacing: "0.02em" }}>
+                  {t("総合健康スコア", "Overall Health Score")}
+                </div>
+                {language === "mixed" && <div style={{ fontSize: 11, color: JP.usuzumi, marginTop: 2 }}>Overall Health Score</div>}
+                <div className="flex items-center" style={{ gap: 6, marginTop: 8, fontSize: 12 }}>
+                  <span className="relative inline-block" style={{ width: 8, height: 8 }}>
+                    <span style={{ position:"absolute", inset:0, borderRadius:"50%", background: JP.matcha }}/>
+                    <span className="animate-ping" style={{ position:"absolute", inset:0, borderRadius:"50%", background: JP.matcha, opacity: 0.6 }}/>
+                  </span>
+                  <span style={{ color: JP.matcha, fontWeight: 700, letterSpacing: "0.05em" }}>LIVE</span>
+                  <span style={{ color: JP.usuzumi }}>· {t("全センサー稼働中", "All sensors active")}</span>
+                </div>
+              </div>
+            </div>
+          </JCard>
+        </div>
+
+        {/* Collar status */}
+        <div style={{ marginTop: 8 }}>
+          <JCard accent={JP.sora} strip={JP.soraStrip}>
+            <div style={{ padding: 16 }}>
+              <div style={{ fontSize: 16, fontWeight: 700, color: JP.sumi, marginBottom: 14, letterSpacing: "0.02em" }}>
+                {t("カラーステータス", "Collar Status")}
+              </div>
+
+              <div className="flex items-center" style={{ gap: 12 }}>
+                <div className="flex items-center justify-center" style={{ width: 40, height: 40, borderRadius: "50%", background: "#EBF4FF" }}>
+                  <Check size={20} strokeWidth={2.5} style={{ color: JP.sora }} />
+                </div>
+                <div className="flex-1">
+                  <div style={{ fontSize: 14, fontWeight: 600, color: JP.sumi }}>{t("接続済み", "Connected")}</div>
+                  <div style={{ fontSize: 12, color: JP.usuzumi }}>{t("最終同期: 2分前", "Last sync: 2 minutes ago")}</div>
+                </div>
+              </div>
+
+              <div style={{ height: 1, background: JP.divider, margin: "14px 0" }} />
+
+              <div className="flex items-center justify-between" style={{ marginBottom: 12 }}>
+                <div className="flex items-center" style={{ gap: 6 }}>
+                  <BatteryMedium size={18} strokeWidth={1.5} style={{ color: JP.sora }} />
+                  <span style={{ fontSize: 13, color: JP.sumi, fontWeight: 500 }}>{t("バッテリー", "Battery")}</span>
+                </div>
+                <div className="flex items-center">
+                  <div style={{ width: 110, height: 6, background: "#EBF4FF", borderRadius: 4, overflow: "hidden" }}>
+                    <div style={{ width: "87%", height: "100%", background: JP.sora, borderRadius: 4 }}/>
+                  </div>
+                  <span style={{ marginLeft: 8, fontSize: 13, fontWeight: 700, color: JP.sora, fontVariantNumeric: "tabular-nums" }}>87%</span>
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between" style={{ marginBottom: 14 }}>
+                <div className="flex items-center" style={{ gap: 6 }}>
+                  <Signal size={18} strokeWidth={1.5} style={{ color: JP.sora }} />
+                  <span style={{ fontSize: 13, color: JP.sumi, fontWeight: 500 }}>{t("信号強度", "Signal Strength")}</span>
+                </div>
+                <div className="flex items-center">
+                  <div className="flex items-end" style={{ gap: 3 }}>
+                    {[6, 10, 14, 18].map((h) => (
+                      <div key={h} style={{ width: 4, height: h, background: JP.sora, borderRadius: 2 }} />
+                    ))}
+                  </div>
+                  <span style={{ marginLeft: 8, fontSize: 13, fontWeight: 600, color: JP.sora }}>{t("優秀", "Excellent")}</span>
+                </div>
+              </div>
+
+              <button
+                className="w-full flex items-center justify-center"
+                style={{
+                  background: "#F0F6FF",
+                  color: JP.sora,
+                  border: "1px solid #C8E0F8",
+                  borderRadius: 12,
+                  height: 44,
+                  fontSize: 14,
+                  fontWeight: 600,
+                  gap: 8,
+                  letterSpacing: "0.02em",
+                }}
+              >
+                <Bluetooth size={16} strokeWidth={1.75} />
+                {t("カラーを接続", "Connect Collar")}
+              </button>
+            </div>
+          </JCard>
+        </div>
+
+        {/* AI Sensors section */}
+        <SectionLabel jp="AI センサー" en="AI Sensors" />
+
+        <div className="grid grid-cols-2" style={{ gap: 8 }}>
+          {sensors.map((s) => {
+            const Icon = s.Icon;
+            return (
+              <Link
+                key={s.en}
+                to="/report"
+                style={{
+                  position: "relative",
+                  background: JP.card,
+                  borderRadius: 20,
+                  borderLeft: `4px solid ${s.accent}`,
+                  boxShadow: CARD_SHADOW,
+                  overflow: "hidden",
+                  transition: "transform 0.2s ease",
+                }}
+                className="flex flex-col"
+              >
+                <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 10, background: s.strip, pointerEvents: "none" }} />
+                <div style={{ padding: 14, paddingTop: 18, display: "flex", flexDirection: "column", flex: 1 }}>
+                  {s.ml && (
+                    <span style={{
+                      position: "absolute", top: 14, right: 10,
+                      background: "linear-gradient(135deg,#9B72CF,#E8829A)",
+                      color: "#fff", fontSize: 9, fontWeight: 700,
+                      padding: "3px 8px", borderRadius: 999,
+                      boxShadow: "0 2px 6px rgba(155,114,207,0.3)",
+                      letterSpacing: "0.04em",
+                    }}>ML</span>
+                  )}
+
+                  <div style={{ width: 44, height: 44, borderRadius: 12, background: s.iconBg, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <Icon size={22} strokeWidth={1.5} style={{ color: s.accent }} />
+                  </div>
+
+                  <div style={{ marginTop: 12, fontSize: 14, fontWeight: 600, color: JP.sumi, letterSpacing: "0.01em", lineHeight: 1.2 }}>
+                    {t(s.jp, s.en)}
+                  </div>
+                  <div style={{ fontSize: 11, color: JP.usuzumi, marginTop: 2, lineHeight: 1.3 }}>
+                    {t(s.subJp, s.subEn)}
+                  </div>
+
+                  <div className="flex items-center justify-between" style={{ marginTop: 10, gap: 6 }}>
+                    <div style={{ fontSize: 16, fontWeight: 700, color: JP.sumi, fontVariantNumeric: "tabular-nums", lineHeight: 1.1 }}>
+                      {t(s.valJp, s.valEn)}
+                    </div>
+                    <span className="animate-pulse" style={{ width: 6, height: 6, borderRadius: "50%", background: s.accent, flexShrink: 0 }}/>
+                  </div>
+
+                  {s.noteJp && (
+                    <div style={{ fontSize: 11, color: JP.usuzumi, marginTop: 4 }}>
+                      {t(s.noteJp, s.noteEn!)}
+                    </div>
+                  )}
+
+                  {s.progress !== undefined && (
+                    <div style={{ marginTop: 10, height: 4, borderRadius: 4, overflow: "hidden", background: "#F0ECE8" }}>
+                      <div style={{ width: `${s.progress}%`, height: "100%", background: s.accent, borderRadius: 4 }}/>
+                    </div>
+                  )}
+
+                  {s.ml && (
+                    <button
+                      onClick={(e) => { e.preventDefault(); }}
+                      style={{
+                        marginTop: 10,
+                        width: "100%",
+                        background: "#F8F5FF",
+                        color: JP.fuji,
+                        border: "1px solid #DDD4F8",
+                        borderRadius: 10,
+                        height: 32,
+                        fontSize: 12,
+                        fontWeight: 600,
+                        letterSpacing: "0.02em",
+                      }}
+                    >
+                      {t("モデルを学習", "Train Model")}
+                    </button>
+                  )}
+                </div>
+              </Link>
+            );
+          })}
+        </div>
+
+        {/* Quick actions */}
+        <div className="grid grid-cols-2" style={{ gap: 8, marginTop: 16, marginBottom: 16 }}>
+          <Link to="/report" className="flex items-center justify-center"
+            style={{ background: JP.sumi, color: "#fff", height: 50, borderRadius: 999, fontSize: 13, fontWeight: 700, gap: 6, letterSpacing: "0.02em" }}>
+            📊 {t("健康レポート", "Health Report")}
+          </Link>
+          <Link to="/breeds" className="flex items-center justify-center"
+            style={{ background: JP.fujiSoft, color: JP.fuji, height: 50, borderRadius: 999, fontSize: 13, fontWeight: 700, gap: 6, letterSpacing: "0.02em" }}>
+            📚 {t("犬種図鑑", "Breeds")}
+          </Link>
+        </div>
       </div>
     </AppShell>
   );
 }
 
-function Section({ children }: { children: ReactNode }) { return <>{children}</>; }
+function Chip({ children, bg, color, border }: { children: ReactNode; bg: string; color: string; border: string }) {
+  return (
+    <span style={{
+      display: "inline-flex", alignItems: "center",
+      fontSize: 11, fontWeight: 600,
+      background: bg, color, border: `1px solid ${border}`,
+      borderRadius: 20, padding: "3px 10px", letterSpacing: "0.02em",
+    }}>{children}</span>
+  );
+}
 
 function ScoreRing({ value }: { value: number }) {
-  const r = 36, c = 2 * Math.PI * r;
+  const r = 32, c = 2 * Math.PI * r;
   const off = c - (value / 100) * c;
   return (
-    <div className="relative w-24 h-24">
-      <svg className="w-24 h-24 -rotate-90" viewBox="0 0 80 80">
-        <defs>
-          <linearGradient id="scoreGrad" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="#E8A598" />
-            <stop offset="100%" stopColor="#F2C96E" />
-          </linearGradient>
-        </defs>
-        <circle cx="40" cy="40" r={r} stroke="#A8D8CB" strokeWidth="6" fill="none"/>
-        <circle cx="40" cy="40" r={r} stroke="#6BAE9A" strokeWidth="6" fill="none" strokeLinecap="round"
-          strokeDasharray={c} strokeDashoffset={off} className="transition-all"/>
+    <div className="relative" style={{ width: 80, height: 80 }}>
+      <svg className="-rotate-90" width="80" height="80" viewBox="0 0 80 80">
+        <circle cx="40" cy="40" r={r} stroke="#E0F0E8" strokeWidth="6" fill="none"/>
+        <circle cx="40" cy="40" r={r} stroke={JP.matcha} strokeWidth="6" fill="none" strokeLinecap="round"
+          strokeDasharray={c} strokeDashoffset={off} style={{ transition: "stroke-dashoffset 1.2s ease" }}/>
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <div className="text-2xl font-black" style={{ color: "#1A5C4A" }}>{value}</div>
-        <div className="text-[9px]" style={{ color: "#3D8A72" }}>/100</div>
+        <div style={{ fontSize: 22, fontWeight: 800, color: JP.sumi, fontVariantNumeric: "tabular-nums", lineHeight: 1 }}>{value}</div>
+        <div style={{ fontSize: 9, color: JP.usuzumi, marginTop: 2 }}>/100</div>
       </div>
     </div>
   );

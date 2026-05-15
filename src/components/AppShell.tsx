@@ -16,26 +16,48 @@ const tabs = [
 export function TopBar({ titleJp, titleEn }: { titleJp?: string; titleEn?: string }) {
   const [sosOpen, setSosOpen] = useState(false);
   const t = useT();
-  const jp = titleJp ?? "こんにちは、ハナ! 🐾";
-  const en = titleEn ?? "Hello, Hana! 🐾";
+  const showTitle = Boolean(titleJp || titleEn);
   return (
     <>
-      <header className="sticky top-0 z-40 bg-background/90 backdrop-blur-md border-b border-border">
-        <div className="flex items-center justify-between px-4 h-14">
-          <Link to="/settings" className="w-10 h-10 rounded-full bg-gradient-to-br from-sakura to-secondary flex items-center justify-center text-lg shadow-soft">
+      <header className="sticky top-0 z-40" style={{ background: "#FAFAF8" }}>
+        <div className="flex items-center justify-between" style={{ padding: "0 20px", height: 60 }}>
+          <Link
+            to="/settings"
+            className="flex items-center justify-center text-lg"
+            style={{ width: 42, height: 42, borderRadius: "50%", background: "#FFFFFF", border: "2px solid #E8829A" }}
+            aria-label="Profile"
+          >
             🐕
           </Link>
-          <div className="text-sm font-bold truncate flex-1 text-center">{t(jp, en)}</div>
-          <div className="flex items-center gap-1.5">
+          {showTitle ? (
+            <div className="text-sm font-bold truncate flex-1 text-center" style={{ color: "#2C2C2C", letterSpacing: "0.02em" }}>
+              {t(titleJp ?? "", titleEn ?? "")}
+            </div>
+          ) : (
+            <div className="flex-1" />
+          )}
+          <div className="flex items-center" style={{ gap: 0 }}>
             <LanguageSwitcher />
-            <button className="w-9 h-9 rounded-full bg-muted flex items-center justify-center" aria-label={t("通知", "Notifications")}>
-              <Bell className="w-4 h-4" />
+            <button
+              className="flex items-center justify-center"
+              style={{ width: 36, height: 36, margin: "0 4px 0 12px", color: "#8A8A8A" }}
+              aria-label={t("通知", "Notifications")}
+            >
+              <Bell size={22} strokeWidth={1.75} />
             </button>
             <button
               onClick={() => setSosOpen(true)}
-              className="pulse-red bg-destructive text-destructive-foreground rounded-full px-2.5 h-9 text-xs font-bold flex items-center gap-1"
+              className="pulse-red font-bold flex items-center"
+              style={{
+                background: "#E53935",
+                color: "#fff",
+                borderRadius: 20,
+                padding: "8px 16px",
+                fontSize: 13,
+                boxShadow: "0 4px 12px rgba(229,57,53,0.4)",
+              }}
             >
-              🆘 SOS
+              SOS
             </button>
           </div>
         </div>
@@ -65,16 +87,32 @@ export function BottomNav() {
   const loc = useLocation();
   const t = useT();
   return (
-    <nav className="fixed bottom-0 inset-x-0 z-40 bg-card/95 backdrop-blur-md" style={{ borderTop: "1px solid #F0E8E5" }}>
-      <div className="grid grid-cols-5 max-w-md mx-auto">
+    <nav
+      className="fixed bottom-0 inset-x-0 z-40"
+      style={{
+        background: "#FFFFFF",
+        borderTop: "1px solid #F0ECE8",
+        height: 64,
+        boxShadow: "0 -4px 20px rgba(0,0,0,0.06)",
+      }}
+    >
+      <div className="grid grid-cols-5 max-w-md mx-auto h-full">
         {tabs.map((tab) => {
           const active = loc.pathname.startsWith(tab.to);
           const Icon = tab.icon;
+          const color = active ? "#E8829A" : "#C0B8B4";
           return (
-            <Link key={tab.to} to={tab.to} className="relative flex flex-col items-center justify-center py-2 min-h-[56px]">
-              <Icon className="w-5 h-5" style={{ color: active ? "#E8A598" : "#C4B5B0" }} />
-              <span className="text-[10px] mt-0.5" style={{ color: active ? "#E8A598" : "#C4B5B0", fontWeight: active ? 700 : 400 }}>{t(tab.jp, tab.en)}</span>
-              {active && <span className="absolute bottom-1 w-1.5 h-1.5 rounded-full" style={{ background: "#E8A598" }} />}
+            <Link key={tab.to} to={tab.to} className="relative flex flex-col items-center justify-center">
+              {active && (
+                <span
+                  className="absolute"
+                  style={{ top: 6, width: 16, height: 3, borderRadius: 2, background: "#E8829A" }}
+                />
+              )}
+              <Icon size={22} strokeWidth={1.75} style={{ color }} />
+              <span style={{ color, fontSize: 10, marginTop: 3, fontWeight: active ? 700 : 500, letterSpacing: "0.02em" }}>
+                {t(tab.jp, tab.en)}
+              </span>
             </Link>
           );
         })}
@@ -89,7 +127,7 @@ export default function AppShell({ children, titleJp, titleEn, hideTopBar = fals
     if (localStorage.getItem("wancare-theme") === "dark") document.documentElement.classList.add("dark");
   }, []);
   return (
-    <div className="min-h-screen bg-background pb-20 max-w-md mx-auto">
+    <div className="min-h-screen pb-20 max-w-md mx-auto" style={{ background: "#FAFAF8" }}>
       {!hideTopBar && <TopBar titleJp={titleJp} titleEn={titleEn} />}
       <main className={noPadding ? "" : "px-4 py-4"}>{children}</main>
       <BottomNav />

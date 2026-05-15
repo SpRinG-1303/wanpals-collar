@@ -69,10 +69,20 @@ export default function LanguageSwitcher({ variant = "pill" }: { variant?: "pill
     <div className="relative" ref={ref}>
       <button
         onClick={() => setOpen((v) => !v)}
-        className="h-7 px-2.5 rounded-full bg-sakura text-primary text-[12px] font-bold flex items-center gap-1 shadow-soft"
+        className="flex items-center"
+        style={{
+          height: 28,
+          padding: "6px 14px",
+          borderRadius: 20,
+          background: "#F0EEF8",
+          color: "#7B68C8",
+          fontSize: 12,
+          fontWeight: 700,
+          letterSpacing: "0.02em",
+          gap: 4,
+        }}
         aria-label="Change language"
       >
-        <span>{current.flag}</span>
         <span>{current.code}</span>
       </button>
       {open && (
