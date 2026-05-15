@@ -299,18 +299,30 @@ function Home() {
           <JCard accent={JP.sakura} strip={JP.sakuraStrip}>
             <div style={{ padding: 16 }} className="flex gap-3 items-center">
               <div className="relative">
-                <div className="flex items-center justify-center" style={{ width: 52, height: 52, borderRadius: "50%", background: "#FFF6F8", border: `2px solid #FFB7C5`, fontSize: 26 }}>🐕</div>
+                <div className="flex items-center justify-center" style={{ width: 56, height: 56, borderRadius: "50%", background: "#FFF6F8", border: `2px solid #FFB7C5`, overflow: "hidden" }}>
+                  <DogAvatar
+                    breed={breedKey}
+                    furColor={pet.avatar.furColor}
+                    earStyle={pet.avatar.earStyle as any}
+                    eyeStyle={pet.avatar.eyeStyle as any}
+                    collarColor={pet.avatar.collarColor}
+                    size={52}
+                    ring={false}
+                    showCollar={false}
+                    showCheeks={false}
+                  />
+                </div>
                 <span style={{ position: "absolute", bottom: 0, right: 0, width: 12, height: 12, borderRadius: "50%", background: JP.matcha, border: "2px solid #fff" }}/>
               </div>
               <div className="flex-1 min-w-0">
-                <div style={{ fontSize: 20, fontWeight: 700, color: JP.sumi, lineHeight: 1.1 }}>{t("ハナ", "Hana")}</div>
+                <div style={{ fontSize: 20, fontWeight: 700, color: JP.sumi, lineHeight: 1.1 }}>{dogName}</div>
                 <div className="flex flex-wrap" style={{ gap: 6, marginTop: 6 }}>
-                  <Chip bg={JP.sakuraSoft} color={JP.sakura} border="#FFD0DC">{t("柴犬", "Shiba Inu")}</Chip>
-                  <Chip bg={JP.yuzuSoft} color={JP.yuzu} border="#F0E2A8">{t("3歳", "3 yrs")}</Chip>
+                  <Chip bg={JP.sakuraSoft} color={JP.sakura} border="#FFD0DC">{breedLabel}</Chip>
+                  {ageLabel && <Chip bg={JP.yuzuSoft} color={JP.yuzu} border="#F0E2A8">{ageLabel}</Chip>}
                   <Chip bg={JP.matchaSoft} color={JP.matcha} border="#C8E2D4">● {t("接続済", "Connected")}</Chip>
                 </div>
                 <div className="flex" style={{ gap: 14, marginTop: 8 }}>
-                  <button style={{ fontSize: 13, color: JP.sakura, fontWeight: 600 }}>{t("プロフィール編集", "Edit Profile")} →</button>
+                  <button onClick={() => setEditOpen(true)} style={{ fontSize: 13, color: JP.sakura, fontWeight: 600 }}>{t("プロフィール編集", "Edit Profile")} →</button>
                   <button style={{ fontSize: 13, color: JP.fuji, fontWeight: 600 }}>+ {t("ペット追加", "Add Pet")}</button>
                 </div>
               </div>
