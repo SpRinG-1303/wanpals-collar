@@ -79,7 +79,7 @@ function Step3() {
             <FieldLabel icon={<Calendar className="w-3.5 h-3.5" />} color="#D4A843" optional>
               {t("年齢", "Age")}
             </FieldLabel>
-            <JField icon={<Calendar className="w-4 h-4" />} placeholder="32" type="number" />
+            <JField icon={<Calendar className="w-4 h-4" />} placeholder="32" type="number" value={ownerAge} onChange={setOwnerAge} />
           </FormCard>
 
           <FormCard>
