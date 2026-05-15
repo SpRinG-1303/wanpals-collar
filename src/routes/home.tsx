@@ -501,13 +501,13 @@ function ScoreRing({ value }: { value: number }) {
             <stop offset="100%" stopColor="#F2C96E" />
           </linearGradient>
         </defs>
-        <circle cx="40" cy="40" r={r} stroke="#F0E8E5" strokeWidth="6" fill="none"/>
-        <circle cx="40" cy="40" r={r} stroke="url(#scoreGrad)" strokeWidth="6" fill="none" strokeLinecap="round"
+        <circle cx="40" cy="40" r={r} stroke="#A8D8CB" strokeWidth="6" fill="none"/>
+        <circle cx="40" cy="40" r={r} stroke="#6BAE9A" strokeWidth="6" fill="none" strokeLinecap="round"
           strokeDasharray={c} strokeDashoffset={off} className="transition-all"/>
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <div className="text-2xl font-black" style={{ color: "#2D2D2D" }}>{value}</div>
-        <div className="text-[9px]" style={{ color: "#9A8F8F" }}>/100</div>
+        <div className="text-2xl font-black" style={{ color: "#1A5C4A" }}>{value}</div>
+        <div className="text-[9px]" style={{ color: "#3D8A72" }}>/100</div>
       </div>
     </div>
   );
