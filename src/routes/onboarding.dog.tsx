@@ -146,7 +146,7 @@ function Step2() {
       </div>
 
       <div className="fixed bottom-0 inset-x-0 max-w-md mx-auto p-4" style={{ background: "linear-gradient(to top, #FAFAF8, rgba(250,250,248,0.9) 70%, transparent)" }}>
-        <PrimaryButton onClick={() => nav({ to: "/onboarding/owner" })}>
+        <PrimaryButton onClick={handleNext}>
           {t("次へ", "Next")} →
         </PrimaryButton>
       </div>
