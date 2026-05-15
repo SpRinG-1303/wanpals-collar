@@ -251,8 +251,10 @@ function HeroPostcard({ score, name, mood }: { score: number; name: string; mood
 function Home() {
   const [factIdx, setFactIdx] = useState(0);
   const [sosOpen, setSosOpen] = useState(false);
+  const [editOpen, setEditOpen] = useState(false);
   const t = useT();
   const { language } = useLanguage();
+  const { pet } = usePet();
   useEffect(() => {
     const tm = setInterval(() => setFactIdx((i) => (i + 1) % DAILY_FACTS.length), 10000);
     return () => clearInterval(tm);
@@ -260,9 +262,18 @@ function Home() {
   const fact = DAILY_FACTS[factIdx];
   const score = 87;
 
+  const dogName = displayName(pet);
+  const heroName = pet.name?.trim() ? dogName : t("ワンちゃん", "Your Dog");
+  const mood = pet.name?.trim()
+    ? t(`${pet.name}は元気です`, `${dogName} is feeling great`)
+    : t("元気です", "Feeling great");
+  const breedLabel = language === "english" ? pet.breedEn : language === "japanese" ? pet.breedJp : `${pet.breedJp} / ${pet.breedEn}`;
+  const ageLabel = pet.age != null ? t(`${pet.age}歳`, `${pet.age} yrs`) : null;
+  const breedKey: BreedKey = (BREED_KEY_BY_JP[pet.breedJp] ?? (pet.breed as BreedKey) ?? "mixed");
+
   return (
     <AppShell titleJp="" titleEn="" noPadding>
-      <HeroPostcard score={score} />
+      <HeroPostcard score={score} name={heroName} mood={mood} />
 
       {sosOpen && (
         <div className="fixed inset-0 z-50 bg-black/50 flex items-end sm:items-center justify-center p-4" onClick={() => setSosOpen(false)}>
