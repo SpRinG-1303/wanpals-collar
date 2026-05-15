@@ -11,40 +11,45 @@ import { T, useT, useLanguage } from "@/context/LanguageContext";
 
 export const Route = createFileRoute("/home")({ component: Home });
 
-type Dot = "rose" | "sage" | "lavender" | "red";
 type Sensor = {
   Icon: LucideIcon;
-  iconBg: string;
+  cardBg: string;
   iconColor: string;
+  titleColor: string;
+  subColor: string;
+  valueColor: string;
+  dotColor: string;
+  shadow: string;
   jp: string; en: string;
   subJp: string; subEn: string;
-  subColor?: string;
   valJp: string; valEn: string;
-  dot: Dot;
   ml?: boolean;
+  mlGradient?: string;
+  mlButtonColor?: string;
   progress?: number;
   progressColor?: string;
+  progressBg?: string;
   noteJp?: string; noteEn?: string;
-  noteColor?: string;
 };
 
 const sensors: Sensor[] = [
-  { Icon: Brain, iconBg: "#F5EEFF", iconColor: "#9B72CF", jp: "吠え分析", en: "BarkSense AI", subJp: "鳴き声解析", subEn: "Bark Analysis", valJp: "穏やか", valEn: "Calm", dot: "sage", ml: true },
-  { Icon: Microscope, iconBg: "#FEEAF0", iconColor: "#D4708A", jp: "皮膚センサー", en: "SkinSense AI", subJp: "皮膚の健康", subEn: "Skin Health", valJp: "正常", valEn: "Normal", dot: "sage", ml: true },
-  { Icon: Activity, iconBg: "#EAF4F0", iconColor: "#6BAE9A", jp: "運動センサー", en: "MotionSense", subJp: "活動量", subEn: "Activity Track", valJp: "2,340歩", valEn: "2,340 steps", dot: "sage", progress: 65, progressColor: "#B8D4C8" },
-  { Icon: Thermometer, iconBg: "#FEF0EC", iconColor: "#E8956D", jp: "体温センサー", en: "TempSense AI", subJp: "体温", subEn: "Body Temp", valJp: "38.5°C 正常", valEn: "38.5°C Normal", dot: "sage", noteJp: "正常範囲", noteEn: "Normal Range" },
-  { Icon: MapPin, iconBg: "#EAF4F0", iconColor: "#6BAE9A", jp: "位置センサー", en: "LocationSense", subJp: "GPS + 地図", subEn: "GPS + Map", valJp: "渋谷区, 東京", valEn: "Shibuya, Tokyo", dot: "lavender" },
-  { Icon: Wind, iconBg: "#EFF8F6", iconColor: "#6BAE9A", jp: "圧力センサー", en: "PressureSense", subJp: "圧力データ", subEn: "Pressure Data", subColor: "#E8956D", valJp: "正常範囲", valEn: "Normal Range", dot: "sage", noteJp: "圧力データ", noteEn: "Pressure Data", noteColor: "#E8956D" },
-  { Icon: Sun, iconBg: "#FEF9EC", iconColor: "#D4A843", jp: "光センサー", en: "LightSense AI", subJp: "RGB光データ", subEn: "RGB Light Data", valJp: "室内", valEn: "Indoor", dot: "sage" },
-  { Icon: GitMerge, iconBg: "#F0EDF8", iconColor: "#9B72CF", jp: "総合分析", en: "CombineSense", subJp: "総合解析", subEn: "Combined Analysis", valJp: "87/100", valEn: "87/100", dot: "sage" },
+  { Icon: Brain, cardBg: "#EDE0FF", iconColor: "#9333EA", titleColor: "#4A1D96", subColor: "#7C5CB8", valueColor: "#3B0D6E", dotColor: "#9333EA", shadow: "0 4px 12px rgba(147,51,234,0.18)",
+    jp: "吠え分析", en: "BarkSense AI", subJp: "鳴き声解析", subEn: "Bark Analysis", valJp: "穏やか", valEn: "Calm", ml: true, mlGradient: "linear-gradient(135deg,#9333EA,#C084FC)", mlButtonColor: "#9333EA" },
+  { Icon: Microscope, cardBg: "#FADADD", iconColor: "#E91E8C", titleColor: "#7A0038", subColor: "#B05070", valueColor: "#5C0028", dotColor: "#22C55E", shadow: "0 4px 12px rgba(233,30,140,0.18)",
+    jp: "皮膚センサー", en: "SkinSense AI", subJp: "皮膚の健康", subEn: "Skin Health", valJp: "正常", valEn: "Normal", ml: true, mlGradient: "linear-gradient(135deg,#E91E8C,#FF6B9D)", mlButtonColor: "#E91E8C" },
+  { Icon: Activity, cardBg: "#D6EEFF", iconColor: "#2563EB", titleColor: "#1A3C7A", subColor: "#4A6A9A", valueColor: "#0F2456", dotColor: "#2563EB", shadow: "0 4px 12px rgba(100,160,220,0.22)",
+    jp: "運動センサー", en: "MotionSense", subJp: "活動量", subEn: "Activity Track", valJp: "2,340歩", valEn: "2,340 steps", progress: 65, progressColor: "#2563EB", progressBg: "#A8C8E8" },
+  { Icon: Thermometer, cardBg: "#FFE8D6", iconColor: "#EA580C", titleColor: "#7A2800", subColor: "#AA5030", valueColor: "#5C1800", dotColor: "#22C55E", shadow: "0 4px 12px rgba(234,88,12,0.18)",
+    jp: "体温センサー", en: "TempSense AI", subJp: "体温", subEn: "Body Temp", valJp: "38.5°C 正常", valEn: "38.5°C Normal", noteJp: "正常範囲", noteEn: "Normal Range" },
+  { Icon: MapPin, cardBg: "#D4F0E8", iconColor: "#059669", titleColor: "#064E3B", subColor: "#2D7A5F", valueColor: "#022C22", dotColor: "#9CA3AF", shadow: "0 4px 12px rgba(5,150,105,0.18)",
+    jp: "位置センサー", en: "LocationSense", subJp: "GPS + 地図", subEn: "GPS + Map", valJp: "渋谷区, 東京", valEn: "Shibuya, Tokyo" },
+  { Icon: Wind, cardBg: "#FFF8EE", iconColor: "#D97706", titleColor: "#78350F", subColor: "#B45309", valueColor: "#451A03", dotColor: "#22C55E", shadow: "0 4px 12px rgba(217,119,6,0.18)",
+    jp: "圧力センサー", en: "PressureSense", subJp: "圧力データ", subEn: "Pressure Data", valJp: "正常範囲", valEn: "Normal Range", noteJp: "圧力データ", noteEn: "Pressure Data" },
+  { Icon: Sun, cardBg: "#FFF3CC", iconColor: "#CA8A04", titleColor: "#713F12", subColor: "#A16207", valueColor: "#422006", dotColor: "#22C55E", shadow: "0 4px 12px rgba(202,138,4,0.18)",
+    jp: "光センサー", en: "LightSense AI", subJp: "RGB光データ", subEn: "RGB Light Data", valJp: "室内", valEn: "Indoor" },
+  { Icon: GitMerge, cardBg: "#F0E0FF", iconColor: "#7C3AED", titleColor: "#4C1D95", subColor: "#6D28D9", valueColor: "#2E1065", dotColor: "#22C55E", shadow: "0 4px 12px rgba(124,58,237,0.18)",
+    jp: "総合分析", en: "CombineSense", subJp: "総合解析", subEn: "Combined Analysis", valJp: "87/100", valEn: "87/100" },
 ];
-
-const DOT_COLOR: Record<Dot, string> = {
-  rose: "#E8A598",
-  sage: "#6BAE9A",
-  lavender: "#D4C5E2",
-  red: "#EF4444",
-};
 
 type TimeBand = "morning" | "afternoon" | "evening" | "night";
 function getTimeBand(): TimeBand {
