@@ -55,7 +55,7 @@ function Step1() {
   const selectFur = (c: string) => { setFur(c); updateAvatar({ furColor: c }); };
   const selectEar = (e: EarStyle) => { setEar(e); updateAvatar({ earStyle: e }); };
   const selectEye = (e: EyeStyle) => { setEye(e); updateAvatar({ eyeStyle: e }); };
-  const selectCollar = (c: string) => { setCollar(c); updateAvatar({ collarColor: c }); };
+  const selectCollar = (c: string) => { selectCollar(c); updateAvatar({ collarColor: c }); };
 
   const breedLabel = (jp: string, en: string) =>
     language === "english" ? en : language === "japanese" ? jp : `${jp} / ${en}`;
@@ -96,7 +96,7 @@ function Step1() {
             return (
               <button
                 key={b.jp}
-                onClick={() => setBreedJp(b.jp)}
+                onClick={() => selectBreed(b.jp)}
                 className="shrink-0 flex flex-col items-center justify-start snap-start transition-all px-1.5 pt-2 pb-2"
                 style={{
                   width: 80, height: 110,
@@ -136,7 +136,7 @@ function Step1() {
           <div className="flex flex-wrap gap-3 mt-2">
             {FUR.map((f) => (
               <div key={f.c} className="flex flex-col items-center" style={{ width: 44 }}>
-                <Swatch color={f.c} selected={fur === f.c} onClick={() => setFur(f.c)} />
+                <Swatch color={f.c} selected={fur === f.c} onClick={() => selectFur(f.c)} />
                 <span className="text-[8px] mt-1 text-center leading-tight" style={{ color: "#8A8A8A" }}>
                   {breedLabel(f.jp, f.en)}
                 </span>
@@ -151,7 +151,7 @@ function Step1() {
               return (
                 <button
                   key={e.id}
-                  onClick={() => setEar(e.id)}
+                  onClick={() => selectEar(e.id)}
                   className="h-12 rounded-xl text-[12px] font-medium transition-all"
                   style={{
                     background: sel ? "#FFF0F5" : "#FAFAF8",
@@ -172,7 +172,7 @@ function Step1() {
               return (
                 <button
                   key={e.id}
-                  onClick={() => setEye(e.id)}
+                  onClick={() => selectEye(e.id)}
                   className="h-12 rounded-xl text-[14px] font-bold transition-all"
                   style={{
                     background: sel ? "#FFF0F5" : "#FAFAF8",
@@ -190,7 +190,7 @@ function Step1() {
           <Section title={t("カラーの色", "Collar Colour")} small />
           <div className="flex gap-3 mt-2">
             {COLLAR.map((c) => (
-              <Swatch key={c} color={c} selected={collar === c} onClick={() => setCollar(c)} />
+              <Swatch key={c} color={c} selected={collar === c} onClick={() => selectCollar(c)} />
             ))}
           </div>
         </div>
