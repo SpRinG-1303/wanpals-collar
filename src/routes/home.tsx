@@ -11,40 +11,45 @@ import { T, useT, useLanguage } from "@/context/LanguageContext";
 
 export const Route = createFileRoute("/home")({ component: Home });
 
-type Dot = "rose" | "sage" | "lavender" | "red";
 type Sensor = {
   Icon: LucideIcon;
-  iconBg: string;
+  cardBg: string;
   iconColor: string;
+  titleColor: string;
+  subColor: string;
+  valueColor: string;
+  dotColor: string;
+  shadow: string;
   jp: string; en: string;
   subJp: string; subEn: string;
-  subColor?: string;
   valJp: string; valEn: string;
-  dot: Dot;
   ml?: boolean;
+  mlGradient?: string;
+  mlButtonColor?: string;
   progress?: number;
   progressColor?: string;
+  progressBg?: string;
   noteJp?: string; noteEn?: string;
-  noteColor?: string;
 };
 
 const sensors: Sensor[] = [
-  { Icon: Brain, iconBg: "#F5EEFF", iconColor: "#9B72CF", jp: "吠え分析", en: "BarkSense AI", subJp: "鳴き声解析", subEn: "Bark Analysis", valJp: "穏やか", valEn: "Calm", dot: "sage", ml: true },
-  { Icon: Microscope, iconBg: "#FEEAF0", iconColor: "#D4708A", jp: "皮膚センサー", en: "SkinSense AI", subJp: "皮膚の健康", subEn: "Skin Health", valJp: "正常", valEn: "Normal", dot: "sage", ml: true },
-  { Icon: Activity, iconBg: "#EAF4F0", iconColor: "#6BAE9A", jp: "運動センサー", en: "MotionSense", subJp: "活動量", subEn: "Activity Track", valJp: "2,340歩", valEn: "2,340 steps", dot: "sage", progress: 65, progressColor: "#B8D4C8" },
-  { Icon: Thermometer, iconBg: "#FEF0EC", iconColor: "#E8956D", jp: "体温センサー", en: "TempSense AI", subJp: "体温", subEn: "Body Temp", valJp: "38.5°C 正常", valEn: "38.5°C Normal", dot: "sage", noteJp: "正常範囲", noteEn: "Normal Range" },
-  { Icon: MapPin, iconBg: "#EAF4F0", iconColor: "#6BAE9A", jp: "位置センサー", en: "LocationSense", subJp: "GPS + 地図", subEn: "GPS + Map", valJp: "渋谷区, 東京", valEn: "Shibuya, Tokyo", dot: "lavender" },
-  { Icon: Wind, iconBg: "#EFF8F6", iconColor: "#6BAE9A", jp: "圧力センサー", en: "PressureSense", subJp: "圧力データ", subEn: "Pressure Data", subColor: "#E8956D", valJp: "正常範囲", valEn: "Normal Range", dot: "sage", noteJp: "圧力データ", noteEn: "Pressure Data", noteColor: "#E8956D" },
-  { Icon: Sun, iconBg: "#FEF9EC", iconColor: "#D4A843", jp: "光センサー", en: "LightSense AI", subJp: "RGB光データ", subEn: "RGB Light Data", valJp: "室内", valEn: "Indoor", dot: "sage" },
-  { Icon: GitMerge, iconBg: "#F0EDF8", iconColor: "#9B72CF", jp: "総合分析", en: "CombineSense", subJp: "総合解析", subEn: "Combined Analysis", valJp: "87/100", valEn: "87/100", dot: "sage" },
+  { Icon: Brain, cardBg: "#EDE0FF", iconColor: "#9333EA", titleColor: "#4A1D96", subColor: "#7C5CB8", valueColor: "#3B0D6E", dotColor: "#9333EA", shadow: "0 4px 12px rgba(147,51,234,0.18)",
+    jp: "吠え分析", en: "BarkSense AI", subJp: "鳴き声解析", subEn: "Bark Analysis", valJp: "穏やか", valEn: "Calm", ml: true, mlGradient: "linear-gradient(135deg,#9333EA,#C084FC)", mlButtonColor: "#9333EA" },
+  { Icon: Microscope, cardBg: "#FADADD", iconColor: "#E91E8C", titleColor: "#7A0038", subColor: "#B05070", valueColor: "#5C0028", dotColor: "#22C55E", shadow: "0 4px 12px rgba(233,30,140,0.18)",
+    jp: "皮膚センサー", en: "SkinSense AI", subJp: "皮膚の健康", subEn: "Skin Health", valJp: "正常", valEn: "Normal", ml: true, mlGradient: "linear-gradient(135deg,#E91E8C,#FF6B9D)", mlButtonColor: "#E91E8C" },
+  { Icon: Activity, cardBg: "#D6EEFF", iconColor: "#2563EB", titleColor: "#1A3C7A", subColor: "#4A6A9A", valueColor: "#0F2456", dotColor: "#2563EB", shadow: "0 4px 12px rgba(100,160,220,0.22)",
+    jp: "運動センサー", en: "MotionSense", subJp: "活動量", subEn: "Activity Track", valJp: "2,340歩", valEn: "2,340 steps", progress: 65, progressColor: "#2563EB", progressBg: "#A8C8E8" },
+  { Icon: Thermometer, cardBg: "#FFE8D6", iconColor: "#EA580C", titleColor: "#7A2800", subColor: "#AA5030", valueColor: "#5C1800", dotColor: "#22C55E", shadow: "0 4px 12px rgba(234,88,12,0.18)",
+    jp: "体温センサー", en: "TempSense AI", subJp: "体温", subEn: "Body Temp", valJp: "38.5°C 正常", valEn: "38.5°C Normal", noteJp: "正常範囲", noteEn: "Normal Range" },
+  { Icon: MapPin, cardBg: "#D4F0E8", iconColor: "#059669", titleColor: "#064E3B", subColor: "#2D7A5F", valueColor: "#022C22", dotColor: "#9CA3AF", shadow: "0 4px 12px rgba(5,150,105,0.18)",
+    jp: "位置センサー", en: "LocationSense", subJp: "GPS + 地図", subEn: "GPS + Map", valJp: "渋谷区, 東京", valEn: "Shibuya, Tokyo" },
+  { Icon: Wind, cardBg: "#FFF8EE", iconColor: "#D97706", titleColor: "#78350F", subColor: "#B45309", valueColor: "#451A03", dotColor: "#22C55E", shadow: "0 4px 12px rgba(217,119,6,0.18)",
+    jp: "圧力センサー", en: "PressureSense", subJp: "圧力データ", subEn: "Pressure Data", valJp: "正常範囲", valEn: "Normal Range", noteJp: "圧力データ", noteEn: "Pressure Data" },
+  { Icon: Sun, cardBg: "#FFF3CC", iconColor: "#CA8A04", titleColor: "#713F12", subColor: "#A16207", valueColor: "#422006", dotColor: "#22C55E", shadow: "0 4px 12px rgba(202,138,4,0.18)",
+    jp: "光センサー", en: "LightSense AI", subJp: "RGB光データ", subEn: "RGB Light Data", valJp: "室内", valEn: "Indoor" },
+  { Icon: GitMerge, cardBg: "#F0E0FF", iconColor: "#7C3AED", titleColor: "#4C1D95", subColor: "#6D28D9", valueColor: "#2E1065", dotColor: "#22C55E", shadow: "0 4px 12px rgba(124,58,237,0.18)",
+    jp: "総合分析", en: "CombineSense", subJp: "総合解析", subEn: "Combined Analysis", valJp: "87/100", valEn: "87/100" },
 ];
-
-const DOT_COLOR: Record<Dot, string> = {
-  rose: "#E8A598",
-  sage: "#6BAE9A",
-  lavender: "#D4C5E2",
-  red: "#EF4444",
-};
 
 type TimeBand = "morning" | "afternoon" | "evening" | "night";
 function getTimeBand(): TimeBand {
@@ -297,121 +302,119 @@ function Home() {
         </div>
       )}
 
-      <div className="px-4">
-      {/* Hero profile */}
+      <div className="px-4" style={{ background: "#F0EDE8" }}>
+      {/* Dog profile - Sakura Pink */}
       <Section>
-        <div className="bg-card rounded-[20px] p-4 shadow-card flex gap-4 items-center">
+        <div className="rounded-[20px] p-4 flex gap-4 items-center" style={{ background: "#FFE4EC", boxShadow: "0 4px 12px rgba(255,182,193,0.25)" }}>
           <div className="relative">
-            <div className="w-16 h-16 rounded-full flex items-center justify-center text-3xl" style={{ background: "linear-gradient(135deg,#FDE2DC,#FFD6CB)", boxShadow: "0 0 0 3px #E8A598" }}>🐕</div>
+            <div className="w-16 h-16 rounded-full flex items-center justify-center text-3xl" style={{ background: "linear-gradient(135deg,#FDE2DC,#FFD6CB)", boxShadow: "0 0 0 3px #FFB7C5" }}>🐕</div>
             <span className="absolute bottom-0 right-0 w-4 h-4 rounded-full" style={{ background: "#6BAE9A", border: "2px solid #fff" }}/>
           </div>
           <div className="flex-1 min-w-0">
-            <div className="font-bold text-base" style={{ color: "#2D2D2D" }}>{t("ハナ", "Hana")}</div>
+            <div className="font-bold text-base" style={{ color: "#8B3A52" }}>{t("ハナ", "Hana")}</div>
             <div className="flex gap-1 mt-1 flex-wrap">
-              <span className="text-[10px] px-2 py-0.5 rounded-full font-bold" style={{ background: "#B8D4C8", color: "#2F5D4A" }}>{t("柴犬", "Shiba Inu")}</span>
-              <span className="text-[10px] px-2 py-0.5 rounded-full" style={{ background: "#F0E8E5", color: "#7A6F6F" }}>{t("3歳", "3 yrs")}</span>
-              <span className="text-[10px] px-2 py-0.5 rounded-full font-bold" style={{ background: "#D4F0E0", color: "#2F7A5A" }}>● {t("接続済", "Connected")}</span>
+              <span className="text-[10px] px-2 py-0.5 rounded-full font-bold" style={{ background: "#FFB7C5", color: "#8B3A52" }}>{t("柴犬", "Shiba Inu")}</span>
+              <span className="text-[10px] px-2 py-0.5 rounded-full" style={{ background: "#FFFFFF", color: "#8B3A52" }}>{t("3歳", "3 yrs")}</span>
+              <span className="text-[10px] px-2 py-0.5 rounded-full font-bold" style={{ background: "#D4F0E8", color: "#2D7A5F" }}>● {t("接続済", "Connected")}</span>
             </div>
             <div className="flex gap-3 mt-2">
-              <button className="text-[11px] font-bold" style={{ color: "#E8A598" }}>{t("プロフィール編集", "Edit Profile")} →</button>
+              <button className="text-[11px] font-bold" style={{ color: "#C4526E" }}>{t("プロフィール編集", "Edit Profile")} →</button>
               <button className="text-[11px] font-bold" style={{ color: "#9B72CF" }}>+ {t("ペット追加", "Add Pet")}</button>
             </div>
           </div>
         </div>
       </Section>
 
-      {/* Daily fact */}
+      {/* Daily fact - Warm Yellow */}
       <motion.div key={factIdx} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
-        className="mt-3 rounded-[20px] overflow-hidden flex"
-        style={{ background: "#FEF3C7", boxShadow: "0 4px 16px rgba(180,150,140,0.12)" }}
+        className="mt-3 rounded-[20px] p-4"
+        style={{ background: "#FFF3CC", boxShadow: "0 4px 12px rgba(242,201,110,0.25)" }}
       >
-        <div style={{ width: 4, background: "#F2C96E" }} />
-        <div className="flex-1 p-4">
-          <div className="flex justify-between items-start">
-            <div className="flex items-center gap-1.5 text-xs font-bold" style={{ color: "#92400E" }}>
-              <PawPrint className="w-3.5 h-3.5" style={{ color: "#D4A843" }} /> {t("今日の豆知識", "Daily Dog Fact")}
-            </div>
-            <span className="text-[10px] font-bold" style={{ color: "#D4A843" }}>#{1247 + factIdx}</span>
+        <div className="flex justify-between items-start">
+          <div className="flex items-center gap-1.5 text-xs font-bold" style={{ color: "#8B6200" }}>
+            <PawPrint className="w-3.5 h-3.5" style={{ color: "#D4920A" }} /> {t("今日の豆知識", "Daily Dog Fact")}
           </div>
-          <div className="mt-1 text-sm font-bold" style={{ color: "#451A03" }}>
-            {language === "english" ? fact.en : fact.jp}
-          </div>
-          {language === "mixed" && <div className="text-xs mt-0.5" style={{ color: "#92400E", opacity: .8 }}>{fact.en}</div>}
+          <span className="text-[10px] font-bold" style={{ color: "#D4920A" }}>#{1247 + factIdx}</span>
         </div>
+        <div className="mt-1 text-sm font-bold" style={{ color: "#5C4000" }}>
+          {language === "english" ? fact.en : fact.jp}
+        </div>
+        {language === "mixed" && <div className="text-xs mt-0.5" style={{ color: "#8B6200", opacity: .85 }}>{fact.en}</div>}
       </motion.div>
 
-      {/* Health score */}
-      <div className="mt-3 bg-card rounded-[20px] p-5 shadow-card flex items-center gap-4">
+      {/* Health score - Mint Green */}
+      <div className="mt-3 rounded-[20px] p-5 flex items-center gap-4" style={{ background: "#D4F0E8", boxShadow: "0 4px 12px rgba(107,174,154,0.2)" }}>
         <ScoreRing value={score} />
         <div className="flex-1">
-          <T jp="総合健康スコア" en="Overall Health Score" className="text-sm font-bold" as="div" />
+          <div className="text-sm font-bold" style={{ color: "#1A5C4A" }}>{t("総合健康スコア", "Overall Health Score")}</div>
+          {language === "mixed" && <div className="text-[10px]" style={{ color: "#3D8A72" }}>Overall Health Score</div>}
           <div className="mt-2 flex items-center gap-1.5 text-xs">
-            <span className="relative w-2 h-2"><span className="absolute inset-0 rounded-full" style={{ background: "#E8A598" }}/><span className="absolute inset-0 rounded-full animate-ping" style={{ background: "#E8A598" }}/></span>
-            <span className="font-bold" style={{ color: "#E8A598" }}>LIVE</span>
-            <span className="text-muted-foreground">· {t("全センサー稼働中", "All sensors active")}</span>
+            <span className="relative w-2 h-2"><span className="absolute inset-0 rounded-full" style={{ background: "#6BAE9A" }}/><span className="absolute inset-0 rounded-full animate-ping" style={{ background: "#6BAE9A" }}/></span>
+            <span className="font-bold" style={{ color: "#6BAE9A" }}>LIVE</span>
+            <span style={{ color: "#3D8A72" }}>· {t("全センサー稼働中", "All sensors active")}</span>
           </div>
         </div>
       </div>
 
-      {/* Collar Status */}
-      <div className="mt-3 bg-card rounded-[20px]" style={{ padding: 20, boxShadow: "0 4px 16px rgba(180,150,140,0.12)" }}>
-        <T jp="カラーステータス" en="Collar Status" className="block text-[18px] font-bold mb-4" as="div" />
+      {/* Collar Status - Sky Blue */}
+      <div className="mt-3 rounded-[20px]" style={{ background: "#D6EEFF", padding: 20, boxShadow: "0 4px 12px rgba(100,160,220,0.2)" }}>
+        <div className="text-[18px] font-bold mb-4" style={{ color: "#1A3C5E" }}>{t("カラーステータス", "Collar Status")}</div>
 
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: "#D4F0E0" }}>
-            <Check size={20} style={{ color: "#6BAE9A" }} strokeWidth={3} />
+          <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: "#FFFFFF" }}>
+            <Check size={20} style={{ color: "#3B82F6" }} strokeWidth={3} />
           </div>
           <div className="flex-1">
-            <div className="text-[15px] font-semibold" style={{ color: "#2D2D2D" }}>{t("接続済み", "Connected")}</div>
-            <div className="text-[12px] text-muted-foreground">{t("最終同期: 2分前", "Last sync: 2 minutes ago")}</div>
+            <div className="text-[15px] font-semibold" style={{ color: "#1A3C5E" }}>{t("接続済み", "Connected")}</div>
+            <div className="text-[12px]" style={{ color: "#5A7A9A" }}>{t("最終同期: 2分前", "Last sync: 2 minutes ago")}</div>
           </div>
         </div>
 
-        <div className="my-5 h-px" style={{ background: "#F0E8E5" }} />
+        <div className="my-5 h-px" style={{ background: "rgba(255,255,255,0.6)" }} />
 
         <div className="flex items-center justify-between mb-[14px]">
           <div className="flex items-center" style={{ gap: 6 }}>
-            <BatteryMedium size={18} style={{ color: "#9A8F8F" }} />
-            <span className="text-[14px] font-medium text-muted-foreground">{t("バッテリー", "Battery")}</span>
+            <BatteryMedium size={18} style={{ color: "#1A3C5E" }} />
+            <span className="text-[14px] font-medium" style={{ color: "#1A3C5E" }}>{t("バッテリー", "Battery")}</span>
           </div>
           <div className="flex items-center">
-            <div className="rounded-[4px] overflow-hidden" style={{ width: 120, height: 8, background: "#F0E8E5" }}>
-              <div className="h-full rounded-[4px]" style={{ width: "87%", background: "#B8D4C8" }} />
+            <div className="rounded-[4px] overflow-hidden" style={{ width: 120, height: 8, background: "#A8C8E8" }}>
+              <div className="h-full rounded-[4px]" style={{ width: "87%", background: "#3B82F6" }} />
             </div>
-            <span className="ml-2 text-[14px] font-semibold" style={{ color: "#2D2D2D" }}>87%</span>
+            <span className="ml-2 text-[14px] font-semibold" style={{ color: "#1A3C5E" }}>87%</span>
           </div>
         </div>
 
         <div className="flex items-center justify-between mb-5">
           <div className="flex items-center" style={{ gap: 6 }}>
-            <Signal size={18} style={{ color: "#E8A598" }} />
-            <span className="text-[14px] font-medium" style={{ color: "#E8A598" }}>{t("信号強度", "Signal Strength")}</span>
+            <Signal size={18} style={{ color: "#3B82F6" }} />
+            <span className="text-[14px] font-medium" style={{ color: "#3B82F6" }}>{t("信号強度", "Signal Strength")}</span>
           </div>
           <div className="flex items-center">
             <div className="flex items-end" style={{ gap: 3 }}>
               {[6, 10, 14, 18].map((h) => (
-                <div key={h} className="rounded-[2px]" style={{ width: 4, height: h, background: "#E8A598" }} />
+                <div key={h} className="rounded-[2px]" style={{ width: 4, height: h, background: "#3B82F6" }} />
               ))}
             </div>
-            <span className="ml-2 text-[14px] font-semibold" style={{ color: "#2D2D2D" }}>{t("優秀", "Excellent")}</span>
+            <span className="ml-2 text-[14px] font-semibold" style={{ color: "#1A3C5E" }}>{t("優秀", "Excellent")}</span>
           </div>
         </div>
 
         <button
           className="w-full flex items-center justify-center gap-2 rounded-[12px] font-semibold transition-colors"
-          style={{ background: "#FDF0EE", color: "#E8A598", height: 48, fontSize: 15 }}
-          onMouseEnter={(e) => (e.currentTarget.style.background = "#FBE3DF")}
-          onMouseLeave={(e) => (e.currentTarget.style.background = "#FDF0EE")}
+          style={{ background: "rgba(255,255,255,0.6)", color: "#2563EB", height: 48, fontSize: 15 }}
+          onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.85)")}
+          onMouseLeave={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.6)")}
         >
-          <Bluetooth size={18} style={{ color: "#E8A598" }} />
+          <Bluetooth size={18} style={{ color: "#2563EB" }} />
           <span>{t("カラーを接続", "Connect Collar")}</span>
         </button>
       </div>
 
       {/* Sensors grid */}
       <div className="mt-5 mb-2 flex items-center gap-2">
-        <h2 className="text-[18px] font-semibold" style={{ color: "#2D2D2D" }}>🤖 {t("AI センサー", "AI Sensors")}</h2>
-        <span className="text-[11px] font-bold rounded-full text-white" style={{ background: "#E8A598", padding: "2px 8px" }}>8 active</span>
+        <h2 className="text-[18px] font-semibold" style={{ color: "#2D2D2D" }}>{t("AI センサー", "AI Sensors")}</h2>
+        <span className="text-[11px] font-bold rounded-full" style={{ background: "#EDE0FF", color: "#7C3AED", padding: "2px 8px" }}>8 active</span>
       </div>
       <div className="grid grid-cols-2 gap-3">
         {sensors.map((s) => {
@@ -420,46 +423,46 @@ function Home() {
             <Link
               to="/report"
               key={s.en}
-              className="relative bg-card rounded-2xl p-4 flex flex-col"
-              style={{ boxShadow: "0 4px 16px rgba(180,150,140,0.12)" }}
+              className="relative rounded-2xl p-4 flex flex-col"
+              style={{ background: s.cardBg, boxShadow: s.shadow }}
             >
               {s.ml && (
                 <span
                   className="absolute top-2 right-2 text-white font-bold rounded-full"
                   style={{ fontSize: 10, padding: "3px 8px",
-                    background: "linear-gradient(135deg,#C084FC,#E8A598)",
-                    boxShadow: "0 2px 4px rgba(192,132,252,0.3)" }}
+                    background: s.mlGradient,
+                    boxShadow: "0 2px 4px rgba(0,0,0,0.12)" }}
                 >
                   ML Training
                 </span>
               )}
-              <div className="w-12 h-12 rounded-xl flex items-center justify-center" style={{ background: s.iconBg }}>
+              <div className="w-12 h-12 rounded-xl flex items-center justify-center" style={{ background: "#FFFFFF" }}>
                 <Icon size={24} style={{ color: s.iconColor }} />
               </div>
-              <T jp={s.jp} en={s.en} className="mt-3 text-[15px] font-semibold leading-tight" as="div" />
-              <T jp={s.subJp} en={s.subEn} className="text-[12px] leading-tight mt-0.5" as="div" />
+              <div className="mt-3 text-[15px] font-semibold leading-tight" style={{ color: s.titleColor }}>{t(s.jp, s.en)}</div>
+              <div className="text-[12px] leading-tight mt-0.5" style={{ color: s.subColor }}>{t(s.subJp, s.subEn)}</div>
               <div className="mt-2 flex items-center justify-between gap-2">
-                <div className="text-[16px] font-bold leading-tight" style={{ color: "#2D2D2D" }}>{t(s.valJp, s.valEn)}</div>
+                <div className="text-[16px] font-bold leading-tight" style={{ color: s.valueColor }}>{t(s.valJp, s.valEn)}</div>
                 <span
-                  className={`w-2 h-2 rounded-full shrink-0 ${s.dot === "sage" || s.dot === "rose" ? "animate-pulse" : ""}`}
-                  style={{ background: DOT_COLOR[s.dot] }}
+                  className="w-2 h-2 rounded-full shrink-0 animate-pulse"
+                  style={{ background: s.dotColor }}
                 />
               </div>
               {s.noteJp && (
-                <div className="text-[11px] mt-1" style={{ color: s.noteColor ?? "#9A8F8F" }}>
+                <div className="text-[11px] mt-1" style={{ color: s.subColor }}>
                   {t(s.noteJp, s.noteEn!)}
                 </div>
               )}
               {s.progress !== undefined && (
-                <div className="mt-3 h-1.5 rounded-full overflow-hidden" style={{ background: "#F0E8E5" }}>
-                  <div className="h-full rounded-full" style={{ width: `${s.progress}%`, background: s.progressColor ?? "#B8D4C8" }}/>
+                <div className="mt-3 h-1.5 rounded-full overflow-hidden" style={{ background: s.progressBg ?? "#FFFFFF" }}>
+                  <div className="h-full rounded-full" style={{ width: `${s.progress}%`, background: s.progressColor ?? "#2563EB" }}/>
                 </div>
               )}
               {s.ml && (
                 <button
                   onClick={(e) => { e.preventDefault(); }}
                   className="mt-3 w-full rounded-lg text-[13px] font-medium transition-colors"
-                  style={{ background: "#F5EFEC", color: "#9A8F8F", height: 34 }}
+                  style={{ background: "#FFFFFF", color: s.mlButtonColor, height: 34 }}
                 >
                   {t("モデルを学習", "Train Model")}
                 </button>
@@ -475,7 +478,7 @@ function Home() {
           📊 {t("健康レポート", "Health Report")}
         </Link>
         <Link to="/breeds" className="rounded-full flex items-center justify-center text-[14px] font-bold gap-2"
-          style={{ background: "#F5EEFF", color: "#9B72CF", height: 52 }}>
+          style={{ background: "#EDE0FF", color: "#7C3AED", height: 52 }}>
           📚 {t("犬種図鑑", "Breeds")}
         </Link>
       </div>
@@ -498,13 +501,13 @@ function ScoreRing({ value }: { value: number }) {
             <stop offset="100%" stopColor="#F2C96E" />
           </linearGradient>
         </defs>
-        <circle cx="40" cy="40" r={r} stroke="#F0E8E5" strokeWidth="6" fill="none"/>
-        <circle cx="40" cy="40" r={r} stroke="url(#scoreGrad)" strokeWidth="6" fill="none" strokeLinecap="round"
+        <circle cx="40" cy="40" r={r} stroke="#A8D8CB" strokeWidth="6" fill="none"/>
+        <circle cx="40" cy="40" r={r} stroke="#6BAE9A" strokeWidth="6" fill="none" strokeLinecap="round"
           strokeDasharray={c} strokeDashoffset={off} className="transition-all"/>
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <div className="text-2xl font-black" style={{ color: "#2D2D2D" }}>{value}</div>
-        <div className="text-[9px]" style={{ color: "#9A8F8F" }}>/100</div>
+        <div className="text-2xl font-black" style={{ color: "#1A5C4A" }}>{value}</div>
+        <div className="text-[9px]" style={{ color: "#3D8A72" }}>/100</div>
       </div>
     </div>
   );

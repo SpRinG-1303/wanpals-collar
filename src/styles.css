@@ -40,8 +40,8 @@
 }
 
 :root {
-  /* Warm cream #F7F3EF */
-  --background: oklch(0.962 0.008 60);
+  /* Warm gray #F0EDE8 */
+  --background: oklch(0.943 0.006 65);
   /* Soft black #2D2D2D */
   --foreground: oklch(0.31 0 0);
   --card: oklch(1 0 0);
