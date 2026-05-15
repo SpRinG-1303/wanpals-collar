@@ -72,7 +72,7 @@ function Step3() {
             <FieldLabel icon={<User className="w-3.5 h-3.5" />} color="#7B68C8" required>
               {t("お名前", "Your Name")}
             </FieldLabel>
-            <JField icon={<User className="w-4 h-4" />} placeholder={t("例: 田中花子", "e.g. Hanako Tanaka")} autoComplete="name" />
+            <JField icon={<User className="w-4 h-4" />} placeholder={t("例: 田中花子", "e.g. Hanako Tanaka")} autoComplete="name" value={ownerName} onChange={setOwnerName} />
           </FormCard>
 
           <FormCard>
