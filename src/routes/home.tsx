@@ -509,15 +509,144 @@ function Home() {
           })}
         </div>
 
-        {/* Quick actions */}
-        <div className="grid grid-cols-2" style={{ gap: 8, marginTop: 16, marginBottom: 16 }}>
-          <Link to="/report" className="flex items-center justify-center"
-            style={{ background: JP.sumi, color: "#fff", height: 50, borderRadius: 999, fontSize: 13, fontWeight: 700, gap: 6, letterSpacing: "0.02em" }}>
-            📊 {t("健康レポート", "Health Report")}
+        {/* Quick Access */}
+        <SectionLabel jp="クイックアクセス" en="Quick Access" />
+
+        <div className="grid grid-cols-2" style={{ gap: 10, marginBottom: 16 }}>
+          {/* Health Report Card */}
+          <Link
+            to="/report"
+            className="relative overflow-hidden"
+            style={{
+              height: 90,
+              borderRadius: 20,
+              background: "linear-gradient(135deg, #667EEA 0%, #9B72CF 100%)",
+              boxShadow: "0 8px 24px rgba(102,126,234,0.35)",
+              transition: "transform 0.2s ease, box-shadow 0.2s ease",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = "scale(1.02)";
+              e.currentTarget.style.boxShadow = "0 12px 32px rgba(102,126,234,0.45)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = "scale(1)";
+              e.currentTarget.style.boxShadow = "0 8px 24px rgba(102,126,234,0.35)";
+            }}
+          >
+            {/* Inner highlight */}
+            <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2, background: "rgba(255,255,255,0.3)", zIndex: 2, pointerEvents: "none" }} />
+            {/* Decorative circles */}
+            <div style={{ position: "absolute", top: -20, right: 20, width: 60, height: 60, borderRadius: "50%", background: "rgba(255,255,255,0.06)", pointerEvents: "none" }} />
+            <div style={{ position: "absolute", bottom: 10, left: -10, width: 40, height: 40, borderRadius: "50%", background: "rgba(255,255,255,0.06)", pointerEvents: "none" }} />
+            <div style={{ position: "absolute", top: 30, right: 50, width: 80, height: 80, borderRadius: "50%", background: "rgba(255,255,255,0.06)", pointerEvents: "none" }} />
+            {/* Content */}
+            <div style={{ position: "relative", zIndex: 1, padding: "12px 14px", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+              <div>
+                <div style={{ fontSize: 10, color: "rgba(255,255,255,0.75)", letterSpacing: "0.08em", fontWeight: 600 }}>
+                  {t("レポート", "Report")}
+                </div>
+                <div style={{ fontSize: 18, fontWeight: 700, color: "#fff", lineHeight: 1.1, marginTop: 2 }}>
+                  Health
+                </div>
+                <div style={{ fontSize: 18, fontWeight: 700, color: "#fff", lineHeight: 1.1 }}>
+                  Report <span style={{ fontSize: 14 }}>→</span>
+                </div>
+              </div>
+            </div>
+            {/* Floating stat badge */}
+            <div style={{
+              position: "absolute",
+              top: 10,
+              right: 10,
+              background: "rgba(255,255,255,0.2)",
+              backdropFilter: "blur(4px)",
+              WebkitBackdropFilter: "blur(4px)",
+              color: "#fff",
+              fontSize: 11,
+              fontWeight: 700,
+              borderRadius: 10,
+              padding: "3px 8px",
+              zIndex: 2,
+              pointerEvents: "none",
+            }}>
+              87/100
+            </div>
+            {/* Large decorative icon */}
+            <Activity size={52} strokeWidth={1.5} style={{
+              position: "absolute",
+              right: -8,
+              bottom: -8,
+              color: "rgba(255,255,255,0.15)",
+              pointerEvents: "none",
+            }} />
           </Link>
-          <Link to="/breeds" className="flex items-center justify-center"
-            style={{ background: JP.fujiSoft, color: JP.fuji, height: 50, borderRadius: 999, fontSize: 13, fontWeight: 700, gap: 6, letterSpacing: "0.02em" }}>
-            📚 {t("犬種図鑑", "Breeds")}
+
+          {/* Breeds Card */}
+          <Link
+            to="/breeds"
+            className="relative overflow-hidden"
+            style={{
+              height: 90,
+              borderRadius: 20,
+              background: "linear-gradient(135deg, #F093A0 0%, #E8829A 100%)",
+              boxShadow: "0 8px 24px rgba(232,130,154,0.35)",
+              transition: "transform 0.2s ease, box-shadow 0.2s ease",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = "scale(1.02)";
+              e.currentTarget.style.boxShadow = "0 12px 32px rgba(232,130,154,0.45)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = "scale(1)";
+              e.currentTarget.style.boxShadow = "0 8px 24px rgba(232,130,154,0.35)";
+            }}
+          >
+            {/* Inner highlight */}
+            <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2, background: "rgba(255,255,255,0.3)", zIndex: 2, pointerEvents: "none" }} />
+            {/* Decorative circles */}
+            <div style={{ position: "absolute", top: -15, right: 25, width: 55, height: 55, borderRadius: "50%", background: "rgba(255,255,255,0.06)", pointerEvents: "none" }} />
+            <div style={{ position: "absolute", bottom: 5, left: -5, width: 45, height: 45, borderRadius: "50%", background: "rgba(255,255,255,0.06)", pointerEvents: "none" }} />
+            <div style={{ position: "absolute", top: 25, right: 55, width: 75, height: 75, borderRadius: "50%", background: "rgba(255,255,255,0.06)", pointerEvents: "none" }} />
+            {/* Content */}
+            <div style={{ position: "relative", zIndex: 1, padding: "12px 14px", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+              <div>
+                <div style={{ fontSize: 10, color: "rgba(255,255,255,0.75)", letterSpacing: "0.08em", fontWeight: 600 }}>
+                  {t("犬種図鑑", "Breeds")}
+                </div>
+                <div style={{ fontSize: 18, fontWeight: 700, color: "#fff", lineHeight: 1.1, marginTop: 2 }}>
+                  Breed
+                </div>
+                <div style={{ fontSize: 18, fontWeight: 700, color: "#fff", lineHeight: 1.1 }}>
+                  Guide <span style={{ fontSize: 14 }}>→</span>
+                </div>
+              </div>
+            </div>
+            {/* Floating badge */}
+            <div style={{
+              position: "absolute",
+              top: 10,
+              right: 10,
+              background: "rgba(255,255,255,0.2)",
+              backdropFilter: "blur(4px)",
+              WebkitBackdropFilter: "blur(4px)",
+              color: "#fff",
+              fontSize: 11,
+              fontWeight: 700,
+              borderRadius: 10,
+              padding: "3px 8px",
+              zIndex: 2,
+              pointerEvents: "none",
+            }}>
+              {t("200+ 犬種", "200+ Breeds")}
+            </div>
+            {/* Large decorative icon */}
+            <PawPrint size={52} strokeWidth={1.5} style={{
+              position: "absolute",
+              right: -8,
+              bottom: -8,
+              color: "rgba(255,255,255,0.15)",
+              pointerEvents: "none",
+            }} />
           </Link>
         </div>
       </div>
