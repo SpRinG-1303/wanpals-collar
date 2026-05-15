@@ -64,7 +64,12 @@ function Step2() {
             <FieldLabel icon={<Heart className="w-3.5 h-3.5" />} color="#E8829A" required>
               {t("名前", "Name")}
             </FieldLabel>
-            <JField icon={<Heart className="w-4 h-4" />} placeholder={t("例: ハナ", "e.g. Hana")} />
+            <JField
+              icon={<Heart className="w-4 h-4" />}
+              placeholder={t("例: ハナ", "e.g. Hana")}
+              value={name}
+              onChange={(v) => { setName(v); updatePet({ name: v }); }}
+            />
           </FormCard>
 
           <FormCard>
