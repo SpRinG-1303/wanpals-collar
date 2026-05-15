@@ -112,8 +112,8 @@
 }
 
 @layer utilities {
-  .shadow-card { box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
-  .shadow-soft { box-shadow: 0 1px 6px rgba(0,0,0,0.06); }
+  .shadow-card { box-shadow: 0 4px 16px rgba(180,150,140,0.12); }
+  .shadow-soft { box-shadow: 0 2px 8px rgba(180,150,140,0.08); }
   .paw-bg {
     background-image: radial-gradient(circle at 20% 20%, color-mix(in oklab, var(--sakura) 25%, transparent) 1.5px, transparent 2px),
                       radial-gradient(circle at 70% 60%, color-mix(in oklab, var(--sakura) 20%, transparent) 1.5px, transparent 2px),
