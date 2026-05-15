@@ -34,13 +34,28 @@ function Step1() {
   const nav = useNavigate();
   const t = useT();
   const { language } = useLanguage();
-  const [breedJp, setBreedJp] = useState("柴犬");
-  const [fur, setFur] = useState<string | undefined>(undefined);
-  const [ear, setEar] = useState<EarStyle | undefined>(undefined);
-  const [eye, setEye] = useState<EyeStyle>("round");
-  const [collar, setCollar] = useState(COLLAR[0]);
+  const { pet, updatePet, updateAvatar } = usePet();
+  const [breedJp, setBreedJp] = useState(pet.breedJp || "柴犬");
+  const [fur, setFur] = useState<string | undefined>(pet.avatar.furColor);
+  const [ear, setEar] = useState<EarStyle | undefined>(pet.avatar.earStyle as EarStyle | undefined);
+  const [eye, setEye] = useState<EyeStyle>((pet.avatar.eyeStyle as EyeStyle) || "round");
+  const [collar, setCollar] = useState(pet.avatar.collarColor || COLLAR[0]);
 
   const breedKey: BreedKey = BREED_KEY_BY_JP[breedJp] ?? "mixed";
+
+  const selectBreed = (jp: string) => {
+    setBreedJp(jp);
+    const b = BREEDS.find((x) => x.jp === jp);
+    updatePet({
+      breedJp: jp,
+      breedEn: b?.en ?? jp,
+      breed: BREED_KEY_BY_JP[jp] ?? "mixed",
+    });
+  };
+  const selectFur = (c: string) => { setFur(c); updateAvatar({ furColor: c }); };
+  const selectEar = (e: EarStyle) => { setEar(e); updateAvatar({ earStyle: e }); };
+  const selectEye = (e: EyeStyle) => { setEye(e); updateAvatar({ eyeStyle: e }); };
+  const selectCollar = (c: string) => { setCollar(c); updateAvatar({ collarColor: c }); };
 
   const breedLabel = (jp: string, en: string) =>
     language === "english" ? en : language === "japanese" ? jp : `${jp} / ${en}`;
