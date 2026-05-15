@@ -2,6 +2,7 @@ import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Camera, Heart, Calendar, Scale, Plus, Minus, ChevronLeft } from "lucide-react";
 import { useT } from "@/context/LanguageContext";
+import { usePet } from "@/context/PetContext";
 import { PrimaryButton, JField } from "@/routes/auth";
 import { Stepper } from "@/routes/onboarding.avatar";
 
@@ -10,9 +11,23 @@ export const Route = createFileRoute("/onboarding/dog")({ component: Step2 });
 function Step2() {
   const nav = useNavigate();
   const t = useT();
-  const [gender, setGender] = useState<"male" | "female">("female");
-  const [vacc, setVacc] = useState(true);
-  const [age, setAge] = useState(3);
+  const { pet, updatePet } = usePet();
+  const [name, setName] = useState(pet.name);
+  const [age, setAge] = useState<number>(pet.age ?? 3);
+  const [weight, setWeight] = useState<string>(pet.weight != null ? String(pet.weight) : "");
+  const [gender, setGender] = useState<"male" | "female">(pet.gender ?? "female");
+  const [vacc, setVacc] = useState(pet.vaccinated);
+
+  const handleNext = () => {
+    updatePet({
+      name: name.trim(),
+      age,
+      weight: weight ? Number(weight) : null,
+      gender,
+      vaccinated: vacc,
+    });
+    nav({ to: "/onboarding/owner" });
+  };
 
   return (
     <div className="min-h-screen pb-32 relative overflow-hidden" style={{ background: "#FAFAF8" }}>
