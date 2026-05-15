@@ -88,7 +88,14 @@ function Step2() {
             <FieldLabel icon={<Scale className="w-3.5 h-3.5" />} color="#5B9BD5" optional>
               {t("体重", "Weight")}
             </FieldLabel>
-            <JField icon={<Scale className="w-4 h-4" />} placeholder="8.5" type="number" right={<span className="text-[13px]" style={{ color: "#8A8A8A" }}>kg</span>} />
+            <JField
+              icon={<Scale className="w-4 h-4" />}
+              placeholder="8.5"
+              type="number"
+              value={weight}
+              onChange={setWeight}
+              right={<span className="text-[13px]" style={{ color: "#8A8A8A" }}>kg</span>}
+            />
           </FormCard>
 
           <FormCard>
