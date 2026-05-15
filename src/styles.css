@@ -40,37 +40,41 @@
 }
 
 :root {
-  --background: oklch(0.985 0 0);
-  --foreground: oklch(0.18 0.03 270);
+  /* Warm cream #F7F3EF */
+  --background: oklch(0.962 0.008 60);
+  /* Soft black #2D2D2D */
+  --foreground: oklch(0.31 0 0);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.18 0.03 270);
+  --card-foreground: oklch(0.31 0 0);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.18 0.03 270);
-  /* Deep Navy #1A2F5A */
-  --primary: oklch(0.32 0.08 262);
+  --popover-foreground: oklch(0.31 0 0);
+  /* Dusty rose #E8A598 */
+  --primary: oklch(0.76 0.07 28);
   --primary-foreground: oklch(0.99 0 0);
-  /* Sakura Pink #FFB7C5 */
-  --secondary: oklch(0.86 0.07 12);
-  --secondary-foreground: oklch(0.32 0.08 262);
-  --sakura: oklch(0.86 0.07 12);
-  --sakura-soft: oklch(0.96 0.025 12);
-  --muted: oklch(0.96 0.005 270);
-  --muted-foreground: oklch(0.5 0.02 270);
-  --accent: oklch(0.96 0.025 12);
-  --accent-foreground: oklch(0.32 0.08 262);
-  /* Mint Green #4CAF82 */
-  --success: oklch(0.7 0.13 155);
-  --success-foreground: oklch(0.99 0 0);
-  /* Gold #F4A623 */
-  --warning: oklch(0.78 0.15 70);
-  --warning-foreground: oklch(0.2 0.05 70);
-  /* Emergency Red #E53935 */
+  /* Sage green #B8D4C8 */
+  --secondary: oklch(0.84 0.04 160);
+  --secondary-foreground: oklch(0.31 0 0);
+  /* Dusty rose tokens (kept name "sakura" for compat) */
+  --sakura: oklch(0.76 0.07 28);
+  --sakura-soft: oklch(0.95 0.02 28);
+  --muted: oklch(0.94 0.01 60);
+  /* Warm gray #9A8F8F */
+  --muted-foreground: oklch(0.62 0.01 30);
+  --accent: oklch(0.88 0.05 300);
+  --accent-foreground: oklch(0.31 0 0);
+  /* Sage success */
+  --success: oklch(0.78 0.07 160);
+  --success-foreground: oklch(0.25 0.04 160);
+  /* Golden #F2C96E */
+  --warning: oklch(0.84 0.13 85);
+  --warning-foreground: oklch(0.3 0.08 70);
+  /* Keep SOS red */
   --destructive: oklch(0.62 0.23 27);
   --destructive-foreground: oklch(0.99 0 0);
-  --border: oklch(0.92 0.005 270);
-  --input: oklch(0.92 0.005 270);
-  --ring: oklch(0.86 0.07 12);
-  --shadow-card: 0 2px 12px rgba(0,0,0,0.08);
+  --border: oklch(0.92 0.01 40);
+  --input: oklch(0.92 0.01 40);
+  --ring: oklch(0.76 0.07 28);
+  --shadow-card: 0 4px 16px rgba(180,150,140,0.12);
 }
 
 .dark {
