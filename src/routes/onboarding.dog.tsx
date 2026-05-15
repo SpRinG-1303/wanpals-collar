@@ -2,6 +2,7 @@ import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Camera, Heart, Calendar, Scale, Plus, Minus, ChevronLeft } from "lucide-react";
 import { useT } from "@/context/LanguageContext";
+import { usePet } from "@/context/PetContext";
 import { PrimaryButton, JField } from "@/routes/auth";
 import { Stepper } from "@/routes/onboarding.avatar";
 
@@ -10,9 +11,23 @@ export const Route = createFileRoute("/onboarding/dog")({ component: Step2 });
 function Step2() {
   const nav = useNavigate();
   const t = useT();
-  const [gender, setGender] = useState<"male" | "female">("female");
-  const [vacc, setVacc] = useState(true);
-  const [age, setAge] = useState(3);
+  const { pet, updatePet } = usePet();
+  const [name, setName] = useState(pet.name);
+  const [age, setAge] = useState<number>(pet.age ?? 3);
+  const [weight, setWeight] = useState<string>(pet.weight != null ? String(pet.weight) : "");
+  const [gender, setGender] = useState<"male" | "female">(pet.gender ?? "female");
+  const [vacc, setVacc] = useState(pet.vaccinated);
+
+  const handleNext = () => {
+    updatePet({
+      name: name.trim(),
+      age,
+      weight: weight ? Number(weight) : null,
+      gender,
+      vaccinated: vacc,
+    });
+    nav({ to: "/onboarding/owner" });
+  };
 
   return (
     <div className="min-h-screen pb-32 relative overflow-hidden" style={{ background: "#FAFAF8" }}>
@@ -49,7 +64,12 @@ function Step2() {
             <FieldLabel icon={<Heart className="w-3.5 h-3.5" />} color="#E8829A" required>
               {t("名前", "Name")}
             </FieldLabel>
-            <JField icon={<Heart className="w-4 h-4" />} placeholder={t("例: ハナ", "e.g. Hana")} />
+            <JField
+              icon={<Heart className="w-4 h-4" />}
+              placeholder={t("例: ハナ", "e.g. Hana")}
+              value={name}
+              onChange={(v) => { setName(v); updatePet({ name: v }); }}
+            />
           </FormCard>
 
           <FormCard>
@@ -68,7 +88,14 @@ function Step2() {
             <FieldLabel icon={<Scale className="w-3.5 h-3.5" />} color="#5B9BD5" optional>
               {t("体重", "Weight")}
             </FieldLabel>
-            <JField icon={<Scale className="w-4 h-4" />} placeholder="8.5" type="number" right={<span className="text-[13px]" style={{ color: "#8A8A8A" }}>kg</span>} />
+            <JField
+              icon={<Scale className="w-4 h-4" />}
+              placeholder="8.5"
+              type="number"
+              value={weight}
+              onChange={setWeight}
+              right={<span className="text-[13px]" style={{ color: "#8A8A8A" }}>kg</span>}
+            />
           </FormCard>
 
           <FormCard>
@@ -119,7 +146,7 @@ function Step2() {
       </div>
 
       <div className="fixed bottom-0 inset-x-0 max-w-md mx-auto p-4" style={{ background: "linear-gradient(to top, #FAFAF8, rgba(250,250,248,0.9) 70%, transparent)" }}>
-        <PrimaryButton onClick={() => nav({ to: "/onboarding/owner" })}>
+        <PrimaryButton onClick={handleNext}>
           {t("次へ", "Next")} →
         </PrimaryButton>
       </div>

@@ -10,6 +10,7 @@ import {
 
 import appCss from "../styles.css?url";
 import { LanguageProvider } from "@/context/LanguageContext";
+import { PetProvider } from "@/context/PetContext";
 import { Toaster } from "@/components/ui/sonner";
 
 function NotFoundComponent() {
@@ -120,8 +121,10 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <LanguageProvider>
-        <Outlet />
-        <Toaster />
+        <PetProvider>
+          <Outlet />
+          <Toaster />
+        </PetProvider>
       </LanguageProvider>
     </QueryClientProvider>
   );

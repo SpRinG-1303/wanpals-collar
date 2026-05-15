@@ -3,6 +3,7 @@ import { useState } from "react";
 import { ChevronLeft, User, Calendar, MapPin, Search, Check, X } from "lucide-react";
 import { PREFECTURES } from "@/lib/mock";
 import { useT } from "@/context/LanguageContext";
+import { usePet } from "@/context/PetContext";
 import { JField } from "@/routes/auth";
 import { Stepper, } from "@/routes/onboarding.avatar";
 import { FormCard, FieldLabel } from "@/routes/onboarding.dog";
@@ -12,11 +13,19 @@ export const Route = createFileRoute("/onboarding/owner")({ component: Step3 });
 function Step3() {
   const nav = useNavigate();
   const t = useT();
-  const [pref, setPref] = useState("東京都");
+  const { pet, updatePet } = usePet();
+  const [ownerName, setOwnerName] = useState(pet.ownerName);
+  const [ownerAge, setOwnerAge] = useState<string>(pet.ownerAge != null ? String(pet.ownerAge) : "");
+  const [pref, setPref] = useState(pet.prefecture || "東京都");
   const [sheet, setSheet] = useState(false);
   const [burst, setBurst] = useState(false);
 
   const finish = () => {
+    updatePet({
+      ownerName: ownerName.trim(),
+      ownerAge: ownerAge ? Number(ownerAge) : null,
+      prefecture: pref,
+    });
     setBurst(true);
     setTimeout(() => nav({ to: "/home" }), 700);
   };
@@ -63,14 +72,14 @@ function Step3() {
             <FieldLabel icon={<User className="w-3.5 h-3.5" />} color="#7B68C8" required>
               {t("お名前", "Your Name")}
             </FieldLabel>
-            <JField icon={<User className="w-4 h-4" />} placeholder={t("例: 田中花子", "e.g. Hanako Tanaka")} autoComplete="name" />
+            <JField icon={<User className="w-4 h-4" />} placeholder={t("例: 田中花子", "e.g. Hanako Tanaka")} autoComplete="name" value={ownerName} onChange={setOwnerName} />
           </FormCard>
 
           <FormCard>
             <FieldLabel icon={<Calendar className="w-3.5 h-3.5" />} color="#D4A843" optional>
               {t("年齢", "Age")}
             </FieldLabel>
-            <JField icon={<Calendar className="w-4 h-4" />} placeholder="32" type="number" />
+            <JField icon={<Calendar className="w-4 h-4" />} placeholder="32" type="number" value={ownerAge} onChange={setOwnerAge} />
           </FormCard>
 
           <FormCard>

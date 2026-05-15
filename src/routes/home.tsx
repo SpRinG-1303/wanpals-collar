@@ -1,13 +1,15 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import AppShell from "@/components/AppShell";
 import { useEffect, useState, type ReactNode, type CSSProperties } from "react";
-import { DAILY_FACTS } from "@/lib/mock";
+import { DAILY_FACTS, BREEDS } from "@/lib/mock";
 import {
   Brain, Microscope, Activity, Thermometer, MapPin, Wind, Sun, GitMerge,
-  Check, BatteryMedium, Signal, Bluetooth, PawPrint, type LucideIcon,
+  Check, BatteryMedium, Signal, Bluetooth, PawPrint, X, type LucideIcon,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { T, useT, useLanguage } from "@/context/LanguageContext";
+import { usePet, displayName } from "@/context/PetContext";
+import DogAvatar, { BREED_KEY_BY_JP, type BreedKey } from "@/components/DogAvatar";
 
 export const Route = createFileRoute("/home")({ component: Home });
 
@@ -189,7 +191,7 @@ function PostcardScene({ band }: { band: TimeBand }) {
   );
 }
 
-function HeroPostcard({ score }: { score: number }) {
+function HeroPostcard({ score, name, mood }: { score: number; name: string; mood: string }) {
   const t = useT();
   const band = getTimeBand();
   const labelJp = band === "morning" ? "おはよう" : band === "afternoon" ? "こんにちは" : band === "evening" ? "こんばんは" : "おやすみ";
@@ -216,12 +218,12 @@ function HeroPostcard({ score }: { score: number }) {
             {t(`${labelJp} / ${labelEn}`, `${labelEn} / ${labelJp}`)}
           </div>
           <div style={{ fontSize: 28, fontWeight: 800, color: JP.sumi, lineHeight: 1.1, marginTop: 4 }}>
-            {t("ハナ", "Hana")}
+            {name}
           </div>
           <div className="flex items-center" style={{ gap: 6, marginTop: 4 }}>
             <span style={{ width: 6, height: 6, borderRadius: "50%", background: JP.matcha, display: "inline-block" }} />
             <span style={{ fontSize: 12, color: JP.matcha, fontWeight: 500 }}>
-              {t("元気です", "Feeling great")}
+              {mood}
             </span>
           </div>
         </div>
@@ -249,8 +251,10 @@ function HeroPostcard({ score }: { score: number }) {
 function Home() {
   const [factIdx, setFactIdx] = useState(0);
   const [sosOpen, setSosOpen] = useState(false);
+  const [editOpen, setEditOpen] = useState(false);
   const t = useT();
   const { language } = useLanguage();
+  const { pet } = usePet();
   useEffect(() => {
     const tm = setInterval(() => setFactIdx((i) => (i + 1) % DAILY_FACTS.length), 10000);
     return () => clearInterval(tm);
@@ -258,9 +262,18 @@ function Home() {
   const fact = DAILY_FACTS[factIdx];
   const score = 87;
 
+  const dogName = displayName(pet);
+  const heroName = pet.name?.trim() ? dogName : t("ワンちゃん", "Your Dog");
+  const mood = pet.name?.trim()
+    ? t(`${pet.name}は元気です`, `${dogName} is feeling great`)
+    : t("元気です", "Feeling great");
+  const breedLabel = language === "english" ? pet.breedEn : language === "japanese" ? pet.breedJp : `${pet.breedJp} / ${pet.breedEn}`;
+  const ageLabel = pet.age != null ? t(`${pet.age}歳`, `${pet.age} yrs`) : null;
+  const breedKey: BreedKey = (BREED_KEY_BY_JP[pet.breedJp] ?? (pet.breed as BreedKey) ?? "mixed");
+
   return (
     <AppShell titleJp="" titleEn="" noPadding>
-      <HeroPostcard score={score} />
+      <HeroPostcard score={score} name={heroName} mood={mood} />
 
       {sosOpen && (
         <div className="fixed inset-0 z-50 bg-black/50 flex items-end sm:items-center justify-center p-4" onClick={() => setSosOpen(false)}>
@@ -286,18 +299,30 @@ function Home() {
           <JCard accent={JP.sakura} strip={JP.sakuraStrip}>
             <div style={{ padding: 16 }} className="flex gap-3 items-center">
               <div className="relative">
-                <div className="flex items-center justify-center" style={{ width: 52, height: 52, borderRadius: "50%", background: "#FFF6F8", border: `2px solid #FFB7C5`, fontSize: 26 }}>🐕</div>
+                <div className="flex items-center justify-center" style={{ width: 56, height: 56, borderRadius: "50%", background: "#FFF6F8", border: `2px solid #FFB7C5`, overflow: "hidden" }}>
+                  <DogAvatar
+                    breed={breedKey}
+                    furColor={pet.avatar.furColor}
+                    earStyle={pet.avatar.earStyle as any}
+                    eyeStyle={pet.avatar.eyeStyle as any}
+                    collarColor={pet.avatar.collarColor}
+                    size={52}
+                    ring={false}
+                    showCollar={false}
+                    showCheeks={false}
+                  />
+                </div>
                 <span style={{ position: "absolute", bottom: 0, right: 0, width: 12, height: 12, borderRadius: "50%", background: JP.matcha, border: "2px solid #fff" }}/>
               </div>
               <div className="flex-1 min-w-0">
-                <div style={{ fontSize: 20, fontWeight: 700, color: JP.sumi, lineHeight: 1.1 }}>{t("ハナ", "Hana")}</div>
+                <div style={{ fontSize: 20, fontWeight: 700, color: JP.sumi, lineHeight: 1.1 }}>{dogName}</div>
                 <div className="flex flex-wrap" style={{ gap: 6, marginTop: 6 }}>
-                  <Chip bg={JP.sakuraSoft} color={JP.sakura} border="#FFD0DC">{t("柴犬", "Shiba Inu")}</Chip>
-                  <Chip bg={JP.yuzuSoft} color={JP.yuzu} border="#F0E2A8">{t("3歳", "3 yrs")}</Chip>
+                  <Chip bg={JP.sakuraSoft} color={JP.sakura} border="#FFD0DC">{breedLabel}</Chip>
+                  {ageLabel && <Chip bg={JP.yuzuSoft} color={JP.yuzu} border="#F0E2A8">{ageLabel}</Chip>}
                   <Chip bg={JP.matchaSoft} color={JP.matcha} border="#C8E2D4">● {t("接続済", "Connected")}</Chip>
                 </div>
                 <div className="flex" style={{ gap: 14, marginTop: 8 }}>
-                  <button style={{ fontSize: 13, color: JP.sakura, fontWeight: 600 }}>{t("プロフィール編集", "Edit Profile")} →</button>
+                  <button onClick={() => setEditOpen(true)} style={{ fontSize: 13, color: JP.sakura, fontWeight: 600 }}>{t("プロフィール編集", "Edit Profile")} →</button>
                   <button style={{ fontSize: 13, color: JP.fuji, fontWeight: 600 }}>+ {t("ペット追加", "Add Pet")}</button>
                 </div>
               </div>
@@ -650,7 +675,107 @@ function Home() {
           </Link>
         </div>
       </div>
+
+      {editOpen && <EditProfileSheet onClose={() => setEditOpen(false)} />}
     </AppShell>
+  );
+}
+
+function EditProfileSheet({ onClose }: { onClose: () => void }) {
+  const t = useT();
+  const { pet, updatePet } = usePet();
+  const [name, setName] = useState(pet.name);
+  const [breedJp, setBreedJp] = useState(pet.breedJp);
+  const [age, setAge] = useState<string>(pet.age != null ? String(pet.age) : "");
+  const [weight, setWeight] = useState<string>(pet.weight != null ? String(pet.weight) : "");
+
+  const save = () => {
+    const b = BREEDS.find((x) => x.jp === breedJp);
+    updatePet({
+      name: name.trim(),
+      breedJp,
+      breedEn: b?.en ?? pet.breedEn,
+      breed: BREED_KEY_BY_JP[breedJp] ?? pet.breed,
+      age: age ? Number(age) : null,
+      weight: weight ? Number(weight) : null,
+    });
+    onClose();
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-end justify-center" style={{ background: "rgba(44,44,44,0.4)" }} onClick={onClose}>
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="w-full max-w-md flex flex-col"
+        style={{ background: "#FFFFFF", borderRadius: "32px 32px 0 0", boxShadow: "0 -8px 32px rgba(0,0,0,0.1)", maxHeight: "85vh" }}
+      >
+        <div className="mx-auto mt-3 mb-2 rounded-full" style={{ width: 32, height: 4, background: "#E8E0DC" }} />
+        <div className="px-5 pb-3 flex items-center justify-between">
+          <h3 className="text-[15px] font-semibold" style={{ color: "#2C2C2C" }}>{t("プロフィール編集", "Edit Profile")}</h3>
+          <button onClick={onClose}><X className="w-5 h-5" style={{ color: "#8A8A8A" }} /></button>
+        </div>
+        <div className="px-5 pb-4 space-y-3 overflow-y-auto">
+          <Field label={t("名前", "Name")}>
+            <input
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder={t("例: ハナ", "e.g. Hana")}
+              className="w-full h-[48px] rounded-[12px] px-4 text-[15px] outline-none"
+              style={{ background: "#FAFAF8", border: "1.5px solid #EDE8E4", color: "#2C2C2C" }}
+            />
+          </Field>
+          <Field label={t("犬種", "Breed")}>
+            <select
+              value={breedJp}
+              onChange={(e) => setBreedJp(e.target.value)}
+              className="w-full h-[48px] rounded-[12px] px-3 text-[15px] outline-none"
+              style={{ background: "#FAFAF8", border: "1.5px solid #EDE8E4", color: "#2C2C2C" }}
+            >
+              {BREEDS.map((b) => (
+                <option key={b.jp} value={b.jp}>{b.jp} / {b.en}</option>
+              ))}
+            </select>
+          </Field>
+          <div className="grid grid-cols-2 gap-3">
+            <Field label={t("年齢", "Age")}>
+              <input
+                value={age} onChange={(e) => setAge(e.target.value)} type="number" placeholder="3"
+                className="w-full h-[48px] rounded-[12px] px-4 text-[15px] outline-none"
+                style={{ background: "#FAFAF8", border: "1.5px solid #EDE8E4", color: "#2C2C2C" }}
+              />
+            </Field>
+            <Field label={t("体重 (kg)", "Weight (kg)")}>
+              <input
+                value={weight} onChange={(e) => setWeight(e.target.value)} type="number" placeholder="8.5"
+                className="w-full h-[48px] rounded-[12px] px-4 text-[15px] outline-none"
+                style={{ background: "#FAFAF8", border: "1.5px solid #EDE8E4", color: "#2C2C2C" }}
+              />
+            </Field>
+          </div>
+        </div>
+        <div className="px-5 pb-5 pt-2 space-y-2" style={{ borderTop: "1px solid #F5F0EC" }}>
+          <button
+            onClick={save}
+            className="w-full h-12 rounded-2xl text-white text-[15px] font-bold"
+            style={{ background: "linear-gradient(135deg, #E8829A, #D86F88)", boxShadow: "0 6px 18px rgba(232,130,154,0.35)" }}
+          >
+            {t("保存", "Save Changes")}
+          </button>
+          <button onClick={onClose} className="w-full h-10 text-[13px] font-medium" style={{ color: "#8A8A8A" }}>
+            {t("キャンセル", "Cancel")}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Field({ label, children }: { label: string; children: ReactNode }) {
+  return (
+    <div>
+      <div className="text-[12px] font-semibold mb-1.5" style={{ color: "#2C2C2C" }}>{label}</div>
+      {children}
+    </div>
   );
 }
 
