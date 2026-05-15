@@ -1,11 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import AppShell from "@/components/AppShell";
-import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { useEffect, useState, type ReactNode } from "react";
 import { DAILY_FACTS } from "@/lib/mock";
 import {
   Brain, Microscope, Activity, Thermometer, MapPin, Wind, Sun, GitMerge,
-  Check, BatteryMedium, Signal, Bluetooth, Bell, PawPrint, type LucideIcon,
+  Check, BatteryMedium, Signal, Bluetooth, PawPrint, type LucideIcon,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { T, useT, useLanguage } from "@/context/LanguageContext";
@@ -56,10 +55,142 @@ function getTimeBand(): TimeBand {
   return "night";
 }
 
-function HeroBanner({ score, sosOpenSetter }: { score: number; sosOpenSetter: (b: boolean) => void }) {
+const BAND_GRADIENT: Record<TimeBand, string> = {
+  morning: "linear-gradient(180deg,#FFF5F7 0%,#FFE8EE 40%,#E8F4F0 100%)",
+  afternoon: "linear-gradient(180deg,#E8F4FC 0%,#C8E6F0 50%,#D4E8D0 100%)",
+  evening: "linear-gradient(180deg,#FFE4CC 0%,#FFCBA4 40%,#E8A598 100%)",
+  night: "linear-gradient(180deg,#1A2440 0%,#2C3E6B 50%,#1E3A5F 100%)",
+};
+
+function FujiScene({ band }: { band: TimeBand }) {
+  const fujiBody =
+    band === "morning" ? "#B8CDD9" :
+    band === "afternoon" ? "#8FB5C8" :
+    band === "evening" ? "#6B8A9A" : "#0F1E35";
+  const sunColor =
+    band === "morning" ? "#FFB7C5" :
+    band === "afternoon" ? "#F2C96E" :
+    band === "evening" ? "#F4A623" : "#FFF8E7";
+  const sunSize = band === "evening" ? 56 : 32;
+  const sunBottom = band === "evening" ? 70 : undefined;
+  const sunTop = band === "evening" ? undefined : 22;
+  const lakeColor =
+    band === "morning" ? "#C8E6E0" :
+    band === "afternoon" ? "#B8D8E0" :
+    band === "evening" ? "#9B7A8A" : "#16264A";
+  const blossomA = band === "night" ? "#FFE4EC" : "#FFB7C5";
+  const blossomB = band === "night" ? "#FFE4EC" : "#FFC8D0";
+  const blossomOpacity = band === "night" ? 0.55 : 0.95;
+  const trunkColor = band === "night" ? "#3A2A24" : "#8B6F5E";
+  const dogColor = band === "night" ? "#A0795A" : "#E8956D";
+
+  return (
+    <div className="absolute inset-0 overflow-hidden" style={{ borderRadius: 24, background: BAND_GRADIENT[band] }}>
+      {/* Sun / Moon */}
+      {band === "night" ? (
+        <div className="absolute" style={{ top: 18, right: 90 }}>
+          <div style={{ width: 32, height: 32, borderRadius: "50%", background: sunColor, boxShadow: `inset -10px 2px 0 0 ${BAND_GRADIENT[band].includes("1A2440") ? "#1A2440" : "#1E3A5F"}` }} />
+        </div>
+      ) : (
+        <div className="absolute" style={{ top: sunTop, bottom: sunBottom, right: 90, width: sunSize, height: sunSize, borderRadius: "50%", background: sunColor, opacity: 0.85, filter: band === "evening" ? "blur(0.5px)" : "none" }} />
+      )}
+
+      {/* Stars (night only) */}
+      {band === "night" && [[20,18],[58,30],[110,14],[160,40],[210,22],[260,12],[300,34],[330,48],[80,52],[240,52]].map(([l,t],i)=>(
+        <div key={i} className="absolute rounded-full bg-white" style={{ left: l, top: t, width: i%3===0?2.5:1.5, height: i%3===0?2.5:1.5, opacity: 0.85 }}/>
+      ))}
+
+      {/* Clouds (afternoon only) */}
+      {band === "afternoon" && [[40,28,46],[180,18,40],[260,40,52]].map(([l,t,w],i)=>(
+        <div key={i} className="absolute rounded-full bg-white/80" style={{ left:l, top:t, width:w, height:(w as number)*0.45 }}/>
+      ))}
+
+      {/* Mount Fuji */}
+      <svg className="absolute" style={{ right: 30, bottom: 20, width: 140, height: 95 }} viewBox="0 0 140 95" fill="none">
+        {/* base mist */}
+        <ellipse cx="70" cy="88" rx="70" ry="6" fill="#FFFFFF" opacity={band === "night" ? 0.08 : 0.5} />
+        {/* fuji body */}
+        <path d="M70 8 L130 88 L10 88 Z" fill={fujiBody} />
+        {/* snow cap */}
+        <path d="M70 8 L88 32 Q70 24 52 32 Z" fill="#FFFFFF" opacity={band === "night" ? 0.7 : 0.95} />
+        {/* snow drips */}
+        <path d="M58 32 L62 42 L66 32 Z M74 32 L78 44 L82 32 Z" fill="#FFFFFF" opacity={band === "night" ? 0.5 : 0.9} />
+      </svg>
+
+      {/* Lake */}
+      <svg className="absolute bottom-0 inset-x-0" viewBox="0 0 360 22" preserveAspectRatio="none" style={{ height: 22, width: "100%" }}>
+        <path d="M0 6 Q60 0 120 5 T240 5 T360 4 L360 22 L0 22 Z" fill={lakeColor} opacity={band === "night" ? 0.85 : 1}/>
+        <path d="M0 10 Q60 6 120 9 T240 9 T360 8" stroke="#FFFFFF" strokeWidth="0.6" fill="none" opacity={band === "night" ? 0.15 : 0.4}/>
+      </svg>
+
+      {/* Cherry blossom tree (left) */}
+      <div className="absolute" style={{ left: 14, bottom: 18, width: 80, height: 110 }}>
+        {/* trunk */}
+        <div style={{ position: "absolute", bottom: 0, left: 18, width: 4, height: 60, background: trunkColor, borderRadius: 2, transform: "rotate(-6deg)", transformOrigin: "bottom" }} />
+        {/* branches */}
+        <div style={{ position: "absolute", bottom: 38, left: 20, width: 30, height: 2, background: trunkColor, borderRadius: 2, transform: "rotate(-25deg)", transformOrigin: "left" }} />
+        <div style={{ position: "absolute", bottom: 52, left: 22, width: 24, height: 2, background: trunkColor, borderRadius: 2, transform: "rotate(-50deg)", transformOrigin: "left" }} />
+        <div style={{ position: "absolute", bottom: 28, left: 18, width: 22, height: 2, background: trunkColor, borderRadius: 2, transform: "rotate(-8deg)", transformOrigin: "left" }} />
+        {/* blossoms */}
+        {[
+          [42, 8, 14, blossomA], [54, 18, 11, blossomB], [60, 6, 10, blossomA],
+          [38, 26, 12, blossomB], [50, 32, 13, blossomA], [28, 14, 9, blossomB],
+          [46, 44, 10, blossomA], [62, 30, 9, blossomB], [34, 40, 11, blossomA],
+          [22, 28, 8, blossomB], [56, 54, 9, blossomA],
+        ].map(([l,t,s,c],i)=>(
+          <div key={i} className="absolute rounded-full" style={{ left: l as number, top: t as number, width: s as number, height: s as number, background: c as string, opacity: blossomOpacity }}/>
+        ))}
+      </div>
+
+      {/* Falling petals */}
+      {!band.includes("night") && [
+        { left: 110, delay: "0s", dur: "7s" },
+        { left: 180, delay: "2s", dur: "6s" },
+        { left: 240, delay: "4s", dur: "8s" },
+        { left: 80, delay: "1s", dur: "9s" },
+      ].map((p,i)=>(
+        <div key={i} className="absolute rounded-full" style={{
+          left: p.left, top: -8, width: 6, height: 5,
+          background: "#FFB7C5", opacity: 0.7,
+          animation: `petalFall ${p.dur} linear ${p.delay} infinite`,
+          transform: `rotate(${(i*23)%30 - 15}deg)`,
+        }}/>
+      ))}
+
+      {/* Shiba inu silhouette (bottom-left) */}
+      <div className="absolute" style={{ bottom: 26, left: 96 }}>
+        {band === "night" ? (
+          // sleeping curl
+          <div style={{ width: 34, height: 14, background: dogColor, borderRadius: "50%", opacity: 0.95 }} />
+        ) : (
+          <div style={{ width: 24, height: 18, background: dogColor, borderRadius: "55% 55% 45% 45%", position: "relative" }}>
+            {/* head */}
+            <div style={{ position: "absolute", top: -8, left: -2, width: 14, height: 14, background: dogColor, borderRadius: "50%" }}>
+              {/* ears */}
+              <div style={{ position: "absolute", top: -3, left: 0, width: 5, height: 7, background: dogColor, clipPath: "polygon(50% 0,100% 100%,0 100%)" }} />
+              <div style={{ position: "absolute", top: -3, right: 0, width: 5, height: 7, background: dogColor, clipPath: "polygon(50% 0,100% 100%,0 100%)" }} />
+              {/* eye */}
+              <div style={{ position: "absolute", top: 6, left: 4, width: 2, height: 2, background: "#2D2D2D", borderRadius: "50%" }} />
+            </div>
+            {/* tail */}
+            <div style={{ position: "absolute", top: -2, right: -4, width: 8, height: 8, border: `2px solid ${dogColor}`, borderRadius: "50%", borderLeftColor: "transparent", borderBottomColor: "transparent" }} />
+          </div>
+        )}
+      </div>
+
+      {/* Sakura branch watermark (top-right corner) */}
+      <svg className="absolute" style={{ top: 6, right: 6, width: 60, height: 40, opacity: 0.18 }} viewBox="0 0 60 40" fill="#FFB7C5">
+        <path d="M2 38 Q20 20 56 4" stroke="#FFB7C5" strokeWidth="1" fill="none"/>
+        <circle cx="14" cy="28" r="3"/><circle cx="22" cy="22" r="2.5"/><circle cx="32" cy="16" r="3"/>
+        <circle cx="42" cy="10" r="2.5"/><circle cx="50" cy="6" r="3"/>
+      </svg>
+    </div>
+  );
+}
+
+function JapanHeroCard({ score }: { score: number }) {
   const t = useT();
   const band = getTimeBand();
-
   const greetJp = band === "morning" ? "おはよう、ハナ! 🐾"
     : band === "afternoon" ? "こんにちは、ハナ! 🐾"
     : band === "evening" ? "こんばんは、ハナ! 🐾"
@@ -68,161 +199,52 @@ function HeroBanner({ score, sosOpenSetter }: { score: number; sosOpenSetter: (b
     : band === "afternoon" ? "Good Afternoon, Hana! 🐾"
     : band === "evening" ? "Good Evening, Hana! 🐾"
     : "Good Night, Hana! 🌙";
+  const moodJp = score >= 87 ? "ハナは今日とっても元気"
+    : score >= 60 ? "ハナは今日まずまずです"
+    : "ハナに注意が必要です";
+  const moodEn = score >= 87 ? "Hana is feeling great today"
+    : score >= 60 ? "Hana is doing okay today"
+    : "Hana needs attention today";
 
-  const moodJp = score >= 87 ? "ハナは今日とっても元気! ✨"
-    : score >= 60 ? "ハナは今日まずまずです 🌤️"
-    : "ハナに注意が必要です ⚠️";
-  const moodEn = score >= 87 ? "Hana is feeling great today ✨"
-    : score >= 60 ? "Hana is doing okay today 🌤️"
-    : "Hana needs attention today ⚠️";
-
-  const gradient: Record<TimeBand, string> = {
-    morning: "linear-gradient(135deg,#F2C96E,#F9A825)",
-    afternoon: "linear-gradient(135deg,#87CEEB,#B8D4C8)",
-    evening: "linear-gradient(135deg,#FFB347,#E8A598)",
-    night: "linear-gradient(135deg,#2C3E6B,#4A3B6B)",
-  };
+  const textColor = band === "night" ? "#F5F0E8" : "#2D2D2D";
+  const subColor = band === "night" ? "rgba(245,240,232,0.75)" : "#9A8F8F";
 
   return (
-    <div className="relative">
-      <div
-        className="relative overflow-hidden"
-        style={{
-          height: 200,
-          background: gradient[band],
-          borderRadius: "0 0 24px 24px",
-        }}
-      >
-        <SceneArt band={band} />
+    <div
+      className="relative"
+      style={{
+        margin: "12px 16px",
+        height: 180,
+        borderRadius: 24,
+        overflow: "hidden",
+        boxShadow: "0 8px 24px rgba(180,150,140,0.18)",
+      }}
+    >
+      <FujiScene band={band} />
 
-        {/* Top row */}
-        <div className="absolute top-0 inset-x-0 flex items-center justify-between px-4" style={{ paddingTop: 14 }}>
-          <Link to="/settings" className="w-9 h-9 rounded-full bg-white/30 backdrop-blur flex items-center justify-center text-lg" style={{ border: "2px solid rgba(255,255,255,0.8)" }}>
-            🐕
-          </Link>
-          <div className="flex items-center gap-1.5">
-            <LanguageSwitcher />
-            <button className="w-9 h-9 rounded-full bg-white/25 backdrop-blur flex items-center justify-center" aria-label={t("通知", "Notifications")}>
-              <Bell className="w-4 h-4 text-white" />
-            </button>
-            <button
-              onClick={() => sosOpenSetter(true)}
-              className="pulse-red bg-destructive text-destructive-foreground rounded-full px-2.5 h-9 text-xs font-bold flex items-center gap-1"
-            >
-              🆘 SOS
-            </button>
-          </div>
+      {/* Greeting (bottom-left) */}
+      <div className="absolute" style={{ left: 16, bottom: 14, maxWidth: "65%" }}>
+        <div style={{ fontSize: 20, fontWeight: 700, color: textColor, lineHeight: 1.15 }}>
+          {t(greetJp, greetEn)}
         </div>
-
-        {/* Greeting */}
-        <div className="absolute inset-x-0 px-5" style={{ top: 78 }}>
-          <div
-            className="text-white font-bold leading-tight"
-            style={{ fontSize: 24, textShadow: "0 2px 8px rgba(0,0,0,0.25)" }}
-          >
-            {t(greetJp, greetEn)}
-          </div>
-          <div
-            className="mt-1"
-            style={{ fontSize: 13, color: "rgba(255,255,255,0.9)", textShadow: "0 1px 4px rgba(0,0,0,0.2)" }}
-          >
-            {t(moodJp, moodEn)}
-          </div>
+        <div style={{ fontSize: 12, color: subColor, marginTop: 4 }}>
+          {t(moodJp, moodEn)}
         </div>
       </div>
 
-      {/* Overlapping pill */}
-      <div className="absolute left-0 right-0 flex justify-center" style={{ bottom: -16 }}>
-        <div
-          className="bg-white rounded-full flex items-center gap-2"
-          style={{ padding: "8px 14px", boxShadow: "0 4px 16px rgba(180,150,140,0.18)" }}
-        >
-          <span className="w-2 h-2 rounded-full" style={{ background: "#6BAE9A" }} />
-          <span className="text-[12px] font-semibold" style={{ color: "#E8A598" }}>
-            {t(`全センサー稼働中 · ${score}/100`, `All sensors active · ${score}/100`)}
-          </span>
+      {/* Health chip (bottom-right) */}
+      <div className="absolute" style={{ right: 12, bottom: 14 }}>
+        <div style={{
+          background: "rgba(255,255,255,0.85)",
+          color: "#E8A598",
+          fontSize: 11, fontWeight: 700,
+          borderRadius: 20, padding: "4px 10px",
+          backdropFilter: "blur(4px)",
+        }}>
+          {score}/100 ✨
         </div>
       </div>
     </div>
-  );
-}
-
-function SceneArt({ band }: { band: TimeBand }) {
-  if (band === "morning") {
-    return (
-      <>
-        <div className="absolute rounded-full bg-yellow-100/70" style={{ width: 80, height: 80, top: 30, left: 30, filter: "blur(2px)" }} />
-        <div className="absolute" style={{ width: 80, height: 80, top: 30, left: 30, borderRadius: "50%", background: "radial-gradient(circle, #FFF4C2, transparent 70%)" }} />
-        {/* hills */}
-        <svg className="absolute bottom-0 inset-x-0" viewBox="0 0 400 80" preserveAspectRatio="none" style={{ height: 60, width: "100%" }}>
-          <path d="M0,80 Q100,30 200,50 T400,40 L400,80 Z" fill="#A3C9A8" opacity="0.6" />
-          <path d="M0,80 Q120,50 220,65 T400,55 L400,80 Z" fill="#7FB088" opacity="0.7" />
-        </svg>
-        {/* shiba */}
-        <div className="absolute" style={{ bottom: 22, right: 32 }}>
-          <div style={{ width: 22, height: 18, background: "#D2691E", borderRadius: "50% 50% 40% 40%", position: "relative" }}>
-            <div style={{ position: "absolute", top: -4, left: 1, width: 6, height: 8, background: "#D2691E", clipPath: "polygon(50% 0,100% 100%,0 100%)" }} />
-            <div style={{ position: "absolute", top: -4, right: 1, width: 6, height: 8, background: "#D2691E", clipPath: "polygon(50% 0,100% 100%,0 100%)" }} />
-            <div style={{ position: "absolute", top: 6, left: 5, width: 3, height: 3, background: "#2D2D2D", borderRadius: "50%" }} />
-            <div style={{ position: "absolute", top: 6, right: 5, width: 3, height: 3, background: "#2D2D2D", borderRadius: "50%" }} />
-          </div>
-        </div>
-        {/* birds */}
-        <svg className="absolute" style={{ top: 40, right: 80, width: 40, height: 20 }} viewBox="0 0 40 20" fill="none" stroke="white" strokeWidth="1.5" opacity="0.8">
-          <path d="M2 10 Q5 6 8 10 Q11 6 14 10" />
-          <path d="M20 6 Q23 2 26 6 Q29 2 32 6" />
-        </svg>
-        {/* cherry blossom */}
-        <div className="absolute" style={{ top: 70, right: 12, width: 50, height: 60 }}>
-          <div style={{ position: "absolute", bottom: 0, left: 22, width: 4, height: 30, background: "#5C4033", borderRadius: 2 }} />
-          {[[0,18],[14,8],[28,14],[10,28],[26,30],[20,2]].map(([l,t],i)=>(
-            <div key={i} className="absolute rounded-full" style={{ left: l, top: t, width: 14, height: 14, background: "#FFB7C5", opacity: 0.85 }}/>
-          ))}
-        </div>
-      </>
-    );
-  }
-  if (band === "afternoon") {
-    return (
-      <>
-        {[[40,30,40],[140,20,55],[260,40,50]].map(([l,t,w],i)=>(
-          <div key={i} className="absolute rounded-full bg-white/80" style={{ left: l, top: t, width: w, height: (w as number)*0.6 }}/>
-        ))}
-        <svg className="absolute bottom-0 inset-x-0" viewBox="0 0 400 80" preserveAspectRatio="none" style={{ height: 70, width: "100%" }}>
-          <path d="M0,80 Q100,40 200,55 T400,45 L400,80 Z" fill="#A3C9A8" />
-        </svg>
-        {/* petals */}
-        {[[60,90],[180,60],[300,100],[100,140],[260,130]].map(([l,t],i)=>(
-          <div key={i} className="absolute rounded-full" style={{ left: l, top: t, width: 6, height: 6, background: "#FFB7C5", opacity: 0.8 }}/>
-        ))}
-      </>
-    );
-  }
-  if (band === "evening") {
-    return (
-      <>
-        <div className="absolute rounded-full" style={{ width: 70, height: 70, top: 20, right: 40, background: "radial-gradient(circle,#FFE0B2,transparent 70%)" }}/>
-        <svg className="absolute bottom-0 inset-x-0" viewBox="0 0 400 80" preserveAspectRatio="none" style={{ height: 70, width: "100%" }}>
-          <path d="M0,80 Q100,30 200,50 T400,40 L400,80 Z" fill="#6B4E8A" opacity="0.5" />
-          <path d="M0,80 Q120,55 240,65 T400,60 L400,80 Z" fill="#4A3B6B" opacity="0.7" />
-        </svg>
-        {[[40,40],[100,30],[300,50],[350,30]].map(([l,t],i)=>(
-          <div key={i} className="absolute rounded-full bg-white" style={{ left:l,top:t,width:2,height:2,opacity:.7 }}/>
-        ))}
-      </>
-    );
-  }
-  // night
-  return (
-    <>
-      <div className="absolute" style={{ top: 28, right: 40, width: 36, height: 36, borderRadius: "50%", background: "#FFF8DC", boxShadow: "inset -10px 0 0 0 #2C3E6B" }} />
-      {Array.from({length: 30}).map((_,i)=>(
-        <div key={i} className="absolute rounded-full bg-white" style={{ left: (i*53)%380+10, top: (i*37)%140+20, width: i%5===0?3:1.5, height: i%5===0?3:1.5, opacity: 0.7 }}/>
-      ))}
-      <svg className="absolute bottom-0 inset-x-0" viewBox="0 0 400 80" preserveAspectRatio="none" style={{ height: 60, width: "100%" }}>
-        <path d="M0,80 Q200,50 400,70 L400,80 Z" fill="#1A2547" opacity="0.6"/>
-      </svg>
-    </>
   );
 }
 
@@ -239,8 +261,23 @@ function Home() {
   const score = 87;
 
   return (
-    <AppShell hideTopBar noPadding>
-      <HeroBanner score={score} sosOpenSetter={setSosOpen} />
+    <AppShell titleJp="" titleEn="" noPadding>
+      {/* Falling petals keyframes */}
+      <style>{`
+        @keyframes petalFall {
+          0% { transform: translateY(-10px) rotate(0deg); opacity: 0; }
+          15% { opacity: 0.7; }
+          100% { transform: translateY(190px) rotate(180deg); opacity: 0; }
+        }
+      `}</style>
+
+      {/* Background blobs */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden -z-10">
+        <div className="absolute rounded-full" style={{ top: -40, right: -40, width: 220, height: 220, background: "#FFB7C5", opacity: 0.04 }}/>
+        <div className="absolute rounded-full" style={{ bottom: 200, left: -60, width: 240, height: 240, background: "#B8D4C8", opacity: 0.04 }}/>
+      </div>
+
+      <JapanHeroCard score={score} />
 
       {sosOpen && (
         <div className="fixed inset-0 z-50 bg-black/50 flex items-end sm:items-center justify-center p-4" onClick={() => setSosOpen(false)}>
@@ -260,7 +297,7 @@ function Home() {
         </div>
       )}
 
-      <div className="px-4" style={{ paddingTop: 32 }}>
+      <div className="px-4">
       {/* Hero profile */}
       <Section>
         <div className="bg-card rounded-[20px] p-4 shadow-card flex gap-4 items-center">
