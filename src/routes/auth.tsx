@@ -104,11 +104,18 @@ function Auth() {
 /* ──────────────────────── Reusable inputs ──────────────────────── */
 
 export function JField({
-  icon, placeholder, type = "text", autoComplete, right,
+  icon, placeholder, type = "text", autoComplete, right, value, onChange,
 }: {
   icon: React.ReactNode; placeholder: string; type?: string; autoComplete?: string; right?: React.ReactNode;
+  value?: string; onChange?: (v: string) => void;
 }) {
-  const [val, setVal] = useState("");
+  const [internal, setInternal] = useState("");
+  const controlled = value !== undefined;
+  const val = controlled ? value! : internal;
+  const setVal = (v: string) => {
+    if (!controlled) setInternal(v);
+    onChange?.(v);
+  };
   const [focus, setFocus] = useState(false);
   const active = focus || val.length > 0;
   return (
