@@ -1,13 +1,15 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import AppShell from "@/components/AppShell";
 import { useEffect, useState, type ReactNode, type CSSProperties } from "react";
-import { DAILY_FACTS } from "@/lib/mock";
+import { DAILY_FACTS, BREEDS } from "@/lib/mock";
 import {
   Brain, Microscope, Activity, Thermometer, MapPin, Wind, Sun, GitMerge,
-  Check, BatteryMedium, Signal, Bluetooth, PawPrint, type LucideIcon,
+  Check, BatteryMedium, Signal, Bluetooth, PawPrint, X, type LucideIcon,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { T, useT, useLanguage } from "@/context/LanguageContext";
+import { usePet, displayName } from "@/context/PetContext";
+import DogAvatar, { BREED_KEY_BY_JP, type BreedKey } from "@/components/DogAvatar";
 
 export const Route = createFileRoute("/home")({ component: Home });
 
