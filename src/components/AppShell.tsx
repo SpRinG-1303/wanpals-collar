@@ -65,16 +65,16 @@ export function BottomNav() {
   const loc = useLocation();
   const t = useT();
   return (
-    <nav className="fixed bottom-0 inset-x-0 z-40 bg-card/95 backdrop-blur-md border-t border-border">
+    <nav className="fixed bottom-0 inset-x-0 z-40 bg-card/95 backdrop-blur-md" style={{ borderTop: "1px solid #F0E8E5" }}>
       <div className="grid grid-cols-5 max-w-md mx-auto">
         {tabs.map((tab) => {
           const active = loc.pathname.startsWith(tab.to);
           const Icon = tab.icon;
           return (
             <Link key={tab.to} to={tab.to} className="relative flex flex-col items-center justify-center py-2 min-h-[56px]">
-              <Icon className={`w-5 h-5 ${active ? "text-sakura" : "text-muted-foreground"}`} />
-              <span className={`text-[10px] mt-0.5 ${active ? "text-sakura font-bold" : "text-muted-foreground"}`}>{t(tab.jp, tab.en)}</span>
-              {active && <span className="absolute bottom-0 h-1 w-8 bg-sakura rounded-t-full" />}
+              <Icon className="w-5 h-5" style={{ color: active ? "#E8A598" : "#C4B5B0" }} />
+              <span className="text-[10px] mt-0.5" style={{ color: active ? "#E8A598" : "#C4B5B0", fontWeight: active ? 700 : 400 }}>{t(tab.jp, tab.en)}</span>
+              {active && <span className="absolute bottom-1 w-1.5 h-1.5 rounded-full" style={{ background: "#E8A598" }} />}
             </Link>
           );
         })}
@@ -83,15 +83,15 @@ export function BottomNav() {
   );
 }
 
-export default function AppShell({ children, titleJp, titleEn }: { children: ReactNode; titleJp?: string; titleEn?: string }) {
+export default function AppShell({ children, titleJp, titleEn, hideTopBar = false, noPadding = false }: { children: ReactNode; titleJp?: string; titleEn?: string; hideTopBar?: boolean; noPadding?: boolean }) {
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (localStorage.getItem("wancare-theme") === "dark") document.documentElement.classList.add("dark");
   }, []);
   return (
     <div className="min-h-screen bg-background pb-20 max-w-md mx-auto">
-      <TopBar titleJp={titleJp} titleEn={titleEn} />
-      <main className="px-4 py-4">{children}</main>
+      {!hideTopBar && <TopBar titleJp={titleJp} titleEn={titleEn} />}
+      <main className={noPadding ? "" : "px-4 py-4"}>{children}</main>
       <BottomNav />
     </div>
   );
