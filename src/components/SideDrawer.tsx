@@ -140,11 +140,11 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
           width: "min(280px, 80%)",
           background: "#FFFFFF",
           boxShadow: "8px 0 32px rgba(0,0,0,0.15)",
-          transform: isOpen ? "translateX(0)" : "translateX(-280px)",
+          transform: isOpen ? "translateX(0)" : "translateX(-100%)",
           transition: isOpen
             ? "transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1)"
             : "transform 0.25s ease",
-          zIndex: 9999,
+          zIndex: 999,
           display: "flex",
           flexDirection: "column",
         }}
