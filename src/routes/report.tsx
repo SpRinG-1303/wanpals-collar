@@ -37,7 +37,7 @@ function Report() {
   return (
     <AppShell titleJp="健康レポート" titleEn="Health Report">
       {/* Hero Summary Card */}
-      <HeroCard dogName={dogName} />
+      <HeroCard pet={pet} dogName={dogName} />
 
       {/* Time filter tabs */}
       <div
