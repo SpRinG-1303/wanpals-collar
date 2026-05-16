@@ -192,8 +192,8 @@ function Community() {
           { icon: <FileText size={14} style={{ color: "#7B68C8" }} />, n: "3,420", jp: "投稿", en: "Posts" },
           { icon: <PawPrint size={14} style={{ color: "#6BAF92" }} />, n: "892", jp: "ワンちゃん", en: "Dogs" },
         ].map((s, i, arr) => (
-          <>
-            <div key={s.en} style={{ textAlign: "center" }}>
+          <span key={s.en} style={{ display: "contents" }}>
+            <div style={{ textAlign: "center" }}>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 4 }}>
                 {s.icon}
                 <span style={{ fontSize: 18, fontWeight: 800, color: "#2C2C2C" }} className="tabular-nums">{s.n}</span>
