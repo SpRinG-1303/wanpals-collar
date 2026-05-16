@@ -1,5 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import AppShell from "@/components/AppShell";
+import { HamburgerButton } from "@/components/SideDrawer";
 import { useState, useRef, useEffect, useCallback } from "react";
 import {
   Camera,
@@ -284,86 +285,84 @@ function AI() {
   };
 
   return (
-    <AppShell hideTopBar noPadding>
-      <div
-        className="min-h-screen pb-[200px]"
-        style={{ background: `url("${PAW_PATTERN}") repeat, #FAFAF8` }}
-      >
-        {/* HEADER */}
+    <AppShell
+      fullHeight
+      noPadding
+      renderTopBar={({ menuOpen, onMenuClick }) => (
         <div
           style={{
+            flexShrink: 0,
             background: "#FFFFFF",
-            borderRadius: "0 0 24px 24px",
-            boxShadow: "0 4px 20px rgba(0,0,0,0.07)",
-            padding: "16px 20px",
+            boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
+            padding: "10px 14px",
+            display: "flex",
+            alignItems: "center",
+            gap: 10,
           }}
         >
-          <div className="flex items-center gap-3">
-            <div className="relative shrink-0">
-              <div
-                className="flex items-center justify-center overflow-hidden"
-                style={{
-                  width: 56,
-                  height: 56,
-                  borderRadius: "50%",
-                  background: "linear-gradient(135deg, #F0ECFF, #E8E0FF)",
-                  border: "2px solid #C8C0F0",
-                  boxShadow: "0 4px 12px rgba(123,104,200,0.2)",
-                }}
-              >
-                <DogAvatar breed="shiba" size={52} ring={false} showCollar={false} eyeStyle="sparkle" />
-              </div>
-              <div
-                style={{
-                  position: "absolute",
-                  right: -2,
-                  bottom: -2,
-                  width: 16,
-                  height: 16,
-                  borderRadius: "50%",
-                  background: "#6BAF92",
-                  border: "2px solid #FFFFFF",
-                }}
-              />
-            </div>
-            <div className="flex-1 min-w-0">
-              <div className="flex items-baseline gap-1.5 flex-wrap">
-                <span style={{ fontSize: 17, fontWeight: 800, color: "#2C2C2C" }}>ワンケアAI</span>
-                <span style={{ fontSize: 13, color: "#8A8A8A" }}>WanCare AI</span>
-              </div>
-              <div className="flex items-center gap-1.5 mt-0.5">
-                <span className="relative inline-block" style={{ width: 6, height: 6 }}>
-                  <span className="absolute inset-0 rounded-full" style={{ background: "#6BAF92" }} />
-                  <span className="absolute inset-0 rounded-full pulse-dot" style={{ background: "#6BAF92" }} />
-                </span>
-                <span style={{ fontSize: 12, color: "#6BAF92", fontWeight: 600 }}>
-                  {t("オンライン", "Online")}
-                </span>
-                <span style={{ fontSize: 11, color: "#C4B8B4" }}>·</span>
-                <span style={{ fontSize: 12, color: "#8A8A8A" }}>{t("獣医監修", "Vet-supervised")}</span>
-              </div>
-            </div>
-            <button
-              className={`shrink-0 flex items-center justify-center ${sosActive ? "sos-pulse" : ""}`}
+          <HamburgerButton isOpen={menuOpen} onClick={onMenuClick} />
+          <div className="relative shrink-0">
+            <div
+              className="flex items-center justify-center overflow-hidden"
               style={{
                 width: 40,
                 height: 40,
                 borderRadius: "50%",
-                background: sosActive ? "#E53935" : "#FFF0F0",
-                color: sosActive ? "#FFFFFF" : "#E53935",
-                fontWeight: 800,
-                fontSize: 11,
-                border: "2px solid #E53935",
+                background: "linear-gradient(135deg, #F0ECFF, #E8E0FF)",
+                border: "2px solid #C8C0F0",
+                boxShadow: "0 4px 10px rgba(123,104,200,0.2)",
               }}
-              aria-label="SOS"
             >
-              SOS
-            </button>
+              <DogAvatar breed="shiba" size={36} ring={false} showCollar={false} eyeStyle="sparkle" />
+            </div>
+            <div
+              style={{
+                position: "absolute", right: -1, bottom: -1, width: 11, height: 11,
+                borderRadius: "50%", background: "#6BAF92", border: "2px solid #FFFFFF",
+              }}
+            />
           </div>
+          <div className="flex-1 min-w-0">
+            <div className="flex items-baseline gap-1.5 truncate">
+              <span style={{ fontSize: 14, fontWeight: 800, color: "#2C2C2C" }}>ワンケアAI</span>
+              <span style={{ fontSize: 11, color: "#8A8A8A" }}>WanCare AI</span>
+            </div>
+            <div className="flex items-center gap-1 mt-0.5">
+              <span className="relative inline-block" style={{ width: 5, height: 5 }}>
+                <span className="absolute inset-0 rounded-full" style={{ background: "#6BAF92" }} />
+                <span className="absolute inset-0 rounded-full pulse-dot" style={{ background: "#6BAF92" }} />
+              </span>
+              <span style={{ fontSize: 10, color: "#6BAF92", fontWeight: 600 }}>{t("オンライン", "Online")}</span>
+              <span style={{ fontSize: 10, color: "#C4B8B4" }}>·</span>
+              <span style={{ fontSize: 10, color: "#8A8A8A" }}>{t("獣医監修", "Vet-supervised")}</span>
+            </div>
+          </div>
+          <button
+            className={`shrink-0 flex items-center justify-center ${sosActive ? "sos-pulse" : ""}`}
+            style={{
+              padding: "0 12px", height: 32, borderRadius: 16,
+              background: "#E53935", color: "#FFFFFF",
+              fontWeight: 800, fontSize: 11, letterSpacing: "0.05em",
+              boxShadow: "0 4px 10px rgba(229,57,53,0.35)",
+            }}
+            aria-label="SOS"
+          >
+            SOS
+          </button>
         </div>
-
+      )}
+    >
+      <div
+        style={{
+          flex: 1,
+          minHeight: 0,
+          display: "flex",
+          flexDirection: "column",
+          background: `url("${PAW_PATTERN}") repeat, #FAFAF8`,
+        }}
+      >
         {/* CHAT */}
-        <div ref={scrollRef} className="px-4 pt-3 space-y-3">
+        <div ref={scrollRef} className="px-4 pt-3 space-y-3" style={{ flex: 1, minHeight: 0, overflowY: "auto", overflowX: "hidden" }}>
           <div className="flex items-center justify-center my-3">
             <div
               style={{
@@ -379,6 +378,7 @@ function AI() {
               {t("今日", "Today")}
             </div>
           </div>
+
 
           <AnimatePresence initial={false}>
             {msgs.map((m) => {
@@ -521,7 +521,7 @@ function AI() {
       </div>
 
       {/* COMPOSER */}
-      <div className="fixed bottom-16 inset-x-0 max-w-md mx-auto z-30">
+      <div style={{ flexShrink: 0 }}>
         <div style={{ background: "#FFFFFF", borderTop: "1px solid #F0ECE8", padding: "10px 16px" }}>
           <div className="flex gap-2 overflow-x-auto scrollbar-hide">
             {QUICK.map((q) => {
