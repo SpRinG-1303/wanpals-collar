@@ -115,15 +115,17 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
         onClick={onClose}
         aria-hidden={!isOpen}
         style={{
-          position: "fixed",
+          position: "absolute",
           inset: 0,
+          width: "100%",
+          height: "100%",
           background: "rgba(0,0,0,0.4)",
           backdropFilter: "blur(4px)",
           WebkitBackdropFilter: "blur(4px)",
           opacity: isOpen ? 1 : 0,
           pointerEvents: isOpen ? "auto" : "none",
           transition: "opacity 0.3s ease",
-          zIndex: 9998,
+          zIndex: 998,
         }}
       />
       {/* Drawer */}
@@ -131,11 +133,11 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
         role="dialog"
         aria-label="Navigation"
         style={{
-          position: "fixed",
+          position: "absolute",
           left: 0,
           top: 0,
           bottom: 0,
-          width: 280,
+          width: "min(280px, 80%)",
           background: "#FFFFFF",
           boxShadow: "8px 0 32px rgba(0,0,0,0.15)",
           transform: isOpen ? "translateX(0)" : "translateX(-280px)",
