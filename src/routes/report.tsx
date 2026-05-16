@@ -1,100 +1,607 @@
 import { createFileRoute } from "@tanstack/react-router";
 import AppShell from "@/components/AppShell";
-import { LineChart, Line, BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Tooltip } from "recharts";
-import { useState } from "react";
-import { QrCode, FileDown } from "lucide-react";
+import {
+  AreaChart, Area, BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Tooltip,
+  CartesianGrid, ReferenceLine, ReferenceArea,
+} from "recharts";
+import { useState, type ReactNode } from "react";
+import {
+  QrCode, FileDown, Activity, Thermometer, Footprints, Moon,
+  Syringe, Check, Clock, AlertTriangle, Stethoscope, Cross, FileHeart,
+} from "lucide-react";
 import { useT, useLanguage } from "@/context/LanguageContext";
+import { usePet } from "@/context/PetContext";
 
 export const Route = createFileRoute("/report")({ component: Report });
 
-const score = Array.from({ length: 14 }, (_, i) => ({ d: `${i + 1}`, v: 70 + Math.round(Math.sin(i / 2) * 8 + i) }));
-const temp = Array.from({ length: 14 }, (_, i) => ({ d: `${i + 1}`, v: 38.2 + Math.sin(i) * 0.4 }));
+const TABS = ["1d", "1w", "1m", "3m", "6m", "4y"] as const;
 
 function Report() {
   const t = useT();
   const { language } = useLanguage();
-  const [tab, setTab] = useState("1w");
+  const { pet } = usePet();
+  const [tab, setTab] = useState<(typeof TABS)[number]>("1w");
 
-  const stepDays = language === "english"
-    ? ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"]
-    : ["月","火","水","木","金","土","日"];
-  const steps = stepDays.map((d) => ({ d, v: 1500 + Math.round(Math.random() * 2500) }));
+  const dogName = pet.name || (language === "english" ? "your dog" : "ワンちゃん");
+
+  const dayLabels = language === "english"
+    ? ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+    : ["月", "火", "水", "木", "金", "土", "日"];
+
+  const scoreData = [82, 85, 83, 87, 86, 88, 87].map((v, i) => ({ d: dayLabels[i], v }));
+  const tempData = [38.3, 38.6, 38.4, 38.8, 38.5, 38.7, 38.5].map((v, i) => ({ d: dayLabels[i], v }));
+  const stepsData = [1800, 2600, 2400, 2200, 2000, 2800, 3100].map((v, i) => ({ d: dayLabels[i], v }));
+  const sleepData = [7.2, 8.1, 7.5, 6.8, 7.9, 8.4, 7.5].map((v, i) => ({ d: dayLabels[i], v }));
 
   return (
-    <AppShell titleJp="📊 健康レポート" titleEn="📊 Health Report">
-      <div className="flex gap-1 bg-muted p-1 rounded-full">
-        {["1d","1w","1m","3m","6m","4y"].map((tb) => (
-          <button key={tb} onClick={() => setTab(tb)} className={`flex-1 py-2 text-xs font-bold rounded-full ${tab === tb ? "bg-card text-primary shadow-soft" : "text-muted-foreground"}`}>{tb}</button>
-        ))}
+    <AppShell titleJp="健康レポート" titleEn="Health Report">
+      {/* Hero Summary Card */}
+      <HeroCard dogName={dogName} />
+
+      {/* Time filter tabs */}
+      <div
+        style={{
+          background: "#FFFFFF",
+          borderRadius: 16,
+          padding: 4,
+          margin: "0 0 12px",
+          boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
+          display: "flex",
+        }}
+      >
+        {TABS.map((tb) => {
+          const active = tab === tb;
+          return (
+            <button
+              key={tb}
+              onClick={() => setTab(tb)}
+              style={{
+                flex: 1,
+                height: 36,
+                borderRadius: 12,
+                fontSize: 12,
+                fontWeight: 700,
+                color: active ? "#fff" : "#C4B8B4",
+                background: active ? "linear-gradient(135deg, #E8829A, #C86882)" : "transparent",
+                boxShadow: active ? "0 2px 8px rgba(232,130,154,0.3)" : "none",
+                transition: "all 0.2s",
+              }}
+            >
+              {tb}
+            </button>
+          );
+        })}
       </div>
 
-      <Card jp="健康スコア推移" en="Health Score Timeline">
-        <ResponsiveContainer width="100%" height={140}>
-          <LineChart data={score}><Line type="monotone" dataKey="v" stroke="#4CAF82" strokeWidth={3} dot={false}/><XAxis dataKey="d" tick={{fontSize:10}}/><YAxis hide domain={[60,100]}/><Tooltip/></LineChart>
+      <SectionDivider jp="センサーデータ" en="Sensor Data" />
+
+      {/* Health Score */}
+      <ChartCard
+        topStrip="linear-gradient(90deg, #E8F5EE, #D4F0E4)"
+        icon={<Activity size={18} color="#6BAF92" />}
+        iconBg="#E8F5EE"
+        titleJp="健康スコア推移"
+        titleEn="Health Score"
+        chipText="87 / 100"
+        chipBg="#E8F5EE"
+        chipColor="#6BAF92"
+      >
+        <ResponsiveContainer width="100%" height={160}>
+          <AreaChart data={scoreData} margin={{ top: 8, right: 8, left: -16, bottom: 0 }}>
+            <defs>
+              <linearGradient id="scoreFill" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#6BAF92" stopOpacity={0.3} />
+                <stop offset="100%" stopColor="#6BAF92" stopOpacity={0} />
+              </linearGradient>
+            </defs>
+            <CartesianGrid strokeDasharray="3 3" stroke="#F5F0EC" vertical={false} />
+            <XAxis dataKey="d" tick={{ fill: "#C4B8B4", fontSize: 10 }} axisLine={false} tickLine={false} />
+            <YAxis domain={[60, 100]} tick={{ fill: "#C4B8B4", fontSize: 10 }} axisLine={false} tickLine={false} />
+            <Tooltip content={<NiceTooltip color="#6BAF92" suffix="" />} />
+            <Area type="monotone" dataKey="v" stroke="#6BAF92" strokeWidth={2.5} fill="url(#scoreFill)"
+              dot={{ r: 3, fill: "#6BAF92" }} animationDuration={1000} />
+          </AreaChart>
         </ResponsiveContainer>
-      </Card>
+      </ChartCard>
 
-      <Card jp="体温履歴 · 平均 38.5°C" en="Temperature History · Avg 38.5°C">
-        <ResponsiveContainer width="100%" height={140}>
-          <LineChart data={temp}><Line type="monotone" dataKey="v" stroke="#F4A623" strokeWidth={3} dot={false}/><XAxis dataKey="d" tick={{fontSize:10}}/><YAxis hide domain={[37,40]}/><Tooltip/></LineChart>
+      {/* Temperature */}
+      <ChartCard
+        topStrip="linear-gradient(90deg, #FFE8DC, #FFF2EC)"
+        icon={<Thermometer size={18} color="#D4714E" />}
+        iconBg="#FFE8DC"
+        titleJp="体温履歴"
+        titleEn="Temperature History"
+        chipText="Avg 38.5°C"
+        chipBg="#FFE8DC"
+        chipColor="#D4714E"
+      >
+        <ResponsiveContainer width="100%" height={160}>
+          <AreaChart data={tempData} margin={{ top: 8, right: 8, left: -16, bottom: 0 }}>
+            <defs>
+              <linearGradient id="tempFill" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#D4714E" stopOpacity={0.2} />
+                <stop offset="100%" stopColor="#D4714E" stopOpacity={0} />
+              </linearGradient>
+            </defs>
+            <CartesianGrid strokeDasharray="3 3" stroke="#F5F0EC" vertical={false} />
+            <XAxis dataKey="d" tick={{ fill: "#C4B8B4", fontSize: 10 }} axisLine={false} tickLine={false} />
+            <YAxis domain={[37.5, 39.5]} tick={{ fill: "#C4B8B4", fontSize: 10 }} axisLine={false} tickLine={false} />
+            <ReferenceArea y1={38.0} y2={39.2} fill="#FFF0EC" fillOpacity={0.3} />
+            <ReferenceLine y={38.5} stroke="#D4714E" strokeDasharray="4 4" strokeOpacity={0.4}
+              label={{ value: t("正常", "Normal"), position: "right", fill: "#D4714E", fontSize: 10 }} />
+            <Tooltip content={<NiceTooltip color="#D4714E" suffix="°C" />} />
+            <Area type="monotone" dataKey="v" stroke="#D4714E" strokeWidth={2.5} fill="url(#tempFill)"
+              dot={{ r: 3, fill: "#D4714E" }} animationDuration={1000} />
+          </AreaChart>
         </ResponsiveContainer>
-      </Card>
+      </ChartCard>
 
-      <Card jp="運動量" en="Activity / Steps">
-        <ResponsiveContainer width="100%" height={140}>
-          <BarChart data={steps}><Bar dataKey="v" fill="#FFB7C5" radius={[8,8,0,0]}/><XAxis dataKey="d" tick={{fontSize:10}}/><YAxis hide/><Tooltip/></BarChart>
+      {/* Activity Steps */}
+      <ChartCard
+        topStrip="linear-gradient(90deg, #E8F2FF, #EEF5FF)"
+        icon={<Footprints size={18} color="#5B9BD5" />}
+        iconBg="#E8F2FF"
+        titleJp="運動・歩数"
+        titleEn="Activity Steps"
+        chipText="Avg 2,340"
+        chipBg="#E8F2FF"
+        chipColor="#5B9BD5"
+      >
+        <ResponsiveContainer width="100%" height={160}>
+          <BarChart data={stepsData} margin={{ top: 8, right: 8, left: -16, bottom: 0 }}>
+            <defs>
+              <linearGradient id="stepsFill" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#5B9BD5" stopOpacity={1} />
+                <stop offset="100%" stopColor="#A8CCEA" stopOpacity={1} />
+              </linearGradient>
+            </defs>
+            <CartesianGrid strokeDasharray="3 3" stroke="#F5F0EC" vertical={false} />
+            <XAxis dataKey="d" tick={{ fill: "#C4B8B4", fontSize: 10 }} axisLine={false} tickLine={false} />
+            <YAxis tick={{ fill: "#C4B8B4", fontSize: 10 }} axisLine={false} tickLine={false} />
+            <ReferenceLine y={3000} stroke="#5B9BD5" strokeDasharray="4 4" strokeOpacity={0.4}
+              label={{ value: t("目標", "Goal"), position: "right", fill: "#5B9BD5", fontSize: 10 }} />
+            <Tooltip content={<NiceTooltip color="#5B9BD5" suffix="" />} />
+            <Bar dataKey="v" fill="url(#stepsFill)" radius={[6, 6, 0, 0]} animationDuration={1000} />
+          </BarChart>
         </ResponsiveContainer>
-      </Card>
+      </ChartCard>
 
-      <Card jp="ワクチン記録" en="Vaccination Records">
-        <ul className="text-sm space-y-2">
-          {([
-            ["狂犬病", "Rabies", "2025/04/15", true],
-            ["混合ワクチン", "Combination", "2025/03/02", true],
-            ["フィラリア予防", "Heartworm", "2026/01/20", true],
-            ["ノミ・ダニ予防", "Flea & Tick", t("次回予定 2026年06月", "Next: June 2026"), false],
-          ] as const).map(([jp, en, d, c]) => (
-            <li key={en} className="flex items-center justify-between">
-              <span className="flex items-center gap-2"><input type="checkbox" defaultChecked={c as boolean} className="accent-success"/>{t(jp, en)}</span>
-              <span className="text-xs text-muted-foreground">{d}</span>
-            </li>
-          ))}
-        </ul>
-      </Card>
+      {/* Sleep */}
+      <ChartCard
+        topStrip="linear-gradient(90deg, #F0ECFF, #F8F5FF)"
+        icon={<Moon size={18} color="#7B68C8" />}
+        iconBg="#F0ECFF"
+        titleJp="睡眠パターン"
+        titleEn="Sleep Pattern"
+        chipText="Avg 7.5h"
+        chipBg="#F0ECFF"
+        chipColor="#7B68C8"
+      >
+        <ResponsiveContainer width="100%" height={160}>
+          <BarChart data={sleepData} margin={{ top: 8, right: 8, left: -16, bottom: 0 }}>
+            <defs>
+              <linearGradient id="sleepFill" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#7B68C8" stopOpacity={1} />
+                <stop offset="100%" stopColor="#9B88D8" stopOpacity={1} />
+              </linearGradient>
+            </defs>
+            <CartesianGrid strokeDasharray="3 3" stroke="#F5F0EC" vertical={false} />
+            <XAxis dataKey="d" tick={{ fill: "#C4B8B4", fontSize: 10 }} axisLine={false} tickLine={false} />
+            <YAxis domain={[0, 12]} tick={{ fill: "#C4B8B4", fontSize: 10 }} axisLine={false} tickLine={false} />
+            <ReferenceArea y1={8} y2={10} fill="#7B68C8" fillOpacity={0.06} />
+            <Tooltip content={<NiceTooltip color="#7B68C8" suffix="h" />} />
+            <Bar dataKey="v" fill="url(#sleepFill)" radius={[6, 6, 0, 0]} animationDuration={1000} />
+          </BarChart>
+        </ResponsiveContainer>
+      </ChartCard>
 
-      <Card jp="最終受診" en="Last Vet Visit">
-        <div className="text-sm">{t("渋谷動物病院 — 2026年04月20日", "Shibuya Animal Hospital — Apr 20, 2026")}</div>
-        <div className="text-xs text-muted-foreground">{t("健康診断: 異常なし ✓", "Health check: All clear ✓")}</div>
-      </Card>
+      <SectionDivider jp="健康記録" en="Health Records" />
 
-      <div className="grid grid-cols-2 gap-3 mt-4">
-        <div className="bg-card rounded-2xl p-4 shadow-card text-center">
-          <QrCode className="w-12 h-12 mx-auto text-primary"/>
-          <div className="text-xs font-bold mt-2">📱 {t("獣医用QRコード", "Vet QR Code")}</div>
-          <div className="text-[10px] text-muted-foreground">{t("毎回新しいQR生成", "New QR every time")}</div>
-          <button className="mt-2 w-full bg-primary text-primary-foreground rounded-xl py-2 text-xs font-bold">{t("生成", "Generate")}</button>
-        </div>
-        <div className="bg-gradient-to-br from-warning/30 to-sakura-soft rounded-2xl p-4 shadow-card">
-          <div className="text-xs font-bold">💰 {t("レポート販売", "Sell Report")}</div>
-          <ul className="text-[10px] space-y-0.5 mt-2">
-            <li>① {t("ワクチン履歴", "Vaccination history")}</li>
-            <li>② {t("最終健診", "Last checkup")}</li>
-            <li>③ {t("年間データ", "Annual data")}</li>
-          </ul>
-          <button className="mt-2 w-full bg-primary text-primary-foreground rounded-xl py-2 text-xs font-bold flex items-center justify-center gap-1"><FileDown className="w-3 h-3"/> {t("PDF書出し", "PDF Export")}</button>
-        </div>
+      <VaccinationCard />
+      <LastVisitCard />
+
+      <SectionDivider jp="レポート" en="Reports" />
+
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 12, alignItems: "stretch" }}>
+        <QRCard />
+        <SellCard />
       </div>
     </AppShell>
   );
 }
 
-function Card({ jp, en, children }: { jp: string; en: string; children: React.ReactNode }) {
+/* ─────────── Hero ─────────── */
+function HeroCard({ dogName }: { dogName: string }) {
+  const t = useT();
+  const score = 87;
+  const circ = 2 * Math.PI * 34;
+  const offset = circ - (score / 100) * circ;
+  return (
+    <div
+      style={{
+        background: "linear-gradient(135deg, #FFF0F5 0%, #F5F0FF 50%, #EEF5FF 100%)",
+        borderRadius: 24,
+        padding: 20,
+        marginBottom: 16,
+        boxShadow: "0 8px 24px rgba(232,130,154,0.12)",
+      }}
+    >
+      <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
+        <div
+          style={{
+            width: 48, height: 48, borderRadius: "50%",
+            background: "#fff", border: "2px solid #E8829A",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            fontSize: 24, boxShadow: "0 2px 8px rgba(232,130,154,0.2)",
+          }}
+        >
+          <FileHeart size={22} color="#E8829A" />
+        </div>
+        <div style={{ flex: 1 }}>
+          <div style={{ fontSize: 11, color: "#8A8A8A", letterSpacing: "0.08em", textTransform: "uppercase" }}>
+            {t("健康サマリー", "Health Summary")}
+          </div>
+          <div style={{ fontSize: 16, fontWeight: 700, color: "#2C2C2C" }}>{dogName}</div>
+        </div>
+      </div>
+
+      <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+        {/* Score ring */}
+        <div style={{ position: "relative", width: 80, height: 80, flexShrink: 0 }}>
+          <svg width={80} height={80} viewBox="0 0 80 80">
+            <circle cx={40} cy={40} r={34} stroke="#E0F0E8" strokeWidth={8} fill="none" />
+            <circle
+              cx={40} cy={40} r={34} stroke="#6BAF92" strokeWidth={8} fill="none"
+              strokeLinecap="round" strokeDasharray={circ} strokeDashoffset={offset}
+              transform="rotate(-90 40 40)"
+            />
+          </svg>
+          <div style={{
+            position: "absolute", inset: 0, display: "flex",
+            alignItems: "center", justifyContent: "center", flexDirection: "column",
+          }}>
+            <span style={{ fontSize: 22, fontWeight: 700, color: "#2C2C2C", lineHeight: 1 }}>{score}</span>
+            <span style={{ fontSize: 10, color: "#8A8A8A" }}>/100</span>
+          </div>
+        </div>
+
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 8 }}>
+          <MiniStat emoji="🌡️" value="38.5°C" color="#D4714E" labelJp="体温平均" labelEn="Avg Temp" />
+          <MiniStat emoji="🏃" value="2,340" color="#5B9BD5" labelJp="平均歩数" labelEn="Avg Steps" />
+          <MiniStat emoji="😴" value="7.5h" color="#7B68C8" labelJp="睡眠時間" labelEn="Sleep" />
+        </div>
+      </div>
+
+      <div style={{
+        display: "flex", justifyContent: "space-between", alignItems: "center",
+        marginTop: 14, paddingTop: 12, borderTop: "1px solid rgba(255,255,255,0.6)",
+      }}>
+        <span style={{ fontSize: 11, color: "#6BAF92", fontWeight: 600 }}>
+          ✓ {t("全センサー正常", "All sensors normal")}
+        </span>
+        <span style={{ fontSize: 11, color: "#8A8A8A" }}>
+          {t("2026年5月16日", "May 16, 2026")}
+        </span>
+      </div>
+    </div>
+  );
+}
+
+function MiniStat({ emoji, value, color, labelJp, labelEn }: {
+  emoji: string; value: string; color: string; labelJp: string; labelEn: string;
+}) {
+  const t = useT();
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+      <span style={{ fontSize: 14 }}>{emoji}</span>
+      <div style={{ display: "flex", flexDirection: "column" }}>
+        <span style={{ fontSize: 13, fontWeight: 700, color, lineHeight: 1.1 }}>{value}</span>
+        <span style={{ fontSize: 10, color: "#8A8A8A", lineHeight: 1.2 }}>{t(labelJp, labelEn)}</span>
+      </div>
+    </div>
+  );
+}
+
+/* ─────────── Section Divider ─────────── */
+function SectionDivider({ jp, en }: { jp: string; en: string }) {
+  const t = useT();
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: 10, margin: "4px 0 10px" }}>
+      <div style={{ flex: 1, height: 1, background: "#EDE8E4" }} />
+      <span style={{ fontSize: 11, color: "#C4B8B4", letterSpacing: "0.1em" }}>
+        {t(jp, en)}
+      </span>
+      <div style={{ flex: 1, height: 1, background: "#EDE8E4" }} />
+    </div>
+  );
+}
+
+/* ─────────── Chart Card Wrapper ─────────── */
+function ChartCard({
+  topStrip, icon, iconBg, titleJp, titleEn, chipText, chipBg, chipColor, children,
+}: {
+  topStrip: string; icon: ReactNode; iconBg: string;
+  titleJp: string; titleEn: string;
+  chipText: string; chipBg: string; chipColor: string;
+  children: ReactNode;
+}) {
+  const t = useT();
   const { language } = useLanguage();
   return (
-    <div className="mt-3 bg-card rounded-2xl p-4 shadow-card">
-      <div className="text-sm font-bold">{language === "english" ? en : jp}</div>
-      {language === "mixed" && <div className="text-[10px] text-muted-foreground mb-2">{en}</div>}
-      {children}
+    <div style={{
+      background: "#FFFFFF", borderRadius: 20, marginBottom: 12,
+      boxShadow: "0 4px 16px rgba(0,0,0,0.07)", overflow: "hidden",
+    }}>
+      <div style={{ height: 6, background: topStrip }} />
+      <div style={{
+        display: "flex", justifyContent: "space-between", alignItems: "center",
+        padding: "14px 16px 4px",
+      }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <div style={{
+            width: 32, height: 32, borderRadius: 10, background: iconBg,
+            display: "flex", alignItems: "center", justifyContent: "center",
+          }}>{icon}</div>
+          <div>
+            <div style={{ fontSize: 14, fontWeight: 600, color: "#2C2C2C" }}>
+              {t(titleJp, titleEn)}
+            </div>
+            {language === "mixed" && (
+              <div style={{ fontSize: 11, color: "#8A8A8A" }}>{titleEn}</div>
+            )}
+          </div>
+        </div>
+        <span style={{
+          background: chipBg, color: chipColor, fontSize: 12, fontWeight: 700,
+          padding: "4px 12px", borderRadius: 20,
+        }}>{chipText}</span>
+      </div>
+      <div style={{ padding: "8px 8px 12px" }}>{children}</div>
+    </div>
+  );
+}
+
+function NiceTooltip({ active, payload, label, color, suffix }: any) {
+  if (!active || !payload?.length) return null;
+  return (
+    <div style={{
+      background: "#fff", border: `1px solid ${color}`, borderRadius: 12,
+      padding: "6px 10px", fontSize: 11, color: "#2C2C2C",
+      boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
+    }}>
+      <div style={{ color: "#8A8A8A" }}>{label}</div>
+      <div style={{ fontWeight: 700, color }}>{payload[0].value}{suffix}</div>
+    </div>
+  );
+}
+
+/* ─────────── Vaccination Card ─────────── */
+type VaxStatus = "current" | "soon" | "overdue";
+function VaccinationCard() {
+  const t = useT();
+  const vaccines: { jp: string; en: string; date: string; status: VaxStatus }[] = [
+    { jp: "狂犬病", en: "Rabies", date: "2025/04/15", status: "current" },
+    { jp: "混合ワクチン", en: "Combination", date: "2025/03/02", status: "current" },
+    { jp: "フィラリア", en: "Heartworm", date: "2026/01/20", status: "current" },
+    { jp: "ノミ・マダニ", en: "Flea & Tick", date: t("次回 2026年6月", "Next: Jun 2026"), status: "soon" },
+  ];
+  return (
+    <div style={{
+      background: "#FFFFFF", borderRadius: 20, marginBottom: 12,
+      boxShadow: "0 4px 16px rgba(0,0,0,0.07)", overflow: "hidden",
+      borderLeft: "4px solid #6BAF92",
+    }}>
+      <div style={{ height: 6, background: "linear-gradient(90deg, #E8F5EE, #F2FAF5)" }} />
+      <div style={{
+        display: "flex", justifyContent: "space-between", alignItems: "center",
+        padding: "14px 16px 10px",
+      }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <Syringe size={18} color="#6BAF92" />
+          <span style={{ fontSize: 14, fontWeight: 700, color: "#2C2C2C" }}>
+            {t("ワクチン記録", "Vaccination Records")}
+          </span>
+        </div>
+        <span style={{
+          background: "#E8F5EE", color: "#6BAF92", fontSize: 11, fontWeight: 700,
+          padding: "3px 10px", borderRadius: 20,
+        }}>{t("4件", "4 records")}</span>
+      </div>
+      <div>
+        {vaccines.map((v, i) => <VaccineRow key={v.en} {...v} isLast={i === vaccines.length - 1} />)}
+      </div>
+    </div>
+  );
+}
+
+function VaccineRow({ jp, en, date, status, isLast }: {
+  jp: string; en: string; date: string; status: VaxStatus; isLast: boolean;
+}) {
+  const t = useT();
+  const cfg = {
+    current: { icon: <Check size={16} color="#6BAF92" />, bg: "#E8F5EE", chipBg: "#6BAF92", chipText: t("最新", "Current"), rowBg: "transparent" },
+    soon: { icon: <Clock size={16} color="#D4A843" />, bg: "#FFF3CC", chipBg: "#D4A843", chipText: t("もうすぐ", "Soon"), rowBg: "transparent" },
+    overdue: { icon: <AlertTriangle size={16} color="#E53935" />, bg: "#FFF0F0", chipBg: "#E53935", chipText: t("期限切れ", "Overdue"), rowBg: "#FFFAFA" },
+  }[status];
+  return (
+    <div style={{
+      display: "flex", alignItems: "center", gap: 12,
+      padding: "0 16px", height: 56,
+      borderTop: isLast ? undefined : undefined,
+      borderBottom: isLast ? "none" : "1px solid #F5F0EC",
+      background: cfg.rowBg,
+    }}>
+      <div style={{
+        width: 32, height: 32, borderRadius: "50%", background: cfg.bg,
+        display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
+      }}>{cfg.icon}</div>
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div style={{ fontSize: 14, fontWeight: 600, color: "#2C2C2C", lineHeight: 1.2 }}>
+          {t(jp, en)}
+        </div>
+        <div style={{ fontSize: 11, color: "#8A8A8A" }}>{en}</div>
+      </div>
+      <span style={{ fontSize: 12, color: "#8A8A8A", whiteSpace: "nowrap" }}>{date}</span>
+      <span style={{
+        background: cfg.chipBg, color: "#fff", fontSize: 10, fontWeight: 700,
+        padding: "3px 8px", borderRadius: 12, whiteSpace: "nowrap",
+      }}>{cfg.chipText}</span>
+    </div>
+  );
+}
+
+/* ─────────── Last Visit Card ─────────── */
+function LastVisitCard() {
+  const t = useT();
+  return (
+    <div style={{
+      background: "#FFFFFF", borderRadius: 20, marginBottom: 12,
+      boxShadow: "0 4px 16px rgba(0,0,0,0.07)", overflow: "hidden",
+      borderLeft: "4px solid #5B9BD5",
+    }}>
+      <div style={{ height: 6, background: "linear-gradient(90deg, #E8F2FF, #EEF6FF)" }} />
+      <div style={{ padding: "14px 16px 4px", display: "flex", alignItems: "center", gap: 10 }}>
+        <Stethoscope size={18} color="#5B9BD5" />
+        <span style={{ fontSize: 14, fontWeight: 700, color: "#2C2C2C" }}>
+          {t("最後の診察", "Last Vet Visit")}
+        </span>
+      </div>
+      <div style={{ padding: "8px 16px 12px", display: "flex", gap: 12, alignItems: "center" }}>
+        <div style={{
+          width: 48, height: 48, borderRadius: "50%", background: "#E8F2FF",
+          display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
+          boxShadow: "0 4px 12px rgba(91,155,213,0.15)",
+        }}>
+          <Cross size={22} color="#5B9BD5" />
+        </div>
+        <div style={{ flex: 1 }}>
+          <div style={{ fontSize: 15, fontWeight: 700, color: "#2C2C2C", lineHeight: 1.2 }}>
+            {t("渋谷動物病院", "Shibuya Animal Hospital")}
+          </div>
+          <div style={{ fontSize: 12, color: "#8A8A8A", marginTop: 2 }}>
+            {t("2026年4月20日", "Apr 20, 2026")}
+          </div>
+          <span style={{
+            display: "inline-block", marginTop: 6, fontSize: 11, fontWeight: 700,
+            background: "#E8F5EE", color: "#6BAF92",
+            padding: "3px 10px", borderRadius: 20,
+          }}>{t("健康診断: 異常なし ✓", "Health check: All clear ✓")}</span>
+        </div>
+      </div>
+      <div style={{
+        padding: "10px 16px", borderTop: "1px solid #F5F0EC",
+        display: "flex", justifyContent: "space-between", alignItems: "center",
+      }}>
+        <div>
+          <div style={{ fontSize: 11, color: "#8A8A8A" }}>{t("次回予約", "Next Appointment")}</div>
+          <div style={{ fontSize: 12, color: "#2C2C2C", fontWeight: 600 }}>
+            {t("未定", "Not scheduled")}
+          </div>
+        </div>
+        <button style={{
+          background: "#E8F2FF", color: "#5B9BD5", fontSize: 12, fontWeight: 700,
+          border: "1px solid #C8E0F8", borderRadius: 20, padding: "6px 16px",
+        }}>
+          {t("予約する →", "Book Now →")}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/* ─────────── QR & Sell Cards ─────────── */
+function QRCard() {
+  const t = useT();
+  return (
+    <div style={{
+      background: "linear-gradient(135deg, #F0ECFF, #E8E0FF)",
+      borderRadius: 20, border: "1.5px solid #C8C0F0",
+      padding: 16, boxShadow: "0 4px 16px rgba(123,104,200,0.15)",
+      display: "flex", flexDirection: "column", alignItems: "center", gap: 8,
+    }}>
+      <div style={{
+        width: 56, height: 56, borderRadius: "50%", background: "#fff",
+        display: "flex", alignItems: "center", justifyContent: "center",
+        boxShadow: "0 4px 12px rgba(123,104,200,0.2)",
+      }}>
+        <QrCode size={28} color="#7B68C8" />
+      </div>
+      <div style={{ fontSize: 13, fontWeight: 700, color: "#4A3A8A", textAlign: "center" }}>
+        {t("獣医用QRコード", "Vet QR Code")}
+      </div>
+      <div style={{ fontSize: 10, color: "#7B68C8", textAlign: "center" }}>
+        {t("毎回新しいQRを生成", "New QR every visit")}
+      </div>
+      <div style={{
+        width: 80, height: 80, background: "#fff", borderRadius: 12,
+        border: "2px solid #C8C0F0", padding: 6,
+        display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: 1,
+      }}>
+        {Array.from({ length: 49 }).map((_, i) => (
+          <div key={i} style={{
+            background: [0, 6, 8, 9, 12, 14, 18, 20, 22, 27, 30, 33, 36, 40, 42, 44, 48].includes(i % 49) || (i * 7) % 13 < 5 ? "#7B68C8" : "transparent",
+            borderRadius: 1,
+          }} />
+        ))}
+      </div>
+      <button style={{
+        width: "100%", height: 40, marginTop: 4,
+        background: "linear-gradient(135deg, #7B68C8, #9B88D8)",
+        color: "#fff", fontWeight: 700, fontSize: 13, borderRadius: 12,
+        boxShadow: "0 4px 12px rgba(123,104,200,0.3)",
+      }}>
+        {t("生成", "Generate")}
+      </button>
+    </div>
+  );
+}
+
+function SellCard() {
+  const t = useT();
+  const items: [string, string][] = [
+    ["ワクチン履歴", "Vaccination history"],
+    ["最終診察", "Last checkup details"],
+    ["年間データ", "Annual data"],
+  ];
+  return (
+    <div style={{
+      background: "linear-gradient(135deg, #FFF8DC, #FFF3CC)",
+      borderRadius: 20, border: "1.5px solid #F0D890",
+      padding: 16, boxShadow: "0 4px 16px rgba(212,168,67,0.15)",
+      display: "flex", flexDirection: "column", alignItems: "center", gap: 8,
+    }}>
+      <div style={{
+        width: 56, height: 56, borderRadius: "50%", background: "#fff",
+        display: "flex", alignItems: "center", justifyContent: "center",
+        boxShadow: "0 4px 12px rgba(212,168,67,0.2)",
+      }}>
+        <FileDown size={28} color="#D4A843" />
+      </div>
+      <div style={{ fontSize: 13, fontWeight: 700, color: "#78540A", textAlign: "center" }}>
+        {t("レポートを販売", "Sell Report")}
+      </div>
+      <div style={{ width: "100%", display: "flex", flexDirection: "column", gap: 4, marginTop: 4 }}>
+        {items.map(([jp, en]) => (
+          <div key={en} style={{ display: "flex", alignItems: "center", gap: 6 }}>
+            <div style={{
+              width: 14, height: 14, borderRadius: "50%", background: "#D4A843",
+              display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
+            }}>
+              <Check size={9} color="#fff" strokeWidth={3} />
+            </div>
+            <span style={{ fontSize: 10, color: "#5C4000" }}>{t(jp, en)}</span>
+          </div>
+        ))}
+      </div>
+      <button style={{
+        width: "100%", height: 40, marginTop: "auto",
+        background: "linear-gradient(135deg, #D4A843, #C4980A)",
+        color: "#fff", fontWeight: 700, fontSize: 12, borderRadius: 12,
+        boxShadow: "0 4px 12px rgba(212,168,67,0.4)",
+        display: "flex", alignItems: "center", justifyContent: "center", gap: 4,
+      }}>
+        📄 {t("PDF出力", "PDF Export")}
+      </button>
     </div>
   );
 }
