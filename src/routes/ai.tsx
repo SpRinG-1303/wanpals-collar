@@ -1,5 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import AppShell from "@/components/AppShell";
+import { HamburgerButton } from "@/components/SideDrawer";
 import { useState, useRef, useEffect, useCallback } from "react";
 import {
   Camera,
