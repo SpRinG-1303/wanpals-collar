@@ -201,7 +201,7 @@ function Community() {
               <div style={{ fontSize: 10, color: "#8A8A8A", marginTop: 2 }}>{t(s.jp, s.en)}</div>
             </div>
             {i < arr.length - 1 && <div style={{ width: 1, height: 28, background: "#F0ECE8" }} />}
-          </>
+          </span>
         ))}
       </div>
 
