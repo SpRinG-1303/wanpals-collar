@@ -137,6 +137,8 @@ export default function AppShell({
     };
   }, [menuOpen]);
 
+  const onMenuClick = () => setMenuOpen((o) => !o);
+
   return (
     <div
       style={{
@@ -153,21 +155,35 @@ export default function AppShell({
           overflow: "hidden",
           width: "100%",
           maxWidth: 430,
-          minHeight: "100vh",
+          height: fullHeight ? "100dvh" : undefined,
+          minHeight: fullHeight ? undefined : "100vh",
           background: "#FAFAF8",
-          paddingBottom: 20,
+          paddingBottom: fullHeight ? 0 : 20,
           boxShadow: "0 0 40px rgba(0,0,0,0.15)",
+          display: fullHeight ? "flex" : undefined,
+          flexDirection: fullHeight ? "column" : undefined,
         }}
       >
-        {!hideTopBar && (
-          <TopBar
-            titleJp={titleJp}
-            titleEn={titleEn}
-            onMenuClick={() => setMenuOpen((o) => !o)}
-            menuOpen={menuOpen}
-          />
-        )}
-        <main className={noPadding ? "" : "px-4 py-4"}>{children}</main>
+        {renderTopBar
+          ? renderTopBar({ menuOpen, onMenuClick })
+          : !hideTopBar && (
+              <TopBar
+                titleJp={titleJp}
+                titleEn={titleEn}
+                onMenuClick={onMenuClick}
+                menuOpen={menuOpen}
+              />
+            )}
+        <main
+          className={noPadding ? "" : "px-4 py-4"}
+          style={
+            fullHeight
+              ? { flex: 1, minHeight: 0, overflow: "hidden", display: "flex", flexDirection: "column" }
+              : undefined
+          }
+        >
+          {children}
+        </main>
         <SideDrawer isOpen={menuOpen} onClose={() => setMenuOpen(false)} />
       </div>
     </div>
