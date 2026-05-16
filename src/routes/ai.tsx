@@ -520,7 +520,7 @@ function AI() {
       </div>
 
       {/* COMPOSER */}
-      <div className="fixed bottom-16 inset-x-0 max-w-md mx-auto z-30">
+      <div style={{ flexShrink: 0 }}>
         <div style={{ background: "#FFFFFF", borderTop: "1px solid #F0ECE8", padding: "10px 16px" }}>
           <div className="flex gap-2 overflow-x-auto scrollbar-hide">
             {QUICK.map((q) => {
