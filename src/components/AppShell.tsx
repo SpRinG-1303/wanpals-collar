@@ -1,34 +1,40 @@
-import { Link, useLocation } from "@tanstack/react-router";
-import { Home, MapPin, Bot, Stethoscope, Users, Bell } from "lucide-react";
+import { Link } from "@tanstack/react-router";
+import { Bell } from "lucide-react";
 import { motion } from "framer-motion";
 import { useState, useEffect, type ReactNode } from "react";
 import { T, useT } from "@/context/LanguageContext";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
+import SideDrawer, { HamburgerButton } from "@/components/SideDrawer";
 
-const tabs = [
-  { to: "/home", icon: Home, jp: "ホーム", en: "Home" },
-  { to: "/map", icon: MapPin, jp: "地図", en: "Map" },
-  { to: "/ai", icon: Bot, jp: "AI", en: "AI" },
-  { to: "/clinics", icon: Stethoscope, jp: "クリニック", en: "Clinics" },
-  { to: "/community", icon: Users, jp: "コミュニティ", en: "Community" },
-];
-
-export function TopBar({ titleJp, titleEn }: { titleJp?: string; titleEn?: string }) {
+export function TopBar({
+  titleJp,
+  titleEn,
+  onMenuClick,
+  menuOpen = false,
+}: {
+  titleJp?: string;
+  titleEn?: string;
+  onMenuClick?: () => void;
+  menuOpen?: boolean;
+}) {
   const [sosOpen, setSosOpen] = useState(false);
   const t = useT();
   const showTitle = Boolean(titleJp || titleEn);
   return (
     <>
       <header className="sticky top-0 z-40" style={{ background: "#FAFAF8" }}>
-        <div className="flex items-center justify-between" style={{ padding: "0 20px", height: 60 }}>
-          <Link
-            to="/settings"
-            className="flex items-center justify-center text-lg"
-            style={{ width: 42, height: 42, borderRadius: "50%", background: "#FFFFFF", border: "2px solid #E8829A" }}
-            aria-label="Profile"
-          >
-            🐕
-          </Link>
+        <div className="flex items-center justify-between" style={{ padding: "0 16px", height: 60, gap: 10 }}>
+          <div className="flex items-center" style={{ gap: 10 }}>
+            {onMenuClick && <HamburgerButton isOpen={menuOpen} onClick={onMenuClick} />}
+            <Link
+              to="/settings"
+              className="flex items-center justify-center text-lg"
+              style={{ width: 42, height: 42, borderRadius: "50%", background: "#FFFFFF", border: "2px solid #E8829A" }}
+              aria-label="Profile"
+            >
+              🐕
+            </Link>
+          </div>
           {showTitle ? (
             <div className="text-sm font-bold truncate flex-1 text-center" style={{ color: "#2C2C2C", letterSpacing: "0.02em" }}>
               {t(titleJp ?? "", titleEn ?? "")}
@@ -40,7 +46,7 @@ export function TopBar({ titleJp, titleEn }: { titleJp?: string; titleEn?: strin
             <LanguageSwitcher />
             <button
               className="flex items-center justify-center"
-              style={{ width: 36, height: 36, margin: "0 4px 0 12px", color: "#8A8A8A" }}
+              style={{ width: 36, height: 36, margin: "0 4px 0 8px", color: "#8A8A8A" }}
               aria-label={t("通知", "Notifications")}
             >
               <Bell size={22} strokeWidth={1.75} />
@@ -52,7 +58,7 @@ export function TopBar({ titleJp, titleEn }: { titleJp?: string; titleEn?: strin
                 background: "#E53935",
                 color: "#fff",
                 borderRadius: 20,
-                padding: "8px 16px",
+                padding: "8px 14px",
                 fontSize: 13,
                 boxShadow: "0 4px 12px rgba(229,57,53,0.4)",
               }}
@@ -83,54 +89,62 @@ export function TopBar({ titleJp, titleEn }: { titleJp?: string; titleEn?: strin
   );
 }
 
-export function BottomNav() {
-  const loc = useLocation();
-  const t = useT();
-  return (
-    <nav
-      className="fixed bottom-0 inset-x-0 z-40"
-      style={{
-        background: "#FFFFFF",
-        borderTop: "1px solid #F0ECE8",
-        height: 64,
-        boxShadow: "0 -4px 20px rgba(0,0,0,0.06)",
-      }}
-    >
-      <div className="grid grid-cols-5 max-w-md mx-auto h-full">
-        {tabs.map((tab) => {
-          const active = loc.pathname.startsWith(tab.to);
-          const Icon = tab.icon;
-          const color = active ? "#E8829A" : "#C0B8B4";
-          return (
-            <Link key={tab.to} to={tab.to} className="relative flex flex-col items-center justify-center">
-              {active && (
-                <span
-                  className="absolute"
-                  style={{ top: 6, width: 16, height: 3, borderRadius: 2, background: "#E8829A" }}
-                />
-              )}
-              <Icon size={22} strokeWidth={1.75} style={{ color }} />
-              <span style={{ color, fontSize: 10, marginTop: 3, fontWeight: active ? 700 : 500, letterSpacing: "0.02em" }}>
-                {t(tab.jp, tab.en)}
-              </span>
-            </Link>
-          );
-        })}
-      </div>
-    </nav>
-  );
-}
+export default function AppShell({
+  children,
+  titleJp,
+  titleEn,
+  hideTopBar = false,
+  noPadding = false,
+}: {
+  children: ReactNode;
+  titleJp?: string;
+  titleEn?: string;
+  hideTopBar?: boolean;
+  noPadding?: boolean;
+}) {
+  const [menuOpen, setMenuOpen] = useState(false);
 
-export default function AppShell({ children, titleJp, titleEn, hideTopBar = false, noPadding = false }: { children: ReactNode; titleJp?: string; titleEn?: string; hideTopBar?: boolean; noPadding?: boolean }) {
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (localStorage.getItem("wancare-theme") === "dark") document.documentElement.classList.add("dark");
   }, []);
+
+  // Swipe-from-left to open
+  useEffect(() => {
+    let startX = 0;
+    let tracking = false;
+    const onStart = (e: TouchEvent) => {
+      const x = e.touches[0]?.clientX ?? 0;
+      if (!menuOpen && x < 20) { tracking = true; startX = x; }
+    };
+    const onMove = (e: TouchEvent) => {
+      if (!tracking) return;
+      const dx = (e.touches[0]?.clientX ?? 0) - startX;
+      if (dx > 60) { setMenuOpen(true); tracking = false; }
+    };
+    const onEnd = () => { tracking = false; };
+    window.addEventListener("touchstart", onStart, { passive: true });
+    window.addEventListener("touchmove", onMove, { passive: true });
+    window.addEventListener("touchend", onEnd);
+    return () => {
+      window.removeEventListener("touchstart", onStart);
+      window.removeEventListener("touchmove", onMove);
+      window.removeEventListener("touchend", onEnd);
+    };
+  }, [menuOpen]);
+
   return (
-    <div className="min-h-screen pb-20 max-w-md mx-auto" style={{ background: "#FAFAF8" }}>
-      {!hideTopBar && <TopBar titleJp={titleJp} titleEn={titleEn} />}
+    <div className="min-h-screen max-w-md mx-auto" style={{ background: "#FAFAF8", paddingBottom: 20 }}>
+      {!hideTopBar && (
+        <TopBar
+          titleJp={titleJp}
+          titleEn={titleEn}
+          onMenuClick={() => setMenuOpen((o) => !o)}
+          menuOpen={menuOpen}
+        />
+      )}
       <main className={noPadding ? "" : "px-4 py-4"}>{children}</main>
-      <BottomNav />
+      <SideDrawer isOpen={menuOpen} onClose={() => setMenuOpen(false)} />
     </div>
   );
 }
