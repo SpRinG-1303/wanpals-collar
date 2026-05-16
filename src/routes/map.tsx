@@ -1,93 +1,352 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import AppShell from "@/components/AppShell";
+import DogAvatar from "@/components/DogAvatar";
 import { useState } from "react";
-import { Navigation, AlertTriangle, Phone } from "lucide-react";
+import {
+  Navigation, AlertTriangle, Phone, Shield, History, Crosshair,
+  Plus, Minus, Satellite, ChevronRight, Stethoscope,
+} from "lucide-react";
 import { useT } from "@/context/LanguageContext";
+import { usePet, displayName } from "@/context/PetContext";
+import { BREED_KEY_BY_JP, type BreedKey } from "@/components/DogAvatar";
 
 export const Route = createFileRoute("/map")({ component: MapScreen });
 
 function MapScreen() {
   const t = useT();
+  const navigate = useNavigate();
+  const { pet } = usePet();
+  const dogName = displayName(pet, t("ワンちゃん", "My Dog"));
+  const breedKey: BreedKey = (BREED_KEY_BY_JP[pet.breedJp] ?? (pet.breed as BreedKey)) || "shiba";
+
   const [lost, setLost] = useState(false);
   const [safeZone, setSafeZone] = useState(true);
-  return (
-    <AppShell titleJp="🗺️ 位置追跡" titleEn="🗺️ Location">
-      {lost && (
-        <div className="bg-destructive text-destructive-foreground rounded-2xl p-3 -mt-2 mb-3 text-xs font-bold flex items-center gap-2 animate-pulse">
-          <AlertTriangle className="w-4 h-4"/> {t("迷子モード ON · 24時間獣医を検索中…", "Lost Mode ON · Searching 24h vets…")}
-        </div>
-      )}
+  const [radius, setRadius] = useState<100 | 200 | 500 | 1000>(200);
+  const [mapType, setMapType] = useState<"map" | "satellite">("map");
 
-      <div className="relative h-80 rounded-2xl overflow-hidden shadow-card border border-border" style={{
-        background: `repeating-linear-gradient(0deg, #E8EAF0 0 1px, transparent 1px 40px),
-                     repeating-linear-gradient(90deg, #E8EAF0 0 1px, transparent 1px 40px),
-                     linear-gradient(135deg, #F0F4FA, #E8EEF7)`
-      }}>
-        <div className="absolute inset-x-0 top-1/2 h-3 bg-card/80"/>
-        <div className="absolute inset-y-0 left-1/3 w-3 bg-card/80"/>
-        {safeZone && <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-44 h-44 rounded-full border-2 border-success bg-success/10"/>}
-        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-          <div className="w-12 h-12 rounded-full bg-sakura shadow-card flex items-center justify-center text-2xl border-4 border-card">🐾</div>
+  const openDirections = () => {
+    const addr = encodeURIComponent("1-2-3 Jinnan, Shibuya, Tokyo");
+    window.open(`https://www.google.com/maps/dir/?api=1&destination=${addr}`, "_blank");
+  };
+
+  return (
+    <AppShell titleJp="位置情報" titleEn="Location" noPadding>
+      <style>{`
+        @keyframes mapPulse { 0%,100% { transform: scale(1); opacity: 1 } 50% { transform: scale(1.3); opacity: .6 } }
+        @keyframes safeRotate { to { transform: translate(-50%,-50%) rotate(360deg) } }
+        @keyframes greenPulse { 0%,100% { transform: scale(1); opacity: 1 } 50% { transform: scale(1.6); opacity: .4 } }
+        @keyframes borderPulse { 0%,100% { box-shadow: 0 0 0 0 rgba(229,57,53,.5) } 50% { box-shadow: 0 0 0 8px rgba(229,57,53,0) } }
+        .map-pulse-ring { animation: mapPulse 2s ease-in-out infinite; }
+        .safe-rotate { animation: safeRotate 60s linear infinite; }
+        .green-pulse::before { content:""; position:absolute; inset:0; border-radius:9999px; background:#6BAF92; animation: greenPulse 1.6s ease-in-out infinite; }
+      `}</style>
+
+      {/* LIVE STATUS BAR */}
+      <div style={{ margin: "8px 16px", padding: "10px 16px", background: "#FFFFFF", borderRadius: 16, boxShadow: "0 2px 8px rgba(0,0,0,0.05)" }}>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <span className="relative inline-block green-pulse" style={{ width: 8, height: 8, borderRadius: "50%", background: "#6BAF92" }} />
+            <span style={{ fontSize: 13, fontWeight: 700, color: "#2C2C2C" }}>{t("ライブ追跡中", "Live Tracking")}</span>
+          </div>
+          <div className="flex items-center gap-1.5" style={{ color: "#6BAF92" }}>
+            <Satellite size={14} />
+            <span style={{ fontSize: 12, fontWeight: 600 }}>GPS ✓</span>
+          </div>
         </div>
-        <div className="absolute left-1/3 top-2/3">
-          <div className="w-5 h-5 rounded-full bg-primary border-4 border-card shadow-card animate-pulse"/>
+        <div style={{ fontSize: 11, color: "#8A8A8A", marginTop: 2 }}>
+          {t("最終更新: たった今", "Last updated: Just now")}
+        </div>
+      </div>
+
+      {/* MAP CARD */}
+      <div style={{ margin: "12px 16px", borderRadius: 24, overflow: "hidden", height: 320, position: "relative", boxShadow: "0 8px 32px rgba(0,0,0,0.1)", background: "#E8EEF4" }}>
+        {/* Base watercolor map */}
+        <div className="absolute inset-0" style={{
+          background: `
+            linear-gradient(135deg, rgba(200,220,234,0.6) 0%, transparent 30%),
+            linear-gradient(135deg, transparent 60%, rgba(200,220,234,0.5) 60%, rgba(200,220,234,0.5) 68%, transparent 68%),
+            repeating-linear-gradient(90deg, transparent 0 58px, rgba(255,255,255,0.85) 58px 60px, transparent 60px 140px, rgba(255,255,255,0.9) 140px 144px),
+            repeating-linear-gradient(0deg, transparent 0 50px, rgba(255,255,255,0.8) 50px 52px, transparent 52px 110px, rgba(255,255,255,0.9) 110px 114px),
+            repeating-linear-gradient(45deg, transparent 0 100px, rgba(255,255,255,0.4) 100px 102px),
+            #E8EEF4
+          `,
+        }} />
+        {/* City blocks */}
+        <div className="absolute" style={{ left: 20, top: 30, width: 60, height: 40, background: "#EEF3F8", borderRadius: 3 }} />
+        <div className="absolute" style={{ left: 90, top: 25, width: 80, height: 50, background: "#E8EDF2", borderRadius: 3 }} />
+        <div className="absolute" style={{ left: 200, top: 40, width: 70, height: 60, background: "#EEF3F8", borderRadius: 3 }} />
+        <div className="absolute" style={{ left: 30, top: 120, width: 90, height: 50, background: "#E8EDF2", borderRadius: 3 }} />
+        <div className="absolute" style={{ left: 180, top: 180, width: 100, height: 60, background: "#EEF3F8", borderRadius: 3 }} />
+        <div className="absolute" style={{ left: 50, top: 240, width: 70, height: 50, background: "#E8EDF2", borderRadius: 3 }} />
+        {/* Parks */}
+        <div className="absolute" style={{ left: 140, top: 90, width: 50, height: 50, background: "#D4E8D4", borderRadius: 12 }} />
+        <div className="absolute" style={{ right: 30, top: 130, width: 60, height: 40, background: "#D4E8D4", borderRadius: 12 }} />
+        <div className="absolute" style={{ left: 25, bottom: 30, width: 45, height: 45, background: "#D4E8D4", borderRadius: 14 }} />
+        {/* Map labels */}
+        <span className="absolute" style={{ left: 30, top: 80, fontSize: 9, color: "#8A9AAA", opacity: 0.4 }}>渋谷区</span>
+        <span className="absolute" style={{ left: 150, top: 110, fontSize: 9, color: "#8A9AAA", opacity: 0.4 }}>公園</span>
+        <span className="absolute" style={{ right: 40, top: 200, fontSize: 9, color: "#8A9AAA", opacity: 0.4 }}>駅</span>
+        <span className="absolute" style={{ left: 200, bottom: 60, fontSize: 9, color: "#8A9AAA", opacity: 0.4 }}>神南</span>
+
+        {/* Collar GPS badge top-left */}
+        <div className="absolute" style={{ top: 12, left: 12, background: "#FFFFFF", padding: "5px 10px", borderRadius: 12, fontSize: 11, color: "#6BAF92", fontWeight: 700, boxShadow: "0 2px 8px rgba(0,0,0,0.08)" }}>
+          📡 {t("カラーGPS", "Collar GPS")}
+        </div>
+
+        {/* Map type toggle top-left lower */}
+        <div className="absolute flex" style={{ top: 48, left: 12, background: "rgba(255,255,255,0.85)", backdropFilter: "blur(8px)", borderRadius: 14, padding: 3, fontSize: 11, fontWeight: 600 }}>
+          {(["map", "satellite"] as const).map(m => (
+            <button key={m} onClick={() => setMapType(m)} style={{
+              padding: "4px 10px", borderRadius: 12,
+              background: mapType === m ? "#E8829A" : "transparent",
+              color: mapType === m ? "#fff" : "#8A8A8A",
+            }}>
+              {m === "map" ? t("地図", "Map") : t("衛星", "Satellite")}
+            </button>
+          ))}
+        </div>
+
+        {/* Zoom controls top-right */}
+        <div className="absolute" style={{ top: 12, right: 12, background: "rgba(255,255,255,0.9)", backdropFilter: "blur(8px)", borderRadius: 12, boxShadow: "0 2px 8px rgba(0,0,0,0.1)" }}>
+          <button className="flex items-center justify-center" style={{ width: 36, height: 36, color: "#2C2C2C" }}><Plus size={16} /></button>
+          <div style={{ height: 1, background: "#EDE8E4" }} />
+          <button className="flex items-center justify-center" style={{ width: 36, height: 36, color: "#2C2C2C" }}><Minus size={16} /></button>
+        </div>
+
+        {/* My location button bottom-right */}
+        <button className="absolute flex items-center justify-center" style={{ bottom: 14, right: 12, width: 40, height: 40, borderRadius: "50%", background: "rgba(255,255,255,0.9)", backdropFilter: "blur(8px)", boxShadow: "0 2px 8px rgba(0,0,0,0.1)" }}>
+          <Crosshair size={20} style={{ color: "#5B9BD5" }} />
+        </button>
+
+        {/* Safe zone circle */}
+        {safeZone && (
+          <div className="absolute" style={{
+            left: "50%", top: "50%", width: 180, height: 180,
+            transform: "translate(-50%,-50%)",
+            borderRadius: "50%",
+            background: "rgba(107,175,146,0.06)",
+          }}>
+            <div className="absolute inset-0 safe-rotate" style={{
+              borderRadius: "50%",
+              border: "2px dashed #6BAF92",
+            }} />
+            <div className="absolute" style={{ left: "50%", top: -10, transform: "translateX(-50%)", background: "#FFFFFF", border: "1px solid #6BAF92", color: "#6BAF92", fontSize: 10, fontWeight: 700, padding: "2px 8px", borderRadius: 20, whiteSpace: "nowrap" }}>
+              {t("安全ゾーン", "Safe Zone")}
+            </div>
+          </div>
+        )}
+
+        {/* Activity trail dots */}
+        {[{x:38,y:62,s:5},{x:42,y:58,s:4.5},{x:45,y:55,s:4},{x:47,y:52,s:3.5},{x:48,y:50,s:3}].map((d,i)=>(
+          <div key={i} className="absolute" style={{ left: `${d.x}%`, top: `${d.y}%`, width: d.s, height: d.s, borderRadius: "50%", background: `rgba(232,130,154,${0.4-i*0.06})` }} />
+        ))}
+
+        {/* Owner marker */}
+        <div className="absolute" style={{ left: "33%", top: "66%", transform: "translate(-50%,-50%)" }}>
+          <div className="absolute" style={{ left: "50%", top: "50%", transform: "translate(-50%,-50%)", width: 40, height: 40, borderRadius: "50%", background: "rgba(91,155,213,0.15)", border: "1px dashed rgba(91,155,213,0.4)" }} />
+          <div className="relative flex items-center justify-center" style={{ width: 16, height: 16, borderRadius: "50%", background: "#5B9BD5", border: "3px solid white", boxShadow: "0 2px 8px rgba(91,155,213,0.4)" }}>
+            <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#fff" }} />
+          </div>
+          <div className="absolute" style={{ left: "50%", top: -22, transform: "translateX(-50%)", background: "#E8F2FF", border: "1px solid #5B9BD5", color: "#5B9BD5", fontSize: 10, fontWeight: 700, padding: "2px 8px", borderRadius: 20, whiteSpace: "nowrap" }}>
+            {t("あなた", "You")}
+          </div>
+          <div className="absolute" style={{ left: "50%", top: 18, transform: "translateX(-50%)", fontSize: 9, color: "#8A8A8A", whiteSpace: "nowrap" }}>
+            {t("精度: ±5m", "±5m")}
+          </div>
+        </div>
+
+        {/* Dog marker center */}
+        <div className="absolute" style={{ left: "50%", top: "50%", transform: "translate(-50%,-50%)" }}>
+          {/* Pulse ring */}
+          <div className="absolute map-pulse-ring" style={{ left: "50%", top: "50%", transform: "translate(-50%,-50%)", width: 48, height: 48, borderRadius: "50%", background: "rgba(232,130,154,0.15)", border: "2px solid rgba(232,130,154,0.4)" }} />
+          {/* Middle */}
+          <div className="absolute" style={{ left: "50%", top: "50%", transform: "translate(-50%,-50%)", width: 32, height: 32, borderRadius: "50%", background: "rgba(232,130,154,0.25)", border: "2px solid #E8829A" }} />
+          {/* Inner */}
+          <div className="relative flex items-center justify-center" style={{ width: 20, height: 20, borderRadius: "50%", background: "linear-gradient(135deg, #E8829A, #C86882)", boxShadow: "0 4px 12px rgba(232,130,154,0.5)" }}>
+            <span style={{ color: "#fff", fontSize: 10 }}>🐾</span>
+          </div>
+          {/* Pin tip */}
+          <div className="absolute" style={{ left: "50%", top: 20, transform: "translateX(-50%)", width: 0, height: 0, borderLeft: "4px solid transparent", borderRight: "4px solid transparent", borderTop: "6px solid #C86882" }} />
+          {/* Name tag */}
+          <div className="absolute" style={{ left: "50%", top: -26, transform: "translateX(-50%)", background: "#FFFFFF", border: "1px solid #FFD0DC", color: "#E8829A", fontSize: 11, fontWeight: 700, padding: "3px 8px", borderRadius: 20, whiteSpace: "nowrap", boxShadow: "0 2px 8px rgba(0,0,0,0.1)" }}>
+            {dogName} 🐾
+          </div>
+        </div>
+
+        {/* Attribution */}
+        <div className="absolute" style={{ bottom: 4, right: 8, fontSize: 8, color: "#8A8A8A" }}>
+          © OpenStreetMap / 地図データ
+        </div>
+      </div>
+
+      {/* DOG INFO CARD */}
+      <div style={{ margin: "0 16px 12px", background: "#FFFFFF", borderRadius: 20, boxShadow: "0 4px 16px rgba(0,0,0,0.07)", borderLeft: "4px solid #E8829A", overflow: "hidden" }}>
+        <div style={{ height: 6, background: "linear-gradient(90deg, #FFE4EC, #FFF0F5)" }} />
+        <div style={{ padding: 14 }}>
+          <div className="flex items-start justify-between">
+            <div className="flex items-start gap-3 flex-1 min-w-0">
+              <DogAvatar breed={breedKey} furColor={pet.avatar.furColor} collarColor={pet.avatar.collarColor} size={44} ring />
+              <div className="min-w-0">
+                <div style={{ fontSize: 17, fontWeight: 700, color: "#2C2C2C" }}>{dogName}</div>
+                <div style={{ fontSize: 12, color: "#8A8A8A", marginTop: 1 }}>
+                  {t("東京都渋谷区神南1-2-3", "1-2-3 Jinnan, Shibuya, Tokyo")}
+                </div>
+                <div className="flex items-center gap-1.5 mt-1">
+                  <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#6BAF92" }} />
+                  <span style={{ fontSize: 12, color: "#6BAF92", fontWeight: 600 }}>{t("今移動中", "Moving now")}</span>
+                </div>
+              </div>
+            </div>
+            <span style={{ background: "#FFF0F5", border: "1px solid #FFD0DC", color: "#E8829A", fontSize: 13, fontWeight: 700, padding: "4px 12px", borderRadius: 20 }}>0.3km</span>
+          </div>
+
+          <div className="flex items-center gap-2 mt-3" style={{ fontSize: 11, color: "#8A8A8A" }}>
+            <span>🏃 {t("移動中", "Moving")}</span>
+            <span>·</span>
+            <span>📍 {t("渋谷区", "Shibuya")}</span>
+            <span>·</span>
+            <span>🕐 {t("たった今", "Just now")}</span>
+            <span>·</span>
+            <span>🚶 {t("4分", "4 min")}</span>
+          </div>
+
+          <button onClick={openDirections} className="w-full flex items-center justify-center gap-2 mt-3" style={{ height: 48, borderRadius: 14, background: "linear-gradient(135deg, #5B9BD5, #4A8AC4)", color: "#fff", fontWeight: 700, fontSize: 14, boxShadow: "0 6px 16px rgba(91,155,213,0.3)" }}>
+            <Navigation size={16} />
+            {t("道案内", "Get Directions")}
+          </button>
+        </div>
+      </div>
+
+      {/* SAFE ZONE CARD */}
+      <div style={{ margin: "0 16px 12px", background: "#FFFFFF", borderRadius: 20, boxShadow: "0 4px 16px rgba(0,0,0,0.07)", borderLeft: "4px solid #6BAF92", overflow: "hidden" }}>
+        <div style={{ height: 6, background: "linear-gradient(90deg, #E8F5EE, #F2FAF5)" }} />
+        <div style={{ padding: 14 }}>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Shield size={20} style={{ color: "#6BAF92" }} />
+              <span style={{ fontSize: 15, fontWeight: 700, color: "#2C2C2C" }}>{t("安全ゾーン", "Safe Zone")}</span>
+            </div>
+            <Toggle on={safeZone} onChange={setSafeZone} activeColor="#6BAF92" />
+          </div>
+          {safeZone && (
+            <div className="mt-2">
+              <div style={{ fontSize: 12, color: "#8A8A8A" }}>
+                {t(`${radius < 1000 ? radius + "m" : "1km"} 半径で通知`, `Notify within ${radius < 1000 ? radius + "m" : "1km"} radius`)}
+              </div>
+              <div className="flex gap-2 mt-2">
+                {([100,200,500,1000] as const).map(r => (
+                  <button key={r} onClick={() => setRadius(r)} style={{
+                    padding: "5px 12px", borderRadius: 20, fontSize: 11, fontWeight: 600,
+                    background: radius === r ? "#6BAF92" : "#F5F5F5",
+                    color: radius === r ? "#fff" : "#8A8A8A",
+                  }}>{r < 1000 ? `${r}m` : "1km"}</button>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* LOST MODE CARD */}
+      <div style={{
+        margin: "0 16px 12px",
+        background: lost ? "linear-gradient(135deg, #FFF0F0, #FFE8E8)" : "#FFFFFF",
+        borderRadius: 20,
+        boxShadow: "0 4px 16px rgba(0,0,0,0.07)",
+        border: lost ? "2px solid #E53935" : "none",
+        borderLeft: `4px solid ${lost ? "#E53935" : "#C4B8B4"}`,
+        animation: lost ? "borderPulse 1.6s infinite" : undefined,
+        padding: 14,
+      }}>
+        <div className="flex items-center justify-between">
+          <div className="flex items-start gap-2 flex-1">
+            <AlertTriangle size={20} style={{ color: lost ? "#E53935" : "#C4B8B4", marginTop: 2 }} className={lost ? "animate-pulse" : ""} />
+            <div>
+              <div style={{ fontSize: 15, fontWeight: 700, color: lost ? "#E53935" : "#2C2C2C" }}>
+                {lost ? `🔴 ${t("迷子モード起動中", "Lost Mode ACTIVE")}` : t("迷子モード", "Lost Mode")}
+              </div>
+              <div style={{ fontSize: 12, color: lost ? "#E53935" : "#8A8A8A", marginTop: 2 }}>
+                {lost ? t("緊急追跡中...", "Emergency tracking active...") : t("紛失時の緊急追跡", "Emergency tracking if lost")}
+              </div>
+            </div>
+          </div>
+          <Toggle on={lost} onChange={setLost} activeColor="#E53935" />
         </div>
         {lost && (
-          <div className="absolute top-3 right-3 bg-card rounded-xl p-2 shadow-card text-xs">
-            <div className="font-bold">🏥 {t("渋谷24h動物病院", "Shibuya 24h Animal Hospital")}</div>
-            <div className="text-muted-foreground">1.1km · {t("営業中", "Open")}</div>
+          <div className="mt-3 space-y-2">
+            <a href="tel:+81000000000" className="w-full flex items-center justify-center gap-2" style={{ height: 44, borderRadius: 12, background: "linear-gradient(135deg, #E53935, #C62828)", color: "#fff", fontWeight: 700, fontSize: 13 }}>
+              <Phone size={14} /> {t("獣医に通知", "Notify Vet")}
+            </a>
+            <button className="w-full flex items-center justify-center gap-2" style={{ height: 44, borderRadius: 12, background: "linear-gradient(135deg, #E53935, #C62828)", color: "#fff", fontWeight: 700, fontSize: 13 }}>
+              🚨 {t("SOS起動", "Activate SOS")}
+            </button>
           </div>
         )}
       </div>
 
-      <div className="mt-3 bg-card rounded-2xl p-4 shadow-card">
-        <div className="flex justify-between items-start">
-          <div>
-            <div className="font-bold">{t("ハナ", "Hana")}</div>
-            <div className="text-xs text-muted-foreground">{t("渋谷区神南1-2-3", "1-2-3 Jinnan, Shibuya")}</div>
-            <div className="text-[11px] text-success font-bold mt-1">● {t("たった今更新", "Just now")}</div>
+      {/* LOCATION HISTORY */}
+      <div style={{ margin: "0 16px 12px", background: "#FFFFFF", borderRadius: 20, boxShadow: "0 4px 16px rgba(0,0,0,0.07)", borderLeft: "4px solid #7B68C8", padding: 14 }}>
+        <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center gap-2">
+            <History size={18} style={{ color: "#7B68C8" }} />
+            <span style={{ fontSize: 14, fontWeight: 700, color: "#2C2C2C" }}>{t("移動履歴", "Location History")}</span>
           </div>
-          <span className="text-xs bg-sakura-soft text-primary px-2 py-1 rounded-full font-bold">0.3km</span>
+          <span style={{ fontSize: 11, fontWeight: 600, color: "#7B68C8", background: "#F0ECFF", padding: "3px 10px", borderRadius: 20 }}>{t("今日", "Today")}</span>
         </div>
-        <button className="mt-3 w-full bg-primary text-primary-foreground rounded-xl py-3 text-sm font-bold flex items-center justify-center gap-2">
-          <Navigation className="w-4 h-4"/> {t("道案内", "Get Directions")}
+
+        {[
+          { time: "14:30", jp: "代々木公園", en: "Yoyogi Park", dist: "+1.2km", color: "#D4A843" },
+          { time: "12:15", jp: "渋谷駅周辺", en: "Near Shibuya Stn", dist: "+0.5km", color: "#5B9BD5" },
+          { time: "09:00", jp: "自宅", en: "Home", dist: t("出発地", "Start"), color: "#6BAF92" },
+        ].map((h, i) => (
+          <div key={i} className="flex items-center gap-3" style={{ padding: "8px 0", borderTop: i === 0 ? "none" : "1px solid #F5F0EC" }}>
+            <span style={{ width: 8, height: 8, borderRadius: "50%", background: h.color, flexShrink: 0 }} />
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-2">
+                <span style={{ fontSize: 12, color: "#8A8A8A" }}>🕐 {h.time}</span>
+                <span style={{ fontSize: 13, fontWeight: 700, color: "#2C2C2C" }}>📍 {t(h.jp, h.en)}</span>
+              </div>
+            </div>
+            <span style={{ fontSize: 11, color: "#E8829A", fontWeight: 600 }}>{h.dist}</span>
+          </div>
+        ))}
+
+        <button className="flex items-center gap-1 mt-2" style={{ fontSize: 12, color: "#7B68C8", fontWeight: 600 }}>
+          {t("全履歴を見る", "View Full History")} <ChevronRight size={14} />
         </button>
       </div>
 
-      <div className="mt-3 bg-card rounded-2xl p-4 shadow-card flex items-center justify-between">
-        <div>
-          <div className="text-sm font-bold">{t("セーフゾーン", "Safe Zone")}</div>
-          <div className="text-xs text-muted-foreground">{t("200m半径で通知", "Notify within 200m radius")}</div>
+      {/* NEARBY CLINIC */}
+      <button onClick={() => navigate({ to: "/clinics" })} className="w-full flex items-center gap-3" style={{ margin: "0 16px 24px", width: "calc(100% - 32px)", background: "linear-gradient(135deg, #EEF5FF, #E8F2FF)", border: "1px solid #C8E0F8", borderRadius: 20, padding: 14, textAlign: "left" }}>
+        <div className="flex items-center justify-center" style={{ width: 40, height: 40, borderRadius: "50%", background: "#FFFFFF" }}>
+          <Stethoscope size={20} style={{ color: "#5B9BD5" }} />
         </div>
-        <Toggle on={safeZone} onChange={setSafeZone}/>
-      </div>
-
-      <div className={`mt-3 rounded-2xl p-4 shadow-card flex items-center justify-between ${lost ? "bg-destructive text-destructive-foreground" : "bg-card"}`}>
-        <div>
-          <div className="text-sm font-bold">🔴 {t("迷子モード", "Lost Mode")}</div>
-          <div className={`text-xs ${lost ? "opacity-80" : "text-muted-foreground"}`}>{t("緊急通知＋獣医アラート", "Emergency + vet alerts")}</div>
-        </div>
-        <Toggle on={lost} onChange={setLost}/>
-      </div>
-
-      {lost && (
-        <>
-          <button className="mt-3 w-full bg-destructive text-destructive-foreground rounded-2xl py-4 font-bold flex items-center justify-center gap-2 pulse-red">
-            <Phone className="w-4 h-4"/> {t("今すぐ電話", "Call Now")}
-          </button>
-          <div className="mt-2 bg-success/15 border border-success/30 rounded-xl p-3 text-xs text-success font-bold text-center">
-            ✓ {t("獣医にアラート送信済み", "Alert Sent to Vet")}
+        <div className="flex-1 min-w-0">
+          <div style={{ fontSize: 14, fontWeight: 700, color: "#1A3C5E" }}>
+            {t("最寄りの動物病院", "Nearest Animal Hospital")}
           </div>
-        </>
-      )}
+          <div style={{ fontSize: 12, color: "#5B9BD5", marginTop: 2 }}>
+            🏥 {t("渋谷動物病院", "Shibuya Animal Hosp.")} · 0.8km · ⭐4.6 · 24H
+          </div>
+        </div>
+        <div className="flex items-center justify-center" style={{ width: 36, height: 36, borderRadius: "50%", background: "#5B9BD5", color: "#fff", flexShrink: 0 }}>
+          <ChevronRight size={18} />
+        </div>
+      </button>
     </AppShell>
   );
 }
 
-function Toggle({ on, onChange }: { on: boolean; onChange: (v: boolean) => void }) {
+function Toggle({ on, onChange, activeColor = "#6BAF92" }: { on: boolean; onChange: (v: boolean) => void; activeColor?: string }) {
   return (
-    <button onClick={() => onChange(!on)} className={`w-14 h-8 rounded-full relative transition-colors ${on ? "bg-success" : "bg-muted"}`}>
-      <span className={`absolute top-1 w-6 h-6 bg-white rounded-full transition-all shadow ${on ? "left-7" : "left-1"}`}/>
+    <button onClick={() => onChange(!on)} style={{
+      width: 48, height: 28, borderRadius: 999, position: "relative", transition: "background .3s",
+      background: on ? activeColor : "#EDE8E4",
+    }}>
+      <span style={{
+        position: "absolute", top: 3, left: on ? 23 : 3, width: 22, height: 22, borderRadius: "50%",
+        background: "#fff", transition: "left .3s", boxShadow: "0 2px 4px rgba(0,0,0,0.2)",
+      }} />
     </button>
   );
 }
