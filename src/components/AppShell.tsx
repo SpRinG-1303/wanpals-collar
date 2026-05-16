@@ -95,12 +95,16 @@ export default function AppShell({
   titleEn,
   hideTopBar = false,
   noPadding = false,
+  fullHeight = false,
+  renderTopBar,
 }: {
   children: ReactNode;
   titleJp?: string;
   titleEn?: string;
   hideTopBar?: boolean;
   noPadding?: boolean;
+  fullHeight?: boolean;
+  renderTopBar?: (ctx: { menuOpen: boolean; onMenuClick: () => void }) => ReactNode;
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
 
