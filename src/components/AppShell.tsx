@@ -134,17 +134,38 @@ export default function AppShell({
   }, [menuOpen]);
 
   return (
-    <div className="min-h-screen max-w-md mx-auto" style={{ background: "#FAFAF8", paddingBottom: 20 }}>
-      {!hideTopBar && (
-        <TopBar
-          titleJp={titleJp}
-          titleEn={titleEn}
-          onMenuClick={() => setMenuOpen((o) => !o)}
-          menuOpen={menuOpen}
-        />
-      )}
-      <main className={noPadding ? "" : "px-4 py-4"}>{children}</main>
-      <SideDrawer isOpen={menuOpen} onClose={() => setMenuOpen(false)} />
+    <div
+      style={{
+        background: "#E8E0D8",
+        minHeight: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "flex-start",
+      }}
+    >
+      <div
+        style={{
+          position: "relative",
+          overflow: "hidden",
+          width: "100%",
+          maxWidth: 430,
+          minHeight: "100vh",
+          background: "#FAFAF8",
+          paddingBottom: 20,
+          boxShadow: "0 0 40px rgba(0,0,0,0.15)",
+        }}
+      >
+        {!hideTopBar && (
+          <TopBar
+            titleJp={titleJp}
+            titleEn={titleEn}
+            onMenuClick={() => setMenuOpen((o) => !o)}
+            menuOpen={menuOpen}
+          />
+        )}
+        <main className={noPadding ? "" : "px-4 py-4"}>{children}</main>
+        <SideDrawer isOpen={menuOpen} onClose={() => setMenuOpen(false)} />
+      </div>
     </div>
   );
 }
