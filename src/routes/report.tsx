@@ -7,10 +7,11 @@ import {
 import { useState, type ReactNode } from "react";
 import {
   QrCode, FileDown, Activity, Thermometer, Footprints, Moon,
-  Syringe, Check, Clock, AlertTriangle, Stethoscope, Cross, FileHeart,
+  Syringe, Check, Clock, AlertTriangle, Stethoscope, Cross, CheckCircle2,
 } from "lucide-react";
 import { useT, useLanguage } from "@/context/LanguageContext";
-import { usePet } from "@/context/PetContext";
+import { usePet, type PetProfile } from "@/context/PetContext";
+import DogAvatar, { BREED_KEY_BY_JP, type BreedKey } from "@/components/DogAvatar";
 
 export const Route = createFileRoute("/report")({ component: Report });
 
@@ -36,7 +37,7 @@ function Report() {
   return (
     <AppShell titleJp="健康レポート" titleEn="Health Report">
       {/* Hero Summary Card */}
-      <HeroCard dogName={dogName} />
+      <HeroCard pet={pet} dogName={dogName} />
 
       {/* Time filter tabs */}
       <div
@@ -211,93 +212,150 @@ function Report() {
 }
 
 /* ─────────── Hero ─────────── */
-function HeroCard({ dogName }: { dogName: string }) {
+function HeroCard({ pet, dogName }: { pet: PetProfile; dogName: string }) {
   const t = useT();
+  const { language } = useLanguage();
   const score = 87;
-  const circ = 2 * Math.PI * 34;
+  const r = 44;
+  const circ = 2 * Math.PI * r;
   const offset = circ - (score / 100) * circ;
+  const breedKey: BreedKey = BREED_KEY_BY_JP[pet.breedJp] ?? "shiba";
+
+  const title = language === "english"
+    ? `${dogName}'s Health Report`
+    : `${dogName}の健康レポート`;
+
   return (
-    <div
-      style={{
-        background: "linear-gradient(135deg, #FFF0F5 0%, #F5F0FF 50%, #EEF5FF 100%)",
-        borderRadius: 24,
-        padding: 20,
-        marginBottom: 16,
-        boxShadow: "0 8px 24px rgba(232,130,154,0.12)",
-      }}
-    >
-      <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
-        <div
-          style={{
-            width: 48, height: 48, borderRadius: "50%",
-            background: "#fff", border: "2px solid #E8829A",
-            display: "flex", alignItems: "center", justifyContent: "center",
-            fontSize: 24, boxShadow: "0 2px 8px rgba(232,130,154,0.2)",
-          }}
-        >
-          <FileHeart size={22} color="#E8829A" />
-        </div>
-        <div style={{ flex: 1 }}>
-          <div style={{ fontSize: 11, color: "#8A8A8A", letterSpacing: "0.08em", textTransform: "uppercase" }}>
-            {t("健康サマリー", "Health Summary")}
-          </div>
-          <div style={{ fontSize: 16, fontWeight: 700, color: "#2C2C2C" }}>{dogName}</div>
-        </div>
-      </div>
-
-      <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-        {/* Score ring */}
-        <div style={{ position: "relative", width: 80, height: 80, flexShrink: 0 }}>
-          <svg width={80} height={80} viewBox="0 0 80 80">
-            <circle cx={40} cy={40} r={34} stroke="#E0F0E8" strokeWidth={8} fill="none" />
-            <circle
-              cx={40} cy={40} r={34} stroke="#6BAF92" strokeWidth={8} fill="none"
-              strokeLinecap="round" strokeDasharray={circ} strokeDashoffset={offset}
-              transform="rotate(-90 40 40)"
-            />
-          </svg>
+    <div style={{
+      background: "#FFFFFF",
+      borderRadius: 24,
+      marginBottom: 16,
+      overflow: "hidden",
+      boxShadow: "0 8px 32px rgba(232,130,154,0.12)",
+    }}>
+      <div style={{ height: 8, background: "linear-gradient(90deg, #E8829A, #7B68C8, #6BAF92)" }} />
+      <div style={{ padding: 20 }}>
+        {/* Row 1: identity */}
+        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
           <div style={{
-            position: "absolute", inset: 0, display: "flex",
-            alignItems: "center", justifyContent: "center", flexDirection: "column",
+            width: 44, height: 44, borderRadius: "50%",
+            border: "2px solid #FFD4E8", overflow: "hidden",
+            boxShadow: "0 4px 12px rgba(232,130,154,0.2)",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            background: "#fff", flexShrink: 0,
           }}>
-            <span style={{ fontSize: 22, fontWeight: 700, color: "#2C2C2C", lineHeight: 1 }}>{score}</span>
-            <span style={{ fontSize: 10, color: "#8A8A8A" }}>/100</span>
+            <DogAvatar
+              breed={breedKey}
+              furColor={pet.avatar.furColor}
+              earStyle={pet.avatar.earStyle as any}
+              eyeStyle={pet.avatar.eyeStyle as any}
+              collarColor={pet.avatar.collarColor}
+              size={40}
+              showCollar={false}
+              ring={false}
+            />
+          </div>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{ fontSize: 16, fontWeight: 700, color: "#2C2C2C", lineHeight: 1.2 }}>
+              {title}
+            </div>
+            <div style={{ fontSize: 11, color: "#8A8A8A", marginTop: 2 }}>
+              {t(pet.breedJp || "柴犬", pet.breedEn || "Shiba Inu")} · {t("2026年5月", "May 2026")}
+            </div>
+          </div>
+          <div style={{
+            display: "flex", alignItems: "center", gap: 6,
+            background: "#E8F5EE", border: "1px solid #B8D4C0",
+            borderRadius: 20, padding: "4px 12px", flexShrink: 0,
+          }}>
+            <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#6BAF92" }} />
+            <span style={{ fontSize: 11, fontWeight: 700, color: "#6BAF92" }}>
+              {t("良好", "Good")}
+            </span>
           </div>
         </div>
 
-        <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 8 }}>
-          <MiniStat emoji="🌡️" value="38.5°C" color="#D4714E" labelJp="体温平均" labelEn="Avg Temp" />
-          <MiniStat emoji="🏃" value="2,340" color="#5B9BD5" labelJp="平均歩数" labelEn="Avg Steps" />
-          <MiniStat emoji="😴" value="7.5h" color="#7B68C8" labelJp="睡眠時間" labelEn="Sleep" />
-        </div>
-      </div>
+        <div style={{ height: 1, background: "#F5F0EC", margin: "14px 0" }} />
 
-      <div style={{
-        display: "flex", justifyContent: "space-between", alignItems: "center",
-        marginTop: 14, paddingTop: 12, borderTop: "1px solid rgba(255,255,255,0.6)",
-      }}>
-        <span style={{ fontSize: 11, color: "#6BAF92", fontWeight: 600 }}>
-          ✓ {t("全センサー正常", "All sensors normal")}
-        </span>
-        <span style={{ fontSize: 11, color: "#8A8A8A" }}>
-          {t("2026年5月16日", "May 16, 2026")}
-        </span>
+        {/* Row 2: ring + stats */}
+        <div style={{ display: "grid", gridTemplateColumns: "auto 1fr", gap: 20, alignItems: "center" }}>
+          <div style={{ position: "relative", width: 100, height: 100 }}>
+            <svg width={100} height={100} viewBox="0 0 100 100">
+              <circle cx={50} cy={50} r={r} stroke="#E0F0E8" strokeWidth={10} fill="none" />
+              <circle
+                cx={50} cy={50} r={r} stroke="#6BAF92" strokeWidth={10} fill="none"
+                strokeLinecap="round" strokeDasharray={circ} strokeDashoffset={offset}
+                transform="rotate(-90 50 50)"
+              />
+            </svg>
+            <div style={{
+              position: "absolute", inset: 0,
+              display: "flex", flexDirection: "column",
+              alignItems: "center", justifyContent: "center",
+            }}>
+              <div style={{ display: "flex", alignItems: "baseline", gap: 2 }}>
+                <span style={{ fontSize: 28, fontWeight: 700, color: "#2C2C2C", lineHeight: 1 }}>{score}</span>
+                <span style={{ fontSize: 12, color: "#8A8A8A" }}>/100</span>
+              </div>
+              <span style={{ fontSize: 9, color: "#C4B8B4", letterSpacing: "0.1em", marginTop: 2 }}>
+                {t("スコア", "SCORE")}
+              </span>
+            </div>
+          </div>
+
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <StatRow
+              icon={<Thermometer size={16} color="#D4714E" />} iconBg="#FFE8DC"
+              labelJp="体温" labelEn="Avg Temp" value="38.5°C" valueColor="#D4714E"
+            />
+            <div style={{ height: 1, background: "#F8F5F2" }} />
+            <StatRow
+              icon={<Footprints size={16} color="#5B9BD5" />} iconBg="#E8F2FF"
+              labelJp="歩数" labelEn="Avg Steps" value="2,340" valueColor="#5B9BD5"
+            />
+            <div style={{ height: 1, background: "#F8F5F2" }} />
+            <StatRow
+              icon={<Moon size={16} color="#7B68C8" />} iconBg="#F0ECFF"
+              labelJp="睡眠" labelEn="Sleep" value="7.5h" valueColor="#7B68C8"
+            />
+          </div>
+        </div>
+
+        <div style={{ height: 1, background: "#F5F0EC", margin: "14px 0" }} />
+
+        {/* Row 3: status */}
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+            <CheckCircle2 size={14} color="#6BAF92" />
+            <span style={{ fontSize: 12, color: "#6BAF92", fontWeight: 600 }}>
+              {t("全センサー正常", "All sensors normal")}
+            </span>
+          </div>
+          <span style={{ fontSize: 11, color: "#C4B8B4" }}>
+            {t("2026年5月16日", "May 16, 2026")}
+          </span>
+        </div>
       </div>
     </div>
   );
 }
 
-function MiniStat({ emoji, value, color, labelJp, labelEn }: {
-  emoji: string; value: string; color: string; labelJp: string; labelEn: string;
+function StatRow({ icon, iconBg, labelJp, labelEn, value, valueColor }: {
+  icon: ReactNode; iconBg: string;
+  labelJp: string; labelEn: string;
+  value: string; valueColor: string;
 }) {
   const t = useT();
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-      <span style={{ fontSize: 14 }}>{emoji}</span>
-      <div style={{ display: "flex", flexDirection: "column" }}>
-        <span style={{ fontSize: 13, fontWeight: 700, color, lineHeight: 1.1 }}>{value}</span>
-        <span style={{ fontSize: 10, color: "#8A8A8A", lineHeight: 1.2 }}>{t(labelJp, labelEn)}</span>
-      </div>
+    <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "8px 0" }}>
+      <div style={{
+        width: 32, height: 32, borderRadius: 8, background: iconBg,
+        display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
+      }}>{icon}</div>
+      <span style={{ flex: 1, fontSize: 11, color: "#8A8A8A" }}>
+        {t(labelJp, labelEn)}
+      </span>
+      <span style={{ fontSize: 15, fontWeight: 700, color: valueColor }}>{value}</span>
     </div>
   );
 }
