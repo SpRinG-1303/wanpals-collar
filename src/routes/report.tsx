@@ -7,10 +7,11 @@ import {
 import { useState, type ReactNode } from "react";
 import {
   QrCode, FileDown, Activity, Thermometer, Footprints, Moon,
-  Syringe, Check, Clock, AlertTriangle, Stethoscope, Cross, FileHeart,
+  Syringe, Check, Clock, AlertTriangle, Stethoscope, Cross, CheckCircle2,
 } from "lucide-react";
 import { useT, useLanguage } from "@/context/LanguageContext";
-import { usePet } from "@/context/PetContext";
+import { usePet, type PetProfile } from "@/context/PetContext";
+import DogAvatar, { BREED_KEY_BY_JP, type BreedKey } from "@/components/DogAvatar";
 
 export const Route = createFileRoute("/report")({ component: Report });
 
