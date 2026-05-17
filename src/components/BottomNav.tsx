@@ -19,9 +19,9 @@ const TABS: Tab[] = [
   { Icon: Users, labelEn: "Community", labelJp: "コミュニティ", route: "/community" },
 ];
 
-const ACCENT = "#E8829A";
-const INACTIVE = "#C4B8B4";
-const AI_COLOR = "#7B68C8";
+const ACCENT = "var(--accent-sakura)";
+const INACTIVE = "var(--text-placeholder)";
+const AI_COLOR = "var(--accent-fuji)";
 
 export default function BottomNav() {
   const loc = useLocation();
