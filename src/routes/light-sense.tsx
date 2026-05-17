@@ -1,19 +1,20 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Lightbulb, Zap } from "lucide-react";
 import { useState, useRef } from "react";
-import { SensorPage, Card, SP } from "@/components/SensorPage";
+import { SensorPage, Card, SP, Bi } from "@/components/SensorPage";
+import { useT } from "@/context/LanguageContext";
 
 export const Route = createFileRoute("/light-sense")({ component: LightSensePage });
 
-const PRESETS = [
-  { name: "White", hex: "#FFFFFF" },
-  { name: "Red", hex: "#FF4444" },
-  { name: "Blue", hex: "#4488FF" },
-  { name: "Green", hex: "#44CC66" },
-  { name: "Purple", hex: "#9B72CF" },
-  { name: "Yellow", hex: "#FFD83A" },
-  { name: "Pink", hex: "#E8829A" },
-  { name: "Rainbow", hex: "rainbow" },
+const PRESETS: { jp: string; en: string; hex: string }[] = [
+  { jp: "白", en: "White", hex: "#FFFFFF" },
+  { jp: "赤", en: "Red", hex: "#FF4444" },
+  { jp: "青", en: "Blue", hex: "#4488FF" },
+  { jp: "緑", en: "Green", hex: "#44CC66" },
+  { jp: "紫", en: "Purple", hex: "#9B72CF" },
+  { jp: "黄", en: "Yellow", hex: "#FFD83A" },
+  { jp: "桃", en: "Pink", hex: "#E8829A" },
+  { jp: "虹", en: "Rainbow", hex: "rainbow" },
 ];
 
 function LightSensePage() {
@@ -22,6 +23,7 @@ function LightSensePage() {
   const [rainbow, setRainbow] = useState(false);
   const [blink, setBlink] = useState(false);
   const wheelRef = useRef<HTMLDivElement>(null);
+  const t = useT();
 
   const handleWheel = (e: React.MouseEvent | React.TouchEvent) => {
     const el = wheelRef.current;
@@ -84,9 +86,9 @@ function LightSensePage() {
             border: "2px solid #fff", boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
           }} />
           <div style={{ flex: 1 }}>
-            <div style={{ fontSize: 11, color: SP.usuzumi }}>選択中の色 / Selected</div>
+            <div style={{ fontSize: 11, color: SP.usuzumi }}>{t("選択中の色", "Selected")}</div>
             <div style={{ fontSize: 14, fontWeight: 700, color: SP.sumi, fontFamily: "monospace" }}>
-              {rainbow ? "RAINBOW" : color.toUpperCase()}
+              {rainbow ? t("レインボー", "RAINBOW") : color.toUpperCase()}
             </div>
           </div>
         </div>
@@ -95,8 +97,11 @@ function LightSensePage() {
       <Card accent={SP.yuzu}>
         <div className="flex items-center justify-between" style={{ marginBottom: 10 }}>
           <div>
-            <div style={{ fontSize: 13, fontWeight: 700, color: SP.sumi }}>明るさ</div>
-            <div style={{ fontSize: 11, color: SP.usuzumi }}>Brightness</div>
+            <Bi
+              jp="明るさ" en="Brightness"
+              jpStyle={{ fontSize: 13, fontWeight: 700, color: SP.sumi }}
+              enStyle={{ fontSize: 11, color: SP.usuzumi }}
+            />
           </div>
           <div style={{ fontSize: 16, fontWeight: 700, color: SP.yuzu, fontVariantNumeric: "tabular-nums" }}>{brightness}%</div>
         </div>
@@ -111,12 +116,15 @@ function LightSensePage() {
       </Card>
 
       <Card accent={SP.sakura}>
-        <div style={{ fontSize: 13, fontWeight: 700, color: SP.sumi }}>クイックカラー</div>
-        <div style={{ fontSize: 11, color: SP.usuzumi, marginBottom: 12 }}>Quick Colors</div>
-        <div className="grid grid-cols-4" style={{ gap: 8 }}>
+        <Bi
+          jp="クイックカラー" en="Quick Colors"
+          jpStyle={{ fontSize: 13, fontWeight: 700, color: SP.sumi }}
+          enStyle={{ fontSize: 11, color: SP.usuzumi, marginBottom: 12 }}
+        />
+        <div className="grid grid-cols-4" style={{ gap: 8, marginTop: 8 }}>
           {PRESETS.map((p) => (
             <button
-              key={p.name}
+              key={p.en}
               onClick={() => {
                 if (p.hex === "rainbow") { setRainbow(true); } else { setColor(p.hex); setRainbow(false); }
               }}
@@ -131,7 +139,7 @@ function LightSensePage() {
                 fontSize: 9, fontWeight: 700,
                 color: p.hex === "#FFFFFF" || p.hex === "#FFD83A" ? SP.sumi : "#fff",
               }}
-            >{p.name}</button>
+            >{t(p.jp, p.en)}</button>
           ))}
         </div>
       </Card>
@@ -165,8 +173,11 @@ function LightSensePage() {
             }} />
           </div>
           <div>
-            <div style={{ fontSize: 11, color: SP.usuzumi }}>ライブプレビュー</div>
-            <div style={{ fontSize: 12, color: SP.usuzumi, opacity: 0.7 }}>Collar Preview</div>
+            <Bi
+              jp="ライブプレビュー" en="Collar Preview"
+              jpStyle={{ fontSize: 11, color: SP.usuzumi }}
+              enStyle={{ fontSize: 12, color: SP.usuzumi, opacity: 0.7 }}
+            />
           </div>
         </div>
       </Card>
@@ -180,7 +191,7 @@ function LightSensePage() {
           marginTop: 4, letterSpacing: "0.02em",
         }}
       >
-        カラーを設定 / Set Color
+        {t("カラーを設定", "Set Color")}
       </button>
     </SensorPage>
   );
@@ -193,8 +204,11 @@ function ToggleRow({ icon, jp, en, on, onChange, color }: {
     <div className="flex items-center" style={{ gap: 12 }}>
       {icon}
       <div style={{ flex: 1 }}>
-        <div style={{ fontSize: 13, fontWeight: 600, color: SP.sumi }}>{jp}</div>
-        <div style={{ fontSize: 10, color: SP.usuzumi }}>{en}</div>
+        <Bi
+          jp={jp} en={en}
+          jpStyle={{ fontSize: 13, fontWeight: 600, color: SP.sumi }}
+          enStyle={{ fontSize: 10, color: SP.usuzumi }}
+        />
       </div>
       <button
         onClick={() => onChange(!on)}
