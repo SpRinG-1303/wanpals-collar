@@ -3,7 +3,6 @@ import { Bell } from "lucide-react";
 import { motion } from "framer-motion";
 import { useState, useEffect, type ReactNode } from "react";
 import { T, useT } from "@/context/LanguageContext";
-import LanguageSwitcher from "@/components/LanguageSwitcher";
 import SideDrawer, { HamburgerButton } from "@/components/SideDrawer";
 import BottomNav from "@/components/BottomNav";
 
@@ -23,31 +22,30 @@ export function TopBar({
   const showTitle = Boolean(titleJp || titleEn);
   return (
     <>
-      <header className="sticky top-0 z-40" style={{ background: "#FAFAF8" }}>
+      <header className="sticky top-0 z-40" style={{ background: "var(--bg-topbar)" }}>
         <div className="flex items-center justify-between" style={{ padding: "0 16px", height: 60, gap: 10 }}>
           <div className="flex items-center" style={{ gap: 10 }}>
             {onMenuClick && <HamburgerButton isOpen={menuOpen} onClick={onMenuClick} />}
             <Link
               to="/settings"
               className="flex items-center justify-center text-lg"
-              style={{ width: 42, height: 42, borderRadius: "50%", background: "#FFFFFF", border: "2px solid #E8829A" }}
+              style={{ width: 42, height: 42, borderRadius: "50%", background: "var(--bg-card)", border: "2px solid var(--accent-sakura)" }}
               aria-label="Profile"
             >
               🐕
             </Link>
           </div>
           {showTitle ? (
-            <div className="text-sm font-bold truncate flex-1 text-center" style={{ color: "#2C2C2C", letterSpacing: "0.02em" }}>
+            <div className="text-sm font-bold truncate flex-1 text-center" style={{ color: "var(--text-primary)", letterSpacing: "0.02em" }}>
               {t(titleJp ?? "", titleEn ?? "")}
             </div>
           ) : (
             <div className="flex-1" />
           )}
           <div className="flex items-center" style={{ gap: 0 }}>
-            <LanguageSwitcher />
             <button
               className="flex items-center justify-center"
-              style={{ width: 36, height: 36, margin: "0 4px 0 8px", color: "#8A8A8A" }}
+              style={{ width: 36, height: 36, margin: "0 4px 0 8px", color: "var(--text-secondary)" }}
               aria-label={t("通知", "Notifications")}
             >
               <Bell size={22} strokeWidth={1.75} />
@@ -145,7 +143,7 @@ export default function AppShell({
   return (
     <div
       style={{
-        background: "#E8E0D8",
+        background: "var(--bg-outside)",
         minHeight: "100vh",
         display: "flex",
         justifyContent: "center",
@@ -159,7 +157,7 @@ export default function AppShell({
           width: "100%",
           maxWidth: 430,
           height: "100dvh",
-          background: "#FAFAF8",
+          background: "var(--bg-page)",
           boxShadow: "0 0 40px rgba(0,0,0,0.15)",
           display: "flex",
           flexDirection: "column",

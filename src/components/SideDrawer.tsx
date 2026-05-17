@@ -77,8 +77,8 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
           height: 52,
           padding: "0 20px",
           gap: 14,
-          background: active ? "linear-gradient(90deg, #FFF0F5, transparent)" : "transparent",
-          borderLeft: active ? "3px solid #E8829A" : "3px solid transparent",
+          background: active ? "linear-gradient(90deg, var(--bg-card-sakura), transparent)" : "transparent",
+          borderLeft: active ? "3px solid var(--accent-sakura)" : "3px solid transparent",
           opacity: isOpen ? 1 : 0,
           transform: isOpen ? "translateX(0)" : "translateX(-20px)",
           transition: `opacity 0.3s ease ${idx * 30}ms, transform 0.3s ease ${idx * 30}ms, background 0.15s`,
@@ -92,7 +92,7 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
         </div>
         <div className="flex-1 min-w-0">
           <div className="flex items-center" style={{ gap: 6 }}>
-            <div style={{ fontSize: 15, fontWeight: 600, color: active ? "#E8829A" : "#2C2C2C", lineHeight: 1.2 }}>
+            <div style={{ fontSize: 15, fontWeight: 600, color: active ? "var(--accent-sakura)" : "var(--text-primary)", lineHeight: 1.2 }}>
               {t(it.labelJp, it.labelEn)}
             </div>
             {inBottomNav && (
@@ -100,8 +100,8 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
                 title={t("下のナビからアクセス可能", "Quick access from bottom nav")}
                 style={{
                   fontSize: 9,
-                  color: "#B0A8A4",
-                  background: "#F5F0EC",
+                  color: "var(--text-muted-soft)",
+                  background: "var(--border-subtle)",
                   borderRadius: 6,
                   padding: "1px 5px",
                   lineHeight: 1.2,
@@ -111,14 +111,14 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
               </span>
             )}
           </div>
-          <div style={{ fontSize: 11, color: "#8A8A8A", marginTop: 2 }}>
+          <div style={{ fontSize: 11, color: "var(--text-secondary)", marginTop: 2 }}>
             {t(it.subJp, it.subEn)}
           </div>
         </div>
         {active ? (
-          <span className="pulse" style={{ width: 8, height: 8, borderRadius: "50%", background: "#E8829A" }} />
+          <span className="pulse" style={{ width: 8, height: 8, borderRadius: "50%", background: "var(--accent-sakura)" }} />
         ) : (
-          <ChevronRight size={14} style={{ color: "#C4B8B4" }} />
+          <ChevronRight size={14} style={{ color: "var(--text-placeholder)" }} />
         )}
       </button>
     );
@@ -131,7 +131,7 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
         fontSize: 10,
         fontWeight: 600,
         letterSpacing: "0.08em",
-        color: "#B0A8A4",
+        color: "var(--text-muted-soft)",
         textTransform: "uppercase",
       }}
     >
@@ -139,7 +139,7 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
     </div>
   );
 
-  const Divider = () => <div style={{ height: 1, background: "#F0ECE8", margin: "8px 20px" }} />;
+  const Divider = () => <div style={{ height: 1, background: "var(--border-subtle)", margin: "8px 20px" }} />;
 
   const name = displayName(pet, t("ワンちゃん", "My Dog"));
 
@@ -173,8 +173,8 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
           top: 0,
           bottom: 0,
           width: "min(280px, 80%)",
-          background: "#FFFFFF",
-          boxShadow: "8px 0 32px rgba(0,0,0,0.15)",
+          background: "var(--bg-drawer)",
+          boxShadow: "8px 0 32px rgba(0,0,0,0.25)",
           transform: isOpen ? "translateX(0)" : "translateX(-100%)",
           transition: isOpen
             ? "transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1)"
@@ -189,7 +189,7 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
           className="relative overflow-hidden"
           style={{
             height: 180,
-            background: "linear-gradient(160deg, #FFF0F5 0%, #F5F0FF 60%, #EEF5FF 100%)",
+            background: "var(--bg-drawer-hero)",
             padding: "20px",
           }}
         >
@@ -212,8 +212,8 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
               🐕
             </div>
             <div>
-              <div style={{ fontSize: 20, fontWeight: 700, color: "#2C2C2C", lineHeight: 1 }}>WanCare</div>
-              <div style={{ fontSize: 12, color: "#8A8A8A", marginTop: 4 }}>ワンケア</div>
+              <div style={{ fontSize: 20, fontWeight: 700, color: "var(--text-primary)", lineHeight: 1 }}>WanCare</div>
+              <div style={{ fontSize: 12, color: "var(--text-secondary)", marginTop: 4 }}>ワンケア</div>
             </div>
           </div>
 
@@ -229,13 +229,13 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
                 <div style={{ fontSize: 12, fontWeight: 600, color: "#E8829A" }}>
                   {t(`${name}のせかい`, `${name}'s World`)} 🐾
                 </div>
-                <div style={{ fontSize: 11, color: "#8A8A8A", marginTop: 1 }}>{greeting(t)}</div>
+                <div style={{ fontSize: 11, color: "var(--text-secondary)", marginTop: 1 }}>{greeting(t)}</div>
               </div>
             </div>
           </div>
         </div>
 
-        <div style={{ height: 1, background: "#F0ECE8" }} />
+        <div style={{ height: 1, background: "var(--border-subtle)" }} />
 
         {/* Nav items (scrollable) */}
         <div className="flex-1 overflow-y-auto" style={{ padding: "12px 0" }}>
@@ -249,24 +249,24 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
 
         {/* Bottom */}
         <div style={{ marginTop: "auto" }}>
-          <div style={{ margin: 12, padding: 12, background: "#FAFAF8", borderRadius: 16 }}>
+          <div style={{ margin: 12, padding: 12, background: "var(--bg-elevated)", borderRadius: 16 }}>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <div
                   className="flex items-center justify-center"
-                  style={{ width: 28, height: 28, borderRadius: "50%", background: "#fff", border: "1.5px solid #E8829A", fontSize: 14 }}
+                  style={{ width: 28, height: 28, borderRadius: "50%", background: "var(--bg-card)", border: "1.5px solid var(--accent-sakura)", fontSize: 14 }}
                 >
                   🐕
                 </div>
                 <div>
-                  <div style={{ fontSize: 13, fontWeight: 700, color: "#2C2C2C", lineHeight: 1 }}>{name}</div>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: "var(--text-primary)", lineHeight: 1 }}>{name}</div>
                   <div className="flex items-center gap-1" style={{ marginTop: 3 }}>
-                    <span className="pulse" style={{ width: 6, height: 6, borderRadius: "50%", background: "#6BAF92" }} />
-                    <span style={{ fontSize: 11, color: "#6BAF92" }}>{t("首輪接続中", "Collar Connected")}</span>
+                    <span className="pulse" style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--accent-matcha)" }} />
+                    <span style={{ fontSize: 11, color: "var(--accent-matcha)" }}>{t("首輪接続中", "Collar Connected")}</span>
                   </div>
                 </div>
               </div>
-              <div style={{ fontSize: 11, color: "#E8829A", fontWeight: 600 }}>87/100 ✦</div>
+              <div style={{ fontSize: 11, color: "var(--accent-sakura)", fontWeight: 600 }}>87/100 ✦</div>
             </div>
           </div>
 
@@ -288,7 +288,7 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
             🆘 SOS {t("緊急", "Emergency")}
           </button>
 
-          <div style={{ textAlign: "center", fontSize: 9, color: "#C4B8B4", paddingBottom: 8 }}>
+          <div style={{ textAlign: "center", fontSize: 9, color: "var(--text-placeholder)", paddingBottom: 8 }}>
             WanCare v1.0 · ワンケア
           </div>
         </div>
@@ -299,7 +299,7 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
 
 export function HamburgerButton({ isOpen, onClick }: { isOpen: boolean; onClick: () => void }) {
   const lineBase: React.CSSProperties = {
-    width: 18, height: 2, background: "#2C2C2C", borderRadius: 2,
+    width: 18, height: 2, background: "var(--text-primary)", borderRadius: 2,
     transition: "transform 0.3s ease, opacity 0.3s ease",
     transformOrigin: "center",
   };
@@ -311,10 +311,10 @@ export function HamburgerButton({ isOpen, onClick }: { isOpen: boolean; onClick:
       className="flex items-center justify-center shrink-0"
       style={{
         width: 40, height: 40,
-        background: "#FFFFFF",
+        background: "var(--bg-card)",
         borderRadius: 12,
         boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
-        border: "1px solid #F0ECE8",
+        border: "1px solid var(--border-subtle)",
       }}
     >
       <span className="flex flex-col" style={{ gap: 4 }}>

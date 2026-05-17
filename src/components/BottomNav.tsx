@@ -19,9 +19,9 @@ const TABS: Tab[] = [
   { Icon: Users, labelEn: "Community", labelJp: "コミュニティ", route: "/community" },
 ];
 
-const ACCENT = "#E8829A";
-const INACTIVE = "#C4B8B4";
-const AI_COLOR = "#7B68C8";
+const ACCENT = "var(--accent-sakura)";
+const INACTIVE = "var(--text-placeholder)";
+const AI_COLOR = "var(--accent-fuji)";
 
 export default function BottomNav() {
   const loc = useLocation();
@@ -52,9 +52,9 @@ export default function BottomNav() {
         right: 0,
         bottom: 0,
         height: 64,
-        background: "#FFFFFF",
-        borderTop: "1px solid #F0ECE8",
-        boxShadow: "0 -4px 20px rgba(0,0,0,0.06)",
+        background: "var(--bg-bottomnav)",
+        borderTop: "1px solid var(--border-subtle)",
+        boxShadow: "var(--shadow-nav)",
         paddingBottom: "max(8px, env(safe-area-inset-bottom))",
         zIndex: 100,
         display: "flex",
@@ -83,10 +83,8 @@ export default function BottomNav() {
                   width: 52,
                   height: 52,
                   borderRadius: "50%",
-                  background: active
-                    ? `linear-gradient(135deg, #8A78D8, #AC99E8)`
-                    : `linear-gradient(135deg, ${AI_COLOR}, #9B88D8)`,
-                  border: "3px solid #FFFFFF",
+                  background: `linear-gradient(135deg, var(--accent-fuji), #AC99E8)`,
+                  border: "3px solid var(--bg-bottomnav)",
                   boxShadow: active
                     ? "0 6px 20px rgba(123,104,200,0.5)"
                     : "0 4px 16px rgba(123,104,200,0.4)",
@@ -96,9 +94,10 @@ export default function BottomNav() {
                   justifyContent: "center",
                   transform: `scale(${active ? 1.05 : 1}) ${bouncingNow ? "scale(1.15)" : ""}`,
                   transition: "transform 0.2s ease, box-shadow 0.2s ease",
+                  color: "#FFFFFF",
                 }}
               >
-                <Bot size={24} color="#FFFFFF" strokeWidth={2} />
+                <Bot size={24} strokeWidth={2} />
               </div>
               <span
                 style={{
@@ -139,8 +138,8 @@ export default function BottomNav() {
             <Icon
               size={22}
               strokeWidth={1.8}
-              color={active ? ACCENT : INACTIVE}
               style={{
+                color: active ? ACCENT : INACTIVE,
                 transform: bouncingNow ? "scale(1.2)" : "scale(1)",
                 transition: "transform 0.2s ease, color 0.2s ease",
               }}

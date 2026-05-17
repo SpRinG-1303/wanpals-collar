@@ -52,11 +52,29 @@ function Settings() {
       <Section title={t("表示", "Appearance")}>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2 text-sm font-bold">
-            {dark ? <Moon className="w-4 h-4"/> : <Sun className="w-4 h-4"/>}
-            {dark ? t("ダークモード", "Dark Mode") : t("ライトモード", "Light Mode")}
+            {dark
+              ? <Moon className="w-5 h-5" style={{ color: "#9B88D8" }} />
+              : <Sun className="w-5 h-5" style={{ color: "#D4A843" }} />}
+            <span>{dark ? t("ダークモード", "Dark Mode") : t("ライトモード", "Light Mode")}</span>
           </div>
-          <button onClick={() => toggleDark(!dark)} className={`w-14 h-8 rounded-full relative ${dark ? "bg-primary" : "bg-muted"}`}>
-            <span className={`absolute top-1 w-6 h-6 bg-white rounded-full transition-all ${dark ? "left-7" : "left-1"}`}/>
+          <button
+            onClick={() => toggleDark(!dark)}
+            aria-label="Toggle dark mode"
+            style={{
+              width: 52, height: 28, borderRadius: 14, position: "relative",
+              background: dark ? "#7B68C8" : "#EDE8E4",
+              transition: "background 0.3s ease",
+            }}
+          >
+            <span
+              style={{
+                position: "absolute", top: 3, left: dark ? 27 : 3,
+                width: 22, height: 22, borderRadius: "50%",
+                background: "#FFFFFF",
+                boxShadow: "0 2px 6px rgba(0,0,0,0.2)",
+                transition: "left 0.3s ease",
+              }}
+            />
           </button>
         </div>
       </Section>
