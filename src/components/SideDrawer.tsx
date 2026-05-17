@@ -229,7 +229,7 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
                 <div style={{ fontSize: 12, fontWeight: 600, color: "#E8829A" }}>
                   {t(`${name}のせかい`, `${name}'s World`)} 🐾
                 </div>
-                <div style={{ fontSize: 11, color: "#8A8A8A", marginTop: 1 }}>{greeting(t)}</div>
+                <div style={{ fontSize: 11, color: "var(--text-secondary)", marginTop: 1 }}>{greeting(t)}</div>
               </div>
             </div>
           </div>
