@@ -5,6 +5,7 @@ import { useT } from "@/context/LanguageContext";
 import { usePet } from "@/context/PetContext";
 import { PrimaryButton, JField } from "@/routes/auth";
 import { Stepper } from "@/routes/onboarding.avatar";
+import PhoneFrame from "@/components/PhoneFrame";
 
 export const Route = createFileRoute("/onboarding/dog")({ component: Step2 });
 
