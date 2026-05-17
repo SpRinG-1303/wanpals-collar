@@ -8,6 +8,7 @@ import { Stepper, TopBar } from "@/routes/onboarding.avatar";
 import { useT } from "@/context/LanguageContext";
 import { usePet } from "@/context/PetContext";
 import { convertToGhibli } from "@/lib/ghibli.functions";
+import { extractDogColors, type DogPalette } from "@/lib/extractDogColors";
 import type { BreedKey, EarStyle, EyeStyle } from "@/components/DogAvatar";
 
 export const Route = createFileRoute("/onboarding/dog")({ component: Step2 });
@@ -16,7 +17,7 @@ type SheetTarget = null | "dog" | "owner";
 type GhibliState =
   | { kind: "idle" }
   | { kind: "converting"; rawUrl: string; progress: number }
-  | { kind: "done"; ghibliUrl: string }
+  | { kind: "done"; ghibliUrl: string; palette: DogPalette | null }
   | { kind: "error"; message: string; rawFile: File | null };
 
 function Step2() {
@@ -30,7 +31,7 @@ function Step2() {
   const [ownerLoading, setOwnerLoading] = useState(false);
   const [sheet, setSheet] = useState<SheetTarget>(null);
   const [ghibli, setGhibli] = useState<GhibliState>(() =>
-    pet.dogPhotoUrl ? { kind: "done", ghibliUrl: pet.dogPhotoUrl } : { kind: "idle" }
+    pet.dogPhotoUrl ? { kind: "done", ghibliUrl: pet.dogPhotoUrl, palette: null } : { kind: "idle" }
   );
 
   const dogCamRef = useRef<HTMLInputElement>(null);
@@ -59,9 +60,16 @@ function Step2() {
         const { base64, mime } = await fileToBase64(file);
         const ghibliRes = await runConvert({ data: { base64, mime } });
         const ghibliUrl = ghibliRes.url;
-        setGhibli({ kind: "done", ghibliUrl });
+        setGhibli({ kind: "done", ghibliUrl, palette: null });
         setDogUrl(ghibliUrl);
         updatePet({ dogPhotoUrl: ghibliUrl, avatarStatus: "ghibli_ready" });
+        // Extract dog colors from the Ghibli image to recolor the mascot
+        try {
+          const palette = await extractDogColors(ghibliUrl);
+          setGhibli((g) => (g.kind === "done" ? { ...g, palette } : g));
+        } catch (colorErr) {
+          console.warn("Color extraction failed, using defaults:", colorErr);
+        }
       } catch (e) {
         const msg = e instanceof Error ? e.message : "Conversion failed";
         setGhibli({ kind: "error", message: msg, rawFile: file });
@@ -483,24 +491,11 @@ function AnimationField({
         )}
 
         {state.kind === "done" && (
-          <div
-            className="absolute inset-0 flex items-center justify-center"
-            style={{ animation: "afSlideIn 0.6s cubic-bezier(0.34,1.56,0.64,1)" }}
-          >
-            <div className="relative" style={{ animation: "afBreathe 3s ease-in-out infinite" }}>
-              <img
-                src={state.ghibliUrl}
-                alt="Ghibli"
-                style={{
-                  width: 180, height: 180, objectFit: "cover",
-                  borderRadius: 22,
-                  boxShadow: "0 0 0 4px #FFF0F5, 0 10px 28px rgba(232,103,138,0.28)",
-                }}
-              />
-            </div>
+          <>
+            <PawBot palette={state.palette ?? undefined} />
             <button
               onClick={onRetake}
-              className="absolute"
+              className="absolute z-10"
               style={{
                 bottom: 12, left: "50%", transform: "translateX(-50%)",
                 fontSize: 11, color: "#E8678A", fontWeight: 600,
@@ -508,7 +503,7 @@ function AnimationField({
             >
               ↺ {t("撮り直し", "Retake")}
             </button>
-          </div>
+          </>
         )}
 
         {state.kind === "error" && (
@@ -598,7 +593,7 @@ function AnimationField({
 /*  PawBot — the Pawsitive Diagnostics mascot                   */
 /* ============================================================ */
 
-function PawBot() {
+function PawBot({ palette }: { palette?: DogPalette }) {
   return (
     <div className="absolute inset-0 flex items-center justify-center">
       {/* Ground line */}
@@ -685,7 +680,7 @@ function PawBot() {
             transformOrigin: "50% 50%",
           }}
         >
-          <PawBotSVG />
+          <PawBotSVG palette={palette} />
         </div>
       </div>
 
@@ -804,11 +799,11 @@ function PawBot() {
   );
 }
 
-function PawBotSVG() {
-  const FUR = "#C17D4A";
-  const FUR_DEEP = "#A66838";
-  const EAR_INNER = "#E8A878";
-  const CHEST = "#F5E6C8";
+function PawBotSVG({ palette }: { palette?: DogPalette }) {
+  const FUR = palette?.fur ?? "#C17D4A";
+  const FUR_DEEP = palette?.furDeep ?? "#A66838";
+  const EAR_INNER = palette?.earInner ?? "#E8A878";
+  const CHEST = palette?.chest ?? "#F5E6C8";
   const BLUSH = "#F4A8B8";
   const COLLAR = "#E8678A";
   const COLLAR_DEEP = "#C84A6E";
