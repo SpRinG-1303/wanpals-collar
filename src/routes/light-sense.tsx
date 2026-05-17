@@ -20,32 +20,47 @@ const PRESETS: { jp: string; en: string; hex: string }[] = [
 const ROSE = "#E8829A";
 
 function LightSensePage() {
-  const [color, setColor] = useState("#E8829A");
+  const [hue, setHue] = useState(340); // 0-360
+  const [sat, setSat] = useState(60); // 0-100
+  const [val, setVal] = useState(85); // 0-100
   const [brightness, setBrightness] = useState(75);
   const [rainbow, setRainbow] = useState(false);
   const [blink, setBlink] = useState(false);
-  const wheelRef = useRef<HTMLDivElement>(null);
+  const sbRef = useRef<HTMLDivElement>(null);
+  const draggingRef = useRef(false);
   const t = useT();
 
-  const handleWheel = (e: React.MouseEvent | React.TouchEvent) => {
-    const el = wheelRef.current;
+  const color = hsvToHex(hue, sat, val);
+  const rgb = hexToRgb(color);
+
+  const handleSB = (e: React.MouseEvent | React.TouchEvent | MouseEvent | TouchEvent) => {
+    const el = sbRef.current;
     if (!el) return;
     const rect = el.getBoundingClientRect();
-    const cx = rect.left + rect.width / 2;
-    const cy = rect.top + rect.height / 2;
-    const point = "touches" in e ? e.touches[0] : (e as React.MouseEvent);
-    const dx = point.clientX - cx;
-    const dy = point.clientY - cy;
-    const r = Math.sqrt(dx * dx + dy * dy);
-    const maxR = rect.width / 2;
-    const dist = Math.min(1, r / maxR);
-    let angle = Math.atan2(dy, dx) * (180 / Math.PI);
-    if (angle < 0) angle += 360;
-    const hue = Math.round(angle);
-    const sat = Math.round(40 + dist * 60);
-    setColor(hslToHex(hue, sat, 55));
+    const point = "touches" in e ? (e as TouchEvent).touches[0] : (e as MouseEvent);
+    if (!point) return;
+    const x = Math.max(0, Math.min(rect.width, point.clientX - rect.left));
+    const y = Math.max(0, Math.min(rect.height, point.clientY - rect.top));
+    setSat(Math.round((x / rect.width) * 100));
+    setVal(Math.round((1 - y / rect.height) * 100));
     setRainbow(false);
   };
+
+  useEffect(() => {
+    const move = (e: MouseEvent | TouchEvent) => { if (draggingRef.current) { e.preventDefault?.(); handleSB(e); } };
+    const up = () => { draggingRef.current = false; };
+    window.addEventListener("mousemove", move);
+    window.addEventListener("mouseup", up);
+    window.addEventListener("touchmove", move, { passive: false });
+    window.addEventListener("touchend", up);
+    return () => {
+      window.removeEventListener("mousemove", move);
+      window.removeEventListener("mouseup", up);
+      window.removeEventListener("touchmove", move);
+      window.removeEventListener("touchend", up);
+    };
+  }, []);
+
 
   const displayColor = rainbow
     ? "linear-gradient(90deg,#F19A9A,#E8C46A,#9CC4A8,#9CC4E4,#B9A8D4,#E8829A)"
