@@ -249,24 +249,24 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
 
         {/* Bottom */}
         <div style={{ marginTop: "auto" }}>
-          <div style={{ margin: 12, padding: 12, background: "#FAFAF8", borderRadius: 16 }}>
+          <div style={{ margin: 12, padding: 12, background: "var(--bg-elevated)", borderRadius: 16 }}>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <div
                   className="flex items-center justify-center"
-                  style={{ width: 28, height: 28, borderRadius: "50%", background: "#fff", border: "1.5px solid #E8829A", fontSize: 14 }}
+                  style={{ width: 28, height: 28, borderRadius: "50%", background: "var(--bg-card)", border: "1.5px solid var(--accent-sakura)", fontSize: 14 }}
                 >
                   🐕
                 </div>
                 <div>
-                  <div style={{ fontSize: 13, fontWeight: 700, color: "#2C2C2C", lineHeight: 1 }}>{name}</div>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: "var(--text-primary)", lineHeight: 1 }}>{name}</div>
                   <div className="flex items-center gap-1" style={{ marginTop: 3 }}>
-                    <span className="pulse" style={{ width: 6, height: 6, borderRadius: "50%", background: "#6BAF92" }} />
-                    <span style={{ fontSize: 11, color: "#6BAF92" }}>{t("首輪接続中", "Collar Connected")}</span>
+                    <span className="pulse" style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--accent-matcha)" }} />
+                    <span style={{ fontSize: 11, color: "var(--accent-matcha)" }}>{t("首輪接続中", "Collar Connected")}</span>
                   </div>
                 </div>
               </div>
-              <div style={{ fontSize: 11, color: "#E8829A", fontWeight: 600 }}>87/100 ✦</div>
+              <div style={{ fontSize: 11, color: "var(--accent-sakura)", fontWeight: 600 }}>87/100 ✦</div>
             </div>
           </div>
 
