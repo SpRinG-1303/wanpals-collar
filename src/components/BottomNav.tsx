@@ -83,10 +83,8 @@ export default function BottomNav() {
                   width: 52,
                   height: 52,
                   borderRadius: "50%",
-                  background: active
-                    ? `linear-gradient(135deg, #8A78D8, #AC99E8)`
-                    : `linear-gradient(135deg, ${AI_COLOR}, #9B88D8)`,
-                  border: "3px solid #FFFFFF",
+                  background: `linear-gradient(135deg, var(--accent-fuji), #AC99E8)`,
+                  border: "3px solid var(--bg-bottomnav)",
                   boxShadow: active
                     ? "0 6px 20px rgba(123,104,200,0.5)"
                     : "0 4px 16px rgba(123,104,200,0.4)",
@@ -96,9 +94,10 @@ export default function BottomNav() {
                   justifyContent: "center",
                   transform: `scale(${active ? 1.05 : 1}) ${bouncingNow ? "scale(1.15)" : ""}`,
                   transition: "transform 0.2s ease, box-shadow 0.2s ease",
+                  color: "#FFFFFF",
                 }}
               >
-                <Bot size={24} color="#FFFFFF" strokeWidth={2} />
+                <Bot size={24} strokeWidth={2} />
               </div>
               <span
                 style={{
