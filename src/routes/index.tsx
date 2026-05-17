@@ -37,5 +37,6 @@ function Splash() {
         ))}
       </div>
     </div>
+    </PhoneFrame>
   );
 }
