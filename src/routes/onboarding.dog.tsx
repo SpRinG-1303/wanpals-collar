@@ -31,11 +31,12 @@ function Step2() {
   };
 
   return (
+    <PhoneFrame>
     <div className="min-h-screen pb-32 relative overflow-hidden" style={{ background: "#FAFAF8" }}>
       {/* Watercolor paw trail */}
       <PawTrail />
 
-      <div className="max-w-md mx-auto px-6 pt-4 relative">
+      <div className="px-6 pt-4 relative">
         <div className="flex items-center mb-4">
           <Link to="/onboarding/avatar" style={{ color: "#2C2C2C" }}>
             <ChevronLeft className="w-6 h-6" />
