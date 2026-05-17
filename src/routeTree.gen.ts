@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TempSenseRouteImport } from './routes/temp-sense'
+import { Route as SkinSenseRouteImport } from './routes/skin-sense'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as ReportRouteImport } from './routes/report'
 import { Route as PressureSenseRouteImport } from './routes/pressure-sense'
@@ -35,6 +36,11 @@ import { Route as OnboardingAvatarRouteImport } from './routes/onboarding.avatar
 const TempSenseRoute = TempSenseRouteImport.update({
   id: '/temp-sense',
   path: '/temp-sense',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SkinSenseRoute = SkinSenseRouteImport.update({
+  id: '/skin-sense',
+  path: '/skin-sense',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SettingsRoute = SettingsRouteImport.update({
@@ -162,6 +168,7 @@ export interface FileRoutesByFullPath {
   '/pressure-sense': typeof PressureSenseRoute
   '/report': typeof ReportRoute
   '/settings': typeof SettingsRoute
+  '/skin-sense': typeof SkinSenseRoute
   '/temp-sense': typeof TempSenseRoute
   '/onboarding/avatar': typeof OnboardingAvatarRoute
   '/onboarding/dog': typeof OnboardingDogRoute
@@ -186,6 +193,7 @@ export interface FileRoutesByTo {
   '/pressure-sense': typeof PressureSenseRoute
   '/report': typeof ReportRoute
   '/settings': typeof SettingsRoute
+  '/skin-sense': typeof SkinSenseRoute
   '/temp-sense': typeof TempSenseRoute
   '/onboarding/avatar': typeof OnboardingAvatarRoute
   '/onboarding/dog': typeof OnboardingDogRoute
@@ -211,6 +219,7 @@ export interface FileRoutesById {
   '/pressure-sense': typeof PressureSenseRoute
   '/report': typeof ReportRoute
   '/settings': typeof SettingsRoute
+  '/skin-sense': typeof SkinSenseRoute
   '/temp-sense': typeof TempSenseRoute
   '/onboarding/avatar': typeof OnboardingAvatarRoute
   '/onboarding/dog': typeof OnboardingDogRoute
@@ -237,6 +246,7 @@ export interface FileRouteTypes {
     | '/pressure-sense'
     | '/report'
     | '/settings'
+    | '/skin-sense'
     | '/temp-sense'
     | '/onboarding/avatar'
     | '/onboarding/dog'
@@ -261,6 +271,7 @@ export interface FileRouteTypes {
     | '/pressure-sense'
     | '/report'
     | '/settings'
+    | '/skin-sense'
     | '/temp-sense'
     | '/onboarding/avatar'
     | '/onboarding/dog'
@@ -285,6 +296,7 @@ export interface FileRouteTypes {
     | '/pressure-sense'
     | '/report'
     | '/settings'
+    | '/skin-sense'
     | '/temp-sense'
     | '/onboarding/avatar'
     | '/onboarding/dog'
@@ -310,6 +322,7 @@ export interface RootRouteChildren {
   PressureSenseRoute: typeof PressureSenseRoute
   ReportRoute: typeof ReportRoute
   SettingsRoute: typeof SettingsRoute
+  SkinSenseRoute: typeof SkinSenseRoute
   TempSenseRoute: typeof TempSenseRoute
   OnboardingAvatarRoute: typeof OnboardingAvatarRoute
   OnboardingDogRoute: typeof OnboardingDogRoute
@@ -323,6 +336,13 @@ declare module '@tanstack/react-router' {
       path: '/temp-sense'
       fullPath: '/temp-sense'
       preLoaderRoute: typeof TempSenseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/skin-sense': {
+      id: '/skin-sense'
+      path: '/skin-sense'
+      fullPath: '/skin-sense'
+      preLoaderRoute: typeof SkinSenseRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/settings': {
@@ -494,6 +514,7 @@ const rootRouteChildren: RootRouteChildren = {
   PressureSenseRoute: PressureSenseRoute,
   ReportRoute: ReportRoute,
   SettingsRoute: SettingsRoute,
+  SkinSenseRoute: SkinSenseRoute,
   TempSenseRoute: TempSenseRoute,
   OnboardingAvatarRoute: OnboardingAvatarRoute,
   OnboardingDogRoute: OnboardingDogRoute,
