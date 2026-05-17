@@ -455,7 +455,7 @@ function Home() {
             return (
               <Link
                 key={s.en}
-                to="/report"
+                to={s.to}
                 style={{
                   position: "relative",
                   background: JP.card,
