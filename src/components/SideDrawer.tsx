@@ -238,11 +238,12 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
         <div style={{ height: 1, background: "#F0ECE8" }} />
 
         {/* Nav items (scrollable) */}
-        <div className="flex-1 overflow-y-auto" style={{ padding: "16px 0" }}>
+        <div className="flex-1 overflow-y-auto" style={{ padding: "12px 0" }}>
+          <SectionLabel jp="メインメニュー" en="Main" />
           {MAIN_ITEMS.map((it, i) => renderItem(it, i))}
           <Divider />
+          <SectionLabel jp="その他" en="More" />
           {SECONDARY_ITEMS.map((it, i) => renderItem(it, MAIN_ITEMS.length + i))}
-          <Divider />
           {renderItem(SETTINGS_ITEM, MAIN_ITEMS.length + SECONDARY_ITEMS.length)}
         </div>
 
