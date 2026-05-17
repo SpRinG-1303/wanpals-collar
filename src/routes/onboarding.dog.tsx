@@ -79,8 +79,13 @@ function Step2() {
   const bothReady = !!dogUrl && !!ownerUrl;
 
   const onGenerate = () => {
-    updatePet({ avatarStatus: "ghibli_ready" });
+    updatePet({ avatarStatus: "ghibli_ready", path: "A" });
     nav({ to: "/onboarding/owner" });
+  };
+
+  const onBuildOwn = () => {
+    updatePet({ path: "B" });
+    nav({ to: "/onboarding/avatar" });
   };
 
   return (
@@ -90,8 +95,8 @@ function Step2() {
         style={{ background: "#F5EDE8", fontFamily: "'Nunito','Quicksand',system-ui,sans-serif" }}
       >
         <div className="px-6 pt-4">
-          <TopBar to="/onboarding/avatar" />
-          <Stepper current={2} />
+          <TopBar to="/onboarding/welcome" />
+          <Stepper current={1} path={pet.path} />
 
           <h1 className="text-[22px] font-extrabold text-center mt-2" style={{ color: "#3B2A23" }}>
             {t("ギブリ写真を追加", "Add Your Ghibli Photos")}
@@ -176,21 +181,21 @@ function Step2() {
             />
             <div className="flex-1">
               <div className="text-[12px] font-bold" style={{ color: "#3B2A23" }}>
-                {t("または、アバターを使う", "Or skip & use your avatar")}
+                🎨 {t("自分で作りたい？", "Prefer to build it yourself?")}
               </div>
               <div className="text-[10px] mt-0.5 leading-snug" style={{ color: "#A38B82" }}>
                 {t(
-                  "ステップ1のアバターをフォールバックとして使用します。",
-                  "Step 1 avatar will be used as fallback."
+                  "写真をスキップしてアバターをカスタマイズ。",
+                  "Skip photos and customise your avatar"
                 )}
               </div>
             </div>
             <button
-              onClick={() => nav({ to: "/onboarding/owner" })}
+              onClick={onBuildOwn}
               className="text-[11px] font-bold px-3 py-1.5 rounded-full"
-              style={{ background: "#FFF0F5", color: "#E8678A" }}
+              style={{ background: "#FFF0F5", color: "#E8678A", border: "1.5px solid #E8678A" }}
             >
-              {t("スキップ", "Skip")}
+              {t("自分で作る", "Build My Own")} →
             </button>
           </div>
         </div>
