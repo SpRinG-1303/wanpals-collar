@@ -16,6 +16,7 @@ import { Route as PressureSenseRouteImport } from './routes/pressure-sense'
 import { Route as MotionSenseRouteImport } from './routes/motion-sense'
 import { Route as MapRouteImport } from './routes/map'
 import { Route as LocationSenseRouteImport } from './routes/location-sense'
+import { Route as LightSenseRouteImport } from './routes/light-sense'
 import { Route as LanguageRouteImport } from './routes/language'
 import { Route as HomeRouteImport } from './routes/home'
 import { Route as CommunityRouteImport } from './routes/community'
@@ -61,6 +62,11 @@ const MapRoute = MapRouteImport.update({
 const LocationSenseRoute = LocationSenseRouteImport.update({
   id: '/location-sense',
   path: '/location-sense',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LightSenseRoute = LightSenseRouteImport.update({
+  id: '/light-sense',
+  path: '/light-sense',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LanguageRoute = LanguageRouteImport.update({
@@ -128,6 +134,7 @@ export interface FileRoutesByFullPath {
   '/community': typeof CommunityRoute
   '/home': typeof HomeRoute
   '/language': typeof LanguageRoute
+  '/light-sense': typeof LightSenseRoute
   '/location-sense': typeof LocationSenseRoute
   '/map': typeof MapRoute
   '/motion-sense': typeof MotionSenseRoute
@@ -148,6 +155,7 @@ export interface FileRoutesByTo {
   '/community': typeof CommunityRoute
   '/home': typeof HomeRoute
   '/language': typeof LanguageRoute
+  '/light-sense': typeof LightSenseRoute
   '/location-sense': typeof LocationSenseRoute
   '/map': typeof MapRoute
   '/motion-sense': typeof MotionSenseRoute
@@ -169,6 +177,7 @@ export interface FileRoutesById {
   '/community': typeof CommunityRoute
   '/home': typeof HomeRoute
   '/language': typeof LanguageRoute
+  '/light-sense': typeof LightSenseRoute
   '/location-sense': typeof LocationSenseRoute
   '/map': typeof MapRoute
   '/motion-sense': typeof MotionSenseRoute
@@ -191,6 +200,7 @@ export interface FileRouteTypes {
     | '/community'
     | '/home'
     | '/language'
+    | '/light-sense'
     | '/location-sense'
     | '/map'
     | '/motion-sense'
@@ -211,6 +221,7 @@ export interface FileRouteTypes {
     | '/community'
     | '/home'
     | '/language'
+    | '/light-sense'
     | '/location-sense'
     | '/map'
     | '/motion-sense'
@@ -231,6 +242,7 @@ export interface FileRouteTypes {
     | '/community'
     | '/home'
     | '/language'
+    | '/light-sense'
     | '/location-sense'
     | '/map'
     | '/motion-sense'
@@ -252,6 +264,7 @@ export interface RootRouteChildren {
   CommunityRoute: typeof CommunityRoute
   HomeRoute: typeof HomeRoute
   LanguageRoute: typeof LanguageRoute
+  LightSenseRoute: typeof LightSenseRoute
   LocationSenseRoute: typeof LocationSenseRoute
   MapRoute: typeof MapRoute
   MotionSenseRoute: typeof MotionSenseRoute
@@ -313,6 +326,13 @@ declare module '@tanstack/react-router' {
       path: '/location-sense'
       fullPath: '/location-sense'
       preLoaderRoute: typeof LocationSenseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/light-sense': {
+      id: '/light-sense'
+      path: '/light-sense'
+      fullPath: '/light-sense'
+      preLoaderRoute: typeof LightSenseRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/language': {
@@ -404,6 +424,7 @@ const rootRouteChildren: RootRouteChildren = {
   CommunityRoute: CommunityRoute,
   HomeRoute: HomeRoute,
   LanguageRoute: LanguageRoute,
+  LightSenseRoute: LightSenseRoute,
   LocationSenseRoute: LocationSenseRoute,
   MapRoute: MapRoute,
   MotionSenseRoute: MotionSenseRoute,
