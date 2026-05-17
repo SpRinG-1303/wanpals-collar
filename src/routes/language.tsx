@@ -19,9 +19,10 @@ function LanguagePicker() {
   const choose = () => { setLanguage(sel); nav({ to: "/auth" }); };
 
   return (
+    <PhoneFrame>
     <div className="min-h-screen flex flex-col" style={{ background: "#FAFAF8" }}>
       <HeroIllustration />
-      <div className="flex-1 px-6 pb-8 max-w-md mx-auto w-full">
+      <div className="flex-1 px-6 pb-8 w-full">
         <h1 className="text-base font-semibold text-center mt-2" style={{ color: "#2C2C2C" }}>
           言語を選択してください<br/>
           <span className="text-xs font-normal" style={{ color: "#8A8A8A" }}>Please select your language</span>
