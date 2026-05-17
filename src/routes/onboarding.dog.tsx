@@ -56,30 +56,42 @@ function Step2() {
   const startGhibliConversion = useCallback(
     async (file: File) => {
       const rawUrl = URL.createObjectURL(file);
-      setGhibli({ kind: "converting", rawUrl, progress: 0 });
+      setGhibli({ kind: "converting", rawUrl, stage: "ghibli", progress: 0 });
       try {
         const { base64, mime } = await fileToBase64(file);
-        const res = await runConvert({ data: { base64, mime } });
-        setGhibli({ kind: "done", ghibliUrl: res.url });
-        setDogUrl(res.url);
-        updatePet({ dogPhotoUrl: res.url, avatarStatus: "ghibli_ready" });
+        // Step 1: Ghibli conversion
+        const ghibliRes = await runConvert({ data: { base64, mime } });
+        const ghibliUrl = ghibliRes.url;
+        // Move to step 2
+        setGhibli({ kind: "converting", rawUrl, stage: "video", progress: 50, ghibliUrl });
+        setDogUrl(ghibliUrl);
+        updatePet({ dogPhotoUrl: ghibliUrl, avatarStatus: "ghibli_ready" });
+        // Step 2: Animation
+        try {
+          const videoRes = await runAnimate({ data: { imageUrl: ghibliUrl } });
+          setGhibli({ kind: "done", ghibliUrl, videoUrl: videoRes.url });
+        } catch (videoErr) {
+          // Fallback to still image if video fails
+          console.error("Video step failed:", videoErr);
+          setGhibli({ kind: "done", ghibliUrl, videoUrl: null });
+        }
       } catch (e) {
         const msg = e instanceof Error ? e.message : "Conversion failed";
         setGhibli({ kind: "error", message: msg, rawFile: file });
       }
     },
-    [runConvert, updatePet]
+    [runConvert, runAnimate, updatePet]
   );
 
-  // Fake progress bar while converting
+  // Fake progress bar while converting (two-stage: 0-50 ghibli, 50-100 video)
   useEffect(() => {
     if (ghibli.kind !== "converting") return;
     const id = setInterval(() => {
-      setGhibli((g) =>
-        g.kind === "converting"
-          ? { ...g, progress: Math.min(95, g.progress + Math.random() * 8 + 2) }
-          : g
-      );
+      setGhibli((g) => {
+        if (g.kind !== "converting") return g;
+        const ceiling = g.stage === "ghibli" ? 48 : 96;
+        return { ...g, progress: Math.min(ceiling, g.progress + Math.random() * 4 + 1) };
+      });
     }, 600);
     return () => clearInterval(id);
   }, [ghibli.kind]);
