@@ -31,7 +31,6 @@ type SheetTarget = null | "dog" | "owner";
 function Step2() {
   const nav = useNavigate();
   const t = useT();
-  const { language } = useLanguage();
   const { pet, updatePet } = usePet();
 
   const [dogUrl, setDogUrl] = useState<string | null>(pet.dogPhotoUrl);
