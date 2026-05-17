@@ -114,7 +114,7 @@ function Step3() {
       </div>
 
       {/* Bottom CTA */}
-      <div className="fixed bottom-0 inset-x-0 max-w-md mx-auto p-4" style={{ background: "linear-gradient(to top, #FAFAF8, rgba(250,250,248,0.9) 70%, transparent)" }}>
+      <div className="fixed bottom-0 inset-x-0 mx-auto p-4" style={{ maxWidth: 430, background: "linear-gradient(to top, #FAFAF8, rgba(250,250,248,0.9) 70%, transparent)" }}>
         <div className="relative">
           <button
             onClick={finish}
@@ -129,21 +129,16 @@ function Step3() {
           </button>
           {burst && (
             <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
-              {Array.from({ length: 10 }).map((_, i) => {
-                const angle = (i / 10) * Math.PI * 2;
-                const dx = Math.cos(angle) * 80;
-                const dy = Math.sin(angle) * 60;
-                return (
-                  <span
-                    key={i}
-                    className="absolute w-2.5 h-2.5 rounded-full"
-                    style={{
-                      background: i % 2 ? "#FFB7C5" : "#FFD4DC",
-                      animation: `burst${i} 0.8s ease-out forwards`,
-                    }}
-                  />
-                );
-              })}
+              {Array.from({ length: 10 }).map((_, i) => (
+                <span
+                  key={i}
+                  className="absolute w-2.5 h-2.5 rounded-full"
+                  style={{
+                    background: i % 2 ? "#FFB7C5" : "#FFD4DC",
+                    animation: `burst${i} 0.8s ease-out forwards`,
+                  }}
+                />
+              ))}
               <style>{`
                 ${Array.from({ length: 10 }).map((_, i) => {
                   const a = (i / 10) * Math.PI * 2;
@@ -156,6 +151,7 @@ function Step3() {
         </div>
       </div>
     </div>
+    </PhoneFrame>
   );
 }
 
