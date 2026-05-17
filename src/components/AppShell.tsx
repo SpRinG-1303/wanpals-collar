@@ -143,7 +143,7 @@ export default function AppShell({
   return (
     <div
       style={{
-        background: "#E8E0D8",
+        background: "var(--bg-outside)",
         minHeight: "100vh",
         display: "flex",
         justifyContent: "center",
