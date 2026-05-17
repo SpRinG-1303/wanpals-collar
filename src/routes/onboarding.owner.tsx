@@ -1,12 +1,13 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { ChevronLeft, User, Calendar, MapPin, Search, Check, X } from "lucide-react";
+import { ChevronLeft, User, Calendar, MapPin, Search, Check, X, Home } from "lucide-react";
 import { PREFECTURES } from "@/lib/mock";
 import { useT } from "@/context/LanguageContext";
 import { usePet } from "@/context/PetContext";
 import { JField } from "@/routes/auth";
 import { Stepper, } from "@/routes/onboarding.avatar";
 import { FormCard, FieldLabel } from "@/routes/onboarding.dog";
+import PhoneFrame from "@/components/PhoneFrame";
 
 export const Route = createFileRoute("/onboarding/owner")({ component: Step3 });
 
@@ -31,8 +32,9 @@ function Step3() {
   };
 
   return (
+    <PhoneFrame>
     <div className="min-h-screen pb-32" style={{ background: "#FAFAF8" }}>
-      <div className="max-w-md mx-auto px-6 pt-4">
+      <div className="px-6 pt-4">
         <div className="flex items-center mb-4">
           <Link to="/onboarding/dog" style={{ color: "#2C2C2C" }}>
             <ChevronLeft className="w-6 h-6" />
@@ -40,23 +42,28 @@ function Step3() {
         </div>
         <Stepper current={3} />
 
-        {/* Completion illustration */}
-        <div className="relative h-[120px] flex items-center justify-center my-3">
+        {/* Warm welcome illustration */}
+        <div className="relative h-[110px] flex items-center justify-center my-3">
           <div
             className="absolute rounded-full"
-            style={{ width: 140, height: 100, background: "#FFF0F5", filter: "blur(2px)" }}
+            style={{ width: 110, height: 110, background: "#FFF0F5", filter: "blur(1px)" }}
           />
-          <div className="relative flex items-end gap-3">
-            {/* person */}
-            <div className="flex flex-col items-center">
-              <div className="w-7 h-7 rounded-full" style={{ background: "#E8829A" }} />
-              <div className="w-9 h-12 rounded-t-2xl mt-0.5" style={{ background: "#E8829A" }} />
-            </div>
-            {/* dog */}
-            <div className="flex flex-col items-center">
-              <div className="w-5 h-5 rounded-full" style={{ background: "#D4A843" }} />
-              <div className="w-7 h-8 rounded-t-2xl mt-0.5" style={{ background: "#D4A843" }} />
-            </div>
+          {/* sakura petals */}
+          {[
+            { l: "8%", t: "20%", s: 7 },
+            { l: "82%", t: "15%", s: 9 },
+            { l: "88%", t: "65%", s: 6 },
+            { l: "6%", t: "70%", s: 8 },
+          ].map((p, i) => (
+            <div
+              key={i}
+              className="absolute rounded-full"
+              style={{ left: p.l, top: p.t, width: p.s, height: p.s * 1.4, background: "#FFB7C5", transform: `rotate(${i * 40}deg)`, opacity: 0.7 }}
+            />
+          ))}
+          <div className="relative w-[90px] h-[90px] rounded-full flex items-center justify-center" style={{ background: "#FFFFFF", boxShadow: "0 8px 20px rgba(232,130,154,0.18)" }}>
+            <Home className="w-10 h-10" style={{ color: "#E8829A" }} strokeWidth={1.8} />
+            <span className="absolute" style={{ bottom: 16, fontSize: 14 }}>🐾</span>
           </div>
         </div>
 
@@ -107,7 +114,7 @@ function Step3() {
       </div>
 
       {/* Bottom CTA */}
-      <div className="fixed bottom-0 inset-x-0 max-w-md mx-auto p-4" style={{ background: "linear-gradient(to top, #FAFAF8, rgba(250,250,248,0.9) 70%, transparent)" }}>
+      <div className="fixed bottom-0 inset-x-0 mx-auto p-4" style={{ maxWidth: 430, background: "linear-gradient(to top, #FAFAF8, rgba(250,250,248,0.9) 70%, transparent)" }}>
         <div className="relative">
           <button
             onClick={finish}
@@ -122,21 +129,16 @@ function Step3() {
           </button>
           {burst && (
             <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
-              {Array.from({ length: 10 }).map((_, i) => {
-                const angle = (i / 10) * Math.PI * 2;
-                const dx = Math.cos(angle) * 80;
-                const dy = Math.sin(angle) * 60;
-                return (
-                  <span
-                    key={i}
-                    className="absolute w-2.5 h-2.5 rounded-full"
-                    style={{
-                      background: i % 2 ? "#FFB7C5" : "#FFD4DC",
-                      animation: `burst${i} 0.8s ease-out forwards`,
-                    }}
-                  />
-                );
-              })}
+              {Array.from({ length: 10 }).map((_, i) => (
+                <span
+                  key={i}
+                  className="absolute w-2.5 h-2.5 rounded-full"
+                  style={{
+                    background: i % 2 ? "#FFB7C5" : "#FFD4DC",
+                    animation: `burst${i} 0.8s ease-out forwards`,
+                  }}
+                />
+              ))}
               <style>{`
                 ${Array.from({ length: 10 }).map((_, i) => {
                   const a = (i / 10) * Math.PI * 2;
@@ -149,6 +151,7 @@ function Step3() {
         </div>
       </div>
     </div>
+    </PhoneFrame>
   );
 }
 
@@ -163,8 +166,9 @@ function PrefectureSheet({
     <div className="fixed inset-0 z-50 flex items-end justify-center" style={{ background: "rgba(44,44,44,0.4)" }} onClick={onClose}>
       <div
         onClick={(e) => e.stopPropagation()}
-        className="w-full max-w-md h-[70vh] flex flex-col"
-        style={{ background: "#FFFFFF", borderRadius: "32px 32px 0 0", boxShadow: "0 -8px 32px rgba(0,0,0,0.1)" }}
+        className="w-full h-[70vh] flex flex-col"
+        style={{ maxWidth: 430, background: "#FFFFFF", borderRadius: "32px 32px 0 0", boxShadow: "0 -8px 32px rgba(0,0,0,0.1)" }}
+        
       >
         <div className="mx-auto mt-3 mb-2 rounded-full" style={{ width: 32, height: 4, background: "#E8E0DC" }} />
         <div className="px-5 pb-3 flex items-center justify-between">

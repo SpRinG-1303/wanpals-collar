@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Eye, EyeOff, Mail, Lock, User, PawPrint, Check } from "lucide-react";
 import { useT } from "@/context/LanguageContext";
 import { HeroIllustration } from "@/routes/language";
+import PhoneFrame from "@/components/PhoneFrame";
 
 export const Route = createFileRoute("/auth")({ component: Auth });
 
@@ -12,11 +13,12 @@ function Auth() {
   const nav = useNavigate();
 
   return (
+    <PhoneFrame>
     <div className="min-h-screen flex flex-col" style={{ background: "#FAFAF8" }}>
-      <HeroIllustration />
+      <HeroIllustration compact />
 
       <div
-        className="flex-1 -mt-6 max-w-md mx-auto w-full px-6 pb-10 pt-7"
+        className="flex-1 -mt-6 w-full px-6 pb-10 pt-7"
         style={{
           background: "#FFFFFF",
           borderRadius: "32px 32px 0 0",
@@ -98,6 +100,7 @@ function Auth() {
         </Link>
       </div>
     </div>
+    </PhoneFrame>
   );
 }
 

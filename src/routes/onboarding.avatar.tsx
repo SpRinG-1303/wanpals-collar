@@ -6,6 +6,7 @@ import { useT, useLanguage } from "@/context/LanguageContext";
 import { usePet } from "@/context/PetContext";
 import { PrimaryButton } from "@/routes/auth";
 import DogAvatar, { BREED_KEY_BY_JP, type BreedKey, type EarStyle, type EyeStyle } from "@/components/DogAvatar";
+import PhoneFrame from "@/components/PhoneFrame";
 
 export const Route = createFileRoute("/onboarding/avatar")({ component: Step1 });
 
@@ -61,8 +62,9 @@ function Step1() {
     language === "english" ? en : language === "japanese" ? jp : `${jp} / ${en}`;
 
   return (
+    <PhoneFrame>
     <div className="min-h-screen pb-32" style={{ background: "#FAFAF8" }}>
-      <div className="max-w-md mx-auto px-6 pt-4">
+      <div className="px-6 pt-4">
         <TopBar />
         <Stepper current={1} />
 
@@ -197,7 +199,7 @@ function Step1() {
       </div>
 
       {/* Bottom CTA */}
-      <div className="fixed bottom-0 inset-x-0 max-w-md mx-auto p-4" style={{ background: "linear-gradient(to top, #FAFAF8, rgba(250,250,248,0.9) 70%, transparent)" }}>
+      <div className="fixed bottom-0 inset-x-0 mx-auto p-4" style={{ maxWidth: 430, background: "linear-gradient(to top, #FAFAF8, rgba(250,250,248,0.9) 70%, transparent)" }}>
         <p className="text-center text-[11px] mb-2" style={{ color: "#C4B8B4" }}>
           {t("あとで変更できます", "You can change this later")}
         </p>
@@ -206,6 +208,7 @@ function Step1() {
         </PrimaryButton>
       </div>
     </div>
+    </PhoneFrame>
   );
 }
 

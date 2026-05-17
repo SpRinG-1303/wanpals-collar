@@ -5,6 +5,7 @@ import { useT } from "@/context/LanguageContext";
 import { usePet } from "@/context/PetContext";
 import { PrimaryButton, JField } from "@/routes/auth";
 import { Stepper } from "@/routes/onboarding.avatar";
+import PhoneFrame from "@/components/PhoneFrame";
 
 export const Route = createFileRoute("/onboarding/dog")({ component: Step2 });
 
@@ -30,11 +31,12 @@ function Step2() {
   };
 
   return (
+    <PhoneFrame>
     <div className="min-h-screen pb-32 relative overflow-hidden" style={{ background: "#FAFAF8" }}>
       {/* Watercolor paw trail */}
       <PawTrail />
 
-      <div className="max-w-md mx-auto px-6 pt-4 relative">
+      <div className="px-6 pt-4 relative">
         <div className="flex items-center mb-4">
           <Link to="/onboarding/avatar" style={{ color: "#2C2C2C" }}>
             <ChevronLeft className="w-6 h-6" />
@@ -145,12 +147,13 @@ function Step2() {
         </div>
       </div>
 
-      <div className="fixed bottom-0 inset-x-0 max-w-md mx-auto p-4" style={{ background: "linear-gradient(to top, #FAFAF8, rgba(250,250,248,0.9) 70%, transparent)" }}>
+      <div className="fixed bottom-0 inset-x-0 mx-auto p-4" style={{ maxWidth: 430, background: "linear-gradient(to top, #FAFAF8, rgba(250,250,248,0.9) 70%, transparent)" }}>
         <PrimaryButton onClick={handleNext}>
           {t("次へ", "Next")} →
         </PrimaryButton>
       </div>
     </div>
+    </PhoneFrame>
   );
 }
 
@@ -211,13 +214,14 @@ export function FieldLabel({
   );
 }
 
-function Stepper2({ value, onChange, suffix, accent }: { value: number; onChange: (n: number) => void; suffix: string; accent: string }) {
+function Stepper2({ value, onChange, suffix }: { value: number; onChange: (n: number) => void; suffix: string; accent?: string }) {
   return (
     <div className="flex items-center gap-3 h-[44px]">
       <button
         onClick={() => onChange(Math.max(0, value - 1))}
         className="w-9 h-9 rounded-full flex items-center justify-center"
-        style={{ background: "#FAFAF8", border: `1.5px solid ${accent}40`, color: accent }}
+        style={{ background: "#F5F0F0", color: "#E8829A" }}
+        aria-label="decrease"
       >
         <Minus className="w-4 h-4" />
       </button>
@@ -227,7 +231,8 @@ function Stepper2({ value, onChange, suffix, accent }: { value: number; onChange
       <button
         onClick={() => onChange(value + 1)}
         className="w-9 h-9 rounded-full flex items-center justify-center"
-        style={{ background: accent, color: "white" }}
+        style={{ background: "#E8829A", color: "white" }}
+        aria-label="increase"
       >
         <Plus className="w-4 h-4" />
       </button>
