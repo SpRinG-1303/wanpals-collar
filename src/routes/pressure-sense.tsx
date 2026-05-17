@@ -1,15 +1,20 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Sparkles, Droplet } from "lucide-react";
-import { SensorPage, Card, TimeTabs, useTimeTab, SP } from "@/components/SensorPage";
+import { SensorPage, Card, TimeTabs, useTimeTab, SP, Bi } from "@/components/SensorPage";
+import { useT } from "@/context/LanguageContext";
 
 export const Route = createFileRoute("/pressure-sense")({ component: PressureSensePage });
 
 const PATTERN = [42, 48, 45, 52, 50, 47, 49];
-const DAYS = ["月", "火", "水", "木", "金", "土", "日"];
+const DAYS = [
+  { jp: "月", en: "Mon" }, { jp: "火", en: "Tue" }, { jp: "水", en: "Wed" },
+  { jp: "木", en: "Thu" }, { jp: "金", en: "Fri" }, { jp: "土", en: "Sat" }, { jp: "日", en: "Sun" },
+];
 
 function PressureSensePage() {
   const [tab, setTab] = useTimeTab();
-  const value = 0.62; // semicircle 0-1
+  const t = useT();
+  const value = 0.62;
   const angle = -180 + value * 180;
 
   return (
@@ -26,7 +31,7 @@ function PressureSensePage() {
           <span style={{
             background: "#E8F5EE", color: SP.matcha, fontWeight: 800,
             padding: "8px 22px", borderRadius: 999, fontSize: 14, letterSpacing: "0.04em",
-          }}>● 正常 / Normal</span>
+          }}>● {t("正常", "Normal")}</span>
         </div>
 
         <div style={{ position: "relative", width: 220, height: 130, margin: "0 auto" }}>
@@ -51,7 +56,7 @@ function PressureSensePage() {
             textAlign: "center",
           }}>
             <div style={{ fontSize: 22, fontWeight: 800, color: SP.sumi, fontVariantNumeric: "tabular-nums" }}>62 kPa</div>
-            <div style={{ fontSize: 11, color: SP.usuzumi }}>現在の圧力 / Current Pressure</div>
+            <div style={{ fontSize: 11, color: SP.usuzumi }}>{t("現在の圧力", "Current Pressure")}</div>
           </div>
         </div>
       </Card>
@@ -66,19 +71,25 @@ function PressureSensePage() {
             <Droplet size={26} style={{ color: SP.sora }} />
           </div>
           <div style={{ flex: 1 }}>
-            <div style={{ fontSize: 11, color: SP.usuzumi }}>今日の飲み込み回数</div>
-            <div style={{ fontSize: 11, color: SP.usuzumi, opacity: 0.7 }}>Today's Swallow Count</div>
+            <Bi
+              jp="今日の飲み込み回数" en="Today's Swallow Count"
+              jpStyle={{ fontSize: 11, color: SP.usuzumi }}
+              enStyle={{ fontSize: 11, color: SP.usuzumi, opacity: 0.7 }}
+            />
             <div style={{ fontSize: 28, fontWeight: 800, color: SP.sumi, fontVariantNumeric: "tabular-nums", marginTop: 4 }}>
-              142<span style={{ fontSize: 14, color: SP.usuzumi, marginLeft: 4 }}>回</span>
+              142<span style={{ fontSize: 14, color: SP.usuzumi, marginLeft: 4 }}>{t("回", "times")}</span>
             </div>
           </div>
         </div>
       </Card>
 
       <Card accent={SP.yuzu}>
-        <div style={{ fontSize: 14, fontWeight: 700, color: SP.sumi }}>圧力パターン</div>
-        <div style={{ fontSize: 11, color: SP.usuzumi, marginBottom: 12 }}>Pressure Pattern · 7 days</div>
-        <svg viewBox="0 0 280 100" width="100%" height={100}>
+        <Bi
+          jp="圧力パターン" en="Pressure Pattern · 7 days"
+          jpStyle={{ fontSize: 14, fontWeight: 700, color: SP.sumi }}
+          enStyle={{ fontSize: 11, color: SP.usuzumi, marginBottom: 12 }}
+        />
+        <svg viewBox="0 0 280 100" width="100%" height={100} style={{ marginTop: 8 }}>
           <defs>
             <linearGradient id="pressFill" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0%" stopColor="#D4A843" stopOpacity="0.35" />
@@ -96,7 +107,7 @@ function PressureSensePage() {
                 {pts.map((p, i) => (
                   <g key={i}>
                     <circle cx={p[0]} cy={p[1]} r={3} fill="#fff" stroke="#D4A843" strokeWidth={2} />
-                    <text x={p[0]} y={108} fontSize="9" fill="#8A8A8A" textAnchor="middle">{DAYS[i]}</text>
+                    <text x={p[0]} y={108} fontSize="9" fill="#8A8A8A" textAnchor="middle">{t(DAYS[i].jp, DAYS[i].en)}</text>
                   </g>
                 ))}
               </>
@@ -109,11 +120,18 @@ function PressureSensePage() {
         <div className="flex items-start" style={{ gap: 10 }}>
           <Sparkles size={20} style={{ color: SP.fuji, flexShrink: 0, marginTop: 2 }} />
           <div>
-            <div style={{ fontSize: 13, fontWeight: 700, color: SP.sumi }}>AIの洞察</div>
-            <div style={{ fontSize: 11, color: SP.usuzumi, marginBottom: 6 }}>AI Insight</div>
-            <div style={{ fontSize: 12, color: SP.sumi, lineHeight: 1.5 }}>
-              嚥下パターンは正常です。異常は検出されていません。<br/>
-              <span style={{ color: SP.usuzumi }}>Swallowing pattern is normal. No irregularities detected.</span>
+            <Bi
+              jp="AIの洞察" en="AI Insight"
+              jpStyle={{ fontSize: 13, fontWeight: 700, color: SP.sumi }}
+              enStyle={{ fontSize: 11, color: SP.usuzumi, marginBottom: 6 }}
+            />
+            <div style={{ fontSize: 12, color: SP.sumi, lineHeight: 1.5, marginTop: 4 }}>
+              <Bi
+                jp="嚥下パターンは正常です。異常は検出されていません。"
+                en="Swallowing pattern is normal. No irregularities detected."
+                jpStyle={{ color: SP.sumi }}
+                enStyle={{ color: SP.usuzumi, fontSize: 11, marginTop: 2 }}
+              />
             </div>
           </div>
         </div>
