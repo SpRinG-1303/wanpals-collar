@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Bell } from "lucide-react";
+import { Bell, ArrowLeft } from "lucide-react";
 import { motion } from "framer-motion";
 import { useState, useEffect, type ReactNode } from "react";
 import { T, useT } from "@/context/LanguageContext";
@@ -11,11 +11,15 @@ export function TopBar({
   titleEn,
   onMenuClick,
   menuOpen = false,
+  showBack = false,
+  backTo = "/home",
 }: {
   titleJp?: string;
   titleEn?: string;
   onMenuClick?: () => void;
   menuOpen?: boolean;
+  showBack?: boolean;
+  backTo?: string;
 }) {
   const [sosOpen, setSosOpen] = useState(false);
   const t = useT();
@@ -24,7 +28,17 @@ export function TopBar({
     <>
       <header className="sticky top-0 z-40" style={{ background: "var(--bg-topbar)" }}>
         <div className="flex items-center justify-between" style={{ padding: "0 16px", height: 60, gap: 10 }}>
-          <div className="flex items-center" style={{ gap: 10 }}>
+          <div className="flex items-center" style={{ gap: 8 }}>
+            {showBack && (
+              <Link
+                to={backTo}
+                aria-label="Back"
+                className="flex items-center justify-center"
+                style={{ width: 36, height: 36, borderRadius: "50%", color: "var(--text-secondary)" }}
+              >
+                <ArrowLeft size={22} strokeWidth={2} />
+              </Link>
+            )}
             {onMenuClick && <HamburgerButton isOpen={menuOpen} onClick={onMenuClick} />}
             <Link
               to="/settings"

@@ -1,7 +1,5 @@
-import { Link } from "@tanstack/react-router";
-import { ArrowLeft } from "lucide-react";
 import { useState, type ReactNode, type CSSProperties } from "react";
-import AppShell from "@/components/AppShell";
+import AppShell, { TopBar } from "@/components/AppShell";
 import { useLanguage, useT } from "@/context/LanguageContext";
 
 export const SP = {
@@ -34,7 +32,12 @@ export function SensorPage({
 }) {
   const t = useT();
   return (
-    <AppShell hideTopBar noPadding>
+    <AppShell
+      noPadding
+      renderTopBar={({ menuOpen, onMenuClick }) => (
+        <TopBar onMenuClick={onMenuClick} menuOpen={menuOpen} showBack backTo="/home" />
+      )}
+    >
       <div
         style={{
           background: headerGradient,
@@ -43,19 +46,7 @@ export function SensorPage({
           overflow: "hidden",
         }}
       >
-        <div className="flex items-center justify-between" style={{ marginBottom: 12 }}>
-          <Link
-            to="/home"
-            className="flex items-center justify-center"
-            style={{
-              width: 40, height: 40, borderRadius: "50%",
-              background: "rgba(255,255,255,0.85)", color: SP.sumi,
-              boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
-            }}
-            aria-label="Back"
-          >
-            <ArrowLeft size={20} strokeWidth={2} />
-          </Link>
+        <div className="flex items-center justify-end" style={{ marginBottom: 12 }}>
           <span className="flex items-center" style={{
             background: "rgba(255,255,255,0.85)", color: SP.sumi,
             borderRadius: 999, padding: "5px 11px 5px 9px", fontSize: 10, fontWeight: 700, letterSpacing: "0.12em",
