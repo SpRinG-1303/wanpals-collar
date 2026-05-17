@@ -5,6 +5,7 @@ import { useState, useEffect, type ReactNode } from "react";
 import { T, useT } from "@/context/LanguageContext";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import SideDrawer, { HamburgerButton } from "@/components/SideDrawer";
+import BottomNav from "@/components/BottomNav";
 
 export function TopBar({
   titleJp,
@@ -96,6 +97,7 @@ export default function AppShell({
   hideTopBar = false,
   noPadding = false,
   fullHeight = false,
+  hideBottomNav = false,
   renderTopBar,
 }: {
   children: ReactNode;
@@ -104,6 +106,7 @@ export default function AppShell({
   hideTopBar?: boolean;
   noPadding?: boolean;
   fullHeight?: boolean;
+  hideBottomNav?: boolean;
   renderTopBar?: (ctx: { menuOpen: boolean; onMenuClick: () => void }) => ReactNode;
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -158,7 +161,7 @@ export default function AppShell({
           height: fullHeight ? "100dvh" : undefined,
           minHeight: fullHeight ? undefined : "100vh",
           background: "#FAFAF8",
-          paddingBottom: fullHeight ? 0 : 20,
+          paddingBottom: hideBottomNav ? (fullHeight ? 0 : 20) : 0,
           boxShadow: "0 0 40px rgba(0,0,0,0.15)",
           display: fullHeight ? "flex" : undefined,
           flexDirection: fullHeight ? "column" : undefined,
@@ -178,13 +181,21 @@ export default function AppShell({
           className={noPadding ? "" : "px-4 py-4"}
           style={
             fullHeight
-              ? { flex: 1, minHeight: 0, overflow: "hidden", display: "flex", flexDirection: "column" }
-              : undefined
+              ? {
+                  flex: 1,
+                  minHeight: 0,
+                  overflow: "hidden",
+                  display: "flex",
+                  flexDirection: "column",
+                  paddingBottom: hideBottomNav ? 0 : 64,
+                }
+              : { paddingBottom: hideBottomNav ? undefined : 80 }
           }
         >
           {children}
         </main>
         <SideDrawer isOpen={menuOpen} onClose={() => setMenuOpen(false)} />
+        {!hideBottomNav && <BottomNav />}
       </div>
     </div>
   );
