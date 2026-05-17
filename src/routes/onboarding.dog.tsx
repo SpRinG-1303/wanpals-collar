@@ -214,7 +214,7 @@ export function FieldLabel({
   );
 }
 
-function Stepper2({ value, onChange, suffix, accent }: { value: number; onChange: (n: number) => void; suffix: string; accent: string }) {
+function Stepper2({ value, onChange, suffix }: { value: number; onChange: (n: number) => void; suffix: string; accent?: string }) {
   return (
     <div className="flex items-center gap-3 h-[44px]">
       <button
