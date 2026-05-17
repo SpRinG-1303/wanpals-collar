@@ -220,7 +220,8 @@ function Stepper2({ value, onChange, suffix, accent }: { value: number; onChange
       <button
         onClick={() => onChange(Math.max(0, value - 1))}
         className="w-9 h-9 rounded-full flex items-center justify-center"
-        style={{ background: "#FAFAF8", border: `1.5px solid ${accent}40`, color: accent }}
+        style={{ background: "#F5F0F0", color: "#E8829A" }}
+        aria-label="decrease"
       >
         <Minus className="w-4 h-4" />
       </button>
@@ -230,7 +231,8 @@ function Stepper2({ value, onChange, suffix, accent }: { value: number; onChange
       <button
         onClick={() => onChange(value + 1)}
         className="w-9 h-9 rounded-full flex items-center justify-center"
-        style={{ background: accent, color: "white" }}
+        style={{ background: "#E8829A", color: "white" }}
+        aria-label="increase"
       >
         <Plus className="w-4 h-4" />
       </button>
