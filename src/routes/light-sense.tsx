@@ -99,49 +99,75 @@ function LightSensePage() {
         }
       `}</style>
 
-      {/* Color wheel card */}
+      {/* Color picker card */}
       <CardSoft>
         <Label jp="カラー選択" en="Color Select" />
+
+        {/* Hue slider */}
+        <div style={{ marginTop: 14, position: "relative" }}>
+          <div style={{
+            height: 20, borderRadius: 999,
+            background: "linear-gradient(90deg,#ff0000,#ffa500,#ffff00,#00ff00,#00ffff,#0000ff,#a020f0,#ff0000)",
+            boxShadow: "inset 0 0 0 1px rgba(0,0,0,0.06)",
+          }} />
+          <input
+            type="range" min={0} max={360} value={hue}
+            onChange={(e) => { setHue(Number(e.target.value)); setRainbow(false); }}
+            className="ls-slider ls-hue"
+            style={{
+              position: "absolute", inset: 0, width: "100%", height: 20,
+              background: "transparent", margin: 0, padding: 0,
+            }}
+          />
+        </div>
+
+        {/* Saturation / Brightness box */}
         <div
-          ref={wheelRef}
-          onClick={handleWheel}
-          onTouchStart={handleWheel}
+          ref={sbRef}
+          onMouseDown={(e) => { draggingRef.current = true; handleSB(e.nativeEvent); }}
+          onTouchStart={(e) => { draggingRef.current = true; handleSB(e.nativeEvent); }}
           style={{
-            width: 180, height: 180, margin: "12px auto 0",
-            borderRadius: "50%", cursor: "crosshair",
-            background: "conic-gradient(#F19A9A,#E8C46A,#9CC4A8,#9CC4E4,#B9A8D4,#E8829A,#F19A9A)",
-            position: "relative",
-            boxShadow: "0 4px 18px rgba(0,0,0,0.08), inset 0 0 0 1px rgba(255,255,255,0.6)",
+            position: "relative", width: "100%", aspectRatio: "1 / 1",
+            marginTop: 14, borderRadius: 14, overflow: "hidden",
+            background: `linear-gradient(to top, #000, transparent), linear-gradient(to right, #fff, hsl(${hue}, 100%, 50%))`,
+            cursor: "crosshair", touchAction: "none",
+            boxShadow: "inset 0 0 0 1px rgba(0,0,0,0.06)",
           }}
         >
           <div style={{
-            position: "absolute", inset: 0, borderRadius: "50%",
-            background: "radial-gradient(circle, #fff 0%, transparent 65%)",
-            pointerEvents: "none",
-          }} />
-          <div style={{
-            position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)",
-            width: 48, height: 48, borderRadius: "50%",
-            background: displayColor, border: "3px solid #fff",
-            boxShadow: `0 0 16px ${glowColor}55, 0 2px 8px rgba(0,0,0,0.1)`,
-            pointerEvents: "none",
+            position: "absolute",
+            left: `${sat}%`, top: `${100 - val}%`,
+            transform: "translate(-50%,-50%)",
+            width: 18, height: 18, borderRadius: "50%",
+            border: "2px solid #fff", boxShadow: "0 0 0 1px rgba(0,0,0,0.25), 0 2px 6px rgba(0,0,0,0.3)",
+            background: color, pointerEvents: "none",
           }} />
         </div>
 
-        {/* Selected color strip */}
-        <div style={{ marginTop: 18 }}>
+        {/* Selected color preview */}
+        <div style={{
+          marginTop: 14, display: "flex", alignItems: "center", gap: 12,
+          padding: "10px 14px", borderRadius: 14, background: "#FAF7F5",
+        }}>
           <div style={{
-            height: 8, borderRadius: 999,
-            background: displayColor,
-            boxShadow: `0 0 18px ${glowColor}66`,
+            width: 44, height: 44, borderRadius: 12,
+            background: rainbow
+              ? "linear-gradient(90deg,#F19A9A,#E8C46A,#9CC4A8,#9CC4E4,#B9A8D4,#E8829A)"
+              : color,
+            boxShadow: `0 0 14px ${(rainbow ? "#E8829A" : color)}66`,
+            transition: "background 0.25s",
+            border: "2px solid #fff",
           }} />
-          <div className="flex items-center justify-between" style={{ marginTop: 8 }}>
-            <span style={{ fontSize: 10, color: SP.usuzumi, letterSpacing: "0.1em" }}>
+          <div style={{ flex: 1 }}>
+            <div style={{ fontSize: 10, color: SP.usuzumi, letterSpacing: "0.12em" }}>
               {t("選択中", "SELECTED")}
-            </span>
-            <span style={{ fontSize: 12, color: SP.usuzumi, fontFamily: "monospace", fontWeight: 400 }}>
+            </div>
+            <div style={{ fontSize: 13, color: SP.sumi, fontFamily: "monospace", fontWeight: 600, marginTop: 2 }}>
               {rainbow ? t("レインボー", "RAINBOW") : color.toUpperCase()}
-            </span>
+            </div>
+            <div style={{ fontSize: 10, color: SP.usuzumi, fontFamily: "monospace", marginTop: 1 }}>
+              {rainbow ? "—" : `RGB ${rgb.r}, ${rgb.g}, ${rgb.b}`}
+            </div>
           </div>
         </div>
       </CardSoft>
