@@ -62,8 +62,11 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
     setTimeout(() => navigate({ to: route }), 150);
   };
 
+  const BOTTOM_NAV_ROUTES = new Set(["/home", "/map", "/ai", "/clinics", "/community"]);
+
   const renderItem = (it: Item, idx: number) => {
     const active = isActive(it.route);
+    const inBottomNav = BOTTOM_NAV_ROUTES.has(it.route);
     const { Icon } = it;
     return (
       <button
@@ -88,8 +91,25 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
           <Icon size={18} strokeWidth={2} style={{ color: it.iconColor }} />
         </div>
         <div className="flex-1 min-w-0">
-          <div style={{ fontSize: 15, fontWeight: 600, color: active ? "#E8829A" : "#2C2C2C", lineHeight: 1.2 }}>
-            {t(it.labelJp, it.labelEn)}
+          <div className="flex items-center" style={{ gap: 6 }}>
+            <div style={{ fontSize: 15, fontWeight: 600, color: active ? "#E8829A" : "#2C2C2C", lineHeight: 1.2 }}>
+              {t(it.labelJp, it.labelEn)}
+            </div>
+            {inBottomNav && (
+              <span
+                title={t("下のナビからアクセス可能", "Quick access from bottom nav")}
+                style={{
+                  fontSize: 9,
+                  color: "#B0A8A4",
+                  background: "#F5F0EC",
+                  borderRadius: 6,
+                  padding: "1px 5px",
+                  lineHeight: 1.2,
+                }}
+              >
+                ↓
+              </span>
+            )}
           </div>
           <div style={{ fontSize: 11, color: "#8A8A8A", marginTop: 2 }}>
             {t(it.subJp, it.subEn)}
@@ -103,6 +123,21 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
       </button>
     );
   };
+
+  const SectionLabel = ({ jp, en }: { jp: string; en: string }) => (
+    <div
+      style={{
+        padding: "4px 20px 6px",
+        fontSize: 10,
+        fontWeight: 600,
+        letterSpacing: "0.08em",
+        color: "#B0A8A4",
+        textTransform: "uppercase",
+      }}
+    >
+      {t(jp, en)}
+    </div>
+  );
 
   const Divider = () => <div style={{ height: 1, background: "#F0ECE8", margin: "8px 20px" }} />;
 
