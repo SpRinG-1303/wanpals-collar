@@ -9,12 +9,18 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TempSenseRouteImport } from './routes/temp-sense'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as ReportRouteImport } from './routes/report'
+import { Route as PressureSenseRouteImport } from './routes/pressure-sense'
+import { Route as MotionSenseRouteImport } from './routes/motion-sense'
 import { Route as MapRouteImport } from './routes/map'
+import { Route as LocationSenseRouteImport } from './routes/location-sense'
+import { Route as LightSenseRouteImport } from './routes/light-sense'
 import { Route as LanguageRouteImport } from './routes/language'
 import { Route as HomeRouteImport } from './routes/home'
 import { Route as CommunityRouteImport } from './routes/community'
+import { Route as CombineSenseRouteImport } from './routes/combine-sense'
 import { Route as ClinicsRouteImport } from './routes/clinics'
 import { Route as BreedsRouteImport } from './routes/breeds'
 import { Route as AuthRouteImport } from './routes/auth'
@@ -24,6 +30,11 @@ import { Route as OnboardingOwnerRouteImport } from './routes/onboarding.owner'
 import { Route as OnboardingDogRouteImport } from './routes/onboarding.dog'
 import { Route as OnboardingAvatarRouteImport } from './routes/onboarding.avatar'
 
+const TempSenseRoute = TempSenseRouteImport.update({
+  id: '/temp-sense',
+  path: '/temp-sense',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SettingsRoute = SettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
@@ -34,9 +45,29 @@ const ReportRoute = ReportRouteImport.update({
   path: '/report',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PressureSenseRoute = PressureSenseRouteImport.update({
+  id: '/pressure-sense',
+  path: '/pressure-sense',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MotionSenseRoute = MotionSenseRouteImport.update({
+  id: '/motion-sense',
+  path: '/motion-sense',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MapRoute = MapRouteImport.update({
   id: '/map',
   path: '/map',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LocationSenseRoute = LocationSenseRouteImport.update({
+  id: '/location-sense',
+  path: '/location-sense',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LightSenseRoute = LightSenseRouteImport.update({
+  id: '/light-sense',
+  path: '/light-sense',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LanguageRoute = LanguageRouteImport.update({
@@ -52,6 +83,11 @@ const HomeRoute = HomeRouteImport.update({
 const CommunityRoute = CommunityRouteImport.update({
   id: '/community',
   path: '/community',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CombineSenseRoute = CombineSenseRouteImport.update({
+  id: '/combine-sense',
+  path: '/combine-sense',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ClinicsRoute = ClinicsRouteImport.update({
@@ -101,12 +137,18 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/breeds': typeof BreedsRoute
   '/clinics': typeof ClinicsRoute
+  '/combine-sense': typeof CombineSenseRoute
   '/community': typeof CommunityRoute
   '/home': typeof HomeRoute
   '/language': typeof LanguageRoute
+  '/light-sense': typeof LightSenseRoute
+  '/location-sense': typeof LocationSenseRoute
   '/map': typeof MapRoute
+  '/motion-sense': typeof MotionSenseRoute
+  '/pressure-sense': typeof PressureSenseRoute
   '/report': typeof ReportRoute
   '/settings': typeof SettingsRoute
+  '/temp-sense': typeof TempSenseRoute
   '/onboarding/avatar': typeof OnboardingAvatarRoute
   '/onboarding/dog': typeof OnboardingDogRoute
   '/onboarding/owner': typeof OnboardingOwnerRoute
@@ -117,12 +159,18 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/breeds': typeof BreedsRoute
   '/clinics': typeof ClinicsRoute
+  '/combine-sense': typeof CombineSenseRoute
   '/community': typeof CommunityRoute
   '/home': typeof HomeRoute
   '/language': typeof LanguageRoute
+  '/light-sense': typeof LightSenseRoute
+  '/location-sense': typeof LocationSenseRoute
   '/map': typeof MapRoute
+  '/motion-sense': typeof MotionSenseRoute
+  '/pressure-sense': typeof PressureSenseRoute
   '/report': typeof ReportRoute
   '/settings': typeof SettingsRoute
+  '/temp-sense': typeof TempSenseRoute
   '/onboarding/avatar': typeof OnboardingAvatarRoute
   '/onboarding/dog': typeof OnboardingDogRoute
   '/onboarding/owner': typeof OnboardingOwnerRoute
@@ -134,12 +182,18 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/breeds': typeof BreedsRoute
   '/clinics': typeof ClinicsRoute
+  '/combine-sense': typeof CombineSenseRoute
   '/community': typeof CommunityRoute
   '/home': typeof HomeRoute
   '/language': typeof LanguageRoute
+  '/light-sense': typeof LightSenseRoute
+  '/location-sense': typeof LocationSenseRoute
   '/map': typeof MapRoute
+  '/motion-sense': typeof MotionSenseRoute
+  '/pressure-sense': typeof PressureSenseRoute
   '/report': typeof ReportRoute
   '/settings': typeof SettingsRoute
+  '/temp-sense': typeof TempSenseRoute
   '/onboarding/avatar': typeof OnboardingAvatarRoute
   '/onboarding/dog': typeof OnboardingDogRoute
   '/onboarding/owner': typeof OnboardingOwnerRoute
@@ -152,12 +206,18 @@ export interface FileRouteTypes {
     | '/auth'
     | '/breeds'
     | '/clinics'
+    | '/combine-sense'
     | '/community'
     | '/home'
     | '/language'
+    | '/light-sense'
+    | '/location-sense'
     | '/map'
+    | '/motion-sense'
+    | '/pressure-sense'
     | '/report'
     | '/settings'
+    | '/temp-sense'
     | '/onboarding/avatar'
     | '/onboarding/dog'
     | '/onboarding/owner'
@@ -168,12 +228,18 @@ export interface FileRouteTypes {
     | '/auth'
     | '/breeds'
     | '/clinics'
+    | '/combine-sense'
     | '/community'
     | '/home'
     | '/language'
+    | '/light-sense'
+    | '/location-sense'
     | '/map'
+    | '/motion-sense'
+    | '/pressure-sense'
     | '/report'
     | '/settings'
+    | '/temp-sense'
     | '/onboarding/avatar'
     | '/onboarding/dog'
     | '/onboarding/owner'
@@ -184,12 +250,18 @@ export interface FileRouteTypes {
     | '/auth'
     | '/breeds'
     | '/clinics'
+    | '/combine-sense'
     | '/community'
     | '/home'
     | '/language'
+    | '/light-sense'
+    | '/location-sense'
     | '/map'
+    | '/motion-sense'
+    | '/pressure-sense'
     | '/report'
     | '/settings'
+    | '/temp-sense'
     | '/onboarding/avatar'
     | '/onboarding/dog'
     | '/onboarding/owner'
@@ -201,12 +273,18 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   BreedsRoute: typeof BreedsRoute
   ClinicsRoute: typeof ClinicsRoute
+  CombineSenseRoute: typeof CombineSenseRoute
   CommunityRoute: typeof CommunityRoute
   HomeRoute: typeof HomeRoute
   LanguageRoute: typeof LanguageRoute
+  LightSenseRoute: typeof LightSenseRoute
+  LocationSenseRoute: typeof LocationSenseRoute
   MapRoute: typeof MapRoute
+  MotionSenseRoute: typeof MotionSenseRoute
+  PressureSenseRoute: typeof PressureSenseRoute
   ReportRoute: typeof ReportRoute
   SettingsRoute: typeof SettingsRoute
+  TempSenseRoute: typeof TempSenseRoute
   OnboardingAvatarRoute: typeof OnboardingAvatarRoute
   OnboardingDogRoute: typeof OnboardingDogRoute
   OnboardingOwnerRoute: typeof OnboardingOwnerRoute
@@ -214,6 +292,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/temp-sense': {
+      id: '/temp-sense'
+      path: '/temp-sense'
+      fullPath: '/temp-sense'
+      preLoaderRoute: typeof TempSenseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/settings': {
       id: '/settings'
       path: '/settings'
@@ -228,11 +313,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ReportRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/pressure-sense': {
+      id: '/pressure-sense'
+      path: '/pressure-sense'
+      fullPath: '/pressure-sense'
+      preLoaderRoute: typeof PressureSenseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/motion-sense': {
+      id: '/motion-sense'
+      path: '/motion-sense'
+      fullPath: '/motion-sense'
+      preLoaderRoute: typeof MotionSenseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/map': {
       id: '/map'
       path: '/map'
       fullPath: '/map'
       preLoaderRoute: typeof MapRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/location-sense': {
+      id: '/location-sense'
+      path: '/location-sense'
+      fullPath: '/location-sense'
+      preLoaderRoute: typeof LocationSenseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/light-sense': {
+      id: '/light-sense'
+      path: '/light-sense'
+      fullPath: '/light-sense'
+      preLoaderRoute: typeof LightSenseRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/language': {
@@ -254,6 +367,13 @@ declare module '@tanstack/react-router' {
       path: '/community'
       fullPath: '/community'
       preLoaderRoute: typeof CommunityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/combine-sense': {
+      id: '/combine-sense'
+      path: '/combine-sense'
+      fullPath: '/combine-sense'
+      preLoaderRoute: typeof CombineSenseRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/clinics': {
@@ -321,12 +441,18 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   BreedsRoute: BreedsRoute,
   ClinicsRoute: ClinicsRoute,
+  CombineSenseRoute: CombineSenseRoute,
   CommunityRoute: CommunityRoute,
   HomeRoute: HomeRoute,
   LanguageRoute: LanguageRoute,
+  LightSenseRoute: LightSenseRoute,
+  LocationSenseRoute: LocationSenseRoute,
   MapRoute: MapRoute,
+  MotionSenseRoute: MotionSenseRoute,
+  PressureSenseRoute: PressureSenseRoute,
   ReportRoute: ReportRoute,
   SettingsRoute: SettingsRoute,
+  TempSenseRoute: TempSenseRoute,
   OnboardingAvatarRoute: OnboardingAvatarRoute,
   OnboardingDogRoute: OnboardingDogRoute,
   OnboardingOwnerRoute: OnboardingOwnerRoute,
