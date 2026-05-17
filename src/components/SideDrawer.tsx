@@ -173,8 +173,8 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
           top: 0,
           bottom: 0,
           width: "min(280px, 80%)",
-          background: "#FFFFFF",
-          boxShadow: "8px 0 32px rgba(0,0,0,0.15)",
+          background: "var(--bg-drawer)",
+          boxShadow: "8px 0 32px rgba(0,0,0,0.25)",
           transform: isOpen ? "translateX(0)" : "translateX(-100%)",
           transition: isOpen
             ? "transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1)"
