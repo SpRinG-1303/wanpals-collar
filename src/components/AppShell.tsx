@@ -157,7 +157,7 @@ export default function AppShell({
           width: "100%",
           maxWidth: 430,
           height: "100dvh",
-          background: "#FAFAF8",
+          background: "var(--bg-page)",
           boxShadow: "0 0 40px rgba(0,0,0,0.15)",
           display: "flex",
           flexDirection: "column",
