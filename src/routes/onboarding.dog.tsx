@@ -138,32 +138,11 @@ function Step2() {
           <input ref={ownerGalRef} type="file" accept="image/*"
             className="hidden" onChange={(e) => handleFile("owner", e.target.files?.[0])} />
 
-          {/* Ghibli tip */}
-          <div
-            className="mt-5 p-4 rounded-2xl flex gap-3"
-            style={{ background: "#FFF0F5", border: "1px solid #FBD9E1" }}
-          >
-            <div className="text-[20px] leading-none">🎨</div>
-            <div className="text-[12px] leading-relaxed" style={{ color: "#6E4C53" }}>
-              <span className="font-bold">{t("使い方：", "How it works: ")}</span>
-              {t(
-                "写真はジブリ風AIモデルに送信されます。結果は柔らかく絵画的なアニメ風イラストで、実写ではありません。明るく顔がはっきり写った写真がベストです。",
-                "Your photos are sent to a Ghibli-style AI model. The result is a soft, painterly anime illustration — not a realistic photo. Best results with clear, well-lit face shots."
-              )}
-            </div>
-          </div>
-
-          {/* Integration note */}
-          <div
-            className="mt-3 p-3 rounded-2xl"
-            style={{ background: "#FFF6E8", border: "1.5px dashed #E8B36B" }}
-          >
-            <div className="text-[10px] leading-relaxed font-mono" style={{ color: "#8A6535" }}>
-              <span className="font-bold">Integration:</span> Replicate API → animegan2-pytorch.
-              Returns Ghibli-style PNG. Silently converted to SVG via vtracer
-              (color mode, spline curves) for crisp rendering at all sizes. SVG stored & served back.
-            </div>
-          </div>
+          {/* Animation display field */}
+          <AnimationField
+            ghibliUrl={dogUrl}
+            onRetake={() => { setDogUrl(null); openSheet("dog"); }}
+          />
 
           {/* Skip / fallback */}
           <div
