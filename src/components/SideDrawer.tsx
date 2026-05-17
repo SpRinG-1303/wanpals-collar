@@ -131,7 +131,7 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
         fontSize: 10,
         fontWeight: 600,
         letterSpacing: "0.08em",
-        color: "#B0A8A4",
+        color: "var(--text-muted-soft)",
         textTransform: "uppercase",
       }}
     >
@@ -139,7 +139,7 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
     </div>
   );
 
-  const Divider = () => <div style={{ height: 1, background: "#F0ECE8", margin: "8px 20px" }} />;
+  const Divider = () => <div style={{ height: 1, background: "var(--border-subtle)", margin: "8px 20px" }} />;
 
   const name = displayName(pet, t("ワンちゃん", "My Dog"));
 
