@@ -158,13 +158,11 @@ export default function AppShell({
           overflow: "hidden",
           width: "100%",
           maxWidth: 430,
-          height: fullHeight ? "100dvh" : undefined,
-          minHeight: fullHeight ? undefined : "100vh",
+          height: "100dvh",
           background: "#FAFAF8",
-          paddingBottom: hideBottomNav ? (fullHeight ? 0 : 20) : 0,
           boxShadow: "0 0 40px rgba(0,0,0,0.15)",
-          display: fullHeight ? "flex" : undefined,
-          flexDirection: fullHeight ? "column" : undefined,
+          display: "flex",
+          flexDirection: "column",
         }}
       >
         {renderTopBar
@@ -189,7 +187,14 @@ export default function AppShell({
                   flexDirection: "column",
                   paddingBottom: hideBottomNav ? 0 : 64,
                 }
-              : { paddingBottom: hideBottomNav ? undefined : 80 }
+              : {
+                  flex: 1,
+                  minHeight: 0,
+                  overflowY: "auto",
+                  overflowX: "hidden",
+                  WebkitOverflowScrolling: "touch",
+                  paddingBottom: hideBottomNav ? undefined : 80,
+                }
           }
         >
           {children}
