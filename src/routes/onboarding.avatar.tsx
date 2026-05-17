@@ -214,12 +214,22 @@ function Step1() {
 
 /* ──────────────────────── Shared onboarding bits ──────────────────────── */
 
-export function TopBar() {
+export function TopBar({ to = "/onboarding/welcome" }: { to?: string } = {}) {
   return (
-    <div className="flex items-center mb-4">
-      <Link to="/auth" className="flex items-center" style={{ color: "#2C2C2C" }}>
-        <ChevronLeft className="w-6 h-6" />
+    <div className="flex items-center justify-between mb-3">
+      <Link
+        to={to}
+        className="flex items-center justify-center"
+        style={{
+          width: 36, height: 36, borderRadius: 999,
+          background: "#FFF0F5", color: "#E8678A",
+          boxShadow: "0 1px 4px rgba(232,103,138,0.15)",
+        }}
+        aria-label="Back"
+      >
+        <ChevronLeft className="w-5 h-5" />
       </Link>
+      <span style={{ width: 36, height: 36 }} />
     </div>
   );
 }
@@ -228,8 +238,8 @@ export function Stepper({ current }: { current: 1 | 2 | 3 }) {
   const t = useT();
   const labels = [
     t("ワンちゃんのアバター", "Dog Avatar"),
-    t("ワンちゃんの情報", "Dog Details"),
-    t("オーナー情報", "About You"),
+    t("ギブリ写真を追加", "Add Ghibli Photos"),
+    t("ポーズパック", "Pose Pack"),
   ];
   return (
     <div className="mb-3">
@@ -237,7 +247,7 @@ export function Stepper({ current }: { current: 1 | 2 | 3 }) {
         {[1, 2, 3].map((n, i) => {
           const completed = n < current;
           const active = n === current;
-          const bg = completed ? "#6BAF92" : active ? "#E8829A" : "#EDE8E4";
+          const bg = completed ? "#F4A3B8" : active ? "#E8678A" : "#EDE8E4";
           const color = completed || active ? "#FFFFFF" : "#C4B8B4";
           return (
             <div key={n} className="flex items-center">
@@ -246,13 +256,13 @@ export function Stepper({ current }: { current: 1 | 2 | 3 }) {
                 style={{
                   background: bg,
                   color,
-                  boxShadow: active ? "0 0 0 4px rgba(232,130,154,0.2)" : "none",
+                  boxShadow: active ? "0 0 0 4px rgba(232,103,138,0.18)" : "none",
                 }}
               >
                 {completed ? <Check className="w-4 h-4" strokeWidth={3} /> : n}
               </div>
               {i < 2 && (
-                <div className="w-10 h-[2px]" style={{ background: n < current ? "#6BAF92" : "#EDE8E4" }} />
+                <div className="w-10 h-[2px]" style={{ background: n < current ? "#F4A3B8" : "#EDE8E4" }} />
               )}
             </div>
           );
