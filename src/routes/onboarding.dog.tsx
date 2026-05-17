@@ -1,11 +1,10 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { Camera, Image as ImageIcon, RotateCcw, Sparkles } from "lucide-react";
+import { Camera, Image as ImageIcon, RotateCcw } from "lucide-react";
 import PhoneFrame from "@/components/PhoneFrame";
 import DogAvatar from "@/components/DogAvatar";
-import { PrimaryButton } from "@/routes/auth";
 import { Stepper, TopBar } from "@/routes/onboarding.avatar";
-import { useT, useLanguage } from "@/context/LanguageContext";
+import { useT } from "@/context/LanguageContext";
 import { usePet } from "@/context/PetContext";
 import type { BreedKey, EarStyle, EyeStyle } from "@/components/DogAvatar";
 
