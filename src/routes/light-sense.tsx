@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Lightbulb, Zap } from "lucide-react";
+import { Sparkles } from "lucide-react";
 import { useState, useRef } from "react";
 import { SensorPage, Card, SP, Bi } from "@/components/SensorPage";
 import { useT } from "@/context/LanguageContext";
@@ -8,14 +8,16 @@ export const Route = createFileRoute("/light-sense")({ component: LightSensePage
 
 const PRESETS: { jp: string; en: string; hex: string }[] = [
   { jp: "白", en: "White", hex: "#FFFFFF" },
-  { jp: "赤", en: "Red", hex: "#FF4444" },
-  { jp: "青", en: "Blue", hex: "#4488FF" },
-  { jp: "緑", en: "Green", hex: "#44CC66" },
-  { jp: "紫", en: "Purple", hex: "#9B72CF" },
-  { jp: "黄", en: "Yellow", hex: "#FFD83A" },
-  { jp: "桃", en: "Pink", hex: "#E8829A" },
-  { jp: "虹", en: "Rainbow", hex: "rainbow" },
+  { jp: "桜", en: "Sakura", hex: "#E8829A" },
+  { jp: "藤", en: "Lavender", hex: "#B9A8D4" },
+  { jp: "空", en: "Sky", hex: "#9CC4E4" },
+  { jp: "若葉", en: "Mint", hex: "#9CC4A8" },
+  { jp: "山吹", en: "Gold", hex: "#E8C46A" },
+  { jp: "珊瑚", en: "Coral", hex: "#F19A8E" },
+  { jp: "紫", en: "Deep Purple", hex: "#6E5AA8" },
 ];
+
+const ROSE = "#E8829A";
 
 function LightSensePage() {
   const [color, setColor] = useState("#E8829A");
@@ -40,189 +42,280 @@ function LightSensePage() {
     let angle = Math.atan2(dy, dx) * (180 / Math.PI);
     if (angle < 0) angle += 360;
     const hue = Math.round(angle);
-    const sat = Math.round(dist * 100);
-    setColor(hslToHex(hue, sat, 50));
+    const sat = Math.round(40 + dist * 60);
+    setColor(hslToHex(hue, sat, 55));
     setRainbow(false);
   };
 
-  const displayColor = rainbow ? "linear-gradient(90deg,#FF4444,#FFD83A,#44CC66,#4488FF,#9B72CF,#E8829A)" : color;
+  const displayColor = rainbow
+    ? "linear-gradient(90deg,#F19A9A,#E8C46A,#9CC4A8,#9CC4E4,#B9A8D4,#E8829A)"
+    : color;
+  const glowColor = rainbow ? "#E8829A" : color;
 
   return (
     <SensorPage
-      titleJp="カラーライト"
-      titleEn="Collar Light Control · LightSense AI"
-      headerGradient="linear-gradient(135deg, #FFD1DC 0%, #FFD89A 25%, #C8E8B0 50%, #B0D8FF 75%, #D8C0FF 100%)"
-      accent={SP.fuji}
+      titleJp="ライトセンス"
+      titleEn="Collar Light Control"
+      headerGradient="linear-gradient(135deg,#FFE8EE 0%,#FFF2F5 60%,#FFF8F4 100%)"
+      accent={ROSE}
     >
-      <Card accent={SP.fuji}>
+      <style>{`
+        @keyframes lsGlow {
+          0%,100% { box-shadow: 0 0 24px var(--g), 0 0 48px var(--g); opacity: .85; }
+          50% { box-shadow: 0 0 36px var(--g), 0 0 80px var(--g); opacity: 1; }
+        }
+        @keyframes lsBlink {
+          0%,49% { opacity: 1; }
+          50%,100% { opacity: 0.2; }
+        }
+        .ls-slider {
+          -webkit-appearance: none; appearance: none;
+        }
+        .ls-slider::-webkit-slider-thumb {
+          -webkit-appearance: none; appearance: none;
+          width: 20px; height: 20px; border-radius: 50%;
+          background: #fff; border: 2px solid ${ROSE};
+          box-shadow: 0 2px 6px rgba(232,130,154,0.4); cursor: pointer;
+        }
+        .ls-slider::-moz-range-thumb {
+          width: 20px; height: 20px; border-radius: 50%;
+          background: #fff; border: 2px solid ${ROSE};
+          box-shadow: 0 2px 6px rgba(232,130,154,0.4); cursor: pointer;
+        }
+      `}</style>
+
+      {/* Color wheel card */}
+      <CardSoft>
+        <Label jp="カラー選択" en="Color Select" />
         <div
           ref={wheelRef}
           onClick={handleWheel}
           onTouchStart={handleWheel}
           style={{
-            width: 220, height: 220, margin: "0 auto", borderRadius: "50%", cursor: "crosshair",
-            background: "conic-gradient(red, yellow, lime, cyan, blue, magenta, red)",
+            width: 180, height: 180, margin: "12px auto 0",
+            borderRadius: "50%", cursor: "crosshair",
+            background: "conic-gradient(#F19A9A,#E8C46A,#9CC4A8,#9CC4E4,#B9A8D4,#E8829A,#F19A9A)",
             position: "relative",
-            boxShadow: "0 6px 24px rgba(0,0,0,0.12), inset 0 0 0 2px #fff",
+            boxShadow: "0 4px 18px rgba(0,0,0,0.08), inset 0 0 0 1px rgba(255,255,255,0.6)",
           }}
         >
           <div style={{
             position: "absolute", inset: 0, borderRadius: "50%",
-            background: "radial-gradient(circle, #fff 0%, transparent 70%)",
+            background: "radial-gradient(circle, #fff 0%, transparent 65%)",
             pointerEvents: "none",
           }} />
           <div style={{
             position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)",
-            width: 64, height: 64, borderRadius: "50%",
-            background: displayColor, border: "4px solid #fff",
-            boxShadow: `0 0 24px ${rainbow ? "#E8829A" : color}, 0 4px 12px rgba(0,0,0,0.15)`,
+            width: 48, height: 48, borderRadius: "50%",
+            background: displayColor, border: "3px solid #fff",
+            boxShadow: `0 0 16px ${glowColor}55, 0 2px 8px rgba(0,0,0,0.1)`,
             pointerEvents: "none",
           }} />
         </div>
 
-        <div style={{ marginTop: 16, padding: "10px 14px", borderRadius: 12, background: "#FAFAF8", display: "flex", alignItems: "center", gap: 12 }}>
+        {/* Selected color strip */}
+        <div style={{ marginTop: 18 }}>
           <div style={{
-            width: 36, height: 36, borderRadius: 8, background: displayColor,
-            border: "2px solid #fff", boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
+            height: 8, borderRadius: 999,
+            background: displayColor,
+            boxShadow: `0 0 18px ${glowColor}66`,
           }} />
-          <div style={{ flex: 1 }}>
-            <div style={{ fontSize: 11, color: SP.usuzumi }}>{t("選択中の色", "Selected")}</div>
-            <div style={{ fontSize: 14, fontWeight: 700, color: SP.sumi, fontFamily: "monospace" }}>
+          <div className="flex items-center justify-between" style={{ marginTop: 8 }}>
+            <span style={{ fontSize: 10, color: SP.usuzumi, letterSpacing: "0.1em" }}>
+              {t("選択中", "SELECTED")}
+            </span>
+            <span style={{ fontSize: 12, color: SP.usuzumi, fontFamily: "monospace", fontWeight: 400 }}>
               {rainbow ? t("レインボー", "RAINBOW") : color.toUpperCase()}
-            </div>
+            </span>
           </div>
         </div>
-      </Card>
+      </CardSoft>
 
-      <Card accent={SP.yuzu}>
-        <div className="flex items-center justify-between" style={{ marginBottom: 10 }}>
-          <div>
-            <Bi
-              jp="明るさ" en="Brightness"
-              jpStyle={{ fontSize: 13, fontWeight: 700, color: SP.sumi }}
-              enStyle={{ fontSize: 11, color: SP.usuzumi }}
-            />
-          </div>
-          <div style={{ fontSize: 16, fontWeight: 700, color: SP.yuzu, fontVariantNumeric: "tabular-nums" }}>{brightness}%</div>
+      {/* Quick colors */}
+      <CardSoft>
+        <Label jp="クイックカラー" en="Quick Colors" />
+        <div className="flex items-center justify-between" style={{ marginTop: 14 }}>
+          {PRESETS.map((p) => {
+            const active = !rainbow && color.toUpperCase() === p.hex.toUpperCase();
+            return (
+              <button
+                key={p.en}
+                aria-label={p.en}
+                onClick={() => { setColor(p.hex); setRainbow(false); }}
+                style={{
+                  width: 36, height: 36, borderRadius: "50%",
+                  background: p.hex,
+                  border: p.hex === "#FFFFFF" ? "1px solid #EADFD8" : "none",
+                  outline: active ? `2px solid ${ROSE}` : "2px solid transparent",
+                  outlineOffset: 2,
+                  boxShadow: active
+                    ? `0 0 14px ${p.hex}66`
+                    : "0 2px 6px rgba(0,0,0,0.08)",
+                  cursor: "pointer", padding: 0,
+                  transition: "transform 0.15s",
+                  transform: active ? "scale(1.08)" : "scale(1)",
+                }}
+              />
+            );
+          })}
+        </div>
+      </CardSoft>
+
+      {/* Brightness */}
+      <CardSoft>
+        <div className="flex items-center justify-between">
+          <Bi
+            jp="明るさ" en="Brightness"
+            jpStyle={{ fontSize: 12, color: SP.usuzumi, fontWeight: 500 }}
+            enStyle={{ fontSize: 11, color: SP.usuzumi, fontWeight: 500 }}
+          />
+          <span style={{ fontSize: 13, color: SP.sumi, fontVariantNumeric: "tabular-nums", fontWeight: 500 }}>
+            {brightness}%
+          </span>
         </div>
         <input
           type="range" min={0} max={100} value={brightness}
           onChange={(e) => setBrightness(Number(e.target.value))}
+          className="ls-slider"
           style={{
-            width: "100%", height: 8, borderRadius: 4, appearance: "none",
-            background: `linear-gradient(90deg, ${SP.yuzu} ${brightness}%, #F5F0EC ${brightness}%)`,
+            width: "100%", height: 6, borderRadius: 999, marginTop: 14,
+            background: `linear-gradient(90deg, #FFD1DC 0%, ${ROSE} ${brightness}%, #F5EAEE ${brightness}%, #F5EAEE 100%)`,
           }}
         />
-      </Card>
+      </CardSoft>
 
-      <Card accent={SP.sakura}>
-        <Bi
-          jp="クイックカラー" en="Quick Colors"
-          jpStyle={{ fontSize: 13, fontWeight: 700, color: SP.sumi }}
-          enStyle={{ fontSize: 11, color: SP.usuzumi, marginBottom: 12 }}
-        />
-        <div className="grid grid-cols-4" style={{ gap: 8, marginTop: 8 }}>
-          {PRESETS.map((p) => (
-            <button
-              key={p.en}
-              onClick={() => {
-                if (p.hex === "rainbow") { setRainbow(true); } else { setColor(p.hex); setRainbow(false); }
-              }}
-              style={{
-                aspectRatio: "1", borderRadius: 12,
-                background: p.hex === "rainbow"
-                  ? "conic-gradient(red,yellow,lime,cyan,blue,magenta,red)"
-                  : p.hex,
-                border: ((p.hex === "rainbow" && rainbow) || (!rainbow && color === p.hex))
-                  ? `3px solid ${SP.sakura}` : "2px solid #fff",
-                boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-                fontSize: 9, fontWeight: 700,
-                color: p.hex === "#FFFFFF" || p.hex === "#FFD83A" ? SP.sumi : "#fff",
-              }}
-            >{t(p.jp, p.en)}</button>
-          ))}
-        </div>
-      </Card>
-
-      <Card accent={SP.fuji}>
+      {/* Toggles */}
+      <CardSoft>
         <ToggleRow
-          icon={<Zap size={18} style={{ color: SP.fuji }} />}
-          jp="点滅モード" en="Blink Mode"
-          on={blink} onChange={setBlink} color={SP.fuji}
+          icon={<Sparkles size={16} style={{ color: ROSE }} />}
+          jp="点滅" en="Blink Mode"
+          on={blink} onChange={setBlink}
         />
-        <div style={{ height: 1, background: SP.divider, margin: "10px 0" }} />
+        <div style={{ height: 1, background: "#F5EAEE", margin: "14px 0" }} />
         <ToggleRow
-          icon={<Lightbulb size={18} style={{ color: SP.sakura }} />}
-          jp="レインボーモード" en="Rainbow Mode"
-          on={rainbow} onChange={setRainbow} color={SP.sakura}
-        />
-      </Card>
-
-      <Card accent={SP.sakura} style={{ background: "linear-gradient(135deg,#FFF0F3,#FFFFFF)" }}>
-        <div className="flex items-center justify-center" style={{ gap: 14, padding: "4px 0" }}>
-          <div style={{
-            width: 50, height: 50, borderRadius: "50%",
-            background: "#F5F0EC", border: "3px solid " + SP.sumi,
-            position: "relative", display: "flex", alignItems: "center", justifyContent: "center",
-          }}>
-            <div className={blink ? "animate-pulse" : ""} style={{
-              width: 18, height: 18, borderRadius: "50%",
-              background: displayColor,
-              boxShadow: `0 0 16px ${rainbow ? "#E8829A" : color}, 0 0 32px ${rainbow ? "#9B72CF" : color}`,
-              opacity: brightness / 100,
+          icon={
+            <span style={{
+              display: "inline-block", width: 16, height: 16, borderRadius: "50%",
+              background: "conic-gradient(#F19A9A,#E8C46A,#9CC4A8,#9CC4E4,#B9A8D4,#E8829A,#F19A9A)",
             }} />
-          </div>
-          <div>
-            <Bi
-              jp="ライブプレビュー" en="Collar Preview"
-              jpStyle={{ fontSize: 11, color: SP.usuzumi }}
-              enStyle={{ fontSize: 12, color: SP.usuzumi, opacity: 0.7 }}
-            />
-          </div>
-        </div>
-      </Card>
+          }
+          jp="レインボー" en="Rainbow Mode"
+          on={rainbow} onChange={setRainbow}
+        />
+      </CardSoft>
 
-      <button
-        style={{
-          width: "100%", height: 52, borderRadius: 16,
-          background: "linear-gradient(135deg,#E8829A,#F093A0)",
-          color: "#fff", fontSize: 15, fontWeight: 700,
-          boxShadow: "0 8px 20px rgba(232,130,154,0.4)",
-          marginTop: 4, letterSpacing: "0.02em",
-        }}
-      >
-        {t("カラーを設定", "Set Color")}
-      </button>
+      {/* Preview */}
+      <div style={{
+        background: "#1A1A2E", borderRadius: 20, padding: "22px 16px",
+        marginBottom: 16, boxShadow: "0 4px 20px rgba(0,0,0,0.08)",
+        textAlign: "center",
+      }}>
+        <div style={{ fontSize: 10, color: "rgba(255,255,255,0.5)", letterSpacing: "0.14em", marginBottom: 14 }}>
+          {t("プレビュー / PREVIEW", "PREVIEW")}
+        </div>
+        <div style={{ display: "flex", justifyContent: "center", marginBottom: 12 }}>
+          <CollarTag color={displayColor} glow={glowColor} brightness={brightness} blink={blink} />
+        </div>
+        <div style={{ fontSize: 11, color: "rgba(255,255,255,0.45)" }}>
+          {t("首輪ライト", "Collar Light")}
+        </div>
+      </div>
+
+      {/* Set button */}
+      <div className="flex justify-center" style={{ marginTop: 4, marginBottom: 8 }}>
+        <button
+          style={{
+            padding: "14px 36px", borderRadius: 999,
+            background: "linear-gradient(135deg,#E8829A,#F19AA8)",
+            color: "#fff", fontSize: 14, fontWeight: 600,
+            boxShadow: "0 6px 18px rgba(232,130,154,0.35)",
+            letterSpacing: "0.04em",
+          }}
+        >
+          {t("カラーを設定", "Set Color")}
+        </button>
+      </div>
     </SensorPage>
   );
 }
 
-function ToggleRow({ icon, jp, en, on, onChange, color }: {
-  icon: React.ReactNode; jp: string; en: string; on: boolean; onChange: (v: boolean) => void; color: string;
+function CardSoft({ children }: { children: React.ReactNode }) {
+  return (
+    <div style={{
+      background: "#FFFFFF", borderRadius: 20, padding: 18,
+      marginBottom: 14, boxShadow: "0 2px 14px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.03)",
+    }}>{children}</div>
+  );
+}
+
+function Label({ jp, en }: { jp: string; en: string }) {
+  const t = useT();
+  return (
+    <div style={{ fontSize: 11, color: ROSE, fontWeight: 600, letterSpacing: "0.08em" }}>
+      {t(`${jp} / ${en}`, en.toUpperCase())}
+    </div>
+  );
+}
+
+function ToggleRow({ icon, jp, en, on, onChange }: {
+  icon: React.ReactNode; jp: string; en: string; on: boolean; onChange: (v: boolean) => void;
 }) {
   return (
     <div className="flex items-center" style={{ gap: 12 }}>
-      {icon}
+      <div style={{
+        width: 32, height: 32, borderRadius: 10, background: "#FDF4F7",
+        display: "flex", alignItems: "center", justifyContent: "center",
+      }}>{icon}</div>
       <div style={{ flex: 1 }}>
         <Bi
           jp={jp} en={en}
           jpStyle={{ fontSize: 13, fontWeight: 600, color: SP.sumi }}
-          enStyle={{ fontSize: 10, color: SP.usuzumi }}
+          enStyle={{ fontSize: 12, fontWeight: 500, color: SP.sumi }}
         />
       </div>
       <button
         onClick={() => onChange(!on)}
+        aria-pressed={on}
         style={{
-          width: 48, height: 28, borderRadius: 999, position: "relative",
-          background: on ? color : "#E0DAD4", transition: "background 0.2s",
+          width: 44, height: 26, borderRadius: 999, position: "relative",
+          background: on ? ROSE : "#EADFD8", transition: "background 0.2s",
+          border: "none", padding: 0, cursor: "pointer",
         }}
       >
-        <div style={{
-          position: "absolute", top: 3, left: on ? 23 : 3,
-          width: 22, height: 22, borderRadius: "50%", background: "#fff",
-          boxShadow: "0 2px 4px rgba(0,0,0,0.15)", transition: "left 0.2s",
+        <span style={{
+          position: "absolute", top: 3, left: on ? 21 : 3,
+          width: 20, height: 20, borderRadius: "50%", background: "#fff",
+          boxShadow: "0 1px 3px rgba(0,0,0,0.18)", transition: "left 0.2s",
         }} />
       </button>
+    </div>
+  );
+}
+
+function CollarTag({ color, glow, brightness, blink }: {
+  color: string; glow: string; brightness: number; blink: boolean;
+}) {
+  return (
+    <div style={{ position: "relative", width: 96, height: 96 }}>
+      {/* outer ring (collar) */}
+      <div style={{
+        position: "absolute", inset: 0, borderRadius: "50%",
+        border: "2px solid rgba(255,255,255,0.18)",
+      }} />
+      {/* glowing tag */}
+      <div
+        style={{
+          position: "absolute", top: "50%", left: "50%",
+          transform: "translate(-50%,-50%)",
+          width: 44, height: 44, borderRadius: "50%",
+          background: color,
+          opacity: brightness / 100,
+          ["--g" as never]: `${glow}cc`,
+          animation: blink
+            ? "lsBlink 0.9s steps(1,end) infinite"
+            : "lsGlow 2.4s ease-in-out infinite",
+        }}
+      />
     </div>
   );
 }
