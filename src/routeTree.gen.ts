@@ -9,8 +9,10 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TempSenseRouteImport } from './routes/temp-sense'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as ReportRouteImport } from './routes/report'
+import { Route as MotionSenseRouteImport } from './routes/motion-sense'
 import { Route as MapRouteImport } from './routes/map'
 import { Route as LanguageRouteImport } from './routes/language'
 import { Route as HomeRouteImport } from './routes/home'
@@ -24,6 +26,11 @@ import { Route as OnboardingOwnerRouteImport } from './routes/onboarding.owner'
 import { Route as OnboardingDogRouteImport } from './routes/onboarding.dog'
 import { Route as OnboardingAvatarRouteImport } from './routes/onboarding.avatar'
 
+const TempSenseRoute = TempSenseRouteImport.update({
+  id: '/temp-sense',
+  path: '/temp-sense',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SettingsRoute = SettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
@@ -32,6 +39,11 @@ const SettingsRoute = SettingsRouteImport.update({
 const ReportRoute = ReportRouteImport.update({
   id: '/report',
   path: '/report',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MotionSenseRoute = MotionSenseRouteImport.update({
+  id: '/motion-sense',
+  path: '/motion-sense',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MapRoute = MapRouteImport.update({
@@ -105,8 +117,10 @@ export interface FileRoutesByFullPath {
   '/home': typeof HomeRoute
   '/language': typeof LanguageRoute
   '/map': typeof MapRoute
+  '/motion-sense': typeof MotionSenseRoute
   '/report': typeof ReportRoute
   '/settings': typeof SettingsRoute
+  '/temp-sense': typeof TempSenseRoute
   '/onboarding/avatar': typeof OnboardingAvatarRoute
   '/onboarding/dog': typeof OnboardingDogRoute
   '/onboarding/owner': typeof OnboardingOwnerRoute
@@ -121,8 +135,10 @@ export interface FileRoutesByTo {
   '/home': typeof HomeRoute
   '/language': typeof LanguageRoute
   '/map': typeof MapRoute
+  '/motion-sense': typeof MotionSenseRoute
   '/report': typeof ReportRoute
   '/settings': typeof SettingsRoute
+  '/temp-sense': typeof TempSenseRoute
   '/onboarding/avatar': typeof OnboardingAvatarRoute
   '/onboarding/dog': typeof OnboardingDogRoute
   '/onboarding/owner': typeof OnboardingOwnerRoute
@@ -138,8 +154,10 @@ export interface FileRoutesById {
   '/home': typeof HomeRoute
   '/language': typeof LanguageRoute
   '/map': typeof MapRoute
+  '/motion-sense': typeof MotionSenseRoute
   '/report': typeof ReportRoute
   '/settings': typeof SettingsRoute
+  '/temp-sense': typeof TempSenseRoute
   '/onboarding/avatar': typeof OnboardingAvatarRoute
   '/onboarding/dog': typeof OnboardingDogRoute
   '/onboarding/owner': typeof OnboardingOwnerRoute
@@ -156,8 +174,10 @@ export interface FileRouteTypes {
     | '/home'
     | '/language'
     | '/map'
+    | '/motion-sense'
     | '/report'
     | '/settings'
+    | '/temp-sense'
     | '/onboarding/avatar'
     | '/onboarding/dog'
     | '/onboarding/owner'
@@ -172,8 +192,10 @@ export interface FileRouteTypes {
     | '/home'
     | '/language'
     | '/map'
+    | '/motion-sense'
     | '/report'
     | '/settings'
+    | '/temp-sense'
     | '/onboarding/avatar'
     | '/onboarding/dog'
     | '/onboarding/owner'
@@ -188,8 +210,10 @@ export interface FileRouteTypes {
     | '/home'
     | '/language'
     | '/map'
+    | '/motion-sense'
     | '/report'
     | '/settings'
+    | '/temp-sense'
     | '/onboarding/avatar'
     | '/onboarding/dog'
     | '/onboarding/owner'
@@ -205,8 +229,10 @@ export interface RootRouteChildren {
   HomeRoute: typeof HomeRoute
   LanguageRoute: typeof LanguageRoute
   MapRoute: typeof MapRoute
+  MotionSenseRoute: typeof MotionSenseRoute
   ReportRoute: typeof ReportRoute
   SettingsRoute: typeof SettingsRoute
+  TempSenseRoute: typeof TempSenseRoute
   OnboardingAvatarRoute: typeof OnboardingAvatarRoute
   OnboardingDogRoute: typeof OnboardingDogRoute
   OnboardingOwnerRoute: typeof OnboardingOwnerRoute
@@ -214,6 +240,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/temp-sense': {
+      id: '/temp-sense'
+      path: '/temp-sense'
+      fullPath: '/temp-sense'
+      preLoaderRoute: typeof TempSenseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/settings': {
       id: '/settings'
       path: '/settings'
@@ -226,6 +259,13 @@ declare module '@tanstack/react-router' {
       path: '/report'
       fullPath: '/report'
       preLoaderRoute: typeof ReportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/motion-sense': {
+      id: '/motion-sense'
+      path: '/motion-sense'
+      fullPath: '/motion-sense'
+      preLoaderRoute: typeof MotionSenseRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/map': {
@@ -325,8 +365,10 @@ const rootRouteChildren: RootRouteChildren = {
   HomeRoute: HomeRoute,
   LanguageRoute: LanguageRoute,
   MapRoute: MapRoute,
+  MotionSenseRoute: MotionSenseRoute,
   ReportRoute: ReportRoute,
   SettingsRoute: SettingsRoute,
+  TempSenseRoute: TempSenseRoute,
   OnboardingAvatarRoute: OnboardingAvatarRoute,
   OnboardingDogRoute: OnboardingDogRoute,
   OnboardingOwnerRoute: OnboardingOwnerRoute,
@@ -334,3 +376,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
