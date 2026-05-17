@@ -680,7 +680,7 @@ function PawBot({ palette }: { palette?: DogPalette }) {
             transformOrigin: "50% 50%",
           }}
         >
-          <PawBotSVG />
+          <PawBotSVG palette={palette} />
         </div>
       </div>
 
