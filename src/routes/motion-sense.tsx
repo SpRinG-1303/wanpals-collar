@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Footprints, Flame, Moon, Activity } from "lucide-react";
-import { SensorPage, Card, TimeTabs, useTimeTab, SP } from "@/components/SensorPage";
+import { SensorPage, Card, TimeTabs, useTimeTab, SP, Bi } from "@/components/SensorPage";
+import { useT, useLanguage } from "@/context/LanguageContext";
 
 export const Route = createFileRoute("/motion-sense")({ component: MotionSensePage });
 
@@ -18,6 +19,8 @@ const LINE = [55, 62, 48, 70, 58, 75, 65];
 
 function MotionSensePage() {
   const [tab, setTab] = useTimeTab();
+  const t = useT();
+  const { language } = useLanguage();
   const steps = 2340;
   const goal = 5000;
   const pct = Math.round((steps / goal) * 100);
@@ -53,26 +56,38 @@ function MotionSensePage() {
             </svg>
             <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
               <div style={{ fontSize: 24, fontWeight: 800, color: SP.sumi, fontVariantNumeric: "tabular-nums" }}>{steps.toLocaleString()}</div>
-              <div style={{ fontSize: 11, color: SP.usuzumi, marginTop: 2 }}>歩 / steps</div>
+              <div style={{ fontSize: 11, color: SP.usuzumi, marginTop: 2 }}>{t("歩", "steps")}</div>
               <div style={{ fontSize: 10, color: SP.sora, fontWeight: 700, marginTop: 4 }}>{pct}%</div>
             </div>
           </div>
           <div style={{ flex: 1 }}>
-            <div style={{ fontSize: 12, color: SP.usuzumi }}>今日の歩数</div>
-            <div style={{ fontSize: 11, color: SP.usuzumi, opacity: 0.7 }}>Today's Steps</div>
-            <div style={{ marginTop: 10, fontSize: 11, color: SP.usuzumi }}>目標 / Goal</div>
-            <div style={{ fontSize: 18, fontWeight: 700, color: SP.sumi, fontVariantNumeric: "tabular-nums" }}>{goal.toLocaleString()}歩</div>
+            <Bi
+              jp="今日の歩数" en="Today's Steps"
+              jpStyle={{ fontSize: 12, color: SP.usuzumi }}
+              enStyle={{ fontSize: 11, color: SP.usuzumi, opacity: 0.7 }}
+            />
+            <Bi
+              jp="目標" en="Goal"
+              jpStyle={{ marginTop: 10, fontSize: 11, color: SP.usuzumi }}
+              enStyle={{ fontSize: 10, color: SP.usuzumi, opacity: 0.7 }}
+            />
+            <div style={{ fontSize: 18, fontWeight: 700, color: SP.sumi, fontVariantNumeric: "tabular-nums" }}>
+              {goal.toLocaleString()}{t("歩", "")}
+            </div>
             <div style={{ marginTop: 6, fontSize: 11, color: SP.sora, fontWeight: 600 }}>
-              あと {(goal - steps).toLocaleString()}歩 · {(goal - steps).toLocaleString()} to go
+              {t(`あと ${(goal - steps).toLocaleString()}歩`, `${(goal - steps).toLocaleString()} to go`)}
             </div>
           </div>
         </div>
       </Card>
 
       <Card accent={SP.sora}>
-        <div style={{ fontSize: 14, fontWeight: 700, color: SP.sumi }}>週間アクティビティ</div>
-        <div style={{ fontSize: 11, color: SP.usuzumi, marginBottom: 14 }}>Weekly Activity</div>
-        <div className="flex items-end justify-between" style={{ height: 120, gap: 8 }}>
+        <Bi
+          jp="週間アクティビティ" en="Weekly Activity"
+          jpStyle={{ fontSize: 14, fontWeight: 700, color: SP.sumi }}
+          enStyle={{ fontSize: 11, color: SP.usuzumi, marginBottom: 14 }}
+        />
+        <div className="flex items-end justify-between" style={{ height: 120, gap: 8, marginTop: language === "mixed" ? 0 : 14 }}>
           {WEEK.map((d, i) => {
             const h = (d.v / max) * 100;
             const isToday = i === WEEK.length - 1;
@@ -87,8 +102,9 @@ function MotionSensePage() {
                     ? "linear-gradient(180deg, #E8829A, #F093A0)"
                     : "linear-gradient(180deg, #FFC9D4, #FFD9E1)",
                 }} />
-                <div style={{ fontSize: 11, color: isToday ? SP.sakura : SP.usuzumi, marginTop: 6, fontWeight: isToday ? 700 : 500 }}>{d.jp}</div>
-                <div style={{ fontSize: 9, color: SP.usuzumi }}>{d.en}</div>
+                <div style={{ fontSize: 11, color: isToday ? SP.sakura : SP.usuzumi, marginTop: 6, fontWeight: isToday ? 700 : 500 }}>
+                  {t(d.jp, d.en)}
+                </div>
               </div>
             );
           })}
@@ -102,9 +118,12 @@ function MotionSensePage() {
       </div>
 
       <Card accent={SP.fuji}>
-        <div style={{ fontSize: 14, fontWeight: 700, color: SP.sumi }}>活動レベル</div>
-        <div style={{ fontSize: 11, color: SP.usuzumi, marginBottom: 12 }}>Activity Level · Past 7 Days</div>
-        <svg viewBox="0 0 280 100" width="100%" height={100}>
+        <Bi
+          jp="活動レベル" en="Activity Level · Past 7 Days"
+          jpStyle={{ fontSize: 14, fontWeight: 700, color: SP.sumi }}
+          enStyle={{ fontSize: 11, color: SP.usuzumi, marginBottom: 12 }}
+        />
+        <svg viewBox="0 0 280 100" width="100%" height={100} style={{ marginTop: language === "mixed" ? 0 : 12 }}>
           <defs>
             <linearGradient id="lineFill" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0%" stopColor="#7B68C8" stopOpacity="0.3" />
@@ -132,11 +151,18 @@ function MotionSensePage() {
         <div className="flex items-start" style={{ gap: 10 }}>
           <Footprints size={20} style={{ color: SP.matcha, flexShrink: 0, marginTop: 2 }} />
           <div>
-            <div style={{ fontSize: 13, fontWeight: 700, color: SP.sumi }}>AIインサイト</div>
-            <div style={{ fontSize: 11, color: SP.usuzumi, marginBottom: 6 }}>AI Insight</div>
-            <div style={{ fontSize: 12, color: SP.sumi, lineHeight: 1.5 }}>
-              今週は前週比12%増加。順調なペースです。<br/>
-              <span style={{ color: SP.usuzumi }}>Activity up 12% from last week. Great pace!</span>
+            <Bi
+              jp="AIインサイト" en="AI Insight"
+              jpStyle={{ fontSize: 13, fontWeight: 700, color: SP.sumi }}
+              enStyle={{ fontSize: 11, color: SP.usuzumi, marginBottom: 6 }}
+            />
+            <div style={{ fontSize: 12, color: SP.sumi, lineHeight: 1.5, marginTop: 4 }}>
+              <Bi
+                jp="今週は前週比12%増加。順調なペースです。"
+                en="Activity up 12% from last week. Great pace!"
+                jpStyle={{ color: SP.sumi }}
+                enStyle={{ color: SP.usuzumi, fontSize: 11, marginTop: 2 }}
+              />
             </div>
           </div>
         </div>
@@ -148,16 +174,17 @@ function MotionSensePage() {
 function StatCard({ icon, color, valJp, valEn, labelJp, labelEn }: {
   icon: React.ReactNode; color: string; valJp: string; valEn: string; labelJp: string; labelEn: string;
 }) {
+  const t = useT();
   return (
     <div style={{
       background: SP.card, borderRadius: 16, padding: 12, boxShadow: CARD_SHADOW_SM,
       borderTop: `3px solid ${color}`,
     }}>
       <div style={{ color, marginBottom: 6 }}>{icon}</div>
-      <div style={{ fontSize: 15, fontWeight: 700, color: SP.sumi, fontVariantNumeric: "tabular-nums" }}>{valJp}</div>
-      <div style={{ fontSize: 9, color: SP.usuzumi }}>{valEn}</div>
-      <div style={{ fontSize: 10, color: SP.usuzumi, marginTop: 4 }}>{labelJp}</div>
-      <div style={{ fontSize: 9, color: SP.usuzumi, opacity: 0.7 }}>{labelEn}</div>
+      <div style={{ fontSize: 15, fontWeight: 700, color: SP.sumi, fontVariantNumeric: "tabular-nums" }}>
+        {t(valJp, valEn)}
+      </div>
+      <div style={{ fontSize: 10, color: SP.usuzumi, marginTop: 4 }}>{t(labelJp, labelEn)}</div>
     </div>
   );
 }
