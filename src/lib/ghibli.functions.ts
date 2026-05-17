@@ -24,7 +24,7 @@ export const convertToGhibli = createServerFn({ method: "POST" })
     const startRes = await fetch("https://api.replicate.com/v1/predictions", {
       method: "POST",
       headers: {
-        Authorization: `Token ${key}`,
+        Authorization: `Bearer ${key}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
@@ -50,7 +50,7 @@ export const convertToGhibli = createServerFn({ method: "POST" })
     while (Date.now() - start < TIMEOUT_MS) {
       await new Promise((r) => setTimeout(r, 2000));
       const pollRes = await fetch(pollUrl, {
-        headers: { Authorization: `Token ${key}` },
+        headers: { Authorization: `Bearer ${key}` },
       });
       if (!pollRes.ok) continue;
       const pollData = (await pollRes.json()) as {
