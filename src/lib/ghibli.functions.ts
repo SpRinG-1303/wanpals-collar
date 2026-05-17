@@ -7,11 +7,13 @@ import { z } from "zod";
  * Output: { url: string } of the generated PNG.
  */
 export const convertToGhibli = createServerFn({ method: "POST" })
-  .inputValidator(
-    z.object({
-      base64: z.string().min(1),
-      mime: z.string().default("image/jpeg"),
-    }).parse
+  .inputValidator((input: unknown) =>
+    z
+      .object({
+        base64: z.string().min(1),
+        mime: z.string().default("image/jpeg"),
+      })
+      .parse(input)
   )
   .handler(async ({ data }) => {
     const key = process.env.REPLICATE_API_KEY;
