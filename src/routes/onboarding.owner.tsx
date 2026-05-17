@@ -51,8 +51,8 @@ function Step3() {
         style={{ background: "#F5EDE8", fontFamily: "'Nunito','Quicksand',system-ui,sans-serif" }}
       >
         <div className="px-6 pt-4">
-          <TopBar to="/onboarding/dog" />
-          <Stepper current={3} />
+          <TopBar to={pet.path === "B" ? "/onboarding/avatar" : "/onboarding/dog"} />
+          <Stepper current={3} path={pet.path} />
 
           <h1 className="text-[22px] font-extrabold text-center mt-2" style={{ color: "#3B2A23" }}>
             {t("アバターステッカーパック", "Your Avatar Sticker Pack")}
