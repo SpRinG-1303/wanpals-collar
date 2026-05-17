@@ -18,7 +18,7 @@ type Item = {
 const MAIN_ITEMS: Item[] = [
   { route: "/home", Icon: Home, iconBg: "#FFE4EC", iconColor: "#E8829A", labelJp: "ホーム", labelEn: "Home", subJp: "ダッシュボード", subEn: "Dashboard" },
   { route: "/map", Icon: MapPin, iconBg: "#E8F2FF", iconColor: "#5B9BD5", labelJp: "地図", labelEn: "Map", subJp: "位置トラッカー", subEn: "Location Tracker" },
-  { route: "/ai", Icon: Bot, iconBg: "#F0ECFF", iconColor: "#7B68C8", labelJp: "AIアシスタント", labelEn: "AI Assistant", subJp: "AIチャット", subEn: "WanCare AI" },
+  { route: "/ai", Icon: Bot, iconBg: "#F0ECFF", iconColor: "#7B68C8", labelJp: "AIアシスタント", labelEn: "AI Assistant", subJp: "AIチャット", subEn: "Pawsitive AI" },
   { route: "/clinics", Icon: HeartPulse, iconBg: "#D6EEFF", iconColor: "#5B9BD5", labelJp: "クリニック", labelEn: "Clinics", subJp: "獣医を探す", subEn: "Find Vets" },
   { route: "/community", Icon: Users, iconBg: "#FFF3CC", iconColor: "#D4A843", labelJp: "コミュニティ", labelEn: "Community", subJp: "犬の家族", subEn: "Dog Families" },
 ];
@@ -212,8 +212,8 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
               🐕
             </div>
             <div>
-              <div style={{ fontSize: 20, fontWeight: 700, color: "var(--text-primary)", lineHeight: 1 }}>WanCare</div>
-              <div style={{ fontSize: 12, color: "var(--text-secondary)", marginTop: 4 }}>ワンケア</div>
+              <div style={{ fontSize: 20, fontWeight: 700, color: "var(--text-primary)", lineHeight: 1 }}>Pawsitive</div>
+              <div style={{ fontSize: 12, color: "var(--text-secondary)", marginTop: 4 }}>ポジティブ</div>
             </div>
           </div>
 
@@ -289,7 +289,7 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
           </button>
 
           <div style={{ textAlign: "center", fontSize: 9, color: "var(--text-placeholder)", paddingBottom: 8 }}>
-            WanCare v1.0 · ワンケア
+            Pawsitive v1.0 · ポジティブ
           </div>
         </div>
       </aside>

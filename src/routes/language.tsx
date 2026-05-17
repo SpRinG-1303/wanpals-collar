@@ -129,9 +129,9 @@ export function HeroIllustration({ compact = false }: { compact?: boolean }) {
           <PawPrint style={{ width: logo * 0.42, height: logo * 0.42, color: "#E8829A" }} strokeWidth={2} />
         </div>
         <div className="mt-2 font-bold leading-none" style={{ color: "#2C2C2C", fontSize: titleSize, letterSpacing: "0.05em" }}>
-          WanCare
+          Pawsitive
         </div>
-        <div className="mt-1" style={{ color: "#8A8A8A", fontSize: jpSize, letterSpacing: "0.05em" }}>ワンケア</div>
+        <div className="mt-1" style={{ color: "#8A8A8A", fontSize: jpSize, letterSpacing: "0.05em" }}>ポジティブ</div>
         <div className="mt-1.5 italic text-center" style={{ color: "#8A8A8A", fontSize: tagSize }}>
           あなたの愛犬を、もっと近くに。<br/>
           <span className="not-italic">Closer to your beloved dog.</span>

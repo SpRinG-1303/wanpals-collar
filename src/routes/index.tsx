@@ -23,9 +23,9 @@ function Splash() {
         initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.3 }}
         className="mt-6 text-3xl font-black text-primary tracking-tight"
       >
-        WanCare
+        Pawsitive
       </motion.h1>
-      <p className="text-secondary-foreground/70 text-sm font-bold">ワンケア</p>
+      <p className="text-secondary-foreground/70 text-sm font-bold">ポジティブ</p>
       <div className="mt-8 flex gap-2">
         {[0, 1, 2].map((i) => (
           <motion.span
