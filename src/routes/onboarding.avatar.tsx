@@ -234,35 +234,68 @@ export function TopBar({ to = "/onboarding/welcome" }: { to?: string } = {}) {
   );
 }
 
-export function Stepper({ current }: { current: 1 | 2 | 3 }) {
+export function Stepper({ current, path }: { current: 1 | 2 | 3; path?: "A" | "B" | null }) {
   const t = useT();
   const labels = [
-    t("ワンちゃんのアバター", "Dog Avatar"),
-    t("ギブリ写真を追加", "Add Ghibli Photos"),
+    t("ギブリの相棒に会う", "Meet Your Ghibli Twin"),
+    t("アバターをカスタマイズ", "Customise Avatar"),
     t("ポーズパック", "Pose Pack"),
   ];
   return (
     <div className="mb-3">
       <div className="flex items-center justify-center gap-0">
         {[1, 2, 3].map((n, i) => {
-          const completed = n < current;
+          const skipped = n === 2 && path === "A" && current !== 2;
+          const completed = !skipped && n < current;
           const active = n === current;
-          const bg = completed ? "#F4A3B8" : active ? "#E8678A" : "#EDE8E4";
-          const color = completed || active ? "#FFFFFF" : "#C4B8B4";
+          const bg = skipped
+            ? "transparent"
+            : completed ? "#F4A3B8" : active ? "#E8678A" : "#EDE8E4";
+          const color = skipped
+            ? "#B8ADA6"
+            : completed || active ? "#FFFFFF" : "#C4B8B4";
           return (
             <div key={n} className="flex items-center">
               <div
-                className="w-8 h-8 rounded-full flex items-center justify-center text-[13px] font-bold transition-all"
+                className="w-8 h-8 rounded-full flex items-center justify-center text-[13px] font-bold transition-all relative"
                 style={{
                   background: bg,
                   color,
+                  border: skipped ? "1.5px dashed #C4B8B4" : "none",
                   boxShadow: active ? "0 0 0 4px rgba(232,103,138,0.18)" : "none",
                 }}
               >
-                {completed ? <Check className="w-4 h-4" strokeWidth={3} /> : n}
+                {skipped ? (
+                  <>
+                    <span>{n}</span>
+                    <span
+                      style={{
+                        position: "absolute",
+                        inset: 0,
+                        margin: "auto",
+                        width: 22,
+                        height: 1.5,
+                        background: "#C4B8B4",
+                        transform: "rotate(-45deg)",
+                      }}
+                    />
+                  </>
+                ) : completed ? (
+                  <Check className="w-4 h-4" strokeWidth={3} />
+                ) : (
+                  n
+                )}
               </div>
               {i < 2 && (
-                <div className="w-10 h-[2px]" style={{ background: n < current ? "#F4A3B8" : "#EDE8E4" }} />
+                <div
+                  className="w-10 h-[2px]"
+                  style={{
+                    background:
+                      (n === 1 && (current > 1 || path === "A")) || (n === 2 && current > 2)
+                        ? "#F4A3B8"
+                        : "#EDE8E4",
+                  }}
+                />
               )}
             </div>
           );
