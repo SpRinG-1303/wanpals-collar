@@ -147,12 +147,13 @@ function Step2() {
         </div>
       </div>
 
-      <div className="fixed bottom-0 inset-x-0 max-w-md mx-auto p-4" style={{ background: "linear-gradient(to top, #FAFAF8, rgba(250,250,248,0.9) 70%, transparent)" }}>
+      <div className="fixed bottom-0 inset-x-0 mx-auto p-4" style={{ maxWidth: 430, background: "linear-gradient(to top, #FAFAF8, rgba(250,250,248,0.9) 70%, transparent)" }}>
         <PrimaryButton onClick={handleNext}>
           {t("次へ", "Next")} →
         </PrimaryButton>
       </div>
     </div>
+    </PhoneFrame>
   );
 }
 
