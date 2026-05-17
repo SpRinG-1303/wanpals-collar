@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as TempSenseRouteImport } from './routes/temp-sense'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as ReportRouteImport } from './routes/report'
+import { Route as PressureSenseRouteImport } from './routes/pressure-sense'
 import { Route as MotionSenseRouteImport } from './routes/motion-sense'
 import { Route as MapRouteImport } from './routes/map'
 import { Route as LocationSenseRouteImport } from './routes/location-sense'
@@ -40,6 +41,11 @@ const SettingsRoute = SettingsRouteImport.update({
 const ReportRoute = ReportRouteImport.update({
   id: '/report',
   path: '/report',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PressureSenseRoute = PressureSenseRouteImport.update({
+  id: '/pressure-sense',
+  path: '/pressure-sense',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MotionSenseRoute = MotionSenseRouteImport.update({
@@ -125,6 +131,7 @@ export interface FileRoutesByFullPath {
   '/location-sense': typeof LocationSenseRoute
   '/map': typeof MapRoute
   '/motion-sense': typeof MotionSenseRoute
+  '/pressure-sense': typeof PressureSenseRoute
   '/report': typeof ReportRoute
   '/settings': typeof SettingsRoute
   '/temp-sense': typeof TempSenseRoute
@@ -144,6 +151,7 @@ export interface FileRoutesByTo {
   '/location-sense': typeof LocationSenseRoute
   '/map': typeof MapRoute
   '/motion-sense': typeof MotionSenseRoute
+  '/pressure-sense': typeof PressureSenseRoute
   '/report': typeof ReportRoute
   '/settings': typeof SettingsRoute
   '/temp-sense': typeof TempSenseRoute
@@ -164,6 +172,7 @@ export interface FileRoutesById {
   '/location-sense': typeof LocationSenseRoute
   '/map': typeof MapRoute
   '/motion-sense': typeof MotionSenseRoute
+  '/pressure-sense': typeof PressureSenseRoute
   '/report': typeof ReportRoute
   '/settings': typeof SettingsRoute
   '/temp-sense': typeof TempSenseRoute
@@ -185,6 +194,7 @@ export interface FileRouteTypes {
     | '/location-sense'
     | '/map'
     | '/motion-sense'
+    | '/pressure-sense'
     | '/report'
     | '/settings'
     | '/temp-sense'
@@ -204,6 +214,7 @@ export interface FileRouteTypes {
     | '/location-sense'
     | '/map'
     | '/motion-sense'
+    | '/pressure-sense'
     | '/report'
     | '/settings'
     | '/temp-sense'
@@ -223,6 +234,7 @@ export interface FileRouteTypes {
     | '/location-sense'
     | '/map'
     | '/motion-sense'
+    | '/pressure-sense'
     | '/report'
     | '/settings'
     | '/temp-sense'
@@ -243,6 +255,7 @@ export interface RootRouteChildren {
   LocationSenseRoute: typeof LocationSenseRoute
   MapRoute: typeof MapRoute
   MotionSenseRoute: typeof MotionSenseRoute
+  PressureSenseRoute: typeof PressureSenseRoute
   ReportRoute: typeof ReportRoute
   SettingsRoute: typeof SettingsRoute
   TempSenseRoute: typeof TempSenseRoute
@@ -272,6 +285,13 @@ declare module '@tanstack/react-router' {
       path: '/report'
       fullPath: '/report'
       preLoaderRoute: typeof ReportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pressure-sense': {
+      id: '/pressure-sense'
+      path: '/pressure-sense'
+      fullPath: '/pressure-sense'
+      preLoaderRoute: typeof PressureSenseRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/motion-sense': {
@@ -387,6 +407,7 @@ const rootRouteChildren: RootRouteChildren = {
   LocationSenseRoute: LocationSenseRoute,
   MapRoute: MapRoute,
   MotionSenseRoute: MotionSenseRoute,
+  PressureSenseRoute: PressureSenseRoute,
   ReportRoute: ReportRoute,
   SettingsRoute: SettingsRoute,
   TempSenseRoute: TempSenseRoute,
