@@ -3,7 +3,6 @@ import { Bell } from "lucide-react";
 import { motion } from "framer-motion";
 import { useState, useEffect, type ReactNode } from "react";
 import { T, useT } from "@/context/LanguageContext";
-import LanguageSwitcher from "@/components/LanguageSwitcher";
 import SideDrawer, { HamburgerButton } from "@/components/SideDrawer";
 import BottomNav from "@/components/BottomNav";
 
