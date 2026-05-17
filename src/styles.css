@@ -40,6 +40,36 @@
 }
 
 :root {
+  /* === Chrome / surface tokens (light) === */
+  --bg-page: #FAFAF8;
+  --bg-outside: #E8E0D8;
+  --bg-card: #FFFFFF;
+  --bg-card-sakura: #FFE4EC;
+  --bg-card-lavender: #EDE0FF;
+  --bg-card-mint: #D4F0E8;
+  --bg-card-yellow: #FFF3CC;
+  --bg-card-blue: #D6EEFF;
+  --bg-card-peach: #FFE8D6;
+  --bg-surface: #FFFFFF;
+  --bg-elevated: #FAFAF8;
+  --bg-topbar: #FAFAF8;
+  --bg-bottomnav: #FFFFFF;
+  --bg-drawer: #FFFFFF;
+  --bg-drawer-hero: linear-gradient(160deg, #FFF0F5 0%, #F5F0FF 60%, #EEF5FF 100%);
+  --text-primary: #2C2C2C;
+  --text-secondary: #8A8A8A;
+  --text-placeholder: #C4B8B4;
+  --text-muted-soft: #B0A8A4;
+  --border-subtle: #F0ECE8;
+  --border-card: #EDE8E4;
+  --shadow-nav: 0 -4px 20px rgba(0,0,0,0.06);
+  --accent-sakura: #E8829A;
+  --accent-matcha: #6BAF92;
+  --accent-fuji: #7B68C8;
+  --accent-yuzu: #D4A843;
+  --accent-sora: #5B9BD5;
+  --accent-red: #E53935;
+
   /* Washi white #FAFAF8 */
   --background: oklch(0.984 0.002 90);
   /* Soft black #2D2D2D */
