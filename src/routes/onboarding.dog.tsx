@@ -488,30 +488,15 @@ function AnimationField({
             style={{ animation: "afSlideIn 0.6s cubic-bezier(0.34,1.56,0.64,1)" }}
           >
             <div className="relative" style={{ animation: "afBreathe 3s ease-in-out infinite" }}>
-              {state.videoUrl ? (
-                <video
-                  src={state.videoUrl}
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  style={{
-                    width: 180, height: 180, objectFit: "cover",
-                    borderRadius: 22,
-                    boxShadow: "0 0 0 4px #FFF0F5, 0 10px 28px rgba(232,103,138,0.28)",
-                  }}
-                />
-              ) : (
-                <img
-                  src={state.ghibliUrl}
-                  alt="Ghibli"
-                  style={{
-                    width: 180, height: 180, objectFit: "cover",
-                    borderRadius: 22,
-                    boxShadow: "0 0 0 4px #FFF0F5, 0 10px 28px rgba(232,103,138,0.28)",
-                  }}
-                />
-              )}
+              <img
+                src={state.ghibliUrl}
+                alt="Ghibli"
+                style={{
+                  width: 180, height: 180, objectFit: "cover",
+                  borderRadius: 22,
+                  boxShadow: "0 0 0 4px #FFF0F5, 0 10px 28px rgba(232,103,138,0.28)",
+                }}
+              />
             </div>
             <button
               onClick={onRetake}
