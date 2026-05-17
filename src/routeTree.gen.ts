@@ -14,6 +14,7 @@ import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as ReportRouteImport } from './routes/report'
 import { Route as MotionSenseRouteImport } from './routes/motion-sense'
 import { Route as MapRouteImport } from './routes/map'
+import { Route as LocationSenseRouteImport } from './routes/location-sense'
 import { Route as LanguageRouteImport } from './routes/language'
 import { Route as HomeRouteImport } from './routes/home'
 import { Route as CommunityRouteImport } from './routes/community'
@@ -49,6 +50,11 @@ const MotionSenseRoute = MotionSenseRouteImport.update({
 const MapRoute = MapRouteImport.update({
   id: '/map',
   path: '/map',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LocationSenseRoute = LocationSenseRouteImport.update({
+  id: '/location-sense',
+  path: '/location-sense',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LanguageRoute = LanguageRouteImport.update({
@@ -116,6 +122,7 @@ export interface FileRoutesByFullPath {
   '/community': typeof CommunityRoute
   '/home': typeof HomeRoute
   '/language': typeof LanguageRoute
+  '/location-sense': typeof LocationSenseRoute
   '/map': typeof MapRoute
   '/motion-sense': typeof MotionSenseRoute
   '/report': typeof ReportRoute
@@ -134,6 +141,7 @@ export interface FileRoutesByTo {
   '/community': typeof CommunityRoute
   '/home': typeof HomeRoute
   '/language': typeof LanguageRoute
+  '/location-sense': typeof LocationSenseRoute
   '/map': typeof MapRoute
   '/motion-sense': typeof MotionSenseRoute
   '/report': typeof ReportRoute
@@ -153,6 +161,7 @@ export interface FileRoutesById {
   '/community': typeof CommunityRoute
   '/home': typeof HomeRoute
   '/language': typeof LanguageRoute
+  '/location-sense': typeof LocationSenseRoute
   '/map': typeof MapRoute
   '/motion-sense': typeof MotionSenseRoute
   '/report': typeof ReportRoute
@@ -173,6 +182,7 @@ export interface FileRouteTypes {
     | '/community'
     | '/home'
     | '/language'
+    | '/location-sense'
     | '/map'
     | '/motion-sense'
     | '/report'
@@ -191,6 +201,7 @@ export interface FileRouteTypes {
     | '/community'
     | '/home'
     | '/language'
+    | '/location-sense'
     | '/map'
     | '/motion-sense'
     | '/report'
@@ -209,6 +220,7 @@ export interface FileRouteTypes {
     | '/community'
     | '/home'
     | '/language'
+    | '/location-sense'
     | '/map'
     | '/motion-sense'
     | '/report'
@@ -228,6 +240,7 @@ export interface RootRouteChildren {
   CommunityRoute: typeof CommunityRoute
   HomeRoute: typeof HomeRoute
   LanguageRoute: typeof LanguageRoute
+  LocationSenseRoute: typeof LocationSenseRoute
   MapRoute: typeof MapRoute
   MotionSenseRoute: typeof MotionSenseRoute
   ReportRoute: typeof ReportRoute
@@ -273,6 +286,13 @@ declare module '@tanstack/react-router' {
       path: '/map'
       fullPath: '/map'
       preLoaderRoute: typeof MapRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/location-sense': {
+      id: '/location-sense'
+      path: '/location-sense'
+      fullPath: '/location-sense'
+      preLoaderRoute: typeof LocationSenseRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/language': {
@@ -364,6 +384,7 @@ const rootRouteChildren: RootRouteChildren = {
   CommunityRoute: CommunityRoute,
   HomeRoute: HomeRoute,
   LanguageRoute: LanguageRoute,
+  LocationSenseRoute: LocationSenseRoute,
   MapRoute: MapRoute,
   MotionSenseRoute: MotionSenseRoute,
   ReportRoute: ReportRoute,
