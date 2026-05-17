@@ -86,12 +86,12 @@ function Welcome() {
 
         {/* CTA */}
         <div className="mt-8">
-          <PrimaryButton onClick={() => nav({ to: "/onboarding/avatar" })}>
+          <PrimaryButton onClick={() => nav({ to: "/onboarding/dog" })}>
             🐶 {t("マイドッグのアバターを作る", "Create My Dog's Avatar")}
           </PrimaryButton>
           <div className="text-center mt-4">
             <Link
-              to="/onboarding/avatar"
+              to="/onboarding/dog"
               className="text-[13px] underline"
               style={{ color: "#A38B82" }}
             >
