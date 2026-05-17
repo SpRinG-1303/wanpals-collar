@@ -25,13 +25,19 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    const stored = localStorage.getItem(KEY) ?? localStorage.getItem("wancare-lang");
+    const stored =
+      localStorage.getItem(KEY) ??
+      localStorage.getItem("preferredLanguage") ??
+      localStorage.getItem("wancare-lang");
     setLangState(normalize(stored));
   }, []);
 
   const setLanguage = (l: Language) => {
     setLangState(l);
-    if (typeof window !== "undefined") localStorage.setItem(KEY, l);
+    if (typeof window !== "undefined") {
+      localStorage.setItem(KEY, l);
+      localStorage.setItem("preferredLanguage", l);
+    }
   };
 
   return <LanguageContext.Provider value={{ language, setLanguage }}>{children}</LanguageContext.Provider>;
