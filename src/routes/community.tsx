@@ -141,10 +141,10 @@ function Community() {
           {/* Left content */}
           <div style={{ position: "absolute", left: 20, top: 20, right: 96 }}>
             <div style={{ fontSize: 13, color: "#E8829A", letterSpacing: "0.1em", fontWeight: 600 }}>コミュニティ</div>
-            <div style={{ fontSize: 24, fontWeight: 800, color: "#2C2C2C", lineHeight: 1.1, marginTop: 2 }}>
+            <div style={{ fontSize: 24, fontWeight: 800, color: "var(--text-primary)", lineHeight: 1.1, marginTop: 2 }}>
               {t("コミュニティ", "Community")}
             </div>
-            <div style={{ fontSize: 12, color: "#8A8A8A", marginTop: 6, display: "flex", alignItems: "center", gap: 4 }}>
+            <div style={{ fontSize: 12, color: "var(--text-secondary)", marginTop: 6, display: "flex", alignItems: "center", gap: 4 }}>
               <PawPrint size={12} style={{ color: "#E8829A" }} />
               <span>{t("1,648 ワンちゃん家族", "1,648 dog families")}</span>
             </div>
@@ -177,7 +177,7 @@ function Community() {
       {/* ── Stats Bar ─────────────────────────────────────────── */}
       <div
         style={{
-          background: "#FFFFFF",
+          background: "var(--bg-card)",
           borderRadius: 16,
           margin: "32px 16px 8px",
           padding: "12px 20px",
@@ -196,11 +196,11 @@ function Community() {
             <div style={{ textAlign: "center" }}>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 4 }}>
                 {s.icon}
-                <span style={{ fontSize: 18, fontWeight: 800, color: "#2C2C2C" }} className="tabular-nums">{s.n}</span>
+                <span style={{ fontSize: 18, fontWeight: 800, color: "var(--text-primary)" }} className="tabular-nums">{s.n}</span>
               </div>
-              <div style={{ fontSize: 10, color: "#8A8A8A", marginTop: 2 }}>{t(s.jp, s.en)}</div>
+              <div style={{ fontSize: 10, color: "var(--text-secondary)", marginTop: 2 }}>{t(s.jp, s.en)}</div>
             </div>
-            {i < arr.length - 1 && <div style={{ width: 1, height: 28, background: "#F0ECE8" }} />}
+            {i < arr.length - 1 && <div style={{ width: 1, height: 28, background: "var(--border-subtle)" }} />}
           </span>
         ))}
       </div>
@@ -214,7 +214,7 @@ function Community() {
             ? isAll
               ? { background: c.soft, color: "#fff", border: "1.5px solid transparent", boxShadow: "0 4px 12px rgba(232,130,154,0.35)" }
               : { background: c.soft, color: c.accent, border: `1.5px solid ${c.accent}`, boxShadow: `0 2px 8px ${c.accent}22` }
-            : { background: "#FFFFFF", color: "#8A8A8A", border: "1.5px solid #EDE8E4", boxShadow: "0 2px 6px rgba(0,0,0,0.05)" };
+            : { background: "var(--bg-card)", color: "var(--text-secondary)", border: "1.5px solid var(--border-card)", boxShadow: "0 2px 6px rgba(0,0,0,0.05)" };
           return (
             <button
               key={c.en}
@@ -241,7 +241,7 @@ function Community() {
       {/* ── Trending row ─────────────────────────────────────── */}
       <div style={{ padding: "4px 16px 8px" }}>
         <div className="flex items-center justify-between" style={{ marginBottom: 8 }}>
-          <div className="flex items-center gap-1.5" style={{ fontSize: 13, fontWeight: 600, color: "#2C2C2C" }}>
+          <div className="flex items-center gap-1.5" style={{ fontSize: 13, fontWeight: 600, color: "var(--text-primary)" }}>
             <Flame size={14} style={{ color: "#E8829A" }} />
             {t("トレンド", "Trending")}
           </div>
@@ -299,7 +299,7 @@ function Community() {
               key={p.id}
               whileTap={{ scale: 0.99 }}
               style={{
-                background: "#FFFFFF",
+                background: "var(--bg-card)",
                 borderRadius: 20,
                 margin: "0 16px 12px",
                 boxShadow: "0 2px 20px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.04)",
@@ -335,7 +335,7 @@ function Community() {
                         bottom: -2,
                         right: -2,
                         fontSize: 10,
-                        background: "#fff",
+                        background: "var(--bg-card)",
                         borderRadius: "50%",
                         width: 16,
                         height: 16,
@@ -350,7 +350,7 @@ function Community() {
                   </div>
                   {/* User info */}
                   <div className="flex-1 min-w-0">
-                    <div style={{ fontSize: 14, fontWeight: 700, color: "#2C2C2C" }}>{p.user}</div>
+                    <div style={{ fontSize: 14, fontWeight: 700, color: "var(--text-primary)" }}>{p.user}</div>
                     <div className="flex items-center gap-1.5" style={{ marginTop: 3 }}>
                       <span
                         style={{
@@ -416,7 +416,7 @@ function Community() {
                   style={{
                     fontSize: 15,
                     fontWeight: 600,
-                    color: "#2C2C2C",
+                    color: "var(--text-primary)",
                     lineHeight: 1.4,
                     margin: "10px 0 6px",
                     display: "-webkit-box",
@@ -428,7 +428,7 @@ function Community() {
                   {language === "english" ? p.titleEn : p.titleJp}
                 </div>
                 {language === "mixed" && (
-                  <div style={{ fontSize: 13, color: "#8A8A8A", lineHeight: 1.5 }}>{p.titleEn}</div>
+                  <div style={{ fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.5 }}>{p.titleEn}</div>
                 )}
               </button>
 
@@ -499,11 +499,11 @@ function Community() {
                     className="flex items-center justify-center"
                     style={{
                       background: "#F5F5F5",
-                      border: "1px solid #EDE8E4",
+                      border: "1px solid var(--border-card)",
                       borderRadius: "50%",
                       width: 32,
                       height: 32,
-                      color: "#8A8A8A",
+                      color: "var(--text-secondary)",
                     }}
                   >
                     <Share2 size={14} />
@@ -538,7 +538,7 @@ function Community() {
           <button
             className="flex items-center gap-2"
             style={{
-              background: "#FFFFFF",
+              background: "var(--bg-card)",
               border: "1.5px solid #E8829A",
               color: "#E8829A",
               borderRadius: 20,
@@ -582,10 +582,10 @@ function Community() {
               initial={{ y: 80 }}
               animate={{ y: 0 }}
               className="w-full max-w-md mx-auto overflow-y-auto"
-              style={{ background: "#FAFAF8", maxHeight: "90vh", borderRadius: "28px 28px 0 0", padding: 20 }}
+              style={{ background: "var(--bg-page)", maxHeight: "90vh", borderRadius: "28px 28px 0 0", padding: 20 }}
               onClick={(e) => e.stopPropagation()}
             >
-              <div style={{ width: 48, height: 5, borderRadius: 999, background: "#EDE8E4", margin: "0 auto 16px" }} />
+              <div style={{ width: 48, height: 5, borderRadius: 999, background: "var(--border-card)", margin: "0 auto 16px" }} />
               <div className="flex items-center gap-3">
                 <div
                   className="flex items-center justify-center"
@@ -594,14 +594,14 @@ function Community() {
                   {post.user.trim()[0]}
                 </div>
                 <div>
-                  <div style={{ fontSize: 14, fontWeight: 700, color: "#2C2C2C" }}>{post.user}</div>
+                  <div style={{ fontSize: 14, fontWeight: 700, color: "var(--text-primary)" }}>{post.user}</div>
                   <div style={{ fontSize: 11, color: "#C4B8B4" }}>{post.time} · #{language === "english" ? th.en : th.jp}</div>
                 </div>
               </div>
-              <h2 style={{ fontSize: 20, fontWeight: 800, color: "#2C2C2C", marginTop: 14, lineHeight: 1.3 }}>
+              <h2 style={{ fontSize: 20, fontWeight: 800, color: "var(--text-primary)", marginTop: 14, lineHeight: 1.3 }}>
                 {language === "english" ? post.titleEn : post.titleJp}
               </h2>
-              {language === "mixed" && <p style={{ fontSize: 12, color: "#8A8A8A", marginTop: 4 }}>{post.titleEn}</p>}
+              {language === "mixed" && <p style={{ fontSize: 12, color: "var(--text-secondary)", marginTop: 4 }}>{post.titleEn}</p>}
               <p style={{ fontSize: 14, color: "#3a3a3a", marginTop: 14, lineHeight: 1.6 }}>
                 {t(
                   "こんにちは皆さん。最近うちの柴犬の体温が38.8℃と少し高めです。WanCareのセンサーで継続的にモニタリングしていますが、心配です。皆さんならどうしますか？",
@@ -612,13 +612,13 @@ function Community() {
               <div style={{ marginTop: 16, background: "#F5F0FF", border: "1px solid #DDD4F8", borderRadius: 16, padding: 12 }}>
                 <div style={{ fontSize: 11, fontWeight: 700, color: "#7B68C8" }}>📡 {t("共有センサーデータ", "Collar Data Shared")}</div>
                 <div className="flex justify-between" style={{ marginTop: 8, fontSize: 12 }}>
-                  <div><div style={{ fontWeight: 800, color: "#2C2C2C" }}>38.8°C</div><div style={{ fontSize: 10, color: "#8A8A8A" }}>{t("体温", "Temp")}</div></div>
-                  <div><div style={{ fontWeight: 800, color: "#2C2C2C" }}>{t("2,100歩", "2,100 steps")}</div><div style={{ fontSize: 10, color: "#8A8A8A" }}>{t("運動", "Activity")}</div></div>
-                  <div><div style={{ fontWeight: 800, color: "#2C2C2C" }}>82</div><div style={{ fontSize: 10, color: "#8A8A8A" }}>{t("スコア", "Score")}</div></div>
+                  <div><div style={{ fontWeight: 800, color: "var(--text-primary)" }}>38.8°C</div><div style={{ fontSize: 10, color: "var(--text-secondary)" }}>{t("体温", "Temp")}</div></div>
+                  <div><div style={{ fontWeight: 800, color: "var(--text-primary)" }}>{t("2,100歩", "2,100 steps")}</div><div style={{ fontSize: 10, color: "var(--text-secondary)" }}>{t("運動", "Activity")}</div></div>
+                  <div><div style={{ fontWeight: 800, color: "var(--text-primary)" }}>82</div><div style={{ fontSize: 10, color: "var(--text-secondary)" }}>{t("スコア", "Score")}</div></div>
                 </div>
               </div>
 
-              <h3 style={{ marginTop: 18, fontSize: 13, fontWeight: 700, color: "#2C2C2C" }}>💬 {t("コメント", "Comments")} ({post.com})</h3>
+              <h3 style={{ marginTop: 18, fontSize: 13, fontWeight: 700, color: "var(--text-primary)" }}>💬 {t("コメント", "Comments")} ({post.com})</h3>
               <div style={{ marginTop: 8 }} className="space-y-2">
                 {[
                   { uJp: "獣医ヤマダ", uEn: "Vet Yamada", cJp: "少し高めですが正常範囲内です。様子を見てください。", cEn: "A little high but within normal range. Please monitor." },
@@ -626,12 +626,12 @@ function Community() {
                 ].map((c) => {
                   const pal = avatarPalette(c.uEn);
                   return (
-                    <div key={c.uEn} style={{ background: "#fff", borderRadius: 14, padding: 12, boxShadow: "0 1px 4px rgba(0,0,0,0.04)" }}>
+                    <div key={c.uEn} style={{ background: "var(--bg-card)", borderRadius: 14, padding: 12, boxShadow: "0 1px 4px rgba(0,0,0,0.04)" }}>
                       <div className="flex items-center gap-2">
                         <div className="flex items-center justify-center" style={{ width: 28, height: 28, borderRadius: "50%", background: pal.bg, color: pal.fg, fontSize: 12, fontWeight: 800 }}>
                           {c.uEn[0]}
                         </div>
-                        <div style={{ fontSize: 12, fontWeight: 700, color: "#2C2C2C" }}>{t(c.uJp, c.uEn)}</div>
+                        <div style={{ fontSize: 12, fontWeight: 700, color: "var(--text-primary)" }}>{t(c.uJp, c.uEn)}</div>
                       </div>
                       <div style={{ fontSize: 13, color: "#3a3a3a", marginTop: 6 }}>{t(c.cJp, c.cEn)}</div>
                     </div>

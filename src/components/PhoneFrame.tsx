@@ -18,7 +18,7 @@ export default function PhoneFrame({ children, innerStyle }: { children: ReactNo
           width: "100%",
           maxWidth: 430,
           minHeight: "100vh",
-          background: "#FAFAF8",
+          background: "var(--bg-page)",
           boxShadow: "0 0 60px rgba(0,0,0,0.15)",
           ...innerStyle,
         }}

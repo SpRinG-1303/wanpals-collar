@@ -62,8 +62,8 @@ function Stars({ rating }: { rating: number }) {
         <Star
           key={i}
           size={12}
-          style={{ color: i <= Math.round(rating) ? "#D4A843" : "#EDE8E4" }}
-          fill={i <= Math.round(rating) ? "#D4A843" : "#EDE8E4"}
+          style={{ color: i <= Math.round(rating) ? "#D4A843" : "var(--border-card)" }}
+          fill={i <= Math.round(rating) ? "#D4A843" : "var(--border-card)"}
         />
       ))}
     </div>
@@ -74,11 +74,11 @@ function SectionLabel({ jp, en }: { jp: string; en: string }) {
   const t = useT();
   return (
     <div className="flex items-center gap-3" style={{ margin: "16px 16px 8px" }}>
-      <div style={{ flex: 1, height: 1, background: "#EDE8E4" }} />
+      <div style={{ flex: 1, height: 1, background: "var(--border-card)" }} />
       <div style={{ fontSize: 11, color: "#C4B8B4", letterSpacing: "0.08em", fontWeight: 600 }}>
         {t(jp, en)}
       </div>
-      <div style={{ flex: 1, height: 1, background: "#EDE8E4" }} />
+      <div style={{ flex: 1, height: 1, background: "var(--border-card)" }} />
     </div>
   );
 }
@@ -153,10 +153,10 @@ function Clinics() {
             <div style={{ fontSize: 11, color: "#5B9BD5", letterSpacing: "0.1em", fontWeight: 600 }}>
               {t("動物病院", "Animal Clinics")}
             </div>
-            <div style={{ fontSize: 26, fontWeight: 800, color: "#2C2C2C", lineHeight: 1.1, marginTop: 2 }}>
+            <div style={{ fontSize: 26, fontWeight: 800, color: "var(--text-primary)", lineHeight: 1.1, marginTop: 2 }}>
               {t("クリニックを探す", "Find Care")}
             </div>
-            <div style={{ fontSize: 13, color: "#8A8A8A", marginTop: 4 }}>
+            <div style={{ fontSize: 13, color: "var(--text-secondary)", marginTop: 4 }}>
               {t("近くの動物病院", "Near You")}
             </div>
             <div
@@ -184,11 +184,11 @@ function Clinics() {
         className="flex items-center"
         style={{
           margin: "12px 16px",
-          background: "#FFFFFF",
+          background: "var(--bg-card)",
           borderRadius: 16,
           height: 52,
           padding: "0 16px",
-          border: `1.5px solid ${focused ? "#E8829A" : "#EDE8E4"}`,
+          border: `1.5px solid ${focused ? "#E8829A" : "var(--border-card)"}`,
           boxShadow: focused
             ? "0 4px 16px rgba(0,0,0,0.08), 0 0 0 3px rgba(232,130,154,0.1)"
             : "0 4px 16px rgba(0,0,0,0.08)",
@@ -202,10 +202,10 @@ function Clinics() {
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
           className="flex-1 bg-transparent outline-none"
-          style={{ fontSize: 14, color: "#2C2C2C" }}
+          style={{ fontSize: 14, color: "var(--text-primary)" }}
           placeholder={t("クリニックを検索", "Search clinics")}
         />
-        <div style={{ width: 1, height: 24, background: "#EDE8E4", marginLeft: 8 }} />
+        <div style={{ width: 1, height: 24, background: "var(--border-card)", marginLeft: 8 }} />
         <button
           onClick={() => setFilter(true)}
           className="flex items-center justify-center"
@@ -226,7 +226,7 @@ function Clinics() {
           <div
             key={s.en}
             style={{
-              background: "#FFFFFF",
+              background: "var(--bg-card)",
               borderRadius: 14,
               padding: "10px 12px",
               boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
@@ -235,9 +235,9 @@ function Clinics() {
           >
             <div className="flex items-center gap-1.5">
               <span style={{ fontSize: 14 }}>{s.emoji}</span>
-              <span className="tabular-nums" style={{ fontSize: 20, fontWeight: 800, color: "#2C2C2C" }}>{s.n}</span>
+              <span className="tabular-nums" style={{ fontSize: 20, fontWeight: 800, color: "var(--text-primary)" }}>{s.n}</span>
             </div>
-            <div style={{ fontSize: 10, color: "#8A8A8A", marginTop: 2, lineHeight: 1.2 }}>
+            <div style={{ fontSize: 10, color: "var(--text-secondary)", marginTop: 2, lineHeight: 1.2 }}>
               {t(s.jp, s.en)}
             </div>
           </div>
@@ -279,7 +279,7 @@ function Clinics() {
           className="absolute"
           style={{
             left: "50%", top: "50%", transform: "translate(-50%,-50%)",
-            background: "#fff", color: "#5B9BD5",
+            background: "var(--bg-card)", color: "#5B9BD5",
             borderRadius: 20, padding: "8px 20px",
             fontSize: 12, fontWeight: 700,
             boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
@@ -302,7 +302,7 @@ function Clinics() {
               className="shrink-0 flex items-center gap-1.5"
               style={{
                 background: sel ? `linear-gradient(135deg, ${c.from}, ${c.to})` : "#FFFFFF",
-                border: `1.5px solid ${sel ? c.accent : "#EDE8E4"}`,
+                border: `1.5px solid ${sel ? c.accent : "var(--border-card)"}`,
                 color: sel ? c.accent : "#8A8A8A",
                 fontWeight: sel ? 700 : 500,
                 fontSize: 12,
@@ -352,7 +352,7 @@ function Clinics() {
             href="tel:+81000000000"
             className="flex items-center gap-1.5 shrink-0"
             style={{
-              background: "#fff", color: "#E53935",
+              background: "var(--bg-card)", color: "#E53935",
               borderRadius: 20, padding: "8px 14px",
               fontSize: 13, fontWeight: 800,
               boxShadow: "0 4px 8px rgba(0,0,0,0.15)",
@@ -378,7 +378,7 @@ function Clinics() {
       >
         <div
           className="shrink-0 flex items-center justify-center"
-          style={{ width: 56, height: 56, borderRadius: "50%", background: "#fff", boxShadow: "0 4px 12px rgba(123,104,200,0.2)" }}
+          style={{ width: 56, height: 56, borderRadius: "50%", background: "var(--bg-card)", boxShadow: "0 4px 12px rgba(123,104,200,0.2)" }}
         >
           <Video size={26} style={{ color: "#7B68C8" }} />
         </div>
@@ -419,7 +419,7 @@ function Clinics() {
             <div
               key={i}
               style={{
-                background: "#FFFFFF",
+                background: "var(--bg-card)",
                 borderRadius: 20,
                 margin: "0 16px 12px",
                 boxShadow: "0 4px 16px rgba(0,0,0,0.07)",
@@ -450,7 +450,7 @@ function Clinics() {
                   style={{
                     left: 14, top: "50%", transform: "translateY(-50%)",
                     width: 56, height: 56, borderRadius: "50%",
-                    background: "#fff",
+                    background: "var(--bg-card)",
                     border: "2px solid #fff",
                     boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
                   }}
@@ -521,11 +521,11 @@ function Clinics() {
               <div style={{ padding: "14px 16px" }}>
                 <div className="flex items-start justify-between gap-2">
                   <div className="min-w-0">
-                    <div style={{ fontSize: 16, fontWeight: 800, color: "#2C2C2C", lineHeight: 1.25 }}>
+                    <div style={{ fontSize: 16, fontWeight: 800, color: "var(--text-primary)", lineHeight: 1.25 }}>
                       {language === "english" ? c.en : c.jp}
                     </div>
                     {language === "mixed" && (
-                      <div style={{ fontSize: 11, color: "#8A8A8A", marginTop: 2 }}>{c.en}</div>
+                      <div style={{ fontSize: 11, color: "var(--text-secondary)", marginTop: 2 }}>{c.en}</div>
                     )}
                   </div>
                   <span
@@ -535,7 +535,7 @@ function Clinics() {
                       padding: "3px 10px", borderRadius: 20,
                       background: c.open ? "#E8F5EE" : "#F5F5F5",
                       color: c.open ? "#6BAF92" : "#8A8A8A",
-                      border: `1px solid ${c.open ? "#B8D4C0" : "#EDE8E4"}`,
+                      border: `1px solid ${c.open ? "#B8D4C0" : "var(--border-card)"}`,
                     }}
                   >
                     {c.open ? t("営業中", "Open") : t("閉院中", "Closed")}
@@ -547,12 +547,12 @@ function Clinics() {
                   <Stars rating={c.rating} />
                   <span style={{ fontSize: 13, fontWeight: 700, color: "#D4A843" }}>{c.rating}</span>
                   <span style={{ fontSize: 11, color: "#C4B8B4" }}>(47)</span>
-                  <span style={{ color: "#EDE8E4" }}>·</span>
-                  <span className="flex items-center gap-1" style={{ fontSize: 12, color: "#8A8A8A" }}>
+                  <span style={{ color: "var(--border-card)" }}>·</span>
+                  <span className="flex items-center gap-1" style={{ fontSize: 12, color: "var(--text-secondary)" }}>
                     <MapPin size={10} style={{ color: "#E8829A" }} /> {c.km}km
                   </span>
-                  <span style={{ color: "#EDE8E4" }}>·</span>
-                  <span className="flex items-center gap-1" style={{ fontSize: 11, color: "#8A8A8A" }}>
+                  <span style={{ color: "var(--border-card)" }}>·</span>
+                  <span className="flex items-center gap-1" style={{ fontSize: 11, color: "var(--text-secondary)" }}>
                     🚶 {Math.round(c.km * 12)}{t("分", " min")}
                   </span>
                   <span
@@ -572,9 +572,9 @@ function Clinics() {
                     <span
                       key={s.en}
                       style={{
-                        background: "#FAFAF8",
-                        border: "1px solid #EDE8E4",
-                        color: "#8A8A8A",
+                        background: "var(--bg-page)",
+                        border: "1px solid var(--border-card)",
+                        color: "var(--text-secondary)",
                         borderRadius: 20,
                         padding: "2px 8px",
                         fontSize: 10,
@@ -598,7 +598,7 @@ function Clinics() {
                 </div>
 
                 {/* Hours */}
-                <div className="flex items-center gap-1" style={{ marginTop: 8, fontSize: 11, color: "#8A8A8A" }}>
+                <div className="flex items-center gap-1" style={{ marginTop: 8, fontSize: 11, color: "var(--text-secondary)" }}>
                   <Clock size={11} />
                   {t("月-金 9:00-18:00", "Mon–Fri 9–6pm")}
                 </div>
@@ -638,7 +638,7 @@ function Clinics() {
           <button
             className="flex items-center gap-2"
             style={{
-              background: "#FFFFFF",
+              background: "var(--bg-card)",
               border: "1.5px solid #E8829A",
               color: "#E8829A",
               borderRadius: 20,
@@ -659,12 +659,12 @@ function Clinics() {
             initial={{ y: 100 }}
             animate={{ y: 0 }}
             className="w-full max-w-md mx-auto"
-            style={{ background: "#FAFAF8", maxHeight: "85vh", overflowY: "auto", borderRadius: "28px 28px 0 0", padding: 20 }}
+            style={{ background: "var(--bg-page)", maxHeight: "85vh", overflowY: "auto", borderRadius: "28px 28px 0 0", padding: 20 }}
             onClick={(e) => e.stopPropagation()}
           >
-            <div style={{ width: 48, height: 5, borderRadius: 999, background: "#EDE8E4", margin: "0 auto 16px" }} />
+            <div style={{ width: 48, height: 5, borderRadius: 999, background: "var(--border-card)", margin: "0 auto 16px" }} />
             <div className="flex items-center justify-between">
-              <div style={{ fontSize: 20, fontWeight: 800, color: "#2C2C2C" }}>
+              <div style={{ fontSize: 20, fontWeight: 800, color: "var(--text-primary)" }}>
                 {t("絞り込み", "Filter")}
               </div>
               <button
@@ -678,7 +678,7 @@ function Clinics() {
             {/* Distance */}
             <div style={{ marginTop: 20 }}>
               <div className="flex items-center justify-between" style={{ marginBottom: 8 }}>
-                <span style={{ fontSize: 13, fontWeight: 700, color: "#2C2C2C" }}>{t("距離", "Distance")}</span>
+                <span style={{ fontSize: 13, fontWeight: 700, color: "var(--text-primary)" }}>{t("距離", "Distance")}</span>
                 <span style={{ fontSize: 12, fontWeight: 700, color: "#E8829A", background: "#FFF0F5", padding: "2px 10px", borderRadius: 20 }}>{distance}km</span>
               </div>
               <input
@@ -695,7 +695,7 @@ function Clinics() {
 
             {/* Rating */}
             <div style={{ marginTop: 20 }}>
-              <div style={{ fontSize: 13, fontWeight: 700, color: "#2C2C2C", marginBottom: 8 }}>{t("評価", "Rating")}</div>
+              <div style={{ fontSize: 13, fontWeight: 700, color: "var(--text-primary)", marginBottom: 8 }}>{t("評価", "Rating")}</div>
               <div className="flex gap-2">
                 {[5, 4, 3].map((n) => {
                   const sel = minStars === n;
@@ -706,7 +706,7 @@ function Clinics() {
                       className="flex items-center gap-1 flex-1 justify-center"
                       style={{
                         background: sel ? "#FFF8DC" : "#fff",
-                        border: `1.5px solid ${sel ? "#D4A843" : "#EDE8E4"}`,
+                        border: `1.5px solid ${sel ? "#D4A843" : "var(--border-card)"}`,
                         borderRadius: 12, padding: "10px 0",
                         fontSize: 12, fontWeight: 700,
                         color: sel ? "#D4A843" : "#8A8A8A",
@@ -725,15 +725,15 @@ function Clinics() {
                 { label: t("営業中のみ", "Open Now Only"), val: openOnly, set: setOpenOnly, color: "#E8829A" },
                 { label: t("24時間対応", "24H Emergency Only"), val: emOnly, set: setEmOnly, color: "#E53935" },
               ].map((tg) => (
-                <label key={tg.label} className="flex items-center justify-between" style={{ background: "#fff", borderRadius: 14, padding: "12px 14px", border: "1px solid #EDE8E4" }}>
-                  <span style={{ fontSize: 13, fontWeight: 600, color: "#2C2C2C" }}>{tg.label}</span>
+                <label key={tg.label} className="flex items-center justify-between" style={{ background: "var(--bg-card)", borderRadius: 14, padding: "12px 14px", border: "1px solid var(--border-card)" }}>
+                  <span style={{ fontSize: 13, fontWeight: 600, color: "var(--text-primary)" }}>{tg.label}</span>
                   <button
                     type="button"
                     onClick={() => tg.set(!tg.val)}
                     className="relative"
                     style={{
                       width: 44, height: 24, borderRadius: 999,
-                      background: tg.val ? tg.color : "#EDE8E4",
+                      background: tg.val ? tg.color : "var(--border-card)",
                       transition: "background 0.18s",
                     }}
                   >
@@ -741,7 +741,7 @@ function Clinics() {
                       style={{
                         position: "absolute", top: 2, left: tg.val ? 22 : 2,
                         width: 20, height: 20, borderRadius: "50%",
-                        background: "#fff", boxShadow: "0 1px 3px rgba(0,0,0,0.2)",
+                        background: "var(--bg-card)", boxShadow: "0 1px 3px rgba(0,0,0,0.2)",
                         transition: "left 0.18s",
                       }}
                     />
@@ -752,7 +752,7 @@ function Clinics() {
 
             {/* Specialization */}
             <div style={{ marginTop: 20 }}>
-              <div style={{ fontSize: 13, fontWeight: 700, color: "#2C2C2C", marginBottom: 8 }}>{t("専門分野", "Specialization")}</div>
+              <div style={{ fontSize: 13, fontWeight: 700, color: "var(--text-primary)", marginBottom: 8 }}>{t("専門分野", "Specialization")}</div>
               <div className="grid grid-cols-2 gap-2">
                 {[
                   { jp: "歯科", en: "Dental" },
@@ -769,7 +769,7 @@ function Clinics() {
                       onClick={() => setSpecSel((x) => ({ ...x, [s.en]: !x[s.en] }))}
                       style={{
                         background: sel ? "#FFF0F5" : "#fff",
-                        border: `1.5px solid ${sel ? "#E8829A" : "#EDE8E4"}`,
+                        border: `1.5px solid ${sel ? "#E8829A" : "var(--border-card)"}`,
                         color: sel ? "#E8829A" : "#8A8A8A",
                         fontWeight: 700, fontSize: 12,
                         borderRadius: 12, padding: "10px 0",
@@ -795,7 +795,7 @@ function Clinics() {
             >
               {t("適用する", "Apply Filters")} · {filtered.length}{t("件", " results")}
             </button>
-            <button onClick={() => setFilter(false)} className="w-full flex items-center justify-center gap-1" style={{ fontSize: 12, color: "#8A8A8A", padding: "8px 0" }}>
+            <button onClick={() => setFilter(false)} className="w-full flex items-center justify-center gap-1" style={{ fontSize: 12, color: "var(--text-secondary)", padding: "8px 0" }}>
               <X size={12} /> {t("キャンセル", "Cancel")}
             </button>
           </motion.div>

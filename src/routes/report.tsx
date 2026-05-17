@@ -42,7 +42,7 @@ function Report() {
       {/* Time filter tabs */}
       <div
         style={{
-          background: "#FFFFFF",
+          background: "var(--bg-card)",
           borderRadius: 16,
           padding: 4,
           margin: "0 0 12px",
@@ -227,7 +227,7 @@ function HeroCard({ pet, dogName }: { pet: PetProfile; dogName: string }) {
 
   return (
     <div style={{
-      background: "#FFFFFF",
+      background: "var(--bg-card)",
       borderRadius: 24,
       marginBottom: 16,
       overflow: "hidden",
@@ -242,7 +242,7 @@ function HeroCard({ pet, dogName }: { pet: PetProfile; dogName: string }) {
             border: "2px solid #FFD4E8", overflow: "hidden",
             boxShadow: "0 4px 12px rgba(232,130,154,0.2)",
             display: "flex", alignItems: "center", justifyContent: "center",
-            background: "#fff", flexShrink: 0,
+            background: "var(--bg-card)", flexShrink: 0,
           }}>
             <DogAvatar
               breed={breedKey}
@@ -256,10 +256,10 @@ function HeroCard({ pet, dogName }: { pet: PetProfile; dogName: string }) {
             />
           </div>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontSize: 16, fontWeight: 700, color: "#2C2C2C", lineHeight: 1.2 }}>
+            <div style={{ fontSize: 16, fontWeight: 700, color: "var(--text-primary)", lineHeight: 1.2 }}>
               {title}
             </div>
-            <div style={{ fontSize: 11, color: "#8A8A8A", marginTop: 2 }}>
+            <div style={{ fontSize: 11, color: "var(--text-secondary)", marginTop: 2 }}>
               {t(pet.breedJp || "柴犬", pet.breedEn || "Shiba Inu")} · {t("2026年5月", "May 2026")}
             </div>
           </div>
@@ -294,8 +294,8 @@ function HeroCard({ pet, dogName }: { pet: PetProfile; dogName: string }) {
               alignItems: "center", justifyContent: "center",
             }}>
               <div style={{ display: "flex", alignItems: "baseline", gap: 2 }}>
-                <span style={{ fontSize: 28, fontWeight: 700, color: "#2C2C2C", lineHeight: 1 }}>{score}</span>
-                <span style={{ fontSize: 12, color: "#8A8A8A" }}>/100</span>
+                <span style={{ fontSize: 28, fontWeight: 700, color: "var(--text-primary)", lineHeight: 1 }}>{score}</span>
+                <span style={{ fontSize: 12, color: "var(--text-secondary)" }}>/100</span>
               </div>
               <span style={{ fontSize: 9, color: "#C4B8B4", letterSpacing: "0.1em", marginTop: 2 }}>
                 {t("スコア", "SCORE")}
@@ -352,7 +352,7 @@ function StatRow({ icon, iconBg, labelJp, labelEn, value, valueColor }: {
         width: 32, height: 32, borderRadius: 8, background: iconBg,
         display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
       }}>{icon}</div>
-      <span style={{ flex: 1, fontSize: 11, color: "#8A8A8A" }}>
+      <span style={{ flex: 1, fontSize: 11, color: "var(--text-secondary)" }}>
         {t(labelJp, labelEn)}
       </span>
       <span style={{ fontSize: 15, fontWeight: 700, color: valueColor }}>{value}</span>
@@ -365,11 +365,11 @@ function SectionDivider({ jp, en }: { jp: string; en: string }) {
   const t = useT();
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 10, margin: "4px 0 10px" }}>
-      <div style={{ flex: 1, height: 1, background: "#EDE8E4" }} />
+      <div style={{ flex: 1, height: 1, background: "var(--border-card)" }} />
       <span style={{ fontSize: 11, color: "#C4B8B4", letterSpacing: "0.1em" }}>
         {t(jp, en)}
       </span>
-      <div style={{ flex: 1, height: 1, background: "#EDE8E4" }} />
+      <div style={{ flex: 1, height: 1, background: "var(--border-card)" }} />
     </div>
   );
 }
@@ -387,7 +387,7 @@ function ChartCard({
   const { language } = useLanguage();
   return (
     <div style={{
-      background: "#FFFFFF", borderRadius: 20, marginBottom: 12,
+      background: "var(--bg-card)", borderRadius: 20, marginBottom: 12,
       boxShadow: "0 4px 16px rgba(0,0,0,0.07)", overflow: "hidden",
     }}>
       <div style={{ height: 6, background: topStrip }} />
@@ -401,11 +401,11 @@ function ChartCard({
             display: "flex", alignItems: "center", justifyContent: "center",
           }}>{icon}</div>
           <div>
-            <div style={{ fontSize: 14, fontWeight: 600, color: "#2C2C2C" }}>
+            <div style={{ fontSize: 14, fontWeight: 600, color: "var(--text-primary)" }}>
               {t(titleJp, titleEn)}
             </div>
             {language === "mixed" && (
-              <div style={{ fontSize: 11, color: "#8A8A8A" }}>{titleEn}</div>
+              <div style={{ fontSize: 11, color: "var(--text-secondary)" }}>{titleEn}</div>
             )}
           </div>
         </div>
@@ -423,11 +423,11 @@ function NiceTooltip({ active, payload, label, color, suffix }: any) {
   if (!active || !payload?.length) return null;
   return (
     <div style={{
-      background: "#fff", border: `1px solid ${color}`, borderRadius: 12,
-      padding: "6px 10px", fontSize: 11, color: "#2C2C2C",
+      background: "var(--bg-card)", border: `1px solid ${color}`, borderRadius: 12,
+      padding: "6px 10px", fontSize: 11, color: "var(--text-primary)",
       boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
     }}>
-      <div style={{ color: "#8A8A8A" }}>{label}</div>
+      <div style={{ color: "var(--text-secondary)" }}>{label}</div>
       <div style={{ fontWeight: 700, color }}>{payload[0].value}{suffix}</div>
     </div>
   );
@@ -445,7 +445,7 @@ function VaccinationCard() {
   ];
   return (
     <div style={{
-      background: "#FFFFFF", borderRadius: 20, marginBottom: 12,
+      background: "var(--bg-card)", borderRadius: 20, marginBottom: 12,
       boxShadow: "0 4px 16px rgba(0,0,0,0.07)", overflow: "hidden",
       borderLeft: "4px solid #6BAF92",
     }}>
@@ -456,7 +456,7 @@ function VaccinationCard() {
       }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <Syringe size={18} color="#6BAF92" />
-          <span style={{ fontSize: 14, fontWeight: 700, color: "#2C2C2C" }}>
+          <span style={{ fontSize: 14, fontWeight: 700, color: "var(--text-primary)" }}>
             {t("ワクチン記録", "Vaccination Records")}
           </span>
         </div>
@@ -494,12 +494,12 @@ function VaccineRow({ jp, en, date, status, isLast }: {
         display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
       }}>{cfg.icon}</div>
       <div style={{ flex: 1, minWidth: 0 }}>
-        <div style={{ fontSize: 14, fontWeight: 600, color: "#2C2C2C", lineHeight: 1.2 }}>
+        <div style={{ fontSize: 14, fontWeight: 600, color: "var(--text-primary)", lineHeight: 1.2 }}>
           {t(jp, en)}
         </div>
-        <div style={{ fontSize: 11, color: "#8A8A8A" }}>{en}</div>
+        <div style={{ fontSize: 11, color: "var(--text-secondary)" }}>{en}</div>
       </div>
-      <span style={{ fontSize: 12, color: "#8A8A8A", whiteSpace: "nowrap" }}>{date}</span>
+      <span style={{ fontSize: 12, color: "var(--text-secondary)", whiteSpace: "nowrap" }}>{date}</span>
       <span style={{
         background: cfg.chipBg, color: "#fff", fontSize: 10, fontWeight: 700,
         padding: "3px 8px", borderRadius: 12, whiteSpace: "nowrap",
@@ -513,14 +513,14 @@ function LastVisitCard() {
   const t = useT();
   return (
     <div style={{
-      background: "#FFFFFF", borderRadius: 20, marginBottom: 12,
+      background: "var(--bg-card)", borderRadius: 20, marginBottom: 12,
       boxShadow: "0 4px 16px rgba(0,0,0,0.07)", overflow: "hidden",
       borderLeft: "4px solid #5B9BD5",
     }}>
       <div style={{ height: 6, background: "linear-gradient(90deg, #E8F2FF, #EEF6FF)" }} />
       <div style={{ padding: "14px 16px 4px", display: "flex", alignItems: "center", gap: 10 }}>
         <Stethoscope size={18} color="#5B9BD5" />
-        <span style={{ fontSize: 14, fontWeight: 700, color: "#2C2C2C" }}>
+        <span style={{ fontSize: 14, fontWeight: 700, color: "var(--text-primary)" }}>
           {t("最後の診察", "Last Vet Visit")}
         </span>
       </div>
@@ -533,10 +533,10 @@ function LastVisitCard() {
           <Cross size={22} color="#5B9BD5" />
         </div>
         <div style={{ flex: 1 }}>
-          <div style={{ fontSize: 15, fontWeight: 700, color: "#2C2C2C", lineHeight: 1.2 }}>
+          <div style={{ fontSize: 15, fontWeight: 700, color: "var(--text-primary)", lineHeight: 1.2 }}>
             {t("渋谷動物病院", "Shibuya Animal Hospital")}
           </div>
-          <div style={{ fontSize: 12, color: "#8A8A8A", marginTop: 2 }}>
+          <div style={{ fontSize: 12, color: "var(--text-secondary)", marginTop: 2 }}>
             {t("2026年4月20日", "Apr 20, 2026")}
           </div>
           <span style={{
@@ -551,8 +551,8 @@ function LastVisitCard() {
         display: "flex", justifyContent: "space-between", alignItems: "center",
       }}>
         <div>
-          <div style={{ fontSize: 11, color: "#8A8A8A" }}>{t("次回予約", "Next Appointment")}</div>
-          <div style={{ fontSize: 12, color: "#2C2C2C", fontWeight: 600 }}>
+          <div style={{ fontSize: 11, color: "var(--text-secondary)" }}>{t("次回予約", "Next Appointment")}</div>
+          <div style={{ fontSize: 12, color: "var(--text-primary)", fontWeight: 600 }}>
             {t("未定", "Not scheduled")}
           </div>
         </div>
@@ -578,7 +578,7 @@ function QRCard() {
       display: "flex", flexDirection: "column", alignItems: "center", gap: 8,
     }}>
       <div style={{
-        width: 56, height: 56, borderRadius: "50%", background: "#fff",
+        width: 56, height: 56, borderRadius: "50%", background: "var(--bg-card)",
         display: "flex", alignItems: "center", justifyContent: "center",
         boxShadow: "0 4px 12px rgba(123,104,200,0.2)",
       }}>
@@ -591,7 +591,7 @@ function QRCard() {
         {t("毎回新しいQRを生成", "New QR every visit")}
       </div>
       <div style={{
-        width: 80, height: 80, background: "#fff", borderRadius: 12,
+        width: 80, height: 80, background: "var(--bg-card)", borderRadius: 12,
         border: "2px solid #C8C0F0", padding: 6,
         display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: 1,
       }}>
@@ -629,7 +629,7 @@ function SellCard() {
       display: "flex", flexDirection: "column", alignItems: "center", gap: 8,
     }}>
       <div style={{
-        width: 56, height: 56, borderRadius: "50%", background: "#fff",
+        width: 56, height: 56, borderRadius: "50%", background: "var(--bg-card)",
         display: "flex", alignItems: "center", justifyContent: "center",
         boxShadow: "0 4px 12px rgba(212,168,67,0.2)",
       }}>

@@ -106,7 +106,7 @@ export default function DogAvatar({
         width: size,
         height: size,
         borderRadius: "50%",
-        background: "#FFFFFF",
+        background: "var(--bg-card)",
         border: ring ? "3px solid #FFD4E8" : "none",
         boxShadow: ring ? "0 8px 32px rgba(232,130,154,0.25)" : "none",
         overflow: "hidden",

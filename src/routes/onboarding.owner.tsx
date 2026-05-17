@@ -33,10 +33,10 @@ function Step3() {
 
   return (
     <PhoneFrame>
-    <div className="min-h-screen pb-32" style={{ background: "#FAFAF8" }}>
+    <div className="min-h-screen pb-32" style={{ background: "var(--bg-page)" }}>
       <div className="px-6 pt-4">
         <div className="flex items-center mb-4">
-          <Link to="/onboarding/dog" style={{ color: "#2C2C2C" }}>
+          <Link to="/onboarding/dog" style={{ color: "var(--text-primary)" }}>
             <ChevronLeft className="w-6 h-6" />
           </Link>
         </div>
@@ -61,16 +61,16 @@ function Step3() {
               style={{ left: p.l, top: p.t, width: p.s, height: p.s * 1.4, background: "#FFB7C5", transform: `rotate(${i * 40}deg)`, opacity: 0.7 }}
             />
           ))}
-          <div className="relative w-[90px] h-[90px] rounded-full flex items-center justify-center" style={{ background: "#FFFFFF", boxShadow: "0 8px 20px rgba(232,130,154,0.18)" }}>
+          <div className="relative w-[90px] h-[90px] rounded-full flex items-center justify-center" style={{ background: "var(--bg-card)", boxShadow: "0 8px 20px rgba(232,130,154,0.18)" }}>
             <Home className="w-10 h-10" style={{ color: "#E8829A" }} strokeWidth={1.8} />
             <span className="absolute" style={{ bottom: 16, fontSize: 14 }}>🐾</span>
           </div>
         </div>
 
-        <h1 className="text-[18px] font-bold text-center" style={{ color: "#2C2C2C" }}>
+        <h1 className="text-[18px] font-bold text-center" style={{ color: "var(--text-primary)" }}>
           {t("もう少しです！", "Almost there!")}
         </h1>
-        <p className="text-[13px] text-center mt-1" style={{ color: "#8A8A8A" }}>
+        <p className="text-[13px] text-center mt-1" style={{ color: "var(--text-secondary)" }}>
           {t("オーナー情報を教えてください", "Tell us about yourself")}
         </p>
 
@@ -96,10 +96,10 @@ function Step3() {
             <button
               onClick={() => setSheet(true)}
               className="w-full h-[52px] rounded-[14px] flex items-center px-4"
-              style={{ background: "#FAFAF8", border: "1.5px solid #EDE8E4" }}
+              style={{ background: "var(--bg-page)", border: "1.5px solid var(--border-card)" }}
             >
               <MapPin className="w-4 h-4 mr-3" style={{ color: "#6BAF92" }} />
-              <span className="text-[15px] flex-1 text-left" style={{ color: "#2C2C2C" }}>{pref}</span>
+              <span className="text-[15px] flex-1 text-left" style={{ color: "var(--text-primary)" }}>{pref}</span>
               <span className="text-[12px]" style={{ color: "#C4B8B4" }}>▾</span>
             </button>
           </FormCard>
@@ -167,16 +167,16 @@ function PrefectureSheet({
       <div
         onClick={(e) => e.stopPropagation()}
         className="w-full h-[70vh] flex flex-col"
-        style={{ maxWidth: 430, background: "#FFFFFF", borderRadius: "32px 32px 0 0", boxShadow: "0 -8px 32px rgba(0,0,0,0.1)" }}
+        style={{ maxWidth: 430, background: "var(--bg-card)", borderRadius: "32px 32px 0 0", boxShadow: "0 -8px 32px rgba(0,0,0,0.1)" }}
         
       >
         <div className="mx-auto mt-3 mb-2 rounded-full" style={{ width: 32, height: 4, background: "#E8E0DC" }} />
         <div className="px-5 pb-3 flex items-center justify-between">
-          <h3 className="text-[15px] font-semibold" style={{ color: "#2C2C2C" }}>{t("都道府県を選ぶ", "Choose Prefecture")}</h3>
-          <button onClick={onClose}><X className="w-5 h-5" style={{ color: "#8A8A8A" }} /></button>
+          <h3 className="text-[15px] font-semibold" style={{ color: "var(--text-primary)" }}>{t("都道府県を選ぶ", "Choose Prefecture")}</h3>
+          <button onClick={onClose}><X className="w-5 h-5" style={{ color: "var(--text-secondary)" }} /></button>
         </div>
         <div className="px-5 pb-3">
-          <div className="h-11 rounded-xl flex items-center px-3" style={{ background: "#FAFAF8", border: "1.5px solid #EDE8E4" }}>
+          <div className="h-11 rounded-xl flex items-center px-3" style={{ background: "var(--bg-page)", border: "1.5px solid var(--border-card)" }}>
             <Search className="w-4 h-4 mr-2" style={{ color: "#C4B8B4" }} />
             <input
               value={q}

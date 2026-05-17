@@ -155,7 +155,7 @@ function PostcardScene({ band }: { band: TimeBand }) {
 
       {/* Clouds (afternoon) */}
       {band === "afternoon" && [[20,40,42],[100,22,36]].map(([l,t,w],i)=>(
-        <div key={i} style={{ position:"absolute", left:l, top:t, width:w, height:(w as number)*0.45, background:"#FFFFFF", opacity:0.85, borderRadius: 999 }}/>
+        <div key={i} style={{ position:"absolute", left:l, top:t, width:w, height:(w as number)*0.45, background: "var(--bg-card)", opacity:0.85, borderRadius: 999 }}/>
       ))}
 
       {/* Diagonal sakura branch */}
@@ -504,7 +504,7 @@ function Home() {
                   )}
 
                   {s.progress !== undefined && (
-                    <div style={{ marginTop: 10, height: 4, borderRadius: 4, overflow: "hidden", background: "#F0ECE8" }}>
+                    <div style={{ marginTop: 10, height: 4, borderRadius: 4, overflow: "hidden", background: "var(--border-subtle)" }}>
                       <div style={{ width: `${s.progress}%`, height: "100%", background: s.accent, borderRadius: 4 }}/>
                     </div>
                   )}
@@ -707,12 +707,12 @@ function EditProfileSheet({ onClose }: { onClose: () => void }) {
       <div
         onClick={(e) => e.stopPropagation()}
         className="w-full max-w-md flex flex-col"
-        style={{ background: "#FFFFFF", borderRadius: "32px 32px 0 0", boxShadow: "0 -8px 32px rgba(0,0,0,0.1)", maxHeight: "85vh" }}
+        style={{ background: "var(--bg-card)", borderRadius: "32px 32px 0 0", boxShadow: "0 -8px 32px rgba(0,0,0,0.1)", maxHeight: "85vh" }}
       >
         <div className="mx-auto mt-3 mb-2 rounded-full" style={{ width: 32, height: 4, background: "#E8E0DC" }} />
         <div className="px-5 pb-3 flex items-center justify-between">
-          <h3 className="text-[15px] font-semibold" style={{ color: "#2C2C2C" }}>{t("プロフィール編集", "Edit Profile")}</h3>
-          <button onClick={onClose}><X className="w-5 h-5" style={{ color: "#8A8A8A" }} /></button>
+          <h3 className="text-[15px] font-semibold" style={{ color: "var(--text-primary)" }}>{t("プロフィール編集", "Edit Profile")}</h3>
+          <button onClick={onClose}><X className="w-5 h-5" style={{ color: "var(--text-secondary)" }} /></button>
         </div>
         <div className="px-5 pb-4 space-y-3 overflow-y-auto">
           <Field label={t("名前", "Name")}>
@@ -721,7 +721,7 @@ function EditProfileSheet({ onClose }: { onClose: () => void }) {
               onChange={(e) => setName(e.target.value)}
               placeholder={t("例: ハナ", "e.g. Hana")}
               className="w-full h-[48px] rounded-[12px] px-4 text-[15px] outline-none"
-              style={{ background: "#FAFAF8", border: "1.5px solid #EDE8E4", color: "#2C2C2C" }}
+              style={{ background: "var(--bg-page)", border: "1.5px solid var(--border-card)", color: "var(--text-primary)" }}
             />
           </Field>
           <Field label={t("犬種", "Breed")}>
@@ -729,7 +729,7 @@ function EditProfileSheet({ onClose }: { onClose: () => void }) {
               value={breedJp}
               onChange={(e) => setBreedJp(e.target.value)}
               className="w-full h-[48px] rounded-[12px] px-3 text-[15px] outline-none"
-              style={{ background: "#FAFAF8", border: "1.5px solid #EDE8E4", color: "#2C2C2C" }}
+              style={{ background: "var(--bg-page)", border: "1.5px solid var(--border-card)", color: "var(--text-primary)" }}
             >
               {BREEDS.map((b) => (
                 <option key={b.jp} value={b.jp}>{b.jp} / {b.en}</option>
@@ -741,14 +741,14 @@ function EditProfileSheet({ onClose }: { onClose: () => void }) {
               <input
                 value={age} onChange={(e) => setAge(e.target.value)} type="number" placeholder="3"
                 className="w-full h-[48px] rounded-[12px] px-4 text-[15px] outline-none"
-                style={{ background: "#FAFAF8", border: "1.5px solid #EDE8E4", color: "#2C2C2C" }}
+                style={{ background: "var(--bg-page)", border: "1.5px solid var(--border-card)", color: "var(--text-primary)" }}
               />
             </Field>
             <Field label={t("体重 (kg)", "Weight (kg)")}>
               <input
                 value={weight} onChange={(e) => setWeight(e.target.value)} type="number" placeholder="8.5"
                 className="w-full h-[48px] rounded-[12px] px-4 text-[15px] outline-none"
-                style={{ background: "#FAFAF8", border: "1.5px solid #EDE8E4", color: "#2C2C2C" }}
+                style={{ background: "var(--bg-page)", border: "1.5px solid var(--border-card)", color: "var(--text-primary)" }}
               />
             </Field>
           </div>
@@ -761,7 +761,7 @@ function EditProfileSheet({ onClose }: { onClose: () => void }) {
           >
             {t("保存", "Save Changes")}
           </button>
-          <button onClick={onClose} className="w-full h-10 text-[13px] font-medium" style={{ color: "#8A8A8A" }}>
+          <button onClick={onClose} className="w-full h-10 text-[13px] font-medium" style={{ color: "var(--text-secondary)" }}>
             {t("キャンセル", "Cancel")}
           </button>
         </div>
@@ -773,7 +773,7 @@ function EditProfileSheet({ onClose }: { onClose: () => void }) {
 function Field({ label, children }: { label: string; children: ReactNode }) {
   return (
     <div>
-      <div className="text-[12px] font-semibold mb-1.5" style={{ color: "#2C2C2C" }}>{label}</div>
+      <div className="text-[12px] font-semibold mb-1.5" style={{ color: "var(--text-primary)" }}>{label}</div>
       {children}
     </div>
   );
