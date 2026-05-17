@@ -97,6 +97,7 @@ export default function AppShell({
   hideTopBar = false,
   noPadding = false,
   fullHeight = false,
+  hideBottomNav = false,
   renderTopBar,
 }: {
   children: ReactNode;
@@ -105,6 +106,7 @@ export default function AppShell({
   hideTopBar?: boolean;
   noPadding?: boolean;
   fullHeight?: boolean;
+  hideBottomNav?: boolean;
   renderTopBar?: (ctx: { menuOpen: boolean; onMenuClick: () => void }) => ReactNode;
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
