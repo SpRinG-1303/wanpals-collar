@@ -56,7 +56,7 @@ function Step1() {
   const selectFur = (c: string) => { setFur(c); updateAvatar({ furColor: c }); };
   const selectEar = (e: EarStyle) => { setEar(e); updateAvatar({ earStyle: e }); };
   const selectEye = (e: EyeStyle) => { setEye(e); updateAvatar({ eyeStyle: e }); };
-  const selectCollar = (c: string) => { selectCollar(c); updateAvatar({ collarColor: c }); };
+  const selectCollar = (c: string) => { setCollar(c); updateAvatar({ collarColor: c }); };
 
   const breedLabel = (jp: string, en: string) =>
     language === "english" ? en : language === "japanese" ? jp : `${jp} / ${en}`;
