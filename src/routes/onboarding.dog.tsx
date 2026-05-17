@@ -491,24 +491,11 @@ function AnimationField({
         )}
 
         {state.kind === "done" && (
-          <div
-            className="absolute inset-0 flex items-center justify-center"
-            style={{ animation: "afSlideIn 0.6s cubic-bezier(0.34,1.56,0.64,1)" }}
-          >
-            <div className="relative" style={{ animation: "afBreathe 3s ease-in-out infinite" }}>
-              <img
-                src={state.ghibliUrl}
-                alt="Ghibli"
-                style={{
-                  width: 180, height: 180, objectFit: "cover",
-                  borderRadius: 22,
-                  boxShadow: "0 0 0 4px #FFF0F5, 0 10px 28px rgba(232,103,138,0.28)",
-                }}
-              />
-            </div>
+          <>
+            <PawBot palette={state.palette ?? undefined} />
             <button
               onClick={onRetake}
-              className="absolute"
+              className="absolute z-10"
               style={{
                 bottom: 12, left: "50%", transform: "translateX(-50%)",
                 fontSize: 11, color: "#E8678A", fontWeight: 600,
@@ -516,7 +503,7 @@ function AnimationField({
             >
               ↺ {t("撮り直し", "Retake")}
             </button>
-          </div>
+          </>
         )}
 
         {state.kind === "error" && (
