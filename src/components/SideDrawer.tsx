@@ -235,7 +235,7 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
           </div>
         </div>
 
-        <div style={{ height: 1, background: "#F0ECE8" }} />
+        <div style={{ height: 1, background: "var(--border-subtle)" }} />
 
         {/* Nav items (scrollable) */}
         <div className="flex-1 overflow-y-auto" style={{ padding: "12px 0" }}>
