@@ -194,9 +194,12 @@ function PostcardScene({ band }: { band: TimeBand }) {
 
 function HeroPostcard({ score, name, mood }: { score: number; name: string; mood: string }) {
   const t = useT();
-  const band = getTimeBand();
+  // Default to a stable band for SSR; refine on client to avoid hydration mismatch.
+  const [band, setBand] = useState<TimeBand>("afternoon");
+  useEffect(() => { setBand(getTimeBand()); }, []);
   const labelJp = band === "morning" ? "おはよう" : band === "afternoon" ? "こんにちは" : band === "evening" ? "こんばんは" : "おやすみ";
   const labelEn = band === "morning" ? "Good Morning" : band === "afternoon" ? "Good Afternoon" : band === "evening" ? "Good Evening" : "Good Night";
+
 
   return (
     <div
