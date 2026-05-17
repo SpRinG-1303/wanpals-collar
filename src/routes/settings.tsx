@@ -99,7 +99,7 @@ function Settings() {
       </Section>
 
       <div className="mt-4 bg-gradient-to-br from-warning to-sakura rounded-2xl p-5 shadow-card text-primary">
-        <div className="flex items-center gap-2"><Crown className="w-5 h-5"/><div className="font-black">{t("プロプランにアップグレード", "Upgrade to WanCare Pro")}</div></div>
+        <div className="flex items-center gap-2"><Crown className="w-5 h-5"/><div className="font-black">{t("プロプランにアップグレード", "Upgrade to Pawsitive Pro")}</div></div>
         <ul className="mt-3 text-xs space-y-1">
           <li>✓ {t("無制限AI診断", "Unlimited AI diagnosis")}</li>
           <li>✓ {t("24時間獣医チャット", "24h vet chat")}</li>

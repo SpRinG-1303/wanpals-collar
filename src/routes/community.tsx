@@ -604,8 +604,8 @@ function Community() {
               {language === "mixed" && <p style={{ fontSize: 12, color: "#8A8A8A", marginTop: 4 }}>{post.titleEn}</p>}
               <p style={{ fontSize: 14, color: "#3a3a3a", marginTop: 14, lineHeight: 1.6 }}>
                 {t(
-                  "こんにちは皆さん。最近うちの柴犬の体温が38.8℃と少し高めです。WanCareのセンサーで継続的にモニタリングしていますが、心配です。皆さんならどうしますか？",
-                  "Hi everyone. My Shiba's temperature has been a little high lately at 38.8°C. WanCare's sensors are monitoring continuously, but I'm worried. What would you do?",
+                  "こんにちは皆さん。最近うちの柴犬の体温が38.8℃と少し高めです。Pawsitiveのセンサーで継続的にモニタリングしていますが、心配です。皆さんならどうしますか？",
+                  "Hi everyone. My Shiba's temperature has been a little high lately at 38.8°C. Pawsitive's sensors are monitoring continuously, but I'm worried. What would you do?",
                 )}
               </p>
 
