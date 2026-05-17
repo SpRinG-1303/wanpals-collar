@@ -469,16 +469,7 @@ function Home() {
               >
                 <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 10, background: s.strip, pointerEvents: "none" }} />
                 <div style={{ padding: 14, paddingTop: 18, display: "flex", flexDirection: "column", flex: 1 }}>
-                  {s.ml && (
-                    <span style={{
-                      position: "absolute", top: 14, right: 10,
-                      background: "linear-gradient(135deg,#9B72CF,#E8829A)",
-                      color: "#fff", fontSize: 9, fontWeight: 700,
-                      padding: "3px 8px", borderRadius: 999,
-                      boxShadow: "0 2px 6px rgba(155,114,207,0.3)",
-                      letterSpacing: "0.04em",
-                    }}>ML</span>
-                  )}
+
 
                   <div style={{ width: 44, height: 44, borderRadius: 12, background: s.iconBg, display: "flex", alignItems: "center", justifyContent: "center" }}>
                     <Icon size={22} strokeWidth={1.5} style={{ color: s.accent }} />
@@ -510,25 +501,6 @@ function Home() {
                     </div>
                   )}
 
-                  {s.ml && (
-                    <button
-                      onClick={(e) => { e.preventDefault(); }}
-                      style={{
-                        marginTop: 10,
-                        width: "100%",
-                        background: "#F8F5FF",
-                        color: JP.fuji,
-                        border: "1px solid #DDD4F8",
-                        borderRadius: 10,
-                        height: 32,
-                        fontSize: 12,
-                        fontWeight: 600,
-                        letterSpacing: "0.02em",
-                      }}
-                    >
-                      {t("モデルを学習", "Train Model")}
-                    </button>
-                  )}
                 </div>
               </Link>
             );
