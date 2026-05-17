@@ -7,16 +7,17 @@ import DogAvatar from "@/components/DogAvatar";
 import { Stepper, TopBar } from "@/routes/onboarding.avatar";
 import { useT } from "@/context/LanguageContext";
 import { usePet } from "@/context/PetContext";
-import { convertToGhibli } from "@/lib/ghibli.functions";
+import { convertToGhibli, animateImage } from "@/lib/ghibli.functions";
 import type { BreedKey, EarStyle, EyeStyle } from "@/components/DogAvatar";
 
 export const Route = createFileRoute("/onboarding/dog")({ component: Step2 });
 
 type SheetTarget = null | "dog" | "owner";
+type Stage = "ghibli" | "video";
 type GhibliState =
   | { kind: "idle" }
-  | { kind: "converting"; rawUrl: string; progress: number }
-  | { kind: "done"; ghibliUrl: string }
+  | { kind: "converting"; rawUrl: string; stage: Stage; progress: number; ghibliUrl?: string }
+  | { kind: "done"; ghibliUrl: string; videoUrl: string | null }
   | { kind: "error"; message: string; rawFile: File | null };
 
 function Step2() {
@@ -24,6 +25,7 @@ function Step2() {
   const t = useT();
   const { pet, updatePet } = usePet();
   const runConvert = useServerFn(convertToGhibli);
+  const runAnimate = useServerFn(animateImage);
 
   const [dogUrl, setDogUrl] = useState<string | null>(pet.dogPhotoUrl);
   const [ownerUrl, setOwnerUrl] = useState<string | null>(pet.ownerPhotoUrl);
