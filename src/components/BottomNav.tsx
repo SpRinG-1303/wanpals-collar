@@ -138,8 +138,8 @@ export default function BottomNav() {
             <Icon
               size={22}
               strokeWidth={1.8}
-              color={active ? ACCENT : INACTIVE}
               style={{
+                color: active ? ACCENT : INACTIVE,
                 transform: bouncingNow ? "scale(1.2)" : "scale(1)",
                 transition: "transform 0.2s ease, color 0.2s ease",
               }}
