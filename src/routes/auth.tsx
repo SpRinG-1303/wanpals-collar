@@ -100,6 +100,7 @@ function Auth() {
         </Link>
       </div>
     </div>
+    </PhoneFrame>
   );
 }
 
