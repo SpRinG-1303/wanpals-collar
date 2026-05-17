@@ -212,8 +212,8 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
               🐕
             </div>
             <div>
-              <div style={{ fontSize: 20, fontWeight: 700, color: "#2C2C2C", lineHeight: 1 }}>WanCare</div>
-              <div style={{ fontSize: 12, color: "#8A8A8A", marginTop: 4 }}>ワンケア</div>
+              <div style={{ fontSize: 20, fontWeight: 700, color: "var(--text-primary)", lineHeight: 1 }}>WanCare</div>
+              <div style={{ fontSize: 12, color: "var(--text-secondary)", marginTop: 4 }}>ワンケア</div>
             </div>
           </div>
 
