@@ -30,6 +30,7 @@ export type PetProfile = {
   ghibliSvgUrl: string | null;
   selectedPose: number | null;
   avatarStatus: AvatarStatus;
+  path: "A" | "B" | null;
 };
 
 export const DEFAULT_PET: PetProfile = {
@@ -56,6 +57,7 @@ export const DEFAULT_PET: PetProfile = {
   ghibliSvgUrl: null,
   selectedPose: null,
   avatarStatus: "default",
+  path: null,
 };
 
 type Ctx = {
