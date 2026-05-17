@@ -92,7 +92,7 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
         </div>
         <div className="flex-1 min-w-0">
           <div className="flex items-center" style={{ gap: 6 }}>
-            <div style={{ fontSize: 15, fontWeight: 600, color: active ? "#E8829A" : "#2C2C2C", lineHeight: 1.2 }}>
+            <div style={{ fontSize: 15, fontWeight: 600, color: active ? "var(--accent-sakura)" : "var(--text-primary)", lineHeight: 1.2 }}>
               {t(it.labelJp, it.labelEn)}
             </div>
             {inBottomNav && (
@@ -100,8 +100,8 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
                 title={t("下のナビからアクセス可能", "Quick access from bottom nav")}
                 style={{
                   fontSize: 9,
-                  color: "#B0A8A4",
-                  background: "#F5F0EC",
+                  color: "var(--text-muted-soft)",
+                  background: "var(--border-subtle)",
                   borderRadius: 6,
                   padding: "1px 5px",
                   lineHeight: 1.2,
@@ -111,14 +111,14 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
               </span>
             )}
           </div>
-          <div style={{ fontSize: 11, color: "#8A8A8A", marginTop: 2 }}>
+          <div style={{ fontSize: 11, color: "var(--text-secondary)", marginTop: 2 }}>
             {t(it.subJp, it.subEn)}
           </div>
         </div>
         {active ? (
-          <span className="pulse" style={{ width: 8, height: 8, borderRadius: "50%", background: "#E8829A" }} />
+          <span className="pulse" style={{ width: 8, height: 8, borderRadius: "50%", background: "var(--accent-sakura)" }} />
         ) : (
-          <ChevronRight size={14} style={{ color: "#C4B8B4" }} />
+          <ChevronRight size={14} style={{ color: "var(--text-placeholder)" }} />
         )}
       </button>
     );
