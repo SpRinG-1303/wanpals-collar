@@ -62,8 +62,9 @@ function Step1() {
     language === "english" ? en : language === "japanese" ? jp : `${jp} / ${en}`;
 
   return (
+    <PhoneFrame>
     <div className="min-h-screen pb-32" style={{ background: "#FAFAF8" }}>
-      <div className="max-w-md mx-auto px-6 pt-4">
+      <div className="px-6 pt-4">
         <TopBar />
         <Stepper current={1} />
 
