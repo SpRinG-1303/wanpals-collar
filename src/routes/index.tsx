@@ -8,7 +8,7 @@ export const Route = createFileRoute("/")({ component: Splash });
 function Splash() {
   const nav = useNavigate();
   useEffect(() => {
-    const t = setTimeout(() => nav({ to: "/welcome" }), 1500);
+    const t = setTimeout(() => nav({ to: "/language" }), 2000);
     return () => clearTimeout(t);
   }, [nav]);
   return (

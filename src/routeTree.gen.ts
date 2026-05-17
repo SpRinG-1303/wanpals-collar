@@ -9,7 +9,6 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as WelcomeRouteImport } from './routes/welcome'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as ReportRouteImport } from './routes/report'
 import { Route as MapRouteImport } from './routes/map'
@@ -25,11 +24,6 @@ import { Route as OnboardingOwnerRouteImport } from './routes/onboarding.owner'
 import { Route as OnboardingDogRouteImport } from './routes/onboarding.dog'
 import { Route as OnboardingAvatarRouteImport } from './routes/onboarding.avatar'
 
-const WelcomeRoute = WelcomeRouteImport.update({
-  id: '/welcome',
-  path: '/welcome',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const SettingsRoute = SettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
@@ -113,7 +107,6 @@ export interface FileRoutesByFullPath {
   '/map': typeof MapRoute
   '/report': typeof ReportRoute
   '/settings': typeof SettingsRoute
-  '/welcome': typeof WelcomeRoute
   '/onboarding/avatar': typeof OnboardingAvatarRoute
   '/onboarding/dog': typeof OnboardingDogRoute
   '/onboarding/owner': typeof OnboardingOwnerRoute
@@ -130,7 +123,6 @@ export interface FileRoutesByTo {
   '/map': typeof MapRoute
   '/report': typeof ReportRoute
   '/settings': typeof SettingsRoute
-  '/welcome': typeof WelcomeRoute
   '/onboarding/avatar': typeof OnboardingAvatarRoute
   '/onboarding/dog': typeof OnboardingDogRoute
   '/onboarding/owner': typeof OnboardingOwnerRoute
@@ -148,7 +140,6 @@ export interface FileRoutesById {
   '/map': typeof MapRoute
   '/report': typeof ReportRoute
   '/settings': typeof SettingsRoute
-  '/welcome': typeof WelcomeRoute
   '/onboarding/avatar': typeof OnboardingAvatarRoute
   '/onboarding/dog': typeof OnboardingDogRoute
   '/onboarding/owner': typeof OnboardingOwnerRoute
@@ -167,7 +158,6 @@ export interface FileRouteTypes {
     | '/map'
     | '/report'
     | '/settings'
-    | '/welcome'
     | '/onboarding/avatar'
     | '/onboarding/dog'
     | '/onboarding/owner'
@@ -184,7 +174,6 @@ export interface FileRouteTypes {
     | '/map'
     | '/report'
     | '/settings'
-    | '/welcome'
     | '/onboarding/avatar'
     | '/onboarding/dog'
     | '/onboarding/owner'
@@ -201,7 +190,6 @@ export interface FileRouteTypes {
     | '/map'
     | '/report'
     | '/settings'
-    | '/welcome'
     | '/onboarding/avatar'
     | '/onboarding/dog'
     | '/onboarding/owner'
@@ -219,7 +207,6 @@ export interface RootRouteChildren {
   MapRoute: typeof MapRoute
   ReportRoute: typeof ReportRoute
   SettingsRoute: typeof SettingsRoute
-  WelcomeRoute: typeof WelcomeRoute
   OnboardingAvatarRoute: typeof OnboardingAvatarRoute
   OnboardingDogRoute: typeof OnboardingDogRoute
   OnboardingOwnerRoute: typeof OnboardingOwnerRoute
@@ -227,13 +214,6 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/welcome': {
-      id: '/welcome'
-      path: '/welcome'
-      fullPath: '/welcome'
-      preLoaderRoute: typeof WelcomeRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/settings': {
       id: '/settings'
       path: '/settings'
@@ -347,7 +327,6 @@ const rootRouteChildren: RootRouteChildren = {
   MapRoute: MapRoute,
   ReportRoute: ReportRoute,
   SettingsRoute: SettingsRoute,
-  WelcomeRoute: WelcomeRoute,
   OnboardingAvatarRoute: OnboardingAvatarRoute,
   OnboardingDogRoute: OnboardingDogRoute,
   OnboardingOwnerRoute: OnboardingOwnerRoute,
