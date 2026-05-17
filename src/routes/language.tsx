@@ -79,22 +79,24 @@ function LanguagePicker() {
   );
 }
 
-export function HeroIllustration() {
+export function HeroIllustration({ compact = false }: { compact?: boolean }) {
+  const H = compact ? 220 : 260;
+  const logo = compact ? 56 : 72;
+  const titleSize = compact ? 22 : 24;
+  const jpSize = compact ? 13 : 14;
+  const tagSize = compact ? 11 : 12;
   return (
     <div
       className="relative w-full overflow-hidden"
       style={{
-        height: "35vh",
-        minHeight: 240,
+        height: H,
         background: "linear-gradient(160deg, #FFF0F5 0%, #F5F0FF 50%, #F0F5FF 100%)",
       }}
     >
-      {/* Soft glow orb */}
       <div
         className="absolute -top-16 -right-16 rounded-full"
         style={{ width: 200, height: 200, background: "#FFD4E8", opacity: 0.5, filter: "blur(40px)" }}
       />
-      {/* Sakura branch top-left */}
       <svg className="absolute top-3 left-3" width="90" height="60" viewBox="0 0 90 60" style={{ opacity: 0.25 }}>
         <path d="M2 8 Q 30 18, 60 12 T 88 22" stroke="#9A6B6B" strokeWidth="1.2" fill="none" />
         <circle cx="20" cy="14" r="4" fill="#FFB7C5" />
@@ -102,7 +104,6 @@ export function HeroIllustration() {
         <circle cx="55" cy="12" r="3.5" fill="#FFB7C5" />
         <circle cx="72" cy="18" r="3" fill="#FFB7C5" />
       </svg>
-      {/* Floating petals */}
       {[
         { l: "20%", t: "30%", s: 8, c: "#FFB7C5", d: 0 },
         { l: "70%", t: "20%", s: 10, c: "#FFD4DC", d: 1 },
@@ -120,19 +121,18 @@ export function HeroIllustration() {
           }}
         />
       ))}
-      {/* Logo */}
       <div className="absolute inset-0 flex flex-col items-center justify-center">
         <div
-          className="w-[72px] h-[72px] rounded-full bg-white flex items-center justify-center"
-          style={{ border: "2px solid #FFE4EC", boxShadow: "0 8px 24px rgba(232,130,154,0.2)" }}
+          className="rounded-full bg-white flex items-center justify-center"
+          style={{ width: logo, height: logo, border: "2px solid #FFE4EC", boxShadow: "0 8px 24px rgba(232,130,154,0.2)" }}
         >
-          <PawPrint className="w-8 h-8" strokeWidth={2} style={{ color: "#E8829A" }} />
+          <PawPrint style={{ width: logo * 0.42, height: logo * 0.42, color: "#E8829A" }} strokeWidth={2} />
         </div>
-        <div className="mt-3 text-[24px] font-bold leading-none" style={{ color: "#2C2C2C", letterSpacing: "0.05em" }}>
+        <div className="mt-2 font-bold leading-none" style={{ color: "#2C2C2C", fontSize: titleSize, letterSpacing: "0.05em" }}>
           WanCare
         </div>
-        <div className="mt-1 text-[14px]" style={{ color: "#8A8A8A", letterSpacing: "0.05em" }}>ワンケア</div>
-        <div className="mt-2 text-[12px] italic text-center" style={{ color: "#8A8A8A" }}>
+        <div className="mt-1" style={{ color: "#8A8A8A", fontSize: jpSize, letterSpacing: "0.05em" }}>ワンケア</div>
+        <div className="mt-1.5 italic text-center" style={{ color: "#8A8A8A", fontSize: tagSize }}>
           あなたの愛犬を、もっと近くに。<br/>
           <span className="not-italic">Closer to your beloved dog.</span>
         </div>
