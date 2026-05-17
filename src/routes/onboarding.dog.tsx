@@ -617,7 +617,7 @@ function AnimationField({
             }}
           />
           <span className="text-[12px] font-bold" style={{ color: "#16A34A" }}>
-            ✨ {t("いい感じ！", "Looking good!")}
+            🌸 {t("ジブリの分身ができました！", "Your Ghibli twin is ready!")}
           </span>
         </div>
       )}
