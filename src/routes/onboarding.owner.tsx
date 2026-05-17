@@ -168,7 +168,7 @@ function PrefectureSheet({
         onClick={(e) => e.stopPropagation()}
         className="w-full h-[70vh] flex flex-col"
         style={{ maxWidth: 430, background: "#FFFFFF", borderRadius: "32px 32px 0 0", boxShadow: "0 -8px 32px rgba(0,0,0,0.1)" }}
-        style={{ background: "#FFFFFF", borderRadius: "32px 32px 0 0", boxShadow: "0 -8px 32px rgba(0,0,0,0.1)" }}
+        
       >
         <div className="mx-auto mt-3 mb-2 rounded-full" style={{ width: 32, height: 4, background: "#E8E0DC" }} />
         <div className="px-5 pb-3 flex items-center justify-between">
