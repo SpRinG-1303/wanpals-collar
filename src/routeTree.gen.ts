@@ -20,6 +20,7 @@ import { Route as LightSenseRouteImport } from './routes/light-sense'
 import { Route as LanguageRouteImport } from './routes/language'
 import { Route as HomeRouteImport } from './routes/home'
 import { Route as CommunityRouteImport } from './routes/community'
+import { Route as CombineSenseRouteImport } from './routes/combine-sense'
 import { Route as ClinicsRouteImport } from './routes/clinics'
 import { Route as BreedsRouteImport } from './routes/breeds'
 import { Route as AuthRouteImport } from './routes/auth'
@@ -84,6 +85,11 @@ const CommunityRoute = CommunityRouteImport.update({
   path: '/community',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CombineSenseRoute = CombineSenseRouteImport.update({
+  id: '/combine-sense',
+  path: '/combine-sense',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ClinicsRoute = ClinicsRouteImport.update({
   id: '/clinics',
   path: '/clinics',
@@ -131,6 +137,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/breeds': typeof BreedsRoute
   '/clinics': typeof ClinicsRoute
+  '/combine-sense': typeof CombineSenseRoute
   '/community': typeof CommunityRoute
   '/home': typeof HomeRoute
   '/language': typeof LanguageRoute
@@ -152,6 +159,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/breeds': typeof BreedsRoute
   '/clinics': typeof ClinicsRoute
+  '/combine-sense': typeof CombineSenseRoute
   '/community': typeof CommunityRoute
   '/home': typeof HomeRoute
   '/language': typeof LanguageRoute
@@ -174,6 +182,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/breeds': typeof BreedsRoute
   '/clinics': typeof ClinicsRoute
+  '/combine-sense': typeof CombineSenseRoute
   '/community': typeof CommunityRoute
   '/home': typeof HomeRoute
   '/language': typeof LanguageRoute
@@ -197,6 +206,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/breeds'
     | '/clinics'
+    | '/combine-sense'
     | '/community'
     | '/home'
     | '/language'
@@ -218,6 +228,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/breeds'
     | '/clinics'
+    | '/combine-sense'
     | '/community'
     | '/home'
     | '/language'
@@ -239,6 +250,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/breeds'
     | '/clinics'
+    | '/combine-sense'
     | '/community'
     | '/home'
     | '/language'
@@ -261,6 +273,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   BreedsRoute: typeof BreedsRoute
   ClinicsRoute: typeof ClinicsRoute
+  CombineSenseRoute: typeof CombineSenseRoute
   CommunityRoute: typeof CommunityRoute
   HomeRoute: typeof HomeRoute
   LanguageRoute: typeof LanguageRoute
@@ -356,6 +369,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CommunityRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/combine-sense': {
+      id: '/combine-sense'
+      path: '/combine-sense'
+      fullPath: '/combine-sense'
+      preLoaderRoute: typeof CombineSenseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/clinics': {
       id: '/clinics'
       path: '/clinics'
@@ -421,6 +441,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   BreedsRoute: BreedsRoute,
   ClinicsRoute: ClinicsRoute,
+  CombineSenseRoute: CombineSenseRoute,
   CommunityRoute: CommunityRoute,
   HomeRoute: HomeRoute,
   LanguageRoute: LanguageRoute,
