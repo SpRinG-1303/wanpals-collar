@@ -65,8 +65,8 @@ function Step1() {
     <PhoneFrame>
     <div className="min-h-screen pb-32" style={{ background: "#FAFAF8" }}>
       <div className="px-6 pt-4">
-        <TopBar />
-        <Stepper current={1} />
+        <TopBar to="/onboarding/dog" />
+        <Stepper current={2} path={pet.path} />
 
         <h1 className="text-[20px] font-bold text-center mt-2" style={{ color: "#2C2C2C" }}>
           {t("あなたのワンちゃんを作ろう！", "Create Your Dog's Avatar")}
@@ -203,8 +203,8 @@ function Step1() {
         <p className="text-center text-[11px] mb-2" style={{ color: "#C4B8B4" }}>
           {t("あとで変更できます", "You can change this later")}
         </p>
-        <PrimaryButton onClick={() => nav({ to: "/onboarding/dog" })}>
-          {t("次へ", "Next")} →
+        <PrimaryButton onClick={() => { updatePet({ path: "B" }); nav({ to: "/onboarding/owner" }); }}>
+          🐾 {t("次へ", "Next")} →
         </PrimaryButton>
       </div>
     </div>
