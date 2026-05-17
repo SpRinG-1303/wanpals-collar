@@ -62,7 +62,7 @@ function Settings() {
             aria-label="Toggle dark mode"
             style={{
               width: 52, height: 28, borderRadius: 14, position: "relative",
-              background: dark ? "#7B68C8" : "var(--border-card)",
+              background: dark ? "#7B68C8" : "#EDE8E4",
               transition: "background 0.3s ease",
             }}
           >
@@ -70,7 +70,7 @@ function Settings() {
               style={{
                 position: "absolute", top: 3, left: dark ? 27 : 3,
                 width: 22, height: 22, borderRadius: "50%",
-                background: "var(--bg-card)",
+                background: "#FFFFFF",
                 boxShadow: "0 2px 6px rgba(0,0,0,0.2)",
                 transition: "left 0.3s ease",
               }}

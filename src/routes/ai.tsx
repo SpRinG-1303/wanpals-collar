@@ -292,7 +292,7 @@ function AI() {
         <div
           style={{
             flexShrink: 0,
-            background: "var(--bg-card)",
+            background: "#FFFFFF",
             boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
             padding: "10px 14px",
             display: "flex",
@@ -324,8 +324,8 @@ function AI() {
           </div>
           <div className="flex-1 min-w-0">
             <div className="flex items-baseline gap-1.5 truncate">
-              <span style={{ fontSize: 14, fontWeight: 800, color: "var(--text-primary)" }}>ワンケアAI</span>
-              <span style={{ fontSize: 11, color: "var(--text-secondary)" }}>WanCare AI</span>
+              <span style={{ fontSize: 14, fontWeight: 800, color: "#2C2C2C" }}>ワンケアAI</span>
+              <span style={{ fontSize: 11, color: "#8A8A8A" }}>WanCare AI</span>
             </div>
             <div className="flex items-center gap-1 mt-0.5">
               <span className="relative inline-block" style={{ width: 5, height: 5 }}>
@@ -334,7 +334,7 @@ function AI() {
               </span>
               <span style={{ fontSize: 10, color: "#6BAF92", fontWeight: 600 }}>{t("オンライン", "Online")}</span>
               <span style={{ fontSize: 10, color: "#C4B8B4" }}>·</span>
-              <span style={{ fontSize: 10, color: "var(--text-secondary)" }}>{t("獣医監修", "Vet-supervised")}</span>
+              <span style={{ fontSize: 10, color: "#8A8A8A" }}>{t("獣医監修", "Vet-supervised")}</span>
             </div>
           </div>
           <button
@@ -424,7 +424,7 @@ function AI() {
                           boxShadow: isUser
                             ? "0 4px 12px rgba(232,130,154,0.3)"
                             : "0 2px 12px rgba(0,0,0,0.07)",
-                          border: isUser ? "none" : "1px solid var(--border-subtle)",
+                          border: isUser ? "none" : "1px solid #F0ECE8",
                           borderLeft: isUser ? "none" : "3px solid #7B68C8",
                           marginBottom: hasCard ? 8 : 0,
                         }}
@@ -491,8 +491,8 @@ function AI() {
                 style={{
                   padding: "12px 16px",
                   borderRadius: "4px 20px 20px 20px",
-                  background: "var(--bg-card)",
-                  border: "1px solid var(--border-subtle)",
+                  background: "#FFFFFF",
+                  border: "1px solid #F0ECE8",
                   borderLeft: "3px solid #7B68C8",
                   boxShadow: "0 2px 12px rgba(0,0,0,0.07)",
                 }}
@@ -511,7 +511,7 @@ function AI() {
                     />
                   ))}
                 </div>
-                <span style={{ fontSize: 10, color: "var(--text-secondary)", fontStyle: "italic" }}>
+                <span style={{ fontSize: 10, color: "#8A8A8A", fontStyle: "italic" }}>
                   {t("考え中...", "Thinking...")}
                 </span>
               </div>
@@ -522,7 +522,7 @@ function AI() {
 
       {/* COMPOSER */}
       <div style={{ flexShrink: 0 }}>
-        <div style={{ background: "var(--bg-card)", borderTop: "1px solid var(--border-subtle)", padding: "10px 16px" }}>
+        <div style={{ background: "#FFFFFF", borderTop: "1px solid #F0ECE8", padding: "10px 16px" }}>
           <div className="flex gap-2 overflow-x-auto scrollbar-hide">
             {QUICK.map((q) => {
               const Icon = q.icon;
@@ -554,8 +554,8 @@ function AI() {
 
         <div
           style={{
-            background: "var(--bg-card)",
-            borderTop: "1px solid var(--border-subtle)",
+            background: "#FFFFFF",
+            borderTop: "1px solid #F0ECE8",
             padding: "10px 16px 20px",
             boxShadow: "0 -4px 20px rgba(0,0,0,0.05)",
           }}
@@ -585,12 +585,12 @@ function AI() {
               className="flex-1 outline-none"
               style={{
                 height: 44,
-                background: "var(--bg-page)",
-                border: focused ? "1.5px solid #7B68C8" : "1.5px solid var(--border-card)",
+                background: "#FAFAF8",
+                border: focused ? "1.5px solid #7B68C8" : "1.5px solid #EDE8E4",
                 borderRadius: 20,
                 padding: "0 16px",
                 fontSize: 14,
-                color: "var(--text-primary)",
+                color: "#2C2C2C",
                 boxShadow: focused ? "0 0 0 3px rgba(123,104,200,0.1)" : "none",
                 transition: "all 0.2s",
               }}
@@ -659,7 +659,7 @@ function WelcomeState({
 }) {
   return (
     <div className="flex flex-col items-center text-center pt-4 pb-4">
-      <div style={{ fontSize: 13, color: "var(--text-secondary)", marginBottom: 10 }}>
+      <div style={{ fontSize: 13, color: "#8A8A8A", marginBottom: 10 }}>
         {t("クイック質問", "Quick questions")}
       </div>
       <div className="w-full space-y-2">
@@ -669,13 +669,13 @@ function WelcomeState({
             onClick={() => onPick(language === "english" ? s.en : s.jp)}
             className="w-full text-left transition-transform active:scale-[0.98]"
             style={{
-              background: "var(--bg-card)",
+              background: "#FFFFFF",
               borderRadius: 16,
               padding: "12px 16px",
               boxShadow: "0 2px 12px rgba(0,0,0,0.06)",
               borderLeft: `3px solid ${s.color}`,
               fontSize: 13,
-              color: "var(--text-primary)",
+              color: "#2C2C2C",
             }}
           >
             {language === "english" ? s.en : s.jp}
@@ -714,7 +714,7 @@ function EmergencyConfirmCard({
           {t("緊急サポート", "Emergency Support")}
         </span>
       </div>
-      <div style={{ fontSize: 13, color: "var(--text-primary)", marginBottom: 12, lineHeight: 1.5 }}>
+      <div style={{ fontSize: 13, color: "#2C2C2C", marginBottom: 12, lineHeight: 1.5 }}>
         {t("SOSボタンを起動しますか？", "Do you want to activate SOS?")}
       </div>
       <div className="flex gap-2">
@@ -742,7 +742,7 @@ function EmergencyConfirmCard({
             flex: 1,
             height: 44,
             background: "#F5F5F5",
-            color: "var(--text-secondary)",
+            color: "#8A8A8A",
             borderRadius: 12,
             fontSize: 14,
           }}
@@ -762,7 +762,7 @@ function EmergencyActionCard({ t }: { t: (jp: string, en: string) => string }) {
     <div
       className="w-full"
       style={{
-        background: "var(--bg-card)",
+        background: "#FFFFFF",
         border: "1.5px solid #E53935",
         borderLeft: "4px solid #E53935",
         borderRadius: 20,
@@ -776,19 +776,19 @@ function EmergencyActionCard({ t }: { t: (jp: string, en: string) => string }) {
           {t("緊急連絡", "EMERGENCY CALL")}
         </span>
       </div>
-      <div style={{ fontSize: 11, color: "var(--text-secondary)", marginBottom: 8 }}>
+      <div style={{ fontSize: 11, color: "#8A8A8A", marginBottom: 8 }}>
         {t("最寄りの24時間動物病院", "Nearest 24H Animal Hospital")}
       </div>
       <div
         style={{
-          background: "var(--bg-card-sakura-tint)",
+          background: "#FFF8F8",
           borderRadius: 12,
           padding: 10,
           marginBottom: 10,
           border: "1px solid #FFE0E0",
         }}
       >
-        <div style={{ fontSize: 14, fontWeight: 700, color: "var(--text-primary)" }}>{t(c.jp, c.en)}</div>
+        <div style={{ fontSize: 14, fontWeight: 700, color: "#2C2C2C" }}>{t(c.jp, c.en)}</div>
         <div className="flex items-center gap-2 mt-1" style={{ fontSize: 11, color: "#6A6A6A" }}>
           <span className="flex items-center gap-0.5">
             <Star size={10} fill="#D4A843" color="#D4A843" />
@@ -826,7 +826,7 @@ function EmergencyActionCard({ t }: { t: (jp: string, en: string) => string }) {
           style={{
             flex: 1,
             height: 44,
-            background: "var(--bg-card-sakura-tint)",
+            background: "#FFF0F0",
             color: "#E53935",
             border: "1.5px solid #E53935",
             borderRadius: 12,
@@ -874,14 +874,14 @@ function FindVetCard({ t, onAll }: { t: (jp: string, en: string) => string; onAl
               rel="noreferrer"
               className="flex items-center gap-2 active:scale-[0.99] transition-transform"
               style={{
-                background: "var(--bg-card)",
+                background: "#FFFFFF",
                 borderRadius: 10,
                 padding: "8px 10px",
                 border: "1px solid #E0EEF8",
               }}
             >
               <Star size={11} fill="#D4A843" color="#D4A843" />
-              <span style={{ fontSize: 13, fontWeight: 700, color: "var(--text-primary)", flex: 1 }}>{t(c.jp, c.en)}</span>
+              <span style={{ fontSize: 13, fontWeight: 700, color: "#2C2C2C", flex: 1 }}>{t(c.jp, c.en)}</span>
               <span style={{ fontSize: 12, color: "#5B9BD5", fontWeight: 600 }}>{c.km}km</span>
               <ChevronRight size={14} color="#5B9BD5" />
             </a>
@@ -921,7 +921,7 @@ function VaccinesCard({
     <div
       className="w-full"
       style={{
-        background: "var(--bg-card)",
+        background: "#FFFFFF",
         border: "1.5px solid #B8D4C0",
         borderLeft: "4px solid #6BAF92",
         borderRadius: 20,
@@ -957,7 +957,7 @@ function VaccinesCard({
                     ) : (
                       <Check size={12} color="#6BAF92" strokeWidth={3} />
                     )}
-                    <span style={{ fontSize: 13, fontWeight: 700, color: "var(--text-primary)" }}>{t(v.jp, v.en)}</span>
+                    <span style={{ fontSize: 13, fontWeight: 700, color: "#2C2C2C" }}>{t(v.jp, v.en)}</span>
                   </div>
                   {overdue ? (
                     <span style={{ fontSize: 10, fontWeight: 800, color: "#E53935" }}>
@@ -965,7 +965,7 @@ function VaccinesCard({
                     </span>
                   ) : null}
                 </div>
-                <div style={{ fontSize: 10, color: "var(--text-secondary)", marginTop: 2, paddingLeft: 18 }}>
+                <div style={{ fontSize: 10, color: "#8A8A8A", marginTop: 2, paddingLeft: 18 }}>
                   {overdue
                     ? t("すぐに接種が必要です", "Vaccination needed soon")
                     : `${t("次回", "Next")}: ${v.next}`}
@@ -1070,10 +1070,10 @@ function HealthCard({ t }: { t: (jp: string, en: string) => string }) {
     <div
       className="w-full"
       style={{
-        background: "var(--bg-card)",
+        background: "#FFFFFF",
         borderRadius: 20,
         boxShadow: "0 4px 20px rgba(0,0,0,0.08)",
-        border: "1px solid var(--border-subtle)",
+        border: "1px solid #F0ECE8",
         overflow: "hidden",
       }}
     >
@@ -1081,7 +1081,7 @@ function HealthCard({ t }: { t: (jp: string, en: string) => string }) {
       <div className="flex items-center justify-between px-4 pt-3 pb-2">
         <div className="flex items-center gap-1.5">
           <Activity size={16} color="#7B68C8" strokeWidth={2.5} />
-          <span style={{ fontSize: 11, color: "var(--text-secondary)", fontWeight: 700, letterSpacing: "0.08em" }}>
+          <span style={{ fontSize: 11, color: "#8A8A8A", fontWeight: 700, letterSpacing: "0.08em" }}>
             {t("健康スコア", "HEALTH SCORE")}
           </span>
         </div>
@@ -1101,9 +1101,9 @@ function HealthCard({ t }: { t: (jp: string, en: string) => string }) {
       </div>
       <div className="flex items-end justify-between px-4 pb-3">
         <div>
-          <div style={{ fontSize: 42, fontWeight: 800, color: "var(--text-primary)", lineHeight: 1, letterSpacing: "-0.02em" }}>
+          <div style={{ fontSize: 42, fontWeight: 800, color: "#2C2C2C", lineHeight: 1, letterSpacing: "-0.02em" }}>
             87
-            <span style={{ fontSize: 18, color: "var(--text-secondary)", fontWeight: 600 }}>/100</span>
+            <span style={{ fontSize: 18, color: "#8A8A8A", fontWeight: 600 }}>/100</span>
           </div>
           <div style={{ fontSize: 12, color: "#6BAF92", marginTop: 2 }}>
             {t("全体的に健康です", "Overall healthy")}
@@ -1136,7 +1136,7 @@ function HealthCard({ t }: { t: (jp: string, en: string) => string }) {
                 <span style={{ fontSize: 10, color: "#6A6A6A", fontWeight: 600 }}>{t(m.jp, m.en)}</span>
               </div>
               <div>
-                <div style={{ fontSize: 14, fontWeight: 700, color: "var(--text-primary)" }}>{m.value}</div>
+                <div style={{ fontSize: 14, fontWeight: 700, color: "#2C2C2C" }}>{m.value}</div>
                 <div
                   className="relative w-full overflow-hidden"
                   style={{ height: 4, borderRadius: 2, background: "rgba(0,0,0,0.08)", marginTop: 4 }}

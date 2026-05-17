@@ -63,12 +63,12 @@ function Step1() {
 
   return (
     <PhoneFrame>
-    <div className="min-h-screen pb-32" style={{ background: "var(--bg-page)" }}>
+    <div className="min-h-screen pb-32" style={{ background: "#FAFAF8" }}>
       <div className="px-6 pt-4">
         <TopBar />
         <Stepper current={1} />
 
-        <h1 className="text-[20px] font-bold text-center mt-2" style={{ color: "var(--text-primary)" }}>
+        <h1 className="text-[20px] font-bold text-center mt-2" style={{ color: "#2C2C2C" }}>
           {t("あなたのワンちゃんを作ろう！", "Create Your Dog's Avatar")}
         </h1>
 
@@ -111,12 +111,12 @@ function Step1() {
                 <DogAvatar breed={key} size={42} ring={false} showCollar={false} showCheeks={false} />
                 <span
                   className="font-bold mt-1 text-center leading-tight"
-                  style={{ color: "var(--text-primary)", fontSize: b.jp.length > 8 ? 9 : 11 }}
+                  style={{ color: "#2C2C2C", fontSize: b.jp.length > 8 ? 9 : 11 }}
                 >
                   {language === "english" ? b.en : b.jp}
                 </span>
                 {language === "mixed" && (
-                  <span className="text-[9px] text-center leading-tight" style={{ color: "var(--text-secondary)" }}>
+                  <span className="text-[9px] text-center leading-tight" style={{ color: "#8A8A8A" }}>
                     {b.en}
                   </span>
                 )}
@@ -128,9 +128,9 @@ function Step1() {
         {/* Customize panel */}
         <div
           className="mt-5 p-5 rounded-3xl"
-          style={{ background: "var(--bg-card)", boxShadow: "0 2px 16px rgba(0,0,0,0.05)" }}
+          style={{ background: "#FFFFFF", boxShadow: "0 2px 16px rgba(0,0,0,0.05)" }}
         >
-          <h3 className="text-[14px] font-semibold" style={{ color: "var(--text-primary)" }}>
+          <h3 className="text-[14px] font-semibold" style={{ color: "#2C2C2C" }}>
             {t("カスタマイズ", "Customize")}
           </h3>
 
@@ -139,7 +139,7 @@ function Step1() {
             {FUR.map((f) => (
               <div key={f.c} className="flex flex-col items-center" style={{ width: 44 }}>
                 <Swatch color={f.c} selected={fur === f.c} onClick={() => selectFur(f.c)} />
-                <span className="text-[8px] mt-1 text-center leading-tight" style={{ color: "var(--text-secondary)" }}>
+                <span className="text-[8px] mt-1 text-center leading-tight" style={{ color: "#8A8A8A" }}>
                   {breedLabel(f.jp, f.en)}
                 </span>
               </div>
@@ -157,7 +157,7 @@ function Step1() {
                   className="h-12 rounded-xl text-[12px] font-medium transition-all"
                   style={{
                     background: sel ? "#FFF0F5" : "#FAFAF8",
-                    border: sel ? "1.5px solid #E8829A" : "1.5px solid var(--border-card)",
+                    border: sel ? "1.5px solid #E8829A" : "1.5px solid #EDE8E4",
                     color: sel ? "#E8829A" : "#2C2C2C",
                   }}
                 >
@@ -178,7 +178,7 @@ function Step1() {
                   className="h-12 rounded-xl text-[14px] font-bold transition-all"
                   style={{
                     background: sel ? "#FFF0F5" : "#FAFAF8",
-                    border: sel ? "1.5px solid #E8829A" : "1.5px solid var(--border-card)",
+                    border: sel ? "1.5px solid #E8829A" : "1.5px solid #EDE8E4",
                     color: sel ? "#E8829A" : "#2C2C2C",
                   }}
                   aria-label={language === "english" ? e.en : e.jp}
@@ -217,7 +217,7 @@ function Step1() {
 export function TopBar() {
   return (
     <div className="flex items-center mb-4">
-      <Link to="/auth" className="flex items-center" style={{ color: "var(--text-primary)" }}>
+      <Link to="/auth" className="flex items-center" style={{ color: "#2C2C2C" }}>
         <ChevronLeft className="w-6 h-6" />
       </Link>
     </div>
@@ -237,7 +237,7 @@ export function Stepper({ current }: { current: 1 | 2 | 3 }) {
         {[1, 2, 3].map((n, i) => {
           const completed = n < current;
           const active = n === current;
-          const bg = completed ? "#6BAF92" : active ? "#E8829A" : "var(--border-card)";
+          const bg = completed ? "#6BAF92" : active ? "#E8829A" : "#EDE8E4";
           const color = completed || active ? "#FFFFFF" : "#C4B8B4";
           return (
             <div key={n} className="flex items-center">
@@ -252,13 +252,13 @@ export function Stepper({ current }: { current: 1 | 2 | 3 }) {
                 {completed ? <Check className="w-4 h-4" strokeWidth={3} /> : n}
               </div>
               {i < 2 && (
-                <div className="w-10 h-[2px]" style={{ background: n < current ? "#6BAF92" : "var(--border-card)" }} />
+                <div className="w-10 h-[2px]" style={{ background: n < current ? "#6BAF92" : "#EDE8E4" }} />
               )}
             </div>
           );
         })}
       </div>
-      <p className="text-[12px] text-center mt-2" style={{ color: "var(--text-secondary)" }}>
+      <p className="text-[12px] text-center mt-2" style={{ color: "#8A8A8A" }}>
         {t(`ステップ ${current} / 3`, `Step ${current} of 3`)} · {labels[current - 1]}
       </p>
     </div>
@@ -267,7 +267,7 @@ export function Stepper({ current }: { current: 1 | 2 | 3 }) {
 
 function Section({ title, small }: { title: string; small?: boolean }) {
   return (
-    <h3 className={`font-semibold ${small ? "text-[12px] mt-4" : "text-[13px] mt-6"}`} style={{ color: "var(--text-primary)" }}>
+    <h3 className={`font-semibold ${small ? "text-[12px] mt-4" : "text-[13px] mt-6"}`} style={{ color: "#2C2C2C" }}>
       {title}
     </h3>
   );

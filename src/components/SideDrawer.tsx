@@ -204,7 +204,7 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
               className="flex items-center justify-center"
               style={{
                 width: 48, height: 48, borderRadius: "50%",
-                background: "var(--bg-card)", border: "2px solid #E8829A",
+                background: "#FFFFFF", border: "2px solid #E8829A",
                 boxShadow: "0 4px 16px rgba(232,130,154,0.2)",
                 fontSize: 22,
               }}
@@ -221,7 +221,7 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
             <div className="flex items-center gap-2">
               <div
                 className="flex items-center justify-center"
-                style={{ width: 32, height: 32, borderRadius: "50%", background: "var(--bg-card)", border: "1.5px solid #E8829A", fontSize: 16 }}
+                style={{ width: 32, height: 32, borderRadius: "50%", background: "#fff", border: "1.5px solid #E8829A", fontSize: 16 }}
               >
                 🐾
               </div>

@@ -20,12 +20,12 @@ function LanguagePicker() {
 
   return (
     <PhoneFrame>
-    <div className="min-h-screen flex flex-col" style={{ background: "var(--bg-page)" }}>
+    <div className="min-h-screen flex flex-col" style={{ background: "#FAFAF8" }}>
       <HeroIllustration />
       <div className="flex-1 px-6 pb-8 w-full">
-        <h1 className="text-base font-semibold text-center mt-2" style={{ color: "var(--text-primary)" }}>
+        <h1 className="text-base font-semibold text-center mt-2" style={{ color: "#2C2C2C" }}>
           言語を選択してください<br/>
-          <span className="text-xs font-normal" style={{ color: "var(--text-secondary)" }}>Please select your language</span>
+          <span className="text-xs font-normal" style={{ color: "#8A8A8A" }}>Please select your language</span>
         </h1>
         <div className="mt-6 space-y-3">
           {opts.map((o) => {
@@ -45,15 +45,15 @@ function LanguagePicker() {
                 <div className="flex items-center gap-3">
                   <span className="text-2xl">{o.flag}</span>
                   <div className="text-left">
-                    <div className="text-[15px] font-semibold" style={{ color: "var(--text-primary)" }}>{o.jp}</div>
-                    <div className="text-[12px]" style={{ color: "var(--text-secondary)" }}>{o.en} · {o.subJp}</div>
+                    <div className="text-[15px] font-semibold" style={{ color: "#2C2C2C" }}>{o.jp}</div>
+                    <div className="text-[12px]" style={{ color: "#8A8A8A" }}>{o.en} · {o.subJp}</div>
                   </div>
                 </div>
                 <div
                   className="w-[22px] h-[22px] rounded-full flex items-center justify-center"
                   style={{
                     background: selected ? "#E8829A" : "#FFFFFF",
-                    border: selected ? "none" : "1.5px solid var(--border-card)",
+                    border: selected ? "none" : "1.5px solid #EDE8E4",
                   }}
                 >
                   {selected && <span className="w-2 h-2 rounded-full bg-white" />}
@@ -128,11 +128,11 @@ export function HeroIllustration({ compact = false }: { compact?: boolean }) {
         >
           <PawPrint style={{ width: logo * 0.42, height: logo * 0.42, color: "#E8829A" }} strokeWidth={2} />
         </div>
-        <div className="mt-2 font-bold leading-none" style={{ color: "var(--text-primary)", fontSize: titleSize, letterSpacing: "0.05em" }}>
+        <div className="mt-2 font-bold leading-none" style={{ color: "#2C2C2C", fontSize: titleSize, letterSpacing: "0.05em" }}>
           WanCare
         </div>
-        <div className="mt-1" style={{ color: "var(--text-secondary)", fontSize: jpSize, letterSpacing: "0.05em" }}>ワンケア</div>
-        <div className="mt-1.5 italic text-center" style={{ color: "var(--text-secondary)", fontSize: tagSize }}>
+        <div className="mt-1" style={{ color: "#8A8A8A", fontSize: jpSize, letterSpacing: "0.05em" }}>ワンケア</div>
+        <div className="mt-1.5 italic text-center" style={{ color: "#8A8A8A", fontSize: tagSize }}>
           あなたの愛犬を、もっと近くに。<br/>
           <span className="not-italic">Closer to your beloved dog.</span>
         </div>
