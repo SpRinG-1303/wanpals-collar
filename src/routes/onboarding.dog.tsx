@@ -7,17 +7,16 @@ import DogAvatar from "@/components/DogAvatar";
 import { Stepper, TopBar } from "@/routes/onboarding.avatar";
 import { useT } from "@/context/LanguageContext";
 import { usePet } from "@/context/PetContext";
-import { convertToGhibli, animateImage } from "@/lib/ghibli.functions";
+import { convertToGhibli } from "@/lib/ghibli.functions";
 import type { BreedKey, EarStyle, EyeStyle } from "@/components/DogAvatar";
 
 export const Route = createFileRoute("/onboarding/dog")({ component: Step2 });
 
 type SheetTarget = null | "dog" | "owner";
-type Stage = "ghibli" | "video";
 type GhibliState =
   | { kind: "idle" }
-  | { kind: "converting"; rawUrl: string; stage: Stage; progress: number; ghibliUrl?: string }
-  | { kind: "done"; ghibliUrl: string; videoUrl: string | null }
+  | { kind: "converting"; rawUrl: string; progress: number }
+  | { kind: "done"; ghibliUrl: string }
   | { kind: "error"; message: string; rawFile: File | null };
 
 function Step2() {
