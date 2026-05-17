@@ -1,54 +1,10 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 
-const REPLICATE_BASE = "https://api.replicate.com/v1";
-
-async function pollReplicate(pollUrl: string, key: string, timeoutMs = 120_000) {
-  const start = Date.now();
-  while (Date.now() - start < timeoutMs) {
-    await new Promise((r) => setTimeout(r, 2000));
-    const res = await fetch(pollUrl, {
-      headers: { Authorization: `Bearer ${key}` },
-    });
-    if (!res.ok) continue;
-    const data = (await res.json()) as {
-      status: string;
-      output: string | string[] | null;
-      error?: string | null;
-    };
-    if (data.status === "succeeded") {
-      const out = Array.isArray(data.output) ? data.output[0] : data.output;
-      if (!out) throw new Error("Replicate returned empty output");
-      return out;
-    }
-    if (data.status === "failed" || data.status === "canceled") {
-      throw new Error(data.error || "Replicate step failed");
-    }
-  }
-  throw new Error("Replicate step timed out");
-}
-
-async function startPrediction(
-  model: string,
-  input: Record<string, unknown>,
-  key: string
-) {
-  const res = await fetch(`${REPLICATE_BASE}/models/${model}/predictions`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${key}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ input }),
-  });
-  if (!res.ok) {
-    const text = await res.text();
-    throw new Error(`Replicate start failed: ${res.status} ${text}`);
-  }
-  return (await res.json()) as { urls: { get: string } };
-}
-
-/** Step 1: Convert uploaded image to Ghibli-style image. */
+/**
+ * Convert an uploaded dog photo into a Ghibli-style portrait
+ * using the Lovable AI Gateway (Gemini image model). Key stays server-side.
+ */
 export const convertToGhibli = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) =>
     z
@@ -59,36 +15,53 @@ export const convertToGhibli = createServerFn({ method: "POST" })
       .parse(input)
   )
   .handler(async ({ data }) => {
-    const key = process.env.REPLICATE_API_KEY;
-    if (!key) throw new Error("Missing REPLICATE_API_KEY");
-    const dataUrl = `data:${data.mime};base64,${data.base64}`;
-    const prediction = await startPrediction(
-      "aaronaftab/mirage-ghibli",
-      { image: dataUrl },
-      key
-    );
-    const url = await pollReplicate(prediction.urls.get, key, 120_000);
-    return { url };
-  });
+    const key = process.env.LOVABLE_API_KEY;
+    if (!key) throw new Error("Missing LOVABLE_API_KEY");
 
-/** Step 2: Animate a Ghibli image URL into a short looping video. */
-export const animateImage = createServerFn({ method: "POST" })
-  .inputValidator((input: unknown) =>
-    z.object({ imageUrl: z.string().url() }).parse(input)
-  )
-  .handler(async ({ data }) => {
-    const key = process.env.REPLICATE_API_KEY;
-    if (!key) throw new Error("Missing REPLICATE_API_KEY");
-    const prediction = await startPrediction(
-      "stability-ai/stable-video-diffusion",
-      {
-        input_image: data.imageUrl,
-        motion_bucket_id: 80,
-        fps: 12,
-        decoding_chunk_size: 8,
+    const dataUrl = `data:${data.mime};base64,${data.base64}`;
+
+    const res = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${key}`,
+        "Content-Type": "application/json",
       },
-      key
-    );
-    const url = await pollReplicate(prediction.urls.get, key, 240_000);
+      body: JSON.stringify({
+        model: "google/gemini-2.5-flash-image",
+        modalities: ["image", "text"],
+        messages: [
+          {
+            role: "user",
+            content: [
+              {
+                type: "text",
+                text:
+                  "Transform this dog photo into a Studio Ghibli style portrait. " +
+                  "Soft hand-painted watercolor textures, warm gentle lighting, " +
+                  "kawaii proportions, soft pastel palette, dreamy painterly background. " +
+                  "Keep the dog clearly recognisable (same breed, fur color, pose). " +
+                  "Return only the image.",
+              },
+              { type: "image_url", image_url: { url: dataUrl } },
+            ],
+          },
+        ],
+      }),
+    });
+
+    if (!res.ok) {
+      const text = await res.text();
+      if (res.status === 429) throw new Error("Rate limited. Please try again in a moment.");
+      if (res.status === 402) throw new Error("AI credits exhausted. Add credits in Workspace settings.");
+      throw new Error(`Ghibli generation failed: ${res.status} ${text}`);
+    }
+
+    const json = (await res.json()) as {
+      choices?: Array<{ message?: { images?: Array<{ image_url?: { url?: string } }> } }>;
+    };
+
+    const url = json.choices?.[0]?.message?.images?.[0]?.image_url?.url;
+    if (!url) throw new Error("No image returned from AI gateway");
+
     return { url };
   });
