@@ -75,6 +75,7 @@ function LanguagePicker() {
         </button>
       </div>
     </div>
+    </PhoneFrame>
   );
 }
 
