@@ -176,7 +176,7 @@ function Step2() {
             <UploadCard
               label={t("ワンちゃん", "Your Dog")}
               placeholderEmoji="🐕"
-              imageUrl={ghibli.kind === "done" ? ghibli.ghibliUrl : ghibli.kind === "converting" ? ghibli.rawUrl : null}
+              imageUrl={ghibli.kind === "done" ? ghibli.ghibliUrl : ghibli.kind === "converting" ? (ghibli.ghibliUrl ?? ghibli.rawUrl) : null}
               loading={ghibli.kind === "converting"}
               onTap={() => openSheet("dog")}
               onRetake={resetDog}
