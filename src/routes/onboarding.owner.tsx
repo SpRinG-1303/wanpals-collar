@@ -1,12 +1,13 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { ChevronLeft, User, Calendar, MapPin, Search, Check, X } from "lucide-react";
+import { ChevronLeft, User, Calendar, MapPin, Search, Check, X, Home } from "lucide-react";
 import { PREFECTURES } from "@/lib/mock";
 import { useT } from "@/context/LanguageContext";
 import { usePet } from "@/context/PetContext";
 import { JField } from "@/routes/auth";
 import { Stepper, } from "@/routes/onboarding.avatar";
 import { FormCard, FieldLabel } from "@/routes/onboarding.dog";
+import PhoneFrame from "@/components/PhoneFrame";
 
 export const Route = createFileRoute("/onboarding/owner")({ component: Step3 });
 
