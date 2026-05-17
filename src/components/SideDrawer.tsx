@@ -202,15 +202,14 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
 
           <div className="flex items-center gap-3 relative">
             <div
-              className="flex items-center justify-center"
+              className="flex items-center justify-center overflow-hidden"
               style={{
                 width: 48, height: 48, borderRadius: "50%",
-                background: "#FFFFFF", border: "2px solid #E8829A",
+                background: "#FAF8F5", border: "2px solid #E8829A",
                 boxShadow: "0 4px 16px rgba(232,130,154,0.2)",
-                fontSize: 22,
               }}
             >
-              🐕
+              <img src={logoUrl} alt="Pawsitive logo" style={{ width: 32, height: 32, objectFit: "contain" }} />
             </div>
             <div>
               <div style={{ fontSize: 20, fontWeight: 700, color: "var(--text-primary)", lineHeight: 1 }}>Pawsitive</div>
