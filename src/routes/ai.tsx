@@ -781,7 +781,7 @@ function EmergencyActionCard({ t }: { t: (jp: string, en: string) => string }) {
       </div>
       <div
         style={{
-          background: "#FFF8F8",
+          background: "var(--bg-card-sakura-tint)",
           borderRadius: 12,
           padding: 10,
           marginBottom: 10,
@@ -826,7 +826,7 @@ function EmergencyActionCard({ t }: { t: (jp: string, en: string) => string }) {
           style={{
             flex: 1,
             height: 44,
-            background: "#FFF0F0",
+            background: "var(--bg-card-sakura-tint)",
             color: "#E53935",
             border: "1.5px solid #E53935",
             borderRadius: 12,

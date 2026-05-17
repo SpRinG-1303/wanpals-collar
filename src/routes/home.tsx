@@ -299,7 +299,7 @@ function Home() {
           <JCard accent={JP.sakura} strip={JP.sakuraStrip}>
             <div style={{ padding: 16 }} className="flex gap-3 items-center">
               <div className="relative">
-                <div className="flex items-center justify-center" style={{ width: 56, height: 56, borderRadius: "50%", background: "#FFF6F8", border: `2px solid #FFB7C5`, overflow: "hidden" }}>
+                <div className="flex items-center justify-center" style={{ width: 56, height: 56, borderRadius: "50%", background: "var(--bg-card-sakura-tint)", border: `2px solid #FFB7C5`, overflow: "hidden" }}>
                   <DogAvatar
                     breed={breedKey}
                     furColor={pet.avatar.furColor}
@@ -332,7 +332,7 @@ function Home() {
 
         {/* Daily fact */}
         <motion.div key={factIdx} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} style={{ marginTop: 8 }}>
-          <JCard accent={JP.yuzu} strip={JP.yuzuStrip} style={{ background: "#FFFDF5" }}>
+          <JCard accent={JP.yuzu} strip={JP.yuzuStrip} style={{ background: "var(--bg-card-yellow-tint)" }}>
             <div style={{ padding: 16 }}>
               <div className="flex justify-between items-center">
                 <div className="flex items-center" style={{ gap: 6 }}>
