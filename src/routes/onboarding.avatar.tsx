@@ -199,7 +199,7 @@ function Step1() {
       </div>
 
       {/* Bottom CTA */}
-      <div className="fixed bottom-0 inset-x-0 max-w-md mx-auto p-4" style={{ background: "linear-gradient(to top, #FAFAF8, rgba(250,250,248,0.9) 70%, transparent)" }}>
+      <div className="fixed bottom-0 inset-x-0 mx-auto p-4" style={{ maxWidth: 430, background: "linear-gradient(to top, #FAFAF8, rgba(250,250,248,0.9) 70%, transparent)" }}>
         <p className="text-center text-[11px] mb-2" style={{ color: "#C4B8B4" }}>
           {t("あとで変更できます", "You can change this later")}
         </p>
@@ -208,6 +208,7 @@ function Step1() {
         </PrimaryButton>
       </div>
     </div>
+    </PhoneFrame>
   );
 }
 
