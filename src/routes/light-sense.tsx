@@ -182,7 +182,11 @@ function LightSensePage() {
               <button
                 key={p.en}
                 aria-label={p.en}
-                onClick={() => { setColor(p.hex); setRainbow(false); }}
+                onClick={() => {
+                  const hsv = hexToHsv(p.hex);
+                  setHue(hsv.h); setSat(hsv.s); setVal(hsv.v);
+                  setRainbow(false);
+                }}
                 style={{
                   width: 36, height: 36, borderRadius: "50%",
                   background: p.hex,
