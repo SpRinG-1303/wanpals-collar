@@ -138,32 +138,11 @@ function Step2() {
           <input ref={ownerGalRef} type="file" accept="image/*"
             className="hidden" onChange={(e) => handleFile("owner", e.target.files?.[0])} />
 
-          {/* Ghibli tip */}
-          <div
-            className="mt-5 p-4 rounded-2xl flex gap-3"
-            style={{ background: "#FFF0F5", border: "1px solid #FBD9E1" }}
-          >
-            <div className="text-[20px] leading-none">🎨</div>
-            <div className="text-[12px] leading-relaxed" style={{ color: "#6E4C53" }}>
-              <span className="font-bold">{t("使い方：", "How it works: ")}</span>
-              {t(
-                "写真はジブリ風AIモデルに送信されます。結果は柔らかく絵画的なアニメ風イラストで、実写ではありません。明るく顔がはっきり写った写真がベストです。",
-                "Your photos are sent to a Ghibli-style AI model. The result is a soft, painterly anime illustration — not a realistic photo. Best results with clear, well-lit face shots."
-              )}
-            </div>
-          </div>
-
-          {/* Integration note */}
-          <div
-            className="mt-3 p-3 rounded-2xl"
-            style={{ background: "#FFF6E8", border: "1.5px dashed #E8B36B" }}
-          >
-            <div className="text-[10px] leading-relaxed font-mono" style={{ color: "#8A6535" }}>
-              <span className="font-bold">Integration:</span> Replicate API → animegan2-pytorch.
-              Returns Ghibli-style PNG. Silently converted to SVG via vtracer
-              (color mode, spline curves) for crisp rendering at all sizes. SVG stored & served back.
-            </div>
-          </div>
+          {/* Animation display field */}
+          <AnimationField
+            ghibliUrl={dogUrl}
+            onRetake={() => { setDogUrl(null); openSheet("dog"); }}
+          />
 
           {/* Skip / fallback */}
           <div
@@ -396,5 +375,408 @@ function UploadCard({
         </button>
       )}
     </div>
+  );
+}
+
+/* ============================================================ */
+/*  Animation Display Field                                     */
+/* ============================================================ */
+
+function AnimationField({
+  ghibliUrl,
+  onRetake,
+}: {
+  ghibliUrl: string | null;
+  onRetake: () => void;
+}) {
+  const t = useT();
+  const [showTransition, setShowTransition] = useState(false);
+  const prevUrl = useRef<string | null>(null);
+
+  useEffect(() => {
+    if (ghibliUrl && !prevUrl.current) {
+      setShowTransition(true);
+      const id = setTimeout(() => setShowTransition(false), 650);
+      prevUrl.current = ghibliUrl;
+      return () => clearTimeout(id);
+    }
+    if (!ghibliUrl) prevUrl.current = null;
+  }, [ghibliUrl]);
+
+  return (
+    <div
+      className="mt-5 relative overflow-hidden"
+      style={{
+        minHeight: 240,
+        borderRadius: 24,
+        background: "#FFFFFF",
+        border: "1px solid #F4C0D1",
+        boxShadow: "0 4px 18px rgba(232,103,138,0.06)",
+      }}
+    >
+      {!ghibliUrl && <AnimatedKawaiiDog />}
+
+      {ghibliUrl && (
+        <div
+          className="absolute inset-0 flex items-center justify-center"
+          style={{ animation: "afSlideIn 0.6s cubic-bezier(0.34,1.56,0.64,1)" }}
+        >
+          {/* Orbiting sparkles */}
+          <div className="absolute inset-0 pointer-events-none">
+            {[0, 1, 2].map((i) => (
+              <div
+                key={i}
+                className="absolute"
+                style={{
+                  top: "50%", left: "50%",
+                  width: 180, height: 180, marginLeft: -90, marginTop: -90,
+                  animation: `afOrbit ${6 + i * 2}s linear infinite`,
+                  animationDelay: `${i * -2}s`,
+                }}
+              >
+                <Sparkle
+                  style={{
+                    position: "absolute", top: -6, left: "50%", marginLeft: -6,
+                    transform: `rotate(${i * 120}deg)`,
+                  }}
+                />
+              </div>
+            ))}
+          </div>
+
+          <div
+            className="relative"
+            style={{
+              animation: "afBreathe 3s ease-in-out infinite",
+            }}
+          >
+            <img
+              src={ghibliUrl}
+              alt="Ghibli"
+              style={{
+                width: 168, height: 168, objectFit: "cover",
+                borderRadius: 20,
+                boxShadow: "0 0 0 4px #FFF0F5, 0 10px 28px rgba(232,103,138,0.28)",
+              }}
+            />
+            <span
+              className="absolute"
+              style={{
+                top: -8, right: -8,
+                background: "#E8678A", color: "#fff",
+                fontSize: 11, fontWeight: 700,
+                padding: "5px 10px", borderRadius: 999,
+                boxShadow: "0 4px 10px rgba(232,103,138,0.4)",
+              }}
+            >
+              ✨ Ghibli-fied!
+            </span>
+          </div>
+
+          <button
+            onClick={onRetake}
+            className="absolute"
+            style={{
+              bottom: 12, left: "50%", transform: "translateX(-50%)",
+              fontSize: 11, color: "#E8678A", fontWeight: 600,
+            }}
+          >
+            ↺ {t("撮り直し", "Retake")}
+          </button>
+        </div>
+      )}
+
+      {showTransition && (
+        <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
+          {[0, 60, 120, 180, 240, 300].map((deg, i) => (
+            <span
+              key={i}
+              style={{
+                position: "absolute",
+                width: 14, height: 14,
+                transform: `rotate(${deg}deg) translateY(-40px)`,
+                animation: "afBurst 0.5s ease-out forwards",
+                animationDelay: `${i * 0.03}s`,
+              }}
+            >
+              <Sparkle />
+            </span>
+          ))}
+        </div>
+      )}
+
+      <style>{`
+        @keyframes afSlideIn {
+          0% { transform: translateX(-40%); opacity: 0; }
+          100% { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes afBreathe {
+          0%,100% { transform: scale(1); }
+          50% { transform: scale(1.02); }
+        }
+        @keyframes afOrbit {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+        @keyframes afBurst {
+          0% { opacity: 0; transform: scale(0.2) rotate(var(--r,0deg)); }
+          50% { opacity: 1; }
+          100% { opacity: 0; transform: scale(1.6) rotate(var(--r,0deg)) translateY(-60px); }
+        }
+      `}</style>
+    </div>
+  );
+}
+
+function Sparkle({ style }: { style?: React.CSSProperties }) {
+  return (
+    <svg width="12" height="12" viewBox="0 0 12 12" style={style}>
+      <path d="M6 0 L7 5 L12 6 L7 7 L6 12 L5 7 L0 6 L5 5 Z" fill="#F48BA9" />
+    </svg>
+  );
+}
+
+function AnimatedKawaiiDog() {
+  // Single 3.7s master timeline:
+  //  0  -21.6% running
+  // 21.6-37.8% jump
+  // 37.8-59.5% spin
+  // 59.5-73%   land bounce
+  // 73 -100%   sit + wag
+  return (
+    <div className="absolute inset-0 flex items-center justify-center">
+      {/* Ground line */}
+      <div
+        style={{
+          position: "absolute", bottom: 36, left: 24, right: 24, height: 1,
+          background: "linear-gradient(90deg,transparent,#F4C0D1,transparent)",
+        }}
+      />
+
+      {/* Floating heart (sit phase) */}
+      <svg width="14" height="14" viewBox="0 0 14 14"
+        style={{
+          position: "absolute", top: "50%", left: "50%",
+          marginLeft: -7, marginTop: -60,
+          animation: "kdHeart 3.7s ease-out infinite",
+          opacity: 0,
+        }}
+      >
+        <path d="M7 12 C2 8 0 5 2 3 C4 1 6 3 7 4 C8 3 10 1 12 3 C14 5 12 8 7 12 Z" fill="#F48BA9" />
+      </svg>
+
+      {/* Speed lines (run phase) */}
+      <div
+        style={{
+          position: "absolute", top: "50%", left: 30, marginTop: 0,
+          width: 30, height: 24,
+          animation: "kdSpeed 3.7s linear infinite",
+          opacity: 0,
+        }}
+      >
+        {[0, 8, 16].map((y) => (
+          <span key={y} style={{
+            position: "absolute", top: y, left: 0,
+            width: 24, height: 2, borderRadius: 2, background: "#F4C0D1",
+          }} />
+        ))}
+      </div>
+
+      {/* Dust puff (land phase) */}
+      {[-1, 1].map((dir) => (
+        <span key={dir}
+          style={{
+            position: "absolute", bottom: 30, left: "50%",
+            marginLeft: dir * 14 - 4,
+            width: 8, height: 8, borderRadius: "50%",
+            background: "#F5EDE8",
+            animation: "kdDust 3.7s ease-out infinite",
+            opacity: 0,
+          }}
+        />
+      ))}
+
+      {/* Dog container — translate + rotate over the timeline */}
+      <div
+        style={{
+          position: "absolute", top: "50%", left: "50%",
+          width: 100, height: 100, marginLeft: -50, marginTop: -50,
+          animation: "kdMove 3.7s cubic-bezier(0.34,1.56,0.64,1) infinite",
+        }}
+      >
+        <div
+          id="anim-dog-spin"
+          style={{
+            width: "100%", height: "100%",
+            animation: "kdSpin 3.7s cubic-bezier(0.34,1.56,0.64,1) infinite",
+            transformOrigin: "50% 50%",
+          }}
+        >
+          <KawaiiDogSVG />
+        </div>
+      </div>
+
+      <style>{`
+        /* Master translate across the field + landing squish */
+        @keyframes kdMove {
+          0%   { transform: translateX(-100px) translateY(0) scale(1,1); }   /* run start */
+          21.6%{ transform: translateX(50px) translateY(0) scale(1,1); }     /* run end / takeoff */
+          30%  { transform: translateX(60px) translateY(-46px) scale(1,1); } /* peak jump */
+          37.8%{ transform: translateX(40px) translateY(-50px) scale(1,1); } /* spin start */
+          59.5%{ transform: translateX(10px) translateY(-44px) scale(1,1); } /* spin end */
+          66%  { transform: translateX(0) translateY(0) scale(1.2,0.8); }    /* land squish */
+          73%  { transform: translateX(0) translateY(0) scale(1,1); }        /* recovered */
+          100% { transform: translateX(0) translateY(0) scale(1,1); }        /* sit + wag */
+        }
+        /* 360 rotation during the spin window */
+        @keyframes kdSpin {
+          0%, 37.8% { transform: rotate(0deg); }
+          59.5%     { transform: rotate(360deg); }
+          100%      { transform: rotate(360deg); }
+        }
+        @keyframes kdHeart {
+          0%, 80% { opacity: 0; transform: translateY(0); }
+          85% { opacity: 1; transform: translateY(-6px); }
+          100% { opacity: 0; transform: translateY(-30px); }
+        }
+        @keyframes kdSpeed {
+          0%, 22% { opacity: 0; transform: translateX(0); }
+          5% { opacity: 1; }
+          18% { opacity: 0.8; transform: translateX(-12px); }
+          22.1%, 100% { opacity: 0; }
+        }
+        @keyframes kdDust {
+          0%, 64% { opacity: 0; transform: scale(0.4); }
+          68% { opacity: 1; transform: scale(1.2); }
+          74% { opacity: 0; transform: scale(1.6); }
+          100% { opacity: 0; }
+        }
+        /* Tail wag accelerates during sit phase */
+        @keyframes kdTail {
+          0%, 73% { transform: rotate(-10deg); }
+          76% { transform: rotate(30deg); }
+          80% { transform: rotate(-25deg); }
+          84% { transform: rotate(30deg); }
+          88% { transform: rotate(-25deg); }
+          92% { transform: rotate(30deg); }
+          96% { transform: rotate(-25deg); }
+          100% { transform: rotate(-10deg); }
+        }
+        /* Head tilt during sit phase */
+        @keyframes kdHead {
+          0%, 73% { transform: rotate(0deg); }
+          80% { transform: rotate(-12deg); }
+          88% { transform: rotate(12deg); }
+          100% { transform: rotate(0deg); }
+        }
+        /* Legs alternate during run */
+        @keyframes kdLegA {
+          0% { transform: rotate(-25deg); }
+          10% { transform: rotate(25deg); }
+          21.6% { transform: rotate(-25deg); }
+          30% { transform: translateY(2px) rotate(20deg); }   /* tucked */
+          59.5% { transform: translateY(2px) rotate(20deg); }
+          100% { transform: rotate(0deg); }
+        }
+        @keyframes kdLegB {
+          0% { transform: rotate(25deg); }
+          10% { transform: rotate(-25deg); }
+          21.6% { transform: rotate(25deg); }
+          30% { transform: translateY(2px) rotate(-20deg); }
+          59.5% { transform: translateY(2px) rotate(-20deg); }
+          100% { transform: rotate(0deg); }
+        }
+        @keyframes kdEarFlap {
+          0% { transform: rotate(0deg); }
+          10% { transform: rotate(-20deg); }
+          21.6% { transform: rotate(0deg); }
+          30% { transform: rotate(-30deg); }
+          73% { transform: rotate(0deg); }
+          100% { transform: rotate(0deg); }
+        }
+        /* Eyes close (^_^) during jump */
+        @keyframes kdEye {
+          0%, 21.6% { transform: scaleY(1); }
+          25% { transform: scaleY(0.1); }
+          37% { transform: scaleY(0.1); }
+          40% { transform: scaleY(1); }
+          100% { transform: scaleY(1); }
+        }
+      `}</style>
+    </div>
+  );
+}
+
+function KawaiiDogSVG() {
+  const FUR = "#C17D4A";
+  const FUR_D = "#A66838";
+  const CREAM = "#F0D0A0";
+  const BLUSH = "#F48BA9";
+  const OUTLINE = "#2B1810";
+  return (
+    <svg viewBox="0 0 100 100" width="100%" height="100%" style={{ overflow: "visible" }}>
+      {/* Tail */}
+      <g id="anim-dog-tail" style={{ transformOrigin: "32px 58px", animation: "kdTail 3.7s ease-in-out infinite" }}>
+        <path d="M32 58 Q22 50 24 40 Q26 36 30 38" fill={FUR} stroke={OUTLINE} strokeWidth="2" strokeLinecap="round" />
+      </g>
+
+      {/* Back legs */}
+      <g id="anim-dog-leg-back-left"
+        style={{ transformOrigin: "40px 70px", animation: "kdLegA 3.7s ease-in-out infinite" }}>
+        <rect x="36" y="68" width="8" height="14" rx="4" fill={FUR} stroke={OUTLINE} strokeWidth="2" />
+      </g>
+      <g id="anim-dog-leg-back-right"
+        style={{ transformOrigin: "48px 70px", animation: "kdLegB 3.7s ease-in-out infinite" }}>
+        <rect x="44" y="68" width="8" height="14" rx="4" fill={FUR_D} stroke={OUTLINE} strokeWidth="2" />
+      </g>
+
+      {/* Body */}
+      <ellipse id="anim-dog-body" cx="52" cy="60" rx="22" ry="14" fill={FUR} stroke={OUTLINE} strokeWidth="2" />
+      <ellipse cx="56" cy="62" rx="14" ry="8" fill={CREAM} opacity="0.7" />
+
+      {/* Front legs */}
+      <g id="anim-dog-leg-front-left"
+        style={{ transformOrigin: "60px 70px", animation: "kdLegB 3.7s ease-in-out infinite" }}>
+        <rect x="56" y="68" width="8" height="14" rx="4" fill={FUR} stroke={OUTLINE} strokeWidth="2" />
+      </g>
+      <g id="anim-dog-leg-front-right"
+        style={{ transformOrigin: "68px 70px", animation: "kdLegA 3.7s ease-in-out infinite" }}>
+        <rect x="64" y="68" width="8" height="14" rx="4" fill={FUR_D} stroke={OUTLINE} strokeWidth="2" />
+      </g>
+
+      {/* Head group (tilts during sit) */}
+      <g id="anim-dog-head" style={{ transformOrigin: "68px 42px", animation: "kdHead 3.7s ease-in-out infinite" }}>
+        {/* Ears */}
+        <g id="anim-dog-ear-left"
+          style={{ transformOrigin: "60px 32px", animation: "kdEarFlap 3.7s ease-in-out infinite" }}>
+          <path d="M58 32 Q54 22 62 24 L64 34 Z" fill={FUR_D} stroke={OUTLINE} strokeWidth="2" strokeLinejoin="round" />
+        </g>
+        <g id="anim-dog-ear-right"
+          style={{ transformOrigin: "76px 32px", animation: "kdEarFlap 3.7s ease-in-out infinite", animationDelay: "0.05s" }}>
+          <path d="M76 32 Q80 22 72 24 L70 34 Z" fill={FUR_D} stroke={OUTLINE} strokeWidth="2" strokeLinejoin="round" />
+        </g>
+
+        {/* Head */}
+        <circle cx="68" cy="42" r="16" fill={FUR} stroke={OUTLINE} strokeWidth="2" />
+        {/* Muzzle */}
+        <ellipse cx="74" cy="48" rx="10" ry="7" fill={CREAM} stroke={OUTLINE} strokeWidth="2" />
+        {/* Nose */}
+        <ellipse cx="80" cy="46" rx="2.5" ry="2" fill={OUTLINE} />
+        {/* Blush */}
+        <circle cx="62" cy="48" r="2.5" fill={BLUSH} opacity="0.7" />
+        <circle cx="82" cy="52" r="2.5" fill={BLUSH} opacity="0.7" />
+        {/* Eyes */}
+        <g id="anim-dog-eye-left" style={{ transformOrigin: "64px 40px", animation: "kdEye 3.7s ease-in-out infinite" }}>
+          <circle cx="64" cy="40" r="2" fill={OUTLINE} />
+          <circle cx="64.5" cy="39.5" r="0.6" fill="#fff" />
+        </g>
+        <g id="anim-dog-eye-right" style={{ transformOrigin: "74px 40px", animation: "kdEye 3.7s ease-in-out infinite" }}>
+          <circle cx="74" cy="40" r="2" fill={OUTLINE} />
+          <circle cx="74.5" cy="39.5" r="0.6" fill="#fff" />
+        </g>
+        {/* Tongue */}
+        <path id="anim-dog-tongue" d="M77 50 Q79 54 81 50 Z" fill={BLUSH} stroke={OUTLINE} strokeWidth="1" />
+      </g>
+    </svg>
   );
 }
