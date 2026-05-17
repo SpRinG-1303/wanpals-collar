@@ -24,14 +24,13 @@ function Step2() {
   const t = useT();
   const { pet, updatePet } = usePet();
   const runConvert = useServerFn(convertToGhibli);
-  const runAnimate = useServerFn(animateImage);
 
   const [dogUrl, setDogUrl] = useState<string | null>(pet.dogPhotoUrl);
   const [ownerUrl, setOwnerUrl] = useState<string | null>(pet.ownerPhotoUrl);
   const [ownerLoading, setOwnerLoading] = useState(false);
   const [sheet, setSheet] = useState<SheetTarget>(null);
   const [ghibli, setGhibli] = useState<GhibliState>(() =>
-    pet.dogPhotoUrl ? { kind: "done", ghibliUrl: pet.dogPhotoUrl, videoUrl: null } : { kind: "idle" }
+    pet.dogPhotoUrl ? { kind: "done", ghibliUrl: pet.dogPhotoUrl } : { kind: "idle" }
   );
 
   const dogCamRef = useRef<HTMLInputElement>(null);
