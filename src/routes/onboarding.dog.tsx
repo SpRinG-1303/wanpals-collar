@@ -799,11 +799,11 @@ function PawBot({ palette }: { palette?: DogPalette }) {
   );
 }
 
-function PawBotSVG() {
-  const FUR = "#C17D4A";
-  const FUR_DEEP = "#A66838";
-  const EAR_INNER = "#E8A878";
-  const CHEST = "#F5E6C8";
+function PawBotSVG({ palette }: { palette?: DogPalette }) {
+  const FUR = palette?.fur ?? "#C17D4A";
+  const FUR_DEEP = palette?.furDeep ?? "#A66838";
+  const EAR_INNER = palette?.earInner ?? "#E8A878";
+  const CHEST = palette?.chest ?? "#F5E6C8";
   const BLUSH = "#F4A8B8";
   const COLLAR = "#E8678A";
   const COLLAR_DEEP = "#C84A6E";
