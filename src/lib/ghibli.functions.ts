@@ -21,17 +21,19 @@ export const convertToGhibli = createServerFn({ method: "POST" })
 
     const dataUrl = `data:${data.mime};base64,${data.base64}`;
 
-    const startRes = await fetch("https://api.replicate.com/v1/predictions", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${key}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        version: "a4a8bafd6089e1716b06057c42b19378250d008b",
-        input: { image: dataUrl },
-      }),
-    });
+    const startRes = await fetch(
+      "https://api.replicate.com/v1/models/cjwbw/animegan2-pytorch/predictions",
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${key}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          input: { input_img: dataUrl, style: "Hayao" },
+        }),
+      }
+    );
 
     if (!startRes.ok) {
       const text = await startRes.text();
