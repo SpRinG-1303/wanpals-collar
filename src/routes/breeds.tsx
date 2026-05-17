@@ -189,10 +189,10 @@ function Breeds() {
             <BookOpen size={14} strokeWidth={2} />
             <span>犬種図鑑</span>
           </div>
-          <div style={{ fontSize: 22, fontWeight: 800, color: "#2C2C2C", marginTop: 2, letterSpacing: "-0.01em" }}>
+          <div style={{ fontSize: 22, fontWeight: 800, color: "var(--text-primary)", marginTop: 2, letterSpacing: "-0.01em" }}>
             {t("犬種図鑑", "Breed Encyclopedia")}
           </div>
-          <div style={{ fontSize: 12, color: "#8A8A8A", marginTop: 2 }}>
+          <div style={{ fontSize: 12, color: "var(--text-secondary)", marginTop: 2 }}>
             {t("200以上の犬種", "200+ breeds")}
           </div>
         </div>
@@ -209,8 +209,8 @@ function Breeds() {
       <div style={{ margin: "16px 16px 12px" }}>
         <div style={{
           display: "flex", alignItems: "center", gap: 10, height: 52,
-          background: "#FFFFFF", borderRadius: 16, padding: "0 12px 0 16px",
-          border: `1.5px solid ${focused ? "#E8829A" : "#EDE8E4"}`,
+          background: "var(--bg-card)", borderRadius: 16, padding: "0 12px 0 16px",
+          border: `1.5px solid ${focused ? "#E8829A" : "var(--border-card)"}`,
           boxShadow: focused ? "0 4px 20px rgba(232,130,154,0.18)" : "0 4px 16px rgba(0,0,0,0.06)",
           transition: "all 200ms",
         }}>
@@ -222,7 +222,7 @@ function Breeds() {
             onBlur={() => setFocused(false)}
             placeholder={t("どんな犬種でも検索", "Search any breed")}
             className="flex-1 bg-transparent outline-none text-sm"
-            style={{ color: "#2C2C2C" }}
+            style={{ color: "var(--text-primary)" }}
           />
           <div style={{
             width: 34, height: 34, borderRadius: "50%", background: "#F0ECFF",
@@ -245,7 +245,7 @@ function Breeds() {
                 flexShrink: 0,
                 height: 34, padding: "0 16px", borderRadius: 20, fontSize: 12, fontWeight: 600,
                 background: sel ? "linear-gradient(135deg, #E8829A, #C86882)" : "#FFFFFF",
-                border: sel ? "1.5px solid transparent" : "1.5px solid #EDE8E4",
+                border: sel ? "1.5px solid transparent" : "1.5px solid var(--border-card)",
                 color: sel ? "#FFFFFF" : "#8A8A8A",
                 boxShadow: sel ? "0 4px 12px rgba(232,130,154,0.28)" : "0 2px 6px rgba(0,0,0,0.04)",
                 transition: "all 180ms",
@@ -273,7 +273,7 @@ function Breeds() {
           <div style={{ flex: 1, color: "white" }}>
             <span style={{
               display: "inline-block",
-              background: "#FFFFFF", color: "#FF6B35",
+              background: "var(--bg-card)", color: "#FF6B35",
               fontSize: 9, fontWeight: 800, letterSpacing: "0.08em",
               padding: "3px 8px", borderRadius: 10, marginBottom: 4,
             }}>
@@ -285,7 +285,7 @@ function Breeds() {
           </div>
           <div style={{
             display: "flex", alignItems: "center", gap: 4,
-            background: "#FFFFFF", color: "#FF6B35",
+            background: "var(--bg-card)", color: "#FF6B35",
             fontSize: 12, fontWeight: 800,
             padding: "6px 14px", borderRadius: 20,
           }}>
@@ -301,7 +301,7 @@ function Breeds() {
           <BreedCard key={b.en} breed={b} onOpen={() => setOpenBreed(b)} language={language} t={t} />
         ))}
         {filtered.length === 0 && (
-          <div style={{ gridColumn: "1 / -1", textAlign: "center", padding: 40, color: "#8A8A8A", fontSize: 13 }}>
+          <div style={{ gridColumn: "1 / -1", textAlign: "center", padding: 40, color: "var(--text-secondary)", fontSize: 13 }}>
             {t("結果が見つかりません", "No breeds found")}
           </div>
         )}
@@ -321,7 +321,7 @@ function BreedCard({ breed, onOpen, language, t }: { breed: Breed; onOpen: () =>
     <button
       onClick={onOpen}
       style={{
-        background: "#FFFFFF", borderRadius: 20, overflow: "hidden",
+        background: "var(--bg-card)", borderRadius: 20, overflow: "hidden",
         boxShadow: "0 4px 16px rgba(0,0,0,0.08)", textAlign: "left",
         display: "flex", flexDirection: "column",
       }}
@@ -373,10 +373,10 @@ function BreedCard({ breed, onOpen, language, t }: { breed: Breed; onOpen: () =>
       {/* BOTTOM INFO */}
       <div style={{ padding: "12px 14px", display: "flex", flexDirection: "column", gap: 8 }}>
         <div>
-          <div style={{ fontSize: nameSize, fontWeight: 800, color: "#2C2C2C", lineHeight: 1.2 }}>
+          <div style={{ fontSize: nameSize, fontWeight: 800, color: "var(--text-primary)", lineHeight: 1.2 }}>
             {language === "english" ? breed.en : breed.jp}
           </div>
-          <div style={{ fontSize: 11, color: "#8A8A8A", marginTop: 2 }}>
+          <div style={{ fontSize: 11, color: "var(--text-secondary)", marginTop: 2 }}>
             {language === "japanese" ? breed.en : breed.en}
           </div>
         </div>
@@ -388,7 +388,7 @@ function BreedCard({ breed, onOpen, language, t }: { breed: Breed; onOpen: () =>
           }}>
             {t(breed.sizeJp, breed.sizeEn)}
           </span>
-          <span style={{ fontSize: 10, color: "#8A8A8A", whiteSpace: "nowrap" }}>
+          <span style={{ fontSize: 10, color: "var(--text-secondary)", whiteSpace: "nowrap" }}>
             {breed.flag} {t(breed.originJp, breed.originEn)}
           </span>
         </div>
@@ -423,7 +423,7 @@ function BreedDetail({ breed, onClose }: { breed: Breed; onClose: () => void }) 
     <div className="fixed inset-0 z-50 bg-black/50 flex items-end" onClick={onClose}>
       <div
         className="w-full max-h-[92vh] overflow-y-auto"
-        style={{ background: "#FAFAF8", borderRadius: "24px 24px 0 0" }}
+        style={{ background: "var(--bg-page)", borderRadius: "24px 24px 0 0" }}
         onClick={(e) => e.stopPropagation()}
       >
         {/* HERO BANNER */}
@@ -475,35 +475,35 @@ function BreedDetail({ breed, onClose }: { breed: Breed; onClose: () => void }) 
 
         {/* NAME */}
         <div style={{ padding: "20px 20px 8px" }}>
-          <div style={{ fontSize: 24, fontWeight: 800, color: "#2C2C2C", letterSpacing: "-0.01em" }}>
+          <div style={{ fontSize: 24, fontWeight: 800, color: "var(--text-primary)", letterSpacing: "-0.01em" }}>
             {language === "english" ? breed.en : breed.jp}
           </div>
           {language !== "japanese" && (
-            <div style={{ fontSize: 14, color: "#8A8A8A", marginTop: 2 }}>{breed.en}</div>
+            <div style={{ fontSize: 14, color: "var(--text-secondary)", marginTop: 2 }}>{breed.en}</div>
           )}
           <div style={{ display: "flex", gap: 8, marginTop: 12, flexWrap: "wrap" }}>
             <span style={{ background: breed.sizeBg, color: breed.sizeText, fontSize: 11, fontWeight: 700, padding: "5px 12px", borderRadius: 12 }}>
               {t(breed.sizeJp, breed.sizeEn)}
             </span>
-            <span style={{ background: "#FFFFFF", border: "1px solid #EDE8E4", fontSize: 11, fontWeight: 600, color: "#2C2C2C", padding: "5px 10px", borderRadius: 12 }}>
+            <span style={{ background: "var(--bg-card)", border: "1px solid var(--border-card)", fontSize: 11, fontWeight: 600, color: "var(--text-primary)", padding: "5px 10px", borderRadius: 12 }}>
               {breed.flag} {t(breed.originJp, breed.originEn)}
             </span>
           </div>
         </div>
 
         {/* STATS */}
-        <div style={{ padding: "20px", margin: "12px 16px 0", background: "#FFFFFF", borderRadius: 20, boxShadow: "0 4px 16px rgba(0,0,0,0.05)" }}>
-          <div style={{ fontSize: 14, fontWeight: 800, color: "#2C2C2C", marginBottom: 14 }}>
+        <div style={{ padding: "20px", margin: "12px 16px 0", background: "var(--bg-card)", borderRadius: 20, boxShadow: "0 4px 16px rgba(0,0,0,0.05)" }}>
+          <div style={{ fontSize: 14, fontWeight: 800, color: "var(--text-primary)", marginBottom: 14 }}>
             {t("犬種特性", "Breed Traits")}
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
             {bars.map((b) => (
               <div key={b.en}>
                 <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12, marginBottom: 4 }}>
-                  <span style={{ color: "#2C2C2C", fontWeight: 600 }}>{t(b.jp, b.en)}</span>
+                  <span style={{ color: "var(--text-primary)", fontWeight: 600 }}>{t(b.jp, b.en)}</span>
                   <span style={{ color: b.color, fontWeight: 700 }}>{b.v}%</span>
                 </div>
-                <div style={{ height: 8, background: "#F0ECE8", borderRadius: 4, overflow: "hidden" }}>
+                <div style={{ height: 8, background: "var(--border-subtle)", borderRadius: 4, overflow: "hidden" }}>
                   <div style={{
                     height: "100%", width: animated ? `${b.v}%` : "0%",
                     background: `linear-gradient(90deg, ${b.color}, ${b.color}CC)`,
@@ -516,8 +516,8 @@ function BreedDetail({ breed, onClose }: { breed: Breed; onClose: () => void }) 
         </div>
 
         {/* HEALTH */}
-        <div style={{ padding: "20px", margin: "12px 16px 0", background: "#FFFFFF", borderRadius: 20, boxShadow: "0 4px 16px rgba(0,0,0,0.05)" }}>
-          <div style={{ fontSize: 14, fontWeight: 800, color: "#2C2C2C", marginBottom: 12 }}>
+        <div style={{ padding: "20px", margin: "12px 16px 0", background: "var(--bg-card)", borderRadius: 20, boxShadow: "0 4px 16px rgba(0,0,0,0.05)" }}>
+          <div style={{ fontSize: 14, fontWeight: 800, color: "var(--text-primary)", marginBottom: 12 }}>
             {t("健康注意事項", "Health Notes")}
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
@@ -531,7 +531,7 @@ function BreedDetail({ breed, onClose }: { breed: Breed; onClose: () => void }) 
                   border: `1px solid ${isConcern ? "#F5C0BC" : "#F0DCA0"}`,
                 }}>
                   <AlertTriangle size={16} color={isConcern ? "#E53935" : "#D4A843"} strokeWidth={2} />
-                  <div style={{ fontSize: 12, color: "#2C2C2C", fontWeight: 600 }}>
+                  <div style={{ fontSize: 12, color: "var(--text-primary)", fontWeight: 600 }}>
                     {t(h.jp, h.en)}
                   </div>
                 </div>
@@ -541,9 +541,9 @@ function BreedDetail({ breed, onClose }: { breed: Breed; onClose: () => void }) 
         </div>
 
         {/* COMMUNITY */}
-        <div style={{ padding: "20px", margin: "12px 16px 24px", background: "#FFFFFF", borderRadius: 20, boxShadow: "0 4px 16px rgba(0,0,0,0.05)" }}>
+        <div style={{ padding: "20px", margin: "12px 16px 24px", background: "var(--bg-card)", borderRadius: 20, boxShadow: "0 4px 16px rgba(0,0,0,0.05)" }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
-            <div style={{ fontSize: 14, fontWeight: 800, color: "#2C2C2C" }}>
+            <div style={{ fontSize: 14, fontWeight: 800, color: "var(--text-primary)" }}>
               {t("コミュニティ投稿", "Community Posts")}
             </div>
             <a href="/community" style={{ fontSize: 11, color: "#E8829A", fontWeight: 700 }}>
@@ -552,7 +552,7 @@ function BreedDetail({ breed, onClose }: { breed: Breed; onClose: () => void }) 
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             {relatedPosts.map((p) => (
-              <div key={p.id} style={{ padding: "10px 12px", background: "#FAFAF8", borderRadius: 12, display: "flex", alignItems: "center", gap: 10 }}>
+              <div key={p.id} style={{ padding: "10px 12px", background: "var(--bg-page)", borderRadius: 12, display: "flex", alignItems: "center", gap: 10 }}>
                 <div style={{
                   width: 32, height: 32, borderRadius: "50%",
                   background: breed.bannerBg,
@@ -563,10 +563,10 @@ function BreedDetail({ breed, onClose }: { breed: Breed; onClose: () => void }) 
                   {breed.kanji.slice(0, 1)}
                 </div>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ fontSize: 12, fontWeight: 700, color: "#2C2C2C", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                  <div style={{ fontSize: 12, fontWeight: 700, color: "var(--text-primary)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                     <T jp={p.titleJp} en={p.titleEn} />
                   </div>
-                  <div style={{ fontSize: 10, color: "#8A8A8A", marginTop: 2, display: "flex", gap: 8 }}>
+                  <div style={{ fontSize: 10, color: "var(--text-secondary)", marginTop: 2, display: "flex", gap: 8 }}>
                     <span>{p.user}</span>
                     <span style={{ display: "inline-flex", alignItems: "center", gap: 3 }}>
                       <MessageCircle size={10} /> {p.com}

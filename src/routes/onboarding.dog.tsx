@@ -32,19 +32,19 @@ function Step2() {
 
   return (
     <PhoneFrame>
-    <div className="min-h-screen pb-32 relative overflow-hidden" style={{ background: "#FAFAF8" }}>
+    <div className="min-h-screen pb-32 relative overflow-hidden" style={{ background: "var(--bg-page)" }}>
       {/* Watercolor paw trail */}
       <PawTrail />
 
       <div className="px-6 pt-4 relative">
         <div className="flex items-center mb-4">
-          <Link to="/onboarding/avatar" style={{ color: "#2C2C2C" }}>
+          <Link to="/onboarding/avatar" style={{ color: "var(--text-primary)" }}>
             <ChevronLeft className="w-6 h-6" />
           </Link>
         </div>
         <Stepper current={2} />
 
-        <h1 className="text-[20px] font-bold text-center mt-2" style={{ color: "#2C2C2C" }}>
+        <h1 className="text-[20px] font-bold text-center mt-2" style={{ color: "var(--text-primary)" }}>
           {t("ワンちゃんの情報", "Dog Details")}
         </h1>
 
@@ -96,7 +96,7 @@ function Step2() {
               type="number"
               value={weight}
               onChange={setWeight}
-              right={<span className="text-[13px]" style={{ color: "#8A8A8A" }}>kg</span>}
+              right={<span className="text-[13px]" style={{ color: "var(--text-secondary)" }}>kg</span>}
             />
           </FormCard>
 
@@ -115,7 +115,7 @@ function Step2() {
                       background: sel ? (isM ? "#E8F2FF" : "#FFF0F5") : "#FAFAF8",
                       border: sel
                         ? `1.5px solid ${isM ? "#5B9BD5" : "#E8829A"}`
-                        : "1.5px solid #EDE8E4",
+                        : "1.5px solid var(--border-card)",
                       color: sel ? (isM ? "#5B9BD5" : "#E8829A") : "#8A8A8A",
                     }}
                   >
@@ -134,7 +134,7 @@ function Step2() {
                 <button
                   onClick={() => setVacc(!vacc)}
                   className="w-12 h-7 rounded-full relative transition-colors"
-                  style={{ background: vacc ? "#6BAF92" : "#EDE8E4" }}
+                  style={{ background: vacc ? "#6BAF92" : "var(--border-card)" }}
                 >
                   <span
                     className="absolute top-0.5 w-6 h-6 bg-white rounded-full transition-all"
@@ -185,7 +185,7 @@ function PawTrail() {
 
 export function FormCard({ children }: { children: React.ReactNode }) {
   return (
-    <div className="rounded-2xl p-4" style={{ background: "#FFFFFF", boxShadow: "0 2px 8px rgba(0,0,0,0.04)" }}>
+    <div className="rounded-2xl p-4" style={{ background: "var(--bg-card)", boxShadow: "0 2px 8px rgba(0,0,0,0.04)" }}>
       {children}
     </div>
   );
@@ -197,7 +197,7 @@ export function FieldLabel({
   const t = useT();
   return (
     <div className="flex items-center justify-between mb-1">
-      <span className="text-[12px] font-semibold flex items-center gap-1.5" style={{ color: "#2C2C2C" }}>
+      <span className="text-[12px] font-semibold flex items-center gap-1.5" style={{ color: "var(--text-primary)" }}>
         {icon && <span style={{ color }}>{icon}</span>}
         {children}
         {required && <span className="w-1.5 h-1.5 rounded-full" style={{ background: "#E8829A" }} />}
@@ -225,8 +225,8 @@ function Stepper2({ value, onChange, suffix }: { value: number; onChange: (n: nu
       >
         <Minus className="w-4 h-4" />
       </button>
-      <div className="flex-1 text-center text-[18px] font-bold tabular-nums" style={{ color: "#2C2C2C" }}>
-        {value}<span className="text-[12px] ml-1" style={{ color: "#8A8A8A" }}>{suffix}</span>
+      <div className="flex-1 text-center text-[18px] font-bold tabular-nums" style={{ color: "var(--text-primary)" }}>
+        {value}<span className="text-[12px] ml-1" style={{ color: "var(--text-secondary)" }}>{suffix}</span>
       </div>
       <button
         onClick={() => onChange(value + 1)}

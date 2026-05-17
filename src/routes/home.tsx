@@ -15,28 +15,28 @@ export const Route = createFileRoute("/home")({ component: Home });
 
 /* ---------- Japanese palette ---------- */
 const JP = {
-  bg: "#FAFAF8",
-  card: "#FFFFFF",
-  sumi: "#2C2C2C",
-  usuzumi: "#8A8A8A",
-  divider: "#F5F0EC",
+  bg: "var(--bg-page)",
+  card: "var(--bg-card)",
+  sumi: "var(--text-primary)",
+  usuzumi: "var(--text-secondary)",
+  divider: "var(--border-subtle)",
   sakura: "#E8829A",
-  sakuraSoft: "#FFF0F3",
+  sakuraSoft: "var(--bg-card-sakura-tint)",
   sakuraStrip: "linear-gradient(90deg,#FFE4EC,#FFF0F5)",
   fuji: "#7B68C8",
-  fujiSoft: "#F0EEF8",
+  fujiSoft: "var(--bg-card-lavender)",
   fujiStrip: "linear-gradient(90deg,#EDE0FF,#F5F0FF)",
   matcha: "#6BAF92",
-  matchaSoft: "#E8F5EE",
+  matchaSoft: "var(--bg-card-mint-tint)",
   matchaStrip: "linear-gradient(90deg,#E8F5EE,#F5FBF8)",
   yuzu: "#D4A843",
-  yuzuSoft: "#FFF8DC",
+  yuzuSoft: "var(--bg-card-yellow-tint)",
   yuzuStrip: "linear-gradient(90deg,#FFF8DC,#FFFEF5)",
   sora: "#5B9BD5",
-  soraSoft: "#E8F2FF",
+  soraSoft: "var(--bg-card-blue-tint)",
   soraStrip: "linear-gradient(90deg,#E8F2FF,#F5F9FF)",
   momiji: "#D4714E",
-  momijiSoft: "#FFE8DC",
+  momijiSoft: "var(--bg-card-peach)",
   momijiStrip: "linear-gradient(90deg,#FFE8DC,#FFF2EC)",
 };
 
@@ -155,7 +155,7 @@ function PostcardScene({ band }: { band: TimeBand }) {
 
       {/* Clouds (afternoon) */}
       {band === "afternoon" && [[20,40,42],[100,22,36]].map(([l,t,w],i)=>(
-        <div key={i} style={{ position:"absolute", left:l, top:t, width:w, height:(w as number)*0.45, background:"#FFFFFF", opacity:0.85, borderRadius: 999 }}/>
+        <div key={i} style={{ position:"absolute", left:l, top:t, width:w, height:(w as number)*0.45, background: "var(--bg-card)", opacity:0.85, borderRadius: 999 }}/>
       ))}
 
       {/* Diagonal sakura branch */}
@@ -299,7 +299,7 @@ function Home() {
           <JCard accent={JP.sakura} strip={JP.sakuraStrip}>
             <div style={{ padding: 16 }} className="flex gap-3 items-center">
               <div className="relative">
-                <div className="flex items-center justify-center" style={{ width: 56, height: 56, borderRadius: "50%", background: "#FFF6F8", border: `2px solid #FFB7C5`, overflow: "hidden" }}>
+                <div className="flex items-center justify-center" style={{ width: 56, height: 56, borderRadius: "50%", background: "var(--bg-card-sakura-tint)", border: `2px solid #FFB7C5`, overflow: "hidden" }}>
                   <DogAvatar
                     breed={breedKey}
                     furColor={pet.avatar.furColor}
@@ -332,7 +332,7 @@ function Home() {
 
         {/* Daily fact */}
         <motion.div key={factIdx} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} style={{ marginTop: 8 }}>
-          <JCard accent={JP.yuzu} strip={JP.yuzuStrip} style={{ background: "#FFFDF5" }}>
+          <JCard accent={JP.yuzu} strip={JP.yuzuStrip} style={{ background: "var(--bg-card-yellow-tint)" }}>
             <div style={{ padding: 16 }}>
               <div className="flex justify-between items-center">
                 <div className="flex items-center" style={{ gap: 6 }}>
@@ -504,7 +504,7 @@ function Home() {
                   )}
 
                   {s.progress !== undefined && (
-                    <div style={{ marginTop: 10, height: 4, borderRadius: 4, overflow: "hidden", background: "#F0ECE8" }}>
+                    <div style={{ marginTop: 10, height: 4, borderRadius: 4, overflow: "hidden", background: "var(--border-subtle)" }}>
                       <div style={{ width: `${s.progress}%`, height: "100%", background: s.accent, borderRadius: 4 }}/>
                     </div>
                   )}
@@ -707,12 +707,12 @@ function EditProfileSheet({ onClose }: { onClose: () => void }) {
       <div
         onClick={(e) => e.stopPropagation()}
         className="w-full max-w-md flex flex-col"
-        style={{ background: "#FFFFFF", borderRadius: "32px 32px 0 0", boxShadow: "0 -8px 32px rgba(0,0,0,0.1)", maxHeight: "85vh" }}
+        style={{ background: "var(--bg-card)", borderRadius: "32px 32px 0 0", boxShadow: "0 -8px 32px rgba(0,0,0,0.1)", maxHeight: "85vh" }}
       >
         <div className="mx-auto mt-3 mb-2 rounded-full" style={{ width: 32, height: 4, background: "#E8E0DC" }} />
         <div className="px-5 pb-3 flex items-center justify-between">
-          <h3 className="text-[15px] font-semibold" style={{ color: "#2C2C2C" }}>{t("プロフィール編集", "Edit Profile")}</h3>
-          <button onClick={onClose}><X className="w-5 h-5" style={{ color: "#8A8A8A" }} /></button>
+          <h3 className="text-[15px] font-semibold" style={{ color: "var(--text-primary)" }}>{t("プロフィール編集", "Edit Profile")}</h3>
+          <button onClick={onClose}><X className="w-5 h-5" style={{ color: "var(--text-secondary)" }} /></button>
         </div>
         <div className="px-5 pb-4 space-y-3 overflow-y-auto">
           <Field label={t("名前", "Name")}>
@@ -721,7 +721,7 @@ function EditProfileSheet({ onClose }: { onClose: () => void }) {
               onChange={(e) => setName(e.target.value)}
               placeholder={t("例: ハナ", "e.g. Hana")}
               className="w-full h-[48px] rounded-[12px] px-4 text-[15px] outline-none"
-              style={{ background: "#FAFAF8", border: "1.5px solid #EDE8E4", color: "#2C2C2C" }}
+              style={{ background: "var(--bg-page)", border: "1.5px solid var(--border-card)", color: "var(--text-primary)" }}
             />
           </Field>
           <Field label={t("犬種", "Breed")}>
@@ -729,7 +729,7 @@ function EditProfileSheet({ onClose }: { onClose: () => void }) {
               value={breedJp}
               onChange={(e) => setBreedJp(e.target.value)}
               className="w-full h-[48px] rounded-[12px] px-3 text-[15px] outline-none"
-              style={{ background: "#FAFAF8", border: "1.5px solid #EDE8E4", color: "#2C2C2C" }}
+              style={{ background: "var(--bg-page)", border: "1.5px solid var(--border-card)", color: "var(--text-primary)" }}
             >
               {BREEDS.map((b) => (
                 <option key={b.jp} value={b.jp}>{b.jp} / {b.en}</option>
@@ -741,14 +741,14 @@ function EditProfileSheet({ onClose }: { onClose: () => void }) {
               <input
                 value={age} onChange={(e) => setAge(e.target.value)} type="number" placeholder="3"
                 className="w-full h-[48px] rounded-[12px] px-4 text-[15px] outline-none"
-                style={{ background: "#FAFAF8", border: "1.5px solid #EDE8E4", color: "#2C2C2C" }}
+                style={{ background: "var(--bg-page)", border: "1.5px solid var(--border-card)", color: "var(--text-primary)" }}
               />
             </Field>
             <Field label={t("体重 (kg)", "Weight (kg)")}>
               <input
                 value={weight} onChange={(e) => setWeight(e.target.value)} type="number" placeholder="8.5"
                 className="w-full h-[48px] rounded-[12px] px-4 text-[15px] outline-none"
-                style={{ background: "#FAFAF8", border: "1.5px solid #EDE8E4", color: "#2C2C2C" }}
+                style={{ background: "var(--bg-page)", border: "1.5px solid var(--border-card)", color: "var(--text-primary)" }}
               />
             </Field>
           </div>
@@ -761,7 +761,7 @@ function EditProfileSheet({ onClose }: { onClose: () => void }) {
           >
             {t("保存", "Save Changes")}
           </button>
-          <button onClick={onClose} className="w-full h-10 text-[13px] font-medium" style={{ color: "#8A8A8A" }}>
+          <button onClick={onClose} className="w-full h-10 text-[13px] font-medium" style={{ color: "var(--text-secondary)" }}>
             {t("キャンセル", "Cancel")}
           </button>
         </div>
@@ -773,7 +773,7 @@ function EditProfileSheet({ onClose }: { onClose: () => void }) {
 function Field({ label, children }: { label: string; children: ReactNode }) {
   return (
     <div>
-      <div className="text-[12px] font-semibold mb-1.5" style={{ color: "#2C2C2C" }}>{label}</div>
+      <div className="text-[12px] font-semibold mb-1.5" style={{ color: "var(--text-primary)" }}>{label}</div>
       {children}
     </div>
   );

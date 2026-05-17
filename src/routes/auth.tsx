@@ -14,13 +14,13 @@ function Auth() {
 
   return (
     <PhoneFrame>
-    <div className="min-h-screen flex flex-col" style={{ background: "#FAFAF8" }}>
+    <div className="min-h-screen flex flex-col" style={{ background: "var(--bg-page)" }}>
       <HeroIllustration compact />
 
       <div
         className="flex-1 -mt-6 w-full px-6 pb-10 pt-7"
         style={{
-          background: "#FFFFFF",
+          background: "var(--bg-card)",
           borderRadius: "32px 32px 0 0",
           boxShadow: "0 -8px 32px rgba(0,0,0,0.06)",
         }}
@@ -63,7 +63,7 @@ function Auth() {
 
             <Divider label={t("または", "OR")} />
             <SocialButtons />
-            <p className="text-center text-[12px] mt-4" style={{ color: "#8A8A8A" }}>
+            <p className="text-center text-[12px] mt-4" style={{ color: "var(--text-secondary)" }}>
               {t("アカウントをお持ちでない？", "Don't have an account?")}{" "}
               <button onClick={() => setTab("signup")} className="font-semibold" style={{ color: "#E8829A" }}>
                 {t("登録", "Sign Up")} →
@@ -86,7 +86,7 @@ function Auth() {
             <Divider label={t("または", "OR")} />
             <SocialButtons />
 
-            <p className="text-center text-[12px] mt-4" style={{ color: "#8A8A8A" }}>
+            <p className="text-center text-[12px] mt-4" style={{ color: "var(--text-secondary)" }}>
               {t("すでにアカウントをお持ちですか？", "Already have account?")}{" "}
               <button onClick={() => setTab("login")} className="font-semibold" style={{ color: "#E8829A" }}>
                 {t("ログイン", "Login")} →
@@ -126,7 +126,7 @@ export function JField({
       className="relative h-[52px] rounded-[14px] flex items-center px-4 transition-all"
       style={{
         background: focus ? "#FFFAFB" : "#FAFAF8",
-        border: `1.5px solid ${focus ? "#E8829A" : "#EDE8E4"}`,
+        border: `1.5px solid ${focus ? "#E8829A" : "var(--border-card)"}`,
         boxShadow: focus ? "0 0 0 3px rgba(232,130,154,0.1)" : "none",
       }}
     >
@@ -151,7 +151,7 @@ export function JField({
           onFocus={() => setFocus(true)}
           onBlur={() => setFocus(false)}
           className="w-full bg-transparent outline-none text-[15px]"
-          style={{ color: "#2C2C2C" }}
+          style={{ color: "var(--text-primary)" }}
         />
       </div>
       {right}
@@ -195,9 +195,9 @@ export function PrimaryButton({ children, onClick }: { children: React.ReactNode
 function Divider({ label }: { label: string }) {
   return (
     <div className="flex items-center gap-3 my-4">
-      <div className="flex-1 h-px" style={{ background: "#EDE8E4" }} />
+      <div className="flex-1 h-px" style={{ background: "var(--border-card)" }} />
       <span className="text-[12px]" style={{ color: "#C4B8B4" }}>{label}</span>
-      <div className="flex-1 h-px" style={{ background: "#EDE8E4" }} />
+      <div className="flex-1 h-px" style={{ background: "var(--border-card)" }} />
     </div>
   );
 }
@@ -214,7 +214,7 @@ function SocialButtons() {
       </button>
       <button
         className="w-full h-12 rounded-[14px] text-[14px] flex items-center justify-center gap-3"
-        style={{ background: "#FFFFFF", border: "1.5px solid #EDE8E4", color: "#2C2C2C" }}
+        style={{ background: "var(--bg-card)", border: "1.5px solid var(--border-card)", color: "var(--text-primary)" }}
       >
         <span className="w-5 h-5 rounded-full flex items-center justify-center text-xs font-black"
           style={{ background: "conic-gradient(from 0deg,#EA4335,#FBBC05,#34A853,#4285F4)", color: "white" }}>G</span>
@@ -240,12 +240,12 @@ function TermsCheckbox({ label }: { label: string }) {
         className="mt-0.5 w-[18px] h-[18px] rounded-[6px] flex items-center justify-center transition-all"
         style={{
           background: on ? "#E8829A" : "#FFFFFF",
-          border: on ? "none" : "1.5px solid #EDE8E4",
+          border: on ? "none" : "1.5px solid var(--border-card)",
         }}
       >
         {on && <Check className="w-3 h-3 text-white" strokeWidth={3} />}
       </button>
-      <span className="text-[12px]" style={{ color: "#8A8A8A" }}>
+      <span className="text-[12px]" style={{ color: "var(--text-secondary)" }}>
         <span className="underline" style={{ color: "#E8829A" }}>利用規約</span>{" "}{label}
       </span>
     </label>
