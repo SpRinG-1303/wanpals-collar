@@ -76,8 +76,7 @@ function Step2() {
     const id = setInterval(() => {
       setGhibli((g) => {
         if (g.kind !== "converting") return g;
-        const ceiling = g.stage === "ghibli" ? 48 : 96;
-        return { ...g, progress: Math.min(ceiling, g.progress + Math.random() * 4 + 1) };
+        return { ...g, progress: Math.min(94, g.progress + Math.random() * 4 + 1) };
       });
     }, 600);
     return () => clearInterval(id);
