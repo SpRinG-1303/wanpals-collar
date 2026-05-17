@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Sparkles } from "lucide-react";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { SensorPage, Card, SP, Bi } from "@/components/SensorPage";
 import { useT } from "@/context/LanguageContext";
 
@@ -20,32 +20,47 @@ const PRESETS: { jp: string; en: string; hex: string }[] = [
 const ROSE = "#E8829A";
 
 function LightSensePage() {
-  const [color, setColor] = useState("#E8829A");
+  const [hue, setHue] = useState(340); // 0-360
+  const [sat, setSat] = useState(60); // 0-100
+  const [val, setVal] = useState(85); // 0-100
   const [brightness, setBrightness] = useState(75);
   const [rainbow, setRainbow] = useState(false);
   const [blink, setBlink] = useState(false);
-  const wheelRef = useRef<HTMLDivElement>(null);
+  const sbRef = useRef<HTMLDivElement>(null);
+  const draggingRef = useRef(false);
   const t = useT();
 
-  const handleWheel = (e: React.MouseEvent | React.TouchEvent) => {
-    const el = wheelRef.current;
+  const color = hsvToHex(hue, sat, val);
+  const rgb = hexToRgb(color);
+
+  const handleSB = (e: React.MouseEvent | React.TouchEvent | MouseEvent | TouchEvent) => {
+    const el = sbRef.current;
     if (!el) return;
     const rect = el.getBoundingClientRect();
-    const cx = rect.left + rect.width / 2;
-    const cy = rect.top + rect.height / 2;
-    const point = "touches" in e ? e.touches[0] : (e as React.MouseEvent);
-    const dx = point.clientX - cx;
-    const dy = point.clientY - cy;
-    const r = Math.sqrt(dx * dx + dy * dy);
-    const maxR = rect.width / 2;
-    const dist = Math.min(1, r / maxR);
-    let angle = Math.atan2(dy, dx) * (180 / Math.PI);
-    if (angle < 0) angle += 360;
-    const hue = Math.round(angle);
-    const sat = Math.round(40 + dist * 60);
-    setColor(hslToHex(hue, sat, 55));
+    const point = "touches" in e ? (e as TouchEvent).touches[0] : (e as MouseEvent);
+    if (!point) return;
+    const x = Math.max(0, Math.min(rect.width, point.clientX - rect.left));
+    const y = Math.max(0, Math.min(rect.height, point.clientY - rect.top));
+    setSat(Math.round((x / rect.width) * 100));
+    setVal(Math.round((1 - y / rect.height) * 100));
     setRainbow(false);
   };
+
+  useEffect(() => {
+    const move = (e: MouseEvent | TouchEvent) => { if (draggingRef.current) { e.preventDefault?.(); handleSB(e); } };
+    const up = () => { draggingRef.current = false; };
+    window.addEventListener("mousemove", move);
+    window.addEventListener("mouseup", up);
+    window.addEventListener("touchmove", move, { passive: false });
+    window.addEventListener("touchend", up);
+    return () => {
+      window.removeEventListener("mousemove", move);
+      window.removeEventListener("mouseup", up);
+      window.removeEventListener("touchmove", move);
+      window.removeEventListener("touchend", up);
+    };
+  }, []);
+
 
   const displayColor = rainbow
     ? "linear-gradient(90deg,#F19A9A,#E8C46A,#9CC4A8,#9CC4E4,#B9A8D4,#E8829A)"
@@ -84,49 +99,75 @@ function LightSensePage() {
         }
       `}</style>
 
-      {/* Color wheel card */}
+      {/* Color picker card */}
       <CardSoft>
         <Label jp="カラー選択" en="Color Select" />
+
+        {/* Hue slider */}
+        <div style={{ marginTop: 14, position: "relative" }}>
+          <div style={{
+            height: 20, borderRadius: 999,
+            background: "linear-gradient(90deg,#ff0000,#ffa500,#ffff00,#00ff00,#00ffff,#0000ff,#a020f0,#ff0000)",
+            boxShadow: "inset 0 0 0 1px rgba(0,0,0,0.06)",
+          }} />
+          <input
+            type="range" min={0} max={360} value={hue}
+            onChange={(e) => { setHue(Number(e.target.value)); setRainbow(false); }}
+            className="ls-slider ls-hue"
+            style={{
+              position: "absolute", inset: 0, width: "100%", height: 20,
+              background: "transparent", margin: 0, padding: 0,
+            }}
+          />
+        </div>
+
+        {/* Saturation / Brightness box */}
         <div
-          ref={wheelRef}
-          onClick={handleWheel}
-          onTouchStart={handleWheel}
+          ref={sbRef}
+          onMouseDown={(e) => { draggingRef.current = true; handleSB(e.nativeEvent); }}
+          onTouchStart={(e) => { draggingRef.current = true; handleSB(e.nativeEvent); }}
           style={{
-            width: 180, height: 180, margin: "12px auto 0",
-            borderRadius: "50%", cursor: "crosshair",
-            background: "conic-gradient(#F19A9A,#E8C46A,#9CC4A8,#9CC4E4,#B9A8D4,#E8829A,#F19A9A)",
-            position: "relative",
-            boxShadow: "0 4px 18px rgba(0,0,0,0.08), inset 0 0 0 1px rgba(255,255,255,0.6)",
+            position: "relative", width: "100%", aspectRatio: "1 / 1",
+            marginTop: 14, borderRadius: 14, overflow: "hidden",
+            background: `linear-gradient(to top, #000, transparent), linear-gradient(to right, #fff, hsl(${hue}, 100%, 50%))`,
+            cursor: "crosshair", touchAction: "none",
+            boxShadow: "inset 0 0 0 1px rgba(0,0,0,0.06)",
           }}
         >
           <div style={{
-            position: "absolute", inset: 0, borderRadius: "50%",
-            background: "radial-gradient(circle, #fff 0%, transparent 65%)",
-            pointerEvents: "none",
-          }} />
-          <div style={{
-            position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)",
-            width: 48, height: 48, borderRadius: "50%",
-            background: displayColor, border: "3px solid #fff",
-            boxShadow: `0 0 16px ${glowColor}55, 0 2px 8px rgba(0,0,0,0.1)`,
-            pointerEvents: "none",
+            position: "absolute",
+            left: `${sat}%`, top: `${100 - val}%`,
+            transform: "translate(-50%,-50%)",
+            width: 18, height: 18, borderRadius: "50%",
+            border: "2px solid #fff", boxShadow: "0 0 0 1px rgba(0,0,0,0.25), 0 2px 6px rgba(0,0,0,0.3)",
+            background: color, pointerEvents: "none",
           }} />
         </div>
 
-        {/* Selected color strip */}
-        <div style={{ marginTop: 18 }}>
+        {/* Selected color preview */}
+        <div style={{
+          marginTop: 14, display: "flex", alignItems: "center", gap: 12,
+          padding: "10px 14px", borderRadius: 14, background: "#FAF7F5",
+        }}>
           <div style={{
-            height: 8, borderRadius: 999,
-            background: displayColor,
-            boxShadow: `0 0 18px ${glowColor}66`,
+            width: 44, height: 44, borderRadius: 12,
+            background: rainbow
+              ? "linear-gradient(90deg,#F19A9A,#E8C46A,#9CC4A8,#9CC4E4,#B9A8D4,#E8829A)"
+              : color,
+            boxShadow: `0 0 14px ${(rainbow ? "#E8829A" : color)}66`,
+            transition: "background 0.25s",
+            border: "2px solid #fff",
           }} />
-          <div className="flex items-center justify-between" style={{ marginTop: 8 }}>
-            <span style={{ fontSize: 10, color: SP.usuzumi, letterSpacing: "0.1em" }}>
+          <div style={{ flex: 1 }}>
+            <div style={{ fontSize: 10, color: SP.usuzumi, letterSpacing: "0.12em" }}>
               {t("選択中", "SELECTED")}
-            </span>
-            <span style={{ fontSize: 12, color: SP.usuzumi, fontFamily: "monospace", fontWeight: 400 }}>
+            </div>
+            <div style={{ fontSize: 13, color: SP.sumi, fontFamily: "monospace", fontWeight: 600, marginTop: 2 }}>
               {rainbow ? t("レインボー", "RAINBOW") : color.toUpperCase()}
-            </span>
+            </div>
+            <div style={{ fontSize: 10, color: SP.usuzumi, fontFamily: "monospace", marginTop: 1 }}>
+              {rainbow ? "—" : `RGB ${rgb.r}, ${rgb.g}, ${rgb.b}`}
+            </div>
           </div>
         </div>
       </CardSoft>
@@ -141,7 +182,11 @@ function LightSensePage() {
               <button
                 key={p.en}
                 aria-label={p.en}
-                onClick={() => { setColor(p.hex); setRainbow(false); }}
+                onClick={() => {
+                  const hsv = hexToHsv(p.hex);
+                  setHue(hsv.h); setSat(hsv.s); setVal(hsv.v);
+                  setRainbow(false);
+                }}
                 style={{
                   width: 36, height: 36, borderRadius: "50%",
                   background: p.hex,
@@ -320,13 +365,47 @@ function CollarTag({ color, glow, brightness, blink }: {
   );
 }
 
-function hslToHex(h: number, s: number, l: number): string {
-  s /= 100; l /= 100;
-  const k = (n: number) => (n + h / 30) % 12;
-  const a = s * Math.min(l, 1 - l);
-  const f = (n: number) => {
-    const c = l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1)));
-    return Math.round(c * 255).toString(16).padStart(2, "0");
-  };
-  return `#${f(0)}${f(8)}${f(4)}`;
+function hsvToHex(h: number, s: number, v: number): string {
+  s /= 100; v /= 100;
+  const c = v * s;
+  const hp = (h % 360) / 60;
+  const x = c * (1 - Math.abs((hp % 2) - 1));
+  let r = 0, g = 0, b = 0;
+  if (hp < 1) { r = c; g = x; }
+  else if (hp < 2) { r = x; g = c; }
+  else if (hp < 3) { g = c; b = x; }
+  else if (hp < 4) { g = x; b = c; }
+  else if (hp < 5) { r = x; b = c; }
+  else { r = c; b = x; }
+  const m = v - c;
+  const to = (n: number) => Math.round((n + m) * 255).toString(16).padStart(2, "0");
+  return `#${to(r)}${to(g)}${to(b)}`;
 }
+
+function hexToRgb(hex: string): { r: number; g: number; b: number } {
+  const h = hex.replace("#", "");
+  return {
+    r: parseInt(h.slice(0, 2), 16),
+    g: parseInt(h.slice(2, 4), 16),
+    b: parseInt(h.slice(4, 6), 16),
+  };
+}
+
+function hexToHsv(hex: string): { h: number; s: number; v: number } {
+  const { r, g, b } = hexToRgb(hex);
+  const rn = r / 255, gn = g / 255, bn = b / 255;
+  const max = Math.max(rn, gn, bn), min = Math.min(rn, gn, bn);
+  const d = max - min;
+  let h = 0;
+  if (d !== 0) {
+    if (max === rn) h = ((gn - bn) / d) % 6;
+    else if (max === gn) h = (bn - rn) / d + 2;
+    else h = (rn - gn) / d + 4;
+    h *= 60;
+    if (h < 0) h += 360;
+  }
+  const s = max === 0 ? 0 : (d / max) * 100;
+  const v = max * 100;
+  return { h: Math.round(h), s: Math.round(s), v: Math.round(v) };
+}
+
