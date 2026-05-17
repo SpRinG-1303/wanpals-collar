@@ -189,7 +189,7 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
           className="relative overflow-hidden"
           style={{
             height: 180,
-            background: "linear-gradient(160deg, #FFF0F5 0%, #F5F0FF 60%, #EEF5FF 100%)",
+            background: "var(--bg-drawer-hero)",
             padding: "20px",
           }}
         >
