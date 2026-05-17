@@ -7,6 +7,9 @@ export type PetAvatar = {
   collarColor: string;
 };
 
+export type AvatarStatus =
+  | "default" | "customised" | "ghibli_pending" | "ghibli_ready";
+
 export type PetProfile = {
   name: string;
   breed: string;
@@ -21,6 +24,12 @@ export type PetProfile = {
   ownerName: string;
   ownerAge: number | null;
   prefecture: string;
+  // Ghibli onboarding
+  dogPhotoUrl: string | null;
+  ownerPhotoUrl: string | null;
+  ghibliSvgUrl: string | null;
+  selectedPose: number | null;
+  avatarStatus: AvatarStatus;
 };
 
 export const DEFAULT_PET: PetProfile = {
@@ -42,6 +51,11 @@ export const DEFAULT_PET: PetProfile = {
   ownerName: "",
   ownerAge: null,
   prefecture: "東京都",
+  dogPhotoUrl: null,
+  ownerPhotoUrl: null,
+  ghibliSvgUrl: null,
+  selectedPose: null,
+  avatarStatus: "default",
 };
 
 type Ctx = {
