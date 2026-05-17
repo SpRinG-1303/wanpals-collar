@@ -29,6 +29,7 @@ import { Route as AvatarSetupRouteImport } from './routes/avatar-setup'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AiRouteImport } from './routes/ai'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as OnboardingWelcomeRouteImport } from './routes/onboarding.welcome'
 import { Route as OnboardingOwnerRouteImport } from './routes/onboarding.owner'
 import { Route as OnboardingDogRouteImport } from './routes/onboarding.dog'
 import { Route as OnboardingAvatarRouteImport } from './routes/onboarding.avatar'
@@ -133,6 +134,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OnboardingWelcomeRoute = OnboardingWelcomeRouteImport.update({
+  id: '/onboarding/welcome',
+  path: '/onboarding/welcome',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const OnboardingOwnerRoute = OnboardingOwnerRouteImport.update({
   id: '/onboarding/owner',
   path: '/onboarding/owner',
@@ -173,6 +179,7 @@ export interface FileRoutesByFullPath {
   '/onboarding/avatar': typeof OnboardingAvatarRoute
   '/onboarding/dog': typeof OnboardingDogRoute
   '/onboarding/owner': typeof OnboardingOwnerRoute
+  '/onboarding/welcome': typeof OnboardingWelcomeRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -198,6 +205,7 @@ export interface FileRoutesByTo {
   '/onboarding/avatar': typeof OnboardingAvatarRoute
   '/onboarding/dog': typeof OnboardingDogRoute
   '/onboarding/owner': typeof OnboardingOwnerRoute
+  '/onboarding/welcome': typeof OnboardingWelcomeRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -224,6 +232,7 @@ export interface FileRoutesById {
   '/onboarding/avatar': typeof OnboardingAvatarRoute
   '/onboarding/dog': typeof OnboardingDogRoute
   '/onboarding/owner': typeof OnboardingOwnerRoute
+  '/onboarding/welcome': typeof OnboardingWelcomeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -251,6 +260,7 @@ export interface FileRouteTypes {
     | '/onboarding/avatar'
     | '/onboarding/dog'
     | '/onboarding/owner'
+    | '/onboarding/welcome'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -276,6 +286,7 @@ export interface FileRouteTypes {
     | '/onboarding/avatar'
     | '/onboarding/dog'
     | '/onboarding/owner'
+    | '/onboarding/welcome'
   id:
     | '__root__'
     | '/'
@@ -301,6 +312,7 @@ export interface FileRouteTypes {
     | '/onboarding/avatar'
     | '/onboarding/dog'
     | '/onboarding/owner'
+    | '/onboarding/welcome'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -327,6 +339,7 @@ export interface RootRouteChildren {
   OnboardingAvatarRoute: typeof OnboardingAvatarRoute
   OnboardingDogRoute: typeof OnboardingDogRoute
   OnboardingOwnerRoute: typeof OnboardingOwnerRoute
+  OnboardingWelcomeRoute: typeof OnboardingWelcomeRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -471,6 +484,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/onboarding/welcome': {
+      id: '/onboarding/welcome'
+      path: '/onboarding/welcome'
+      fullPath: '/onboarding/welcome'
+      preLoaderRoute: typeof OnboardingWelcomeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/onboarding/owner': {
       id: '/onboarding/owner'
       path: '/onboarding/owner'
@@ -519,6 +539,7 @@ const rootRouteChildren: RootRouteChildren = {
   OnboardingAvatarRoute: OnboardingAvatarRoute,
   OnboardingDogRoute: OnboardingDogRoute,
   OnboardingOwnerRoute: OnboardingOwnerRoute,
+  OnboardingWelcomeRoute: OnboardingWelcomeRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
