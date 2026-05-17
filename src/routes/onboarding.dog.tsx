@@ -32,7 +32,7 @@ function Step2() {
   const [ownerLoading, setOwnerLoading] = useState(false);
   const [sheet, setSheet] = useState<SheetTarget>(null);
   const [ghibli, setGhibli] = useState<GhibliState>(() =>
-    pet.dogPhotoUrl ? { kind: "done", ghibliUrl: pet.dogPhotoUrl } : { kind: "idle" }
+    pet.dogPhotoUrl ? { kind: "done", ghibliUrl: pet.dogPhotoUrl, videoUrl: null } : { kind: "idle" }
   );
 
   const dogCamRef = useRef<HTMLInputElement>(null);
