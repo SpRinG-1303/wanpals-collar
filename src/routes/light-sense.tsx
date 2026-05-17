@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Sparkles } from "lucide-react";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { SensorPage, Card, SP, Bi } from "@/components/SensorPage";
 import { useT } from "@/context/LanguageContext";
 
