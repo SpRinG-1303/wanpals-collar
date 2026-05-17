@@ -60,9 +60,16 @@ function Step2() {
         const { base64, mime } = await fileToBase64(file);
         const ghibliRes = await runConvert({ data: { base64, mime } });
         const ghibliUrl = ghibliRes.url;
-        setGhibli({ kind: "done", ghibliUrl });
+        setGhibli({ kind: "done", ghibliUrl, palette: null });
         setDogUrl(ghibliUrl);
         updatePet({ dogPhotoUrl: ghibliUrl, avatarStatus: "ghibli_ready" });
+        // Extract dog colors from the Ghibli image to recolor the mascot
+        try {
+          const palette = await extractDogColors(ghibliUrl);
+          setGhibli((g) => (g.kind === "done" ? { ...g, palette } : g));
+        } catch (colorErr) {
+          console.warn("Color extraction failed, using defaults:", colorErr);
+        }
       } catch (e) {
         const msg = e instanceof Error ? e.message : "Conversion failed";
         setGhibli({ kind: "error", message: msg, rawFile: file });
