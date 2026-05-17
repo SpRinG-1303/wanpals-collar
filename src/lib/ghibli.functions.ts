@@ -1,11 +1,54 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 
-/**
- * Convert an uploaded image to Ghibli style via Replicate.
- * Input: base64-encoded image data (no data: prefix) + mime type.
- * Output: { url: string } of the generated PNG.
- */
+const REPLICATE_BASE = "https://api.replicate.com/v1";
+
+async function pollReplicate(pollUrl: string, key: string, timeoutMs = 120_000) {
+  const start = Date.now();
+  while (Date.now() - start < timeoutMs) {
+    await new Promise((r) => setTimeout(r, 2000));
+    const res = await fetch(pollUrl, {
+      headers: { Authorization: `Bearer ${key}` },
+    });
+    if (!res.ok) continue;
+    const data = (await res.json()) as {
+      status: string;
+      output: string | string[] | null;
+      error?: string | null;
+    };
+    if (data.status === "succeeded") {
+      const out = Array.isArray(data.output) ? data.output[0] : data.output;
+      if (!out) throw new Error("Replicate returned empty output");
+      return out;
+    }
+    if (data.status === "failed" || data.status === "canceled") {
+      throw new Error(data.error || "Replicate step failed");
+    }
+  }
+  throw new Error("Replicate step timed out");
+}
+
+async function startPrediction(
+  model: string,
+  input: Record<string, unknown>,
+  key: string
+) {
+  const res = await fetch(`${REPLICATE_BASE}/models/${model}/predictions`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${key}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ input }),
+  });
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`Replicate start failed: ${res.status} ${text}`);
+  }
+  return (await res.json()) as { urls: { get: string } };
+}
+
+/** Step 1: Convert uploaded image to Ghibli-style image. */
 export const convertToGhibli = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) =>
     z
@@ -18,60 +61,34 @@ export const convertToGhibli = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const key = process.env.REPLICATE_API_KEY;
     if (!key) throw new Error("Missing REPLICATE_API_KEY");
-
     const dataUrl = `data:${data.mime};base64,${data.base64}`;
-
-    const startRes = await fetch(
-      "https://api.replicate.com/v1/models/cjwbw/animegan2-pytorch/predictions",
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${key}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          input: { input_img: dataUrl, style: "Hayao" },
-        }),
-      }
+    const prediction = await startPrediction(
+      "aaronaftab/mirage-ghibli",
+      { image: dataUrl },
+      key
     );
+    const url = await pollReplicate(prediction.urls.get, key, 120_000);
+    return { url };
+  });
 
-    if (!startRes.ok) {
-      const text = await startRes.text();
-      throw new Error(`Replicate start failed: ${startRes.status} ${text}`);
-    }
-
-    const prediction = (await startRes.json()) as {
-      urls: { get: string };
-      status: string;
-    };
-
-    const pollUrl = prediction.urls.get;
-    const start = Date.now();
-    const TIMEOUT_MS = 90_000;
-
-    while (Date.now() - start < TIMEOUT_MS) {
-      await new Promise((r) => setTimeout(r, 2000));
-      const pollRes = await fetch(pollUrl, {
-        headers: { Authorization: `Bearer ${key}` },
-      });
-      if (!pollRes.ok) continue;
-      const pollData = (await pollRes.json()) as {
-        status: string;
-        output: string | string[] | null;
-        error?: string | null;
-      };
-
-      if (pollData.status === "succeeded") {
-        const out = Array.isArray(pollData.output)
-          ? pollData.output[0]
-          : pollData.output;
-        if (!out) throw new Error("Replicate returned empty output");
-        return { url: out };
-      }
-      if (pollData.status === "failed" || pollData.status === "canceled") {
-        throw new Error(pollData.error || "Conversion failed");
-      }
-    }
-
-    throw new Error("Conversion timed out");
+/** Step 2: Animate a Ghibli image URL into a short looping video. */
+export const animateImage = createServerFn({ method: "POST" })
+  .inputValidator((input: unknown) =>
+    z.object({ imageUrl: z.string().url() }).parse(input)
+  )
+  .handler(async ({ data }) => {
+    const key = process.env.REPLICATE_API_KEY;
+    if (!key) throw new Error("Missing REPLICATE_API_KEY");
+    const prediction = await startPrediction(
+      "stability-ai/stable-video-diffusion",
+      {
+        input_image: data.imageUrl,
+        motion_bucket_id: 80,
+        fps: 12,
+        decoding_chunk_size: 8,
+      },
+      key
+    );
+    const url = await pollReplicate(prediction.urls.get, key, 240_000);
+    return { url };
   });

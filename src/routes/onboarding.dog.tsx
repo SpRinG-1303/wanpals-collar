@@ -7,16 +7,17 @@ import DogAvatar from "@/components/DogAvatar";
 import { Stepper, TopBar } from "@/routes/onboarding.avatar";
 import { useT } from "@/context/LanguageContext";
 import { usePet } from "@/context/PetContext";
-import { convertToGhibli } from "@/lib/ghibli.functions";
+import { convertToGhibli, animateImage } from "@/lib/ghibli.functions";
 import type { BreedKey, EarStyle, EyeStyle } from "@/components/DogAvatar";
 
 export const Route = createFileRoute("/onboarding/dog")({ component: Step2 });
 
 type SheetTarget = null | "dog" | "owner";
+type Stage = "ghibli" | "video";
 type GhibliState =
   | { kind: "idle" }
-  | { kind: "converting"; rawUrl: string; progress: number }
-  | { kind: "done"; ghibliUrl: string }
+  | { kind: "converting"; rawUrl: string; stage: Stage; progress: number; ghibliUrl?: string }
+  | { kind: "done"; ghibliUrl: string; videoUrl: string | null }
   | { kind: "error"; message: string; rawFile: File | null };
 
 function Step2() {
@@ -24,13 +25,14 @@ function Step2() {
   const t = useT();
   const { pet, updatePet } = usePet();
   const runConvert = useServerFn(convertToGhibli);
+  const runAnimate = useServerFn(animateImage);
 
   const [dogUrl, setDogUrl] = useState<string | null>(pet.dogPhotoUrl);
   const [ownerUrl, setOwnerUrl] = useState<string | null>(pet.ownerPhotoUrl);
   const [ownerLoading, setOwnerLoading] = useState(false);
   const [sheet, setSheet] = useState<SheetTarget>(null);
   const [ghibli, setGhibli] = useState<GhibliState>(() =>
-    pet.dogPhotoUrl ? { kind: "done", ghibliUrl: pet.dogPhotoUrl } : { kind: "idle" }
+    pet.dogPhotoUrl ? { kind: "done", ghibliUrl: pet.dogPhotoUrl, videoUrl: null } : { kind: "idle" }
   );
 
   const dogCamRef = useRef<HTMLInputElement>(null);
@@ -54,30 +56,42 @@ function Step2() {
   const startGhibliConversion = useCallback(
     async (file: File) => {
       const rawUrl = URL.createObjectURL(file);
-      setGhibli({ kind: "converting", rawUrl, progress: 0 });
+      setGhibli({ kind: "converting", rawUrl, stage: "ghibli", progress: 0 });
       try {
         const { base64, mime } = await fileToBase64(file);
-        const res = await runConvert({ data: { base64, mime } });
-        setGhibli({ kind: "done", ghibliUrl: res.url });
-        setDogUrl(res.url);
-        updatePet({ dogPhotoUrl: res.url, avatarStatus: "ghibli_ready" });
+        // Step 1: Ghibli conversion
+        const ghibliRes = await runConvert({ data: { base64, mime } });
+        const ghibliUrl = ghibliRes.url;
+        // Move to step 2
+        setGhibli({ kind: "converting", rawUrl, stage: "video", progress: 50, ghibliUrl });
+        setDogUrl(ghibliUrl);
+        updatePet({ dogPhotoUrl: ghibliUrl, avatarStatus: "ghibli_ready" });
+        // Step 2: Animation
+        try {
+          const videoRes = await runAnimate({ data: { imageUrl: ghibliUrl } });
+          setGhibli({ kind: "done", ghibliUrl, videoUrl: videoRes.url });
+        } catch (videoErr) {
+          // Fallback to still image if video fails
+          console.error("Video step failed:", videoErr);
+          setGhibli({ kind: "done", ghibliUrl, videoUrl: null });
+        }
       } catch (e) {
         const msg = e instanceof Error ? e.message : "Conversion failed";
         setGhibli({ kind: "error", message: msg, rawFile: file });
       }
     },
-    [runConvert, updatePet]
+    [runConvert, runAnimate, updatePet]
   );
 
-  // Fake progress bar while converting
+  // Fake progress bar while converting (two-stage: 0-50 ghibli, 50-100 video)
   useEffect(() => {
     if (ghibli.kind !== "converting") return;
     const id = setInterval(() => {
-      setGhibli((g) =>
-        g.kind === "converting"
-          ? { ...g, progress: Math.min(95, g.progress + Math.random() * 8 + 2) }
-          : g
-      );
+      setGhibli((g) => {
+        if (g.kind !== "converting") return g;
+        const ceiling = g.stage === "ghibli" ? 48 : 96;
+        return { ...g, progress: Math.min(ceiling, g.progress + Math.random() * 4 + 1) };
+      });
     }, 600);
     return () => clearInterval(id);
   }, [ghibli.kind]);
@@ -162,7 +176,7 @@ function Step2() {
             <UploadCard
               label={t("ワンちゃん", "Your Dog")}
               placeholderEmoji="🐕"
-              imageUrl={ghibli.kind === "done" ? ghibli.ghibliUrl : ghibli.kind === "converting" ? ghibli.rawUrl : null}
+              imageUrl={ghibli.kind === "done" ? ghibli.ghibliUrl : ghibli.kind === "converting" ? (ghibli.ghibliUrl ?? ghibli.rawUrl) : null}
               loading={ghibli.kind === "converting"}
               onTap={() => openSheet("dog")}
               onRetake={resetDog}
@@ -488,15 +502,30 @@ function AnimationField({
             style={{ animation: "afSlideIn 0.6s cubic-bezier(0.34,1.56,0.64,1)" }}
           >
             <div className="relative" style={{ animation: "afBreathe 3s ease-in-out infinite" }}>
-              <img
-                src={state.ghibliUrl}
-                alt="Ghibli"
-                style={{
-                  width: 180, height: 180, objectFit: "cover",
-                  borderRadius: 22,
-                  boxShadow: "0 0 0 4px #FFF0F5, 0 10px 28px rgba(232,103,138,0.28)",
-                }}
-              />
+              {state.videoUrl ? (
+                <video
+                  src={state.videoUrl}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  style={{
+                    width: 180, height: 180, objectFit: "cover",
+                    borderRadius: 22,
+                    boxShadow: "0 0 0 4px #FFF0F5, 0 10px 28px rgba(232,103,138,0.28)",
+                  }}
+                />
+              ) : (
+                <img
+                  src={state.ghibliUrl}
+                  alt="Ghibli"
+                  style={{
+                    width: 180, height: 180, objectFit: "cover",
+                    borderRadius: 22,
+                    boxShadow: "0 0 0 4px #FFF0F5, 0 10px 28px rgba(232,103,138,0.28)",
+                  }}
+                />
+              )}
             </div>
             <button
               onClick={onRetake}
@@ -553,7 +582,9 @@ function AnimationField({
         <div className="mt-3">
           <div className="flex items-center justify-between mb-1.5">
             <span className="text-[11px] font-bold" style={{ color: "#E8678A" }}>
-              🎨 {t("ジブリ風に変換中...", "Converting to Ghibli style...")}
+              {state.stage === "ghibli"
+                ? t("🎨 ジブリ風に変換中...", "🎨 Applying Ghibli magic...")
+                : t("✨ 動きを吹き込み中...", "✨ Bringing it to life...")}
             </span>
             <span className="text-[10px] font-bold" style={{ color: "#A38B82" }}>
               {Math.round(state.progress)}%
@@ -586,7 +617,7 @@ function AnimationField({
             }}
           />
           <span className="text-[12px] font-bold" style={{ color: "#16A34A" }}>
-            ✨ {t("いい感じ！", "Looking good!")}
+            🌸 {t("ジブリの分身ができました！", "Your Ghibli twin is ready!")}
           </span>
         </div>
       )}
