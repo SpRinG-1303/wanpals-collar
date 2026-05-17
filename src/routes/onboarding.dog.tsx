@@ -8,6 +8,7 @@ import { Stepper, TopBar } from "@/routes/onboarding.avatar";
 import { useT } from "@/context/LanguageContext";
 import { usePet } from "@/context/PetContext";
 import { convertToGhibli } from "@/lib/ghibli.functions";
+import { extractDogColors, type DogPalette } from "@/lib/extractDogColors";
 import type { BreedKey, EarStyle, EyeStyle } from "@/components/DogAvatar";
 
 export const Route = createFileRoute("/onboarding/dog")({ component: Step2 });
@@ -16,7 +17,7 @@ type SheetTarget = null | "dog" | "owner";
 type GhibliState =
   | { kind: "idle" }
   | { kind: "converting"; rawUrl: string; progress: number }
-  | { kind: "done"; ghibliUrl: string }
+  | { kind: "done"; ghibliUrl: string; palette: DogPalette | null }
   | { kind: "error"; message: string; rawFile: File | null };
 
 function Step2() {
