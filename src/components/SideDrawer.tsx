@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "@tanstack/react-router";
 import { Home, MapPin, Bot, HeartPulse, Users, FileHeart, BookOpen, Settings, ChevronRight } from "lucide-react";
 import { useT } from "@/context/LanguageContext";
 import { usePet, displayName } from "@/context/PetContext";
+import logoUrl from "@/assets/logo.png";
 
 type Item = {
   route: string;
