@@ -56,10 +56,17 @@ export function SensorPage({
           >
             <ArrowLeft size={20} strokeWidth={2} />
           </Link>
-          <span style={{
-            background: "rgba(255,255,255,0.7)", color: accent,
-            borderRadius: 999, padding: "4px 10px", fontSize: 10, fontWeight: 700, letterSpacing: "0.08em",
-          }}>LIVE</span>
+          <span className="flex items-center" style={{
+            background: "rgba(255,255,255,0.85)", color: SP.sumi,
+            borderRadius: 999, padding: "5px 11px 5px 9px", fontSize: 10, fontWeight: 700, letterSpacing: "0.12em",
+            gap: 6, boxShadow: "0 1px 4px rgba(0,0,0,0.06)",
+          }}>
+            <span style={{ position: "relative", width: 7, height: 7 }}>
+              <span style={{ position: "absolute", inset: 0, borderRadius: "50%", background: "#E53935" }} />
+              <span style={{ position: "absolute", inset: -3, borderRadius: "50%", background: "#E53935", opacity: 0.4, animation: "pulseRed 1.6s infinite" }} />
+            </span>
+            LIVE
+          </span>
         </div>
         <Bi
           jp={titleJp}
