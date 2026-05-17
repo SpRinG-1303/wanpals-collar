@@ -1,21 +1,23 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { MapPin, Navigation, Radio } from "lucide-react";
 import { useState } from "react";
-import { SensorPage, Card, SP } from "@/components/SensorPage";
+import { SensorPage, Card, SP, Bi } from "@/components/SensorPage";
+import { useT } from "@/context/LanguageContext";
 
 export const Route = createFileRoute("/location-sense")({ component: LocationSensePage });
 
 const HISTORY = [
-  { jp: "渋谷駅", en: "Shibuya Station", time: "10:42" },
-  { jp: "代々木公園", en: "Yoyogi Park", time: "09:30" },
-  { jp: "自宅", en: "Home", time: "08:15" },
-  { jp: "動物病院", en: "Vet Clinic", time: "昨日 16:00" },
-  { jp: "原宿", en: "Harajuku", time: "昨日 14:20" },
+  { jp: "渋谷駅", en: "Shibuya Station", time: "10:42", timeEn: "10:42" },
+  { jp: "代々木公園", en: "Yoyogi Park", time: "09:30", timeEn: "09:30" },
+  { jp: "自宅", en: "Home", time: "08:15", timeEn: "08:15" },
+  { jp: "動物病院", en: "Vet Clinic", time: "昨日 16:00", timeEn: "Yesterday 16:00" },
+  { jp: "原宿", en: "Harajuku", time: "昨日 14:20", timeEn: "Yesterday 14:20" },
 ];
 
 function LocationSensePage() {
   const [safe, setSafe] = useState(true);
   const [live, setLive] = useState(true);
+  const t = useT();
 
   return (
     <SensorPage
@@ -72,8 +74,11 @@ function LocationSensePage() {
               </span>
               <span style={{ fontSize: 10, fontWeight: 700, color: SP.matcha, letterSpacing: "0.08em" }}>LIVE</span>
             </div>
-            <div style={{ fontSize: 16, fontWeight: 700, color: SP.sumi, marginTop: 2 }}>渋谷、東京</div>
-            <div style={{ fontSize: 11, color: SP.usuzumi }}>Shibuya, Tokyo · 35.6595° N</div>
+            <Bi
+              jp="渋谷、東京" en="Shibuya, Tokyo · 35.6595° N"
+              jpStyle={{ fontSize: 16, fontWeight: 700, color: SP.sumi, marginTop: 2 }}
+              enStyle={{ fontSize: 11, color: SP.usuzumi }}
+            />
           </div>
         </div>
       </Card>
@@ -81,8 +86,11 @@ function LocationSensePage() {
       <Card accent={SP.matcha}>
         <div className="flex items-center justify-between" style={{ marginBottom: 12 }}>
           <div>
-            <div style={{ fontSize: 14, fontWeight: 700, color: SP.sumi }}>安全ゾーン</div>
-            <div style={{ fontSize: 11, color: SP.usuzumi }}>Safe Zone · 500m radius</div>
+            <Bi
+              jp="安全ゾーン" en="Safe Zone · 500m radius"
+              jpStyle={{ fontSize: 14, fontWeight: 700, color: SP.sumi }}
+              enStyle={{ fontSize: 11, color: SP.usuzumi }}
+            />
           </div>
           <Toggle on={safe} onChange={setSafe} color={SP.matcha} />
         </div>
@@ -100,7 +108,7 @@ function LocationSensePage() {
           </div>
         </div>
         <div style={{ fontSize: 11, color: SP.usuzumi, textAlign: "center" }}>
-          {safe ? "ゾーン内 / Inside zone" : "オフ / Off"}
+          {safe ? t("ゾーン内", "Inside zone") : t("オフ", "Off")}
         </div>
       </Card>
 
@@ -116,26 +124,36 @@ function LocationSensePage() {
           }}
         >
           <Radio size={18} />
-          {live ? "ライブ追跡 オン / Live Tracking ON" : "ライブ追跡 オフ / Live Tracking OFF"}
+          {live ? t("ライブ追跡 オン", "Live Tracking ON") : t("ライブ追跡 オフ", "Live Tracking OFF")}
         </button>
       </Card>
 
       <Card accent={SP.fuji}>
-        <div style={{ fontSize: 14, fontWeight: 700, color: SP.sumi }}>位置履歴</div>
-        <div style={{ fontSize: 11, color: SP.usuzumi, marginBottom: 12 }}>Location History</div>
-        {HISTORY.map((h, i) => (
-          <div key={i} className="flex items-center" style={{
-            gap: 10, padding: "10px 0",
-            borderBottom: i < HISTORY.length - 1 ? `1px solid ${SP.divider}` : "none",
-          }}>
-            <MapPin size={16} style={{ color: SP.fuji, flexShrink: 0 }} />
-            <div style={{ flex: 1 }}>
-              <div style={{ fontSize: 13, fontWeight: 600, color: SP.sumi }}>{h.jp}</div>
-              <div style={{ fontSize: 11, color: SP.usuzumi }}>{h.en}</div>
+        <Bi
+          jp="位置履歴" en="Location History"
+          jpStyle={{ fontSize: 14, fontWeight: 700, color: SP.sumi }}
+          enStyle={{ fontSize: 11, color: SP.usuzumi, marginBottom: 12 }}
+        />
+        <div style={{ marginTop: 4 }}>
+          {HISTORY.map((h, i) => (
+            <div key={i} className="flex items-center" style={{
+              gap: 10, padding: "10px 0",
+              borderBottom: i < HISTORY.length - 1 ? `1px solid ${SP.divider}` : "none",
+            }}>
+              <MapPin size={16} style={{ color: SP.fuji, flexShrink: 0 }} />
+              <div style={{ flex: 1 }}>
+                <Bi
+                  jp={h.jp} en={h.en}
+                  jpStyle={{ fontSize: 13, fontWeight: 600, color: SP.sumi }}
+                  enStyle={{ fontSize: 11, color: SP.usuzumi }}
+                />
+              </div>
+              <div style={{ fontSize: 11, color: SP.usuzumi, fontVariantNumeric: "tabular-nums" }}>
+                {t(h.time, h.timeEn)}
+              </div>
             </div>
-            <div style={{ fontSize: 11, color: SP.usuzumi, fontVariantNumeric: "tabular-nums" }}>{h.time}</div>
-          </div>
-        ))}
+          ))}
+        </div>
       </Card>
     </SensorPage>
   );
