@@ -299,7 +299,7 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
 
 export function HamburgerButton({ isOpen, onClick }: { isOpen: boolean; onClick: () => void }) {
   const lineBase: React.CSSProperties = {
-    width: 18, height: 2, background: "#2C2C2C", borderRadius: 2,
+    width: 18, height: 2, background: "var(--text-primary)", borderRadius: 2,
     transition: "transform 0.3s ease, opacity 0.3s ease",
     transformOrigin: "center",
   };
@@ -311,10 +311,10 @@ export function HamburgerButton({ isOpen, onClick }: { isOpen: boolean; onClick:
       className="flex items-center justify-center shrink-0"
       style={{
         width: 40, height: 40,
-        background: "#FFFFFF",
+        background: "var(--bg-card)",
         borderRadius: 12,
         boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
-        border: "1px solid #F0ECE8",
+        border: "1px solid var(--border-subtle)",
       }}
     >
       <span className="flex flex-col" style={{ gap: 4 }}>
