@@ -288,7 +288,7 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
             🆘 SOS {t("緊急", "Emergency")}
           </button>
 
-          <div style={{ textAlign: "center", fontSize: 9, color: "#C4B8B4", paddingBottom: 8 }}>
+          <div style={{ textAlign: "center", fontSize: 9, color: "var(--text-placeholder)", paddingBottom: 8 }}>
             WanCare v1.0 · ワンケア
           </div>
         </div>
