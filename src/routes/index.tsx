@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { motion } from "framer-motion";
+import PhoneFrame from "@/components/PhoneFrame";
 
 export const Route = createFileRoute("/")({ component: Splash });
 
@@ -11,6 +12,7 @@ function Splash() {
     return () => clearTimeout(t);
   }, [nav]);
   return (
+    <PhoneFrame>
     <div className="min-h-screen flex flex-col items-center justify-center paw-bg" style={{ background: "linear-gradient(160deg, #FFE4EA 0%, #FAFAFA 100%)" }}>
       <motion.div initial={{ scale: 0.6, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ duration: 0.6 }}>
         <div className="w-28 h-28 rounded-full bg-card shadow-card flex items-center justify-center text-6xl">
