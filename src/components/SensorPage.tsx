@@ -112,9 +112,37 @@ export function useTimeTab() {
 
 export function BL({ jp, en }: { jp: string; en: string }) {
   return (
-    <div>
-      <div style={{ fontSize: 13, fontWeight: 600, color: SP.sumi, lineHeight: 1.2 }}>{jp}</div>
-      <div style={{ fontSize: 10, color: SP.usuzumi, marginTop: 1 }}>{en}</div>
-    </div>
+    <Bi
+      jp={jp}
+      en={en}
+      jpStyle={{ fontSize: 13, fontWeight: 600, color: SP.sumi, lineHeight: 1.2 }}
+      enStyle={{ fontSize: 10, color: SP.usuzumi, marginTop: 1 }}
+    />
+  );
+}
+
+/**
+ * Bilingual text that honours the global language switcher.
+ *  - english  → renders only `en` (with `enStyle` if provided, else `jpStyle`)
+ *  - japanese → renders only `jp` (with `jpStyle`)
+ *  - mixed    → JP on top, EN below in smaller style
+ */
+export function Bi({
+  jp, en, jpStyle, enStyle, as: As = "div",
+}: {
+  jp: ReactNode;
+  en: ReactNode;
+  jpStyle?: CSSProperties;
+  enStyle?: CSSProperties;
+  as?: "div" | "span";
+}) {
+  const { language } = useLanguage();
+  if (language === "english") return <As style={enStyle ?? jpStyle}>{en}</As>;
+  if (language === "japanese") return <As style={jpStyle}>{jp}</As>;
+  return (
+    <>
+      <As style={jpStyle}>{jp}</As>
+      <As style={enStyle}>{en}</As>
+    </>
   );
 }
