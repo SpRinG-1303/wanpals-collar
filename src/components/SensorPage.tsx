@@ -61,12 +61,12 @@ export function SensorPage({
             borderRadius: 999, padding: "4px 10px", fontSize: 10, fontWeight: 700, letterSpacing: "0.08em",
           }}>LIVE</span>
         </div>
-        <div style={{ fontSize: 22, fontWeight: 800, color: SP.sumi, letterSpacing: "0.01em" }}>
-          {titleJp}
-        </div>
-        <div style={{ fontSize: 13, color: SP.sumi, opacity: 0.65, marginTop: 2, fontWeight: 500 }}>
-          {titleEn}
-        </div>
+        <Bi
+          jp={titleJp}
+          en={titleEn}
+          jpStyle={{ fontSize: 22, fontWeight: 800, color: SP.sumi, letterSpacing: "0.01em" }}
+          enStyle={{ fontSize: 13, color: SP.sumi, opacity: 0.65, marginTop: 2, fontWeight: 500 }}
+        />
         <span className="sr-only">{t("", "")}</span>
       </div>
       <div style={{ padding: "16px", marginTop: -12 }}>{children}</div>
