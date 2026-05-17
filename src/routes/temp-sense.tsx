@@ -1,18 +1,22 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Thermometer, TrendingDown, TrendingUp } from "lucide-react";
-import { SensorPage, Card, TimeTabs, useTimeTab, SP } from "@/components/SensorPage";
+import { SensorPage, Card, TimeTabs, useTimeTab, SP, Bi } from "@/components/SensorPage";
+import { useT } from "@/context/LanguageContext";
 
 export const Route = createFileRoute("/temp-sense")({ component: TempSensePage });
 
 const HISTORY = [38.2, 38.4, 38.3, 38.6, 38.5, 38.7, 38.5];
-const DAYS = ["月", "火", "水", "木", "金", "土", "日"];
+const DAYS = [
+  { jp: "月", en: "Mon" }, { jp: "火", en: "Tue" }, { jp: "水", en: "Wed" },
+  { jp: "木", en: "Thu" }, { jp: "金", en: "Fri" }, { jp: "土", en: "Sat" }, { jp: "日", en: "Sun" },
+];
 
 function TempSensePage() {
   const [tab, setTab] = useTimeTab();
+  const t = useT();
   const temp = 38.5;
   const R = 64;
   const C = 2 * Math.PI * R;
-  // Normal range 38.0–39.2; map to 0–1
   const pct = Math.min(1, Math.max(0, (temp - 37.5) / 2.5));
   const min = Math.min(...HISTORY);
   const max = Math.max(...HISTORY);
@@ -50,27 +54,30 @@ function TempSensePage() {
             <div style={{
               marginTop: 8, fontSize: 10, fontWeight: 700, color: SP.matcha,
               background: "#E8F5EE", padding: "3px 10px", borderRadius: 999,
-            }}>正常範囲 / Normal</div>
+            }}>{t("正常範囲", "Normal")}</div>
           </div>
         </div>
         <div className="flex justify-around" style={{ marginTop: 8, paddingTop: 14, borderTop: `1px solid ${SP.divider}` }}>
           <div className="text-center">
             <TrendingDown size={14} style={{ color: SP.sora, margin: "0 auto" }} />
             <div style={{ fontSize: 16, fontWeight: 700, color: SP.sumi, fontVariantNumeric: "tabular-nums" }}>{min}°C</div>
-            <div style={{ fontSize: 10, color: SP.usuzumi }}>最低 / Min</div>
+            <div style={{ fontSize: 10, color: SP.usuzumi }}>{t("最低", "Min")}</div>
           </div>
           <div className="text-center">
             <TrendingUp size={14} style={{ color: SP.momiji, margin: "0 auto" }} />
             <div style={{ fontSize: 16, fontWeight: 700, color: SP.sumi, fontVariantNumeric: "tabular-nums" }}>{max}°C</div>
-            <div style={{ fontSize: 10, color: SP.usuzumi }}>最高 / Max</div>
+            <div style={{ fontSize: 10, color: SP.usuzumi }}>{t("最高", "Max")}</div>
           </div>
         </div>
       </Card>
 
       <Card accent={SP.momiji}>
-        <div style={{ fontSize: 14, fontWeight: 700, color: SP.sumi }}>体温履歴</div>
-        <div style={{ fontSize: 11, color: SP.usuzumi, marginBottom: 12 }}>Temperature History · 7 days</div>
-        <svg viewBox="0 0 280 110" width="100%" height={110}>
+        <Bi
+          jp="体温履歴" en="Temperature History · 7 days"
+          jpStyle={{ fontSize: 14, fontWeight: 700, color: SP.sumi }}
+          enStyle={{ fontSize: 11, color: SP.usuzumi, marginBottom: 12 }}
+        />
+        <svg viewBox="0 0 280 110" width="100%" height={110} style={{ marginTop: 8 }}>
           {[37.5, 38.5, 39.5].map((v, i) => (
             <line key={i} x1={20} x2={280} y1={20 + i * 35} y2={20 + i * 35} stroke="#F5F0EC" strokeWidth={1} strokeDasharray="3 3" />
           ))}
@@ -83,7 +90,7 @@ function TempSensePage() {
                 {pts.map((p, i) => (
                   <g key={i}>
                     <circle cx={p[0]} cy={p[1]} r={4} fill="#FFFFFF" stroke="#D4714E" strokeWidth={2} />
-                    <text x={p[0]} y={108} fontSize="9" fill="#8A8A8A" textAnchor="middle">{DAYS[i]}</text>
+                    <text x={p[0]} y={108} fontSize="9" fill="#8A8A8A" textAnchor="middle">{t(DAYS[i].jp, DAYS[i].en)}</text>
                   </g>
                 ))}
               </>
@@ -93,8 +100,11 @@ function TempSensePage() {
       </Card>
 
       <Card accent={SP.sumi}>
-        <div style={{ fontSize: 14, fontWeight: 700, color: SP.sumi }}>警告しきい値</div>
-        <div style={{ fontSize: 11, color: SP.usuzumi, marginBottom: 14 }}>Alert Thresholds</div>
+        <Bi
+          jp="警告しきい値" en="Alert Thresholds"
+          jpStyle={{ fontSize: 14, fontWeight: 700, color: SP.sumi }}
+          enStyle={{ fontSize: 11, color: SP.usuzumi, marginBottom: 14 }}
+        />
         <ThresholdRow color="#6BAF92" jp="正常範囲" en="Normal" range="38.0 – 39.2°C" />
         <ThresholdRow color="#D4A843" jp="注意" en="Warning" range="39.2 – 40.0°C" />
         <ThresholdRow color="#E53935" jp="危険" en="Danger" range="> 40.0°C" />
@@ -108,8 +118,11 @@ function ThresholdRow({ color, jp, en, range }: { color: string; jp: string; en:
     <div className="flex items-center" style={{ gap: 10, padding: "8px 0" }}>
       <div style={{ width: 10, height: 10, borderRadius: "50%", background: color, flexShrink: 0 }} />
       <div style={{ flex: 1 }}>
-        <div style={{ fontSize: 13, fontWeight: 600, color: SP.sumi }}>{jp}</div>
-        <div style={{ fontSize: 10, color: SP.usuzumi }}>{en}</div>
+        <Bi
+          jp={jp} en={en}
+          jpStyle={{ fontSize: 13, fontWeight: 600, color: SP.sumi }}
+          enStyle={{ fontSize: 10, color: SP.usuzumi }}
+        />
       </div>
       <div style={{ fontSize: 12, fontWeight: 700, color, fontVariantNumeric: "tabular-nums" }}>{range}</div>
     </div>

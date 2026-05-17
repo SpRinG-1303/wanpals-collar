@@ -1,8 +1,8 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
-import { useState, type ReactNode } from "react";
+import { useState, type ReactNode, type CSSProperties } from "react";
 import AppShell from "@/components/AppShell";
-import { useT } from "@/context/LanguageContext";
+import { useLanguage, useT } from "@/context/LanguageContext";
 
 export const SP = {
   sumi: "#2C2C2C",
@@ -61,12 +61,12 @@ export function SensorPage({
             borderRadius: 999, padding: "4px 10px", fontSize: 10, fontWeight: 700, letterSpacing: "0.08em",
           }}>LIVE</span>
         </div>
-        <div style={{ fontSize: 22, fontWeight: 800, color: SP.sumi, letterSpacing: "0.01em" }}>
-          {titleJp}
-        </div>
-        <div style={{ fontSize: 13, color: SP.sumi, opacity: 0.65, marginTop: 2, fontWeight: 500 }}>
-          {titleEn}
-        </div>
+        <Bi
+          jp={titleJp}
+          en={titleEn}
+          jpStyle={{ fontSize: 22, fontWeight: 800, color: SP.sumi, letterSpacing: "0.01em" }}
+          enStyle={{ fontSize: 13, color: SP.sumi, opacity: 0.65, marginTop: 2, fontWeight: 500 }}
+        />
         <span className="sr-only">{t("", "")}</span>
       </div>
       <div style={{ padding: "16px", marginTop: -12 }}>{children}</div>
@@ -112,9 +112,37 @@ export function useTimeTab() {
 
 export function BL({ jp, en }: { jp: string; en: string }) {
   return (
-    <div>
-      <div style={{ fontSize: 13, fontWeight: 600, color: SP.sumi, lineHeight: 1.2 }}>{jp}</div>
-      <div style={{ fontSize: 10, color: SP.usuzumi, marginTop: 1 }}>{en}</div>
-    </div>
+    <Bi
+      jp={jp}
+      en={en}
+      jpStyle={{ fontSize: 13, fontWeight: 600, color: SP.sumi, lineHeight: 1.2 }}
+      enStyle={{ fontSize: 10, color: SP.usuzumi, marginTop: 1 }}
+    />
+  );
+}
+
+/**
+ * Bilingual text that honours the global language switcher.
+ *  - english  → renders only `en` (with `enStyle` if provided, else `jpStyle`)
+ *  - japanese → renders only `jp` (with `jpStyle`)
+ *  - mixed    → JP on top, EN below in smaller style
+ */
+export function Bi({
+  jp, en, jpStyle, enStyle, as: As = "div",
+}: {
+  jp: ReactNode;
+  en: ReactNode;
+  jpStyle?: CSSProperties;
+  enStyle?: CSSProperties;
+  as?: "div" | "span";
+}) {
+  const { language } = useLanguage();
+  if (language === "english") return <As style={enStyle ?? jpStyle}>{en}</As>;
+  if (language === "japanese") return <As style={jpStyle}>{jp}</As>;
+  return (
+    <>
+      <As style={jpStyle}>{jp}</As>
+      <As style={enStyle}>{en}</As>
+    </>
   );
 }
