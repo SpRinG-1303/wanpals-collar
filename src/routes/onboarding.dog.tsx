@@ -593,7 +593,7 @@ function AnimationField({
 /*  PawBot — the Pawsitive Diagnostics mascot                   */
 /* ============================================================ */
 
-function PawBot() {
+function PawBot({ palette }: { palette?: DogPalette }) {
   return (
     <div className="absolute inset-0 flex items-center justify-center">
       {/* Ground line */}
