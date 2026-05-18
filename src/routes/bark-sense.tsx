@@ -8,35 +8,38 @@ export const Route = createFileRoute("/bark-sense")({ component: BarkSensePage }
 
 type Lang = "english" | "japanese" | "mixed";
 
+// Purple palette for this page
+const P = {
+  primary: "#7C3AED",
+  deep: "#3B1F6A",
+  mid: "#6D28D9",
+  soft: "#EDE9FE",
+  pale: "#F5F3FF",
+  accent: "#8B5CF6",
+  muted: "#DDD6FE",
+  light: "#C4B5FD",
+  darker: "#5B21B6",
+};
+
 type EmotionKey =
-  | "calm" | "happy" | "playful" | "excited"
-  | "anxious" | "scared" | "sad" | "tired" | "angry";
+  | "contentment" | "joy" | "affection" | "excitement"
+  | "distress" | "fear" | "disgust" | "suspicion" | "anger";
 
 const EMO: Record<EmotionKey, { jp: string; en: string; color: string }> = {
-  calm:    { jp: "穏やか",   en: "Calm",    color: "#6DBA91" },
-  happy:   { jp: "嬉しい",   en: "Happy",   color: "#F6C85F" },
-  playful: { jp: "遊びたい", en: "Playful", color: "#F4A261" },
-  excited: { jp: "興奮",     en: "Excited", color: "#F48FB1" },
-  anxious: { jp: "不安",     en: "Anxious", color: "#B39DDB" },
-  scared:  { jp: "怖い",     en: "Scared",  color: "#A8A2B8" },
-  sad:     { jp: "悲しい",   en: "Sad",     color: "#90CAF9" },
-  tired:   { jp: "疲れた",   en: "Tired",   color: "#BDB7B1" },
-  angry:   { jp: "怒り",     en: "Angry",   color: "#E57373" },
+  contentment: { jp: "穏やか",   en: "Contentment", color: "#6DBA91" },
+  joy:         { jp: "喜び",     en: "Joy",         color: "#FCD34D" },
+  affection:   { jp: "愛情",     en: "Affection",   color: "#F472B6" },
+  excitement:  { jp: "興奮",     en: "Excitement",  color: "#F59E0B" },
+  distress:    { jp: "苦悩",     en: "Distress",    color: "#EF4444" },
+  fear:        { jp: "恐れ",     en: "Fear",        color: "#94A3B8" },
+  disgust:     { jp: "嫌悪",     en: "Disgust",     color: "#65A30D" },
+  suspicion:   { jp: "警戒",     en: "Suspicion",   color: "#A78BFA" },
+  anger:       { jp: "怒り",     en: "Anger",       color: "#DC2626" },
 };
 const RADAR_ORDER: EmotionKey[] = [
-  "calm","happy","playful","excited","anxious","scared","sad","tired","angry",
+  "excitement","contentment","distress","disgust","fear","anger","joy","suspicion","affection",
 ];
 
-function L({ lang, jp, en, enClass = "" }: { lang: Lang; jp: string; en: string; enClass?: string }) {
-  if (lang === "english") return <>{en}</>;
-  if (lang === "japanese") return <>{jp}</>;
-  return (
-    <>
-      <span className="block">{jp}</span>
-      <span className={`block text-[0.72em] opacity-70 font-normal mt-0.5 ${enClass}`}>{en}</span>
-    </>
-  );
-}
 function pickT(lang: Lang, jp: string, en: string) {
   if (lang === "english") return en;
   if (lang === "japanese") return jp;
@@ -48,10 +51,10 @@ function Section({ children, style }: { children: ReactNode; style?: CSSProperti
     <section
       style={{
         background: "#FFFFFF",
-        borderRadius: 26,
+        borderRadius: 24,
         padding: 22,
-        boxShadow: "0 12px 32px rgba(58,36,59,0.10)",
-        border: "1px solid rgba(244,63,114,0.06)",
+        boxShadow: "0 12px 32px rgba(91,33,182,0.10)",
+        borderLeft: `4px solid ${P.accent}`,
         ...style,
       }}
     >
@@ -64,7 +67,7 @@ function Label({ lang, jp, en }: { lang: Lang; jp: string; en: string }) {
   return (
     <div
       style={{
-        color: "#F43F72",
+        color: P.accent,
         fontSize: 11,
         fontWeight: 700,
         letterSpacing: "0.14em",
@@ -87,11 +90,11 @@ function BarkSensePage() {
 
   // Mood breakdown
   const mood: { key: EmotionKey; pct: number }[] = [
-    { key: "calm", pct: 68 },
-    { key: "happy", pct: 16 },
-    { key: "playful", pct: 9 },
-    { key: "anxious", pct: 4 },
-    { key: "tired", pct: 3 },
+    { key: "contentment", pct: 68 },
+    { key: "joy", pct: 16 },
+    { key: "affection", pct: 9 },
+    { key: "distress", pct: 4 },
+    { key: "suspicion", pct: 3 },
   ];
 
   // Radar layout
@@ -100,7 +103,7 @@ function BarkSensePage() {
   const labelRadius = center - 8;
   const blobRadius = center - 58;
 
-  // 24h heatmap
+  // 24h activity
   const hours = Array.from({ length: 24 }, (_, h) => {
     const noise = Math.sin(h * 1.3) + Math.cos(h * 0.7);
     let level = 0;
@@ -114,17 +117,17 @@ function BarkSensePage() {
     if (noise > 1.2) level = Math.min(3, level + 1);
     return level;
   });
-  const heatColors = ["#F7EEF2", "#FAD6E0", "#F48FB1", "#F43F72"];
+  const heatColors = [P.light, P.accent, P.primary, P.darker];
   const nowHour = 14;
 
   // Donut
   const donut = [
-    { key: "calm" as EmotionKey, pct: 55, trend: "+8%" },
-    { key: "happy" as EmotionKey, pct: 18, trend: "+1%" },
-    { key: "playful" as EmotionKey, pct: 12, trend: "+2%" },
-    { key: "excited" as EmotionKey, pct: 7, trend: "0%" },
-    { key: "anxious" as EmotionKey, pct: 5, trend: "-3%" },
-    { key: "tired" as EmotionKey, pct: 3, trend: "-1%" },
+    { key: "contentment" as EmotionKey, pct: 55, trend: "+8%" },
+    { key: "joy" as EmotionKey, pct: 18, trend: "+1%" },
+    { key: "affection" as EmotionKey, pct: 12, trend: "+2%" },
+    { key: "excitement" as EmotionKey, pct: 7, trend: "0%" },
+    { key: "distress" as EmotionKey, pct: 5, trend: "-3%" },
+    { key: "suspicion" as EmotionKey, pct: 3, trend: "-1%" },
   ];
   const donutR = 64;
   const donutC = 2 * Math.PI * donutR;
@@ -132,13 +135,13 @@ function BarkSensePage() {
 
   // Week journey
   const week: { jp: string; en: string; emotion: EmotionKey; rangeJp: string; rangeEn: string; today?: boolean }[] = [
-    { jp: "月", en: "Mon", emotion: "calm",    rangeJp: "9:00–18:00", rangeEn: "09:00–18:00" },
-    { jp: "火", en: "Tue", emotion: "happy",   rangeJp: "10:00–14:00", rangeEn: "10:00–14:00" },
-    { jp: "水", en: "Wed", emotion: "playful", rangeJp: "15:00–17:30", rangeEn: "15:00–17:30" },
-    { jp: "木", en: "Thu", emotion: "calm",    rangeJp: "終日", rangeEn: "All day" },
-    { jp: "金", en: "Fri", emotion: "excited", rangeJp: "夕方", rangeEn: "Evening" },
-    { jp: "土", en: "Sat", emotion: "tired",   rangeJp: "夜",   rangeEn: "Night" },
-    { jp: "日", en: "Sun", emotion: "calm",    rangeJp: "現在", rangeEn: "Now", today: true },
+    { jp: "月", en: "Mon", emotion: "contentment", rangeJp: "9:00–18:00", rangeEn: "09:00–18:00" },
+    { jp: "火", en: "Tue", emotion: "joy",         rangeJp: "10:00–14:00", rangeEn: "10:00–14:00" },
+    { jp: "水", en: "Wed", emotion: "affection",   rangeJp: "15:00–17:30", rangeEn: "15:00–17:30" },
+    { jp: "木", en: "Thu", emotion: "contentment", rangeJp: "終日", rangeEn: "All day" },
+    { jp: "金", en: "Fri", emotion: "excitement",  rangeJp: "夕方", rangeEn: "Evening" },
+    { jp: "土", en: "Sat", emotion: "suspicion",   rangeJp: "夜",   rangeEn: "Night" },
+    { jp: "日", en: "Sun", emotion: "contentment", rangeJp: "現在", rangeEn: "Now", today: true },
   ];
 
   return (
@@ -157,7 +160,6 @@ function BarkSensePage() {
         }
         @keyframes bsBarFill { from { width: 0%; } }
         @keyframes bsFadeUp { from { opacity: 0; transform: translateY(10px);} to { opacity: 1; transform: translateY(0);} }
-        @keyframes bsDraw { from { stroke-dashoffset: var(--bs-c); } to { stroke-dashoffset: var(--bs-o); } }
         .bs-bar { animation: bsBarFill 1.1s cubic-bezier(.2,.8,.2,1) both; }
         .bs-fade { animation: bsFadeUp .6s ease-out both; }
         .bs-wave-bar { transform-origin: center; animation: bsWave 1.3s ease-in-out infinite; }
@@ -165,29 +167,26 @@ function BarkSensePage() {
 
       <div
         style={{
-          background:
-            "linear-gradient(180deg, #F8F1F4 0%, #FAF3F6 40%, #FAFAF9 100%)",
+          background: P.pale,
           minHeight: "100%",
           paddingBottom: 110,
           position: "relative",
         }}
       >
-        {/* Ambient background blobs */}
+        {/* Ambient background blobs (purple) */}
         <div aria-hidden style={{ position: "absolute", inset: 0, pointerEvents: "none", overflow: "hidden" }}>
-          <div style={{ position: "absolute", top: 240, left: -60, width: 220, height: 220, borderRadius: "50%", background: "#F48FB1", filter: "blur(80px)", opacity: 0.18 }} />
-          <div style={{ position: "absolute", top: 620, right: -80, width: 260, height: 260, borderRadius: "50%", background: "#B39DDB", filter: "blur(90px)", opacity: 0.16 }} />
-          <div style={{ position: "absolute", top: 1100, left: -40, width: 200, height: 200, borderRadius: "50%", background: "#6DBA91", filter: "blur(80px)", opacity: 0.14 }} />
+          <div style={{ position: "absolute", top: 240, left: -60, width: 220, height: 220, borderRadius: "50%", background: P.accent, filter: "blur(80px)", opacity: 0.18 }} />
+          <div style={{ position: "absolute", top: 620, right: -80, width: 260, height: 260, borderRadius: "50%", background: P.primary, filter: "blur(90px)", opacity: 0.16 }} />
+          <div style={{ position: "absolute", top: 1100, left: -40, width: 200, height: 200, borderRadius: "50%", background: P.light, filter: "blur(80px)", opacity: 0.22 }} />
         </div>
 
         {/* HERO */}
         <div
           style={{
             position: "relative",
-            margin: "0 0 0 0",
             padding: "20px 20px 56px",
             height: 220,
-            background:
-              "linear-gradient(135deg, #3A243B 0%, #6D3A58 45%, #F48FB1 100%)",
+            background: `linear-gradient(135deg, ${P.deep} 0%, #5B2D8E 50%, ${P.primary} 100%)`,
             borderBottomLeftRadius: 28,
             borderBottomRightRadius: 28,
             overflow: "hidden",
@@ -199,13 +198,13 @@ function BarkSensePage() {
             aria-hidden
             viewBox="0 0 400 220"
             preserveAspectRatio="none"
-            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: 1 }}
+            style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}
           >
             {[40, 80, 120, 160, 200].map((y, i) => (
               <path
                 key={i}
                 d={`M0 ${y} Q 100 ${y - 18 + i * 4} 200 ${y} T 400 ${y}`}
-                stroke="rgba(255,255,255,0.08)"
+                stroke="rgba(255,255,255,0.07)"
                 strokeWidth={1}
                 fill="none"
               />
@@ -220,7 +219,7 @@ function BarkSensePage() {
               top: 30,
               fontSize: 150,
               color: "white",
-              opacity: 0.06,
+              opacity: 0.05,
               fontWeight: 900,
               fontFamily: "'Noto Serif JP', serif",
               lineHeight: 1,
@@ -233,7 +232,7 @@ function BarkSensePage() {
           <div style={{ position: "relative", display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
             <div>
               <div style={{ color: "white", fontWeight: 800, fontSize: 22, lineHeight: 1.15, letterSpacing: "0.01em" }}>
-                {lang === "japanese" ? "バークセンスAI" : lang === "english" ? "BarkSense AI" : "バークセンスAI"}
+                {lang === "japanese" ? "バークセンスAI" : "BarkSense AI"}
               </div>
               {lang === "mixed" && (
                 <div style={{ color: "rgba(255,255,255,0.85)", fontSize: 13, fontWeight: 600, marginTop: 2 }}>BarkSense AI</div>
@@ -241,9 +240,7 @@ function BarkSensePage() {
               <div style={{ color: "rgba(255,255,255,0.75)", fontSize: 13, marginTop: 8, maxWidth: 230, lineHeight: 1.4 }}>
                 {lang === "japanese"
                   ? "鳴き声から感情を解析"
-                  : lang === "english"
-                  ? "Emotion from bark patterns"
-                  : "鳴き声から感情を解析"}
+                  : "Emotion from bark patterns"}
                 {lang === "mixed" && (
                   <div style={{ fontSize: 11, opacity: 0.75 }}>Emotion from bark patterns</div>
                 )}
@@ -256,7 +253,7 @@ function BarkSensePage() {
                   display: "inline-flex",
                   alignItems: "center",
                   gap: 6,
-                  background: "rgba(255,255,255,0.18)",
+                  background: "rgba(255,255,255,0.15)",
                   backdropFilter: "blur(10px)",
                   borderRadius: 999,
                   padding: "6px 12px",
@@ -285,11 +282,11 @@ function BarkSensePage() {
         <div style={{ padding: "0 16px", marginTop: -36, position: "relative", zIndex: 2 }}>
           <div
             style={{
-              background: "rgba(255,255,255,0.82)",
+              background: "rgba(255,255,255,0.92)",
               backdropFilter: "blur(16px)",
               WebkitBackdropFilter: "blur(16px)",
               borderRadius: 22,
-              boxShadow: "0 12px 36px rgba(58,36,59,0.18)",
+              boxShadow: "0 12px 36px rgba(124,58,237,0.15)",
               padding: 16,
               display: "grid",
               gridTemplateColumns: "1fr 1fr 1fr",
@@ -300,10 +297,10 @@ function BarkSensePage() {
           >
             {[
               { label: pickT(lang, "現在の感情", "Emotion"), value: pickT(lang, "穏やか", "Calm"), color: "#6DBA91" },
-              { label: pickT(lang, "信頼度", "Confidence"), value: "94%", color: "#F43F72" },
-              { label: pickT(lang, "本日の鳴き声", "Bark samples"), value: "128", color: "#3A243B" },
+              { label: pickT(lang, "信頼度", "Confidence"), value: "94%", color: P.primary },
+              { label: pickT(lang, "本日の鳴き声", "Bark samples"), value: "128", color: "#1A1A2E" },
             ].map((s, i) => (
-              <div key={i} style={{ textAlign: "center", padding: "2px 4px", borderRight: i < 2 ? "1px solid rgba(58,36,59,0.08)" : "none" }}>
+              <div key={i} style={{ textAlign: "center", padding: "2px 4px", borderRight: i < 2 ? "1px solid rgba(124,58,237,0.12)" : "none" }}>
                 <div style={{ fontSize: 10, color: "#6B7280", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase" }}>{s.label}</div>
                 <div style={{ fontSize: 20, color: s.color, fontWeight: 800, marginTop: 4, lineHeight: 1 }}>{s.value}</div>
               </div>
@@ -312,12 +309,12 @@ function BarkSensePage() {
         </div>
 
         {/* CARDS */}
-        <div style={{ padding: "20px 16px 0", display: "flex", flexDirection: "column", gap: 18 }}>
+        <div style={{ padding: "20px 16px 0", display: "flex", flexDirection: "column", gap: 18, position: "relative" }}>
 
           {/* CARD 1 - Emotion Radar */}
           <Section
             style={{
-              background: "linear-gradient(180deg, #FFFFFF 0%, #FFF8FB 100%)",
+              borderLeftColor: P.primary,
               animation: "bsFadeUp .6s ease-out .15s both",
             }}
           >
@@ -335,7 +332,7 @@ function BarkSensePage() {
                     cx={center} cy={center}
                     r={(blobRadius * i) / 3}
                     fill="none"
-                    stroke="rgba(58,36,59,0.08)"
+                    stroke="rgba(124,58,237,0.08)"
                     strokeWidth={1}
                   />
                 ))}
@@ -348,7 +345,7 @@ function BarkSensePage() {
                       x1={center} y1={center}
                       x2={center + Math.cos(a) * blobRadius}
                       y2={center + Math.sin(a) * blobRadius}
-                      stroke="rgba(58,36,59,0.06)"
+                      stroke="rgba(124,58,237,0.06)"
                       strokeWidth={1}
                     />
                   );
@@ -359,7 +356,7 @@ function BarkSensePage() {
                   const r = blobRadius * 0.78;
                   const x = center + Math.cos(a) * r;
                   const y = center + Math.sin(a) * r;
-                  const isCurrent = k === "calm";
+                  const isCurrent = k === "contentment";
                   return (
                     <circle
                       key={k}
@@ -373,7 +370,7 @@ function BarkSensePage() {
                 })}
                 {/* line to marker */}
                 {(() => {
-                  const i = RADAR_ORDER.indexOf("calm");
+                  const i = RADAR_ORDER.indexOf("contentment");
                   const a = (i / RADAR_ORDER.length) * Math.PI * 2 - Math.PI / 2;
                   const r = blobRadius * 0.78;
                   const x = center + Math.cos(a) * r;
@@ -384,15 +381,16 @@ function BarkSensePage() {
                         d={`M ${center} ${center} Q ${(center + x) / 2 + 10} ${(center + y) / 2 - 10} ${x} ${y}`}
                         stroke="#6DBA91" strokeWidth={1.2} fill="none" strokeDasharray="3 3" opacity={0.7}
                       />
-                      <circle cx={x} cy={y} r={6} fill="#6DBA91" />
+                      <circle cx={x} cy={y} r={7} fill="#6DBA91" style={{ filter: "drop-shadow(0 0 6px rgba(109,186,145,0.6))" }} />
+                      <circle cx={x} cy={y} r={11} fill="none" stroke="rgba(109,186,145,0.25)" strokeWidth={4} />
                       <circle cx={x} cy={y} r={6} fill="none" stroke="#6DBA91" strokeWidth={2} style={{ transformOrigin: `${x}px ${y}px`, animation: "bsPulseRing 2s ease-out infinite" }} />
                     </>
                   );
                 })()}
 
                 {/* center glass card */}
-                <circle cx={center} cy={center} r={48} fill="white" stroke="rgba(58,36,59,0.06)" />
-                <circle cx={center} cy={center} r={48} fill="none" stroke="rgba(244,63,114,0.08)" strokeWidth={6} />
+                <circle cx={center} cy={center} r={48} fill="white" stroke="rgba(124,58,237,0.10)" />
+                <circle cx={center} cy={center} r={48} fill="none" stroke="rgba(124,58,237,0.10)" strokeWidth={6} />
 
                 {/* labels */}
                 {RADAR_ORDER.map((k, i) => {
@@ -405,14 +403,14 @@ function BarkSensePage() {
                       <text
                         textAnchor={anchor}
                         dominantBaseline="middle"
-                        fontSize={lang === "mixed" ? 9 : 10}
-                        fontWeight={k === "calm" ? 700 : 500}
-                        fill={k === "calm" ? "#3A243B" : "#6B7280"}
+                        fontSize={11}
+                        fontWeight={k === "contentment" ? 700 : 500}
+                        fill={k === "contentment" ? "#1A1A2E" : "#6B7280"}
                       >
                         {lang === "english" ? EMO[k].en : EMO[k].jp}
                       </text>
                       {lang === "mixed" && (
-                        <text textAnchor={anchor} dominantBaseline="middle" y={10} fontSize={7} fill="#9CA3AF">
+                        <text textAnchor={anchor} dominantBaseline="middle" y={11} fontSize={9} fill="#9CA3AF">
                           {EMO[k].en}
                         </text>
                       )}
@@ -439,14 +437,14 @@ function BarkSensePage() {
                       style={{
                         width: 3, height: 22 * h,
                         borderRadius: 2,
-                        background: "linear-gradient(180deg, #F43F72 0%, #6DBA91 100%)",
+                        background: `linear-gradient(180deg, ${P.accent} 0%, #6DBA91 100%)`,
                         animationDelay: `${i * 0.12}s`,
                       }}
                     />
                   ))}
                 </div>
                 <div style={{ marginTop: 6, fontSize: 14, fontWeight: 800, color: "#1A1A2E" }}>
-                  {pickT(lang, "穏やか", "Calm")}
+                  {pickT(lang, "穏やか", "Contentment")}
                 </div>
                 <div style={{ fontSize: 10, color: "#6B7280", fontWeight: 600 }}>94%</div>
               </div>
@@ -455,16 +453,23 @@ function BarkSensePage() {
             {/* Live bark signal strip */}
             <div style={{ marginTop: 16 }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
-                <div style={{ fontSize: 11, color: "#6B7280", fontWeight: 600, letterSpacing: "0.06em" }}>
+                <div style={{ fontSize: 11, color: P.accent, fontWeight: 700, letterSpacing: "0.06em" }}>
                   {pickT(lang, "ライブ波形", "Live bark signal")}
                 </div>
-                <div style={{ fontSize: 10, color: "#F43F72", fontWeight: 700 }}>● {pickT(lang, "解析中", "Analyzing")}</div>
+                <div style={{
+                  display: "inline-flex", alignItems: "center", gap: 5,
+                  background: P.soft, color: P.primary,
+                  padding: "3px 9px", borderRadius: 999, fontSize: 10, fontWeight: 700,
+                }}>
+                  <span style={{ width: 5, height: 5, borderRadius: "50%", background: P.primary, animation: "bsLiveDot 1.4s ease-in-out infinite" }} />
+                  {pickT(lang, "解析中", "Analyzing")}
+                </div>
               </div>
               <div style={{
                 height: 44, borderRadius: 14,
-                background: "linear-gradient(90deg, rgba(244,63,114,0.06), rgba(109,186,145,0.06))",
+                background: `linear-gradient(90deg, ${P.soft}, rgba(124,58,237,0.08))`,
                 position: "relative", overflow: "hidden",
-                border: "1px solid rgba(58,36,59,0.05)",
+                border: "1px solid rgba(124,58,237,0.10)",
               }}>
                 <svg viewBox="0 0 300 44" preserveAspectRatio="none" style={{ width: "200%", height: "100%", animation: "bsSignal 6s linear infinite" }}>
                   {Array.from({ length: 60 }).map((_, i) => {
@@ -480,8 +485,8 @@ function BarkSensePage() {
                   })}
                   <defs>
                     <linearGradient id="bsGrad" x1="0" x2="1">
-                      <stop offset="0%" stopColor="#F43F72" />
-                      <stop offset="100%" stopColor="#6DBA91" />
+                      <stop offset="0%" stopColor={P.light} />
+                      <stop offset="100%" stopColor={P.primary} />
                     </linearGradient>
                   </defs>
                 </svg>
@@ -495,7 +500,7 @@ function BarkSensePage() {
             <div style={{ display: "grid", gridTemplateColumns: "auto 1fr", gap: 18, marginTop: 14, alignItems: "center" }}>
               <div style={{ textAlign: "center", minWidth: 96 }}>
                 <div style={{
-                  fontSize: 44, fontWeight: 800, color: "#6DBA91",
+                  fontSize: 44, fontWeight: 800, color: P.primary,
                   lineHeight: 1, letterSpacing: "-0.02em",
                 }}>68%</div>
                 <div style={{ fontSize: 11, color: "#6B7280", fontWeight: 600, marginTop: 6 }}>
@@ -507,11 +512,11 @@ function BarkSensePage() {
                   <div key={m.key}>
                     <div style={{ display: "flex", justifyContent: "space-between", fontSize: 11, marginBottom: 3 }}>
                       <span style={{ color: "#1A1A2E", fontWeight: 600 }}>
-                        {lang === "english" ? EMO[m.key].en : lang === "japanese" ? EMO[m.key].jp : `${EMO[m.key].jp}`}
+                        {lang === "english" ? EMO[m.key].en : EMO[m.key].jp}
                       </span>
                       <span style={{ color: "#6B7280" }}>{m.pct}%</span>
                     </div>
-                    <div style={{ height: 6, background: "#F3EEF2", borderRadius: 99, overflow: "hidden" }}>
+                    <div style={{ height: 6, background: P.soft, borderRadius: 99, overflow: "hidden" }}>
                       <div
                         className="bs-bar"
                         style={{
@@ -528,18 +533,18 @@ function BarkSensePage() {
                 ))}
               </div>
             </div>
-            <div style={{ marginTop: 14, padding: 12, background: "#FAF3F6", borderRadius: 14, fontSize: 12, color: "#3A243B", lineHeight: 1.5 }}>
+            <div style={{ marginTop: 14, padding: 12, background: P.pale, borderRadius: 14, fontSize: 12, color: "#1A1A2E", lineHeight: 1.5 }}>
               {lang === "english" && (
-                <>{dogName} has been mostly calm today, with short playful bursts in the afternoon.</>
+                <>{dogName} has been mostly calm today, with short affectionate bursts in the afternoon.</>
               )}
               {lang === "japanese" && (
-                <>{dogName}は本日ほとんど穏やかで、午後に短い遊び心が見られました。</>
+                <>{dogName}は本日ほとんど穏やかで、午後に短い愛情表現が見られました。</>
               )}
               {lang === "mixed" && (
                 <>
-                  <div>{dogName}は本日ほとんど穏やかで、午後に短い遊び心が見られました。</div>
+                  <div>{dogName}は本日ほとんど穏やかで、午後に短い愛情表現が見られました。</div>
                   <div style={{ fontSize: 11, opacity: 0.75, marginTop: 4 }}>
-                    {dogName} has been mostly calm today, with short playful bursts in the afternoon.
+                    {dogName} has been mostly calm today, with short affectionate bursts in the afternoon.
                   </div>
                 </>
               )}
@@ -555,7 +560,7 @@ function BarkSensePage() {
             <div style={{ position: "relative", marginTop: 16 }}>
               <div style={{
                 position: "absolute", left: 14, top: 14, bottom: 14,
-                width: 2, background: "rgba(244,63,114,0.18)", borderRadius: 2,
+                width: 2, background: P.light, borderRadius: 2,
               }} />
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                 {week.map((d, i) => (
@@ -569,21 +574,21 @@ function BarkSensePage() {
                   >
                     <div style={{
                       width: 30, height: 30, borderRadius: "50%",
-                      background: "white", flexShrink: 0,
-                      border: d.today ? "2px solid #F43F72" : "2px solid rgba(244,63,114,0.18)",
+                      background: d.today ? P.primary : "white", flexShrink: 0,
+                      border: d.today ? `2px solid ${P.primary}` : `1.5px solid ${P.light}`,
                       display: "flex", alignItems: "center", justifyContent: "center",
-                      fontSize: 11, fontWeight: 700, color: d.today ? "#F43F72" : "#3A243B",
-                      boxShadow: d.today ? "0 6px 16px rgba(244,63,114,0.25)" : "none",
+                      fontSize: 11, fontWeight: 700, color: d.today ? "white" : "#1A1A2E",
+                      boxShadow: d.today ? "0 0 0 3px rgba(124,58,237,0.2)" : "none",
                       position: "relative", zIndex: 1,
                     }}>
                       {lang === "english" ? d.en.slice(0, 1) : d.jp}
                     </div>
                     <div style={{
                       flex: 1,
-                      background: d.today ? "linear-gradient(135deg, #FFF8FB, #FFE5ED)" : "#FAFAF9",
+                      background: d.today ? P.pale : "#FAFAF9",
                       borderRadius: 14, padding: "10px 12px",
-                      border: d.today ? "1px solid rgba(244,63,114,0.3)" : "1px solid rgba(58,36,59,0.05)",
-                      boxShadow: d.today ? "0 8px 20px rgba(244,63,114,0.12)" : "none",
+                      border: d.today ? `1px solid ${P.muted}` : "1px solid rgba(0,0,0,0.04)",
+                      boxShadow: d.today ? "0 8px 20px rgba(124,58,237,0.12)" : "none",
                       display: "flex", alignItems: "center", gap: 10,
                     }}>
                       <div style={{
@@ -606,8 +611,12 @@ function BarkSensePage() {
                         </div>
                       </div>
                       {d.today && (
-                        <div style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 9, color: "#F43F72", fontWeight: 700, letterSpacing: "0.1em" }}>
-                          <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#F43F72", animation: "bsLiveDot 1.4s ease-in-out infinite" }} />
+                        <div style={{
+                          display: "inline-flex", alignItems: "center", gap: 4,
+                          fontSize: 9, color: "white", fontWeight: 700, letterSpacing: "0.1em",
+                          background: P.primary, padding: "3px 8px", borderRadius: 999,
+                        }}>
+                          <span style={{ width: 5, height: 5, borderRadius: "50%", background: "white", animation: "bsLiveDot 1.4s ease-in-out infinite" }} />
                           LIVE
                         </div>
                       )}
@@ -618,7 +627,7 @@ function BarkSensePage() {
             </div>
           </Section>
 
-          {/* CARD 4 - Bark Activity Heatmap */}
+          {/* CARD 4 - Bark Activity */}
           <Section style={{ animation: "bsFadeUp .6s ease-out .3s both" }}>
             <Label lang={lang} jp="鳴き声アクティビティ" en="Bark Activity" />
             <div style={{ marginTop: 4, color: "#1A1A2E", fontSize: 15, fontWeight: 700 }}>
@@ -626,13 +635,14 @@ function BarkSensePage() {
             </div>
 
             <div style={{ position: "relative", marginTop: 16 }}>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(24, 1fr)", gap: 3, height: 56 }}>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(24, 1fr)", gap: 3, height: 56, alignItems: "end" }}>
                 {hours.map((lv, i) => (
                   <div
                     key={i}
                     style={{
                       background: heatColors[lv],
                       borderRadius: 4,
+                      height: `${30 + lv * 22}%`,
                       animation: "bsFadeUp .4s ease-out both",
                       animationDelay: `${i * 0.012}s`,
                     }}
@@ -645,13 +655,13 @@ function BarkSensePage() {
                 position: "absolute",
                 left: `calc(${(nowHour + 0.5) / 24 * 100}% - 1px)`,
                 top: -4, bottom: -4,
-                width: 2, background: "#F43F72",
-                boxShadow: "0 0 8px rgba(244,63,114,0.6)",
+                width: 2, background: P.primary,
+                boxShadow: `0 0 8px rgba(124,58,237,0.6)`,
               }}>
                 <div style={{
                   position: "absolute", top: -16, left: "50%",
                   transform: "translateX(-50%)",
-                  background: "#F43F72", color: "white",
+                  background: P.primary, color: "white",
                   fontSize: 9, fontWeight: 700, padding: "2px 6px", borderRadius: 6,
                   letterSpacing: "0.08em",
                 }}>
@@ -673,11 +683,11 @@ function BarkSensePage() {
                 { label: pickT(lang, "ピーク時刻", "Peak time"), value: "17:40" },
               ].map((s, i) => (
                 <div key={i} style={{
-                  background: "#FAF3F6", borderRadius: 12, padding: "10px 8px",
+                  background: P.pale, borderRadius: 12, padding: "10px 8px",
                   textAlign: "center",
                 }}>
-                  <div style={{ fontSize: 9, color: "#6B7280", fontWeight: 600, letterSpacing: "0.06em" }}>{s.label}</div>
-                  <div style={{ fontSize: 14, color: "#3A243B", fontWeight: 800, marginTop: 4 }}>{s.value}</div>
+                  <div style={{ fontSize: 9, color: "#9CA3AF", fontWeight: 600, letterSpacing: "0.06em" }}>{s.label}</div>
+                  <div style={{ fontSize: 14, color: "#1A1A2E", fontWeight: 800, marginTop: 4 }}>{s.value}</div>
                 </div>
               ))}
             </div>
@@ -689,7 +699,7 @@ function BarkSensePage() {
             <div style={{ display: "grid", gridTemplateColumns: "180px 1fr", gap: 18, marginTop: 14, alignItems: "center" }}>
               <div style={{ position: "relative", width: 180, height: 180 }}>
                 <svg width="180" height="180" viewBox="0 0 180 180" style={{ transform: "rotate(-90deg)" }}>
-                  <circle cx="90" cy="90" r={donutR} fill="none" stroke="#F3EEF2" strokeWidth="22" />
+                  <circle cx="90" cy="90" r={donutR} fill="none" stroke={P.soft} strokeWidth="22" />
                   {donut.map((d) => {
                     const len = (d.pct / 100) * donutC;
                     const off = donutOffset;
@@ -705,7 +715,7 @@ function BarkSensePage() {
                         strokeDashoffset={-off}
                         style={{
                           transition: "stroke-dasharray 1.1s cubic-bezier(.2,.8,.2,1)",
-                          filter: "drop-shadow(0 2px 4px rgba(58,36,59,0.15))",
+                          filter: "drop-shadow(0 2px 4px rgba(91,33,182,0.15))",
                         }}
                       />
                     );
@@ -716,9 +726,9 @@ function BarkSensePage() {
                   flexDirection: "column", alignItems: "center", justifyContent: "center",
                 }}>
                   <div style={{ fontSize: 11, color: "#6B7280", fontWeight: 600 }}>
-                    {pickT(lang, "穏やか", "Calm")}
+                    {pickT(lang, "穏やか", "Contentment")}
                   </div>
-                  <div style={{ fontSize: 32, fontWeight: 800, color: "#1A1A2E", lineHeight: 1 }}>55%</div>
+                  <div style={{ fontSize: 32, fontWeight: 800, color: P.primary, lineHeight: 1 }}>55%</div>
                 </div>
               </div>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
@@ -731,7 +741,7 @@ function BarkSensePage() {
                     <span style={{ color: "#6B7280" }}>{d.pct}%</span>
                     <span style={{
                       fontSize: 9, fontWeight: 700,
-                      color: d.trend.startsWith("+") ? "#6DBA91" : d.trend.startsWith("-") ? "#E57373" : "#9CA3AF",
+                      color: d.trend.startsWith("+") ? "#16A34A" : d.trend.startsWith("-") ? "#EF4444" : "#9CA3AF",
                     }}>{d.trend}</span>
                   </div>
                 ))}
@@ -745,54 +755,67 @@ function BarkSensePage() {
               position: "relative",
               borderRadius: 26,
               padding: 22,
-              background: "linear-gradient(135deg, #3A243B 0%, #5B3552 100%)",
-              boxShadow: "0 16px 40px rgba(58,36,59,0.30)",
+              background: `linear-gradient(135deg, ${P.deep} 0%, #5B2D8E 100%)`,
+              boxShadow: "0 16px 40px rgba(59,31,106,0.35)",
               overflow: "hidden",
               animation: "bsFadeUp .6s ease-out .4s both",
             }}
           >
+            {/* waveform watermark */}
+            <svg aria-hidden viewBox="0 0 400 200" preserveAspectRatio="none"
+              style={{ position: "absolute", inset: 0, width: "100%", height: "100%", pointerEvents: "none" }}>
+              {[30, 70, 110, 150, 190].map((y, i) => (
+                <path
+                  key={i}
+                  d={`M0 ${y} Q 100 ${y - 14 + i * 3} 200 ${y} T 400 ${y}`}
+                  stroke="rgba(255,255,255,0.05)"
+                  strokeWidth={1}
+                  fill="none"
+                />
+              ))}
+            </svg>
             <div aria-hidden style={{
               position: "absolute", right: -20, top: -20,
               fontSize: 140, color: "white", opacity: 0.06,
               fontFamily: "'Noto Serif JP', serif", fontWeight: 900, lineHeight: 1,
-            }}>桜</div>
+            }}>声</div>
 
-            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <div style={{ position: "relative", display: "flex", alignItems: "center", gap: 10 }}>
               <div style={{
-                fontSize: 10, color: "#F48FB1",
-                fontWeight: 800, letterSpacing: "0.2em",
+                fontSize: 11, color: P.light,
+                fontWeight: 800, letterSpacing: "0.1em",
               }}>AI INSIGHT</div>
               <div style={{ flex: 1, height: 1, background: "rgba(255,255,255,0.15)" }} />
             </div>
 
-            <div style={{ marginTop: 14, color: "white", fontSize: 14, lineHeight: 1.6 }}>
+            <div style={{ position: "relative", marginTop: 14, color: "white", fontSize: 14, lineHeight: 1.6 }}>
               {lang === "english" && (
-                <>{dogName}'s bark pattern is calm and stable today. Short playful bursts were detected in the afternoon, but no stress signals were found.</>
+                <>{dogName}'s bark pattern is calm and stable today. Short affectionate bursts were detected in the afternoon, but no stress signals were found.</>
               )}
               {lang === "japanese" && (
-                <>{dogName}の鳴き声パターンは本日穏やかで安定しています。午後に短い遊びたい反応がありましたが、ストレスの兆候は検出されていません。</>
+                <>{dogName}の鳴き声パターンは本日穏やかで安定しています。午後に短い愛情表現がありましたが、ストレスの兆候は検出されていません。</>
               )}
               {lang === "mixed" && (
                 <>
-                  <div>{dogName}の鳴き声パターンは本日穏やかで安定しています。午後に短い遊びたい反応がありましたが、ストレスの兆候は検出されていません。</div>
+                  <div>{dogName}の鳴き声パターンは本日穏やかで安定しています。</div>
                   <div style={{ fontSize: 12, opacity: 0.75, marginTop: 8 }}>
-                    {dogName}'s bark pattern is calm and stable today. Short playful bursts were detected in the afternoon, but no stress signals were found.
+                    {dogName}'s bark pattern is calm and stable today.
                   </div>
                 </>
               )}
             </div>
 
-            <div style={{ marginTop: 16, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 8 }}>
+            <div style={{ position: "relative", marginTop: 16, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 8 }}>
               <div style={{
                 display: "inline-flex", alignItems: "center", gap: 6,
-                background: "rgba(109,186,145,0.22)", color: "#A8E6C0",
+                background: "rgba(109,186,145,0.20)", color: "#6DBA91",
                 padding: "6px 12px", borderRadius: 999, fontSize: 11, fontWeight: 700,
-                border: "1px solid rgba(109,186,145,0.35)",
+                border: "1px solid rgba(109,186,145,0.40)",
               }}>
                 <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#6DBA91" }} />
                 {pickT(lang, "感情状態は安定", "Stable emotional state")}
               </div>
-              <div style={{ fontSize: 10, color: "rgba(255,255,255,0.5)" }}>
+              <div style={{ fontSize: 10, color: "rgba(255,255,255,0.45)" }}>
                 {pickT(lang, "更新 14:32", "Updated 14:32")}
               </div>
             </div>
