@@ -345,20 +345,9 @@ function HeroPostcard({ score, name, mood, celebrate }: { score: number; name: s
         fontFamily: serif,
       }}
     >
-      {/* Crossfading background images */}
+      {/* Crossfading SVG scenes */}
       {(Object.keys(BAND_META) as TimeBand[]).map((k) => (
-        <img
-          key={k}
-          src={BAND_META[k].img}
-          alt=""
-          aria-hidden
-          style={{
-            position: "absolute", inset: 0, width: "100%", height: "100%",
-            objectFit: "cover",
-            opacity: k === band ? 1 : 0,
-            transition: "opacity 2.5s ease-in-out",
-          }}
-        />
+        <Scene key={k} theme={BAND_META[k]} active={k === band} />
       ))}
 
       {/* Sun / moon arc orb */}
@@ -367,8 +356,8 @@ function HeroPostcard({ score, name, mood, celebrate }: { score: number; name: s
           position: "absolute",
           left: `${orbX}%`,
           top: `${orbY}%`,
-          width: meta.size, height: meta.size,
-          marginLeft: -meta.size / 2, marginTop: -meta.size / 2,
+          width: meta.orbSize, height: meta.orbSize,
+          marginLeft: -meta.orbSize / 2, marginTop: -meta.orbSize / 2,
           borderRadius: "50%",
           background: `radial-gradient(circle at 35% 35%, #fff, ${meta.orb} 70%)`,
           boxShadow: `0 0 40px 10px ${meta.glow}, 0 0 90px 20px ${meta.glow}`,
