@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { SensorPage, Card, SP, SectionLabel, AIInsightCard } from "@/components/SensorPage";
 import { useT, useLanguage } from "@/context/LanguageContext";
+import { usePet, displayName } from "@/context/PetContext";
 
 export const Route = createFileRoute("/bark-sense")({ component: BarkSensePage });
 
