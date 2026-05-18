@@ -1,8 +1,8 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
-import { Sparkles } from "lucide-react";
 import DogAvatar from "@/components/DogAvatar";
 import PhoneFrame from "@/components/PhoneFrame";
 import { PrimaryButton } from "@/routes/auth";
+import { PawLogo } from "@/components/PawLogo";
 import { useT } from "@/context/LanguageContext";
 
 export const Route = createFileRoute("/onboarding/welcome")({ component: Welcome });
@@ -18,13 +18,8 @@ function Welcome() {
         style={{ background: "#F5EDE8", fontFamily: "'Nunito','Quicksand',system-ui,sans-serif" }}
       >
         {/* Logo */}
-        <div className="flex items-center justify-center gap-2">
-          <div
-            className="w-9 h-9 rounded-full flex items-center justify-center"
-            style={{ background: "#E8678A", color: "#FFF" }}
-          >
-            <PawIcon size={20} />
-          </div>
+        <div className="flex flex-col items-center gap-2">
+          <PawLogo size={56} color="#E87090" />
           <div className="text-[22px] font-extrabold tracking-tight" style={{ color: "#3B2A23" }}>
             Pawsit<span style={{ position: "relative" }}>
               i
@@ -53,17 +48,6 @@ function Welcome() {
               }}
             >
               <DogAvatar breed="shiba" size={170} ring={false} />
-            </div>
-            <div
-              className="absolute flex items-center justify-center"
-              style={{
-                right: 6, bottom: 6,
-                width: 44, height: 44, borderRadius: 999,
-                background: "linear-gradient(135deg,#FFD86B,#FF9F6B)",
-                boxShadow: "0 6px 16px rgba(255,158,107,0.45)",
-              }}
-            >
-              <Sparkles className="w-5 h-5" color="#FFF" strokeWidth={2.5} />
             </div>
           </div>
 
@@ -104,14 +88,3 @@ function Welcome() {
   );
 }
 
-function PawIcon({ size = 20 }: { size?: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
-      <ellipse cx="12" cy="16" rx="5" ry="4.5" />
-      <ellipse cx="6" cy="10" rx="2.2" ry="2.8" />
-      <ellipse cx="18" cy="10" rx="2.2" ry="2.8" />
-      <ellipse cx="9" cy="5.5" rx="1.8" ry="2.4" />
-      <ellipse cx="15" cy="5.5" rx="1.8" ry="2.4" />
-    </svg>
-  );
-}
