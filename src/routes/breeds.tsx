@@ -43,7 +43,7 @@ type Breed = {
 
 const BREEDS: Breed[] = [
   {
-    jp: "柴犬", en: "Shiba Inu", rank: 1, size: "small", sizeJp: "小型", sizeEn: "Small",
+    jp: "柴犬", en: "Shiba Inu", kana: "シバイヌ", rank: 1, size: "small", sizeJp: "小型", sizeEn: "Small",
     originJp: "日本", originEn: "Japan", flag: "",
     image: "https://images.unsplash.com/photo-1579213838429-c981f6f52bdf?w=400&q=80&auto=format&fit=crop",
     bannerBg: "linear-gradient(135deg, #FF9966, #FF6B35)",
@@ -54,7 +54,7 @@ const BREEDS: Breed[] = [
     health: [{ jp: "膝蓋骨脱臼", en: "Patellar Luxation", level: "watch" }, { jp: "アレルギー", en: "Allergies", level: "watch" }],
   },
   {
-    jp: "トイプードル", en: "Toy Poodle", rank: 2, size: "toy", sizeJp: "超小型", sizeEn: "Toy",
+    jp: "トイプードル", en: "Toy Poodle", kana: "トイプードル", rank: 2, size: "toy", sizeJp: "超小型", sizeEn: "Toy",
     originJp: "フランス", originEn: "France", flag: "",
     image: "https://images.unsplash.com/photo-1586671267731-da2cf3ceeb80?w=400&q=80&auto=format&fit=crop",
     bannerBg: "linear-gradient(135deg, #9B72CF, #7B52AF)",
@@ -65,7 +65,7 @@ const BREEDS: Breed[] = [
     health: [{ jp: "外耳炎", en: "Ear Infections", level: "watch" }],
   },
   {
-    jp: "チワワ", en: "Chihuahua", rank: 3, size: "toy", sizeJp: "超小型", sizeEn: "Tiny",
+    jp: "チワワ", en: "Chihuahua", kana: "チワワ", rank: 3, size: "toy", sizeJp: "超小型", sizeEn: "Tiny",
     originJp: "メキシコ", originEn: "Mexico", flag: "",
     image: "https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=400&q=80&auto=format&fit=crop",
     bannerBg: "linear-gradient(135deg, #F6D365, #FDA085)",
@@ -76,7 +76,7 @@ const BREEDS: Breed[] = [
     health: [{ jp: "気管虚脱", en: "Tracheal Collapse", level: "concern" }],
   },
   {
-    jp: "ポメラニアン", en: "Pomeranian", rank: 4, size: "small", sizeJp: "小型", sizeEn: "Small",
+    jp: "ポメラニアン", en: "Pomeranian", kana: "ポメラニアン", rank: 4, size: "small", sizeJp: "小型", sizeEn: "Small",
     originJp: "ドイツ", originEn: "Germany", flag: "",
     image: "https://images.unsplash.com/photo-1558788353-f76d92427f16?w=400&q=80&auto=format&fit=crop",
     bannerBg: "linear-gradient(135deg, #FFECD2, #FCB69F)",
@@ -87,7 +87,7 @@ const BREEDS: Breed[] = [
     health: [{ jp: "気管虚脱", en: "Tracheal Collapse", level: "watch" }],
   },
   {
-    jp: "ゴールデンレトリバー", en: "Golden Retriever", rank: 5, size: "large", sizeJp: "大型", sizeEn: "Large",
+    jp: "ゴールデンレトリバー", en: "Golden Retriever", kana: "ゴールデンレトリバー", rank: 5, size: "large", sizeJp: "大型", sizeEn: "Large",
     originJp: "イギリス", originEn: "UK", flag: "",
     image: "https://images.unsplash.com/photo-1633722715463-d30f4f325e24?w=400&q=80&auto=format&fit=crop",
     bannerBg: "linear-gradient(135deg, #F7971E, #FFD200)",
@@ -98,7 +98,7 @@ const BREEDS: Breed[] = [
     health: [{ jp: "股関節形成不全", en: "Hip Dysplasia", level: "concern" }, { jp: "熱中症", en: "Heat Stroke", level: "concern" }],
   },
   {
-    jp: "ミニチュアダックス", en: "Mini Dachshund", rank: 6, size: "small", sizeJp: "小型", sizeEn: "Small",
+    jp: "ミニチュアダックス", en: "Mini Dachshund", kana: "ミニチュアダックスフンド", rank: 6, size: "small", sizeJp: "小型", sizeEn: "Small",
     originJp: "ドイツ", originEn: "Germany", flag: "",
     image: "https://images.unsplash.com/photo-1612195583950-b8fd34c87093?w=400&q=80&auto=format&fit=crop",
     bannerBg: "linear-gradient(135deg, #C4714E, #A0522D)",
@@ -109,7 +109,7 @@ const BREEDS: Breed[] = [
     health: [{ jp: "椎間板ヘルニア", en: "IVDD (Back Issues)", level: "concern" }],
   },
   {
-    jp: "フレンチブルドッグ", en: "French Bulldog", rank: 7, size: "small", sizeJp: "小型", sizeEn: "Small",
+    jp: "フレンチブルドッグ", en: "French Bulldog", kana: "フレンチブルドッグ", rank: 7, size: "small", sizeJp: "小型", sizeEn: "Small",
     originJp: "フランス", originEn: "France", flag: "",
     image: "https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=400&q=80&auto=format&fit=crop",
     bannerBg: "linear-gradient(135deg, #4FACFE, #00F2FE)",
@@ -120,7 +120,7 @@ const BREEDS: Breed[] = [
     health: [{ jp: "短頭種症候群", en: "Brachycephalic Syndrome", level: "concern" }],
   },
   {
-    jp: "ヨークシャテリア", en: "Yorkshire Terrier", rank: 8, size: "toy", sizeJp: "超小型", sizeEn: "Tiny",
+    jp: "ヨークシャテリア", en: "Yorkshire Terrier", kana: "ヨークシャーテリア", rank: 8, size: "toy", sizeJp: "超小型", sizeEn: "Tiny",
     originJp: "イギリス", originEn: "UK", flag: "",
     image: "https://images.unsplash.com/photo-1516148806338-702cf5f65c41?w=400&q=80&auto=format&fit=crop",
     bannerBg: "linear-gradient(135deg, #A18CD1, #FBC2EB)",
@@ -131,7 +131,7 @@ const BREEDS: Breed[] = [
     health: [{ jp: "歯周病", en: "Dental Issues", level: "watch" }],
   },
   {
-    jp: "ミックス犬", en: "Mixed Breed", rank: null, size: "various", sizeJp: "様々", sizeEn: "Various",
+    jp: "ミックス犬", en: "Mixed Breed", kana: "ミックスケン", rank: null, size: "various", sizeJp: "様々", sizeEn: "Various",
     originJp: "世界", originEn: "Global", flag: "",
     image: "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=400&q=80&auto=format&fit=crop",
     bannerBg: "linear-gradient(135deg, #FF9966, #9B72CF, #4FACFE, #F7971E)",
