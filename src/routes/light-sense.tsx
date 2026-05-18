@@ -1,633 +1,488 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ChevronDown, ChevronUp } from "lucide-react";
-import { useState, useMemo } from "react";
-import { SensorPage } from "@/components/SensorPage";
+import { useState, useRef, useEffect, useMemo, useCallback } from "react";
+import AppShell from "@/components/AppShell";
 import { useT } from "@/context/LanguageContext";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/light-sense")({ component: LightSensePage });
 
 // ───────────── Palette ─────────────
-const Y = {
-  primary: "#E8C547",
-  medium: "#D4AD35",
-  deep: "#B8921A",
-  soft: "#FEF9E7",
-  pale: "#FFFDF0",
-  accent: "#F2D063",
-  muted: "#F7E49A",
-  light: "#FDF5C8",
+const G = {
+  primary: "#D4A843",
+  medium: "#C49A30",
+  deep: "#9E7A1A",
+  soft: "#FEF8E1",
+  pale: "#FFFCF0",
+  accent: "#ECC95A",
   white: "#FFFFFF",
   text: "#1A1A2E",
   text2: "#6B7280",
   text3: "#9CA3AF",
-  ink: "#4B5563",
 };
 
-// ───────────── Color Data ─────────────
-type Swatch = { jp: string; en: string; hex: string };
-type Mood = { key: string; emoji: string; jp: string; en: string; colors: Swatch[] };
+// ───────────── Color utils ─────────────
+function hslToHex(h: number, s: number, l: number) {
+  s /= 100; l /= 100;
+  const k = (n: number) => (n + h / 30) % 12;
+  const a = s * Math.min(l, 1 - l);
+  const f = (n: number) =>
+    Math.round(255 * (l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1))))).toString(16).padStart(2, "0");
+  return `#${f(0)}${f(8)}${f(4)}`.toUpperCase();
+}
+function hexToRgb(hex: string) {
+  const h = hex.replace("#", "");
+  return {
+    r: parseInt(h.slice(0, 2), 16),
+    g: parseInt(h.slice(2, 4), 16),
+    b: parseInt(h.slice(4, 6), 16),
+  };
+}
+function hexToHsl(hex: string): { h: number; s: number; l: number } {
+  const { r, g, b } = hexToRgb(hex);
+  const rn = r / 255, gn = g / 255, bn = b / 255;
+  const max = Math.max(rn, gn, bn), min = Math.min(rn, gn, bn);
+  let h = 0, s = 0; const l = (max + min) / 2;
+  if (max !== min) {
+    const d = max - min;
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+    switch (max) {
+      case rn: h = (gn - bn) / d + (gn < bn ? 6 : 0); break;
+      case gn: h = (bn - rn) / d + 2; break;
+      case bn: h = (rn - gn) / d + 4; break;
+    }
+    h *= 60;
+  }
+  return { h, s: s * 100, l: l * 100 };
+}
 
-const MOODS: Mood[] = [
-  {
-    key: "wa", emoji: "🌸", jp: "和", en: "Japanese",
-    colors: [
-      { jp: "桜", en: "Sakura", hex: "#FFB7C5" },
-      { jp: "梅", en: "Ume", hex: "#E8B4BD" },
-      { jp: "牡丹", en: "Botan", hex: "#D14B7C" },
-      { jp: "撫子", en: "Nadeshiko", hex: "#F19BAB" },
-      { jp: "若竹", en: "Wakatake", hex: "#89C3EB" },
-      { jp: "藤", en: "Fuji", hex: "#9B8EC4" },
-      { jp: "若草", en: "Wakakusa", hex: "#8DC47C" },
-      { jp: "山吹", en: "Yamabuki", hex: "#F6AD3B" },
-      { jp: "白", en: "Shiro", hex: "#FFFFFF" },
-      { jp: "金", en: "Kin", hex: "#E8C547" },
-      { jp: "銀", en: "Gin", hex: "#C0C0C0" },
-      { jp: "漆黒", en: "Shikkoku", hex: "#2A2A4E" },
-    ],
-  },
-  {
-    key: "night", emoji: "🌙", jp: "夜", en: "Night",
-    colors: [
-      { jp: "群青", en: "Gunjo", hex: "#3D5A8C" },
-      { jp: "藍", en: "Ai", hex: "#274472" },
-      { jp: "紺", en: "Kon", hex: "#1F2A5C" },
-      { jp: "瑠璃", en: "Ruri", hex: "#1E50A2" },
-      { jp: "菫", en: "Sumire", hex: "#7058A3" },
-      { jp: "葡萄", en: "Ebi", hex: "#5D3F6A" },
-      { jp: "深紫", en: "Kokimurasaki", hex: "#3E2E5C" },
-      { jp: "夜空", en: "Yozora", hex: "#1A1A3E" },
-      { jp: "月白", en: "Geppaku", hex: "#E8EAF0" },
-      { jp: "星空", en: "Hoshizora", hex: "#4A6FA5" },
-      { jp: "宵闇", en: "Yoiyami", hex: "#2D2D55" },
-      { jp: "蛍", en: "Hotaru", hex: "#C4E89A" },
-    ],
-  },
-  {
-    key: "nature", emoji: "🌿", jp: "自然", en: "Nature",
-    colors: [
-      { jp: "薄荷", en: "Hakka", hex: "#A8E6CF" },
-      { jp: "若苔", en: "Wakagoke", hex: "#7FAE6E" },
-      { jp: "苔", en: "Koke", hex: "#5C7A3F" },
-      { jp: "竹", en: "Take", hex: "#7BA05B" },
-      { jp: "若葉", en: "Wakaba", hex: "#B8D88A" },
-      { jp: "森", en: "Mori", hex: "#3D5A40" },
-      { jp: "空", en: "Sora", hex: "#9CC4E4" },
-      { jp: "水", en: "Mizu", hex: "#B5D8E8" },
-      { jp: "土", en: "Tsuchi", hex: "#A88B6A" },
-      { jp: "砂", en: "Suna", hex: "#E0CFA8" },
-      { jp: "黄昏", en: "Tasogare", hex: "#E89A6B" },
-      { jp: "朝霧", en: "Asagiri", hex: "#D8E4E8" },
-    ],
-  },
-  {
-    key: "special", emoji: "✨", jp: "特別", en: "Special",
-    colors: [
-      { jp: "虹", en: "Rainbow", hex: "#FF6B9D" },
-      { jp: "暖白", en: "Warm White", hex: "#FFF4D6" },
-      { jp: "冷白", en: "Cool White", hex: "#E8F0FF" },
-      { jp: "夕焼", en: "Yuyake", hex: "#FF8A5C" },
-      { jp: "極光", en: "Aurora", hex: "#7FFFD4" },
-      { jp: "銀河", en: "Ginga", hex: "#9B72CF" },
-      { jp: "煌めき", en: "Kirameki", hex: "#FFD700" },
-      { jp: "炎", en: "Honoo", hex: "#FF5722" },
-      { jp: "氷", en: "Koori", hex: "#B5E8F0" },
-      { jp: "雷", en: "Kaminari", hex: "#FFF176" },
-      { jp: "花火", en: "Hanabi", hex: "#E91E63" },
-      { jp: "輝", en: "Kagayaki", hex: "#FFE082" },
-    ],
-  },
+// Named colors
+const NAMED: { hex: string; jp: string; en: string }[] = [
+  { hex: "#FFFFFF", jp: "白", en: "White" },
+  { hex: "#EF4444", jp: "赤", en: "Red" },
+  { hex: "#3B82F6", jp: "青", en: "Blue" },
+  { hex: "#10B981", jp: "緑", en: "Green" },
+  { hex: "#F59E0B", jp: "黄", en: "Yellow" },
+  { hex: "#8B5CF6", jp: "紫", en: "Purple" },
+  { hex: "#FFB7C5", jp: "桜", en: "Sakura" },
+  { hex: "#9B8EC4", jp: "藤", en: "Fuji" },
+  { hex: "#8DC47C", jp: "若草", en: "Wakakusa" },
+  { hex: "#E8C547", jp: "金", en: "Kin" },
+  { hex: "#C0C0C0", jp: "銀", en: "Gin" },
+  { hex: "#1A1A2E", jp: "漆黒", en: "Shikkoku" },
 ];
-
-type Mode = "steady" | "blink" | "rainbow" | "pulse";
-
-function LightSensePage() {
-  const t = useT();
-  const [moodKey, setMoodKey] = useState("wa");
-  const [selected, setSelected] = useState<Swatch>(MOODS[0].colors[0]);
-  const [brightness, setBrightness] = useState(75);
-  const [mode, setMode] = useState<Mode>("steady");
-  const [advOpen, setAdvOpen] = useState(false);
-  const [hue, setHue] = useState(340);
-  const [bri, setBri] = useState(85);
-  const [sat, setSat] = useState(60);
-
-  const mood = useMemo(() => MOODS.find(m => m.key === moodKey)!, [moodKey]);
-  const isRainbow = mode === "rainbow";
-  const displayBg = isRainbow
-    ? "linear-gradient(90deg,#FF6B9D,#FFD700,#7FFFD4,#89C3EB,#9B72CF,#FF6B9D)"
-    : selected.hex;
-  const glowRgba = hexToRgba(selected.hex, 0.6);
-
-  return (
-    <SensorPage
-      titleJp="ライトセンス AI"
-      titleEn="LightSense AI"
-      heroGradient="linear-gradient(135deg,#B8921A 0%,#D4AD35 50%,#E8C547 100%)"
-    >
-      <style>{`
-        @keyframes lsBlink { 0%,49%{opacity:1} 50%,100%{opacity:.2} }
-        @keyframes lsPulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.18)} }
-        @keyframes lsHueRot { from{filter:hue-rotate(0deg)} to{filter:hue-rotate(360deg)} }
-        @keyframes lsLiveDot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(1.3)} }
-        @keyframes lsGlowPulse { 0%,100%{box-shadow:0 0 30px 10px var(--glow)} 50%{box-shadow:0 0 50px 16px var(--glow)} }
-        .ls-slider { -webkit-appearance:none; appearance:none; }
-        .ls-slider::-webkit-slider-thumb { -webkit-appearance:none; appearance:none;
-          width:22px; height:22px; border-radius:50%; background:#fff;
-          box-shadow:0 2px 8px rgba(232,197,71,.5); cursor:pointer; border:none; }
-        .ls-slider::-moz-range-thumb { width:22px; height:22px; border-radius:50%;
-          background:#fff; box-shadow:0 2px 8px rgba(232,197,71,.5); cursor:pointer; border:none; }
-        .ls-mood-tabs::-webkit-scrollbar { display:none; }
-      `}</style>
-
-      {/* ───── Hero overlay (extra content on top of hero) ───── */}
-      <HeroOverlay selectedHex={isRainbow ? "#E8C547" : selected.hex} brightness={brightness} mode={mode} />
-
-      {/* ───── SECTION 1 — Color Selection ───── */}
-      <CardY borderColor={Y.primary} shadow="0 4px 20px rgba(232,197,71,0.12)">
-        <SectionLabel jp="カラー選択" en="COLOR SELECTION" />
-
-        {/* Mood title */}
-        <div style={{ fontSize: 13, color: Y.ink, fontWeight: 500, marginTop: 4, marginBottom: 10 }}>
-          {t("気分で選ぶ", "Choose by Mood")}
-        </div>
-
-        {/* Mood tabs */}
-        <div
-          className="ls-mood-tabs"
-          style={{
-            display: "flex", gap: 8, overflowX: "auto",
-            scrollbarWidth: "none", marginBottom: 16, paddingBottom: 2,
-          }}
-        >
-          {MOODS.map((m) => {
-            const active = m.key === moodKey;
-            return (
-              <button
-                key={m.key}
-                onClick={() => setMoodKey(m.key)}
-                style={{
-                  flexShrink: 0,
-                  padding: "8px 14px", borderRadius: 50,
-                  background: active ? Y.primary : Y.soft,
-                  color: active ? "#fff" : Y.text2,
-                  fontSize: 12, fontWeight: 600,
-                  border: "none", cursor: "pointer",
-                  transition: "all 200ms ease",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                {m.emoji} {t(m.jp, m.en)}
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Color palette grid */}
-        <div style={{
-          display: "grid", gridTemplateColumns: "repeat(4,1fr)",
-          gap: 14, justifyItems: "center",
-        }}>
-          {mood.colors.map((c) => {
-            const active = selected.hex === c.hex;
-            return (
-              <button
-                key={c.hex + c.en}
-                onClick={() => setSelected(c)}
-                style={{
-                  display: "flex", flexDirection: "column", alignItems: "center",
-                  gap: 4, background: "transparent", border: "none", cursor: "pointer",
-                  padding: 0,
-                }}
-              >
-                <span
-                  style={{
-                    width: 44, height: 44, borderRadius: "50%",
-                    background: c.hex,
-                    border: c.hex === "#FFFFFF" ? "1px solid #EADFD8" : "2px solid #fff",
-                    boxShadow: active
-                      ? `0 0 0 3px ${hexToRgba(c.hex, 0.5)}, 0 4px 12px ${hexToRgba(c.hex, 0.4)}`
-                      : "0 2px 6px rgba(0,0,0,0.08)",
-                    transition: "all 200ms ease",
-                    transform: active ? "scale(1.08)" : "scale(1)",
-                  }}
-                />
-                <span style={{ fontSize: 9, color: Y.text3, lineHeight: 1.2, textAlign: "center" }}>
-                  {t(c.jp, c.en)}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Selected color display */}
-        <div
-          className="flex items-center"
-          style={{
-            marginTop: 18, padding: "12px 16px", borderRadius: 16,
-            background: Y.pale, gap: 12,
-          }}
-        >
-          <span style={{
-            width: 32, height: 32, borderRadius: "50%",
-            background: selected.hex,
-            border: "2px solid #fff",
-            boxShadow: `0 0 12px ${hexToRgba(selected.hex, 0.5)}`,
-            flexShrink: 0,
-          }} />
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontSize: 13, fontWeight: 600, color: Y.text }}>
-              {t(`${selected.jp} / ${selected.en}`, selected.en)}
-            </div>
-            <div style={{ fontSize: 11, color: Y.text3, fontFamily: "monospace", marginTop: 2 }}>
-              {selected.hex.toUpperCase()}
-            </div>
-          </div>
-          <button
-            onClick={() => setAdvOpen(o => !o)}
-            style={{
-              background: "transparent", border: "none", cursor: "pointer",
-              color: Y.primary, fontSize: 11, fontWeight: 600,
-            }}
-          >
-            {t("変更", "Change")}
-          </button>
-        </div>
-
-        {/* Advanced */}
-        <button
-          onClick={() => setAdvOpen(o => !o)}
-          className="flex items-center justify-between"
-          style={{
-            width: "100%", marginTop: 14, padding: "10px 4px",
-            background: "transparent", border: "none", cursor: "pointer",
-            fontSize: 12, color: Y.text2, fontWeight: 500,
-          }}
-        >
-          <span>{t("詳細設定", "Advanced")}</span>
-          {advOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-        </button>
-
-        {advOpen && (
-          <div style={{ paddingTop: 4 }}>
-            {/* Hue bar */}
-            <div style={{ position: "relative", marginBottom: 14 }}>
-              <div style={{
-                height: 16, borderRadius: 50,
-                background: "linear-gradient(90deg,#ff0000,#ffa500,#ffff00,#00ff00,#00ffff,#0000ff,#a020f0,#ff0000)",
-                boxShadow: "inset 0 0 0 1px rgba(0,0,0,0.06)",
-              }} />
-              <input
-                type="range" min={0} max={360} value={hue}
-                onChange={(e) => setHue(Number(e.target.value))}
-                className="ls-slider"
-                style={{ position: "absolute", inset: 0, width: "100%", height: 16, background: "transparent", margin: 0 }}
-              />
-            </div>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-              <MiniSlider
-                label={t("明度", "Brightness")}
-                value={bri} onChange={setBri}
-                gradient={`linear-gradient(90deg,#000,hsl(${hue},${sat}%,50%))`}
-              />
-              <MiniSlider
-                label={t("彩度", "Saturation")}
-                value={sat} onChange={setSat}
-                gradient={`linear-gradient(90deg,#999,hsl(${hue},100%,50%))`}
-              />
-            </div>
-          </div>
-        )}
-      </CardY>
-
-      {/* ───── SECTION 2 — Brightness ───── */}
-      <CardY borderColor={Y.accent}>
-        <SectionLabel jp="明るさ" en="BRIGHTNESS" />
-        <div className="flex items-center" style={{ gap: 12, marginTop: 4 }}>
-          <SunIcon size={14} color={Y.muted} />
-          <div style={{ flex: 1, position: "relative" }}>
-            <input
-              type="range" min={0} max={100} value={brightness}
-              onChange={(e) => setBrightness(Number(e.target.value))}
-              className="ls-slider"
-              style={{
-                width: "100%", height: 8, borderRadius: 50,
-                background: `linear-gradient(90deg, ${Y.soft} 0%, ${Y.primary} ${brightness}%, ${Y.soft} ${brightness}%, ${Y.soft} 100%)`,
-              }}
-            />
-          </div>
-          <SunIcon size={20} color={Y.medium} />
-          <span style={{ fontSize: 14, fontWeight: 600, color: Y.medium, minWidth: 40, textAlign: "right" }}>
-            {brightness}%
-          </span>
-        </div>
-      </CardY>
-
-      {/* ───── SECTION 3 — Light Modes ───── */}
-      <CardY borderColor={Y.accent}>
-        <SectionLabel jp="ライトモード" en="LIGHT MODES" />
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginTop: 4 }}>
-          <ModeCard active={mode === "steady"} onClick={() => setMode("steady")}
-            label={t("常灯", "Steady")} sub={t("一定の光", "Constant light")}
-            icon={<span style={{ display: "block", width: 24, height: 24, borderRadius: "50%", background: selected.hex, boxShadow: `0 0 8px ${hexToRgba(selected.hex, 0.5)}` }} />}
-          />
-          <ModeCard active={mode === "blink"} onClick={() => setMode("blink")}
-            label={t("点滅", "Blink")} sub={t("フラッシュ", "Flash effect")}
-            icon={<span style={{ display: "block", width: 24, height: 24, borderRadius: "50%", background: selected.hex, animation: "lsBlink .8s steps(1,end) infinite" }} />}
-          />
-          <ModeCard active={mode === "rainbow"} onClick={() => setMode("rainbow")}
-            label={t("レインボー", "Rainbow")} sub={t("カラーサイクル", "Color cycle")}
-            icon={
-              <span style={{
-                display: "block", width: 24, height: 24, borderRadius: "50%",
-                background: "conic-gradient(#FF6B9D,#FFD700,#7FFFD4,#89C3EB,#9B72CF,#FF6B9D)",
-                animation: "lsHueRot 3s linear infinite",
-              }} />
-            }
-          />
-          <ModeCard active={mode === "pulse"} onClick={() => setMode("pulse")}
-            label={t("パルス", "Pulse")} sub={t("呼吸する光", "Breathing light")}
-            icon={<span style={{ display: "block", width: 24, height: 24, borderRadius: "50%", background: selected.hex, animation: "lsPulse 1.5s ease-in-out infinite" }} />}
-          />
-        </div>
-      </CardY>
-
-      {/* ───── SECTION 4 — Preview ───── */}
-      <div style={{
-        background: "#1A1A2E", borderRadius: 24, padding: 24,
-        marginBottom: 14, overflow: "hidden", position: "relative",
-      }}>
-        <div style={{
-          fontSize: 11, color: "rgba(255,255,255,0.5)",
-          letterSpacing: "0.1em", marginBottom: 18, textAlign: "center",
-        }}>
-          {t("プレビュー", "PREVIEW")}
-        </div>
-
-        {/* Dog silhouette with glowing collar */}
-        <div style={{ display: "flex", justifyContent: "center", marginBottom: 18 }}>
-          <DogWithCollar
-            color={selected.hex}
-            isRainbow={isRainbow}
-            mode={mode}
-            brightness={brightness}
-            displayBg={displayBg}
-            glowRgba={glowRgba}
-          />
-        </div>
-
-        <div style={{ textAlign: "center", color: "#fff", fontSize: 14, fontWeight: 600 }}>
-          {isRainbow ? t("レインボー", "Rainbow") : t(`${selected.jp} / ${selected.en}`, selected.en)}
-        </div>
-        <div style={{
-          textAlign: "center", color: "rgba(255,255,255,0.5)", fontSize: 11, marginTop: 4,
-        }}>
-          {isRainbow ? "—" : selected.hex.toUpperCase()} · {brightness}% {t("明るさ", "brightness")}
-        </div>
-
-        <div className="flex items-center justify-center" style={{ gap: 8, marginTop: 14 }}>
-          <Pill>🏠 {t("屋内", "Indoor")}</Pill>
-          <Pill>🌙 {t("夜間", "Night mode")}</Pill>
-        </div>
-      </div>
-
-      {/* ───── SECTION 5 — Set Color Button ───── */}
-      <button style={{
-        width: "100%", height: 52, borderRadius: 50,
-        background: `linear-gradient(135deg, ${Y.medium}, ${Y.primary})`,
-        color: "#fff", fontSize: 16, fontWeight: 600,
-        border: "none", cursor: "pointer",
-        boxShadow: "0 6px 20px rgba(232,197,71,0.4)",
-      }}>
-        {t("カラーを設定", "Set Color")}
-      </button>
-      <div style={{
-        textAlign: "center", fontSize: 12, color: Y.text3, marginTop: 10, marginBottom: 10,
-      }}>
-        {t(`現在の設定: ${selected.jp} · ${brightness}%`, `Current: ${selected.en} · ${brightness}%`)}
-      </div>
-    </SensorPage>
-  );
+function findName(hex: string) {
+  const u = hex.toUpperCase();
+  return NAMED.find((n) => n.hex.toUpperCase() === u);
 }
 
-// ───────────── Hero Overlay (kanji + live + stats) ─────────────
-function HeroOverlay({ selectedHex, brightness, mode }: { selectedHex: string; brightness: number; mode: Mode }) {
-  const t = useT();
-  const modeLabel = ({
-    steady: { jp: "常灯", en: "Steady" },
-    blink: { jp: "点滅", en: "Blink" },
-    rainbow: { jp: "レインボー", en: "Rainbow" },
-    pulse: { jp: "パルス", en: "Pulse" },
-  } as const)[mode];
+type Mode = "steady" | "blink" | "pulse" | "rainbow";
+type Scene = "indoor" | "night" | "party" | "emergency";
 
-  return (
-    <>
-      {/* Floating kanji + decorative — rendered absolutely over hero by negative margin trick */}
-      <div style={{ position: "relative", marginTop: -50, marginBottom: 6, pointerEvents: "none", height: 0 }}>
-        <span aria-hidden style={{
-          position: "absolute", right: -10, top: -110, fontSize: 140,
-          color: "rgba(255,255,255,0.05)", fontWeight: 700, lineHeight: 1, userSelect: "none",
-        }}>光</span>
-      </div>
-
-      {/* Glass stats card */}
-      <div style={{
-        background: "#fff", borderRadius: 20, padding: "14px 16px",
-        marginBottom: 16, boxShadow: "0 12px 36px rgba(184,146,26,0.15)",
-        display: "grid", gridTemplateColumns: "1fr 1fr 1fr", alignItems: "center",
-      }}>
-        <StatCol label={t("カラー", "CURRENT")}>
-          <span style={{
-            display: "inline-block", width: 22, height: 22, borderRadius: "50%",
-            background: selectedHex, border: "2px solid #fff",
-            boxShadow: `0 0 8px ${hexToRgba(selectedHex, 0.5)}`,
-          }} />
-        </StatCol>
-        <StatCol label={t("明るさ", "BRIGHTNESS")} divider>
-          <span style={{ fontSize: 17, fontWeight: 700, color: Y.text }}>{brightness}%</span>
-        </StatCol>
-        <StatCol label={t("モード", "MODE")} divider>
-          <span style={{ fontSize: 13, fontWeight: 600, color: Y.text }}>
-            {t(modeLabel.jp, modeLabel.en)}
-          </span>
-        </StatCol>
-      </div>
-    </>
-  );
-}
-
-function StatCol({ label, children, divider }: { label: string; children: React.ReactNode; divider?: boolean }) {
-  return (
-    <div style={{
-      textAlign: "center", padding: "2px 8px",
-      borderLeft: divider ? `1px solid ${Y.soft}` : "none",
-    }}>
-      <div style={{ fontSize: 9, color: Y.text3, letterSpacing: "0.1em", marginBottom: 6 }}>{label}</div>
-      <div style={{ minHeight: 22, display: "flex", alignItems: "center", justifyContent: "center" }}>
-        {children}
-      </div>
-    </div>
-  );
-}
-
-// ───────────── Sub-components ─────────────
-function CardY({ children, borderColor, shadow }: { children: React.ReactNode; borderColor: string; shadow?: string }) {
-  return (
-    <div style={{
-      background: "#fff", borderRadius: 20, padding: 20,
-      marginBottom: 14, overflow: "hidden", boxSizing: "border-box",
-      borderLeft: `4px solid ${borderColor}`,
-      boxShadow: shadow ?? "0 2px 14px rgba(0,0,0,0.04)",
-    }}>{children}</div>
-  );
-}
-
-function SectionLabel({ jp, en }: { jp: string; en: string }) {
-  const t = useT();
-  return (
-    <div className="flex items-center" style={{ gap: 6, marginBottom: 10 }}>
-      <span style={{ width: 5, height: 5, borderRadius: "50%", background: Y.primary }} />
-      <span style={{
-        fontSize: 11, color: Y.primary, fontWeight: 700,
-        letterSpacing: "0.08em", textTransform: "uppercase",
-      }}>
-        {t(jp, en)}
-      </span>
-    </div>
-  );
-}
-
-function MiniSlider({ label, value, onChange, gradient }: {
-  label: string; value: number; onChange: (v: number) => void; gradient: string;
+// ───────────── Color Wheel ─────────────
+function ColorWheel({
+  size,
+  color,
+  onChange,
+}: {
+  size: number;
+  color: string;
+  onChange: (hex: string) => void;
 }) {
-  return (
-    <div>
-      <div style={{ fontSize: 11, color: Y.text2, marginBottom: 6 }}>{label}</div>
-      <input
-        type="range" min={0} max={100} value={value}
-        onChange={(e) => onChange(Number(e.target.value))}
-        className="ls-slider"
-        style={{ width: "100%", height: 10, borderRadius: 50, background: gradient }}
-      />
-    </div>
-  );
-}
+  const ref = useRef<HTMLDivElement>(null);
+  const dragging = useRef(false);
+  const radius = size / 2;
 
-function ModeCard({ active, onClick, label, sub, icon }: {
-  active: boolean; onClick: () => void; label: string; sub: string; icon: React.ReactNode;
-}) {
+  // derive indicator pos from current color
+  const { h, s } = hexToHsl(color);
+  const rad = (h * Math.PI) / 180;
+  const dist = Math.min(s / 100, 1) * (radius - 14);
+  const ix = radius + Math.cos(rad) * dist;
+  const iy = radius + Math.sin(rad) * dist;
+
+  const handleAt = useCallback((cx: number, cy: number) => {
+    const el = ref.current; if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const x = cx - rect.left - radius;
+    const y = cy - rect.top - radius;
+    const d = Math.sqrt(x * x + y * y);
+    const maxR = radius - 4;
+    const sat = Math.min(d / maxR, 1) * 100;
+    let ang = (Math.atan2(y, x) * 180) / Math.PI;
+    if (ang < 0) ang += 360;
+    onChange(hslToHex(ang, sat, 50));
+  }, [radius, onChange]);
+
+  useEffect(() => {
+    const move = (e: PointerEvent) => { if (dragging.current) handleAt(e.clientX, e.clientY); };
+    const up = () => { dragging.current = false; };
+    window.addEventListener("pointermove", move);
+    window.addEventListener("pointerup", up);
+    return () => { window.removeEventListener("pointermove", move); window.removeEventListener("pointerup", up); };
+  }, [handleAt]);
+
   return (
-    <button
-      onClick={onClick}
+    <div
+      ref={ref}
+      onPointerDown={(e) => {
+        dragging.current = true;
+        (e.target as Element).setPointerCapture?.(e.pointerId);
+        handleAt(e.clientX, e.clientY);
+      }}
       style={{
-        borderRadius: 16, padding: 14,
-        background: active ? Y.soft : "#FAFAFA",
-        border: active ? `1.5px solid ${Y.primary}` : "1.5px solid transparent",
-        display: "flex", flexDirection: "column", alignItems: "center",
-        gap: 8, cursor: "pointer", transition: "all 200ms ease",
-        boxSizing: "border-box",
+        position: "relative", width: size, height: size, borderRadius: "50%",
+        background: `conic-gradient(from 0deg, #ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff, #ff0000)`,
+        cursor: "crosshair", touchAction: "none",
+        boxShadow: "0 6px 24px rgba(0,0,0,0.12), inset 0 0 0 1px rgba(0,0,0,0.04)",
       }}
     >
-      <div style={{ height: 28, display: "flex", alignItems: "center" }}>{icon}</div>
-      <div style={{ fontSize: 12, fontWeight: 600, color: Y.text }}>{label}</div>
-      <div style={{ fontSize: 10, color: Y.text3, textAlign: "center", lineHeight: 1.3 }}>{sub}</div>
-    </button>
-  );
-}
-
-function Pill({ children }: { children: React.ReactNode }) {
-  return (
-    <span style={{
-      background: "rgba(255,255,255,0.1)", color: "#fff",
-      borderRadius: 50, padding: "5px 12px", fontSize: 11, fontWeight: 500,
-    }}>
-      {children}
-    </span>
-  );
-}
-
-function SunIcon({ size, color }: { size: number; color: string }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2.2" strokeLinecap="round">
-      <circle cx="12" cy="12" r="4" fill={color} />
-      <line x1="12" y1="2" x2="12" y2="5" />
-      <line x1="12" y1="19" x2="12" y2="22" />
-      <line x1="2" y1="12" x2="5" y2="12" />
-      <line x1="19" y1="12" x2="22" y2="12" />
-      <line x1="4.5" y1="4.5" x2="6.6" y2="6.6" />
-      <line x1="17.4" y1="17.4" x2="19.5" y2="19.5" />
-      <line x1="4.5" y1="19.5" x2="6.6" y2="17.4" />
-      <line x1="17.4" y1="6.6" x2="19.5" y2="4.5" />
-    </svg>
-  );
-}
-
-function DogWithCollar({ color, isRainbow, mode, brightness, displayBg, glowRgba }: {
-  color: string; isRainbow: boolean; mode: Mode; brightness: number; displayBg: string; glowRgba: string;
-}) {
-  const animation =
-    mode === "blink" ? "lsBlink .8s steps(1,end) infinite" :
-    mode === "pulse" ? "lsPulse 1.5s ease-in-out infinite" :
-    mode === "rainbow" ? "lsHueRot 3s linear infinite" : "none";
-
-  const glowAlpha = Math.max(0.25, brightness / 100);
-  const glow = isRainbow ? `rgba(232,197,71,${glowAlpha})` : hexToRgba(color, glowAlpha);
-
-  return (
-    <div style={{ position: "relative", width: 140, height: 120 }}>
-      {/* Simple dog silhouette */}
-      <svg viewBox="0 0 140 120" width="140" height="120" fill="none"
-        stroke="rgba(255,255,255,0.55)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        {/* head */}
-        <ellipse cx="70" cy="42" rx="26" ry="22" />
-        {/* ears */}
-        <path d="M50 28 L44 14 L56 22 Z" />
-        <path d="M90 28 L96 14 L84 22 Z" />
-        {/* snout */}
-        <path d="M62 52 Q70 60 78 52" />
-        <circle cx="70" cy="50" r="2" fill="rgba(255,255,255,0.7)" />
-        {/* eyes */}
-        <circle cx="62" cy="40" r="1.5" fill="rgba(255,255,255,0.7)" />
-        <circle cx="78" cy="40" r="1.5" fill="rgba(255,255,255,0.7)" />
-        {/* body suggestion */}
-        <path d="M52 64 Q50 78 56 90" />
-        <path d="M88 64 Q90 78 84 90" />
-      </svg>
-
-      {/* Collar — sits at neck */}
-      <div
-        style={{
-          position: "absolute", left: "50%", top: 64,
-          transform: "translateX(-50%)",
-          width: 52, height: 14, borderRadius: 50,
-          background: "rgba(255,255,255,0.12)",
-          border: "1px solid rgba(255,255,255,0.2)",
-          display: "flex", alignItems: "center", justifyContent: "center",
-          overflow: "visible",
-        }}
-      >
-        {/* Glowing tag */}
-        <div
-          style={{
-            width: 18, height: 18, borderRadius: "50%",
-            background: displayBg,
-            opacity: brightness / 100 * 0.7 + 0.3,
-            ["--glow" as never]: glow,
-            boxShadow: `0 0 30px 10px ${glow}`,
-            animation: animation !== "none" ? animation : "lsGlowPulse 2.4s ease-in-out infinite",
-          }}
-        />
-      </div>
-      {/* eslint-disable-next-line @typescript-eslint/no-unused-vars */}
-      <span style={{ display: "none" }}>{glowRgba}</span>
+      {/* center white saturation gradient */}
+      <div style={{
+        position: "absolute", inset: 0, borderRadius: "50%",
+        background: "radial-gradient(circle at center, #fff 0%, rgba(255,255,255,0.85) 18%, rgba(255,255,255,0) 65%)",
+        pointerEvents: "none",
+      }} />
+      {/* indicator */}
+      <div style={{
+        position: "absolute", width: 24, height: 24, borderRadius: "50%",
+        left: ix - 12, top: iy - 12,
+        background: color, border: "2px solid #fff",
+        boxShadow: "0 0 0 2px rgba(0,0,0,0.15), 0 2px 8px rgba(0,0,0,0.25)",
+        pointerEvents: "none", transition: dragging.current ? "none" : "left 0.15s, top 0.15s",
+      }} />
     </div>
   );
 }
 
-// ───────────── helpers ─────────────
-function hexToRgba(hex: string, alpha: number): string {
-  const h = hex.replace("#", "");
-  const r = parseInt(h.slice(0, 2), 16);
-  const g = parseInt(h.slice(2, 4), 16);
-  const b = parseInt(h.slice(4, 6), 16);
-  return `rgba(${r},${g},${b},${alpha})`;
+// ───────────── Page ─────────────
+function LightSensePage() {
+  const t = useT();
+  const [color, setColor] = useState("#FFB7C5");
+  const [brightness, setBrightness] = useState(75);
+  const [mode, setMode] = useState<Mode>("steady");
+  const [scene, setScene] = useState<Scene>("indoor");
+
+  const named = useMemo(() => findName(color), [color]);
+  const rgb = useMemo(() => hexToRgb(color), [color]);
+
+  const applyScene = (s: Scene) => {
+    setScene(s);
+    if (s === "indoor") { setColor("#FFF5E1"); setBrightness(60); setMode("steady"); }
+    else if (s === "night") { setColor("#FFFFFF"); setBrightness(100); setMode("steady"); }
+    else if (s === "party") { setColor("#F472B6"); setBrightness(80); setMode("rainbow"); }
+    else { setColor("#EF4444"); setBrightness(100); setMode("blink"); }
+    toast.success(t("シーン適用", "Scene applied"));
+  };
+
+  // mode anim styles for preview
+  const previewAnim =
+    mode === "blink" ? "lsBlink 0.8s infinite" :
+    mode === "pulse" ? "lsPulse 1.5s ease-in-out infinite" :
+    mode === "rainbow" ? "lsHue 3s linear infinite" : "none";
+
+  const cardBase: React.CSSProperties = {
+    background: G.white, borderRadius: 22, padding: 20, overflow: "hidden",
+    boxShadow: "0 4px 24px rgba(212,168,67,0.12)", borderLeft: `4px solid ${G.accent}`,
+    boxSizing: "border-box",
+  };
+  const label: React.CSSProperties = {
+    color: G.primary, fontSize: 11, letterSpacing: "0.08em", fontWeight: 700, marginBottom: 14,
+  };
+
+  return (
+    <AppShell titleJp="ライトセンス" titleEn="LightSense AI" noPadding>
+      <style>{`
+        @keyframes lsBlink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+        @keyframes lsPulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.2)} }
+        @keyframes lsHue { 0%{filter:hue-rotate(0deg)} 100%{filter:hue-rotate(360deg)} }
+      `}</style>
+
+      <div style={{ background: G.pale, minHeight: "100%", paddingBottom: 110, boxSizing: "border-box" }}>
+        {/* HERO */}
+        <div style={{
+          position: "relative", height: 160, padding: 20,
+          background: "linear-gradient(135deg, #9E7A1A 0%, #C49A30 55%, #D4A843 100%)",
+          borderBottomLeftRadius: 28, borderBottomRightRadius: 28, overflow: "hidden",
+          color: "#fff", boxSizing: "border-box",
+        }}>
+          <div style={{
+            position: "absolute", right: -10, top: -30, fontSize: 140, opacity: 0.05,
+            color: "#fff", fontWeight: 900, lineHeight: 1, pointerEvents: "none",
+          }}>光</div>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+            <div>
+              <div style={{ fontSize: 20, fontWeight: 600 }}>LightSense AI</div>
+              <div style={{ fontSize: 12, color: "rgba(255,255,255,0.8)", marginTop: 4 }}>
+                {t("カラーライト制御", "Collar Light Control")}
+              </div>
+            </div>
+            <div style={{ textAlign: "right" }}>
+              <div style={{
+                display: "inline-flex", alignItems: "center", gap: 6,
+                background: "rgba(255,255,255,0.18)", padding: "4px 10px", borderRadius: 50,
+                fontSize: 10, fontWeight: 700, letterSpacing: "0.1em",
+              }}>
+                <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#4ADE80" }} />
+                LIVE
+              </div>
+              <div style={{ fontSize: 10, color: "rgba(255,255,255,0.75)", marginTop: 6 }}>
+                {t("ライト作動中", "Light active")}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Floating glass stats */}
+        <div style={{ padding: "0 16px", marginTop: -34 }}>
+          <div style={{
+            background: "rgba(255,255,255,0.94)", backdropFilter: "blur(20px)",
+            borderRadius: 22, padding: "16px 20px",
+            boxShadow: "0 16px 40px rgba(158,122,26,0.18)",
+            display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12,
+            boxSizing: "border-box",
+          }}>
+            {[
+              {
+                k: t("カラー", "CURRENT"),
+                v: <div style={{
+                  width: 32, height: 32, borderRadius: "50%", background: color, margin: "0 auto",
+                  boxShadow: `0 0 12px ${color}`, border: "2px solid #fff",
+                }} />,
+              },
+              { k: t("明るさ", "BRIGHTNESS"), v: <div style={{ fontSize: 22, fontWeight: 700, color: G.primary }}>{brightness}%</div> },
+              { k: t("モード", "MODE"), v: <div style={{ fontSize: 13, fontWeight: 600, color: G.text, textTransform: "capitalize" }}>{mode}</div> },
+            ].map((c, i) => (
+              <div key={i} style={{ textAlign: "center", borderLeft: i ? "1px solid #F3F4F6" : "none" }}>
+                <div style={{ fontSize: 9, letterSpacing: "0.12em", color: G.text3, fontWeight: 700, marginBottom: 8 }}>{c.k}</div>
+                <div style={{ height: 32, display: "flex", alignItems: "center", justifyContent: "center" }}>{c.v}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div style={{ padding: "20px 16px", display: "flex", flexDirection: "column", gap: 16 }}>
+          {/* CARD 1: Color Wheel */}
+          <div style={{ ...cardBase, borderLeft: `4px solid ${G.primary}` }}>
+            <div style={label}>● {t("カラー選択", "COLOR SELECTION")}</div>
+            <div style={{ display: "flex", justifyContent: "center", padding: "8px 0" }}>
+              <ColorWheel size={220} color={color} onChange={setColor} />
+            </div>
+            <div style={{
+              marginTop: 18, height: 40, borderRadius: 12, background: color,
+              boxShadow: `0 4px 18px ${color}66, inset 0 0 0 1px rgba(0,0,0,0.05)`,
+            }} />
+            <div style={{ textAlign: "center", marginTop: 12 }}>
+              {named && (
+                <div style={{ fontSize: 14, fontWeight: 600, color: G.text }}>
+                  {named.jp} / {named.en}
+                </div>
+              )}
+              <div style={{ fontSize: 12, color: G.text2, marginTop: 4 }}>{color}</div>
+              <div style={{ fontSize: 11, color: G.text3, marginTop: 2 }}>
+                RGB {rgb.r}, {rgb.g}, {rgb.b}
+              </div>
+            </div>
+          </div>
+
+          {/* CARD 2: Quick Colors */}
+          <div style={cardBase}>
+            <div style={label}>● {t("クイックカラー", "QUICK COLORS")}</div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: 12 }}>
+              {NAMED.map((n) => {
+                const active = n.hex.toUpperCase() === color.toUpperCase();
+                return (
+                  <button
+                    key={n.hex}
+                    onClick={() => setColor(n.hex)}
+                    title={`${n.jp} / ${n.en}`}
+                    style={{
+                      width: 44, height: 44, borderRadius: "50%", background: n.hex,
+                      border: active ? "2px solid #fff" : "2px solid transparent",
+                      boxShadow: active
+                        ? `0 0 0 2px ${G.primary}, 0 4px 12px rgba(0,0,0,0.18)`
+                        : "0 2px 8px rgba(0,0,0,0.1)",
+                      transform: active ? "scale(1.1)" : "scale(1)",
+                      transition: "transform 0.15s, box-shadow 0.15s",
+                      cursor: "pointer", justifySelf: "center",
+                    }}
+                  />
+                );
+              })}
+            </div>
+          </div>
+
+          {/* CARD 3: Scene Presets */}
+          <div style={cardBase}>
+            <div style={label}>● {t("シーン", "SCENE PRESETS")}</div>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+              {([
+                { k: "indoor", emoji: "🏠", jp: "屋内", en: "Indoor", sub: t("柔らかい光", "Soft warm light"), bg: G.soft, dark: false, ring: G.primary },
+                { k: "night", emoji: "🌙", jp: "夜のお散歩", en: "Night Walk", sub: t("明るい光", "Bright for visibility"), bg: "#1E293B", dark: true, ring: G.accent },
+                { k: "party", emoji: "🎉", jp: "パーティー", en: "Party", sub: t("レインボー", "Rainbow mode"), bg: "linear-gradient(135deg, #F472B6, #A78BFA)", dark: true, ring: "#F472B6" },
+                { k: "emergency", emoji: "🚨", jp: "緊急", en: "Emergency", sub: t("点滅", "Flashing for safety"), bg: "#FEF2F2", dark: false, ring: "#EF4444" },
+              ] as const).map((s) => {
+                const active = scene === s.k;
+                return (
+                  <button
+                    key={s.k}
+                    onClick={() => applyScene(s.k as Scene)}
+                    style={{
+                      borderRadius: 16, padding: 16, textAlign: "center",
+                      background: s.bg, color: s.dark ? "#fff" : G.text,
+                      border: active ? `2px solid ${s.ring}` : "2px solid transparent",
+                      boxShadow: active ? `0 6px 18px ${s.ring}40` : "0 2px 8px rgba(0,0,0,0.06)",
+                      cursor: "pointer", transition: "all 0.2s",
+                    }}
+                  >
+                    <div style={{
+                      width: 40, height: 40, borderRadius: "50%",
+                      background: s.k === "emergency" ? "rgba(239,68,68,0.15)" : "rgba(212,168,67,0.2)",
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                      margin: "0 auto 8px", fontSize: 20,
+                    }}>{s.emoji}</div>
+                    <div style={{ fontSize: 13, fontWeight: 700 }}>{s.jp} / {s.en}</div>
+                    <div style={{ fontSize: 10, opacity: 0.8, marginTop: 4 }}>{s.sub}</div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* CARD 4: Brightness */}
+          <div style={cardBase}>
+            <div style={{ ...label, marginBottom: 16 }}>● {t("明るさ", "BRIGHTNESS")}</div>
+            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+              <span style={{ color: "#F5DFA0", fontSize: 14 }}>☀</span>
+              <div style={{ flex: 1, position: "relative", height: 22, display: "flex", alignItems: "center" }}>
+                <div style={{
+                  position: "absolute", left: 0, right: 0, height: 8, borderRadius: 50,
+                  background: `linear-gradient(to right, ${G.soft}, ${G.primary})`,
+                }} />
+                <input
+                  type="range" min={0} max={100} value={brightness}
+                  onChange={(e) => setBrightness(Number(e.target.value))}
+                  style={{
+                    position: "relative", width: "100%", appearance: "none",
+                    background: "transparent", height: 22, margin: 0, zIndex: 2,
+                  }}
+                  className="ls-bright"
+                />
+              </div>
+              <span style={{ color: G.primary, fontSize: 20 }}>☀</span>
+              <div style={{ minWidth: 44, textAlign: "right", color: G.primary, fontSize: 14, fontWeight: 700 }}>
+                {brightness}%
+              </div>
+            </div>
+            <style>{`
+              .ls-bright::-webkit-slider-thumb {
+                appearance: none; width: 22px; height: 22px; border-radius: 50%;
+                background: #fff; box-shadow: 0 2px 8px rgba(212,168,67,0.5); cursor: pointer;
+                border: 2px solid ${G.primary};
+              }
+              .ls-bright::-moz-range-thumb {
+                width: 22px; height: 22px; border-radius: 50%; background: #fff;
+                box-shadow: 0 2px 8px rgba(212,168,67,0.5); border: 2px solid ${G.primary};
+              }
+            `}</style>
+          </div>
+
+          {/* CARD 5: Light Modes */}
+          <div style={cardBase}>
+            <div style={label}>● {t("ライトモード", "LIGHT MODES")}</div>
+            <div style={{ display: "flex", gap: 8, overflowX: "auto", paddingBottom: 4 }}>
+              {([
+                { k: "steady", jp: "常灯", en: "Steady", anim: "none" },
+                { k: "blink", jp: "点滅", en: "Blink", anim: "lsBlink 0.8s infinite" },
+                { k: "pulse", jp: "パルス", en: "Pulse", anim: "lsPulse 1.5s ease-in-out infinite" },
+                { k: "rainbow", jp: "レインボー", en: "Rainbow", anim: "lsHue 3s linear infinite" },
+              ] as const).map((m) => {
+                const active = mode === m.k;
+                return (
+                  <button
+                    key={m.k}
+                    onClick={() => setMode(m.k as Mode)}
+                    style={{
+                      display: "inline-flex", alignItems: "center", gap: 8,
+                      padding: "10px 16px", borderRadius: 50, flexShrink: 0,
+                      background: active ? G.soft : "#FAFAFA",
+                      border: active ? `2px solid ${G.primary}` : "2px solid transparent",
+                      color: G.text, fontSize: 13, fontWeight: 600, cursor: "pointer",
+                      transition: "all 0.2s",
+                    }}
+                  >
+                    <span style={{
+                      width: 10, height: 10, borderRadius: "50%",
+                      background: m.k === "rainbow"
+                        ? "conic-gradient(red, yellow, lime, cyan, blue, magenta, red)"
+                        : G.primary,
+                      animation: m.anim,
+                    }} />
+                    {m.jp} / {m.en}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* CARD 6: Collar Preview */}
+          <div style={{
+            borderRadius: 24, padding: 24, background: "#0F172A", overflow: "hidden",
+            boxSizing: "border-box",
+          }}>
+            <div style={{
+              color: "rgba(255,255,255,0.5)", fontSize: 11, letterSpacing: "0.1em",
+              fontWeight: 700, marginBottom: 16,
+            }}>{t("プレビュー", "PREVIEW")}</div>
+
+            <div style={{ display: "flex", justifyContent: "center", padding: "24px 0" }}>
+              <div style={{
+                width: "80%", height: 60, borderRadius: 30,
+                background: `linear-gradient(180deg, ${color}, ${color}cc)`,
+                opacity: 0.3 + (brightness / 100) * 0.7,
+                boxShadow: `0 0 30px 10px ${color}99, 0 0 60px 20px ${color}55, inset 0 2px 4px rgba(255,255,255,0.3)`,
+                animation: previewAnim,
+                border: "2px solid rgba(255,255,255,0.15)",
+              }} />
+            </div>
+
+            <div style={{ textAlign: "center" }}>
+              <div style={{ color: "#fff", fontSize: 14, fontWeight: 600 }}>
+                {named ? `${named.jp} / ${named.en}` : color}
+              </div>
+              <div style={{ color: "rgba(255,255,255,0.5)", fontSize: 12, marginTop: 4 }}>
+                {color} · {brightness}% {t("明るさ", "brightness")}
+              </div>
+              <div style={{
+                display: "inline-block", marginTop: 12, padding: "4px 12px",
+                background: "rgba(255,255,255,0.1)", color: "#fff",
+                fontSize: 10, borderRadius: 50,
+              }}>
+                {scene === "indoor" && `🏠 ${t("屋内", "Indoor")}`}
+                {scene === "night" && `🌙 ${t("夜のお散歩", "Night Walk")}`}
+                {scene === "party" && `🎉 ${t("パーティー", "Party")}`}
+                {scene === "emergency" && `🚨 ${t("緊急", "Emergency")}`}
+              </div>
+            </div>
+          </div>
+
+          {/* CARD 7: Set Color Button */}
+          <div>
+            <button
+              onClick={() => toast.success(t("カラーを設定しました", "Color applied to collar"))}
+              style={{
+                width: "100%", height: 52, borderRadius: 50, border: "none",
+                background: `linear-gradient(135deg, ${G.medium}, ${G.primary})`,
+                color: "#fff", fontSize: 16, fontWeight: 600, cursor: "pointer",
+                boxShadow: "0 6px 20px rgba(212,168,67,0.4)",
+              }}
+            >
+              {t("カラーを設定", "Set Color")}
+            </button>
+            <div style={{ textAlign: "center", marginTop: 10, fontSize: 12, color: G.text3 }}>
+              {t("現在の設定", "Current")}: {named ? `${named.jp}` : color} · {brightness}%
+            </div>
+          </div>
+        </div>
+      </div>
+    </AppShell>
+  );
 }
