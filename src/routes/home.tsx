@@ -245,10 +245,6 @@ function Scene({ theme, active }: { theme: SceneTheme; active: boolean }) {
         <circle key={i} cx={x} cy={y} r={i % 3 === 0 ? 1.6 : 1} fill="#FFFFFF" opacity={0.85} />
       ))}
 
-      {/* Static sun/moon behind Fuji */}
-      <circle cx={theme.staticSun.cx} cy={theme.staticSun.cy} r={theme.staticSun.r}
-              fill={theme.staticSun.fill} opacity={0.95} />
-
       {/* Mt Fuji */}
       <path d="M 110 330 L 200 150 L 290 330 Z" fill={theme.fujiBody} />
       {/* Snow cap */}
