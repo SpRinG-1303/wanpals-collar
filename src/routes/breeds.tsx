@@ -232,11 +232,40 @@ function Breeds() {
     let list: Breed[] = BREEDS;
     const matches = new Map<string, readonly FuseResultMatch[]>();
     if (hasQuery) {
-      const results = fuse.search(q);
-      list = results.map((r) => r.item);
-      results.forEach((r) => {
+      const ql = q.toLowerCase();
+      // 1) Prefix matches on any searchable field — like a search-engine
+      //    suggestion box, these float to the top.
+      const prefixFields = (b: Breed) => [
+        b.jp, b.en, b.kana, b.originJp, b.originEn, b.sizeJp, b.sizeEn,
+      ];
+      const prefixHits: Breed[] = [];
+      const prefixSet = new Set<string>();
+      for (const b of BREEDS) {
+        if (prefixFields(b).some((v) => v && v.toLowerCase().startsWith(ql))) {
+          prefixHits.push(b);
+          prefixSet.add(b.en);
+        }
+      }
+      // 2) Fallback: out-of-order multi-word fuzzy match via Fuse.
+      const tokens = ql.split(/\s+/).filter(Boolean);
+      const fieldNames = [
+        "name_jp", "name_en", "name_kana",
+        "country_jp", "country_en", "size_jp", "size_en",
+      ] as const;
+      const fuzzyResults =
+        tokens.length > 1
+          ? fuse.search({
+              $and: tokens.map((tok) => ({
+                $or: fieldNames.map((f) => ({ [f]: tok })),
+              })),
+            })
+          : fuse.search(q);
+      const fuzzyHits: Breed[] = [];
+      fuzzyResults.forEach((r) => {
         if (r.matches) matches.set(r.item.en, r.matches);
+        if (!prefixSet.has(r.item.en)) fuzzyHits.push(r.item);
       });
+      list = [...prefixHits, ...fuzzyHits];
     }
     if (filter === "popular") {
       list = [...list].filter((b) => b.rank !== null).sort((a, b) => a.rank! - b.rank!);
