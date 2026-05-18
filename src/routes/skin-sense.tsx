@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useRef, useState } from "react";
 import { Camera, Upload, Sparkles, Check, AlertTriangle, Stethoscope } from "lucide-react";
-import { SensorPage, Card, Bi, SP } from "@/components/SensorPage";
+import { SensorPage, Card, Bi, SP, SectionLabel, AIInsightCard } from "@/components/SensorPage";
 import { useT } from "@/context/LanguageContext";
 
 export const Route = createFileRoute("/skin-sense")({ component: SkinSensePage });
@@ -69,20 +69,10 @@ function SkinSensePage() {
   }
 
   return (
-    <SensorPage
-      titleJp="皮膚センサー"
-      titleEn="SkinSense AI — Skin Health Analysis"
-      accent={SP.sakura}
-      headerGradient="linear-gradient(135deg,#FFE4EC 0%,#FFF0F5 100%)"
-    >
+    <SensorPage titleJp="スキンセンス AI" titleEn="SkinSense AI">
       {/* Upload area */}
-      <Card accent={SP.sakura}>
-        <Bi
-          jp="写真をアップロード"
-          en="Upload Photo"
-          jpStyle={{ fontSize: 14, fontWeight: 700, color: SP.sumi }}
-          enStyle={{ fontSize: 10, color: SP.usuzumi, marginBottom: 10 }}
-        />
+      <Card>
+        <SectionLabel jp="写真をアップロード" en="Upload Photo" />
 
         {!photo ? (
           <label
@@ -282,14 +272,9 @@ function SkinSensePage() {
       )}
 
       {/* History */}
-      <Card accent={SP.yuzu}>
-        <Bi
-          jp="過去の分析履歴"
-          en="Analysis History"
-          jpStyle={{ fontSize: 14, fontWeight: 700, color: SP.sumi }}
-          enStyle={{ fontSize: 10, color: SP.usuzumi, marginBottom: 10 }}
-        />
-        <div style={{ marginTop: 10 }}>
+      <Card>
+        <SectionLabel jp="分析履歴" en="Analysis History" />
+        <div>
           {HISTORY.map((h, idx) => {
             const s = SEVERITY[h.sev];
             const d = new Date(h.date);
@@ -300,7 +285,7 @@ function SkinSensePage() {
                 className="flex items-center"
                 style={{
                   gap: 12, padding: "12px 0",
-                  borderTop: idx === 0 ? "none" : "1px solid #F1ECE9",
+                  borderTop: idx === 0 ? "none" : `1px solid ${SP.divider}`,
                 }}
               >
                 <div style={{
@@ -310,18 +295,18 @@ function SkinSensePage() {
                   <Bi
                     jp={h.jp}
                     en={h.en}
-                    jpStyle={{ fontSize: 13, fontWeight: 600, color: SP.sumi }}
-                    enStyle={{ fontSize: 10, color: SP.usuzumi, marginTop: 1 }}
+                    jpStyle={{ fontSize: 14, fontWeight: 600, color: SP.sumi }}
+                    enStyle={{ fontSize: 11, color: SP.muted, marginTop: 1 }}
                   />
-                  <div style={{ fontSize: 11, color: SP.usuzumi, marginTop: 3 }}>
+                  <div style={{ fontSize: 11, color: SP.muted, marginTop: 3 }}>
                     {formatted}
                   </div>
                 </div>
                 <div style={{ textAlign: "right" }}>
-                  <div style={{ fontSize: 20, fontWeight: 700, color: "#F43F72", fontVariantNumeric: "tabular-nums", lineHeight: 1 }}>{h.score}</div>
+                  <div style={{ fontSize: 20, fontWeight: 700, color: SP.rose, fontVariantNumeric: "tabular-nums", lineHeight: 1 }}>{h.score}</div>
                   <span style={{
-                    fontSize: 9, fontWeight: 700, color: s.color, background: s.bg,
-                    padding: "2px 6px", borderRadius: 999, display: "inline-block", marginTop: 4,
+                    fontSize: 10, fontWeight: 600, color: s.color, background: s.bg,
+                    padding: "3px 8px", borderRadius: 50, display: "inline-block", marginTop: 4,
                   }}>{t(s.jp, s.en)}</span>
                 </div>
               </div>
@@ -329,6 +314,11 @@ function SkinSensePage() {
           })}
         </div>
       </Card>
+
+      <AIInsightCard
+        jp="皮膚の状態は良好です。前回より3ポイント改善しています。"
+        en="Skin condition is healthy. Improved by 3 points since last check."
+      />
     </SensorPage>
   );
 }

@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Thermometer, TrendingDown, TrendingUp } from "lucide-react";
-import { SensorPage, Card, TimeTabs, useTimeTab, SP, Bi } from "@/components/SensorPage";
+import { SensorPage, Card, TimeTabs, useTimeTab, SP, Bi, SectionLabel, AIInsightCard } from "@/components/SensorPage";
 import { useT } from "@/context/LanguageContext";
 
 export const Route = createFileRoute("/temp-sense")({ component: TempSensePage });
@@ -22,18 +22,14 @@ function TempSensePage() {
   const max = Math.max(...HISTORY);
 
   return (
-    <SensorPage
-      titleJp="体温センス"
-      titleEn="TempSense AI · Body Temperature"
-      headerGradient="linear-gradient(135deg, #FFD9B8 0%, #FFC1A0 100%)"
-      accent={SP.momiji}
-    >
+    <SensorPage titleJp="体温センス AI" titleEn="TempSense AI">
       <TimeTabs value={tab} onChange={setTab} />
 
       <Card>
+        <SectionLabel jp="現在の体温" en="Current Temperature" />
         <div style={{ position: "relative", width: 160, height: 160, margin: "8px auto" }}>
           <svg width={160} height={160}>
-            <circle cx={80} cy={80} r={R} stroke="#FFF0F3" strokeWidth={12} fill="none" />
+            <circle cx={80} cy={80} r={R} stroke={SP.divider} strokeWidth={12} fill="none" />
             <circle
               cx={80} cy={80} r={R} stroke="url(#tGrad)" strokeWidth={12} fill="none"
               strokeLinecap="round" strokeDasharray={`${C * pct} ${C}`}
@@ -41,64 +37,73 @@ function TempSensePage() {
             />
             <defs>
               <linearGradient id="tGrad" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stopColor="#F43F72" />
-                <stop offset="100%" stopColor="#E8829A" />
+                <stop offset="0%" stopColor={SP.rose} />
+                <stop offset="100%" stopColor={SP.roseSoft} />
               </linearGradient>
             </defs>
           </svg>
           <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-            <Thermometer size={20} style={{ color: SP.rose, marginBottom: 2 }} />
-            <div style={{ fontSize: 32, fontWeight: 700, color: SP.sumi, fontVariantNumeric: "tabular-nums", lineHeight: 1 }}>
-              {temp}<span style={{ fontSize: 16 }}>°C</span>
+            <Thermometer size={18} style={{ color: SP.rose, marginBottom: 2 }} />
+            <div style={{ fontSize: 36, fontWeight: 700, color: SP.sumi, fontVariantNumeric: "tabular-nums", lineHeight: 1 }}>
+              {temp}<span style={{ fontSize: 18, fontWeight: 400, color: SP.usuzumi }}>°C</span>
             </div>
             <div style={{
-              marginTop: 8, fontSize: 10, fontWeight: 700, color: "#2E7D32",
-              background: "#E8F5E9", padding: "3px 10px", borderRadius: 999,
-            }}>{t("正常範囲", "Normal")}</div>
+              marginTop: 8, fontSize: 12, fontWeight: 600, color: SP.ok,
+              background: SP.okBg, padding: "4px 12px", borderRadius: 50,
+              display: "inline-flex", alignItems: "center", gap: 6,
+            }}>
+              <span style={{ width: 6, height: 6, borderRadius: "50%", background: SP.okDot }} />
+              {t("正常", "Normal")}
+            </div>
           </div>
         </div>
-        <div className="flex justify-around" style={{ marginTop: 8, paddingTop: 14, borderTop: `1px solid ${SP.divider}` }}>
-          <div className="text-center">
-            <TrendingDown size={14} style={{ color: SP.rose, margin: "0 auto" }} />
-            <div style={{ fontSize: 16, fontWeight: 700, color: SP.sumi, fontVariantNumeric: "tabular-nums" }}>{min}°C</div>
-            <div style={{ fontSize: 10, color: SP.usuzumi }}>{t("最低", "Min")}</div>
+        <div className="flex" style={{ marginTop: 12, paddingTop: 14, borderTop: `1px solid ${SP.divider}` }}>
+          <div className="text-center" style={{ flex: 1 }}>
+            <TrendingDown size={14} style={{ color: SP.sora, margin: "0 auto 4px" }} />
+            <div style={{ fontSize: 16, fontWeight: 600, color: SP.sumi, fontVariantNumeric: "tabular-nums" }}>{min}°C</div>
+            <div style={{ fontSize: 11, color: SP.muted, marginTop: 2 }}>{t("最低", "Min")}</div>
           </div>
-          <div className="text-center">
-            <TrendingUp size={14} style={{ color: SP.rose, margin: "0 auto" }} />
-            <div style={{ fontSize: 16, fontWeight: 700, color: SP.sumi, fontVariantNumeric: "tabular-nums" }}>{max}°C</div>
-            <div style={{ fontSize: 10, color: SP.usuzumi }}>{t("最高", "Max")}</div>
+          <div style={{ width: 1, background: SP.divider }} />
+          <div className="text-center" style={{ flex: 1 }}>
+            <TrendingUp size={14} style={{ color: SP.rose, margin: "0 auto 4px" }} />
+            <div style={{ fontSize: 16, fontWeight: 600, color: SP.sumi, fontVariantNumeric: "tabular-nums" }}>{max}°C</div>
+            <div style={{ fontSize: 11, color: SP.muted, marginTop: 2 }}>{t("最高", "Max")}</div>
           </div>
         </div>
       </Card>
 
       <Card>
-        <Bi
-          jp="体温履歴" en="Temperature History · 7 days"
-          jpStyle={{ fontSize: 14, fontWeight: 700, color: SP.sumi }}
-          enStyle={{ fontSize: 11, color: SP.usuzumi, marginBottom: 12 }}
-        />
-        <svg viewBox="0 0 280 110" width="100%" height={110} style={{ marginTop: 8 }}>
+        <SectionLabel jp="体温履歴・7日間" en="Temperature History · 7 Days" />
+        <svg viewBox="0 0 280 130" width="100%" height={130}>
           <defs>
             <linearGradient id="tFill" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#F43F72" stopOpacity="0.22" />
-              <stop offset="100%" stopColor="#FFF0F3" stopOpacity="0" />
+              <stop offset="0%" stopColor={SP.rose} stopOpacity="0.16" />
+              <stop offset="100%" stopColor={SP.rose} stopOpacity="0" />
             </linearGradient>
           </defs>
           {[37.5, 38.5, 39.5].map((v, i) => (
-            <line key={i} x1={20} x2={280} y1={20 + i * 35} y2={20 + i * 35} stroke="#FAE0E8" strokeWidth={1} strokeDasharray="3 3" />
+            <g key={i}>
+              <line x1={28} x2={278} y1={20 + i * 35} y2={20 + i * 35} stroke={SP.divider} strokeWidth={1} />
+              <text x={24} y={23 + i * 35} fontSize="10" fill={SP.muted} textAnchor="end">{v}</text>
+            </g>
           ))}
           {(() => {
-            const pts = HISTORY.map((v, i) => [25 + i * 40, 90 - ((v - 37.5) / 2) * 70] as [number, number]);
-            const d = pts.map((p, i) => (i === 0 ? `M${p[0]},${p[1]}` : `L${p[0]},${p[1]}`)).join(" ");
+            const pts = HISTORY.map((v, i) => [40 + i * 38, 90 - ((v - 37.5) / 2) * 70] as [number, number]);
+            const d = pts.reduce((acc, p, i) => {
+              if (i === 0) return `M${p[0]},${p[1]}`;
+              const prev = pts[i - 1];
+              const cx1 = prev[0] + (p[0] - prev[0]) / 2;
+              return `${acc} C${cx1},${prev[1]} ${cx1},${p[1]} ${p[0]},${p[1]}`;
+            }, "");
             const fillD = `${d} L${pts[pts.length - 1][0]},95 L${pts[0][0]},95 Z`;
             return (
               <>
                 <path d={fillD} fill="url(#tFill)" />
-                <path d={d} stroke="#F43F72" strokeWidth={2.5} fill="none" strokeLinecap="round" strokeLinejoin="round" />
+                <path d={d} stroke={SP.rose} strokeWidth={2.5} fill="none" strokeLinecap="round" strokeLinejoin="round" />
                 {pts.map((p, i) => (
                   <g key={i}>
-                    <circle cx={p[0]} cy={p[1]} r={4} fill="#FFFFFF" stroke="#F43F72" strokeWidth={2} />
-                    <text x={p[0]} y={108} fontSize="9" fill="#8A8A8A" textAnchor="middle">{t(DAYS[i].jp, DAYS[i].en)}</text>
+                    <circle cx={p[0]} cy={p[1]} r={3} fill="#FFFFFF" stroke={SP.rose} strokeWidth={2} />
+                    <text x={p[0]} y={115} fontSize="11" fill={SP.muted} textAnchor="middle">{t(DAYS[i].jp, DAYS[i].en)}</text>
                   </g>
                 ))}
               </>
@@ -108,31 +113,37 @@ function TempSensePage() {
       </Card>
 
       <Card>
-        <Bi
-          jp="警告しきい値" en="Alert Thresholds"
-          jpStyle={{ fontSize: 14, fontWeight: 700, color: SP.sumi }}
-          enStyle={{ fontSize: 11, color: SP.usuzumi, marginBottom: 14 }}
-        />
-        <ThresholdRow color="#2E7D32" jp="正常範囲" en="Normal" range="38.0 – 39.2°C" />
-        <ThresholdRow color="#F57F17" jp="注意" en="Warning" range="39.2 – 40.0°C" />
-        <ThresholdRow color="#C62828" jp="危険" en="Danger" range="> 40.0°C" />
+        <SectionLabel jp="アラートしきい値" en="Alert Thresholds" />
+        <ThresholdRow color={SP.okDot} textColor={SP.ok} jp="正常" en="Normal" range="38.0 – 39.2°C" first />
+        <ThresholdRow color={SP.warnDot} textColor={SP.warn} jp="注意" en="Warning" range="39.2 – 40.0°C" />
+        <ThresholdRow color={SP.dangerDot} textColor={SP.danger} jp="危険" en="Danger" range="> 40.0°C" />
       </Card>
+
+      <AIInsightCard
+        jp="体温は正常範囲内で安定しています。過去7日間で大きな変動はありません。"
+        en="Temperature is stable within the normal range. No significant variation over the past 7 days."
+      />
     </SensorPage>
   );
 }
 
-function ThresholdRow({ color, jp, en, range }: { color: string; jp: string; en: string; range: string }) {
+function ThresholdRow({ color, textColor, jp, en, range, first }: {
+  color: string; textColor: string; jp: string; en: string; range: string; first?: boolean;
+}) {
   return (
-    <div className="flex items-center" style={{ gap: 10, padding: "8px 0" }}>
-      <div style={{ width: 10, height: 10, borderRadius: "50%", background: color, flexShrink: 0 }} />
+    <div className="flex items-center" style={{
+      gap: 10, padding: "14px 0",
+      borderTop: first ? "none" : `1px solid ${SP.divider}`,
+    }}>
+      <div style={{ width: 8, height: 8, borderRadius: "50%", background: color, flexShrink: 0 }} />
       <div style={{ flex: 1 }}>
         <Bi
           jp={jp} en={en}
-          jpStyle={{ fontSize: 13, fontWeight: 600, color: SP.sumi }}
-          enStyle={{ fontSize: 10, color: SP.usuzumi }}
+          jpStyle={{ fontSize: 13, fontWeight: 500, color: SP.ink }}
+          enStyle={{ fontSize: 11, color: SP.muted }}
         />
       </div>
-      <div style={{ fontSize: 12, fontWeight: 700, color, fontVariantNumeric: "tabular-nums" }}>{range}</div>
+      <div style={{ fontSize: 13, fontWeight: 600, color: textColor, fontVariantNumeric: "tabular-nums" }}>{range}</div>
     </div>
   );
 }
