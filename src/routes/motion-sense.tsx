@@ -249,7 +249,7 @@ function HeroStepCard({ mounted }: { mounted: boolean }) {
                 <stop offset="100%" stopColor={C.rosePale} />
               </linearGradient>
             </defs>
-            <circle cx={cx} cy={cy} r={R + sw / 2 + 3} stroke="rgba(244,63,114,0.15)" strokeWidth={1} fill="none" />
+            <circle cx={cx} cy={cy} r={R + sw / 2 + 3} stroke="rgba(123,179,212,0.18)" strokeWidth={1} fill="none" />
             <circle cx={cx} cy={cy} r={R} stroke={C.roseTrack} strokeWidth={sw} fill="none" />
             <circle
               cx={cx} cy={cy} r={R}
@@ -261,7 +261,7 @@ function HeroStepCard({ mounted }: { mounted: boolean }) {
             />
             {mounted && (
               <circle cx={endX} cy={endY} r={5} fill={C.rose}
-                style={{ filter: "drop-shadow(0 0 6px rgba(244,63,114,0.7))", animation: "msPulse 1.8s ease-in-out infinite", transformOrigin: `${endX}px ${endY}px` }}
+                style={{ filter: "drop-shadow(0 0 6px rgba(123,179,212,0.7))", animation: "msPulse 1.8s ease-in-out infinite", transformOrigin: `${endX}px ${endY}px` }}
               />
             )}
           </svg>
