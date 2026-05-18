@@ -2,6 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { useLanguage, type Language } from "@/context/LanguageContext";
 import { PawPrint } from "lucide-react";
+import { PawLogo } from "@/components/PawLogo";
 import PhoneFrame from "@/components/PhoneFrame";
 
 export const Route = createFileRoute("/language")({ component: LanguagePicker });
