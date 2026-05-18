@@ -8,17 +8,17 @@ export const Route = createFileRoute("/bark-sense")({ component: BarkSensePage }
 
 type Lang = "english" | "japanese" | "mixed";
 
-// Purple palette for this page
+// Soft pastel purple palette for this page
 const P = {
-  primary: "#7C3AED",
-  deep: "#3B1F6A",
-  mid: "#6D28D9",
-  soft: "#EDE9FE",
-  pale: "#F5F3FF",
-  accent: "#8B5CF6",
-  muted: "#DDD6FE",
-  light: "#C4B5FD",
-  darker: "#5B21B6",
+  primary: "#9B8EC4",   // was #7C3AED
+  deep:    "#6B5B9E",   // was #3B1F6A
+  mid:     "#A99DD4",   // was #6D28D9
+  soft:    "#F0ECFF",   // was #EDE9FE
+  pale:    "#F8F6FF",   // was #F5F3FF
+  accent:  "#B5A8D8",   // was #8B5CF6
+  muted:   "#E8E3FF",   // was #DDD6FE
+  light:   "#D4CCF5",   // was #C4B5FD
+  darker:  "#8B7DBF",   // was #5B21B6
 };
 
 type EmotionKey =
@@ -52,9 +52,12 @@ function Section({ children, style }: { children: ReactNode; style?: CSSProperti
       style={{
         background: "#FFFFFF",
         borderRadius: 24,
-        padding: 22,
-        boxShadow: "0 12px 32px rgba(91,33,182,0.10)",
-        borderLeft: `4px solid ${P.accent}`,
+        padding: 20,
+        width: "100%",
+        boxSizing: "border-box",
+        overflow: "hidden",
+        boxShadow: "0 12px 32px rgba(139,125,191,0.10)",
+        borderLeft: `4px solid #B5A8D8`,
         ...style,
       }}
     >
@@ -97,11 +100,11 @@ function BarkSensePage() {
     { key: "suspicion", pct: 3 },
   ];
 
-  // Radar layout
-  const radarSize = 280;
+  // Radar layout (sized so labels stay fully inside the card)
+  const radarSize = 240;
   const center = radarSize / 2;
-  const labelRadius = center - 8;
-  const blobRadius = center - 58;
+  const blobRadius = center - 52;
+  const labelRadius = center - 38;
 
   // 24h activity
   const hours = Array.from({ length: 24 }, (_, h) => {
@@ -117,7 +120,8 @@ function BarkSensePage() {
     if (noise > 1.2) level = Math.min(3, level + 1);
     return level;
   });
-  const heatColors = [P.light, P.accent, P.primary, P.darker];
+  // Bark activity bars (low → peak) in pastel purples
+  const heatColors = ["#E8E3FF", "#C2B5F0", "#9B8EC4", "#8B7DBF"];
   const nowHour = 14;
 
   // Donut
@@ -186,7 +190,7 @@ function BarkSensePage() {
             position: "relative",
             padding: "20px 20px 56px",
             height: 220,
-            background: `linear-gradient(135deg, ${P.deep} 0%, #5B2D8E 50%, ${P.primary} 100%)`,
+            background: `linear-gradient(135deg, ${P.deep} 0%, ${P.darker} 50%, ${P.primary} 100%)`,
             borderBottomLeftRadius: 28,
             borderBottomRightRadius: 28,
             overflow: "hidden",
@@ -324,7 +328,7 @@ function BarkSensePage() {
             </div>
 
             <div style={{ position: "relative", width: "100%", marginTop: 14, display: "flex", justifyContent: "center" }}>
-              <svg viewBox={`0 0 ${radarSize} ${radarSize}`} style={{ width: "100%", maxWidth: 320, overflow: "visible" }}>
+              <svg viewBox={`0 0 ${radarSize} ${radarSize}`} style={{ width: "100%", maxWidth: 200, overflow: "hidden" }}>
                 {/* concentric circles */}
                 {[1, 2, 3].map((i) => (
                   <circle
@@ -389,28 +393,27 @@ function BarkSensePage() {
                 })()}
 
                 {/* center glass card */}
-                <circle cx={center} cy={center} r={48} fill="white" stroke="rgba(124,58,237,0.10)" />
-                <circle cx={center} cy={center} r={48} fill="none" stroke="rgba(124,58,237,0.10)" strokeWidth={6} />
+                <circle cx={center} cy={center} r={38} fill="white" stroke="rgba(139,125,191,0.10)" />
+                <circle cx={center} cy={center} r={38} fill="none" stroke="rgba(139,125,191,0.10)" strokeWidth={6} />
 
-                {/* labels */}
+                {/* labels (centered anchor so text stays inside the card) */}
                 {RADAR_ORDER.map((k, i) => {
                   const a = (i / RADAR_ORDER.length) * Math.PI * 2 - Math.PI / 2;
                   const x = center + Math.cos(a) * labelRadius;
                   const y = center + Math.sin(a) * labelRadius;
-                  const anchor = Math.abs(Math.cos(a)) < 0.2 ? "middle" : Math.cos(a) > 0 ? "start" : "end";
                   return (
                     <g key={k} transform={`translate(${x}, ${y})`}>
                       <text
-                        textAnchor={anchor}
+                        textAnchor="middle"
                         dominantBaseline="middle"
-                        fontSize={11}
+                        fontSize={9}
                         fontWeight={k === "contentment" ? 700 : 500}
                         fill={k === "contentment" ? "#1A1A2E" : "#6B7280"}
                       >
                         {lang === "english" ? EMO[k].en : EMO[k].jp}
                       </text>
                       {lang === "mixed" && (
-                        <text textAnchor={anchor} dominantBaseline="middle" y={11} fontSize={9} fill="#9CA3AF">
+                        <text textAnchor="middle" dominantBaseline="middle" y={9} fontSize={7} fill="#9CA3AF">
                           {EMO[k].en}
                         </text>
                       )}
@@ -696,7 +699,9 @@ function BarkSensePage() {
           {/* CARD 5 - Emotion Breakdown (Donut) */}
           <Section style={{ animation: "bsFadeUp .6s ease-out .35s both" }}>
             <Label lang={lang} jp="感情分布" en="Emotion Breakdown" />
-            <div style={{ display: "grid", gridTemplateColumns: "180px 1fr", gap: 18, marginTop: 14, alignItems: "center" }}>
+
+            {/* Donut centered on top */}
+            <div style={{ marginTop: 14, display: "flex", justifyContent: "center" }}>
               <div style={{ position: "relative", width: 180, height: 180 }}>
                 <svg width="180" height="180" viewBox="0 0 180 180" style={{ transform: "rotate(-90deg)" }}>
                   <circle cx="90" cy="90" r={donutR} fill="none" stroke={P.soft} strokeWidth="22" />
@@ -715,7 +720,7 @@ function BarkSensePage() {
                         strokeDashoffset={-off}
                         style={{
                           transition: "stroke-dasharray 1.1s cubic-bezier(.2,.8,.2,1)",
-                          filter: "drop-shadow(0 2px 4px rgba(91,33,182,0.15))",
+                          filter: "drop-shadow(0 2px 4px rgba(139,125,191,0.18))",
                         }}
                       />
                     );
@@ -731,22 +736,39 @@ function BarkSensePage() {
                   <div style={{ fontSize: 32, fontWeight: 800, color: P.primary, lineHeight: 1 }}>55%</div>
                 </div>
               </div>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
-                {donut.map((d) => (
-                  <div key={d.key} style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 11 }}>
-                    <span style={{ width: 8, height: 8, borderRadius: "50%", background: EMO[d.key].color, flexShrink: 0 }} />
-                    <span style={{ color: "#1A1A2E", fontWeight: 600, flex: 1 }}>
-                      {lang === "english" ? EMO[d.key].en : EMO[d.key].jp}
-                    </span>
-                    <span style={{ color: "#6B7280" }}>{d.pct}%</span>
-                    <span style={{
-                      fontSize: 9, fontWeight: 700,
-                      color: d.trend.startsWith("+") ? "#16A34A" : d.trend.startsWith("-") ? "#EF4444" : "#9CA3AF",
-                    }}>{d.trend}</span>
-                  </div>
-                ))}
-              </div>
             </div>
+
+            {/* Legend: 2-column grid below the donut, all 9 emotions */}
+            {(() => {
+              const byKey = Object.fromEntries(donut.map((d) => [d.key, d])) as Partial<Record<EmotionKey, { pct: number; trend: string }>>;
+              const left: EmotionKey[] = ["contentment", "affection", "distress", "anger"];
+              const right: EmotionKey[] = ["joy", "excitement", "fear", "disgust", "suspicion"];
+              const renderRow = (k: EmotionKey) => {
+                const d = byKey[k];
+                const pct = d?.pct ?? 0;
+                const trend = d?.trend ?? "0%";
+                const trendColor = trend.startsWith("+") ? "#16A34A" : trend.startsWith("-") ? "#EF4444" : "#9CA3AF";
+                const arrow = trend.startsWith("+") ? "▲" : trend.startsWith("-") ? "▼" : "■";
+                return (
+                  <div key={k} style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12, minWidth: 0 }}>
+                    <span style={{ width: 8, height: 8, borderRadius: "50%", background: EMO[k].color, flexShrink: 0 }} />
+                    <span style={{ color: "#1A1A2E", fontWeight: 600, flex: 1, minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                      {lang === "english" ? EMO[k].en : EMO[k].jp}
+                    </span>
+                    <span style={{ color: "#6B7280", fontVariantNumeric: "tabular-nums" }}>{pct}%</span>
+                    <span style={{ fontSize: 10, fontWeight: 700, color: trendColor, display: "inline-flex", alignItems: "center", gap: 2 }}>
+                      <span style={{ fontSize: 8 }}>{arrow}</span>
+                    </span>
+                  </div>
+                );
+              };
+              return (
+                <div style={{ marginTop: 18, display: "grid", gridTemplateColumns: "1fr 1fr", columnGap: 16, rowGap: 10 }}>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>{left.map(renderRow)}</div>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>{right.map(renderRow)}</div>
+                </div>
+              );
+            })()}
           </Section>
 
           {/* CARD 6 - AI Insight */}
@@ -755,7 +777,7 @@ function BarkSensePage() {
               position: "relative",
               borderRadius: 26,
               padding: 22,
-              background: `linear-gradient(135deg, ${P.deep} 0%, #5B2D8E 100%)`,
+              background: `linear-gradient(135deg, ${P.deep} 0%, ${P.darker} 100%)`,
               boxShadow: "0 16px 40px rgba(59,31,106,0.35)",
               overflow: "hidden",
               animation: "bsFadeUp .6s ease-out .4s both",
