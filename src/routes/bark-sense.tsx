@@ -393,28 +393,27 @@ function BarkSensePage() {
                 })()}
 
                 {/* center glass card */}
-                <circle cx={center} cy={center} r={48} fill="white" stroke="rgba(124,58,237,0.10)" />
-                <circle cx={center} cy={center} r={48} fill="none" stroke="rgba(124,58,237,0.10)" strokeWidth={6} />
+                <circle cx={center} cy={center} r={38} fill="white" stroke="rgba(139,125,191,0.10)" />
+                <circle cx={center} cy={center} r={38} fill="none" stroke="rgba(139,125,191,0.10)" strokeWidth={6} />
 
-                {/* labels */}
+                {/* labels (centered anchor so text stays inside the card) */}
                 {RADAR_ORDER.map((k, i) => {
                   const a = (i / RADAR_ORDER.length) * Math.PI * 2 - Math.PI / 2;
                   const x = center + Math.cos(a) * labelRadius;
                   const y = center + Math.sin(a) * labelRadius;
-                  const anchor = Math.abs(Math.cos(a)) < 0.2 ? "middle" : Math.cos(a) > 0 ? "start" : "end";
                   return (
                     <g key={k} transform={`translate(${x}, ${y})`}>
                       <text
-                        textAnchor={anchor}
+                        textAnchor="middle"
                         dominantBaseline="middle"
-                        fontSize={11}
+                        fontSize={9}
                         fontWeight={k === "contentment" ? 700 : 500}
                         fill={k === "contentment" ? "#1A1A2E" : "#6B7280"}
                       >
                         {lang === "english" ? EMO[k].en : EMO[k].jp}
                       </text>
                       {lang === "mixed" && (
-                        <text textAnchor={anchor} dominantBaseline="middle" y={11} fontSize={9} fill="#9CA3AF">
+                        <text textAnchor="middle" dominantBaseline="middle" y={9} fontSize={7} fill="#9CA3AF">
                           {EMO[k].en}
                         </text>
                       )}
