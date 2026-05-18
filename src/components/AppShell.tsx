@@ -29,6 +29,7 @@ export function TopBar({
       <header className="sticky top-0 z-40" style={{ background: "var(--bg-topbar)" }}>
         <div className="flex items-center justify-between" style={{ padding: "0 16px", height: 60, gap: 10 }}>
           <div className="flex items-center" style={{ gap: 8 }}>
+            {onMenuClick && <HamburgerButton isOpen={menuOpen} onClick={onMenuClick} />}
             {showBack && (
               <Link
                 to={backTo}
@@ -39,7 +40,6 @@ export function TopBar({
                 <ArrowLeft size={22} strokeWidth={2} />
               </Link>
             )}
-            {onMenuClick && <HamburgerButton isOpen={menuOpen} onClick={onMenuClick} />}
             <Link
               to="/settings"
               className="flex items-center justify-center text-lg"

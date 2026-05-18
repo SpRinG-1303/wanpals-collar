@@ -55,8 +55,8 @@ export function SensorPage({
   return (
     <AppShell
       noPadding
-      renderTopBar={() => (
-        <TopBar showBack backTo="/home" />
+      renderTopBar={({ menuOpen, onMenuClick }) => (
+        <TopBar showBack backTo="/home" menuOpen={menuOpen} onMenuClick={onMenuClick} />
       )}
     >
       <style>{`
