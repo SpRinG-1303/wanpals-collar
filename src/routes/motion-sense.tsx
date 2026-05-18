@@ -142,39 +142,17 @@ function MotionSensePage() {
 
       <div style={{ background: C.page, minHeight: "100%", paddingBottom: 100 }}>
         {/* HEADER */}
-        <div style={{
-          height: 90,
-          background: "linear-gradient(135deg,#3D7A9E 0%,#5B9FBF 50%,#7BB3D4 100%)",
-          position: "relative",
-          overflow: "hidden",
-          padding: "0 16px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}>
-          <span aria-hidden style={{
-            position: "absolute", right: -10, top: -28,
-            fontSize: 120, lineHeight: 1, fontWeight: 800,
-            color: "rgba(255,255,255,0.05)", pointerEvents: "none", userSelect: "none",
-          }}>動</span>
-          <div style={{ position: "relative", zIndex: 1 }}>
-            <div style={{ fontSize: 18, fontWeight: 600, color: "#FFFFFF", lineHeight: 1.2 }}>
-              {t("モーションセンス", "MotionSense")}
-            </div>
-            <div style={{ fontSize: 11, color: "rgba(255,255,255,0.75)", letterSpacing: "0.05em", marginTop: 2 }}>
-              {t("モーションセンス · アクティビティ追跡", "MotionSense · Activity Tracking")}
-            </div>
-          </div>
-          <span className="flex items-center" style={{
-            position: "relative", zIndex: 1,
-            background: "#FFF", borderRadius: 50, padding: "5px 11px 5px 9px",
-            gap: 6, fontSize: 11, fontWeight: 700, letterSpacing: "0.1em",
-            color: C.sumi, boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
-          }}>
-            <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#E53935", animation: "msLive 1.5s ease-in-out infinite" }} />
-            LIVE
-          </span>
-        </div>
+        <SenseBanner
+          subtitleJp="モーションセンス"
+          titleEn="MotionSense"
+          descriptorJp="アクティビティ追跡"
+          descriptorEn="Activity tracking"
+          bgGradient="linear-gradient(135deg,#F0F7FC 0%,#E1F0FA 100%)"
+          kanji="動"
+          kanjiColor="rgba(123,179,212,0.07)"
+          subtitleColor="#7BB3D4"
+        />
+
 
         {/* TIME TABS */}
         <div style={{ padding: "14px 16px 0" }}>
