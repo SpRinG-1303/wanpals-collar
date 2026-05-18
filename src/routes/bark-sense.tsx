@@ -100,11 +100,11 @@ function BarkSensePage() {
     { key: "suspicion", pct: 3 },
   ];
 
-  // Radar layout
-  const radarSize = 280;
+  // Radar layout (sized so labels stay fully inside the card)
+  const radarSize = 240;
   const center = radarSize / 2;
-  const labelRadius = center - 8;
-  const blobRadius = center - 58;
+  const blobRadius = center - 52;
+  const labelRadius = center - 38;
 
   // 24h activity
   const hours = Array.from({ length: 24 }, (_, h) => {
@@ -120,7 +120,8 @@ function BarkSensePage() {
     if (noise > 1.2) level = Math.min(3, level + 1);
     return level;
   });
-  const heatColors = [P.light, P.accent, P.primary, P.darker];
+  // Bark activity bars (low → peak) in pastel purples
+  const heatColors = ["#E8E3FF", "#C2B5F0", "#9B8EC4", "#8B7DBF"];
   const nowHour = 14;
 
   // Donut
