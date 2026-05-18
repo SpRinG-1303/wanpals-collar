@@ -33,6 +33,7 @@ type Breed = {
   Icon: ComponentType<LucideProps>;
   iconColor: string;
   animateGradient?: boolean;
+  image?: string;          // real breed photo (Unsplash)
   // Detail extras
   stats: { energy: number; friendly: number; train: number; groom: number };
   health: { jp: string; en: string; level: "watch" | "concern" }[];
