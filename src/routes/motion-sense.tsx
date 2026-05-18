@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import AppShell, { TopBar } from "@/components/AppShell";
+import { SenseBanner } from "@/components/SenseBanner";
 import { useLanguage } from "@/context/LanguageContext";
 import { useT } from "@/context/LanguageContext";
 import { usePet, displayName } from "@/context/PetContext";
