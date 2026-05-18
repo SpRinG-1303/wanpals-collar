@@ -353,55 +353,92 @@ function Breeds() {
         })}
       </div>
 
-      {/* TODAY'S BREED — clean text-based banner */}
-      <div style={{ padding: "8px 16px 4px" }}>
-        <button
-          onClick={() => setOpenBreed(featured)}
-          style={{
-            position: "relative",
-            width: "100%", height: 72,
-            borderRadius: 16, overflow: "hidden",
-            boxShadow: "0 4px 16px rgba(255,107,53,0.25)",
-            textAlign: "left",
-            border: "none", padding: 0,
-          }}
-        >
-          <BreedImage breed={featured} overlay="linear-gradient(90deg, rgba(0,0,0,0.55), rgba(0,0,0,0.15))" />
-          <div style={{ position: "relative", height: "100%", display: "flex", alignItems: "center", padding: "0 20px", gap: 12 }}>
-            <div style={{ flex: 1, color: "white" }}>
-              <span style={{
-                display: "inline-block",
+      {/* TODAY'S BREED — hidden during active search */}
+      {!hasQuery && (
+        <div style={{ padding: "8px 16px 4px" }}>
+          <button
+            onClick={() => setOpenBreed(featured)}
+            style={{
+              position: "relative",
+              width: "100%", height: 72,
+              borderRadius: 16, overflow: "hidden",
+              boxShadow: "0 4px 16px rgba(255,107,53,0.25)",
+              textAlign: "left",
+              border: "none", padding: 0,
+            }}
+          >
+            <BreedImage breed={featured} overlay="linear-gradient(90deg, rgba(0,0,0,0.55), rgba(0,0,0,0.15))" />
+            <div style={{ position: "relative", height: "100%", display: "flex", alignItems: "center", padding: "0 20px", gap: 12 }}>
+              <div style={{ flex: 1, color: "white" }}>
+                <span style={{
+                  display: "inline-block",
+                  background: "#FFFFFF", color: "#FF6B35",
+                  fontSize: 9, fontWeight: 800, letterSpacing: "0.08em",
+                  padding: "3px 8px", borderRadius: 10, marginBottom: 4,
+                }}>
+                  {t("今日の犬種", "TODAY'S BREED")}
+                </span>
+                <div style={{ fontSize: 18, fontWeight: 800, lineHeight: 1.1, textShadow: "0 1px 4px rgba(0,0,0,0.4)" }}>
+                  {language === "english" ? "Shiba Inu" : language === "japanese" ? "柴犬" : "柴犬 · Shiba Inu"}
+                </div>
+              </div>
+              <div style={{
+                display: "flex", alignItems: "center", gap: 4,
                 background: "#FFFFFF", color: "#FF6B35",
-                fontSize: 9, fontWeight: 800, letterSpacing: "0.08em",
-                padding: "3px 8px", borderRadius: 10, marginBottom: 4,
+                fontSize: 12, fontWeight: 800,
+                padding: "6px 14px", borderRadius: 20,
               }}>
-                {t("今日の犬種", "TODAY'S BREED")}
-              </span>
-              <div style={{ fontSize: 18, fontWeight: 800, lineHeight: 1.1, textShadow: "0 1px 4px rgba(0,0,0,0.4)" }}>
-                {language === "english" ? "Shiba Inu" : language === "japanese" ? "柴犬" : "柴犬 · Shiba Inu"}
+                <span>{t("詳しく", "More")}</span>
+                <ArrowRight size={12} strokeWidth={2.8} />
               </div>
             </div>
-            <div style={{
-              display: "flex", alignItems: "center", gap: 4,
-              background: "#FFFFFF", color: "#FF6B35",
-              fontSize: 12, fontWeight: 800,
-              padding: "6px 14px", borderRadius: 20,
-            }}>
-              <span>{t("詳しく", "More")}</span>
-              <ArrowRight size={12} strokeWidth={2.8} />
-            </div>
-          </div>
-        </button>
-      </div>
+          </button>
+        </div>
+      )}
+
+      {/* RESULT COUNT */}
+      {hasQuery && filtered.length > 0 && (
+        <div style={{ padding: "10px 20px 0", fontSize: 12, fontWeight: 700, color: "#8A8A8A" }}>
+          {language === "english"
+            ? `${filtered.length} ${filtered.length === 1 ? "breed" : "breeds"} found`
+            : language === "japanese"
+            ? `${filtered.length}件の犬種`
+            : `${filtered.length}件の犬種 / ${filtered.length} found`}
+        </div>
+      )}
 
       {/* GRID */}
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, padding: "12px 16px 24px" }}>
         {filtered.map((b) => (
-          <BreedCard key={b.en} breed={b} onOpen={() => setOpenBreed(b)} language={language} t={t} />
+          <BreedCard
+            key={b.en}
+            breed={b}
+            onOpen={() => setOpenBreed(b)}
+            language={language}
+            t={t}
+            matches={matchesByKey.get(b.en)}
+          />
         ))}
         {filtered.length === 0 && (
-          <div style={{ gridColumn: "1 / -1", textAlign: "center", padding: 40, color: "#8A8A8A", fontSize: 13 }}>
-            {t("結果が見つかりません", "No breeds found")}
+          <div style={{ gridColumn: "1 / -1", display: "flex", flexDirection: "column", alignItems: "center", padding: "40px 20px", gap: 12 }}>
+            <SadDog />
+            <div style={{ fontSize: 15, fontWeight: 800, color: "#2C2C2C", textAlign: "center" }}>
+              {t("見つかりませんでした", "No breeds found")}
+            </div>
+            <div style={{ fontSize: 12, color: "#8A8A8A", textAlign: "center" }}>
+              {t("別のキーワードで試してください", "Try a different keyword")}
+            </div>
+            <button
+              onClick={() => { setQuery(""); setFilter("all"); }}
+              style={{
+                marginTop: 4, height: 38, padding: "0 22px", borderRadius: 20,
+                background: "linear-gradient(135deg, #E8829A, #C86882)",
+                color: "white", fontSize: 12, fontWeight: 700, border: "none",
+                boxShadow: "0 4px 12px rgba(232,130,154,0.32)", cursor: "pointer",
+              }}
+            >
+              {t("すべて表示", "Show All")}
+            </button>
           </div>
         )}
       </div>
