@@ -6,7 +6,7 @@ export function PawLogo({ size = 32, color = "#E87090" }: { size?: number; color
       viewBox="0 0 100 100"
       fill="none"
       aria-hidden
-      style={{ display: "block" }}
+      style={{ display: "block", transform: "rotate(-15deg)" }}
     >
       {/* Toe pads */}
       <ellipse cx="22" cy="38" rx="11" ry="14" fill={color} />
