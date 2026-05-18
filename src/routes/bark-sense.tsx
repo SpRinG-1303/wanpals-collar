@@ -190,7 +190,7 @@ function BarkSensePage() {
             position: "relative",
             padding: "20px 20px 56px",
             height: 220,
-            background: `linear-gradient(135deg, ${P.deep} 0%, #5B2D8E 50%, ${P.primary} 100%)`,
+            background: `linear-gradient(135deg, ${P.deep} 0%, ${P.darker} 50%, ${P.primary} 100%)`,
             borderBottomLeftRadius: 28,
             borderBottomRightRadius: 28,
             overflow: "hidden",
