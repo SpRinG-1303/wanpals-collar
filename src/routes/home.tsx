@@ -169,20 +169,19 @@ function PostcardScene({ band, breedKey }: { band: TimeBand; breedKey: BreedKey 
         return <div key={i} style={{ position:"absolute", left:l, top:t, width:sz, height:sz, borderRadius:"50%", background: s.blossom, opacity: op ?? 0.95 }}/>;
       })}
 
-      {/* Breed dog (replaces Mt. Fuji) */}
+      {/* Full-body breed dog (replaces Mt. Fuji) */}
       <div
         style={{
           position: "absolute",
-          bottom: 6,
-          right: 8,
-          width: 120,
-          height: 120,
-          animation: "dogIdleBounce 2.4s ease-in-out infinite",
-          transformOrigin: "50% 90%",
-          filter: "drop-shadow(0 4px 6px rgba(0,0,0,0.12))",
+          bottom: 0,
+          right: 6,
+          height: 160,
+          width: 160,
+          animation: "dogFloat 3s ease-in-out infinite",
+          filter: "drop-shadow(0 6px 8px rgba(0,0,0,0.12))",
         }}
       >
-        <DogAvatar breed={breedKey} size={120} ring={false} showCollar />
+        <BreedFullBody breed={breedKey} height={160} />
       </div>
 
       {/* Falling petals */}
