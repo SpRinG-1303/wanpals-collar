@@ -583,8 +583,8 @@ function AIChat() {
           <button key={i}
             onClick={() => sendText(q.jp, q.en)}
             style={{
-              flexShrink: 0, background: C.soft, border: `1px solid ${C.accent}`,
-              color: C.deep, borderRadius: 50, padding: "6px 14px",
+              flexShrink: 0, background: "#FEF0F6", border: "1px solid #F5BDD4",
+              color: "#9B5B76", borderRadius: 50, padding: "6px 14px",
               fontSize: 12, fontWeight: 500, whiteSpace: "nowrap",
             }}
           >{t(q.jp, q.en)}</button>
@@ -605,8 +605,8 @@ function AIChat() {
                 boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
               }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 4, marginBottom: 4 }}>
-                  <PawIcon color={C.primary} size={12} />
-                  <span style={{ fontSize: 10, color: C.primary, fontWeight: 700 }}>AI</span>
+                  <PawIcon color="#E8B4CC" size={12} />
+                  <span style={{ fontSize: 10, color: "#E8B4CC", fontWeight: 700 }}>AI</span>
                 </div>
                 <Bi jp={m.jp} en={m.en}
                   jpStyle={{ fontSize: 13, color: "#374151", lineHeight: 1.6 }}
@@ -615,7 +615,7 @@ function AIChat() {
               </div>
             ) : (
               <div style={{
-                background: "linear-gradient(135deg, #EC4899, #F472B6)", color: "#fff",
+                background: "linear-gradient(135deg, #E8A0BF, #F5BDD4)", color: "#6B3A52",
                 padding: "10px 14px", maxWidth: "82%",
                 borderRadius: "16px 16px 4px 16px",
                 fontSize: 13, lineHeight: 1.5,
@@ -631,7 +631,7 @@ function AIChat() {
             }}>
               {[0, 1, 2].map((i) => (
                 <span key={i} style={{
-                  width: 6, height: 6, borderRadius: "50%", background: C.primary,
+                  width: 6, height: 6, borderRadius: "50%", background: "#E8B4CC",
                   animation: `ssDot 1.2s ease-in-out ${i * 0.15}s infinite`,
                 }} />
               ))}
@@ -658,9 +658,9 @@ function AIChat() {
         />
         <button onClick={handleSend} aria-label="Send" style={{
           width: 36, height: 36, borderRadius: "50%", border: "none",
-          background: "linear-gradient(135deg, #EC4899, #F472B6)", color: "#fff",
+          background: "linear-gradient(135deg, #E8A0BF, #F5BDD4)", color: "#6B3A52",
           display: "flex", alignItems: "center", justifyContent: "center",
-          boxShadow: "0 2px 8px rgba(236,72,153,0.3)", flexShrink: 0,
+          boxShadow: "0 2px 8px rgba(232,160,191,0.3)", flexShrink: 0,
         }}><Send size={16} /></button>
       </div>
     </PinkCard>
@@ -673,9 +673,9 @@ function AIInsight() {
   return (
     <div style={{
       position: "relative",
-      background: "linear-gradient(135deg, #BE185D 0%, #DB2777 100%)",
+      background: "linear-gradient(135deg, #C98BA8 0%, #DFA0BE 100%)",
       borderRadius: 26, padding: 22, overflow: "hidden",
-      boxShadow: "0 8px 28px rgba(190,24,93,0.25)",
+      boxShadow: "0 8px 28px rgba(180,120,150,0.18)",
     }}>
       {/* sakura watermarks */}
       {[
@@ -693,7 +693,7 @@ function AIInsight() {
 
       <div style={{ position: "relative" }}>
         <div style={{
-          fontSize: 11, color: "#FBCFE8", fontWeight: 700, letterSpacing: "0.1em",
+          fontSize: 11, color: "#FCE4EF", fontWeight: 700, letterSpacing: "0.1em",
         }}>AI INSIGHT</div>
         <div style={{ height: 1, background: "rgba(255,255,255,0.15)", margin: "10px 0 14px" }} />
 
