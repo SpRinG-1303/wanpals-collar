@@ -69,20 +69,10 @@ function SkinSensePage() {
   }
 
   return (
-    <SensorPage
-      titleJp="皮膚センサー"
-      titleEn="SkinSense AI — Skin Health Analysis"
-      accent={SP.sakura}
-      headerGradient="linear-gradient(135deg,#FFE4EC 0%,#FFF0F5 100%)"
-    >
+    <SensorPage titleJp="スキンセンス AI" titleEn="SkinSense AI">
       {/* Upload area */}
-      <Card accent={SP.sakura}>
-        <Bi
-          jp="写真をアップロード"
-          en="Upload Photo"
-          jpStyle={{ fontSize: 14, fontWeight: 700, color: SP.sumi }}
-          enStyle={{ fontSize: 10, color: SP.usuzumi, marginBottom: 10 }}
-        />
+      <Card>
+        <SectionLabel jp="写真をアップロード" en="Upload Photo" />
 
         {!photo ? (
           <label
