@@ -331,7 +331,7 @@ function Breeds() {
                 {t("今日の犬種", "TODAY'S BREED")}
               </span>
               <div style={{ fontSize: 18, fontWeight: 800, lineHeight: 1.1, textShadow: "0 1px 4px rgba(0,0,0,0.4)" }}>
-                {language === "english" ? "Shiba Inu" : language === "japanese" ? "柴犬" : "柴犬 · Shiba Inu"}
+                柴犬 · Shiba Inu
               </div>
             </div>
             <div style={{
@@ -409,10 +409,10 @@ function BreedCard({ breed, onOpen, language, t }: { breed: Breed; onOpen: () =>
       <div style={{ padding: "12px 14px", display: "flex", flexDirection: "column", gap: 8 }}>
         <div>
           <div style={{ fontSize: nameSize, fontWeight: 800, color: "#2C2C2C", lineHeight: 1.2 }}>
-            {language === "english" ? breed.en : breed.jp}
+            {breed.jp}
           </div>
           <div style={{ fontSize: 11, color: "#8A8A8A", marginTop: 2 }}>
-            {language === "japanese" ? breed.en : breed.en}
+            {breed.en}
           </div>
         </div>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 4 }}>
