@@ -254,11 +254,6 @@ function HeroPostcard({ score, name, mood, celebrate }: { score: number; name: s
       </div>
 
       <style>{`
-        @keyframes heartFloat {
-          0% { opacity: 0; transform: translateY(0) scale(0.6); }
-          20% { opacity: 1; transform: translateY(-20px) scale(1); }
-          100% { opacity: 0; transform: translateY(-90px) scale(1.1); }
-        }
         @keyframes heroCelebrate {
           0%,100% { transform: scale(1) rotate(0deg); }
           25% { transform: scale(1.02) rotate(-0.5deg); }
