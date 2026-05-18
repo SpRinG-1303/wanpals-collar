@@ -139,7 +139,191 @@ const SCENE: Record<TimeBand, { bg: string; sun: string; fuji: string; blossom: 
   night:     { bg: "linear-gradient(135deg,#E8EEF8 0%,#D4DCF0 100%)", sun: "#FFF4D8", fuji: "#9AA0B8", blossom: "#E8D8E4" },
 };
 
-function PostcardScene({ band: _band, breedKey }: { band: TimeBand; breedKey: BreedKey }) {
+type Energy = "low" | "medium" | "high";
+
+/* Derive a coarse energy level from MotionSense steps (mock for now). */
+function getEnergyLevel(steps = 2340): Energy {
+  if (steps < 1500) return "low";
+  if (steps > 3500) return "high";
+  return "medium";
+}
+
+/* Decorative overlays + pose driven by time of day & live energy. */
+function DogTimeScene({
+  band,
+  breedKey,
+  energy,
+  ownerPhotoUrl,
+}: {
+  band: TimeBand;
+  breedKey: BreedKey;
+  energy: Energy;
+  ownerPhotoUrl: string | null;
+}) {
+  // Base pose transform + animation choice per band, overridden by energy.
+  let poseTransform = "";
+  let animation = "dogFloat 3s ease-in-out infinite";
+
+  if (band === "morning") {
+    animation =
+      energy === "low"
+        ? "dogSlow 5s ease-in-out infinite"
+        : "dogTrot 0.7s ease-in-out infinite";
+  } else if (band === "afternoon") {
+    if (energy === "high") {
+      animation = "dogFloat 2.6s ease-in-out infinite";
+    } else {
+      poseTransform = "rotate(6deg) translateY(6px)";
+      animation = "dogBreathe 4.5s ease-in-out infinite";
+    }
+  } else if (band === "evening") {
+    animation = "dogWalk 1.6s linear infinite";
+  } else {
+    // night
+    if (energy === "high") {
+      animation = "dogFloat 3s ease-in-out infinite";
+    } else {
+      poseTransform = "rotate(10deg) translateY(10px) scale(0.95)";
+      animation = "dogBreathe 5.5s ease-in-out infinite";
+    }
+  }
+
+  const showZzz =
+    (band === "afternoon" && energy !== "high") ||
+    (band === "night" && energy !== "high");
+  const showBowl = band === "morning" && energy === "high";
+  const showOwner = band === "evening";
+
+  return (
+    <>
+      {/* ZZZ bubbles */}
+      {showZzz && (
+        <div
+          style={{
+            position: "absolute",
+            bottom: 110,
+            right: 18,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-start",
+            gap: 2,
+            pointerEvents: "none",
+          }}
+        >
+          {[18, 14, 11].map((sz, i) => (
+            <span
+              key={i}
+              style={{
+                fontSize: sz,
+                fontWeight: 700,
+                color: "#7B68C8",
+                opacity: 0.75,
+                animation: `zzzFloat 2.6s ease-in-out ${i * 0.6}s infinite`,
+              }}
+            >
+              z
+            </span>
+          ))}
+        </div>
+      )}
+
+      {/* Owner silhouette walking next to dog */}
+      {showOwner && (
+        <div
+          style={{
+            position: "absolute",
+            bottom: 6,
+            right: 150,
+            width: 60,
+            height: 130,
+            animation: "ownerWalk 1.6s linear infinite",
+            filter: "drop-shadow(0 4px 6px rgba(0,0,0,0.18))",
+            pointerEvents: "none",
+          }}
+        >
+          {ownerPhotoUrl ? (
+            <div
+              style={{
+                width: "100%",
+                height: "100%",
+                background: `url(${ownerPhotoUrl}) center/cover no-repeat`,
+                WebkitMaskImage:
+                  "radial-gradient(circle at 50% 22%, #000 18%, transparent 19%), linear-gradient(#000,#000)",
+                WebkitMaskComposite: "source-over" as any,
+                clipPath:
+                  "polygon(38% 0,62% 0,72% 18%,72% 38%,86% 50%,80% 78%,64% 100%,36% 100%,20% 78%,14% 50%,28% 38%,28% 18%)",
+                filter: "brightness(0.25) saturate(0)",
+                opacity: 0.85,
+              }}
+            />
+          ) : (
+            <svg viewBox="0 0 60 130" width="100%" height="100%" fill="#2C2C2C" opacity={0.7}>
+              <circle cx="30" cy="14" r="10" />
+              <path d="M18 28 Q30 24 42 28 L46 70 L40 72 L38 110 L34 110 L34 78 L26 78 L26 110 L22 110 L20 72 L14 70 Z" />
+            </svg>
+          )}
+        </div>
+      )}
+
+      {/* Full-body breed dog (bottom-right, facing left toward greeting) */}
+      <div
+        style={{
+          position: "absolute",
+          bottom: 4,
+          right: 6,
+          height: 180,
+          width: 180,
+          transform: poseTransform,
+          transformOrigin: "bottom center",
+          animation,
+          filter:
+            "drop-shadow(0 0 2px #FFFFFF) drop-shadow(0 4px 10px rgba(0,0,0,0.20))",
+          pointerEvents: "none",
+        }}
+      >
+        {/* scaleX(-1) makes the dog face left toward the greeting text */}
+        <div style={{ transform: "scaleX(-1)", width: "100%", height: "100%" }}>
+          <BreedFullBody breed={breedKey} height={180} />
+        </div>
+      </div>
+
+      {/* Food bowl beside the dog (morning + high energy) */}
+      {showBowl && (
+        <div
+          style={{
+            position: "absolute",
+            bottom: 10,
+            right: 156,
+            width: 38,
+            height: 22,
+            animation: "bowlEat 0.9s ease-in-out infinite",
+            pointerEvents: "none",
+          }}
+        >
+          <svg viewBox="0 0 38 22" width="100%" height="100%">
+            <ellipse cx="19" cy="6" rx="15" ry="4" fill="#D4714E" />
+            <path d="M4 6 Q19 22 34 6 L31 6 Q19 18 7 6 Z" fill="#9B4E33" />
+            <circle cx="14" cy="5" r="2.2" fill="#FFE4B5" />
+            <circle cx="20" cy="4" r="2.4" fill="#FFD089" />
+            <circle cx="25" cy="5" r="2" fill="#FFE4B5" />
+          </svg>
+        </div>
+      )}
+    </>
+  );
+}
+
+function PostcardScene({
+  band,
+  breedKey,
+  energy,
+  ownerPhotoUrl,
+}: {
+  band: TimeBand;
+  breedKey: BreedKey;
+  energy: Energy;
+  ownerPhotoUrl: string | null;
+}) {
   const blossom = "#FFB7C5";
   return (
     <div
@@ -178,21 +362,12 @@ function PostcardScene({ band: _band, breedKey }: { band: TimeBand; breedKey: Br
         );
       })}
 
-      {/* Full-body breed dog */}
-      <div
-        style={{
-          position: "absolute",
-          bottom: -4,
-          right: -8,
-          height: 180,
-          width: 180,
-          animation: "dogFloat 3s ease-in-out infinite",
-          filter:
-            "drop-shadow(0 0 2px #FFFFFF) drop-shadow(0 0 4px #FFFFFF) drop-shadow(0 8px 10px rgba(0,0,0,0.14))",
-        }}
-      >
-        <BreedFullBody breed={breedKey} height={180} />
-      </div>
+      <DogTimeScene
+        band={band}
+        breedKey={breedKey}
+        energy={energy}
+        ownerPhotoUrl={ownerPhotoUrl}
+      />
 
       {/* Falling petals */}
       {[
@@ -219,7 +394,7 @@ function PostcardScene({ band: _band, breedKey }: { band: TimeBand; breedKey: Br
   );
 }
 
-function HeroPostcard({ score, name, mood, celebrate, breedKey }: { score: number; name: string; mood: string; celebrate?: boolean; breedKey: BreedKey }) {
+function HeroPostcard({ score, name, mood, celebrate, breedKey, energy, ownerPhotoUrl }: { score: number; name: string; mood: string; celebrate?: boolean; breedKey: BreedKey; energy: Energy; ownerPhotoUrl: string | null }) {
   const t = useT();
   const band = getTimeBand();
   const labelJp = band === "morning" ? "おはよう" : band === "afternoon" ? "こんにちは" : band === "evening" ? "こんばんは" : "おやすみ";
@@ -241,18 +416,19 @@ function HeroPostcard({ score, name, mood, celebrate, breedKey }: { score: numbe
         animation: celebrate ? "heroCelebrate 0.8s ease-out" : "none",
       }}
     >
-      <PostcardScene band={band} breedKey={breedKey} />
+      <PostcardScene band={band} breedKey={breedKey} energy={energy} ownerPhotoUrl={ownerPhotoUrl} />
 
-      {/* Float + tail wag keyframes for breed dog */}
+      {/* Dog pose & ambient keyframes */}
       <style>{`
-        @keyframes dogFloat {
-          0%,100% { transform: translateY(0); }
-          50% { transform: translateY(-6px); }
-        }
-        @keyframes tailWag {
-          0%,100% { transform: rotate(-8deg); }
-          50% { transform: rotate(14deg); }
-        }
+        @keyframes dogFloat   { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+        @keyframes dogTrot    { 0%,100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(-4px) rotate(2deg); } }
+        @keyframes dogSlow    { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-2px); } }
+        @keyframes dogBreathe { 0%,100% { transform: var(--pose, none) scaleY(1); } 50% { transform: var(--pose, none) scaleY(1.02); } }
+        @keyframes dogWalk    { 0%,100% { transform: translate(-2px,0) rotate(-1deg); } 50% { transform: translate(2px,-3px) rotate(2deg); } }
+        @keyframes ownerWalk  { 0%,100% { transform: translate(-2px,0); } 50% { transform: translate(2px,-3px); } }
+        @keyframes zzzFloat   { 0% { transform: translateY(0); opacity: 0; } 30% { opacity: 0.8; } 100% { transform: translateY(-14px); opacity: 0; } }
+        @keyframes bowlEat    { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-1px) scale(1.03); } }
+        @keyframes tailWag    { 0%,100% { transform: rotate(-8deg); } 50% { transform: rotate(14deg); } }
       `}</style>
 
       {/* Left content */}
@@ -333,10 +509,11 @@ function Home() {
   const breedLabel = language === "english" ? pet.breedEn : language === "japanese" ? pet.breedJp : `${pet.breedJp} / ${pet.breedEn}`;
   const ageLabel = pet.age != null ? t(`${pet.age}歳`, `${pet.age} yrs`) : null;
   const breedKey: BreedKey = (BREED_KEY_BY_JP[pet.breedJp] ?? (pet.breed as BreedKey) ?? "mixed");
+  const energy: Energy = getEnergyLevel(2340);
 
   return (
     <AppShell titleJp="" titleEn="" noPadding>
-      <HeroPostcard score={score} name={heroName} mood={mood} celebrate={celebrate} breedKey={breedKey} />
+      <HeroPostcard score={score} name={heroName} mood={mood} celebrate={celebrate} breedKey={breedKey} energy={energy} ownerPhotoUrl={pet.ownerPhotoUrl} />
 
 
       {sosOpen && (
