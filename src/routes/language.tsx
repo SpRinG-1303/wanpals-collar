@@ -126,7 +126,7 @@ export function HeroIllustration({ compact = false }: { compact?: boolean }) {
           className="rounded-full bg-white flex items-center justify-center"
           style={{ width: logo, height: logo, border: "2px solid #FFE4EC", boxShadow: "0 8px 24px rgba(232,130,154,0.2)" }}
         >
-          <PawPrint style={{ width: logo * 0.42, height: logo * 0.42, color: "#E8829A" }} strokeWidth={2} />
+          <PawLogo size={logo * 0.55} color="#E8829A" />
         </div>
         <div className="mt-2 font-bold leading-none" style={{ color: "#2C2C2C", fontSize: titleSize, letterSpacing: "0.05em" }}>
           Pawsitive
