@@ -960,5 +960,3 @@ function Pill({ children, color, bg, dot }: {
 }
 
 // unused-but-imported guard
-const _refKeep = useRef;
-void _refKeep;
