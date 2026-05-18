@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Bell, ArrowLeft } from "lucide-react";
+import pawLogo from "@/assets/paw-heartbeat-pink.png";
 import { motion } from "framer-motion";
 import { useState, useEffect, type ReactNode } from "react";
 import { T, useT } from "@/context/LanguageContext";
