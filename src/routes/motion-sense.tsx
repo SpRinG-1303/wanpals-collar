@@ -116,12 +116,12 @@ function MotionSensePage() {
       </Card>
 
       <div className="grid grid-cols-3" style={{ gap: 8, marginBottom: 12 }}>
-        <StatCard icon={<Activity size={18} />} color={SP.sora} valJp="2時間" valEn="2h" labelJp="活動時間" labelEn="Active" />
-        <StatCard icon={<Moon size={18} />} color={SP.fuji} valJp="14時間" valEn="14h" labelJp="休息時間" labelEn="Rest" />
-        <StatCard icon={<Flame size={18} />} color={SP.momiji} valJp="285" valEn="285 kcal" labelJp="カロリー" labelEn="Calories" />
+        <StatCard icon={<Activity size={18} />} valJp="2時間" valEn="2h" labelJp="活動時間" labelEn="Active" />
+        <StatCard icon={<Moon size={18} />} valJp="14時間" valEn="14h" labelJp="休息時間" labelEn="Rest" />
+        <StatCard icon={<Flame size={18} />} valJp="285" valEn="285 kcal" labelJp="カロリー" labelEn="Calories" />
       </div>
 
-      <Card accent={SP.fuji}>
+      <Card>
         <Bi
           jp="活動レベル" en="Activity Level · Past 7 Days"
           jpStyle={{ fontSize: 14, fontWeight: 700, color: SP.sumi }}
@@ -130,8 +130,8 @@ function MotionSensePage() {
         <svg viewBox="0 0 280 100" width="100%" height={100} style={{ marginTop: language === "mixed" ? 0 : 12 }}>
           <defs>
             <linearGradient id="lineFill" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#7B68C8" stopOpacity="0.3" />
-              <stop offset="100%" stopColor="#7B68C8" stopOpacity="0" />
+              <stop offset="0%" stopColor="#F43F72" stopOpacity="0.25" />
+              <stop offset="100%" stopColor="#FFF0F3" stopOpacity="0" />
             </linearGradient>
           </defs>
           {(() => {
@@ -141,9 +141,9 @@ function MotionSensePage() {
             return (
               <>
                 <path d={fill} fill="url(#lineFill)" />
-                <path d={d} stroke="#7B68C8" strokeWidth={2.5} fill="none" strokeLinecap="round" strokeLinejoin="round" />
+                <path d={d} stroke="#F43F72" strokeWidth={2.5} fill="none" strokeLinecap="round" strokeLinejoin="round" />
                 {pts.map((p, i) => (
-                  <circle key={i} cx={p[0]} cy={p[1]} r={3} fill="#FFFFFF" stroke="#7B68C8" strokeWidth={2} />
+                  <circle key={i} cx={p[0]} cy={p[1]} r={3} fill="#FFFFFF" stroke="#F43F72" strokeWidth={2} />
                 ))}
               </>
             );
@@ -151,9 +151,9 @@ function MotionSensePage() {
         </svg>
       </Card>
 
-      <Card accent={SP.matcha} style={{ background: "linear-gradient(135deg,#F0FBF5,#FFFFFF)" }}>
+      <Card>
         <div className="flex items-start" style={{ gap: 10 }}>
-          <Footprints size={20} style={{ color: SP.matcha, flexShrink: 0, marginTop: 2 }} />
+          <Footprints size={20} style={{ color: SP.rose, flexShrink: 0, marginTop: 2 }} />
           <div>
             <Bi
               jp="AIインサイト" en="AI Insight"
@@ -175,16 +175,16 @@ function MotionSensePage() {
   );
 }
 
-function StatCard({ icon, color, valJp, valEn, labelJp, labelEn }: {
-  icon: React.ReactNode; color: string; valJp: string; valEn: string; labelJp: string; labelEn: string;
+function StatCard({ icon, valJp, valEn, labelJp, labelEn }: {
+  icon: React.ReactNode; valJp: string; valEn: string; labelJp: string; labelEn: string;
 }) {
   const t = useT();
   return (
     <div style={{
-      background: SP.card, borderRadius: 16, padding: 12, boxShadow: CARD_SHADOW_SM,
-      borderTop: `3px solid ${color}`,
+      background: SP.card, borderRadius: 16, padding: 14,
+      boxShadow: "0 2px 16px rgba(0,0,0,0.06)",
     }}>
-      <div style={{ color, marginBottom: 6 }}>{icon}</div>
+      <div style={{ color: SP.rose, marginBottom: 6 }}>{icon}</div>
       <div style={{ fontSize: 15, fontWeight: 700, color: SP.sumi, fontVariantNumeric: "tabular-nums" }}>
         {t(valJp, valEn)}
       </div>
@@ -192,5 +192,3 @@ function StatCard({ icon, color, valJp, valEn, labelJp, labelEn }: {
     </div>
   );
 }
-
-const CARD_SHADOW_SM = "0 2px 10px rgba(0,0,0,0.05)";
