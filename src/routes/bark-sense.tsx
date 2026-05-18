@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { SensorPage, Card, SP, SectionLabel, AIInsightCard } from "@/components/SensorPage";
 import { useT, useLanguage } from "@/context/LanguageContext";
+import { usePet, displayName } from "@/context/PetContext";
 
 export const Route = createFileRoute("/bark-sense")({ component: BarkSensePage });
 
@@ -139,6 +140,8 @@ function PetalRing({ current }: { current: EmotionKey }) {
 
 function BarkSensePage() {
   const t = useT();
+  const { pet } = usePet();
+  const name = displayName(pet, "Fluffy");
   const current: EmotionKey = "calm";
   const cur = EMOTIONS[current];
   const days = ["月","火","水","木","金","土","日"];
@@ -225,8 +228,8 @@ function BarkSensePage() {
       </Card>
 
       <AIInsightCard
-        jp="フラフィは今日穏やかで安定しています。先週より改善 ↑"
-        en="Fluffy is calm and emotionally stable today. Improved from last week ↑"
+        jp={`${name}は今日穏やかで安定しています。先週より改善 ↑`}
+        en={`${name} is calm and emotionally stable today. Improved from last week ↑`}
       />
     </SensorPage>
   );
