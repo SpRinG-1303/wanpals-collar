@@ -274,14 +274,67 @@ function Scene({ theme, active }: { theme: SceneTheme; active: boolean }) {
       {BRANCHES.map((b, i) => (
         <path key={i} d={b.d} stroke={theme.trunk} strokeWidth="3.5" fill="none" strokeLinecap="round" />
       ))}
-      {/* Blossom clusters: outer soft, inner highlight */}
-      {BLOSSOMS.map((b, i) => (
-        <g key={i}>
-          <circle cx={b.cx} cy={b.cy} r={b.r + 2} fill={theme.blossom} opacity="0.55" />
-          <circle cx={b.cx} cy={b.cy} r={b.r} fill={theme.blossom} stroke={theme.blossomStroke} strokeWidth="0.6" />
-          <circle cx={b.cx - b.r * 0.25} cy={b.cy - b.r * 0.25} r={b.r * 0.35} fill="#FFFFFF" opacity="0.45" />
-        </g>
-      ))}
+      {/* Sakura blossoms — 5-petal flower shapes */}
+      {BLOSSOMS.map((b, i) => {
+        const petals = 5;
+        const petalR = b.r * 0.62;
+        const offset = b.r * 0.55;
+        return (
+          <g key={i} transform={`rotate(${(i * 17) % 360} ${b.cx} ${b.cy})`}>
+            {Array.from({ length: petals }).map((_, p) => {
+              const ang = (p / petals) * Math.PI * 2 - Math.PI / 2;
+              const px = b.cx + Math.cos(ang) * offset;
+              const py = b.cy + Math.sin(ang) * offset;
+              const deg = (ang * 180) / Math.PI + 90;
+              return (
+                <g key={p} transform={`rotate(${deg} ${px} ${py})`}>
+                  {/* Petal: teardrop with notched tip */}
+                  <path
+                    d={`M ${px} ${py - petalR}
+                        C ${px + petalR * 0.85} ${py - petalR * 0.7},
+                          ${px + petalR * 0.7} ${py + petalR * 0.35},
+                          ${px + petalR * 0.18} ${py + petalR * 0.55}
+                        Q ${px} ${py + petalR * 0.45} ${px - petalR * 0.18} ${py + petalR * 0.55}
+                        C ${px - petalR * 0.7} ${py + petalR * 0.35},
+                          ${px - petalR * 0.85} ${py - petalR * 0.7},
+                          ${px} ${py - petalR}
+                        Z`}
+                    fill={theme.blossom}
+                    stroke={theme.blossomStroke}
+                    strokeWidth="0.5"
+                    opacity="0.95"
+                  />
+                  {/* Notch highlight on petal tip */}
+                  <path
+                    d={`M ${px - petalR * 0.18} ${py - petalR * 0.92}
+                        Q ${px} ${py - petalR * 0.75} ${px + petalR * 0.18} ${py - petalR * 0.92}`}
+                    stroke={theme.blossomStroke}
+                    strokeWidth="0.6"
+                    fill="none"
+                    opacity="0.7"
+                  />
+                </g>
+              );
+            })}
+            {/* Yellow center stamen */}
+            <circle cx={b.cx} cy={b.cy} r={b.r * 0.18} fill="#F5D050" opacity="0.95" />
+            {/* Stamen dots */}
+            {Array.from({ length: 5 }).map((_, s) => {
+              const a = (s / 5) * Math.PI * 2;
+              return (
+                <circle
+                  key={s}
+                  cx={b.cx + Math.cos(a) * b.r * 0.22}
+                  cy={b.cy + Math.sin(a) * b.r * 0.22}
+                  r={b.r * 0.07}
+                  fill={theme.blossomStroke}
+                  opacity="0.7"
+                />
+              );
+            })}
+          </g>
+        );
+      })}
     </svg>
   );
 }
