@@ -245,10 +245,6 @@ function Scene({ theme, active }: { theme: SceneTheme; active: boolean }) {
         <circle key={i} cx={x} cy={y} r={i % 3 === 0 ? 1.6 : 1} fill="#FFFFFF" opacity={0.85} />
       ))}
 
-      {/* Static sun/moon behind Fuji */}
-      <circle cx={theme.staticSun.cx} cy={theme.staticSun.cy} r={theme.staticSun.r}
-              fill={theme.staticSun.fill} opacity={0.95} />
-
       {/* Mt Fuji */}
       <path d="M 110 330 L 200 150 L 290 330 Z" fill={theme.fujiBody} />
       {/* Snow cap */}
@@ -278,14 +274,67 @@ function Scene({ theme, active }: { theme: SceneTheme; active: boolean }) {
       {BRANCHES.map((b, i) => (
         <path key={i} d={b.d} stroke={theme.trunk} strokeWidth="3.5" fill="none" strokeLinecap="round" />
       ))}
-      {/* Blossom clusters: outer soft, inner highlight */}
-      {BLOSSOMS.map((b, i) => (
-        <g key={i}>
-          <circle cx={b.cx} cy={b.cy} r={b.r + 2} fill={theme.blossom} opacity="0.55" />
-          <circle cx={b.cx} cy={b.cy} r={b.r} fill={theme.blossom} stroke={theme.blossomStroke} strokeWidth="0.6" />
-          <circle cx={b.cx - b.r * 0.25} cy={b.cy - b.r * 0.25} r={b.r * 0.35} fill="#FFFFFF" opacity="0.45" />
-        </g>
-      ))}
+      {/* Sakura blossoms — 5-petal flower shapes */}
+      {BLOSSOMS.map((b, i) => {
+        const petals = 5;
+        const petalR = b.r * 0.62;
+        const offset = b.r * 0.55;
+        return (
+          <g key={i} transform={`rotate(${(i * 17) % 360} ${b.cx} ${b.cy})`}>
+            {Array.from({ length: petals }).map((_, p) => {
+              const ang = (p / petals) * Math.PI * 2 - Math.PI / 2;
+              const px = b.cx + Math.cos(ang) * offset;
+              const py = b.cy + Math.sin(ang) * offset;
+              const deg = (ang * 180) / Math.PI + 90;
+              return (
+                <g key={p} transform={`rotate(${deg} ${px} ${py})`}>
+                  {/* Petal: teardrop with notched tip */}
+                  <path
+                    d={`M ${px} ${py - petalR}
+                        C ${px + petalR * 0.85} ${py - petalR * 0.7},
+                          ${px + petalR * 0.7} ${py + petalR * 0.35},
+                          ${px + petalR * 0.18} ${py + petalR * 0.55}
+                        Q ${px} ${py + petalR * 0.45} ${px - petalR * 0.18} ${py + petalR * 0.55}
+                        C ${px - petalR * 0.7} ${py + petalR * 0.35},
+                          ${px - petalR * 0.85} ${py - petalR * 0.7},
+                          ${px} ${py - petalR}
+                        Z`}
+                    fill={theme.blossom}
+                    stroke={theme.blossomStroke}
+                    strokeWidth="0.5"
+                    opacity="0.95"
+                  />
+                  {/* Notch highlight on petal tip */}
+                  <path
+                    d={`M ${px - petalR * 0.18} ${py - petalR * 0.92}
+                        Q ${px} ${py - petalR * 0.75} ${px + petalR * 0.18} ${py - petalR * 0.92}`}
+                    stroke={theme.blossomStroke}
+                    strokeWidth="0.6"
+                    fill="none"
+                    opacity="0.7"
+                  />
+                </g>
+              );
+            })}
+            {/* Yellow center stamen */}
+            <circle cx={b.cx} cy={b.cy} r={b.r * 0.18} fill="#F5D050" opacity="0.95" />
+            {/* Stamen dots */}
+            {Array.from({ length: 5 }).map((_, s) => {
+              const a = (s / 5) * Math.PI * 2;
+              return (
+                <circle
+                  key={s}
+                  cx={b.cx + Math.cos(a) * b.r * 0.22}
+                  cy={b.cy + Math.sin(a) * b.r * 0.22}
+                  r={b.r * 0.07}
+                  fill={theme.blossomStroke}
+                  opacity="0.7"
+                />
+              );
+            })}
+          </g>
+        );
+      })}
     </svg>
   );
 }
@@ -350,21 +399,50 @@ function HeroPostcard({ score, name, mood, celebrate }: { score: number; name: s
         <Scene key={k} theme={BAND_META[k]} active={k === band} />
       ))}
 
-      {/* Sun / moon arc orb */}
-      <div
-        style={{
-          position: "absolute",
-          left: `${orbX}%`,
-          top: `${orbY}%`,
-          width: meta.orbSize, height: meta.orbSize,
-          marginLeft: -meta.orbSize / 2, marginTop: -meta.orbSize / 2,
-          borderRadius: "50%",
-          background: `radial-gradient(circle at 35% 35%, #fff, ${meta.orb} 70%)`,
-          boxShadow: `0 0 40px 10px ${meta.glow}, 0 0 90px 20px ${meta.glow}`,
-          transition: "left 60s linear, top 60s linear, background 2.5s ease, box-shadow 2.5s ease",
-          pointerEvents: "none",
-        }}
-      />
+      {/* Realistic sun / moon traversing arc */}
+      {band === "night" ? (
+        <div
+          style={{
+            position: "absolute",
+            left: `${orbX}%`,
+            top: `${orbY}%`,
+            width: meta.orbSize, height: meta.orbSize,
+            marginLeft: -meta.orbSize / 2, marginTop: -meta.orbSize / 2,
+            borderRadius: "50%",
+            background:
+              "radial-gradient(circle at 38% 36%, #FFFFFF 0%, #F4F1E4 45%, #C9C4B0 78%, #8E8A78 100%)",
+            boxShadow:
+              "0 0 24px 4px rgba(230,235,255,0.55), 0 0 70px 18px rgba(180,200,255,0.35)",
+            transition: "left 60s linear, top 60s linear",
+            pointerEvents: "none",
+          }}
+        >
+          {/* Lunar maria — subtle craters */}
+          <span style={{ position: "absolute", top: "30%", left: "55%", width: "22%", height: "18%", borderRadius: "50%", background: "rgba(140,135,120,0.35)" }} />
+          <span style={{ position: "absolute", top: "55%", left: "30%", width: "16%", height: "14%", borderRadius: "50%", background: "rgba(140,135,120,0.28)" }} />
+          <span style={{ position: "absolute", top: "62%", left: "58%", width: "12%", height: "10%", borderRadius: "50%", background: "rgba(140,135,120,0.3)" }} />
+        </div>
+      ) : (
+        <div
+          style={{
+            position: "absolute",
+            left: `${orbX}%`,
+            top: `${orbY}%`,
+            width: meta.orbSize, height: meta.orbSize,
+            marginLeft: -meta.orbSize / 2, marginTop: -meta.orbSize / 2,
+            borderRadius: "50%",
+            background:
+              band === "evening"
+                ? "radial-gradient(circle at 50% 50%, #FFE8B0 0%, #FFB060 35%, #E85A20 75%, rgba(232,90,32,0) 100%)"
+                : band === "morning"
+                ? "radial-gradient(circle at 50% 50%, #FFF6D8 0%, #FFD070 35%, #FF8838 78%, rgba(255,136,56,0) 100%)"
+                : "radial-gradient(circle at 50% 50%, #FFFCE0 0%, #FFE070 40%, #FFB020 80%, rgba(255,176,32,0) 100%)",
+            boxShadow: `0 0 30px 8px ${meta.glow}, 0 0 80px 22px ${meta.glow}`,
+            transition: "left 60s linear, top 60s linear, background 2.5s ease, box-shadow 2.5s ease",
+            pointerEvents: "none",
+          }}
+        />
+      )}
 
       {/* Bottom dark gradient overlay */}
       <div
