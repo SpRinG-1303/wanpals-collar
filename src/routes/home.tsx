@@ -138,7 +138,7 @@ const SCENE: Record<TimeBand, { bg: string; sun: string; fuji: string; blossom: 
   night:     { bg: "linear-gradient(135deg,#E8EEF8 0%,#D4DCF0 100%)", sun: "#FFF4D8", fuji: "#9AA0B8", blossom: "#E8D8E4" },
 };
 
-function PostcardScene({ band }: { band: TimeBand }) {
+function PostcardScene({ band, breedKey }: { band: TimeBand; breedKey: BreedKey }) {
   const s = SCENE[band];
   return (
     <div className="absolute inset-y-0 right-0" style={{ width: "55%", background: s.bg, overflow: "hidden" }}>
@@ -169,12 +169,21 @@ function PostcardScene({ band }: { band: TimeBand }) {
         return <div key={i} style={{ position:"absolute", left:l, top:t, width:sz, height:sz, borderRadius:"50%", background: s.blossom, opacity: op ?? 0.95 }}/>;
       })}
 
-      {/* Mount Fuji */}
-      <svg style={{ position:"absolute", bottom: 0, left: "50%", transform: "translateX(-50%)", width: 110, height: 80 }} viewBox="0 0 110 80" fill="none">
-        <path d="M55 6 L104 76 L6 76 Z" fill={s.fuji} />
-        <path d="M55 6 L70 28 Q55 22 40 28 Z" fill="#FFFFFF" opacity={band === "night" ? 0.7 : 0.95}/>
-        <ellipse cx="55" cy="76" rx="55" ry="4" fill="#FFFFFF" opacity={band === "night" ? 0.15 : 0.5}/>
-      </svg>
+      {/* Breed dog (replaces Mt. Fuji) */}
+      <div
+        style={{
+          position: "absolute",
+          bottom: 6,
+          right: 8,
+          width: 120,
+          height: 120,
+          animation: "dogIdleBounce 2.4s ease-in-out infinite",
+          transformOrigin: "50% 90%",
+          filter: "drop-shadow(0 4px 6px rgba(0,0,0,0.12))",
+        }}
+      >
+        <DogAvatar breed={breedKey} size={120} ring={false} showCollar />
+      </div>
 
       {/* Falling petals */}
       {band !== "night" && [
@@ -192,7 +201,7 @@ function PostcardScene({ band }: { band: TimeBand }) {
   );
 }
 
-function HeroPostcard({ score, name, mood, celebrate }: { score: number; name: string; mood: string; celebrate?: boolean }) {
+function HeroPostcard({ score, name, mood, celebrate, breedKey }: { score: number; name: string; mood: string; celebrate?: boolean; breedKey: BreedKey }) {
   const t = useT();
   const band = getTimeBand();
   const labelJp = band === "morning" ? "おはよう" : band === "afternoon" ? "こんにちは" : band === "evening" ? "こんばんは" : "おやすみ";
@@ -214,7 +223,15 @@ function HeroPostcard({ score, name, mood, celebrate }: { score: number; name: s
         animation: celebrate ? "heroCelebrate 0.8s ease-out" : "none",
       }}
     >
-      <PostcardScene band={band} />
+      <PostcardScene band={band} breedKey={breedKey} />
+
+      {/* Idle bounce keyframes for breed dog */}
+      <style>{`
+        @keyframes dogIdleBounce {
+          0%,100% { transform: translateY(0) rotate(-1deg); }
+          50% { transform: translateY(-4px) rotate(2deg); }
+        }
+      `}</style>
 
       {/* Left content */}
       <div style={{ position: "absolute", top: 0, bottom: 0, left: 0, width: "50%", padding: "20px 0 20px 20px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
@@ -297,7 +314,7 @@ function Home() {
 
   return (
     <AppShell titleJp="" titleEn="" noPadding>
-      <HeroPostcard score={score} name={heroName} mood={mood} celebrate={celebrate} />
+      <HeroPostcard score={score} name={heroName} mood={mood} celebrate={celebrate} breedKey={breedKey} />
 
 
       {sosOpen && (
