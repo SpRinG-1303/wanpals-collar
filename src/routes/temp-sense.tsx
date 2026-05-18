@@ -71,25 +71,33 @@ function TempSensePage() {
         </div>
       </Card>
 
-      <Card accent={SP.momiji}>
+      <Card>
         <Bi
           jp="体温履歴" en="Temperature History · 7 days"
           jpStyle={{ fontSize: 14, fontWeight: 700, color: SP.sumi }}
           enStyle={{ fontSize: 11, color: SP.usuzumi, marginBottom: 12 }}
         />
         <svg viewBox="0 0 280 110" width="100%" height={110} style={{ marginTop: 8 }}>
+          <defs>
+            <linearGradient id="tFill" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#F43F72" stopOpacity="0.22" />
+              <stop offset="100%" stopColor="#FFF0F3" stopOpacity="0" />
+            </linearGradient>
+          </defs>
           {[37.5, 38.5, 39.5].map((v, i) => (
-            <line key={i} x1={20} x2={280} y1={20 + i * 35} y2={20 + i * 35} stroke="#F5F0EC" strokeWidth={1} strokeDasharray="3 3" />
+            <line key={i} x1={20} x2={280} y1={20 + i * 35} y2={20 + i * 35} stroke="#FAE0E8" strokeWidth={1} strokeDasharray="3 3" />
           ))}
           {(() => {
             const pts = HISTORY.map((v, i) => [25 + i * 40, 90 - ((v - 37.5) / 2) * 70] as [number, number]);
             const d = pts.map((p, i) => (i === 0 ? `M${p[0]},${p[1]}` : `L${p[0]},${p[1]}`)).join(" ");
+            const fillD = `${d} L${pts[pts.length - 1][0]},95 L${pts[0][0]},95 Z`;
             return (
               <>
-                <path d={d} stroke="#D4714E" strokeWidth={2.5} fill="none" strokeLinecap="round" strokeLinejoin="round" />
+                <path d={fillD} fill="url(#tFill)" />
+                <path d={d} stroke="#F43F72" strokeWidth={2.5} fill="none" strokeLinecap="round" strokeLinejoin="round" />
                 {pts.map((p, i) => (
                   <g key={i}>
-                    <circle cx={p[0]} cy={p[1]} r={4} fill="#FFFFFF" stroke="#D4714E" strokeWidth={2} />
+                    <circle cx={p[0]} cy={p[1]} r={4} fill="#FFFFFF" stroke="#F43F72" strokeWidth={2} />
                     <text x={p[0]} y={108} fontSize="9" fill="#8A8A8A" textAnchor="middle">{t(DAYS[i].jp, DAYS[i].en)}</text>
                   </g>
                 ))}
@@ -99,15 +107,15 @@ function TempSensePage() {
         </svg>
       </Card>
 
-      <Card accent={SP.sumi}>
+      <Card>
         <Bi
           jp="警告しきい値" en="Alert Thresholds"
           jpStyle={{ fontSize: 14, fontWeight: 700, color: SP.sumi }}
           enStyle={{ fontSize: 11, color: SP.usuzumi, marginBottom: 14 }}
         />
-        <ThresholdRow color="#6BAF92" jp="正常範囲" en="Normal" range="38.0 – 39.2°C" />
-        <ThresholdRow color="#D4A843" jp="注意" en="Warning" range="39.2 – 40.0°C" />
-        <ThresholdRow color="#E53935" jp="危険" en="Danger" range="> 40.0°C" />
+        <ThresholdRow color="#2E7D32" jp="正常範囲" en="Normal" range="38.0 – 39.2°C" />
+        <ThresholdRow color="#F57F17" jp="注意" en="Warning" range="39.2 – 40.0°C" />
+        <ThresholdRow color="#C62828" jp="危険" en="Danger" range="> 40.0°C" />
       </Card>
     </SensorPage>
   );
