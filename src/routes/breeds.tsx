@@ -318,11 +318,9 @@ function Breeds() {
     const matches = new Map<string, readonly FuseResultMatch[]>();
     if (hasQuery) {
       const ql = q.toLowerCase();
-      // 1) Prefix matches on any searchable field — like a search-engine
-      //    suggestion box, these float to the top.
-      const prefixFields = (b: Breed) => [
-        b.jp, b.en, b.kana, b.originJp, b.originEn, b.sizeJp, b.sizeEn,
-      ];
+      // 1) Prefix matches scoped to NAME fields (jp / en / kana) so partial
+      //    phrases like "Shi" instantly float Shih Tzu / Shiba Inu to the top.
+      const prefixFields = (b: Breed) => [b.jp, b.en, b.kana];
       const prefixHits: Breed[] = [];
       const prefixSet = new Set<string>();
       for (const b of BREEDS) {
