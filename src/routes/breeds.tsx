@@ -463,12 +463,14 @@ function BreedDetail({ breed, onClose }: { breed: Breed; onClose: () => void }) 
       >
         {/* HERO BANNER */}
         <div style={{
-          position: "relative", height: 200, overflow: "hidden",
-          background: breed.bannerBg,
-          backgroundSize: breed.animateGradient ? "300% 300%" : undefined,
-          animation: breed.animateGradient ? "breedGradientShift 6s ease infinite" : undefined,
+          position: "relative", height: 240, overflow: "hidden",
           borderRadius: "24px 24px 0 0",
         }}>
+          <BreedImage
+            breed={breed}
+            overlay="linear-gradient(to bottom, rgba(0,0,0,0.10) 0%, rgba(0,0,0,0.10) 55%, rgba(0,0,0,0.55) 100%)"
+          />
+
           <button onClick={onClose} style={{
             position: "absolute", top: 16, left: 16, width: 36, height: 36,
             borderRadius: "50%", background: "rgba(255,255,255,0.9)", backdropFilter: "blur(10px)",
@@ -478,34 +480,18 @@ function BreedDetail({ breed, onClose }: { breed: Breed; onClose: () => void }) 
             <ArrowLeft size={18} color="#2C2C2C" />
           </button>
 
-          <Icon
-            size={32}
-            color={breed.iconColor}
-            strokeWidth={2}
-            style={{ position: "absolute", top: 20, right: 20 }}
-          />
-
-          <div style={{
-            position: "absolute", inset: 0,
-            display: "flex", alignItems: "center", justifyContent: "center",
-            fontSize: Math.round(breed.kanjiSize * 2.2), fontWeight: 900,
-            color: breed.kanjiColor, lineHeight: 1, letterSpacing: "-0.02em",
-            userSelect: "none",
-          }}>
-            {breed.kanji}
-          </div>
-
           {breed.rank !== null && (
             <div style={{
-              position: "absolute", bottom: 16, right: 16,
+              position: "absolute", top: 16, right: 16, zIndex: 2,
               background: breed.rankBg, color: "white",
               padding: "6px 12px", fontSize: 12, fontWeight: 800, borderRadius: 14,
-              boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
+              boxShadow: "0 2px 8px rgba(0,0,0,0.25)",
             }}>
               #{breed.rank} {t("人気", "Popular")}
             </div>
           )}
-          <div className="w-12 h-1.5 rounded-full" style={{ position: "absolute", top: 8, left: "50%", transform: "translateX(-50%)", background: "rgba(0,0,0,0.15)" }} />
+
+          <div className="w-12 h-1.5 rounded-full" style={{ position: "absolute", top: 8, left: "50%", transform: "translateX(-50%)", background: "rgba(255,255,255,0.55)", zIndex: 2 }} />
         </div>
 
         {/* NAME */}
