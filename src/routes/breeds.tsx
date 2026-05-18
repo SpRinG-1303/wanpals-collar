@@ -448,11 +448,57 @@ function Breeds() {
   );
 }
 
+/* ─────────────────────────────────────── Highlight & Empty State ─────────────────────────────────────── */
+
+function Highlight({
+  text, matches, keyName,
+}: { text: string; matches?: readonly FuseResultMatch[]; keyName: string }) {
+  const m = matches?.find((x) => x.key === keyName);
+  if (!m || !m.indices?.length) return <>{text}</>;
+  // Merge & sort indices
+  const ranges = [...m.indices].sort((a, b) => a[0] - b[0]);
+  const out: ReactNode[] = [];
+  let cursor = 0;
+  ranges.forEach(([start, end], i) => {
+    if (start > cursor) out.push(<span key={`p${i}`}>{text.slice(cursor, start)}</span>);
+    out.push(
+      <span key={`h${i}`} style={{ color: "#E8829A", background: "rgba(232,130,154,0.14)", borderRadius: 3, padding: "0 1px" }}>
+        {text.slice(start, end + 1)}
+      </span>
+    );
+    cursor = end + 1;
+  });
+  if (cursor < text.length) out.push(<span key="t">{text.slice(cursor)}</span>);
+  return <>{out}</>;
+}
+
+function SadDog() {
+  return (
+    <svg width="84" height="84" viewBox="0 0 84 84" fill="none" aria-hidden>
+      <ellipse cx="42" cy="74" rx="26" ry="4" fill="#F0E6E0" />
+      <path d="M20 38 L14 22 L28 30 Z" fill="#C99280" />
+      <path d="M64 38 L70 22 L56 30 Z" fill="#C99280" />
+      <ellipse cx="42" cy="46" rx="26" ry="22" fill="#E8B8A0" />
+      <ellipse cx="42" cy="56" rx="18" ry="14" fill="#F5D4C0" />
+      <circle cx="33" cy="44" r="2.5" fill="#2C2C2C" />
+      <circle cx="51" cy="44" r="2.5" fill="#2C2C2C" />
+      <path d="M30 50 Q33 52 36 50" stroke="#7A4A3A" strokeWidth="1.2" strokeLinecap="round" fill="none" />
+      <path d="M48 50 Q51 52 54 50" stroke="#7A4A3A" strokeWidth="1.2" strokeLinecap="round" fill="none" />
+      <ellipse cx="42" cy="55" rx="3" ry="2" fill="#2C2C2C" />
+      <path d="M37 62 Q42 58 47 62" stroke="#2C2C2C" strokeWidth="1.6" strokeLinecap="round" fill="none" />
+      <circle cx="58" cy="36" r="1.2" fill="#7BB3E0" opacity="0.8" />
+      <circle cx="61" cy="40" r="0.8" fill="#7BB3E0" opacity="0.6" />
+    </svg>
+  );
+}
+
 /* ─────────────────────────────────────── Card ─────────────────────────────────────── */
 
-function BreedCard({ breed, onOpen, language, t }: { breed: Breed; onOpen: () => void; language: string; t: (jp: string, en: string) => string }) {
+function BreedCard({ breed, onOpen, language, t, matches }: { breed: Breed; onOpen: () => void; language: string; t: (jp: string, en: string) => string; matches?: readonly FuseResultMatch[] }) {
   const Icon = breed.Icon;
   const nameSize = breed.jp.length > 8 ? 11 : breed.jp.length > 6 ? 13 : 15;
+  const primaryName = language === "english" ? breed.en : breed.jp;
+  const primaryKey = language === "english" ? "name_en" : "name_jp";
   return (
     <button
       onClick={onOpen}
@@ -465,15 +511,12 @@ function BreedCard({ breed, onOpen, language, t }: { breed: Breed; onOpen: () =>
       {/* TOP IMAGE BANNER */}
       <div style={{ position: "relative", height: 100, overflow: "hidden" }}>
         <BreedImage breed={breed}>
-          {/* Small icon top-left */}
           <Icon
             size={22}
             color="rgba(255,255,255,0.95)"
             strokeWidth={2}
             style={{ position: "absolute", top: 10, left: 10, filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.4))" }}
           />
-
-          {/* Popularity badge top-right */}
           {breed.rank !== null && (
             <div style={{
               position: "absolute", top: 0, right: 0,
@@ -493,10 +536,10 @@ function BreedCard({ breed, onOpen, language, t }: { breed: Breed; onOpen: () =>
       <div style={{ padding: "12px 14px", display: "flex", flexDirection: "column", gap: 8 }}>
         <div>
           <div style={{ fontSize: nameSize, fontWeight: 800, color: "#2C2C2C", lineHeight: 1.2 }}>
-            {language === "english" ? breed.en : breed.jp}
+            <Highlight text={primaryName} matches={matches} keyName={primaryKey} />
           </div>
           <div style={{ fontSize: 11, color: "#8A8A8A", marginTop: 2 }}>
-            {language === "japanese" ? breed.en : breed.en}
+            <Highlight text={breed.en} matches={matches} keyName="name_en" />
           </div>
         </div>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 4 }}>
