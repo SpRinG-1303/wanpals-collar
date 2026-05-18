@@ -132,8 +132,8 @@ function Step3() {
             background: "linear-gradient(to top, #F5EDE8, rgba(245,237,232,0.9) 70%, transparent)",
           }}
         >
-          <PrimaryButton onClick={() => nav({ to: "/home" })}>
-            🎉 {t("完了！ダッシュボードへ", "Done! Go to Dashboard")} →
+          <PrimaryButton onClick={() => nav({ to: "/onboarding/details" })}>
+            {t("次へ", "Next")} → 🐾
           </PrimaryButton>
         </div>
       </div>

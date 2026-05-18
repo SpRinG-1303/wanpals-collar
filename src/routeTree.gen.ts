@@ -32,6 +32,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as OnboardingWelcomeRouteImport } from './routes/onboarding.welcome'
 import { Route as OnboardingOwnerRouteImport } from './routes/onboarding.owner'
 import { Route as OnboardingDogRouteImport } from './routes/onboarding.dog'
+import { Route as OnboardingDetailsRouteImport } from './routes/onboarding.details'
 import { Route as OnboardingAvatarRouteImport } from './routes/onboarding.avatar'
 
 const TempSenseRoute = TempSenseRouteImport.update({
@@ -149,6 +150,11 @@ const OnboardingDogRoute = OnboardingDogRouteImport.update({
   path: '/onboarding/dog',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OnboardingDetailsRoute = OnboardingDetailsRouteImport.update({
+  id: '/onboarding/details',
+  path: '/onboarding/details',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const OnboardingAvatarRoute = OnboardingAvatarRouteImport.update({
   id: '/onboarding/avatar',
   path: '/onboarding/avatar',
@@ -177,6 +183,7 @@ export interface FileRoutesByFullPath {
   '/skin-sense': typeof SkinSenseRoute
   '/temp-sense': typeof TempSenseRoute
   '/onboarding/avatar': typeof OnboardingAvatarRoute
+  '/onboarding/details': typeof OnboardingDetailsRoute
   '/onboarding/dog': typeof OnboardingDogRoute
   '/onboarding/owner': typeof OnboardingOwnerRoute
   '/onboarding/welcome': typeof OnboardingWelcomeRoute
@@ -203,6 +210,7 @@ export interface FileRoutesByTo {
   '/skin-sense': typeof SkinSenseRoute
   '/temp-sense': typeof TempSenseRoute
   '/onboarding/avatar': typeof OnboardingAvatarRoute
+  '/onboarding/details': typeof OnboardingDetailsRoute
   '/onboarding/dog': typeof OnboardingDogRoute
   '/onboarding/owner': typeof OnboardingOwnerRoute
   '/onboarding/welcome': typeof OnboardingWelcomeRoute
@@ -230,6 +238,7 @@ export interface FileRoutesById {
   '/skin-sense': typeof SkinSenseRoute
   '/temp-sense': typeof TempSenseRoute
   '/onboarding/avatar': typeof OnboardingAvatarRoute
+  '/onboarding/details': typeof OnboardingDetailsRoute
   '/onboarding/dog': typeof OnboardingDogRoute
   '/onboarding/owner': typeof OnboardingOwnerRoute
   '/onboarding/welcome': typeof OnboardingWelcomeRoute
@@ -258,6 +267,7 @@ export interface FileRouteTypes {
     | '/skin-sense'
     | '/temp-sense'
     | '/onboarding/avatar'
+    | '/onboarding/details'
     | '/onboarding/dog'
     | '/onboarding/owner'
     | '/onboarding/welcome'
@@ -284,6 +294,7 @@ export interface FileRouteTypes {
     | '/skin-sense'
     | '/temp-sense'
     | '/onboarding/avatar'
+    | '/onboarding/details'
     | '/onboarding/dog'
     | '/onboarding/owner'
     | '/onboarding/welcome'
@@ -310,6 +321,7 @@ export interface FileRouteTypes {
     | '/skin-sense'
     | '/temp-sense'
     | '/onboarding/avatar'
+    | '/onboarding/details'
     | '/onboarding/dog'
     | '/onboarding/owner'
     | '/onboarding/welcome'
@@ -337,6 +349,7 @@ export interface RootRouteChildren {
   SkinSenseRoute: typeof SkinSenseRoute
   TempSenseRoute: typeof TempSenseRoute
   OnboardingAvatarRoute: typeof OnboardingAvatarRoute
+  OnboardingDetailsRoute: typeof OnboardingDetailsRoute
   OnboardingDogRoute: typeof OnboardingDogRoute
   OnboardingOwnerRoute: typeof OnboardingOwnerRoute
   OnboardingWelcomeRoute: typeof OnboardingWelcomeRoute
@@ -505,6 +518,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OnboardingDogRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/onboarding/details': {
+      id: '/onboarding/details'
+      path: '/onboarding/details'
+      fullPath: '/onboarding/details'
+      preLoaderRoute: typeof OnboardingDetailsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/onboarding/avatar': {
       id: '/onboarding/avatar'
       path: '/onboarding/avatar'
@@ -537,6 +557,7 @@ const rootRouteChildren: RootRouteChildren = {
   SkinSenseRoute: SkinSenseRoute,
   TempSenseRoute: TempSenseRoute,
   OnboardingAvatarRoute: OnboardingAvatarRoute,
+  OnboardingDetailsRoute: OnboardingDetailsRoute,
   OnboardingDogRoute: OnboardingDogRoute,
   OnboardingOwnerRoute: OnboardingOwnerRoute,
   OnboardingWelcomeRoute: OnboardingWelcomeRoute,

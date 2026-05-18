@@ -234,17 +234,18 @@ export function TopBar({ to = "/onboarding/welcome" }: { to?: string } = {}) {
   );
 }
 
-export function Stepper({ current, path }: { current: 1 | 2 | 3; path?: "A" | "B" | null }) {
+export function Stepper({ current, path }: { current: 1 | 2 | 3 | 4; path?: "A" | "B" | null }) {
   const t = useT();
   const labels = [
     t("ギブリの相棒に会う", "Meet Your Ghibli Twin"),
     t("アバターをカスタマイズ", "Customise Avatar"),
     t("ポーズパック", "Pose Pack"),
+    t("犬の詳細", "Dog Details"),
   ];
   return (
     <div className="mb-3">
       <div className="flex items-center justify-center gap-0">
-        {[1, 2, 3].map((n, i) => {
+        {[1, 2, 3, 4].map((n, i) => {
           const skipped = n === 2 && path === "A" && current !== 2;
           const completed = !skipped && n < current;
           const active = n === current;
@@ -286,12 +287,14 @@ export function Stepper({ current, path }: { current: 1 | 2 | 3; path?: "A" | "B
                   n
                 )}
               </div>
-              {i < 2 && (
+              {i < 3 && (
                 <div
-                  className="w-10 h-[2px]"
+                  className="w-7 h-[2px]"
                   style={{
                     background:
-                      (n === 1 && (current > 1 || path === "A")) || (n === 2 && current > 2)
+                      (n === 1 && (current > 1 || path === "A")) ||
+                      (n === 2 && current > 2) ||
+                      (n === 3 && current > 3)
                         ? "#F4A3B8"
                         : "#EDE8E4",
                   }}
@@ -302,7 +305,7 @@ export function Stepper({ current, path }: { current: 1 | 2 | 3; path?: "A" | "B
         })}
       </div>
       <p className="text-[12px] text-center mt-2" style={{ color: "#8A8A8A" }}>
-        {t(`ステップ ${current} / 3`, `Step ${current} of 3`)} · {labels[current - 1]}
+        {t(`ステップ ${current} / 4`, `Step ${current} of 4`)} · {labels[current - 1]}
       </p>
     </div>
   );

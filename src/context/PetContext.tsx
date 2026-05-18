@@ -10,6 +10,10 @@ export type PetAvatar = {
 export type AvatarStatus =
   | "default" | "customised" | "ghibli_pending" | "ghibli_ready";
 
+export type DogAge = { years: number; months: number };
+export type DogWeight = { value: number | null; unit: "kg" | "lbs" };
+export type VaccinationStatus = "yes" | "partial" | "unsure" | null;
+
 export type PetProfile = {
   name: string;
   breed: string;
@@ -31,6 +35,15 @@ export type PetProfile = {
   selectedPose: number | null;
   avatarStatus: AvatarStatus;
   path: "A" | "B" | null;
+  // Step 4 — Dog Details
+  dogAge: DogAge;
+  dogWeight: DogWeight;
+  vaccinationStatus: VaccinationStatus;
+  healthConditions: string;
+  vetName: string;
+  collarId: string;
+  isStrayMonitoring: boolean;
+  justCompletedOnboarding: boolean;
 };
 
 export const DEFAULT_PET: PetProfile = {
@@ -58,6 +71,14 @@ export const DEFAULT_PET: PetProfile = {
   selectedPose: null,
   avatarStatus: "default",
   path: null,
+  dogAge: { years: 0, months: 0 },
+  dogWeight: { value: null, unit: "kg" },
+  vaccinationStatus: null,
+  healthConditions: "",
+  vetName: "",
+  collarId: "",
+  isStrayMonitoring: false,
+  justCompletedOnboarding: false,
 };
 
 type Ctx = {
