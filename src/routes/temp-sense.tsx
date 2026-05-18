@@ -115,7 +115,7 @@ function TempSensePage() {
         background: O.pale,
         minHeight: "100%",
       }}>
-        <div style={{ marginTop: -36, position: "relative", zIndex: 2 }}>
+        <div style={{ marginTop: -52, position: "relative", zIndex: 2 }}>
           <TimeTabs value={tab} onChange={setTab} />
         </div>
 
