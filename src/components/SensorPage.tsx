@@ -40,18 +40,21 @@ export const SAKURA_HEADER = "linear-gradient(180deg,#FFF5F7 0%,#FFE8EF 100%)";
 export function SensorPage({
   titleJp,
   titleEn,
-  // legacy props kept for compatibility — every page uses the global sakura
-  // pink header now.
-  headerGradient: _headerGradient,
+  heroGradient,
+  kanji,
+  // legacy
   accent: _accent,
   children,
 }: {
   titleJp: string;
   titleEn: string;
+  heroGradient?: string;
+  kanji?: string;
   headerGradient?: string;
   accent?: string;
   children: ReactNode;
 }) {
+  const bg = heroGradient ?? "linear-gradient(135deg,#FFF5F7 0%,#FFE8EF 100%)";
   return (
     <AppShell
       noPadding
@@ -61,30 +64,52 @@ export function SensorPage({
     >
       <style>{`
         @keyframes spLiveDot { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.3);opacity:.55} }
-        @keyframes spCardIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes spCardIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
         .sp-stack > * {
           opacity: 0;
-          animation: spCardIn 320ms ease-out forwards;
+          animation: spCardIn 380ms cubic-bezier(.2,.7,.2,1) forwards;
         }
-        .sp-stack > *:nth-child(1){animation-delay:40ms}
-        .sp-stack > *:nth-child(2){animation-delay:140ms}
-        .sp-stack > *:nth-child(3){animation-delay:240ms}
-        .sp-stack > *:nth-child(4){animation-delay:340ms}
-        .sp-stack > *:nth-child(5){animation-delay:440ms}
-        .sp-stack > *:nth-child(6){animation-delay:540ms}
+        .sp-stack > *:nth-child(1){animation-delay:60ms}
+        .sp-stack > *:nth-child(2){animation-delay:160ms}
+        .sp-stack > *:nth-child(3){animation-delay:260ms}
+        .sp-stack > *:nth-child(4){animation-delay:360ms}
+        .sp-stack > *:nth-child(5){animation-delay:460ms}
+        .sp-stack > *:nth-child(6){animation-delay:560ms}
+        @keyframes spDraw { from{stroke-dashoffset:var(--dash)} to{stroke-dashoffset:0} }
+        @keyframes spBarGrow { from{transform:scaleY(0)} to{transform:scaleY(1)} }
+        @keyframes spCountFade { from{opacity:0;transform:translateY(4px)} to{opacity:1;transform:translateY(0)} }
       `}</style>
 
-      <div style={{ background: SP.page, minHeight: "100%", paddingBottom: 24 }}>
-        {/* Header */}
+      <div style={{ background: SP.page, minHeight: "100%", paddingBottom: 100 }}>
+        {/* Hero */}
         <div
           style={{
-            background: SAKURA_HEADER,
-            padding: "18px 18px 26px",
+            background: bg,
+            padding: "20px 20px 34px",
             position: "relative",
-            minHeight: 100,
+            minHeight: 120,
+            overflow: "hidden",
           }}
         >
-          <div className="flex items-center justify-between">
+          {kanji && (
+            <span
+              aria-hidden
+              style={{
+                position: "absolute",
+                top: -30, right: -10,
+                fontSize: 220,
+                lineHeight: 1,
+                color: SP.sumi,
+                opacity: 0.04,
+                fontWeight: 700,
+                pointerEvents: "none",
+                userSelect: "none",
+              }}
+            >
+              {kanji}
+            </span>
+          )}
+          <div className="flex items-center justify-between" style={{ position: "relative", zIndex: 1 }}>
             <Bi
               jp={titleJp}
               en={titleEn}
@@ -102,7 +127,7 @@ export function SensorPage({
                 fontWeight: 700,
                 letterSpacing: "0.1em",
                 gap: 6,
-                boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+                boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
               }}
             >
               <span
@@ -118,7 +143,7 @@ export function SensorPage({
         </div>
 
         {/* Content */}
-        <div className="sp-stack" style={{ padding: "16px", marginTop: -10 }}>
+        <div className="sp-stack" style={{ padding: "16px", marginTop: -14 }}>
           {children}
         </div>
       </div>

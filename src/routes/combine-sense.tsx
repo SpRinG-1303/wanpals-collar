@@ -8,7 +8,7 @@ export const Route = createFileRoute("/combine-sense")({ component: CombineSense
 const MINI = [
   { to: "/motion-sense", Icon: Activity, jp: "運動", en: "Motion", valJp: "2,340歩", valEn: "2,340 steps", color: SP.sora, bg: "#E8F2FF" },
   { to: "/temp-sense", Icon: Thermometer, jp: "体温", en: "Temp", valJp: "38.5°C", valEn: "38.5°C", color: SP.momiji, bg: "#FFE8DC" },
-  { to: "/location-sense", Icon: MapPin, jp: "位置", en: "Location", valJp: "渋谷", valEn: "Shibuya", color: SP.matcha, bg: "#E8F5EE" },
+  { to: "/map", Icon: MapPin, jp: "位置", en: "Location", valJp: "渋谷", valEn: "Shibuya", color: SP.matcha, bg: "#E8F5EE" },
   { to: "/pressure-sense", Icon: Wind, jp: "圧力", en: "Pressure", valJp: "正常", valEn: "Normal", color: SP.yuzu, bg: "#FFF8DC" },
   { to: "/light-sense", Icon: Sun, jp: "光", en: "Light", valJp: "ピンク", valEn: "Pink", color: SP.sakura, bg: "#FFE4EC" },
   { to: "/report", Icon: Brain, jp: "吠え", en: "Bark", valJp: "穏やか", valEn: "Calm", color: SP.fuji, bg: "#EDE0FF" },
