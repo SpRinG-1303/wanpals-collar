@@ -699,7 +699,9 @@ function BarkSensePage() {
           {/* CARD 5 - Emotion Breakdown (Donut) */}
           <Section style={{ animation: "bsFadeUp .6s ease-out .35s both" }}>
             <Label lang={lang} jp="感情分布" en="Emotion Breakdown" />
-            <div style={{ display: "grid", gridTemplateColumns: "180px 1fr", gap: 18, marginTop: 14, alignItems: "center" }}>
+
+            {/* Donut centered on top */}
+            <div style={{ marginTop: 14, display: "flex", justifyContent: "center" }}>
               <div style={{ position: "relative", width: 180, height: 180 }}>
                 <svg width="180" height="180" viewBox="0 0 180 180" style={{ transform: "rotate(-90deg)" }}>
                   <circle cx="90" cy="90" r={donutR} fill="none" stroke={P.soft} strokeWidth="22" />
@@ -718,7 +720,7 @@ function BarkSensePage() {
                         strokeDashoffset={-off}
                         style={{
                           transition: "stroke-dasharray 1.1s cubic-bezier(.2,.8,.2,1)",
-                          filter: "drop-shadow(0 2px 4px rgba(91,33,182,0.15))",
+                          filter: "drop-shadow(0 2px 4px rgba(139,125,191,0.18))",
                         }}
                       />
                     );
@@ -734,22 +736,39 @@ function BarkSensePage() {
                   <div style={{ fontSize: 32, fontWeight: 800, color: P.primary, lineHeight: 1 }}>55%</div>
                 </div>
               </div>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
-                {donut.map((d) => (
-                  <div key={d.key} style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 11 }}>
-                    <span style={{ width: 8, height: 8, borderRadius: "50%", background: EMO[d.key].color, flexShrink: 0 }} />
-                    <span style={{ color: "#1A1A2E", fontWeight: 600, flex: 1 }}>
-                      {lang === "english" ? EMO[d.key].en : EMO[d.key].jp}
-                    </span>
-                    <span style={{ color: "#6B7280" }}>{d.pct}%</span>
-                    <span style={{
-                      fontSize: 9, fontWeight: 700,
-                      color: d.trend.startsWith("+") ? "#16A34A" : d.trend.startsWith("-") ? "#EF4444" : "#9CA3AF",
-                    }}>{d.trend}</span>
-                  </div>
-                ))}
-              </div>
             </div>
+
+            {/* Legend: 2-column grid below the donut, all 9 emotions */}
+            {(() => {
+              const byKey = Object.fromEntries(donut.map((d) => [d.key, d])) as Record<EmotionKey, { pct: number; trend: string } | undefined>;
+              const left: EmotionKey[] = ["contentment", "affection", "distress", "anger"];
+              const right: EmotionKey[] = ["joy", "excitement", "fear", "disgust", "suspicion"];
+              const renderRow = (k: EmotionKey) => {
+                const d = byKey[k];
+                const pct = d?.pct ?? 0;
+                const trend = d?.trend ?? "0%";
+                const trendColor = trend.startsWith("+") ? "#16A34A" : trend.startsWith("-") ? "#EF4444" : "#9CA3AF";
+                const arrow = trend.startsWith("+") ? "▲" : trend.startsWith("-") ? "▼" : "■";
+                return (
+                  <div key={k} style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12, minWidth: 0 }}>
+                    <span style={{ width: 8, height: 8, borderRadius: "50%", background: EMO[k].color, flexShrink: 0 }} />
+                    <span style={{ color: "#1A1A2E", fontWeight: 600, flex: 1, minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                      {lang === "english" ? EMO[k].en : EMO[k].jp}
+                    </span>
+                    <span style={{ color: "#6B7280", fontVariantNumeric: "tabular-nums" }}>{pct}%</span>
+                    <span style={{ fontSize: 10, fontWeight: 700, color: trendColor, display: "inline-flex", alignItems: "center", gap: 2 }}>
+                      <span style={{ fontSize: 8 }}>{arrow}</span>
+                    </span>
+                  </div>
+                );
+              };
+              return (
+                <div style={{ marginTop: 18, display: "grid", gridTemplateColumns: "1fr 1fr", columnGap: 16, rowGap: 10 }}>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>{left.map(renderRow)}</div>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>{right.map(renderRow)}</div>
+                </div>
+              );
+            })()}
           </Section>
 
           {/* CARD 6 - AI Insight */}
