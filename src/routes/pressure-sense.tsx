@@ -106,7 +106,7 @@ function GlassStats() {
     <div style={{
       background: "#FFFFFF",
       borderRadius: 20, padding: "16px 16px",
-      marginTop: -36, marginBottom: 16, overflow: "hidden",
+      marginTop: -52, marginBottom: 16, overflow: "hidden",
       boxShadow: "0 8px 24px rgba(0,0,0,0.08)",
       display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr",
       boxSizing: "border-box",
