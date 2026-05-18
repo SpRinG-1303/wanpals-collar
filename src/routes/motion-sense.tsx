@@ -10,22 +10,23 @@ export const Route = createFileRoute("/motion-sense")({ component: MotionSensePa
 
 // ---------- Tokens ----------
 const C = {
-  page: "#FAFAF9",
+  page: "#F0F7FC",
   card: "#FFFFFF",
   sumi: "#1A1A2E",
   ink: "#374151",
   ink2: "#4B5563",
   muted: "#9CA3AF",
-  faint: "#C4B5B8",
-  divider: "#F3F4F6",
-  rose: "#F43F72",
-  roseDeep: "#E11D5A",
-  roseSoft: "#FF6B8A",
-  rosePale: "#FF9EBA",
-  roseTint: "#FFF0F3",
-  roseFill: "#FECDD3",
-  roseMid: "#F9A8C0",
-  roseTrack: "#F9E8ED",
+  faint: "#B6C8D4",
+  divider: "#E8F4FD",
+  // Pastel blue identity (token names kept as `rose*` for minimal diff)
+  rose: "#7BB3D4",       // primary soft sky blue
+  roseDeep: "#5B9FBF",   // medium ocean blue
+  roseSoft: "#93C4E0",   // pastel cornflower
+  rosePale: "#BDD8ED",   // soft blue
+  roseTint: "#E8F4FD",   // very light blue tint
+  roseFill: "#D6EAF5",   // barely blue
+  roseMid: "#93C4E0",    // medium pastel blue
+  roseTrack: "#D6EAF5",  // progress track
   indigo: "#6366F1",
   orange: "#F97316",
   green: "#16A34A",
