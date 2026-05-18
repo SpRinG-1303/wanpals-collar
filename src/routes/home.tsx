@@ -270,17 +270,39 @@ function Scene({ theme, active }: { theme: SceneTheme; active: boolean }) {
 
       {/* Tree trunk */}
       <path d={TRUNK_D} stroke={theme.trunk} strokeWidth="14" strokeLinecap="round" fill="none" />
-      {/* Tree branches */}
-      {BRANCHES.map((b, i) => (
-        <path key={i} d={b.d} stroke={theme.trunk} strokeWidth="3.5" fill="none" strokeLinecap="round" />
-      ))}
+      {/* Tree branches (gentle sway) */}
+      {BRANCHES.map((b, i) => {
+        const m = b.d.match(/M\s+(\d+)\s+(\d+)/);
+        const ox = m ? Number(m[1]) : 0;
+        const oy = m ? Number(m[2]) : 0;
+        return (
+          <g
+            key={i}
+            style={{
+              transformBox: "view-box",
+              transformOrigin: `${ox}px ${oy}px`,
+              animation: `branchSway ${4 + (i % 3)}s ease-in-out ${i * 0.5}s infinite`,
+            }}
+          >
+            <path d={b.d} stroke={theme.trunk} strokeWidth="3.5" fill="none" strokeLinecap="round" />
+          </g>
+        );
+      })}
       {/* Sakura blossoms — 5-petal flower shapes */}
       {BLOSSOMS.map((b, i) => {
         const petals = 5;
         const petalR = b.r * 0.62;
         const offset = b.r * 0.55;
         return (
-          <g key={i} transform={`rotate(${(i * 17) % 360} ${b.cx} ${b.cy})`}>
+          <g
+            key={i}
+            style={{
+              transformBox: "view-box",
+              transformOrigin: `${b.cx}px ${b.cy}px`,
+              animation: `blossomSway ${3 + ((i * 7) % 3)}s ease-in-out ${((i * 0.37) % 3).toFixed(2)}s infinite`,
+            }}
+          >
+          <g transform={`rotate(${(i * 17) % 360} ${b.cx} ${b.cy})`}>
             {Array.from({ length: petals }).map((_, p) => {
               const ang = (p / petals) * Math.PI * 2 - Math.PI / 2;
               const px = b.cx + Math.cos(ang) * offset;
@@ -332,6 +354,7 @@ function Scene({ theme, active }: { theme: SceneTheme; active: boolean }) {
                 />
               );
             })}
+          </g>
           </g>
         );
       })}
@@ -444,37 +467,78 @@ function HeroPostcard({ score, name, mood, celebrate }: { score: number; name: s
         />
       )}
 
-      {/* Bottom dark gradient overlay */}
+      {/* Falling petals overlay */}
+      <div
+        style={{
+          position: "absolute", inset: 0, overflow: "hidden", pointerEvents: "none",
+        }}
+        aria-hidden
+      >
+        {Array.from({ length: 8 }).map((_, i) => {
+          const leftPct = 6 + ((i * 13) % 85);
+          const dur = 7 + ((i * 1.3) % 3); // 7-10s
+          const delay = (i * 0.9) % 8;
+          const drift = (i % 2 === 0 ? 1 : -1) * (20 + (i * 7) % 40);
+          return (
+            <span
+              key={i}
+              style={{
+                position: "absolute",
+                left: `${leftPct}%`,
+                top: "-6%",
+                width: 10,
+                height: 14,
+                borderRadius: "60% 60% 50% 50% / 70% 70% 40% 40%",
+                background: "#F4B6C2",
+                boxShadow: "inset -2px -2px 0 rgba(184,96,128,0.25)",
+                opacity: 0,
+                ["--drift" as any]: `${drift}px`,
+                animation: `petalFall ${dur}s linear ${delay}s infinite`,
+              }}
+            />
+          );
+        })}
+      </div>
+
+      {/* Bottom dark gradient overlay (stronger, behind text) */}
       <div
         style={{
           position: "absolute", inset: 0,
-          background: "linear-gradient(180deg, rgba(0,0,0,0) 45%, rgba(0,0,0,0.55) 100%)",
+          background: "linear-gradient(180deg, rgba(0,0,0,0) 50%, rgba(0,0,0,0.65) 100%)",
           pointerEvents: "none",
         }}
       />
 
-      {/* Top-left JP time label */}
+      {/* Top-left JP time label (with dark pill) */}
       <div
         style={{
-          position: "absolute", top: 14, left: 16,
-          fontFamily: serif, fontSize: 28, fontWeight: 600,
+          position: "absolute", top: 12, left: 14,
+          fontFamily: serif, fontSize: 26, fontWeight: 600,
           color: "#fff",
-          textShadow: "0 2px 8px rgba(0,0,0,0.35)",
+          background: "rgba(0,0,0,0.25)",
+          padding: "4px 12px",
+          borderRadius: 14,
           lineHeight: 1,
+          backdropFilter: "blur(4px)",
+          WebkitBackdropFilter: "blur(4px)",
         }}
       >
         {meta.jp}
       </div>
 
-      {/* Top-right current time */}
+      {/* Top-right current time (with dark pill) */}
       <div
         style={{
-          position: "absolute", top: 18, right: 16,
-          fontFamily: serif, fontSize: 16, fontWeight: 500,
+          position: "absolute", top: 14, right: 14,
+          fontFamily: serif, fontSize: 15, fontWeight: 500,
           color: "#fff",
           letterSpacing: "0.08em",
-          textShadow: "0 2px 8px rgba(0,0,0,0.35)",
+          background: "rgba(0,0,0,0.25)",
+          padding: "5px 12px",
+          borderRadius: 14,
           fontVariantNumeric: "tabular-nums",
+          backdropFilter: "blur(4px)",
+          WebkitBackdropFilter: "blur(4px)",
         }}
       >
         {timeStr}
@@ -484,22 +548,22 @@ function HeroPostcard({ score, name, mood, celebrate }: { score: number; name: s
       <div
         style={{
           position: "absolute", left: 0, right: 0, bottom: 0,
-          padding: "20px 22px 22px",
+          padding: "0 20px 18px",
           color: "#fff",
           fontFamily: serif,
         }}
       >
-        <div style={{ fontSize: 12, fontWeight: 500, opacity: 0.9, letterSpacing: "0.05em" }}>
+        <div style={{ fontSize: 12, fontWeight: 500, opacity: 0.92, letterSpacing: "0.05em" }}>
           {t(`${labelJp} / ${labelEn}`, `${labelEn} / ${labelJp}`)}
         </div>
-        <div style={{ fontSize: hasName ? 24 : 28, fontWeight: 700, lineHeight: 1.2, marginTop: 6, textShadow: "0 2px 10px rgba(0,0,0,0.4)" }}>
+        <div style={{ fontSize: 26, fontWeight: 600, lineHeight: 1.15, marginTop: 4, textShadow: "0 2px 12px rgba(0,0,0,0.5)" }}>
           {greeting}
         </div>
-        <div className="flex items-center" style={{ gap: 8, marginTop: 10 }}>
+        <div className="flex items-center" style={{ gap: 8, marginTop: 8 }}>
           <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#9EE3B8", display: "inline-block" }} />
           <span style={{ fontSize: 12, opacity: 0.95 }}>{mood}</span>
         </div>
-        <div style={{ marginTop: 12 }}>
+        <div style={{ marginTop: 10 }}>
           <span style={{
             display: "inline-block",
             background: "rgba(255,255,255,0.18)",
@@ -523,6 +587,19 @@ function HeroPostcard({ score, name, mood, celebrate }: { score: number; name: s
           0%,100% { transform: scale(1) rotate(0deg); }
           25% { transform: scale(1.02) rotate(-0.5deg); }
           75% { transform: scale(1.02) rotate(0.5deg); }
+        }
+        @keyframes branchSway {
+          0%,100% { transform: rotate(-1.5deg); }
+          50% { transform: rotate(1.5deg); }
+        }
+        @keyframes blossomSway {
+          0%,100% { transform: rotate(-2deg); }
+          50% { transform: rotate(2deg); }
+        }
+        @keyframes petalFall {
+          0%   { transform: translate(0, 0) rotate(0deg); opacity: 0; }
+          10%  { opacity: 0.8; }
+          100% { transform: translate(var(--drift, 30px), 120vh) rotate(540deg); opacity: 0; }
         }
       `}</style>
     </div>
