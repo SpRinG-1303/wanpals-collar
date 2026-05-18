@@ -311,34 +311,38 @@ function Breeds() {
         <button
           onClick={() => setOpenBreed(featured)}
           style={{
-            width: "100%", height: 72, display: "flex", alignItems: "center",
-            background: featured.bannerBg,
-            borderRadius: 16, padding: "0 20px",
+            position: "relative",
+            width: "100%", height: 72,
+            borderRadius: 16, overflow: "hidden",
             boxShadow: "0 4px 16px rgba(255,107,53,0.25)",
-            textAlign: "left", gap: 12,
+            textAlign: "left",
+            border: "none", padding: 0,
           }}
         >
-          <div style={{ flex: 1, color: "white" }}>
-            <span style={{
-              display: "inline-block",
-              background: "#FFFFFF", color: "#FF6B35",
-              fontSize: 9, fontWeight: 800, letterSpacing: "0.08em",
-              padding: "3px 8px", borderRadius: 10, marginBottom: 4,
-            }}>
-              {t("今日の犬種", "TODAY'S BREED")}
-            </span>
-            <div style={{ fontSize: 18, fontWeight: 800, lineHeight: 1.1 }}>
-              {language === "english" ? "Shiba Inu" : language === "japanese" ? "柴犬" : "柴犬 · Shiba Inu"}
+          <BreedImage breed={featured} overlay="linear-gradient(90deg, rgba(0,0,0,0.55), rgba(0,0,0,0.15))" />
+          <div style={{ position: "relative", height: "100%", display: "flex", alignItems: "center", padding: "0 20px", gap: 12 }}>
+            <div style={{ flex: 1, color: "white" }}>
+              <span style={{
+                display: "inline-block",
+                background: "#FFFFFF", color: "#FF6B35",
+                fontSize: 9, fontWeight: 800, letterSpacing: "0.08em",
+                padding: "3px 8px", borderRadius: 10, marginBottom: 4,
+              }}>
+                {t("今日の犬種", "TODAY'S BREED")}
+              </span>
+              <div style={{ fontSize: 18, fontWeight: 800, lineHeight: 1.1, textShadow: "0 1px 4px rgba(0,0,0,0.4)" }}>
+                {language === "english" ? "Shiba Inu" : language === "japanese" ? "柴犬" : "柴犬 · Shiba Inu"}
+              </div>
             </div>
-          </div>
-          <div style={{
-            display: "flex", alignItems: "center", gap: 4,
-            background: "#FFFFFF", color: "#FF6B35",
-            fontSize: 12, fontWeight: 800,
-            padding: "6px 14px", borderRadius: 20,
-          }}>
-            <span>{t("詳しく", "More")}</span>
-            <ArrowRight size={12} strokeWidth={2.8} />
+            <div style={{
+              display: "flex", alignItems: "center", gap: 4,
+              background: "#FFFFFF", color: "#FF6B35",
+              fontSize: 12, fontWeight: 800,
+              padding: "6px 14px", borderRadius: 20,
+            }}>
+              <span>{t("詳しく", "More")}</span>
+              <ArrowRight size={12} strokeWidth={2.8} />
+            </div>
           </div>
         </button>
       </div>
