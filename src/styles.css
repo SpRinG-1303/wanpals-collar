@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Noto+Serif+JP:wght@400;500;600;700;900&family=Inter:wght@400;500;600;700&family=Nunito:wght@400;600;700;800;900&family=Quicksand:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Noto+Serif+JP:wght@400;500;600;700;900&family=Kosugi+Maru&family=Noto+Sans+JP:wght@400;500;700;900&family=Inter:wght@400;500;600;700&family=Nunito:wght@400;600;700;800;900&family=Quicksand:wght@400;500;600;700&display=swap");
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
@@ -6,7 +6,9 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-sans: "Noto Sans JP", "Inter", system-ui, sans-serif;
+  --font-sans: "Noto Serif JP", "Noto Sans JP", "Inter", system-ui, sans-serif;
+  --font-display: "Zen Maru Gothic", "Noto Sans JP", system-ui, sans-serif;
+  --font-mono: "Kosugi Maru", "Noto Sans JP", system-ui, sans-serif;
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 16px;
