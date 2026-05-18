@@ -226,7 +226,7 @@ function BarkSensePage() {
 
 
         {/* CARDS */}
-        <div style={{ padding: "20px 16px 0", display: "flex", flexDirection: "column", gap: 18, position: "relative" }}>
+        <div style={{ padding: "16px 16px 0", display: "flex", flexDirection: "column", gap: 18, position: "relative" }}>
 
           {/* CARD 1 - Emotion Radar */}
           <Section
