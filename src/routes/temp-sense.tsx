@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Thermometer, TrendingDown, TrendingUp } from "lucide-react";
-import { SensorPage, Card, TimeTabs, useTimeTab, SP, Bi } from "@/components/SensorPage";
+import { SensorPage, Card, TimeTabs, useTimeTab, SP, Bi, SectionLabel, AIInsightCard } from "@/components/SensorPage";
 import { useT } from "@/context/LanguageContext";
 
 export const Route = createFileRoute("/temp-sense")({ component: TempSensePage });
