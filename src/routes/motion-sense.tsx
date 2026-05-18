@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Footprints, Flame, Moon, Activity } from "lucide-react";
-import { SensorPage, Card, TimeTabs, useTimeTab, SP, Bi } from "@/components/SensorPage";
+import { SensorPage, Card, TimeTabs, useTimeTab, SP, Bi, SectionLabel, AIInsightCard } from "@/components/SensorPage";
 import { useT, useLanguage } from "@/context/LanguageContext";
 
 export const Route = createFileRoute("/motion-sense")({ component: MotionSensePage });
