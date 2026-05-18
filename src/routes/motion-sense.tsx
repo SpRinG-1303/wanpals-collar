@@ -81,28 +81,32 @@ function MotionSensePage() {
         </div>
       </Card>
 
-      <Card accent={SP.sora}>
+      <Card>
         <Bi
           jp="週間アクティビティ" en="Weekly Activity"
           jpStyle={{ fontSize: 14, fontWeight: 700, color: SP.sumi }}
           enStyle={{ fontSize: 11, color: SP.usuzumi, marginBottom: 14 }}
         />
-        <div className="flex items-end justify-between" style={{ height: 120, gap: 8, marginTop: language === "mixed" ? 0 : 14 }}>
+        <div
+          className="flex items-end justify-between"
+          style={{
+            height: 140, gap: 8, marginTop: language === "mixed" ? 0 : 14,
+            background: "#FFF8FA", borderRadius: 12, padding: "10px 8px",
+          }}
+        >
           {WEEK.map((d, i) => {
-            const h = (d.v / max) * 100;
+            const barH = Math.max(6, (d.v / max) * 96);
             const isToday = i === WEEK.length - 1;
             return (
-              <div key={d.en} className="flex flex-col items-center" style={{ flex: 1 }}>
+              <div key={d.en} className="flex flex-col items-center justify-end" style={{ flex: 1, height: "100%" }}>
                 <div style={{ fontSize: 9, color: SP.usuzumi, marginBottom: 4, fontVariantNumeric: "tabular-nums" }}>
                   {(d.v / 1000).toFixed(1)}k
                 </div>
                 <div style={{
-                  width: "100%", height: `${h}%`, borderRadius: 6,
-                  background: isToday
-                    ? "linear-gradient(180deg, #E8829A, #F093A0)"
-                    : "linear-gradient(180deg, #FFC9D4, #FFD9E1)",
+                  width: "100%", height: barH, borderRadius: "6px 6px 2px 2px",
+                  background: isToday ? "#F43F72" : "#F8B4C4",
                 }} />
-                <div style={{ fontSize: 11, color: isToday ? SP.sakura : SP.usuzumi, marginTop: 6, fontWeight: isToday ? 700 : 500 }}>
+                <div style={{ fontSize: 11, color: isToday ? SP.rose : SP.usuzumi, marginTop: 6, fontWeight: isToday ? 700 : 500 }}>
                   {t(d.jp, d.en)}
                 </div>
               </div>
