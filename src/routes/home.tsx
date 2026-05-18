@@ -295,11 +295,22 @@ function Home() {
   const [editOpen, setEditOpen] = useState(false);
   const t = useT();
   const { language } = useLanguage();
-  const { pet } = usePet();
+  const { pet, updatePet } = usePet();
+  const [celebrate, setCelebrate] = useState(false);
   useEffect(() => {
     const tm = setInterval(() => setFactIdx((i) => (i + 1) % DAILY_FACTS.length), 10000);
     return () => clearInterval(tm);
   }, []);
+  useEffect(() => {
+    if (pet.justCompletedOnboarding && pet.name?.trim()) {
+      setCelebrate(true);
+      const id = setTimeout(() => {
+        setCelebrate(false);
+        updatePet({ justCompletedOnboarding: false });
+      }, 2000);
+      return () => clearTimeout(id);
+    }
+  }, [pet.justCompletedOnboarding, pet.name, updatePet]);
   const fact = DAILY_FACTS[factIdx];
   const score = 87;
 
@@ -314,7 +325,8 @@ function Home() {
 
   return (
     <AppShell titleJp="" titleEn="" noPadding>
-      <HeroPostcard score={score} name={heroName} mood={mood} />
+      <HeroPostcard score={score} name={heroName} mood={mood} celebrate={celebrate} />
+
 
       {sosOpen && (
         <div className="fixed inset-0 z-50 bg-black/50 flex items-end sm:items-center justify-center p-4" onClick={() => setSosOpen(false)}>
