@@ -121,82 +121,60 @@ const sensors: Sensor[] = [
     jp: "総合分析", en: "CombineSense", subJp: "総合解析", subEn: "Combined Analysis", valJp: "87/100", valEn: "87/100" },
 ];
 
-/* ---------- Hero (postcard-style, watercolour Japan) ---------- */
+/* ---------- Hero (time-based postcard with crossfading sky) ---------- */
+import morningImg from "@/assets/morning.png";
+import middayImg from "@/assets/midday.png";
+import eveningImg from "@/assets/evening.png";
+import nightImg from "@/assets/night.png";
+
 type TimeBand = "morning" | "afternoon" | "evening" | "night";
-function getTimeBand(): TimeBand {
-  const h = new Date().getHours();
-  if (h >= 5 && h < 12) return "morning";
-  if (h >= 12 && h < 18) return "afternoon";
-  if (h >= 18 && h < 22) return "evening";
+
+function bandFromHour(h: number): TimeBand {
+  if (h >= 5 && h < 11) return "morning";
+  if (h >= 11 && h < 17) return "afternoon";
+  if (h >= 17 && h < 20) return "evening";
   return "night";
 }
 
-const SCENE: Record<TimeBand, { bg: string; sun: string; fuji: string; blossom: string }> = {
-  morning:   { bg: "linear-gradient(135deg,#FFF8F0 0%,#FFE8EE 100%)", sun: "#FFD4A8", fuji: "#C5D8E8", blossom: "#FFB7C5" },
-  afternoon: { bg: "linear-gradient(135deg,#E8F4FF 0%,#D4EEFF 100%)", sun: "#F2C96E", fuji: "#8FB5C8", blossom: "#FFC8D0" },
-  evening:   { bg: "linear-gradient(135deg,#FFE8D0 0%,#FFD0B0 100%)", sun: "#F4A56B", fuji: "#7B6480", blossom: "#FFB7C5" },
-  night:     { bg: "linear-gradient(135deg,#E8EEF8 0%,#D4DCF0 100%)", sun: "#FFF4D8", fuji: "#9AA0B8", blossom: "#E8D8E4" },
+const BAND_META: Record<TimeBand, {
+  img: string; jp: string; orb: string; glow: string; startHour: number; endHour: number;
+}> = {
+  morning:   { img: morningImg, jp: "朝", orb: "#FF6A2E", glow: "rgba(255,140,60,0.85)",  startHour: 5,  endHour: 11 },
+  afternoon: { img: middayImg,  jp: "昼", orb: "#FF5733", glow: "rgba(255,120,60,0.80)",  startHour: 11, endHour: 17 },
+  evening:   { img: eveningImg, jp: "夕", orb: "#E55B1A", glow: "rgba(255,170,70,0.85)",  startHour: 17, endHour: 20 },
+  night:     { img: nightImg,   jp: "夜", orb: "#FFFFFF", glow: "rgba(190,220,255,0.75)", startHour: 20, endHour: 29 /* +5 next day */ },
 };
 
-function PostcardScene({ band }: { band: TimeBand }) {
-  const s = SCENE[band];
-  return (
-    <div className="absolute inset-y-0 right-0" style={{ width: "55%", background: s.bg, overflow: "hidden" }}>
-      {/* Sun / moon */}
-      {band === "night" ? (
-        <div style={{ position: "absolute", top: 22, right: 28, width: 38, height: 38, borderRadius: "50%", background: s.sun, boxShadow: `inset -10px 2px 0 0 #D4DCF0` }} />
-      ) : (
-        <div style={{ position: "absolute", top: 18, right: 24, width: 70, height: 70, borderRadius: "50%", background: s.sun, opacity: 0.6 }} />
-      )}
-
-      {/* Stars (night) */}
-      {band === "night" && [[18,30],[44,18],[78,42],[110,22],[140,48],[60,60]].map(([l,t],i)=>(
-        <div key={i} style={{ position:"absolute", left:l, top:t, width: i%2?2:3, height: i%2?2:3, borderRadius:"50%", background:"#C8C0E8" }}/>
-      ))}
-
-      {/* Clouds (afternoon) */}
-      {band === "afternoon" && [[20,40,42],[100,22,36]].map(([l,t,w],i)=>(
-        <div key={i} style={{ position:"absolute", left:l, top:t, width:w, height:(w as number)*0.45, background:"#FFFFFF", opacity:0.85, borderRadius: 999 }}/>
-      ))}
-
-      {/* Diagonal sakura branch */}
-      <svg style={{ position:"absolute", top: 8, left: 4, width: 130, height: 70 }} viewBox="0 0 130 70" fill="none">
-        <path d="M2 60 Q40 30 124 6" stroke="#C4A882" strokeWidth="1.5" strokeLinecap="round" />
-      </svg>
-      {/* Blossom dots along branch */}
-      {[[18,52,8],[34,42,6],[52,32,9],[72,22,7],[92,14,10],[110,8,6],[40,58,5,0.5],[80,40,4,0.55]].map((p,i)=>{
-        const [l,t,sz,op] = p as [number,number,number,number?];
-        return <div key={i} style={{ position:"absolute", left:l, top:t, width:sz, height:sz, borderRadius:"50%", background: s.blossom, opacity: op ?? 0.95 }}/>;
-      })}
-
-      {/* Mount Fuji */}
-      <svg style={{ position:"absolute", bottom: 0, left: "50%", transform: "translateX(-50%)", width: 110, height: 80 }} viewBox="0 0 110 80" fill="none">
-        <path d="M55 6 L104 76 L6 76 Z" fill={s.fuji} />
-        <path d="M55 6 L70 28 Q55 22 40 28 Z" fill="#FFFFFF" opacity={band === "night" ? 0.7 : 0.95}/>
-        <ellipse cx="55" cy="76" rx="55" ry="4" fill="#FFFFFF" opacity={band === "night" ? 0.15 : 0.5}/>
-      </svg>
-
-      {/* Falling petals */}
-      {band !== "night" && [
-        { left: "20%", delay: "0s", dur: "8s" },
-        { left: "55%", delay: "2.5s", dur: "9s" },
-        { left: "80%", delay: "5s", dur: "7s" },
-      ].map((p,i)=>(
-        <div key={i} style={{
-          position:"absolute", left: p.left, top: -6, width: 6, height: 4,
-          background: s.blossom, borderRadius: "50% 50% 50% 50% / 60% 60% 40% 40%",
-          opacity: 0.7, animation: `petalFall ${p.dur} linear ${p.delay} infinite`,
-        }}/>
-      ))}
-    </div>
-  );
+function getProgress(now: Date, band: TimeBand): number {
+  const meta = BAND_META[band];
+  const h = now.getHours() + now.getMinutes() / 60 + now.getSeconds() / 3600;
+  let cur = h;
+  if (band === "night" && h < 5) cur = h + 24;
+  const p = (cur - meta.startHour) / (meta.endHour - meta.startHour);
+  return Math.max(0, Math.min(1, p));
 }
 
 function HeroPostcard({ score, name, mood, celebrate }: { score: number; name: string; mood: string; celebrate: boolean }) {
   const t = useT();
-  // Default to a stable band for SSR; refine on client to avoid hydration mismatch.
-  const [band, setBand] = useState<TimeBand>("afternoon");
-  useEffect(() => { setBand(getTimeBand()); }, []);
+  const [now, setNow] = useState<Date | null>(null);
+  useEffect(() => {
+    setNow(new Date());
+    const id = setInterval(() => setNow(new Date()), 60_000);
+    return () => clearInterval(id);
+  }, []);
+
+  const band: TimeBand = now ? bandFromHour(now.getHours()) : "afternoon";
+  const meta = BAND_META[band];
+  const progress = now ? getProgress(now, band) : 0.5;
+
+  // Sine arc: x from 8% to 92%, y peaks at top (~15%) at progress=0.5
+  const orbX = 8 + progress * 84; // %
+  const orbY = 85 - Math.sin(progress * Math.PI) * 70; // 85% bottom -> 15% top -> 85% bottom
+
+  const timeStr = now
+    ? `${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}`
+    : "--:--";
+
   const labelJp = band === "morning" ? "おはよう" : band === "afternoon" ? "こんにちは" : band === "evening" ? "こんばんは" : "おやすみ";
   const labelEn = band === "morning" ? "Good Morning" : band === "afternoon" ? "Good Afternoon" : band === "evening" ? "Good Evening" : "Good Night";
 
@@ -205,48 +183,122 @@ function HeroPostcard({ score, name, mood, celebrate }: { score: number; name: s
     ? t(`ようこそ、${name}！🐾`, `Welcome, ${name}! 🐾`)
     : name;
 
+  const serif = `"Noto Serif JP", "Noto Sans JP", serif`;
+
   return (
     <div
       className="relative"
       style={{
         margin: "12px 16px 4px",
-        height: 160,
+        aspectRatio: "3 / 4",
         borderRadius: 24,
         overflow: "hidden",
-        background: JP.card,
-        boxShadow: "0 4px 24px rgba(232,130,154,0.15)",
+        background: "#1a1a1a",
+        boxShadow: "0 4px 24px rgba(0,0,0,0.18)",
         animation: celebrate ? "heroCelebrate 0.8s ease-out" : "none",
+        fontFamily: serif,
       }}
     >
-      <PostcardScene band={band} />
+      {/* Crossfading background images */}
+      {(Object.keys(BAND_META) as TimeBand[]).map((k) => (
+        <img
+          key={k}
+          src={BAND_META[k].img}
+          alt=""
+          aria-hidden
+          style={{
+            position: "absolute", inset: 0, width: "100%", height: "100%",
+            objectFit: "cover",
+            opacity: k === band ? 1 : 0,
+            transition: "opacity 2.5s ease-in-out",
+          }}
+        />
+      ))}
 
-      {/* Left content */}
-      <div style={{ position: "absolute", top: 0, bottom: 0, left: 0, width: "55%", padding: "28px 0 28px 28px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
-        <div>
-          <div style={{ fontSize: 11, color: JP.sakura, letterSpacing: "0.05em", fontWeight: 600 }}>
-            {t(`${labelJp} / ${labelEn}`, `${labelEn} / ${labelJp}`)}
-          </div>
-          <div style={{ fontSize: hasName ? 22 : 28, fontWeight: 800, color: JP.sumi, lineHeight: 1.15, marginTop: 8 }}>
-            {greeting}
-          </div>
-          <div className="flex items-center" style={{ gap: 6, marginTop: 8 }}>
-            <span style={{ width: 6, height: 6, borderRadius: "50%", background: JP.matcha, display: "inline-block" }} />
-            <span style={{ fontSize: 12, color: JP.matcha, fontWeight: 500 }}>
-              {mood}
-            </span>
-          </div>
+      {/* Sun / moon arc orb */}
+      <div
+        style={{
+          position: "absolute",
+          left: `${orbX}%`,
+          top: `${orbY}%`,
+          width: 56, height: 56,
+          marginLeft: -28, marginTop: -28,
+          borderRadius: "50%",
+          background: `radial-gradient(circle at 35% 35%, #fff, ${meta.orb} 70%)`,
+          boxShadow: `0 0 40px 10px ${meta.glow}, 0 0 90px 20px ${meta.glow}`,
+          transition: "left 60s linear, top 60s linear, background 2.5s ease, box-shadow 2.5s ease",
+          pointerEvents: "none",
+        }}
+      />
+
+      {/* Bottom dark gradient overlay */}
+      <div
+        style={{
+          position: "absolute", inset: 0,
+          background: "linear-gradient(180deg, rgba(0,0,0,0) 45%, rgba(0,0,0,0.55) 100%)",
+          pointerEvents: "none",
+        }}
+      />
+
+      {/* Top-left JP time label */}
+      <div
+        style={{
+          position: "absolute", top: 14, left: 16,
+          fontFamily: serif, fontSize: 28, fontWeight: 600,
+          color: "#fff",
+          textShadow: "0 2px 8px rgba(0,0,0,0.35)",
+          lineHeight: 1,
+        }}
+      >
+        {meta.jp}
+      </div>
+
+      {/* Top-right current time */}
+      <div
+        style={{
+          position: "absolute", top: 18, right: 16,
+          fontFamily: serif, fontSize: 16, fontWeight: 500,
+          color: "#fff",
+          letterSpacing: "0.08em",
+          textShadow: "0 2px 8px rgba(0,0,0,0.35)",
+          fontVariantNumeric: "tabular-nums",
+        }}
+      >
+        {timeStr}
+      </div>
+
+      {/* Bottom content */}
+      <div
+        style={{
+          position: "absolute", left: 0, right: 0, bottom: 0,
+          padding: "20px 22px 22px",
+          color: "#fff",
+          fontFamily: serif,
+        }}
+      >
+        <div style={{ fontSize: 12, fontWeight: 500, opacity: 0.9, letterSpacing: "0.05em" }}>
+          {t(`${labelJp} / ${labelEn}`, `${labelEn} / ${labelJp}`)}
         </div>
-
-        <div style={{ marginTop: 10 }}>
+        <div style={{ fontSize: hasName ? 24 : 28, fontWeight: 700, lineHeight: 1.2, marginTop: 6, textShadow: "0 2px 10px rgba(0,0,0,0.4)" }}>
+          {greeting}
+        </div>
+        <div className="flex items-center" style={{ gap: 8, marginTop: 10 }}>
+          <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#9EE3B8", display: "inline-block" }} />
+          <span style={{ fontSize: 12, opacity: 0.95 }}>{mood}</span>
+        </div>
+        <div style={{ marginTop: 12 }}>
           <span style={{
             display: "inline-block",
-            background: JP.sakuraSoft,
-            color: JP.sakura,
+            background: "rgba(255,255,255,0.18)",
+            backdropFilter: "blur(8px)",
+            WebkitBackdropFilter: "blur(8px)",
+            color: "#fff",
             borderRadius: 20,
-            padding: "4px 12px",
-            fontSize: 11,
-            fontWeight: 700,
+            padding: "5px 14px",
+            fontSize: 12,
+            fontWeight: 600,
             fontVariantNumeric: "tabular-nums",
+            border: "1px solid rgba(255,255,255,0.25)",
           }}>
             {score} / 100 ✦
           </span>
