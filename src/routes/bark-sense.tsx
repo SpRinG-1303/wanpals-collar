@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import AppShell, { TopBar } from "@/components/AppShell";
 import { useT, useLanguage } from "@/context/LanguageContext";
 import { usePet, displayName } from "@/context/PetContext";
-import { useEffect, useState } from "react";
+
 
 export const Route = createFileRoute("/bark-sense")({ component: BarkSensePage });
 
