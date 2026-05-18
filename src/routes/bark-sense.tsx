@@ -328,7 +328,7 @@ function BarkSensePage() {
             </div>
 
             <div style={{ position: "relative", width: "100%", marginTop: 14, display: "flex", justifyContent: "center" }}>
-              <svg viewBox={`0 0 ${radarSize} ${radarSize}`} style={{ width: "100%", maxWidth: 320, overflow: "visible" }}>
+              <svg viewBox={`0 0 ${radarSize} ${radarSize}`} style={{ width: "100%", maxWidth: 200, overflow: "hidden" }}>
                 {/* concentric circles */}
                 {[1, 2, 3].map((i) => (
                   <circle
