@@ -41,7 +41,13 @@ function PressureSensePage() {
     <SensorPage
       titleJp="プレッシャーセンス AI"
       titleEn="PressureSense AI"
-      heroGradient="linear-gradient(135deg,#9E7A1A 0%,#C49A30 55%,#D4A843 100%)"
+      subtitleJp="プレッシャーセンス AI"
+      descriptorJp="嚥下圧力解析"
+      descriptorEn="Swallowing pressure analysis"
+      bannerGradient="linear-gradient(135deg,#FFFCF0 0%,#FEF8E1 100%)"
+      bannerKanji="嚥"
+      bannerKanjiColor="rgba(212,168,67,0.07)"
+      bannerSubtitleColor="#C4A030"
     >
       <style>{`
         @keyframes psWaveSlide { from{transform:translateX(0)} to{transform:translateX(-50%)} }
@@ -62,11 +68,9 @@ function PressureSensePage() {
         .ps-hidescroll::-webkit-scrollbar { display:none; }
       `}</style>
 
-      {/* Hero overlay */}
-      <HeroOverlay />
-
-      {/* Floating glass stats */}
+      {/* Stats card (moved below banner — no longer overlaps) */}
       <GlassStats />
+
 
       {/* Time tabs */}
       <TimeTabs value={timeTab} onChange={setTimeTab} />
