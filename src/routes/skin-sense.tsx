@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useRef, useState } from "react";
 import { Camera, Upload, Sparkles, Check, AlertTriangle, Stethoscope } from "lucide-react";
-import { SensorPage, Card, Bi, SP } from "@/components/SensorPage";
+import { SensorPage, Card, Bi, SP, SectionLabel, AIInsightCard } from "@/components/SensorPage";
 import { useT } from "@/context/LanguageContext";
 
 export const Route = createFileRoute("/skin-sense")({ component: SkinSensePage });
