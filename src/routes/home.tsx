@@ -139,63 +139,81 @@ const SCENE: Record<TimeBand, { bg: string; sun: string; fuji: string; blossom: 
   night:     { bg: "linear-gradient(135deg,#E8EEF8 0%,#D4DCF0 100%)", sun: "#FFF4D8", fuji: "#9AA0B8", blossom: "#E8D8E4" },
 };
 
-function PostcardScene({ band, breedKey }: { band: TimeBand; breedKey: BreedKey }) {
-  const s = SCENE[band];
+function PostcardScene({ band: _band, breedKey }: { band: TimeBand; breedKey: BreedKey }) {
+  const blossom = "#FFB7C5";
   return (
-    <div className="absolute inset-y-0 right-0" style={{ width: "55%", background: s.bg, overflow: "hidden" }}>
-      {/* Sun / moon */}
-      {band === "night" ? (
-        <div style={{ position: "absolute", top: 22, right: 28, width: 38, height: 38, borderRadius: "50%", background: s.sun, boxShadow: `inset -10px 2px 0 0 #D4DCF0` }} />
-      ) : (
-        <div style={{ position: "absolute", top: 18, right: 24, width: 70, height: 70, borderRadius: "50%", background: s.sun, opacity: 0.6 }} />
-      )}
-
-      {/* Stars (night) */}
-      {band === "night" && [[18,30],[44,18],[78,42],[110,22],[140,48],[60,60]].map(([l,t],i)=>(
-        <div key={i} style={{ position:"absolute", left:l, top:t, width: i%2?2:3, height: i%2?2:3, borderRadius:"50%", background:"#C8C0E8" }}/>
-      ))}
-
-      {/* Clouds (afternoon) */}
-      {band === "afternoon" && [[20,40,42],[100,22,36]].map(([l,t,w],i)=>(
-        <div key={i} style={{ position:"absolute", left:l, top:t, width:w, height:(w as number)*0.45, background:"#FFFFFF", opacity:0.85, borderRadius: 999 }}/>
-      ))}
-
-      {/* Diagonal sakura branch */}
-      <svg style={{ position:"absolute", top: 8, left: 4, width: 130, height: 70 }} viewBox="0 0 130 70" fill="none">
+    <div
+      className="absolute inset-y-0 right-0"
+      style={{
+        width: "55%",
+        background: "linear-gradient(90deg,#FFF1F4 0%,#F3ECFF 60%,#E8F0FF 100%)",
+        overflow: "hidden",
+      }}
+    >
+      {/* Diagonal sakura branch (top-right corner) */}
+      <svg
+        style={{ position: "absolute", top: 6, right: 6, width: 130, height: 70, transform: "scaleX(-1)" }}
+        viewBox="0 0 130 70"
+        fill="none"
+      >
         <path d="M2 60 Q40 30 124 6" stroke="#C4A882" strokeWidth="1.5" strokeLinecap="round" />
       </svg>
-      {/* Blossom dots along branch */}
+      {/* Blossom dots along branch (mirrored to top-right) */}
       {[[18,52,8],[34,42,6],[52,32,9],[72,22,7],[92,14,10],[110,8,6],[40,58,5,0.5],[80,40,4,0.55]].map((p,i)=>{
         const [l,t,sz,op] = p as [number,number,number,number?];
-        return <div key={i} style={{ position:"absolute", left:l, top:t, width:sz, height:sz, borderRadius:"50%", background: s.blossom, opacity: op ?? 0.95 }}/>;
+        return (
+          <div
+            key={i}
+            style={{
+              position: "absolute",
+              right: l,
+              top: t,
+              width: sz,
+              height: sz,
+              borderRadius: "50%",
+              background: blossom,
+              opacity: op ?? 0.95,
+            }}
+          />
+        );
       })}
 
-      {/* Full-body breed dog (replaces Mt. Fuji) */}
+      {/* Full-body breed dog */}
       <div
         style={{
           position: "absolute",
-          bottom: 0,
-          right: 6,
-          height: 160,
-          width: 160,
+          bottom: -4,
+          right: -8,
+          height: 180,
+          width: 180,
           animation: "dogFloat 3s ease-in-out infinite",
-          filter: "drop-shadow(0 6px 8px rgba(0,0,0,0.12))",
+          filter:
+            "drop-shadow(0 0 2px #FFFFFF) drop-shadow(0 0 4px #FFFFFF) drop-shadow(0 8px 10px rgba(0,0,0,0.14))",
         }}
       >
-        <BreedFullBody breed={breedKey} height={160} />
+        <BreedFullBody breed={breedKey} height={180} />
       </div>
 
       {/* Falling petals */}
-      {band !== "night" && [
+      {[
         { left: "20%", delay: "0s", dur: "8s" },
         { left: "55%", delay: "2.5s", dur: "9s" },
         { left: "80%", delay: "5s", dur: "7s" },
-      ].map((p,i)=>(
-        <div key={i} style={{
-          position:"absolute", left: p.left, top: -6, width: 6, height: 4,
-          background: s.blossom, borderRadius: "50% 50% 50% 50% / 60% 60% 40% 40%",
-          opacity: 0.7, animation: `petalFall ${p.dur} linear ${p.delay} infinite`,
-        }}/>
+      ].map((p, i) => (
+        <div
+          key={i}
+          style={{
+            position: "absolute",
+            left: p.left,
+            top: -6,
+            width: 6,
+            height: 4,
+            background: blossom,
+            borderRadius: "50% 50% 50% 50% / 60% 60% 40% 40%",
+            opacity: 0.7,
+            animation: `petalFall ${p.dur} linear ${p.delay} infinite`,
+          }}
+        />
       ))}
     </div>
   );
