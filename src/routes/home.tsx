@@ -223,7 +223,15 @@ function HeroPostcard({ score, name, mood, celebrate, breedKey }: { score: numbe
         animation: celebrate ? "heroCelebrate 0.8s ease-out" : "none",
       }}
     >
-      <PostcardScene band={band} />
+      <PostcardScene band={band} breedKey={breedKey} />
+
+      {/* Idle bounce keyframes for breed dog */}
+      <style>{`
+        @keyframes dogIdleBounce {
+          0%,100% { transform: translateY(0) rotate(-1deg); }
+          50% { transform: translateY(-4px) rotate(2deg); }
+        }
+      `}</style>
 
       {/* Left content */}
       <div style={{ position: "absolute", top: 0, bottom: 0, left: 0, width: "50%", padding: "20px 0 20px 20px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
