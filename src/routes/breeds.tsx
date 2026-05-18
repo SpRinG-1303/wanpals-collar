@@ -730,7 +730,6 @@ function BreedCard({ breed, onOpen, language, t, matches }: { breed: Breed; onOp
     </button>
   );
 }
-}
 
 /* ─────────────────────────────────────── Detail Sheet ─────────────────────────────────────── */
 
