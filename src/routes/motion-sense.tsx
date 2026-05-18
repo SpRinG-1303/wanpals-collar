@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import AppShell, { TopBar } from "@/components/AppShell";
+import { useLanguage } from "@/context/LanguageContext";
 import { useT } from "@/context/LanguageContext";
 import { usePet, displayName } from "@/context/PetContext";
 import { Activity, Moon, Flame, Clock, Sparkles, ArrowUp } from "lucide-react";
