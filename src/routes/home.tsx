@@ -270,10 +270,24 @@ function Scene({ theme, active }: { theme: SceneTheme; active: boolean }) {
 
       {/* Tree trunk */}
       <path d={TRUNK_D} stroke={theme.trunk} strokeWidth="14" strokeLinecap="round" fill="none" />
-      {/* Tree branches */}
-      {BRANCHES.map((b, i) => (
-        <path key={i} d={b.d} stroke={theme.trunk} strokeWidth="3.5" fill="none" strokeLinecap="round" />
-      ))}
+      {/* Tree branches (gentle sway) */}
+      {BRANCHES.map((b, i) => {
+        const m = b.d.match(/M\s+(\d+)\s+(\d+)/);
+        const ox = m ? Number(m[1]) : 0;
+        const oy = m ? Number(m[2]) : 0;
+        return (
+          <g
+            key={i}
+            style={{
+              transformBox: "view-box",
+              transformOrigin: `${ox}px ${oy}px`,
+              animation: `branchSway ${4 + (i % 3)}s ease-in-out ${i * 0.5}s infinite`,
+            }}
+          >
+            <path d={b.d} stroke={theme.trunk} strokeWidth="3.5" fill="none" strokeLinecap="round" />
+          </g>
+        );
+      })}
       {/* Sakura blossoms — 5-petal flower shapes */}
       {BLOSSOMS.map((b, i) => {
         const petals = 5;
