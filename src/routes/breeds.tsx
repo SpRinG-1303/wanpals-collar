@@ -305,12 +305,26 @@ function Breeds() {
             className="flex-1 bg-transparent outline-none text-sm"
             style={{ color: "#2C2C2C" }}
           />
-          <div style={{
-            width: 34, height: 34, borderRadius: "50%", background: "#F0ECFF",
-            display: "flex", alignItems: "center", justifyContent: "center",
-          }}>
-            <SlidersHorizontal size={16} color="#7B68C8" strokeWidth={2} />
-          </div>
+          {hasQuery ? (
+            <button
+              onClick={() => setQuery("")}
+              aria-label="Clear search"
+              style={{
+                width: 28, height: 28, borderRadius: "50%", background: "#FFE4EC",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                border: "none", cursor: "pointer",
+              }}
+            >
+              <X size={14} color="#E8829A" strokeWidth={2.5} />
+            </button>
+          ) : (
+            <div style={{
+              width: 34, height: 34, borderRadius: "50%", background: "#F0ECFF",
+              display: "flex", alignItems: "center", justifyContent: "center",
+            }}>
+              <SlidersHorizontal size={16} color="#7B68C8" strokeWidth={2} />
+            </div>
+          )}
         </div>
       </div>
 
