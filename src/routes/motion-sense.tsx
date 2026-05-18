@@ -155,7 +155,7 @@ function MotionSensePage() {
 
 
         {/* TIME TABS */}
-        <div style={{ padding: "14px 16px 0" }}>
+        <div style={{ padding: "0 16px", marginTop: -36, position: "relative", zIndex: 2 }}>
           <div className="flex" style={{ background: "#F3F4F6", borderRadius: 50, padding: 3, gap: 2 }}>
             {(["1d", "1w", "1m"] as const).map((v) => {
               const active = tab === v;
