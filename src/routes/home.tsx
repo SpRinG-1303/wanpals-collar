@@ -192,7 +192,7 @@ function PostcardScene({ band }: { band: TimeBand }) {
   );
 }
 
-function HeroPostcard({ score, name, mood }: { score: number; name: string; mood: string }) {
+function HeroPostcard({ score, name, mood, celebrate }: { score: number; name: string; mood: string; celebrate: boolean }) {
   const t = useT();
   // Default to a stable band for SSR; refine on client to avoid hydration mismatch.
   const [band, setBand] = useState<TimeBand>("afternoon");
@@ -200,6 +200,10 @@ function HeroPostcard({ score, name, mood }: { score: number; name: string; mood
   const labelJp = band === "morning" ? "おはよう" : band === "afternoon" ? "こんにちは" : band === "evening" ? "こんばんは" : "おやすみ";
   const labelEn = band === "morning" ? "Good Morning" : band === "afternoon" ? "Good Afternoon" : band === "evening" ? "Good Evening" : "Good Night";
 
+  const hasName = !!name && name !== t("ワンちゃん", "Your Dog");
+  const greeting = hasName
+    ? t(`ようこそ、${name}！🐾`, `Welcome, ${name}! 🐾`)
+    : name;
 
   return (
     <div
@@ -211,18 +215,38 @@ function HeroPostcard({ score, name, mood }: { score: number; name: string; mood
         overflow: "hidden",
         background: JP.card,
         boxShadow: "0 4px 24px rgba(232,130,154,0.15)",
+        animation: celebrate ? "heroCelebrate 0.8s ease-out" : "none",
       }}
     >
       <PostcardScene band={band} />
 
+      {/* Floating hearts on celebrate */}
+      {celebrate && [0, 1, 2, 3, 4].map((i) => (
+        <span
+          key={i}
+          style={{
+            position: "absolute",
+            left: `${15 + i * 14}%`,
+            bottom: 10,
+            fontSize: 18,
+            opacity: 0,
+            animation: `heartFloat 2s ease-out ${i * 0.18}s forwards`,
+            pointerEvents: "none",
+            zIndex: 5,
+          }}
+        >
+          {i % 2 === 0 ? "💖" : "💕"}
+        </span>
+      ))}
+
       {/* Left content */}
-      <div style={{ position: "absolute", top: 0, bottom: 0, left: 0, width: "50%", padding: "20px 0 20px 20px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+      <div style={{ position: "absolute", top: 0, bottom: 0, left: 0, width: "55%", padding: "20px 0 20px 20px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
         <div>
           <div style={{ fontSize: 11, color: JP.sakura, letterSpacing: "0.05em", fontWeight: 600 }}>
             {t(`${labelJp} / ${labelEn}`, `${labelEn} / ${labelJp}`)}
           </div>
-          <div style={{ fontSize: 28, fontWeight: 800, color: JP.sumi, lineHeight: 1.1, marginTop: 4 }}>
-            {name}
+          <div style={{ fontSize: hasName ? 22 : 28, fontWeight: 800, color: JP.sumi, lineHeight: 1.15, marginTop: 4 }}>
+            {greeting}
           </div>
           <div className="flex items-center" style={{ gap: 6, marginTop: 4 }}>
             <span style={{ width: 6, height: 6, borderRadius: "50%", background: JP.matcha, display: "inline-block" }} />
@@ -247,6 +271,19 @@ function HeroPostcard({ score, name, mood }: { score: number; name: string; mood
           </span>
         </div>
       </div>
+
+      <style>{`
+        @keyframes heartFloat {
+          0% { opacity: 0; transform: translateY(0) scale(0.6); }
+          20% { opacity: 1; transform: translateY(-20px) scale(1); }
+          100% { opacity: 0; transform: translateY(-90px) scale(1.1); }
+        }
+        @keyframes heroCelebrate {
+          0%,100% { transform: scale(1) rotate(0deg); }
+          25% { transform: scale(1.02) rotate(-0.5deg); }
+          75% { transform: scale(1.02) rotate(0.5deg); }
+        }
+      `}</style>
     </div>
   );
 }
