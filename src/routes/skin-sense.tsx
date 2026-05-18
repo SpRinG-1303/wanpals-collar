@@ -493,7 +493,7 @@ function DetailedGuide() {
           width: "100%", padding: "12px 14px", borderRadius: 14,
           background: C.pale, border: `1px solid ${C.soft}`,
           display: "flex", alignItems: "center", justifyContent: "space-between",
-          color: C.primary, fontSize: 12, fontWeight: 700, letterSpacing: "0.06em",
+          color: "#6B3A52", fontSize: 12, fontWeight: 700, letterSpacing: "0.06em",
         }}
       >
         <span>● {t("詳細ガイド", "DETAILED GUIDE")}</span>
