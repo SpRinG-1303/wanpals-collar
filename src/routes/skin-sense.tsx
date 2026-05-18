@@ -69,10 +69,15 @@ function SkinSensePage() {
   }
 
   return (
-    <SensorPage titleJp="スキンセンス AI" titleEn="SkinSense AI">
+    <SensorPage
+      titleJp="スキンセンス AI"
+      titleEn="SkinSense AI"
+      heroGradient="linear-gradient(135deg,#FFF5F7 0%,#FFF9F5 100%)"
+      kanji="皮"
+    >
       {/* Upload area */}
       <Card>
-        <SectionLabel jp="写真をアップロード" en="Upload Photo" />
+        <SectionLabel jp="皮膚分析" en="Skin Analysis" />
 
         {!photo ? (
           <label
@@ -84,31 +89,49 @@ function SkinSensePage() {
             }}
             style={{
               display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
-              padding: "32px 16px",
-              border: `2px dashed ${drag ? SP.sakura : "#E8C8D4"}`,
-              borderRadius: 16,
-              background: drag ? "#FFF0F5" : "#FFF8FA",
+              padding: "28px 16px",
+              border: `2px dashed ${drag ? SP.rose : "rgba(244, 63, 114, 0.3)"}`,
+              borderRadius: 22,
+              background: drag ? "#FFF0F5" : "linear-gradient(135deg,#FFF5F7,#FFFBF0)",
               cursor: "pointer",
               transition: "all 0.2s ease",
-              marginTop: 10,
+              minHeight: 200,
             }}
           >
             <div style={{
-              width: 56, height: 56, borderRadius: "50%",
-              background: "linear-gradient(135deg,#FFE4EC,#FFD0DC)",
+              width: 80, height: 80, borderRadius: "50%",
+              background: "#FFFFFF",
+              border: `2px solid ${SP.rose}`,
               display: "flex", alignItems: "center", justifyContent: "center",
-              marginBottom: 12,
+              marginBottom: 14,
+              boxShadow: "0 4px 16px rgba(244,63,114,0.15)",
             }}>
-              <Camera size={26} color={SP.sakura} />
+              <Camera size={32} color={SP.rose} strokeWidth={1.6} />
             </div>
             <Bi
-              jp="ワンちゃんの写真をアップロードしてAI皮膚分析"
-              en="Upload your dog's photo for AI skin analysis"
-              jpStyle={{ fontSize: 13, fontWeight: 600, color: SP.sumi, textAlign: "center", lineHeight: 1.4 }}
-              enStyle={{ fontSize: 11, color: SP.usuzumi, textAlign: "center", marginTop: 4 }}
+              jp="愛犬の皮膚写真を撮影"
+              en="Capture your dog's skin photo"
+              jpStyle={{ fontSize: 15, fontWeight: 500, color: "#374151", textAlign: "center", lineHeight: 1.4 }}
+              enStyle={{ fontSize: 12, color: "#9CA3AF", textAlign: "center", marginTop: 4 }}
             />
-            <div className="flex items-center" style={{ gap: 6, marginTop: 12, fontSize: 11, color: SP.sakura, fontWeight: 600 }}>
-              <Upload size={12} /> {t("タップまたはドラッグ", "Tap or drag to upload")}
+            <Bi
+              jp="AI が皮膚の状態を瞬時に診断します"
+              en="AI diagnoses skin condition instantly"
+              jpStyle={{ fontSize: 11, color: "#9CA3AF", textAlign: "center", marginTop: 6 }}
+              enStyle={{ fontSize: 11, color: "#9CA3AF", textAlign: "center", marginTop: 6 }}
+            />
+            <div className="flex" style={{ gap: 10, marginTop: 18, width: "100%", maxWidth: 280 }}>
+              <span style={{
+                flex: 1, padding: "10px", borderRadius: 50,
+                border: `1.5px solid ${SP.rose}`, color: SP.rose,
+                fontSize: 12, fontWeight: 600, textAlign: "center", background: "#FFFFFF",
+              }}>📷 {t("カメラ", "Camera")}</span>
+              <span style={{
+                flex: 1, padding: "10px", borderRadius: 50,
+                background: SP.rose, color: "#FFFFFF",
+                fontSize: 12, fontWeight: 600, textAlign: "center",
+                boxShadow: "0 4px 12px rgba(244,63,114,0.3)",
+              }}>🖼️ {t("ギャラリー", "Gallery")}</span>
             </div>
             <input
               ref={inputRef}
@@ -127,7 +150,7 @@ function SkinSensePage() {
               <button
                 onClick={() => { setPhoto(null); setDone(false); }}
                 style={{
-                  flex: 1, padding: "12px", borderRadius: 12, background: "#F5F0EC",
+                  flex: 1, padding: "12px", borderRadius: 50, background: "#F5F0EC",
                   fontSize: 13, fontWeight: 700, color: SP.usuzumi,
                 }}
               >{t("やり直す", "Retake")}</button>
@@ -135,10 +158,10 @@ function SkinSensePage() {
                 onClick={analyze}
                 disabled={analyzing}
                 style={{
-                  flex: 2, padding: "12px", borderRadius: 12,
-                  background: "linear-gradient(135deg,#E8829A,#FFB7C5)",
-                  color: "#FFFFFF", fontSize: 14, fontWeight: 800,
-                  boxShadow: "0 4px 14px rgba(232,130,154,0.4)",
+                  flex: 2, padding: "12px", borderRadius: 50,
+                  background: "linear-gradient(135deg,#F43F72,#FF9EBA)",
+                  color: "#FFFFFF", fontSize: 14, fontWeight: 700,
+                  boxShadow: "0 4px 14px rgba(244,63,114,0.35)",
                   display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
                   opacity: analyzing ? 0.7 : 1,
                 }}
