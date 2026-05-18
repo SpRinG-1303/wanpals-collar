@@ -1,10 +1,29 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import PhoneFrame from "@/components/PhoneFrame";
-import dogImg from "@/assets/fluffy-dog.png";
+import dogImg from "@/assets/fluffy-dog.jpg";
 import pawLogo from "@/assets/paw-heartbeat-pink.png";
 
 export const Route = createFileRoute("/")({ component: Splash });
+
+const petals = [
+  { top: "8%", left: "6%", size: 32, delay: 0 },
+  { top: "22%", right: "8%", size: 24, delay: 3 },
+  { top: "55%", left: "4%", size: 40, delay: 6 },
+  { top: "70%", right: "5%", size: 28, delay: 9 },
+  { bottom: "12%", left: "12%", size: 22, delay: 12 },
+];
+
+function Petal({ size }: { size: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 40 40" fill="none">
+      <path
+        d="M20 4 C28 12, 32 22, 20 36 C8 22, 12 12, 20 4 Z"
+        fill="rgba(244,63,114,0.06)"
+      />
+    </svg>
+  );
+}
 
 function Splash() {
   const nav = useNavigate();
@@ -14,125 +33,183 @@ function Splash() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 0.4 }}
+        transition={{ duration: 0.5 }}
         style={{
+          position: "relative",
           minHeight: "100vh",
           height: "100dvh",
           background:
-            "linear-gradient(180deg, #FFE8EF 0%, #FFF8F9 50%, #FFE8EF 100%)",
+            "radial-gradient(ellipse at center, #FFFFFF 0%, #FFF4F7 55%, #FFE4EC 100%)",
           display: "flex",
           flexDirection: "column",
-          alignItems: "center",
-          padding: "32px 24px 32px",
-          position: "relative",
           overflow: "hidden",
         }}
       >
-        {/* TOP — logo + title */}
+        {/* Sakura petals */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.2, duration: 0.8 }}
+          style={{ position: "absolute", inset: 0, pointerEvents: "none" }}
+        >
+          {petals.map((p, i) => (
+            <motion.div
+              key={i}
+              animate={{ rotate: 360 }}
+              transition={{ duration: 20, ease: "linear", repeat: Infinity, delay: p.delay }}
+              style={{
+                position: "absolute",
+                top: p.top,
+                left: p.left,
+                right: p.right,
+                bottom: p.bottom,
+              }}
+            >
+              <Petal size={p.size} />
+            </motion.div>
+          ))}
+        </motion.div>
+
+        {/* TOP — 0-18% */}
         <motion.div
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.2, duration: 0.5, ease: "easeOut" }}
-          style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}
-        >
-          <img src={pawLogo} alt="Pawsitive" style={{ width: 52, height: 52, objectFit: "contain" }} />
-          <div style={{ fontSize: 22, fontWeight: 600, color: "#1A1A2E", letterSpacing: "-0.01em" }}>
-            Pawsitive Diagnostics
-          </div>
-          <div style={{ fontSize: 13, fontWeight: 400, color: "#9CA3AF", letterSpacing: "0.1em" }}>
-            ポジティブ診断
-          </div>
-        </motion.div>
-
-        {/* MIDDLE — dog hero */}
-        <div
+          transition={{ delay: 0.3, duration: 0.5, ease: "easeOut" }}
           style={{
-            flex: 1,
+            height: "18%",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
-            width: "100%",
-            marginTop: -8,
+            gap: 6,
+            position: "relative",
+            zIndex: 2,
+          }}
+        >
+          <img src={pawLogo} alt="Pawsitive" style={{ width: 44, height: 44, objectFit: "contain" }} />
+          <div style={{ fontSize: 20, fontWeight: 700, color: "#1A1A2E", letterSpacing: "-0.02em" }}>
+            Pawsitive Diagnostics
+          </div>
+          <div style={{ fontSize: 12, fontWeight: 400, color: "#9CA3AF", letterSpacing: "0.15em" }}>
+            ポジティブ診断
+          </div>
+          <div style={{ width: 40, height: 1, background: "rgba(244,63,114,0.3)", marginTop: 4 }} />
+        </motion.div>
+
+        {/* DOG — 18-65% */}
+        <div
+          style={{
+            height: "47%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            position: "relative",
+            zIndex: 2,
           }}
         >
           <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
+            initial={{ scale: 0.85, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            transition={{ delay: 0.4, duration: 0.6, type: "spring", stiffness: 110, damping: 14 }}
-            style={{
-              width: "65%",
-              maxWidth: 280,
-              position: "relative",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
+            transition={{ delay: 0.5, duration: 0.7, ease: [0.34, 1.56, 0.64, 1] }}
+            style={{ width: "55%", display: "flex", justifyContent: "center" }}
           >
             <motion.img
               src={dogImg}
               alt="Fluffy companion"
-              animate={{ y: [0, -8, 0] }}
-              transition={{ duration: 3, ease: "easeInOut", repeat: Infinity, delay: 1.3 }}
-              style={{ width: "100%", height: "auto", display: "block" }}
-            />
-            <motion.div
-              animate={{ scaleX: [1, 0.85, 1] }}
-              transition={{ duration: 3, ease: "easeInOut", repeat: Infinity, delay: 1.3 }}
+              animate={{ y: [0, -10, 0] }}
+              transition={{ duration: 3.5, ease: "easeInOut", repeat: Infinity, delay: 1.5 }}
               style={{
-                width: "40%",
-                height: 8,
-                marginTop: -4,
-                background: "rgba(244, 63, 114, 0.18)",
-                borderRadius: "50%",
-                filter: "blur(4px)",
+                width: "100%",
+                height: "auto",
+                objectFit: "contain",
+                display: "block",
               }}
             />
           </motion.div>
+        </div>
 
-          {/* Greeting */}
+        {/* SPEECH BUBBLE — 65-75% */}
+        <div
+          style={{
+            height: "10%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            position: "relative",
+            zIndex: 2,
+          }}
+        >
           <motion.div
-            initial={{ y: 12, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.7, duration: 0.4 }}
-            style={{ marginTop: 20, textAlign: "center", display: "flex", flexDirection: "column", gap: 4 }}
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ delay: 0.9, duration: 0.4, type: "spring", stiffness: 200, damping: 14 }}
+            style={{
+              position: "relative",
+              background: "#fff",
+              borderRadius: 20,
+              padding: "8px 18px",
+              boxShadow: "0 4px 16px rgba(0,0,0,0.08)",
+              textAlign: "center",
+            }}
           >
-            <div style={{ fontSize: 20, fontWeight: 300, color: "#374151" }}>
-              こんにちは！/ Hi there!
+            <div
+              style={{
+                position: "absolute",
+                top: -6,
+                left: "50%",
+                transform: "translateX(-50%) rotate(45deg)",
+                width: 12,
+                height: 12,
+                background: "#fff",
+                boxShadow: "-2px -2px 4px rgba(0,0,0,0.04)",
+              }}
+            />
+            <div style={{ fontSize: 13, color: "#374151", fontWeight: 500 }}>
+              わんちゃんの健康を守ります 🐾
             </div>
-            <div style={{ fontSize: 13, color: "#9CA3AF" }}>
-              あなたの愛犬の健康パートナー
-            </div>
-            <div style={{ fontSize: 11, color: "#C4B5B8" }}>
-              Your dog's health companion
+            <div style={{ fontSize: 11, color: "#9CA3AF", marginTop: 2 }}>
+              Protecting your dog's health
             </div>
           </motion.div>
         </div>
 
-        {/* BOTTOM — CTA */}
-        <motion.div
-          initial={{ y: 24, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.9, duration: 0.4 }}
-          style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center", gap: 16 }}
+        {/* CTA — 75-88% */}
+        <div
+          style={{
+            height: "13%",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 12,
+            position: "relative",
+            zIndex: 2,
+          }}
         >
           <motion.button
-            onClick={() => nav({ to: "/language" })}
-            whileTap={{ scale: 0.97 }}
+            initial={{ y: 20, opacity: 0 }}
             animate={{
+              y: 0,
+              opacity: 1,
               boxShadow: [
-                "0 8px 24px rgba(244, 63, 114, 0.35)",
-                "0 12px 32px rgba(244, 63, 114, 0.55)",
-                "0 8px 24px rgba(244, 63, 114, 0.35)",
+                "0 8px 28px rgba(244,63,114,0.4)",
+                "0 8px 40px rgba(244,63,114,0.6)",
+                "0 8px 28px rgba(244,63,114,0.4)",
               ],
             }}
-            transition={{ boxShadow: { duration: 2, repeat: Infinity, ease: "easeInOut" } }}
+            transition={{
+              y: { delay: 1.1, duration: 0.4 },
+              opacity: { delay: 1.1, duration: 0.4 },
+              boxShadow: { duration: 2, repeat: Infinity, ease: "easeInOut", delay: 1.5 },
+            }}
+            whileTap={{ scale: 0.97 }}
+            onClick={() => nav({ to: "/language" })}
             style={{
-              width: "80%",
-              height: 54,
+              width: "78%",
+              height: 52,
               borderRadius: 50,
               border: "none",
-              background: "linear-gradient(90deg, #F43F72 0%, #FF6B8A 100%)",
+              background: "linear-gradient(135deg, #F43F72 0%, #FF6B8A 100%)",
               color: "#fff",
               fontSize: 16,
               fontWeight: 600,
@@ -145,40 +222,45 @@ function Splash() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 1.1, duration: 0.3 }}
-            style={{ textAlign: "center", display: "flex", flexDirection: "column", gap: 2 }}
+            transition={{ delay: 1.3, duration: 0.3 }}
+            style={{ textAlign: "center" }}
           >
-            <div style={{ fontSize: 12, color: "#9CA3AF" }}>
-              すでにアカウントをお持ちですか？
-            </div>
-            <div style={{ fontSize: 11, color: "#C4B5B8" }}>
-              Already have an account?
+            <div style={{ fontSize: 11, color: "#9CA3AF" }}>
+              すでにアカウントをお持ちですか？ / Already have an account?
             </div>
             <button
               onClick={() => nav({ to: "/auth" })}
               style={{
-                marginTop: 4,
                 background: "none",
                 border: "none",
                 fontSize: 13,
                 color: "#F43F72",
                 fontWeight: 600,
                 cursor: "pointer",
-                textDecoration: "underline",
-                textUnderlineOffset: 3,
+                marginTop: 2,
               }}
             >
               ログイン / Login
             </button>
           </motion.div>
+        </div>
 
-          {/* Pagination dots */}
-          <div style={{ display: "flex", gap: 6, alignItems: "center", marginTop: 8 }}>
-            <span style={{ width: 20, height: 8, borderRadius: 50, background: "#F43F72" }} />
-            <span style={{ width: 8, height: 8, borderRadius: 50, background: "#F3D0D9" }} />
-            <span style={{ width: 8, height: 8, borderRadius: 50, background: "#F3D0D9" }} />
-          </div>
-        </motion.div>
+        {/* DOTS — 88-100% */}
+        <div
+          style={{
+            height: "12%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 6,
+            position: "relative",
+            zIndex: 2,
+          }}
+        >
+          <span style={{ width: 20, height: 8, borderRadius: 50, background: "#F43F72" }} />
+          <span style={{ width: 8, height: 8, borderRadius: 50, background: "#F3D0D9" }} />
+          <span style={{ width: 8, height: 8, borderRadius: 50, background: "#F3D0D9" }} />
+        </div>
       </motion.div>
     </PhoneFrame>
   );
