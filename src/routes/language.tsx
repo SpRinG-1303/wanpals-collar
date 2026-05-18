@@ -8,9 +8,9 @@ import PhoneFrame from "@/components/PhoneFrame";
 export const Route = createFileRoute("/language")({ component: LanguagePicker });
 
 const opts: { id: Language; flag: string; jp: string; en: string; subJp: string; subEn: string }[] = [
-  { id: "english", flag: "🇬🇧", jp: "English Only", en: "English", subJp: "英語のみ", subEn: "English only" },
-  { id: "japanese", flag: "🇯🇵", jp: "日本語のみ", en: "Japanese Only", subJp: "日本語", subEn: "Japanese only" },
-  { id: "mixed", flag: "🌐", jp: "ミックス", en: "Mixed", subJp: "英語・日本語", subEn: "English + Japanese" },
+  { id: "english", flag: "", jp: "English Only", en: "English", subJp: "英語のみ", subEn: "English only" },
+  { id: "japanese", flag: "", jp: "日本語のみ", en: "Japanese Only", subJp: "日本語", subEn: "Japanese only" },
+  { id: "mixed", flag: "", jp: "ミックス", en: "Mixed", subJp: "英語・日本語", subEn: "English + Japanese" },
 ];
 
 function LanguagePicker() {

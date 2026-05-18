@@ -160,8 +160,8 @@ function Step2() {
           </h1>
           <p className="text-center text-[13px] mt-2 leading-relaxed" style={{ color: "#8A766C" }}>
             {t(
-              "ワンちゃんとあなたの写真をアップロード。美しいジブリ風のアート作品に変身させます ✨",
-              "Upload photos of your dog and yourself. We'll transform them into a beautiful Ghibli-style art duo ✨"
+              "ワンちゃんとあなたの写真をアップロード。美しいジブリ風のアート作品に変身させます ",
+              "Upload photos of your dog and yourself. We'll transform them into a beautiful Ghibli-style art duo "
             )}
           </p>
 
@@ -169,7 +169,7 @@ function Step2() {
           <div className="grid grid-cols-2 gap-3 mt-6">
             <UploadCard
               label={t("ワンちゃん", "Your Dog")}
-              placeholderEmoji="🐕"
+              placeholderEmoji=""
               imageUrl={ghibli.kind === "done" ? ghibli.ghibliUrl : ghibli.kind === "converting" ? ghibli.rawUrl : null}
               loading={ghibli.kind === "converting"}
               onTap={() => openSheet("dog")}
@@ -177,7 +177,7 @@ function Step2() {
             />
             <UploadCard
               label={t("オーナー", "You (Owner)")}
-              placeholderEmoji="🧑"
+              placeholderEmoji=""
               imageUrl={ownerUrl}
               loading={ownerLoading}
               onTap={() => openSheet("owner")}
@@ -218,7 +218,7 @@ function Step2() {
             />
             <div className="flex-1">
               <div className="text-[12px] font-bold" style={{ color: "#3B2A23" }}>
-                🎨 {t("自分で作りたい？", "Prefer to build it yourself?")}
+                 {t("自分で作りたい？", "Prefer to build it yourself?")}
               </div>
               <div className="text-[10px] mt-0.5 leading-snug" style={{ color: "#A38B82" }}>
                 {t(
@@ -261,7 +261,7 @@ function Step2() {
               opacity: bothReady ? 1 : 0.7,
             }}
           >
-            ✨ {t("ポーズを生成", "Generate Poses")} →
+             {t("ポーズを生成", "Generate Poses")} →
           </button>
         </div>
 
@@ -313,8 +313,8 @@ function Step2() {
               icon={<Camera className="w-5 h-5" />}
               label={
                 sheet === "dog"
-                  ? t("ワンちゃんを撮影 🐕", "Take my dog's photo 🐕")
-                  : t("セルフィーを撮る 🤳", "Take a selfie 🤳")
+                  ? t("ワンちゃんを撮影 ", "Take my dog's photo ")
+                  : t("セルフィーを撮る ", "Take a selfie ")
               }
               onClick={triggerCamera}
             />
@@ -517,7 +517,7 @@ function AnimationField({
 
         {state.kind === "error" && (
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 px-6 text-center">
-            <div style={{ fontSize: 36 }}>⚠️</div>
+            <div style={{ fontSize: 36 }}></div>
             <div className="text-[13px] font-bold" style={{ color: "#3B2A23" }}>
               {t("変換に失敗しました。再試行しますか？", "Conversion failed. Try again?")}
             </div>
@@ -557,7 +557,7 @@ function AnimationField({
         <div className="mt-3">
           <div className="flex items-center justify-between mb-1.5">
             <span className="text-[11px] font-bold" style={{ color: "#E8678A" }}>
-              {t("🎨 ジブリ風に変換中...", "🎨 Applying Ghibli magic...")}
+              {t(" ジブリ風に変換中...", " Applying Ghibli magic...")}
             </span>
             <span className="text-[10px] font-bold" style={{ color: "#A38B82" }}>
               {Math.round(state.progress)}%
@@ -590,7 +590,7 @@ function AnimationField({
             }}
           />
           <span className="text-[12px] font-bold" style={{ color: "#16A34A" }}>
-            🌸 {t("ジブリの分身ができました！", "Your Ghibli twin is ready!")}
+             {t("ジブリの分身ができました！", "Your Ghibli twin is ready!")}
           </span>
         </div>
       )}

@@ -223,11 +223,11 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
                 className="flex items-center justify-center"
                 style={{ width: 32, height: 32, borderRadius: "50%", background: "#fff", border: "1.5px solid #E8829A", fontSize: 16 }}
               >
-                🐾
+                
               </div>
               <div>
                 <div style={{ fontSize: 12, fontWeight: 600, color: "#E8829A" }}>
-                  {t(`${name}のせかい`, `${name}'s World`)} 🐾
+                  {t(`${name}のせかい`, `${name}'s World`)} 
                 </div>
                 <div style={{ fontSize: 11, color: "var(--text-secondary)", marginTop: 1 }}>{greeting(t)}</div>
               </div>
@@ -256,7 +256,7 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
                   className="flex items-center justify-center"
                   style={{ width: 28, height: 28, borderRadius: "50%", background: "var(--bg-card)", border: "1.5px solid var(--accent-sakura)", fontSize: 14 }}
                 >
-                  🐕
+                  
                 </div>
                 <div>
                   <div style={{ fontSize: 13, fontWeight: 700, color: "var(--text-primary)", lineHeight: 1 }}>{name}</div>
@@ -285,7 +285,7 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
               fontSize: 14,
             }}
           >
-            🆘 SOS {t("緊急", "Emergency")}
+             SOS {t("緊急", "Emergency")}
           </button>
 
           <div style={{ textAlign: "center", fontSize: 9, color: "var(--text-placeholder)", paddingBottom: 8 }}>

@@ -90,7 +90,7 @@ function MapScreen() {
 
         {/* Collar GPS badge top-left */}
         <div className="absolute" style={{ top: 12, left: 12, background: "#FFFFFF", padding: "5px 10px", borderRadius: 12, fontSize: 11, color: "#6BAF92", fontWeight: 700, boxShadow: "0 2px 8px rgba(0,0,0,0.08)" }}>
-          📡 {t("カラーGPS", "Collar GPS")}
+           {t("カラーGPS", "Collar GPS")}
         </div>
 
         {/* Map type toggle top-left lower */}
@@ -163,13 +163,13 @@ function MapScreen() {
           <div className="absolute" style={{ left: "50%", top: "50%", transform: "translate(-50%,-50%)", width: 32, height: 32, borderRadius: "50%", background: "rgba(232,130,154,0.25)", border: "2px solid #E8829A" }} />
           {/* Inner */}
           <div className="relative flex items-center justify-center" style={{ width: 20, height: 20, borderRadius: "50%", background: "linear-gradient(135deg, #E8829A, #C86882)", boxShadow: "0 4px 12px rgba(232,130,154,0.5)" }}>
-            <span style={{ color: "#fff", fontSize: 10 }}>🐾</span>
+            <span style={{ color: "#fff", fontSize: 10 }}></span>
           </div>
           {/* Pin tip */}
           <div className="absolute" style={{ left: "50%", top: 20, transform: "translateX(-50%)", width: 0, height: 0, borderLeft: "4px solid transparent", borderRight: "4px solid transparent", borderTop: "6px solid #C86882" }} />
           {/* Name tag */}
           <div className="absolute" style={{ left: "50%", top: -26, transform: "translateX(-50%)", background: "#FFFFFF", border: "1px solid #FFD0DC", color: "#E8829A", fontSize: 11, fontWeight: 700, padding: "3px 8px", borderRadius: 20, whiteSpace: "nowrap", boxShadow: "0 2px 8px rgba(0,0,0,0.1)" }}>
-            {dogName} 🐾
+            {dogName} 
           </div>
         </div>
 
@@ -201,13 +201,13 @@ function MapScreen() {
           </div>
 
           <div className="flex items-center gap-2 mt-3" style={{ fontSize: 11, color: "#8A8A8A" }}>
-            <span>🏃 {t("移動中", "Moving")}</span>
+            <span> {t("移動中", "Moving")}</span>
             <span>·</span>
-            <span>📍 {t("渋谷区", "Shibuya")}</span>
+            <span> {t("渋谷区", "Shibuya")}</span>
             <span>·</span>
-            <span>🕐 {t("たった今", "Just now")}</span>
+            <span> {t("たった今", "Just now")}</span>
             <span>·</span>
-            <span>🚶 {t("4分", "4 min")}</span>
+            <span> {t("4分", "4 min")}</span>
           </div>
 
           <button onClick={openDirections} className="w-full flex items-center justify-center gap-2 mt-3" style={{ height: 48, borderRadius: 14, background: "linear-gradient(135deg, #5B9BD5, #4A8AC4)", color: "#fff", fontWeight: 700, fontSize: 14, boxShadow: "0 6px 16px rgba(91,155,213,0.3)" }}>
@@ -263,7 +263,7 @@ function MapScreen() {
             <AlertTriangle size={20} style={{ color: lost ? "#E53935" : "#C4B8B4", marginTop: 2 }} className={lost ? "animate-pulse" : ""} />
             <div>
               <div style={{ fontSize: 15, fontWeight: 700, color: lost ? "#E53935" : "#2C2C2C" }}>
-                {lost ? `🔴 ${t("迷子モード起動中", "Lost Mode ACTIVE")}` : t("迷子モード", "Lost Mode")}
+                {lost ? ` ${t("迷子モード起動中", "Lost Mode ACTIVE")}` : t("迷子モード", "Lost Mode")}
               </div>
               <div style={{ fontSize: 12, color: lost ? "#E53935" : "#8A8A8A", marginTop: 2 }}>
                 {lost ? t("緊急追跡中...", "Emergency tracking active...") : t("紛失時の緊急追跡", "Emergency tracking if lost")}
@@ -278,7 +278,7 @@ function MapScreen() {
               <Phone size={14} /> {t("獣医に通知", "Notify Vet")}
             </a>
             <button className="w-full flex items-center justify-center gap-2" style={{ height: 44, borderRadius: 12, background: "linear-gradient(135deg, #E53935, #C62828)", color: "#fff", fontWeight: 700, fontSize: 13 }}>
-              🚨 {t("SOS起動", "Activate SOS")}
+               {t("SOS起動", "Activate SOS")}
             </button>
           </div>
         )}
@@ -303,8 +303,8 @@ function MapScreen() {
             <span style={{ width: 8, height: 8, borderRadius: "50%", background: h.color, flexShrink: 0 }} />
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2">
-                <span style={{ fontSize: 12, color: "#8A8A8A" }}>🕐 {h.time}</span>
-                <span style={{ fontSize: 13, fontWeight: 700, color: "#2C2C2C" }}>📍 {t(h.jp, h.en)}</span>
+                <span style={{ fontSize: 12, color: "#8A8A8A" }}> {h.time}</span>
+                <span style={{ fontSize: 13, fontWeight: 700, color: "#2C2C2C" }}> {t(h.jp, h.en)}</span>
               </div>
             </div>
             <span style={{ fontSize: 11, color: "#E8829A", fontWeight: 600 }}>{h.dist}</span>
@@ -326,7 +326,7 @@ function MapScreen() {
             {t("最寄りの動物病院", "Nearest Animal Hospital")}
           </div>
           <div style={{ fontSize: 12, color: "#5B9BD5", marginTop: 2 }}>
-            🏥 {t("渋谷動物病院", "Shibuya Animal Hosp.")} · 0.8km · ⭐4.6 · 24H
+             {t("渋谷動物病院", "Shibuya Animal Hosp.")} · 0.8km · 4.6 · 24H
           </div>
         </div>
         <div className="flex items-center justify-center" style={{ width: 36, height: 36, borderRadius: "50%", background: "#5B9BD5", color: "#fff", flexShrink: 0 }}>

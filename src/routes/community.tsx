@@ -32,11 +32,11 @@ type Theme = {
 };
 
 const FLAIR_THEMES: Record<string, Theme> = {
-  健康: { key: "健康", jp: "健康", en: "Health", accent: "#6BAF92", soft: "#E8F5EE", ring: "#C8E5D7", gradFrom: "#6BAF92", gradTo: "#A8D4BE", emoji: "🌿" },
-  "獣医Q&A": { key: "獣医Q&A", jp: "獣医Q&A", en: "Vet Q&A", accent: "#5B9BD5", soft: "#E8F2FF", ring: "#C8E0F8", gradFrom: "#5B9BD5", gradTo: "#8BBDE8", emoji: "🏥" },
-  迷子: { key: "迷子", jp: "迷子", en: "Lost", accent: "#D4A843", soft: "#FFF8DC", ring: "#F0E4A0", gradFrom: "#D4A843", gradTo: "#E8C470", emoji: "🔍" },
-  日常: { key: "日常", jp: "日常", en: "Daily", accent: "#E8829A", soft: "#FFF0F5", ring: "#FFD0DC", gradFrom: "#E8829A", gradTo: "#F0A8B8", emoji: "🌸" },
-  しつけ: { key: "しつけ", jp: "しつけ", en: "Training", accent: "#7B68C8", soft: "#F0ECFF", ring: "#DDD4F8", gradFrom: "#7B68C8", gradTo: "#9B88D8", emoji: "🎓" },
+  健康: { key: "健康", jp: "健康", en: "Health", accent: "#6BAF92", soft: "#E8F5EE", ring: "#C8E5D7", gradFrom: "#6BAF92", gradTo: "#A8D4BE", emoji: "" },
+  "獣医Q&A": { key: "獣医Q&A", jp: "獣医Q&A", en: "Vet Q&A", accent: "#5B9BD5", soft: "#E8F2FF", ring: "#C8E0F8", gradFrom: "#5B9BD5", gradTo: "#8BBDE8", emoji: "" },
+  迷子: { key: "迷子", jp: "迷子", en: "Lost", accent: "#D4A843", soft: "#FFF8DC", ring: "#F0E4A0", gradFrom: "#D4A843", gradTo: "#E8C470", emoji: "" },
+  日常: { key: "日常", jp: "日常", en: "Daily", accent: "#E8829A", soft: "#FFF0F5", ring: "#FFD0DC", gradFrom: "#E8829A", gradTo: "#F0A8B8", emoji: "" },
+  しつけ: { key: "しつけ", jp: "しつけ", en: "Training", accent: "#7B68C8", soft: "#F0ECFF", ring: "#DDD4F8", gradFrom: "#7B68C8", gradTo: "#9B88D8", emoji: "" },
 };
 
 function themeFor(flair: string): Theme {
@@ -46,13 +46,13 @@ function themeFor(flair: string): Theme {
 // ── Categories ────────────────────────────────────────────────
 type Cat = { jp: string; en: string; emoji: string; accent: string; soft: string; gradFrom?: string; gradTo?: string };
 const CATS: Cat[] = [
-  { jp: "すべて", en: "All", emoji: "🐾", accent: "#FFFFFF", soft: "linear-gradient(135deg,#E8829A,#C86882)", gradFrom: "#E8829A", gradTo: "#C86882" },
-  { jp: "柴犬部", en: "Shiba Club", emoji: "🦊", accent: "#E8829A", soft: "#FFF0F3" },
-  { jp: "プードル部", en: "Poodle Club", emoji: "🐩", accent: "#7B68C8", soft: "#F5F0FF" },
-  { jp: "迷子情報", en: "Lost Pets", emoji: "🔍", accent: "#D4A843", soft: "#FFF3CC" },
-  { jp: "獣医Q&A", en: "Vet Q&A", emoji: "🏥", accent: "#6BAF92", soft: "#E8F5EE" },
-  { jp: "東京", en: "Tokyo", emoji: "🗼", accent: "#5B9BD5", soft: "#E8F2FF" },
-  { jp: "大阪", en: "Osaka", emoji: "🏯", accent: "#E8829A", soft: "#FFF0F3" },
+  { jp: "すべて", en: "All", emoji: "", accent: "#FFFFFF", soft: "linear-gradient(135deg,#E8829A,#C86882)", gradFrom: "#E8829A", gradTo: "#C86882" },
+  { jp: "柴犬部", en: "Shiba Club", emoji: "", accent: "#E8829A", soft: "#FFF0F3" },
+  { jp: "プードル部", en: "Poodle Club", emoji: "", accent: "#7B68C8", soft: "#F5F0FF" },
+  { jp: "迷子情報", en: "Lost Pets", emoji: "", accent: "#D4A843", soft: "#FFF3CC" },
+  { jp: "獣医Q&A", en: "Vet Q&A", emoji: "", accent: "#6BAF92", soft: "#E8F5EE" },
+  { jp: "東京", en: "Tokyo", emoji: "", accent: "#5B9BD5", soft: "#E8F2FF" },
+  { jp: "大阪", en: "Osaka", emoji: "", accent: "#E8829A", soft: "#FFF0F3" },
 ];
 
 // ── Username → avatar colour ──────────────────────────────────
@@ -77,9 +77,9 @@ function avatarPalette(name: string) {
 }
 
 const BREED_EMOJI: Record<string, string> = {
-  柴犬: "🦊", トイプードル: "🐩", チワワ: "🐕", ポメラニアン: "🦮",
-  ゴールデンレトリバー: "🐕‍🦺", ミニチュアダックスフンド: "🌭",
-  フレンチブルドッグ: "🐶", ヨークシャーテリア: "🐾", ミックス犬: "🐾",
+  柴犬: "", トイプードル: "", チワワ: "", ポメラニアン: "",
+  ゴールデンレトリバー: "", ミニチュアダックスフンド: "",
+  フレンチブルドッグ: "", ヨークシャーテリア: "", ミックス犬: "",
 };
 
 function Community() {
@@ -291,7 +291,7 @@ function Community() {
           const th = themeFor(p.flair);
           const pal = avatarPalette(p.user);
           const initial = p.user.trim()[0] ?? "?";
-          const breedEmoji = BREED_EMOJI[p.breed] ?? "🐾";
+          const breedEmoji = BREED_EMOJI[p.breed] ?? "";
           const isLost = p.flair === "迷子";
           const up = p.up + (upvoted[p.id] ? 1 : 0);
           return (
@@ -407,7 +407,7 @@ function Community() {
                       letterSpacing: "0.05em",
                     }}
                   >
-                    🔍 {t("迷子", "LOST")}
+                     {t("迷子", "LOST")}
                   </div>
                 )}
 
@@ -468,7 +468,7 @@ function Community() {
                               transition={{ duration: 0.6 }}
                               style={{ position: "absolute", left: "50%", top: 0, fontSize: 12, pointerEvents: "none" }}
                             >
-                              💗
+                              
                             </motion.span>
                           ))}
                         </>
@@ -547,7 +547,7 @@ function Community() {
               fontWeight: 700,
             }}
           >
-            🌸 {t("もっと見る", "See More")}
+             {t("もっと見る", "See More")}
           </button>
         </div>
       </div>
@@ -610,7 +610,7 @@ function Community() {
               </p>
 
               <div style={{ marginTop: 16, background: "#F5F0FF", border: "1px solid #DDD4F8", borderRadius: 16, padding: 12 }}>
-                <div style={{ fontSize: 11, fontWeight: 700, color: "#7B68C8" }}>📡 {t("共有センサーデータ", "Collar Data Shared")}</div>
+                <div style={{ fontSize: 11, fontWeight: 700, color: "#7B68C8" }}> {t("共有センサーデータ", "Collar Data Shared")}</div>
                 <div className="flex justify-between" style={{ marginTop: 8, fontSize: 12 }}>
                   <div><div style={{ fontWeight: 800, color: "#2C2C2C" }}>38.8°C</div><div style={{ fontSize: 10, color: "#8A8A8A" }}>{t("体温", "Temp")}</div></div>
                   <div><div style={{ fontWeight: 800, color: "#2C2C2C" }}>{t("2,100歩", "2,100 steps")}</div><div style={{ fontSize: 10, color: "#8A8A8A" }}>{t("運動", "Activity")}</div></div>
@@ -618,7 +618,7 @@ function Community() {
                 </div>
               </div>
 
-              <h3 style={{ marginTop: 18, fontSize: 13, fontWeight: 700, color: "#2C2C2C" }}>💬 {t("コメント", "Comments")} ({post.com})</h3>
+              <h3 style={{ marginTop: 18, fontSize: 13, fontWeight: 700, color: "#2C2C2C" }}> {t("コメント", "Comments")} ({post.com})</h3>
               <div style={{ marginTop: 8 }} className="space-y-2">
                 {[
                   { uJp: "獣医ヤマダ", uEn: "Vet Yamada", cJp: "少し高めですが正常範囲内です。様子を見てください。", cEn: "A little high but within normal range. Please monitor." },
@@ -652,7 +652,7 @@ function Community() {
                   boxShadow: "0 6px 16px rgba(232,130,154,0.35)",
                 }}
               >
-                🩺 {t("プロに聞く", "Ask a Pro Vet")}
+                 {t("プロに聞く", "Ask a Pro Vet")}
               </button>
             </motion.div>
           </div>

@@ -219,9 +219,9 @@ function Clinics() {
       {/* ── Quick stats ─────────────────────────────────────── */}
       <div className="grid grid-cols-3 gap-2" style={{ padding: "0 16px" }}>
         {[
-          { n: String(CLINICS.length), jp: "近隣クリニック", en: "Clinics Nearby", color: "#5B9BD5", emoji: "🏥" },
-          { n: avgRating, jp: "平均評価", en: "Avg Rating", color: "#D4A843", emoji: "⭐" },
-          { n: String(emCount), jp: "24時間対応", en: "24h Open", color: "#E53935", emoji: "🚑" },
+          { n: String(CLINICS.length), jp: "近隣クリニック", en: "Clinics Nearby", color: "#5B9BD5", emoji: "" },
+          { n: avgRating, jp: "平均評価", en: "Avg Rating", color: "#D4A843", emoji: "" },
+          { n: String(emCount), jp: "24時間対応", en: "24h Open", color: "#E53935", emoji: "" },
         ].map((s) => (
           <div
             key={s.en}
@@ -335,7 +335,7 @@ function Clinics() {
       >
         <div className="flex items-start justify-between gap-3">
           <div className="flex items-start gap-3 flex-1 min-w-0">
-            <span style={{ fontSize: 28, lineHeight: 1 }}>🚨</span>
+            <span style={{ fontSize: 28, lineHeight: 1 }}></span>
             <div className="min-w-0">
               <div style={{ fontSize: 11, color: "rgba(255,255,255,0.85)" }}>
                 {t("緊急の場合", "In Emergency")}
@@ -344,7 +344,7 @@ function Clinics() {
                 {t("最寄りの24時間病院", "Nearest 24H Hospital")}
               </div>
               <div style={{ fontSize: 12, color: "rgba(255,255,255,0.9)", marginTop: 4 }}>
-                {language === "english" ? emergencyClinic.en : emergencyClinic.jp} · {emergencyClinic.km}km · ⭐{emergencyClinic.rating}
+                {language === "english" ? emergencyClinic.en : emergencyClinic.jp} · {emergencyClinic.km}km · {emergencyClinic.rating}
               </div>
             </div>
           </div>
@@ -441,7 +441,7 @@ function Clinics() {
                     key={k}
                     style={{ position: "absolute", left: p.l, top: p.t, fontSize: 12, opacity: 0.35 }}
                   >
-                    🐾
+                    
                   </span>
                 ))}
                 {/* Clinic icon */}
@@ -470,7 +470,7 @@ function Clinics() {
                       letterSpacing: "0.05em",
                     }}
                   >
-                    24H 🚑
+                    24H 
                   </div>
                 )}
                 {/* NEW badge */}
@@ -553,7 +553,7 @@ function Clinics() {
                   </span>
                   <span style={{ color: "#EDE8E4" }}>·</span>
                   <span className="flex items-center gap-1" style={{ fontSize: 11, color: "#8A8A8A" }}>
-                    🚶 {Math.round(c.km * 12)}{t("分", " min")}
+                     {Math.round(c.km * 12)}{t("分", " min")}
                   </span>
                   <span
                     style={{
@@ -647,7 +647,7 @@ function Clinics() {
               fontWeight: 700,
             }}
           >
-            🌸 {t("もっと見る", "Load More")}
+             {t("もっと見る", "Load More")}
           </button>
         </div>
       </div>

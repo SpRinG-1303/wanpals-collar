@@ -204,7 +204,7 @@ function Step1() {
           {t("あとで変更できます", "You can change this later")}
         </p>
         <PrimaryButton onClick={() => { updatePet({ path: "B" }); nav({ to: "/onboarding/owner" }); }}>
-          🐾 {t("次へ", "Next")} →
+           {t("次へ", "Next")} →
         </PrimaryButton>
       </div>
     </div>

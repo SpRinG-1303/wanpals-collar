@@ -41,7 +41,7 @@ type Breed = {
 const BREEDS: Breed[] = [
   {
     jp: "柴犬", en: "Shiba Inu", rank: 1, size: "small", sizeJp: "小型", sizeEn: "Small",
-    originJp: "日本", originEn: "Japan", flag: "🇯🇵",
+    originJp: "日本", originEn: "Japan", flag: "",
     bannerBg: "linear-gradient(135deg, #FF9966, #FF6B35)",
     rankBg: "#CC4400", sizeBg: "#FFF0DC", sizeText: "#CC5500",
     kanji: "柴", kanjiSize: 64, kanjiColor: "rgba(255,255,255,0.25)",
@@ -51,7 +51,7 @@ const BREEDS: Breed[] = [
   },
   {
     jp: "トイプードル", en: "Toy Poodle", rank: 2, size: "toy", sizeJp: "超小型", sizeEn: "Toy",
-    originJp: "フランス", originEn: "France", flag: "🇫🇷",
+    originJp: "フランス", originEn: "France", flag: "",
     bannerBg: "linear-gradient(135deg, #9B72CF, #7B52AF)",
     rankBg: "#6B3AAF", sizeBg: "#F5F0FF", sizeText: "#7B52AF",
     kanji: "プー", kanjiSize: 44, kanjiColor: "rgba(255,255,255,0.22)",
@@ -61,7 +61,7 @@ const BREEDS: Breed[] = [
   },
   {
     jp: "チワワ", en: "Chihuahua", rank: 3, size: "toy", sizeJp: "超小型", sizeEn: "Tiny",
-    originJp: "メキシコ", originEn: "Mexico", flag: "🇲🇽",
+    originJp: "メキシコ", originEn: "Mexico", flag: "",
     bannerBg: "linear-gradient(135deg, #F6D365, #FDA085)",
     rankBg: "#E8820A", sizeBg: "#FFF8DC", sizeText: "#D4920A",
     kanji: "チ", kanjiSize: 64, kanjiColor: "rgba(255,255,255,0.28)",
@@ -71,7 +71,7 @@ const BREEDS: Breed[] = [
   },
   {
     jp: "ポメラニアン", en: "Pomeranian", rank: 4, size: "small", sizeJp: "小型", sizeEn: "Small",
-    originJp: "ドイツ", originEn: "Germany", flag: "🇩🇪",
+    originJp: "ドイツ", originEn: "Germany", flag: "",
     bannerBg: "linear-gradient(135deg, #FFECD2, #FCB69F)",
     rankBg: "#C47040", sizeBg: "#FFF4EC", sizeText: "#C47040",
     kanji: "ポメ", kanjiSize: 42, kanjiColor: "rgba(180,90,40,0.22)",
@@ -81,7 +81,7 @@ const BREEDS: Breed[] = [
   },
   {
     jp: "ゴールデンレトリバー", en: "Golden Retriever", rank: 5, size: "large", sizeJp: "大型", sizeEn: "Large",
-    originJp: "イギリス", originEn: "UK", flag: "🇬🇧",
+    originJp: "イギリス", originEn: "UK", flag: "",
     bannerBg: "linear-gradient(135deg, #F7971E, #FFD200)",
     rankBg: "#C48A00", sizeBg: "#FFF8DC", sizeText: "#C48A00",
     kanji: "金", kanjiSize: 64, kanjiColor: "rgba(255,255,255,0.25)",
@@ -91,7 +91,7 @@ const BREEDS: Breed[] = [
   },
   {
     jp: "ミニチュアダックス", en: "Mini Dachshund", rank: 6, size: "small", sizeJp: "小型", sizeEn: "Small",
-    originJp: "ドイツ", originEn: "Germany", flag: "🇩🇪",
+    originJp: "ドイツ", originEn: "Germany", flag: "",
     bannerBg: "linear-gradient(135deg, #C4714E, #A0522D)",
     rankBg: "#7A3A1E", sizeBg: "#FFF0DC", sizeText: "#A0522D",
     kanji: "ダックス", kanjiSize: 32, kanjiColor: "rgba(255,255,255,0.22)",
@@ -101,7 +101,7 @@ const BREEDS: Breed[] = [
   },
   {
     jp: "フレンチブルドッグ", en: "French Bulldog", rank: 7, size: "small", sizeJp: "小型", sizeEn: "Small",
-    originJp: "フランス", originEn: "France", flag: "🇫🇷",
+    originJp: "フランス", originEn: "France", flag: "",
     bannerBg: "linear-gradient(135deg, #4FACFE, #00F2FE)",
     rankBg: "#0080CC", sizeBg: "#E8F4FF", sizeText: "#0080CC",
     kanji: "フレブル", kanjiSize: 32, kanjiColor: "rgba(255,255,255,0.22)",
@@ -111,7 +111,7 @@ const BREEDS: Breed[] = [
   },
   {
     jp: "ヨークシャテリア", en: "Yorkshire Terrier", rank: 8, size: "toy", sizeJp: "超小型", sizeEn: "Tiny",
-    originJp: "イギリス", originEn: "UK", flag: "🇬🇧",
+    originJp: "イギリス", originEn: "UK", flag: "",
     bannerBg: "linear-gradient(135deg, #A18CD1, #FBC2EB)",
     rankBg: "#7B52AF", sizeBg: "#F8F0FF", sizeText: "#7B52AF",
     kanji: "ヨーキー", kanjiSize: 32, kanjiColor: "rgba(255,255,255,0.24)",
@@ -121,7 +121,7 @@ const BREEDS: Breed[] = [
   },
   {
     jp: "ミックス犬", en: "Mixed Breed", rank: null, size: "various", sizeJp: "様々", sizeEn: "Various",
-    originJp: "世界", originEn: "Global", flag: "🌏",
+    originJp: "世界", originEn: "Global", flag: "",
     bannerBg: "linear-gradient(135deg, #FF9966, #9B72CF, #4FACFE, #F7971E)",
     rankBg: "#6BAF92", sizeBg: "linear-gradient(135deg,#FFE4D0,#E8D6FF,#D6EEFF,#FFF4CC)", sizeText: "#7B52AF",
     kanji: "∞", kanjiSize: 56, kanjiColor: "rgba(255,255,255,0.4)",

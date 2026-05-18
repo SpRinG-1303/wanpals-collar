@@ -177,7 +177,7 @@ function Splash() {
               }}
             />
             <div style={{ fontSize: 13, color: "#374151", fontWeight: 500 }}>
-              わんちゃんの健康を守ります 🐾
+              わんちゃんの健康を守ります 
             </div>
             <div style={{ fontSize: 11, color: "#9CA3AF", marginTop: 2 }}>
               Protecting your dog's health

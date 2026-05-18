@@ -279,7 +279,7 @@ function EmotionDonut() {
         off += len;
         return seg;
       })}
-      <text x={cx} y={cy + 4} textAnchor="middle" fontSize={20} fontWeight={700} fill={SP.rose}>🐾</text>
+      <text x={cx} y={cy + 4} textAnchor="middle" fontSize={20} fontWeight={700} fill={SP.rose}></text>
     </svg>
   );
 }
