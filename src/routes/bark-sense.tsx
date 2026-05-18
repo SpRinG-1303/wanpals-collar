@@ -740,7 +740,7 @@ function BarkSensePage() {
 
             {/* Legend: 2-column grid below the donut, all 9 emotions */}
             {(() => {
-              const byKey = Object.fromEntries(donut.map((d) => [d.key, d])) as Record<EmotionKey, { pct: number; trend: string } | undefined>;
+              const byKey = Object.fromEntries(donut.map((d) => [d.key, d])) as Partial<Record<EmotionKey, { pct: number; trend: string }>>;
               const left: EmotionKey[] = ["contentment", "affection", "distress", "anger"];
               const right: EmotionKey[] = ["joy", "excitement", "fear", "disgust", "suspicion"];
               const renderRow = (k: EmotionKey) => {
