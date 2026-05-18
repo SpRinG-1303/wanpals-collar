@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Bell, ArrowLeft } from "lucide-react";
+import pawLogo from "@/assets/paw-heartbeat-pink.png";
 import { motion } from "framer-motion";
 import { useState, useEffect, type ReactNode } from "react";
 import { T, useT } from "@/context/LanguageContext";
@@ -42,11 +43,11 @@ export function TopBar({
             )}
             <Link
               to="/settings"
-              className="flex items-center justify-center text-lg"
+              className="flex items-center justify-center"
               style={{ width: 42, height: 42, borderRadius: "50%", background: "var(--bg-card)", border: "2px solid var(--accent-sakura)" }}
               aria-label="Profile"
             >
-              🐕
+              <img src={pawLogo} alt="Pawsitive" style={{ width: 26, height: 26, objectFit: "contain" }} />
             </Link>
           </div>
           {showTitle ? (
