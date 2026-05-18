@@ -582,10 +582,13 @@ function BreedDetail({ breed, onClose }: { breed: Breed; onClose: () => void }) 
   const relatedPosts = POSTS.slice(0, 3);
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/50 flex items-end" onClick={onClose}>
+    <div
+      className="fixed inset-0 z-50 bg-black/50 flex items-end justify-center"
+      onClick={onClose}
+    >
       <div
-        className="w-full max-h-[92vh] overflow-y-auto"
-        style={{ background: "#FAFAF8", borderRadius: "24px 24px 0 0" }}
+        className="w-full max-h-[92dvh] overflow-y-auto"
+        style={{ background: "#FAFAF8", borderRadius: "24px 24px 0 0", maxWidth: 430 }}
         onClick={(e) => e.stopPropagation()}
       >
         {/* HERO BANNER */}
