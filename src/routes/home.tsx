@@ -227,50 +227,55 @@ function DogTimeScene({
         </div>
       )}
 
-      {/* Owner silhouette walking next to dog */}
+      {/* Owner figure + leash (evening walk) */}
       {showOwner && (
-        <div
-          style={{
-            position: "absolute",
-            bottom: 6,
-            right: 150,
-            width: 60,
-            height: 130,
-            animation: "ownerWalk 1.6s linear infinite",
-            filter: "drop-shadow(0 4px 6px rgba(0,0,0,0.18))",
-            pointerEvents: "none",
-          }}
-        >
-          {ownerPhotoUrl ? (
-            <div
-              style={{
-                width: "100%",
-                height: "100%",
-                background: `url(${ownerPhotoUrl}) center/cover no-repeat`,
-                WebkitMaskImage:
-                  "radial-gradient(circle at 50% 22%, #000 18%, transparent 19%), linear-gradient(#000,#000)",
-                WebkitMaskComposite: "source-over" as any,
-                clipPath:
-                  "polygon(38% 0,62% 0,72% 18%,72% 38%,86% 50%,80% 78%,64% 100%,36% 100%,20% 78%,14% 50%,28% 38%,28% 18%)",
-                filter: "brightness(0.25) saturate(0)",
-                opacity: 0.85,
-              }}
+        <>
+          {/* Leash from owner's hand to dog's collar */}
+          <svg
+            style={{
+              position: "absolute",
+              right: 30,
+              bottom: 70,
+              width: 110,
+              height: 50,
+              pointerEvents: "none",
+            }}
+            viewBox="0 0 110 50"
+            fill="none"
+          >
+            <path
+              d="M8 6 Q40 38 100 30"
+              stroke="#C97A5A"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              opacity="0.85"
             />
-          ) : (
-            <svg viewBox="0 0 60 130" width="100%" height="100%" fill="#2C2C2C" opacity={0.7}>
-              <circle cx="30" cy="14" r="10" />
-              <path d="M18 28 Q30 24 42 28 L46 70 L40 72 L38 110 L34 110 L34 78 L26 78 L26 110 L22 110 L20 72 L14 70 Z" />
-            </svg>
-          )}
-        </div>
+          </svg>
+
+          <div
+            style={{
+              position: "absolute",
+              bottom: 8,
+              right: -6,
+              width: 56,
+              height: 124,
+              animation: "ownerWalk 1.6s ease-in-out infinite",
+              filter: "drop-shadow(0 4px 6px rgba(0,0,0,0.15))",
+              pointerEvents: "none",
+            }}
+          >
+            <OwnerFigure photoUrl={ownerPhotoUrl} />
+          </div>
+        </>
       )}
 
-      {/* Full-body breed dog (bottom-right, facing left toward greeting) */}
+      {/* Full-body breed dog (bottom-right, facing left toward greeting).
+          In evening mode, shift slightly left so the dog leads the walk. */}
       <div
         style={{
           position: "absolute",
           bottom: 4,
-          right: 6,
+          right: showOwner ? 56 : 6,
           height: 180,
           width: 180,
           transform: poseTransform,
