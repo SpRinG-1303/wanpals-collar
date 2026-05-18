@@ -491,8 +491,17 @@ function AnimationField({
         )}
 
         {state.kind === "done" && (
-          <>
-            <PawBot palette={state.palette ?? undefined} />
+          <div className="absolute inset-0 flex items-center justify-center">
+            <img
+              src={state.ghibliUrl}
+              alt="Ghibli dog"
+              style={{
+                width: 200, height: 200, objectFit: "cover",
+                borderRadius: 24,
+                boxShadow: "0 0 0 4px #FFF0F5, 0 12px 30px rgba(232,103,138,0.22)",
+                animation: "afBreathe 3.6s ease-in-out infinite",
+              }}
+            />
             <button
               onClick={onRetake}
               className="absolute z-10"
@@ -503,7 +512,7 @@ function AnimationField({
             >
               ↺ {t("撮り直し", "Retake")}
             </button>
-          </>
+          </div>
         )}
 
         {state.kind === "error" && (
