@@ -527,7 +527,7 @@ function TrendCard({ mounted }: { mounted: boolean }) {
 // ---------- Card 5: Timeline ----------
 function TimelineCard() {
   const t = useT();
-  const colors = ["#F9F9F9", C.roseFill, C.roseMid, C.rose];
+  const colors = ["#F0F7FC", C.roseFill, C.roseMid, C.rose];
   return (
     <CardBox>
       <SectionHeader jp="本日のタイムライン" en="Today's Timeline" />
