@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import PhoneFrame from "@/components/PhoneFrame";
-import dogImg from "@/assets/fluffy-dog.jpg";
+import dogImg from "@/assets/fluffy-dog.png";
 import { PawLogo } from "@/components/PawLogo";
 
 export const Route = createFileRoute("/")({ component: Splash });
@@ -86,7 +86,9 @@ function Splash() {
             zIndex: 2,
           }}
         >
-          <PawLogo size={48} color="#E87090" />
+          <div style={{ transform: "rotate(-15deg)" }}>
+            <PawLogo size={48} color="#E87090" />
+          </div>
           <div style={{ fontSize: 20, fontWeight: 700, color: "#1A1A2E", letterSpacing: "-0.02em" }}>
             Pawsitive Diagnostics
           </div>
@@ -133,8 +135,6 @@ function Splash() {
                 objectFit: "contain",
                 display: "block",
                 background: "transparent",
-                backgroundColor: "transparent",
-                mixBlendMode: "multiply",
               }}
             />
           </motion.div>
