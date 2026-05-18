@@ -595,18 +595,27 @@ function AIInsightBlock({ name }: { name: string }) {
         </span>
       </div>
       <div style={{ height: 1, background: C.divider, margin: "12px 0" }} />
-      <div style={{ fontSize: 14, color: C.ink, lineHeight: 1.8 }}>
-        {t(
-          `${name}は先週より12%多く動いています。木曜日が最も活発で、5,200歩を達成しました！`,
-          `${name} is 12% more active than last week. Thursday was the most active day with 5,200 steps!`
-        )}
-      </div>
-      <div style={{ fontSize: 12, color: C.muted, lineHeight: 1.6, marginTop: 6 }}>
-        {t(
-          `${name} is 12% more active than last week. Thursday was the most active day with 5,200 steps!`,
-          ""
-        )}
-      </div>
+  const { language } = useLanguage();
+  const jp = `${name}は先週より12%多く動いています。木曜日が最も活発で、5,200歩を達成しました！`;
+  const en = `${name} is 12% more active than last week. Thursday was the most active day with 5,200 steps!`;
+  return (
+    <>
+      {language !== "english" && (
+        <div style={{ fontSize: 14, color: C.ink, lineHeight: 1.8 }}>{jp}</div>
+      )}
+      {language !== "japanese" && (
+        <div style={{
+          fontSize: language === "english" ? 14 : 12,
+          color: language === "english" ? C.ink : C.muted,
+          lineHeight: language === "english" ? 1.8 : 1.6,
+          marginTop: language === "mixed" ? 6 : 0,
+        }}>{en}</div>
+      )}
+    </>
+  );
+}
+
+function AIBlockWrapper({ name }: { name: string }) { return null; }
       <div className="inline-flex items-center" style={{
         marginTop: 12, gap: 4,
         background: C.greenBg, color: C.green,
