@@ -399,21 +399,50 @@ function HeroPostcard({ score, name, mood, celebrate }: { score: number; name: s
         <Scene key={k} theme={BAND_META[k]} active={k === band} />
       ))}
 
-      {/* Sun / moon arc orb */}
-      <div
-        style={{
-          position: "absolute",
-          left: `${orbX}%`,
-          top: `${orbY}%`,
-          width: meta.orbSize, height: meta.orbSize,
-          marginLeft: -meta.orbSize / 2, marginTop: -meta.orbSize / 2,
-          borderRadius: "50%",
-          background: `radial-gradient(circle at 35% 35%, #fff, ${meta.orb} 70%)`,
-          boxShadow: `0 0 40px 10px ${meta.glow}, 0 0 90px 20px ${meta.glow}`,
-          transition: "left 60s linear, top 60s linear, background 2.5s ease, box-shadow 2.5s ease",
-          pointerEvents: "none",
-        }}
-      />
+      {/* Realistic sun / moon traversing arc */}
+      {band === "night" ? (
+        <div
+          style={{
+            position: "absolute",
+            left: `${orbX}%`,
+            top: `${orbY}%`,
+            width: meta.orbSize, height: meta.orbSize,
+            marginLeft: -meta.orbSize / 2, marginTop: -meta.orbSize / 2,
+            borderRadius: "50%",
+            background:
+              "radial-gradient(circle at 38% 36%, #FFFFFF 0%, #F4F1E4 45%, #C9C4B0 78%, #8E8A78 100%)",
+            boxShadow:
+              "0 0 24px 4px rgba(230,235,255,0.55), 0 0 70px 18px rgba(180,200,255,0.35)",
+            transition: "left 60s linear, top 60s linear",
+            pointerEvents: "none",
+          }}
+        >
+          {/* Lunar maria — subtle craters */}
+          <span style={{ position: "absolute", top: "30%", left: "55%", width: "22%", height: "18%", borderRadius: "50%", background: "rgba(140,135,120,0.35)" }} />
+          <span style={{ position: "absolute", top: "55%", left: "30%", width: "16%", height: "14%", borderRadius: "50%", background: "rgba(140,135,120,0.28)" }} />
+          <span style={{ position: "absolute", top: "62%", left: "58%", width: "12%", height: "10%", borderRadius: "50%", background: "rgba(140,135,120,0.3)" }} />
+        </div>
+      ) : (
+        <div
+          style={{
+            position: "absolute",
+            left: `${orbX}%`,
+            top: `${orbY}%`,
+            width: meta.orbSize, height: meta.orbSize,
+            marginLeft: -meta.orbSize / 2, marginTop: -meta.orbSize / 2,
+            borderRadius: "50%",
+            background:
+              band === "evening"
+                ? "radial-gradient(circle at 50% 50%, #FFE8B0 0%, #FFB060 35%, #E85A20 75%, rgba(232,90,32,0) 100%)"
+                : band === "morning"
+                ? "radial-gradient(circle at 50% 50%, #FFF6D8 0%, #FFD070 35%, #FF8838 78%, rgba(255,136,56,0) 100%)"
+                : "radial-gradient(circle at 50% 50%, #FFFCE0 0%, #FFE070 40%, #FFB020 80%, rgba(255,176,32,0) 100%)",
+            boxShadow: `0 0 30px 8px ${meta.glow}, 0 0 80px 22px ${meta.glow}`,
+            transition: "left 60s linear, top 60s linear, background 2.5s ease, box-shadow 2.5s ease",
+            pointerEvents: "none",
+          }}
+        />
+      )}
 
       {/* Bottom dark gradient overlay */}
       <div
