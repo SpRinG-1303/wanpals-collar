@@ -331,7 +331,7 @@ function Breeds() {
                 {t("今日の犬種", "TODAY'S BREED")}
               </span>
               <div style={{ fontSize: 18, fontWeight: 800, lineHeight: 1.1, textShadow: "0 1px 4px rgba(0,0,0,0.4)" }}>
-                {language === "english" ? "Shiba Inu" : language === "japanese" ? "柴犬" : "柴犬 · Shiba Inu"}
+                柴犬 · Shiba Inu
               </div>
             </div>
             <div style={{
