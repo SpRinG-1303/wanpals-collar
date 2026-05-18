@@ -175,7 +175,7 @@ function MotionSensePage() {
         </div>
 
         {/* CONTENT */}
-        <div className="ms-stack" style={{ padding: "14px 16px", display: "flex", flexDirection: "column", gap: 14 }}>
+        <div className="ms-stack" style={{ padding: "16px", display: "flex", flexDirection: "column", gap: 14, position: "relative", zIndex: 2 }}>
           <HeroStepCard mounted={mounted} />
           <WeeklyBarCard mounted={mounted} />
           <MetricCards />
