@@ -201,7 +201,7 @@ function PostcardScene({ band, breedKey }: { band: TimeBand; breedKey: BreedKey 
   );
 }
 
-function HeroPostcard({ score, name, mood, celebrate }: { score: number; name: string; mood: string; celebrate?: boolean }) {
+function HeroPostcard({ score, name, mood, celebrate, breedKey }: { score: number; name: string; mood: string; celebrate?: boolean; breedKey: BreedKey }) {
   const t = useT();
   const band = getTimeBand();
   const labelJp = band === "morning" ? "おはよう" : band === "afternoon" ? "こんにちは" : band === "evening" ? "こんばんは" : "おやすみ";
