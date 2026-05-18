@@ -296,13 +296,13 @@ function Scene({ theme, active }: { theme: SceneTheme; active: boolean }) {
         return (
           <g
             key={i}
-            transform={`rotate(${(i * 17) % 360} ${b.cx} ${b.cy})`}
             style={{
               transformBox: "view-box",
               transformOrigin: `${b.cx}px ${b.cy}px`,
-              animation: `blossomSway ${3 + ((i * 7) % 3)}s ease-in-out ${(i * 0.37) % 3}s infinite`,
+              animation: `blossomSway ${3 + ((i * 7) % 3)}s ease-in-out ${((i * 0.37) % 3).toFixed(2)}s infinite`,
             }}
           >
+          <g transform={`rotate(${(i * 17) % 360} ${b.cx} ${b.cy})`}>
             {Array.from({ length: petals }).map((_, p) => {
               const ang = (p / petals) * Math.PI * 2 - Math.PI / 2;
               const px = b.cx + Math.cos(ang) * offset;
