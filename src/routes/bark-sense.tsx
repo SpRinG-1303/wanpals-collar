@@ -215,33 +215,29 @@ function BarkSensePage() {
           jpStyle={{ fontSize: 14, fontWeight: 700, color: SP.sumi }}
           enStyle={{ fontSize: 10, color: SP.usuzumi, marginBottom: 10 }}
         />
-        <div className="flex" style={{ gap: 4, marginTop: 10 }}>
-          {WEEK.map((k, i) => (
-            <div key={i} style={{ flex: 1, textAlign: "center" }}>
-              <div
-                style={{
-                  height: 56,
-                  borderRadius: 8,
-                  background: EMOTIONS[k].color,
-                  opacity: 0.9,
-                  display: "flex",
-                  alignItems: "flex-end",
-                  justifyContent: "center",
-                  padding: 6,
-                  fontSize: 9,
-                  fontWeight: 600,
-                  color: "rgba(255,255,255,0.95)",
-                  boxShadow: "inset 0 -3px 0 rgba(0,0,0,0.06)",
-                  letterSpacing: "0.03em",
-                }}
-              >
-                {t(EMOTIONS[k].jp, EMOTIONS[k].en).slice(0, 4)}
+        <div className="flex items-end" style={{ gap: 6, marginTop: 10, height: 100 }}>
+          {WEEK.map((k, i) => {
+            const h = 36 + ((i * 7) % 36); // gentle varied heights for elegance
+            return (
+              <div key={i} style={{ flex: 1, textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "flex-end" }}>
+                <div
+                  style={{
+                    width: "100%",
+                    height: h + 24,
+                    borderRadius: "10px 10px 4px 4px",
+                    background: EMOTIONS[k].color,
+                    opacity: 0.7,
+                  }}
+                />
+                <div style={{ fontSize: 9, color: SP.sumi, marginTop: 6, fontWeight: 500, lineHeight: 1.1 }}>
+                  {t(EMOTIONS[k].jp, EMOTIONS[k].en)}
+                </div>
+                <div style={{ fontSize: 10, color: SP.usuzumi, marginTop: 2, fontWeight: 500 }}>
+                  {t(days[i], daysEn[i])}
+                </div>
               </div>
-              <div style={{ fontSize: 10, color: SP.usuzumi, marginTop: 4, fontWeight: 600 }}>
-                {t(days[i], daysEn[i])}
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </Card>
 
