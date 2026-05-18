@@ -394,7 +394,7 @@ function PostcardScene({
   );
 }
 
-function HeroPostcard({ score, name, mood, celebrate, breedKey }: { score: number; name: string; mood: string; celebrate?: boolean; breedKey: BreedKey }) {
+function HeroPostcard({ score, name, mood, celebrate, breedKey, energy, ownerPhotoUrl }: { score: number; name: string; mood: string; celebrate?: boolean; breedKey: BreedKey; energy: Energy; ownerPhotoUrl: string | null }) {
   const t = useT();
   const band = getTimeBand();
   const labelJp = band === "morning" ? "おはよう" : band === "afternoon" ? "こんにちは" : band === "evening" ? "こんばんは" : "おやすみ";
@@ -416,18 +416,19 @@ function HeroPostcard({ score, name, mood, celebrate, breedKey }: { score: numbe
         animation: celebrate ? "heroCelebrate 0.8s ease-out" : "none",
       }}
     >
-      <PostcardScene band={band} breedKey={breedKey} />
+      <PostcardScene band={band} breedKey={breedKey} energy={energy} ownerPhotoUrl={ownerPhotoUrl} />
 
-      {/* Float + tail wag keyframes for breed dog */}
+      {/* Dog pose & ambient keyframes */}
       <style>{`
-        @keyframes dogFloat {
-          0%,100% { transform: translateY(0); }
-          50% { transform: translateY(-6px); }
-        }
-        @keyframes tailWag {
-          0%,100% { transform: rotate(-8deg); }
-          50% { transform: rotate(14deg); }
-        }
+        @keyframes dogFloat   { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+        @keyframes dogTrot    { 0%,100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(-4px) rotate(2deg); } }
+        @keyframes dogSlow    { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-2px); } }
+        @keyframes dogBreathe { 0%,100% { transform: var(--pose, none) scaleY(1); } 50% { transform: var(--pose, none) scaleY(1.02); } }
+        @keyframes dogWalk    { 0%,100% { transform: translate(-2px,0) rotate(-1deg); } 50% { transform: translate(2px,-3px) rotate(2deg); } }
+        @keyframes ownerWalk  { 0%,100% { transform: translate(-2px,0); } 50% { transform: translate(2px,-3px); } }
+        @keyframes zzzFloat   { 0% { transform: translateY(0); opacity: 0; } 30% { opacity: 0.8; } 100% { transform: translateY(-14px); opacity: 0; } }
+        @keyframes bowlEat    { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-1px) scale(1.03); } }
+        @keyframes tailWag    { 0%,100% { transform: rotate(-8deg); } 50% { transform: rotate(14deg); } }
       `}</style>
 
       {/* Left content */}
