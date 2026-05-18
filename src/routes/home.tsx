@@ -293,13 +293,14 @@ function Scene({ theme, active }: { theme: SceneTheme; active: boolean }) {
         />
       )}
 
-      {/* Tree trunk */}
-      <path d={TRUNK_D} stroke={theme.trunk} strokeWidth="14" strokeLinecap="round" fill="none" />
+      {/* Tree trunk — thick bark */}
+      <path d={TRUNK_D} stroke={theme.trunk} strokeWidth="24" strokeLinecap="round" fill="none" />
       {/* Tree branches (gentle sway) */}
       {BRANCHES.map((b, i) => {
         const m = b.d.match(/M\s+(\d+)\s+(\d+)/);
         const ox = m ? Number(m[1]) : 0;
         const oy = m ? Number(m[2]) : 0;
+        const sw = i < 6 ? 6 : i < 12 ? 4.5 : 3.5;
         return (
           <g
             key={i}
@@ -309,7 +310,7 @@ function Scene({ theme, active }: { theme: SceneTheme; active: boolean }) {
               animation: `branchSway ${4 + (i % 3)}s ease-in-out ${i * 0.5}s infinite`,
             }}
           >
-            <path d={b.d} stroke={theme.trunk} strokeWidth="3.5" fill="none" strokeLinecap="round" />
+            <path d={b.d} stroke={theme.trunk} strokeWidth={sw} fill="none" strokeLinecap="round" />
           </g>
         );
       })}
