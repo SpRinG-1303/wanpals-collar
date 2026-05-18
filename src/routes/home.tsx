@@ -220,25 +220,6 @@ function HeroPostcard({ score, name, mood, celebrate }: { score: number; name: s
     >
       <PostcardScene band={band} />
 
-      {/* Floating hearts on celebrate */}
-      {celebrate && [0, 1, 2, 3, 4].map((i) => (
-        <span
-          key={i}
-          style={{
-            position: "absolute",
-            left: `${15 + i * 14}%`,
-            bottom: 10,
-            fontSize: 18,
-            opacity: 0,
-            animation: `heartFloat 2s ease-out ${i * 0.18}s forwards`,
-            pointerEvents: "none",
-            zIndex: 5,
-          }}
-        >
-          {i % 2 === 0 ? "💖" : "💕"}
-        </span>
-      ))}
-
       {/* Left content */}
       <div style={{ position: "absolute", top: 0, bottom: 0, left: 0, width: "55%", padding: "28px 0 28px 28px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
         <div>
@@ -273,11 +254,6 @@ function HeroPostcard({ score, name, mood, celebrate }: { score: number; name: s
       </div>
 
       <style>{`
-        @keyframes heartFloat {
-          0% { opacity: 0; transform: translateY(0) scale(0.6); }
-          20% { opacity: 1; transform: translateY(-20px) scale(1); }
-          100% { opacity: 0; transform: translateY(-90px) scale(1.1); }
-        }
         @keyframes heroCelebrate {
           0%,100% { transform: scale(1) rotate(0deg); }
           25% { transform: scale(1.02) rotate(-0.5deg); }
