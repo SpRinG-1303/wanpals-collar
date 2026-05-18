@@ -201,8 +201,8 @@ function BarkSensePage() {
           >
             {t(cur.jp, cur.en)}
           </div>
-          <div style={{ fontSize: 10.5, color: SP.usuzumi, marginTop: 8, letterSpacing: "0.2em", textTransform: "uppercase" }}>
-            {t("ライブ解析", "Live Analysis")}
+          <div style={{ fontSize: 10, color: SP.usuzumi, marginTop: 8, letterSpacing: "0.05em", fontWeight: 400 }}>
+            {t("ライブ解析", "Live analysis")}
           </div>
         </div>
       </Card>
