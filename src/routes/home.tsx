@@ -506,6 +506,8 @@ function HeroPostcard({ score, name, mood, celebrate, breedKey, energy, ownerPho
         @keyframes dogBreathe { 0%,100% { transform: var(--pose, none) scaleY(1); } 50% { transform: var(--pose, none) scaleY(1.02); } }
         @keyframes dogWalk    { 0%,100% { transform: translate(-2px,0) rotate(-1deg); } 50% { transform: translate(2px,-3px) rotate(2deg); } }
         @keyframes ownerWalk  { 0%,100% { transform: translate(-2px,0); } 50% { transform: translate(2px,-3px); } }
+        @keyframes ownerLegL  { 0%,100% { transform: rotate(12deg); } 50% { transform: rotate(-12deg); } }
+        @keyframes ownerLegR  { 0%,100% { transform: rotate(-12deg); } 50% { transform: rotate(12deg); } }
         @keyframes zzzFloat   { 0% { transform: translateY(0); opacity: 0; } 30% { opacity: 0.8; } 100% { transform: translateY(-14px); opacity: 0; } }
         @keyframes bowlEat    { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-1px) scale(1.03); } }
         @keyframes tailWag    { 0%,100% { transform: rotate(-8deg); } 50% { transform: rotate(14deg); } }
