@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import AppShell from "@/components/AppShell";
-import { useMemo, useState, useEffect, type ComponentType } from "react";
+import { useMemo, useState, useEffect, type ComponentType, type CSSProperties, type ReactNode } from "react";
 import {
   Search, SlidersHorizontal, BookOpen, ArrowRight, ArrowLeft,
   AlertTriangle, MessageCircle, Dog, Sparkles, Heart, Wind, Sun, Minus, Zap, Crown, Shuffle,
