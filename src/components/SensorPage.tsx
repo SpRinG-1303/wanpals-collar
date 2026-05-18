@@ -1,6 +1,7 @@
 import { useState, type ReactNode, type CSSProperties } from "react";
 import AppShell, { TopBar } from "@/components/AppShell";
 import { useLanguage, useT } from "@/context/LanguageContext";
+import { SenseBanner } from "@/components/SenseBanner";
 
 /**
  * Premium Japanese health-tech IoT design system for all sense pages.
