@@ -178,7 +178,7 @@ function SkinSensePage() {
 
 
         {/* ---- Content ---- */}
-        <div style={{ padding: "16px" }}>
+        <div style={{ padding: "16px", marginTop: 16 }}>
           {/* ===== SECTION 2: SCAN ===== */}
           <PinkCard>
             <Label jp="皮膚スキャン" en="Skin Scan" />
