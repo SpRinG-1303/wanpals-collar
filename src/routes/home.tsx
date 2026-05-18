@@ -225,11 +225,15 @@ function HeroPostcard({ score, name, mood, celebrate, breedKey }: { score: numbe
     >
       <PostcardScene band={band} breedKey={breedKey} />
 
-      {/* Idle bounce keyframes for breed dog */}
+      {/* Float + tail wag keyframes for breed dog */}
       <style>{`
-        @keyframes dogIdleBounce {
-          0%,100% { transform: translateY(0) rotate(-1deg); }
-          50% { transform: translateY(-4px) rotate(2deg); }
+        @keyframes dogFloat {
+          0%,100% { transform: translateY(0); }
+          50% { transform: translateY(-6px); }
+        }
+        @keyframes tailWag {
+          0%,100% { transform: rotate(-8deg); }
+          50% { transform: rotate(14deg); }
         }
       `}</style>
 
