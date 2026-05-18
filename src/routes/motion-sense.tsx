@@ -37,11 +37,11 @@ function MotionSensePage() {
     >
       <TimeTabs value={tab} onChange={setTab} />
 
-      <Card accent={SP.sora}>
+      <Card>
         <div className="flex items-center" style={{ gap: 18 }}>
           <div style={{ position: "relative", width: 140, height: 140 }}>
             <svg width={140} height={140}>
-              <circle cx={70} cy={70} r={R} stroke="#EBF1FF" strokeWidth={10} fill="none" />
+              <circle cx={70} cy={70} r={R} stroke="#FFF0F3" strokeWidth={10} fill="none" />
               <circle
                 cx={70} cy={70} r={R} stroke="url(#mGrad)" strokeWidth={10} fill="none"
                 strokeLinecap="round" strokeDasharray={`${(C * pct) / 100} ${C}`}
@@ -49,15 +49,15 @@ function MotionSensePage() {
               />
               <defs>
                 <linearGradient id="mGrad" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0%" stopColor="#5B9BD5" />
-                  <stop offset="100%" stopColor="#7B68C8" />
+                  <stop offset="0%" stopColor="#F43F72" />
+                  <stop offset="100%" stopColor="#E8829A" />
                 </linearGradient>
               </defs>
             </svg>
             <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-              <div style={{ fontSize: 24, fontWeight: 800, color: SP.sumi, fontVariantNumeric: "tabular-nums" }}>{steps.toLocaleString()}</div>
+              <div style={{ fontSize: 24, fontWeight: 700, color: SP.sumi, fontVariantNumeric: "tabular-nums" }}>{steps.toLocaleString()}</div>
               <div style={{ fontSize: 11, color: SP.usuzumi, marginTop: 2 }}>{t("歩", "steps")}</div>
-              <div style={{ fontSize: 10, color: SP.sora, fontWeight: 700, marginTop: 4 }}>{pct}%</div>
+              <div style={{ fontSize: 10, color: SP.rose, fontWeight: 700, marginTop: 4 }}>{pct}%</div>
             </div>
           </div>
           <div style={{ flex: 1 }}>
@@ -74,7 +74,7 @@ function MotionSensePage() {
             <div style={{ fontSize: 18, fontWeight: 700, color: SP.sumi, fontVariantNumeric: "tabular-nums" }}>
               {goal.toLocaleString()}{t("歩", "")}
             </div>
-            <div style={{ marginTop: 6, fontSize: 11, color: SP.sora, fontWeight: 600 }}>
+            <div style={{ marginTop: 6, fontSize: 11, color: SP.rose, fontWeight: 600 }}>
               {t(`あと ${(goal - steps).toLocaleString()}歩`, `${(goal - steps).toLocaleString()} to go`)}
             </div>
           </div>
