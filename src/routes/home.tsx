@@ -233,8 +233,29 @@ const BLOSSOMS: { cx: number; cy: number; r: number }[] = [
   { cx: 18,  cy: 158, r: 8 },  { cx: 26,  cy: 168, r: 7 },
   { cx: 105, cy: 308, r: 10 }, { cx: 90,  cy: 314, r: 8 }, { cx: 75, cy: 318, r: 8 },
   { cx: 112, cy: 102, r: 9 },  { cx: 98,  cy: 110, r: 7 },
+  // dense flower coverage along every branch
+  { cx: 70, cy: 248, r: 7 }, { cx: 82, cy: 246, r: 8 }, { cx: 94, cy: 243, r: 7 }, { cx: 106, cy: 240, r: 8 }, { cx: 120, cy: 232, r: 9 },
+  { cx: 78, cy: 200, r: 7 }, { cx: 90, cy: 195, r: 8 }, { cx: 102, cy: 190, r: 7 }, { cx: 116, cy: 182, r: 8 }, { cx: 128, cy: 172, r: 9 },
+  { cx: 80, cy: 148, r: 7 }, { cx: 92, cy: 142, r: 8 }, { cx: 104, cy: 136, r: 7 }, { cx: 118, cy: 128, r: 8 }, { cx: 132, cy: 118, r: 9 },
+  { cx: 85, cy: 96, r: 7 }, { cx: 98, cy: 88, r: 8 }, { cx: 110, cy: 80, r: 7 }, { cx: 122, cy: 72, r: 8 }, { cx: 134, cy: 64, r: 9 },
+  { cx: 55, cy: 298, r: 7 }, { cx: 68, cy: 296, r: 8 }, { cx: 82, cy: 294, r: 7 }, { cx: 95, cy: 292, r: 8 },
+  { cx: 28, cy: 200, r: 7 }, { cx: 22, cy: 188, r: 6 }, { cx: 18, cy: 178, r: 7 },
+  { cx: 60, cy: 272, r: 7 }, { cx: 75, cy: 270, r: 8 }, { cx: 88, cy: 268, r: 7 }, { cx: 102, cy: 264, r: 8 }, { cx: 116, cy: 260, r: 9 },
+  { cx: 62, cy: 182, r: 7 }, { cx: 75, cy: 178, r: 8 }, { cx: 88, cy: 174, r: 7 }, { cx: 100, cy: 168, r: 8 },
+  { cx: 72, cy: 122, r: 7 }, { cx: 85, cy: 116, r: 8 }, { cx: 98, cy: 110, r: 7 }, { cx: 112, cy: 100, r: 8 }, { cx: 124, cy: 92, r: 9 },
+  { cx: 28, cy: 274, r: 7 }, { cx: 18, cy: 262, r: 6 }, { cx: 14, cy: 250, r: 7 },
+  { cx: 48, cy: 168, r: 7 }, { cx: 38, cy: 154, r: 7 }, { cx: 30, cy: 140, r: 7 }, { cx: 24, cy: 126, r: 6 },
+  { cx: 82, cy: 76, r: 7 }, { cx: 96, cy: 66, r: 8 }, { cx: 108, cy: 56, r: 7 }, { cx: 118, cy: 46, r: 8 },
+  { cx: 55, cy: 240, r: 7 }, { cx: 68, cy: 236, r: 8 }, { cx: 82, cy: 232, r: 7 }, { cx: 96, cy: 226, r: 8 }, { cx: 108, cy: 218, r: 9 },
+  { cx: 42, cy: 208, r: 7 }, { cx: 36, cy: 196, r: 6 }, { cx: 28, cy: 182, r: 7 }, { cx: 22, cy: 170, r: 6 },
+  { cx: 48, cy: 322, r: 7 }, { cx: 62, cy: 320, r: 8 }, { cx: 76, cy: 318, r: 7 }, { cx: 92, cy: 314, r: 8 },
+  { cx: 72, cy: 138, r: 7 }, { cx: 86, cy: 130, r: 8 }, { cx: 100, cy: 122, r: 7 }, { cx: 112, cy: 110, r: 8 },
+  // accent buds and tips
+  { cx: 148, cy: 218, r: 6 }, { cx: 156, cy: 168, r: 6 }, { cx: 162, cy: 108, r: 6 }, { cx: 154, cy: 62, r: 6 },
+  { cx: 122, cy: 285, r: 6 }, { cx: 138, cy: 248, r: 6 }, { cx: 130, cy: 142, r: 6 }, { cx: 140, cy: 80, r: 6 },
   // soft falling/floating blossoms in air
   { cx: 165, cy: 140, r: 6 }, { cx: 170, cy: 240, r: 5 }, { cx: 25,  cy: 90,  r: 6 },
+  { cx: 180, cy: 190, r: 5 }, { cx: 175, cy: 95, r: 5 }, { cx: 158, cy: 280, r: 5 },
 ];
 
 function Scene({ theme, active }: { theme: SceneTheme; active: boolean }) {
