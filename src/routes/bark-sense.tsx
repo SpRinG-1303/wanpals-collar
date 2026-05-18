@@ -228,8 +228,8 @@ function BarkSensePage() {
       </Card>
 
       <AIInsightCard
-        jp="フラフィは今日穏やかで安定しています。先週より改善 ↑"
-        en="Fluffy is calm and emotionally stable today. Improved from last week ↑"
+        jp={`${name}は今日穏やかで安定しています。先週より改善 ↑`}
+        en={`${name} is calm and emotionally stable today. Improved from last week ↑`}
       />
     </SensorPage>
   );
