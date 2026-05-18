@@ -1,8 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import AppShell from "@/components/AppShell";
 import { useMemo, useState, useEffect, type ComponentType, type CSSProperties, type ReactNode } from "react";
+import Fuse, { type FuseResultMatch } from "fuse.js";
 import {
-  Search, SlidersHorizontal, BookOpen, ArrowRight, ArrowLeft,
+  Search, SlidersHorizontal, BookOpen, ArrowRight, ArrowLeft, X,
   AlertTriangle, MessageCircle, Dog, Sparkles, Heart, Wind, Sun, Minus, Zap, Crown, Shuffle,
   type LucideProps,
 } from "lucide-react";
@@ -15,6 +16,7 @@ type SizeKey = "toy" | "small" | "medium" | "large" | "various";
 type Breed = {
   jp: string;
   en: string;
+  kana: string;          // katakana reading for fuzzy search
   rank: number | null;
   size: SizeKey;
   sizeJp: string;
@@ -41,7 +43,7 @@ type Breed = {
 
 const BREEDS: Breed[] = [
   {
-    jp: "柴犬", en: "Shiba Inu", rank: 1, size: "small", sizeJp: "小型", sizeEn: "Small",
+    jp: "柴犬", en: "Shiba Inu", kana: "シバイヌ", rank: 1, size: "small", sizeJp: "小型", sizeEn: "Small",
     originJp: "日本", originEn: "Japan", flag: "",
     image: "https://images.unsplash.com/photo-1579213838429-c981f6f52bdf?w=400&q=80&auto=format&fit=crop",
     bannerBg: "linear-gradient(135deg, #FF9966, #FF6B35)",
@@ -52,7 +54,7 @@ const BREEDS: Breed[] = [
     health: [{ jp: "膝蓋骨脱臼", en: "Patellar Luxation", level: "watch" }, { jp: "アレルギー", en: "Allergies", level: "watch" }],
   },
   {
-    jp: "トイプードル", en: "Toy Poodle", rank: 2, size: "toy", sizeJp: "超小型", sizeEn: "Toy",
+    jp: "トイプードル", en: "Toy Poodle", kana: "トイプードル", rank: 2, size: "toy", sizeJp: "超小型", sizeEn: "Toy",
     originJp: "フランス", originEn: "France", flag: "",
     image: "https://images.unsplash.com/photo-1586671267731-da2cf3ceeb80?w=400&q=80&auto=format&fit=crop",
     bannerBg: "linear-gradient(135deg, #9B72CF, #7B52AF)",
@@ -63,7 +65,7 @@ const BREEDS: Breed[] = [
     health: [{ jp: "外耳炎", en: "Ear Infections", level: "watch" }],
   },
   {
-    jp: "チワワ", en: "Chihuahua", rank: 3, size: "toy", sizeJp: "超小型", sizeEn: "Tiny",
+    jp: "チワワ", en: "Chihuahua", kana: "チワワ", rank: 3, size: "toy", sizeJp: "超小型", sizeEn: "Tiny",
     originJp: "メキシコ", originEn: "Mexico", flag: "",
     image: "https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=400&q=80&auto=format&fit=crop",
     bannerBg: "linear-gradient(135deg, #F6D365, #FDA085)",
@@ -74,7 +76,7 @@ const BREEDS: Breed[] = [
     health: [{ jp: "気管虚脱", en: "Tracheal Collapse", level: "concern" }],
   },
   {
-    jp: "ポメラニアン", en: "Pomeranian", rank: 4, size: "small", sizeJp: "小型", sizeEn: "Small",
+    jp: "ポメラニアン", en: "Pomeranian", kana: "ポメラニアン", rank: 4, size: "small", sizeJp: "小型", sizeEn: "Small",
     originJp: "ドイツ", originEn: "Germany", flag: "",
     image: "https://images.unsplash.com/photo-1558788353-f76d92427f16?w=400&q=80&auto=format&fit=crop",
     bannerBg: "linear-gradient(135deg, #FFECD2, #FCB69F)",
@@ -85,7 +87,7 @@ const BREEDS: Breed[] = [
     health: [{ jp: "気管虚脱", en: "Tracheal Collapse", level: "watch" }],
   },
   {
-    jp: "ゴールデンレトリバー", en: "Golden Retriever", rank: 5, size: "large", sizeJp: "大型", sizeEn: "Large",
+    jp: "ゴールデンレトリバー", en: "Golden Retriever", kana: "ゴールデンレトリバー", rank: 5, size: "large", sizeJp: "大型", sizeEn: "Large",
     originJp: "イギリス", originEn: "UK", flag: "",
     image: "https://images.unsplash.com/photo-1633722715463-d30f4f325e24?w=400&q=80&auto=format&fit=crop",
     bannerBg: "linear-gradient(135deg, #F7971E, #FFD200)",
@@ -96,7 +98,7 @@ const BREEDS: Breed[] = [
     health: [{ jp: "股関節形成不全", en: "Hip Dysplasia", level: "concern" }, { jp: "熱中症", en: "Heat Stroke", level: "concern" }],
   },
   {
-    jp: "ミニチュアダックス", en: "Mini Dachshund", rank: 6, size: "small", sizeJp: "小型", sizeEn: "Small",
+    jp: "ミニチュアダックス", en: "Mini Dachshund", kana: "ミニチュアダックスフンド", rank: 6, size: "small", sizeJp: "小型", sizeEn: "Small",
     originJp: "ドイツ", originEn: "Germany", flag: "",
     image: "https://images.unsplash.com/photo-1612195583950-b8fd34c87093?w=400&q=80&auto=format&fit=crop",
     bannerBg: "linear-gradient(135deg, #C4714E, #A0522D)",
@@ -107,7 +109,7 @@ const BREEDS: Breed[] = [
     health: [{ jp: "椎間板ヘルニア", en: "IVDD (Back Issues)", level: "concern" }],
   },
   {
-    jp: "フレンチブルドッグ", en: "French Bulldog", rank: 7, size: "small", sizeJp: "小型", sizeEn: "Small",
+    jp: "フレンチブルドッグ", en: "French Bulldog", kana: "フレンチブルドッグ", rank: 7, size: "small", sizeJp: "小型", sizeEn: "Small",
     originJp: "フランス", originEn: "France", flag: "",
     image: "https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=400&q=80&auto=format&fit=crop",
     bannerBg: "linear-gradient(135deg, #4FACFE, #00F2FE)",
@@ -118,7 +120,7 @@ const BREEDS: Breed[] = [
     health: [{ jp: "短頭種症候群", en: "Brachycephalic Syndrome", level: "concern" }],
   },
   {
-    jp: "ヨークシャテリア", en: "Yorkshire Terrier", rank: 8, size: "toy", sizeJp: "超小型", sizeEn: "Tiny",
+    jp: "ヨークシャテリア", en: "Yorkshire Terrier", kana: "ヨークシャーテリア", rank: 8, size: "toy", sizeJp: "超小型", sizeEn: "Tiny",
     originJp: "イギリス", originEn: "UK", flag: "",
     image: "https://images.unsplash.com/photo-1516148806338-702cf5f65c41?w=400&q=80&auto=format&fit=crop",
     bannerBg: "linear-gradient(135deg, #A18CD1, #FBC2EB)",
@@ -129,7 +131,7 @@ const BREEDS: Breed[] = [
     health: [{ jp: "歯周病", en: "Dental Issues", level: "watch" }],
   },
   {
-    jp: "ミックス犬", en: "Mixed Breed", rank: null, size: "various", sizeJp: "様々", sizeEn: "Various",
+    jp: "ミックス犬", en: "Mixed Breed", kana: "ミックスケン", rank: null, size: "various", sizeJp: "様々", sizeEn: "Various",
     originJp: "世界", originEn: "Global", flag: "",
     image: "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=400&q=80&auto=format&fit=crop",
     bannerBg: "linear-gradient(135deg, #FF9966, #9B72CF, #4FACFE, #F7971E)",
@@ -202,16 +204,47 @@ function Breeds() {
   const [openBreed, setOpenBreed] = useState<Breed | null>(null);
   const [focused, setFocused] = useState(false);
 
-  const filtered = useMemo(() => {
-    let list = BREEDS;
-    if (filter === "popular") list = [...list].filter((b) => b.rank !== null).sort((a, b) => a.rank! - b.rank!);
-    else if (filter !== "all") list = list.filter((b) => b.size === filter);
-    if (query.trim()) {
-      const q = query.toLowerCase();
-      list = list.filter((b) => b.jp.toLowerCase().includes(q) || b.en.toLowerCase().includes(q));
+  const fuse = useMemo(
+    () =>
+      new Fuse(BREEDS, {
+        threshold: 0.4,
+        keys: [
+          { name: "name_jp", getFn: (b) => b.jp },
+          { name: "name_en", getFn: (b) => b.en },
+          { name: "name_kana", getFn: (b) => b.kana },
+          { name: "country_jp", getFn: (b) => b.originJp },
+          { name: "country_en", getFn: (b) => b.originEn },
+          { name: "size_jp", getFn: (b) => b.sizeJp },
+          { name: "size_en", getFn: (b) => b.sizeEn },
+        ],
+        includeScore: true,
+        includeMatches: true,
+        minMatchCharLength: 1,
+        ignoreLocation: true,
+      }),
+    []
+  );
+
+  const q = query.trim();
+  const hasQuery = q.length > 0;
+
+  const { filtered, matchesByKey } = useMemo(() => {
+    let list: Breed[] = BREEDS;
+    const matches = new Map<string, readonly FuseResultMatch[]>();
+    if (hasQuery) {
+      const results = fuse.search(q);
+      list = results.map((r) => r.item);
+      results.forEach((r) => {
+        if (r.matches) matches.set(r.item.en, r.matches);
+      });
     }
-    return list;
-  }, [filter, query]);
+    if (filter === "popular") {
+      list = [...list].filter((b) => b.rank !== null).sort((a, b) => a.rank! - b.rank!);
+    } else if (filter !== "all") {
+      list = list.filter((b) => b.size === filter);
+    }
+    return { filtered: list, matchesByKey: matches };
+  }, [filter, q, hasQuery, fuse]);
 
   const featured = BREEDS[0];
 
@@ -272,12 +305,26 @@ function Breeds() {
             className="flex-1 bg-transparent outline-none text-sm"
             style={{ color: "#2C2C2C" }}
           />
-          <div style={{
-            width: 34, height: 34, borderRadius: "50%", background: "#F0ECFF",
-            display: "flex", alignItems: "center", justifyContent: "center",
-          }}>
-            <SlidersHorizontal size={16} color="#7B68C8" strokeWidth={2} />
-          </div>
+          {hasQuery ? (
+            <button
+              onClick={() => setQuery("")}
+              aria-label="Clear search"
+              style={{
+                width: 28, height: 28, borderRadius: "50%", background: "#FFE4EC",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                border: "none", cursor: "pointer",
+              }}
+            >
+              <X size={14} color="#E8829A" strokeWidth={2.5} />
+            </button>
+          ) : (
+            <div style={{
+              width: 34, height: 34, borderRadius: "50%", background: "#F0ECFF",
+              display: "flex", alignItems: "center", justifyContent: "center",
+            }}>
+              <SlidersHorizontal size={16} color="#7B68C8" strokeWidth={2} />
+            </div>
+          )}
         </div>
       </div>
 
@@ -306,55 +353,92 @@ function Breeds() {
         })}
       </div>
 
-      {/* TODAY'S BREED — clean text-based banner */}
-      <div style={{ padding: "8px 16px 4px" }}>
-        <button
-          onClick={() => setOpenBreed(featured)}
-          style={{
-            position: "relative",
-            width: "100%", height: 72,
-            borderRadius: 16, overflow: "hidden",
-            boxShadow: "0 4px 16px rgba(255,107,53,0.25)",
-            textAlign: "left",
-            border: "none", padding: 0,
-          }}
-        >
-          <BreedImage breed={featured} overlay="linear-gradient(90deg, rgba(0,0,0,0.55), rgba(0,0,0,0.15))" />
-          <div style={{ position: "relative", height: "100%", display: "flex", alignItems: "center", padding: "0 20px", gap: 12 }}>
-            <div style={{ flex: 1, color: "white" }}>
-              <span style={{
-                display: "inline-block",
+      {/* TODAY'S BREED — hidden during active search */}
+      {!hasQuery && (
+        <div style={{ padding: "8px 16px 4px" }}>
+          <button
+            onClick={() => setOpenBreed(featured)}
+            style={{
+              position: "relative",
+              width: "100%", height: 72,
+              borderRadius: 16, overflow: "hidden",
+              boxShadow: "0 4px 16px rgba(255,107,53,0.25)",
+              textAlign: "left",
+              border: "none", padding: 0,
+            }}
+          >
+            <BreedImage breed={featured} overlay="linear-gradient(90deg, rgba(0,0,0,0.55), rgba(0,0,0,0.15))" />
+            <div style={{ position: "relative", height: "100%", display: "flex", alignItems: "center", padding: "0 20px", gap: 12 }}>
+              <div style={{ flex: 1, color: "white" }}>
+                <span style={{
+                  display: "inline-block",
+                  background: "#FFFFFF", color: "#FF6B35",
+                  fontSize: 9, fontWeight: 800, letterSpacing: "0.08em",
+                  padding: "3px 8px", borderRadius: 10, marginBottom: 4,
+                }}>
+                  {t("今日の犬種", "TODAY'S BREED")}
+                </span>
+                <div style={{ fontSize: 18, fontWeight: 800, lineHeight: 1.1, textShadow: "0 1px 4px rgba(0,0,0,0.4)" }}>
+                  {language === "english" ? "Shiba Inu" : language === "japanese" ? "柴犬" : "柴犬 · Shiba Inu"}
+                </div>
+              </div>
+              <div style={{
+                display: "flex", alignItems: "center", gap: 4,
                 background: "#FFFFFF", color: "#FF6B35",
-                fontSize: 9, fontWeight: 800, letterSpacing: "0.08em",
-                padding: "3px 8px", borderRadius: 10, marginBottom: 4,
+                fontSize: 12, fontWeight: 800,
+                padding: "6px 14px", borderRadius: 20,
               }}>
-                {t("今日の犬種", "TODAY'S BREED")}
-              </span>
-              <div style={{ fontSize: 18, fontWeight: 800, lineHeight: 1.1, textShadow: "0 1px 4px rgba(0,0,0,0.4)" }}>
-                {language === "english" ? "Shiba Inu" : language === "japanese" ? "柴犬" : "柴犬 · Shiba Inu"}
+                <span>{t("詳しく", "More")}</span>
+                <ArrowRight size={12} strokeWidth={2.8} />
               </div>
             </div>
-            <div style={{
-              display: "flex", alignItems: "center", gap: 4,
-              background: "#FFFFFF", color: "#FF6B35",
-              fontSize: 12, fontWeight: 800,
-              padding: "6px 14px", borderRadius: 20,
-            }}>
-              <span>{t("詳しく", "More")}</span>
-              <ArrowRight size={12} strokeWidth={2.8} />
-            </div>
-          </div>
-        </button>
-      </div>
+          </button>
+        </div>
+      )}
+
+      {/* RESULT COUNT */}
+      {hasQuery && filtered.length > 0 && (
+        <div style={{ padding: "10px 20px 0", fontSize: 12, fontWeight: 700, color: "#8A8A8A" }}>
+          {language === "english"
+            ? `${filtered.length} ${filtered.length === 1 ? "breed" : "breeds"} found`
+            : language === "japanese"
+            ? `${filtered.length}件の犬種`
+            : `${filtered.length}件の犬種 / ${filtered.length} found`}
+        </div>
+      )}
 
       {/* GRID */}
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, padding: "12px 16px 24px" }}>
         {filtered.map((b) => (
-          <BreedCard key={b.en} breed={b} onOpen={() => setOpenBreed(b)} language={language} t={t} />
+          <BreedCard
+            key={b.en}
+            breed={b}
+            onOpen={() => setOpenBreed(b)}
+            language={language}
+            t={t}
+            matches={matchesByKey.get(b.en)}
+          />
         ))}
         {filtered.length === 0 && (
-          <div style={{ gridColumn: "1 / -1", textAlign: "center", padding: 40, color: "#8A8A8A", fontSize: 13 }}>
-            {t("結果が見つかりません", "No breeds found")}
+          <div style={{ gridColumn: "1 / -1", display: "flex", flexDirection: "column", alignItems: "center", padding: "40px 20px", gap: 12 }}>
+            <SadDog />
+            <div style={{ fontSize: 15, fontWeight: 800, color: "#2C2C2C", textAlign: "center" }}>
+              {t("見つかりませんでした", "No breeds found")}
+            </div>
+            <div style={{ fontSize: 12, color: "#8A8A8A", textAlign: "center" }}>
+              {t("別のキーワードで試してください", "Try a different keyword")}
+            </div>
+            <button
+              onClick={() => { setQuery(""); setFilter("all"); }}
+              style={{
+                marginTop: 4, height: 38, padding: "0 22px", borderRadius: 20,
+                background: "linear-gradient(135deg, #E8829A, #C86882)",
+                color: "white", fontSize: 12, fontWeight: 700, border: "none",
+                boxShadow: "0 4px 12px rgba(232,130,154,0.32)", cursor: "pointer",
+              }}
+            >
+              {t("すべて表示", "Show All")}
+            </button>
           </div>
         )}
       </div>
@@ -364,11 +448,57 @@ function Breeds() {
   );
 }
 
+/* ─────────────────────────────────────── Highlight & Empty State ─────────────────────────────────────── */
+
+function Highlight({
+  text, matches, keyName,
+}: { text: string; matches?: readonly FuseResultMatch[]; keyName: string }) {
+  const m = matches?.find((x) => x.key === keyName);
+  if (!m || !m.indices?.length) return <>{text}</>;
+  // Merge & sort indices
+  const ranges = [...m.indices].sort((a, b) => a[0] - b[0]);
+  const out: ReactNode[] = [];
+  let cursor = 0;
+  ranges.forEach(([start, end], i) => {
+    if (start > cursor) out.push(<span key={`p${i}`}>{text.slice(cursor, start)}</span>);
+    out.push(
+      <span key={`h${i}`} style={{ color: "#E8829A", background: "rgba(232,130,154,0.14)", borderRadius: 3, padding: "0 1px" }}>
+        {text.slice(start, end + 1)}
+      </span>
+    );
+    cursor = end + 1;
+  });
+  if (cursor < text.length) out.push(<span key="t">{text.slice(cursor)}</span>);
+  return <>{out}</>;
+}
+
+function SadDog() {
+  return (
+    <svg width="84" height="84" viewBox="0 0 84 84" fill="none" aria-hidden>
+      <ellipse cx="42" cy="74" rx="26" ry="4" fill="#F0E6E0" />
+      <path d="M20 38 L14 22 L28 30 Z" fill="#C99280" />
+      <path d="M64 38 L70 22 L56 30 Z" fill="#C99280" />
+      <ellipse cx="42" cy="46" rx="26" ry="22" fill="#E8B8A0" />
+      <ellipse cx="42" cy="56" rx="18" ry="14" fill="#F5D4C0" />
+      <circle cx="33" cy="44" r="2.5" fill="#2C2C2C" />
+      <circle cx="51" cy="44" r="2.5" fill="#2C2C2C" />
+      <path d="M30 50 Q33 52 36 50" stroke="#7A4A3A" strokeWidth="1.2" strokeLinecap="round" fill="none" />
+      <path d="M48 50 Q51 52 54 50" stroke="#7A4A3A" strokeWidth="1.2" strokeLinecap="round" fill="none" />
+      <ellipse cx="42" cy="55" rx="3" ry="2" fill="#2C2C2C" />
+      <path d="M37 62 Q42 58 47 62" stroke="#2C2C2C" strokeWidth="1.6" strokeLinecap="round" fill="none" />
+      <circle cx="58" cy="36" r="1.2" fill="#7BB3E0" opacity="0.8" />
+      <circle cx="61" cy="40" r="0.8" fill="#7BB3E0" opacity="0.6" />
+    </svg>
+  );
+}
+
 /* ─────────────────────────────────────── Card ─────────────────────────────────────── */
 
-function BreedCard({ breed, onOpen, language, t }: { breed: Breed; onOpen: () => void; language: string; t: (jp: string, en: string) => string }) {
+function BreedCard({ breed, onOpen, language, t, matches }: { breed: Breed; onOpen: () => void; language: string; t: (jp: string, en: string) => string; matches?: readonly FuseResultMatch[] }) {
   const Icon = breed.Icon;
   const nameSize = breed.jp.length > 8 ? 11 : breed.jp.length > 6 ? 13 : 15;
+  const primaryName = language === "english" ? breed.en : breed.jp;
+  const primaryKey = language === "english" ? "name_en" : "name_jp";
   return (
     <button
       onClick={onOpen}
@@ -381,15 +511,12 @@ function BreedCard({ breed, onOpen, language, t }: { breed: Breed; onOpen: () =>
       {/* TOP IMAGE BANNER */}
       <div style={{ position: "relative", height: 100, overflow: "hidden" }}>
         <BreedImage breed={breed}>
-          {/* Small icon top-left */}
           <Icon
             size={22}
             color="rgba(255,255,255,0.95)"
             strokeWidth={2}
             style={{ position: "absolute", top: 10, left: 10, filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.4))" }}
           />
-
-          {/* Popularity badge top-right */}
           {breed.rank !== null && (
             <div style={{
               position: "absolute", top: 0, right: 0,
@@ -409,10 +536,10 @@ function BreedCard({ breed, onOpen, language, t }: { breed: Breed; onOpen: () =>
       <div style={{ padding: "12px 14px", display: "flex", flexDirection: "column", gap: 8 }}>
         <div>
           <div style={{ fontSize: nameSize, fontWeight: 800, color: "#2C2C2C", lineHeight: 1.2 }}>
-            {language === "english" ? breed.en : breed.jp}
+            <Highlight text={primaryName} matches={matches} keyName={primaryKey} />
           </div>
           <div style={{ fontSize: 11, color: "#8A8A8A", marginTop: 2 }}>
-            {language === "japanese" ? breed.en : breed.en}
+            <Highlight text={breed.en} matches={matches} keyName="name_en" />
           </div>
         </div>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 4 }}>
