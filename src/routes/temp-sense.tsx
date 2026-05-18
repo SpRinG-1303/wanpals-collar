@@ -127,18 +127,23 @@ function TempSensePage() {
   );
 }
 
-function ThresholdRow({ color, jp, en, range }: { color: string; jp: string; en: string; range: string }) {
+function ThresholdRow({ color, textColor, jp, en, range, first }: {
+  color: string; textColor: string; jp: string; en: string; range: string; first?: boolean;
+}) {
   return (
-    <div className="flex items-center" style={{ gap: 10, padding: "8px 0" }}>
-      <div style={{ width: 10, height: 10, borderRadius: "50%", background: color, flexShrink: 0 }} />
+    <div className="flex items-center" style={{
+      gap: 10, padding: "14px 0",
+      borderTop: first ? "none" : `1px solid ${SP.divider}`,
+    }}>
+      <div style={{ width: 8, height: 8, borderRadius: "50%", background: color, flexShrink: 0 }} />
       <div style={{ flex: 1 }}>
         <Bi
           jp={jp} en={en}
-          jpStyle={{ fontSize: 13, fontWeight: 600, color: SP.sumi }}
-          enStyle={{ fontSize: 10, color: SP.usuzumi }}
+          jpStyle={{ fontSize: 13, fontWeight: 500, color: SP.ink }}
+          enStyle={{ fontSize: 11, color: SP.muted }}
         />
       </div>
-      <div style={{ fontSize: 12, fontWeight: 700, color, fontVariantNumeric: "tabular-nums" }}>{range}</div>
+      <div style={{ fontSize: 13, fontWeight: 600, color: textColor, fontVariantNumeric: "tabular-nums" }}>{range}</div>
     </div>
   );
 }
