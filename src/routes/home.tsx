@@ -294,7 +294,15 @@ function Scene({ theme, active }: { theme: SceneTheme; active: boolean }) {
         const petalR = b.r * 0.62;
         const offset = b.r * 0.55;
         return (
-          <g key={i} transform={`rotate(${(i * 17) % 360} ${b.cx} ${b.cy})`}>
+          <g
+            key={i}
+            transform={`rotate(${(i * 17) % 360} ${b.cx} ${b.cy})`}
+            style={{
+              transformBox: "view-box",
+              transformOrigin: `${b.cx}px ${b.cy}px`,
+              animation: `blossomSway ${3 + ((i * 7) % 3)}s ease-in-out ${(i * 0.37) % 3}s infinite`,
+            }}
+          >
             {Array.from({ length: petals }).map((_, p) => {
               const ang = (p / petals) * Math.PI * 2 - Math.PI / 2;
               const px = b.cx + Math.cos(ang) * offset;
