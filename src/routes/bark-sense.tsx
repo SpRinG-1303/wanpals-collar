@@ -140,6 +140,8 @@ function PetalRing({ current }: { current: EmotionKey }) {
 
 function BarkSensePage() {
   const t = useT();
+  const { pet } = usePet();
+  const name = displayName(pet, "Fluffy");
   const current: EmotionKey = "calm";
   const cur = EMOTIONS[current];
   const days = ["月","火","水","木","金","土","日"];
