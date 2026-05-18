@@ -231,12 +231,12 @@ function HeroStepCard({ mounted }: { mounted: boolean }) {
       background: C.card,
       borderRadius: 24,
       padding: 24,
-      boxShadow: "0 4px 24px rgba(244,63,114,0.08)",
+      boxShadow: "0 12px 36px rgba(61,122,158,0.15)",
       overflow: "hidden",
     }}>
       <div style={{
         position: "absolute", top: 0, left: 0, right: 0, height: "60%",
-        background: "linear-gradient(180deg,rgba(244,63,114,0.04) 0%,rgba(255,255,255,0) 100%)",
+        background: "linear-gradient(180deg,rgba(123,179,212,0.06) 0%,rgba(255,255,255,0) 100%)",
         pointerEvents: "none",
       }} />
       <div className="flex" style={{ gap: 18, position: "relative", alignItems: "center" }}>
