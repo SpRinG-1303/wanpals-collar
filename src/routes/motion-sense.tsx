@@ -143,7 +143,7 @@ function MotionSensePage() {
         {/* HEADER */}
         <div style={{
           height: 90,
-          background: "linear-gradient(180deg,#FFF0F5 0%,#FFE8F0 100%)",
+          background: "linear-gradient(135deg,#3D7A9E 0%,#5B9FBF 50%,#7BB3D4 100%)",
           position: "relative",
           overflow: "hidden",
           padding: "0 16px",
@@ -154,13 +154,13 @@ function MotionSensePage() {
           <span aria-hidden style={{
             position: "absolute", right: -10, top: -28,
             fontSize: 120, lineHeight: 1, fontWeight: 800,
-            color: "rgba(244,63,114,0.05)", pointerEvents: "none", userSelect: "none",
+            color: "rgba(255,255,255,0.05)", pointerEvents: "none", userSelect: "none",
           }}>動</span>
           <div style={{ position: "relative", zIndex: 1 }}>
-            <div style={{ fontSize: 18, fontWeight: 600, color: C.sumi, lineHeight: 1.2 }}>
+            <div style={{ fontSize: 18, fontWeight: 600, color: "#FFFFFF", lineHeight: 1.2 }}>
               {t("モーションセンス", "MotionSense")}
             </div>
-            <div style={{ fontSize: 11, color: C.muted, letterSpacing: "0.05em", marginTop: 2 }}>
+            <div style={{ fontSize: 11, color: "rgba(255,255,255,0.75)", letterSpacing: "0.05em", marginTop: 2 }}>
               {t("モーションセンス · アクティビティ追跡", "MotionSense · Activity Tracking")}
             </div>
           </div>
