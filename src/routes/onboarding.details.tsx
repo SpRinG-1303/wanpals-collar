@@ -125,7 +125,7 @@ function Step4() {
           </div>
 
           <h1 className="text-[22px] font-extrabold text-center mt-3" style={{ color: "#3B2A23" }}>
-            {t("ワンちゃんのこと教えて 🐾", "Tell Us About Your Dog 🐾")}
+            {t("ワンちゃんのこと教えて ", "Tell Us About Your Dog ")}
           </h1>
           <p className="text-center text-[13px] mt-2 leading-relaxed" style={{ color: "#8A766C" }}>
             {t(
@@ -226,10 +226,10 @@ function Step4() {
               <FieldLabel>{t("性別", "Gender")}</FieldLabel>
               <div className="grid grid-cols-2 gap-3 mt-1">
                 <PillButton selected={gender === "male"} onClick={() => setGender("male")}>
-                  🐕 {t("男の子", "Boy")}
+                   {t("男の子", "Boy")}
                 </PillButton>
                 <PillButton selected={gender === "female"} onClick={() => setGender("female")}>
-                  🐕 {t("女の子", "Girl")}
+                   {t("女の子", "Girl")}
                 </PillButton>
               </div>
             </div>
@@ -265,13 +265,13 @@ function Step4() {
             <FieldLabel>{t("予防接種は済んでいますか？", "Is your dog vaccinated?")}</FieldLabel>
             <div className="grid grid-cols-3 gap-2 mt-1">
               <PillButton small selected={vacc === "yes"} onClick={() => setVacc("yes")}>
-                ✅ {t("完了", "Yes, fully")}
+                 {t("完了", "Yes, fully")}
               </PillButton>
               <PillButton small selected={vacc === "partial"} onClick={() => setVacc("partial")}>
-                ⚠️ {t("一部", "Partially")}
+                 {t("一部", "Partially")}
               </PillButton>
               <PillButton small selected={vacc === "unsure"} onClick={() => setVacc("unsure")}>
-                ❓ {t("不明", "Not sure")}
+                 {t("不明", "Not sure")}
               </PillButton>
             </div>
 
@@ -376,7 +376,7 @@ function Step4() {
               boxShadow: "0 8px 24px rgba(232,103,138,0.35)",
             }}
           >
-            🎉 {t("完了！ダッシュボードへ", "All Done! Meet Your Dashboard")} →
+             {t("完了！ダッシュボードへ", "All Done! Meet Your Dashboard")} →
           </button>
           <button
             onClick={onSkip}

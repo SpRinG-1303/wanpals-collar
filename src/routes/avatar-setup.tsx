@@ -51,11 +51,11 @@ type AvatarState = {
 };
 
 const BREEDS: { name: string; emoji: string; fur: string }[] = [
-  { name: "Shiba Inu", emoji: "🐕", fur: "#c17d4a" },
-  { name: "Toy Poodle", emoji: "🐩", fur: "#d4b896" },
-  { name: "Chihuahua", emoji: "🐶", fur: "#c8a070" },
-  { name: "Pomeranian", emoji: "🦮", fur: "#d4934e" },
-  { name: "Golden Retriever", emoji: "🐕‍🦺", fur: "#d4a248" },
+  { name: "Shiba Inu", emoji: "", fur: "#c17d4a" },
+  { name: "Toy Poodle", emoji: "", fur: "#d4b896" },
+  { name: "Chihuahua", emoji: "", fur: "#c8a070" },
+  { name: "Pomeranian", emoji: "", fur: "#d4934e" },
+  { name: "Golden Retriever", emoji: "", fur: "#d4a248" },
 ];
 
 const FUR_COLORS = ["#c17d4a", "#e8c88a", "#f0ede8", "#2a2018", "#9a968e", "#c8941a"];
@@ -172,7 +172,7 @@ function Welcome({ onStart, avatar }: { onStart: () => void; avatar: AvatarState
             fontSize: 22,
           }}
         >
-          ✨
+          
         </div>
       </div>
 
@@ -183,7 +183,7 @@ function Welcome({ onStart, avatar }: { onStart: () => void; avatar: AvatarState
         Create your dog's avatar and get started with smart health monitoring.
       </p>
 
-      <PrimaryButton onClick={onStart}>🐶 Create My Dog's Avatar</PrimaryButton>
+      <PrimaryButton onClick={onStart}> Create My Dog's Avatar</PrimaryButton>
 
       <button
         onClick={onStart}
@@ -202,7 +202,7 @@ function Welcome({ onStart, avatar }: { onStart: () => void; avatar: AvatarState
 function Brand() {
   return (
     <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 10 }}>
-      <div style={{ fontSize: 28 }}>🐾</div>
+      <div style={{ fontSize: 28 }}></div>
       <div style={{ fontSize: 26, fontWeight: 900, letterSpacing: -0.5, color: TEXT, position: "relative" }}>
         Pawsit<span style={{ position: "relative" }}>
           i
@@ -317,7 +317,7 @@ function Step1({
             size={152}
           />
         </button>
-        <p style={{ marginTop: 10, fontSize: 13, color: MUTED }}>✏️ Tap to customise</p>
+        <p style={{ marginTop: 10, fontSize: 13, color: MUTED }}> Tap to customise</p>
       </div>
 
       {/* Breed selector */}
@@ -432,7 +432,7 @@ function Step1({
       </p>
 
       <BottomBar>
-        <PrimaryButton onClick={onNext}>🐾 Next →</PrimaryButton>
+        <PrimaryButton onClick={onNext}> Next →</PrimaryButton>
       </BottomBar>
     </div>
   );
@@ -453,20 +453,20 @@ function Step2({
       <div style={{ padding: "8px 20px 0", textAlign: "center" }}>
         <h2 style={{ fontSize: 22, fontWeight: 800, margin: "8px 0 6px" }}>Add Your Ghibli Photos</h2>
         <p style={{ fontSize: 14, color: MUTED, lineHeight: 1.5, margin: 0 }}>
-          Upload photos of your dog and yourself. We'll transform them into a beautiful Ghibli-style art duo ✨
+          Upload photos of your dog and yourself. We'll transform them into a beautiful Ghibli-style art duo 
         </p>
       </div>
 
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, padding: "20px" }}>
         <UploadCard
           label="Your Dog"
-          emoji="🐕"
+          emoji=""
           uploaded={avatar.dogPhotoUploaded}
           onUpload={() => update({ dogPhotoUploaded: true })}
         />
         <UploadCard
           label="You (Owner)"
-          emoji="🧑"
+          emoji=""
           uploaded={avatar.ownerPhotoUploaded}
           onUpload={() => update({ ownerPhotoUploaded: true })}
         />
@@ -474,7 +474,7 @@ function Step2({
 
       <div style={{ margin: "0 20px", background: PINK_BG, borderRadius: 18, padding: 16 }}>
         <div style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
-          <div style={{ fontSize: 22 }}>🎨</div>
+          <div style={{ fontSize: 22 }}></div>
           <div style={{ fontSize: 13, color: TEXT, lineHeight: 1.5 }}>
             <b>How it works:</b> Your photos are sent to a Ghibli-style AI model. The result is a soft,
             painterly anime illustration — not a realistic photo. Best results with clear, well-lit face shots.
@@ -614,12 +614,12 @@ type Pose = {
 };
 
 const POSES: Pose[] = [
-  { id: 0, name: "Pure joy!", emoji: "🐶", bg: "#fdedf2", tag: "Solo", featured: true },
-  { id: 1, name: "Ball time", emoji: "🐕‍🦺", bg: "#fff5d6", tag: "Solo" },
-  { id: 2, name: "Nap mode", emoji: "😴", bg: "#e3f0fa", tag: "Solo" },
-  { id: 3, name: "Walk together", emoji: "🚶‍♀️🐕", bg: "#e3f5e6", tag: "Duo" },
-  { id: 4, name: "Cuddle time", emoji: "🤗🐶", bg: "#fdedf2", tag: "Duo" },
-  { id: 5, name: "Adventure!", emoji: "🌄🐾", bg: "#fff5d6", tag: "Duo" },
+  { id: 0, name: "Pure joy!", emoji: "", bg: "#fdedf2", tag: "Solo", featured: true },
+  { id: 1, name: "Ball time", emoji: "", bg: "#fff5d6", tag: "Solo" },
+  { id: 2, name: "Nap mode", emoji: "", bg: "#e3f0fa", tag: "Solo" },
+  { id: 3, name: "Walk together", emoji: "", bg: "#e3f5e6", tag: "Duo" },
+  { id: 4, name: "Cuddle time", emoji: "", bg: "#fdedf2", tag: "Duo" },
+  { id: 5, name: "Adventure!", emoji: "", bg: "#fff5d6", tag: "Duo" },
 ];
 
 function Step3({
@@ -640,7 +640,7 @@ function Step3({
       <div style={{ padding: "8px 20px 0", textAlign: "center" }}>
         <h2 style={{ fontSize: 22, fontWeight: 800, margin: "8px 0 6px" }}>Your Avatar Sticker Pack</h2>
         <p style={{ fontSize: 14, color: MUTED, lineHeight: 1.5, margin: 0 }}>
-          Your Ghibli duo across different moods and moments 🌸
+          Your Ghibli duo across different moods and moments 
         </p>
       </div>
 
@@ -707,7 +707,7 @@ function Step3({
 
       <BottomBar>
         <PrimaryButton onClick={() => nav({ to: "/home" })}>
-          🎉 Done! Go to Dashboard →
+           Done! Go to Dashboard →
         </PrimaryButton>
       </BottomBar>
     </div>
@@ -774,7 +774,7 @@ function PoseCard({
               background: tagBg, padding: "3px 8px", borderRadius: 999,
             }}
           >
-            {pose.tag === "Solo" ? "🐕 Solo" : "👥 Duo"}
+            {pose.tag === "Solo" ? " Solo" : " Duo"}
           </span>
         </div>
       </div>

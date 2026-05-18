@@ -71,7 +71,7 @@ function Welcome() {
         {/* CTA */}
         <div className="mt-8">
           <PrimaryButton onClick={() => nav({ to: "/onboarding/dog" })}>
-            🐶 {t("マイドッグのアバターを作る", "Create My Dog's Avatar")}
+             {t("マイドッグのアバターを作る", "Create My Dog's Avatar")}
           </PrimaryButton>
           <div className="text-center mt-4">
             <Link

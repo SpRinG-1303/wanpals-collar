@@ -125,13 +125,13 @@ function SkinSensePage() {
                 flex: 1, padding: "10px", borderRadius: 50,
                 border: `1.5px solid ${SP.rose}`, color: SP.rose,
                 fontSize: 12, fontWeight: 600, textAlign: "center", background: "#FFFFFF",
-              }}>📷 {t("カメラ", "Camera")}</span>
+              }}> {t("カメラ", "Camera")}</span>
               <span style={{
                 flex: 1, padding: "10px", borderRadius: 50,
                 background: SP.rose, color: "#FFFFFF",
                 fontSize: 12, fontWeight: 600, textAlign: "center",
                 boxShadow: "0 4px 12px rgba(244,63,114,0.3)",
-              }}>🖼️ {t("ギャラリー", "Gallery")}</span>
+              }}> {t("ギャラリー", "Gallery")}</span>
             </div>
             <input
               ref={inputRef}
@@ -280,7 +280,7 @@ function SkinSensePage() {
                     background: `linear-gradient(135deg, ${c.hue}, #FFFFFF)`,
                     display: "flex", alignItems: "center", justifyContent: "center",
                     fontSize: 28,
-                  }}>🐶</div>
+                  }}></div>
                   <Bi
                     jp={c.jp}
                     en={c.en}

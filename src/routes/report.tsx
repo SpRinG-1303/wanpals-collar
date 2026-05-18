@@ -662,7 +662,7 @@ function SellCard() {
         boxShadow: "0 4px 12px rgba(212,168,67,0.4)",
         display: "flex", alignItems: "center", justifyContent: "center", gap: 4,
       }}>
-        📄 {t("PDF出力", "PDF Export")}
+         {t("PDF出力", "PDF Export")}
       </button>
     </div>
   );

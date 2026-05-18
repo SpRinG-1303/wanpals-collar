@@ -265,7 +265,7 @@ function HeroStepCard({ mounted }: { mounted: boolean }) {
             )}
           </svg>
           <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-            <span style={{ position: "absolute", top: 28, fontSize: 38, opacity: 0.08, color: C.rose }}>🐾</span>
+            <span style={{ position: "absolute", top: 28, fontSize: 38, opacity: 0.08, color: C.rose }}></span>
             <div className="flex items-baseline" style={{ gap: 4 }}>
               <span style={{ fontSize: 30, fontWeight: 800, color: C.sumi, fontVariantNumeric: "tabular-nums", lineHeight: 1 }}>
                 {stepsAnim.toLocaleString()}
@@ -300,9 +300,9 @@ function HeroStepCard({ mounted }: { mounted: boolean }) {
       <div style={{ height: 1, background: C.divider, margin: "16px 0" }} />
 
       <div className="flex" style={{ gap: 8, flexWrap: "wrap" }}>
-        <Pill icon="🏃" label={t("活発", "Active")} value="2h 15m" valueColor={C.rose} />
-        <Pill icon="😴" label={t("休息", "Rest")} value="13h 45m" valueColor={C.ink2} />
-        <Pill icon="🔥" label="" value="285 kcal" valueColor={C.orange} />
+        <Pill icon="" label={t("活発", "Active")} value="2h 15m" valueColor={C.rose} />
+        <Pill icon="" label={t("休息", "Rest")} value="13h 45m" valueColor={C.ink2} />
+        <Pill icon="" label="" value="285 kcal" valueColor={C.orange} />
       </div>
     </div>
   );
@@ -355,7 +355,7 @@ function WeeklyBarCard({ mounted }: { mounted: boolean }) {
                 {isToday && (
                   <>
                     <div style={{ fontSize: 8, color: C.rose, fontWeight: 600 }}>{t("今日", "Today")}</div>
-                    <div style={{ fontSize: 10, lineHeight: 1, animation: "msFloat 2s ease-in-out infinite" }}>🐾</div>
+                    <div style={{ fontSize: 10, lineHeight: 1, animation: "msFloat 2s ease-in-out infinite" }}></div>
                   </>
                 )}
               </div>

@@ -23,12 +23,12 @@ type Pose = {
 };
 
 const POSES: Pose[] = [
-  { id: 0, jp: "純粋な喜び！", en: "Pure joy!",       bg: "#FDEDF2", tag: "solo", emoji: "🐶", featured: true },
-  { id: 1, jp: "ボールタイム", en: "Ball time",       bg: "#FFF7D6", tag: "solo", emoji: "🎾" },
-  { id: 2, jp: "おやすみモード", en: "Nap mode",      bg: "#E0EEFB", tag: "solo", emoji: "😴" },
-  { id: 3, jp: "一緒にお散歩", en: "Walk together",   bg: "#E2F4E4", tag: "duo",  emoji: "🚶" },
-  { id: 4, jp: "ぎゅーっと",   en: "Cuddle time",     bg: "#FDEDF2", tag: "duo",  emoji: "🤗" },
-  { id: 5, jp: "冒険だ！",     en: "Adventure!",      bg: "#FFF7D6", tag: "duo",  emoji: "🌲" },
+  { id: 0, jp: "純粋な喜び！", en: "Pure joy!",       bg: "#FDEDF2", tag: "solo", emoji: "", featured: true },
+  { id: 1, jp: "ボールタイム", en: "Ball time",       bg: "#FFF7D6", tag: "solo", emoji: "" },
+  { id: 2, jp: "おやすみモード", en: "Nap mode",      bg: "#E0EEFB", tag: "solo", emoji: "" },
+  { id: 3, jp: "一緒にお散歩", en: "Walk together",   bg: "#E2F4E4", tag: "duo",  emoji: "" },
+  { id: 4, jp: "ぎゅーっと",   en: "Cuddle time",     bg: "#FDEDF2", tag: "duo",  emoji: "" },
+  { id: 5, jp: "冒険だ！",     en: "Adventure!",      bg: "#FFF7D6", tag: "duo",  emoji: "" },
 ];
 
 function Step3() {
@@ -59,8 +59,8 @@ function Step3() {
           </h1>
           <p className="text-center text-[13px] mt-2 leading-relaxed" style={{ color: "#8A766C" }}>
             {t(
-              "色々な気分と瞬間のジブリ風コンビ 🌸",
-              "Your Ghibli duo across different moods and moments 🌸"
+              "色々な気分と瞬間のジブリ風コンビ ",
+              "Your Ghibli duo across different moods and moments "
             )}
           </p>
 
@@ -133,7 +133,7 @@ function Step3() {
           }}
         >
           <PrimaryButton onClick={() => nav({ to: "/onboarding/details" })}>
-            {t("次へ", "Next")} → 🐾
+            {t("次へ", "Next")} → 
           </PrimaryButton>
         </div>
       </div>
@@ -172,7 +172,7 @@ function PoseFeatured({
         className="absolute top-3 left-3 text-[10px] font-bold px-2.5 py-1 rounded-full"
         style={{ background: "rgba(255,255,255,0.9)", color: "#D67A35" }}
       >
-        🐕 {t("ソロ", "Solo")}
+         {t("ソロ", "Solo")}
       </span>
       <DownloadBtn />
       <div

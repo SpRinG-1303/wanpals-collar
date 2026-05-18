@@ -62,9 +62,9 @@ const QUICK: { jp: string; en: string; icon: typeof Heart; color: string; bg: st
 ];
 
 const SUGGESTIONS = [
-  { jp: "🐾 うちの犬の健康状態を教えて", en: "🐾 Tell me my dog's health status", color: "#E8829A" },
-  { jp: "💉 次のワクチンはいつ？", en: "💉 When is the next vaccine?", color: "#6BAF92" },
-  { jp: "📍 近くの動物病院を探して", en: "📍 Find nearby animal hospital", color: "#5B9BD5" },
+  { jp: " うちの犬の健康状態を教えて", en: " Tell me my dog's health status", color: "#E8829A" },
+  { jp: " 次のワクチンはいつ？", en: " When is the next vaccine?", color: "#6BAF92" },
+  { jp: " 近くの動物病院を探して", en: " Find nearby animal hospital", color: "#5B9BD5" },
 ];
 
 const PAW_PATTERN =
@@ -85,8 +85,8 @@ function AI() {
     {
       id: 1,
       from: "ai",
-      jp: `こんにちは！${name}${suffix}の健康についてお手伝いします 🐾`,
-      en: `Hi! I'm here to help with ${name}'s health 🐾`,
+      jp: `こんにちは！${name}${suffix}の健康についてお手伝いします `,
+      en: `Hi! I'm here to help with ${name}'s health `,
       time: nowTime(),
     },
   ]);
@@ -133,13 +133,13 @@ function AI() {
 
   const runFindVet = useCallback(() => {
     withTyping(800, () => {
-      pushAi("近くの動物病院を検索しています... 📍", "Searching for nearby clinics... 📍");
+      pushAi("近くの動物病院を検索しています... ", "Searching for nearby clinics... ");
       setTimeout(() => {
         pushAi("", "", "findVet");
         setTimeout(() => {
           pushAi(
-            "クリニックページに詳細があります。お役に立てますか？🐾",
-            "The clinics page has more details. Can I help with anything else? 🐾",
+            "クリニックページに詳細があります。お役に立てますか？",
+            "The clinics page has more details. Can I help with anything else? ",
           );
         }, 900);
       }, 500);
@@ -149,15 +149,15 @@ function AI() {
   const runVaccines = useCallback(() => {
     withTyping(900, () => {
       pushAi(
-        `${name}${suffix}のワクチン記録を確認しています 💉`,
-        `Checking ${name}'s vaccine records 💉`,
+        `${name}${suffix}のワクチン記録を確認しています `,
+        `Checking ${name}'s vaccine records `,
       );
       setTimeout(() => {
         pushAi("", "", "vaccines");
         setTimeout(() => {
           pushAi(
-            "フィラリアのワクチンが期限切れです！早めに動物病院へ行くことをおすすめします 🐾",
-            "Heartworm vaccine is overdue! Please visit a vet soon 🐾",
+            "フィラリアのワクチンが期限切れです！早めに動物病院へ行くことをおすすめします ",
+            "Heartworm vaccine is overdue! Please visit a vet soon ",
           );
         }, 900);
       }, 500);
@@ -167,11 +167,11 @@ function AI() {
   const runHealthCheck = useCallback(() => {
     withTyping(900, () => {
       pushAi(
-        `${name}${suffix}の健康状態を確認しています... 🏥`,
-        `Checking ${name}'s health status... 🏥`,
+        `${name}${suffix}の健康状態を確認しています... `,
+        `Checking ${name}'s health status... `,
       );
       setTimeout(() => {
-        pushAi(`${name}${suffix}の健康サマリーです 🐾`, `Here's ${name}'s health summary 🐾`, "health");
+        pushAi(`${name}${suffix}の健康サマリーです `, `Here's ${name}'s health summary `, "health");
         setTimeout(() => {
           pushAi("", "", "healthFollowup");
         }, 700);
@@ -186,19 +186,19 @@ function AI() {
         if (/food|eat|diet|食事|ごはん/.test(m)) {
           const w = pet.weight ?? 8;
           pushAi(
-            `${name}${suffix}の体重${w}kgに適した1日の食事量は約${Math.round(w * 30)}gです。バランスの良い食事を心がけましょう 🍚`,
-            `For a ${w}kg dog like ${name}, the recommended daily food is about ${Math.round(w * 30)}g. Keep a balanced diet 🍚`,
+            `${name}${suffix}の体重${w}kgに適した1日の食事量は約${Math.round(w * 30)}gです。バランスの良い食事を心がけましょう `,
+            `For a ${w}kg dog like ${name}, the recommended daily food is about ${Math.round(w * 30)}g. Keep a balanced diet `,
           );
         } else if (/walk|exercise|散歩|運動/.test(m)) {
-          pushAi("今日の運動データ：2,340歩 · 1.8km · 目標の80% 🏃", "Today's activity: 2,340 steps · 1.8km · 80% of goal 🏃");
+          pushAi("今日の運動データ：2,340歩 · 1.8km · 目標の80% ", "Today's activity: 2,340 steps · 1.8km · 80% of goal ");
         } else if (/temperature|fever|体温|熱/.test(m)) {
-          pushAi("現在の体温は38.5℃ — 正常範囲内です 🌡️", "Current temperature is 38.5°C — within normal range 🌡️");
+          pushAi("現在の体温は38.5℃ — 正常範囲内です ", "Current temperature is 38.5°C — within normal range ");
         } else if (/sleep|tired|眠/.test(m)) {
-          pushAi("昨夜の睡眠は7.5時間、質は良好です 😴", "Last night's sleep was 7.5 hours, quality is good 😴");
+          pushAi("昨夜の睡眠は7.5時間、質は良好です ", "Last night's sleep was 7.5 hours, quality is good ");
         } else {
           pushAi(
-            "わんちゃんについて何でも聞いてください！健康チェック、ワクチン、クリニック検索などお手伝いできます 🐾",
-            "Feel free to ask anything about your dog! I can help with health checks, vaccines, finding clinics and more 🐾",
+            "わんちゃんについて何でも聞いてください！健康チェック、ワクチン、クリニック検索などお手伝いできます ",
+            "Feel free to ask anything about your dog! I can help with health checks, vaccines, finding clinics and more ",
           );
         }
       });
@@ -241,14 +241,14 @@ function AI() {
   const onEmergencyYes = () => {
     pushUser("はい、SOS", "Yes, SOS");
     withTyping(700, () => {
-      pushAi("🚨 SOS を起動しています...", "🚨 Activating SOS...");
+      pushAi(" SOS を起動しています...", " Activating SOS...");
       setSosActive(true);
       setTimeout(() => {
         pushAi("", "", "emergencyAction");
         setTimeout(() => {
           pushAi(
-            "SOSが送信されました。助けが来るまで落ち着いてください 🐾",
-            "SOS has been sent. Please stay calm until help arrives 🐾",
+            "SOSが送信されました。助けが来るまで落ち着いてください ",
+            "SOS has been sent. Please stay calm until help arrives ",
           );
         }, 900);
       }, 800);
@@ -258,21 +258,21 @@ function AI() {
     pushUser("いいえ", "No");
     withTyping(500, () => {
       pushAi(
-        "わかりました。何かあればいつでも呼んでください 🐾",
-        "Understood. Call me anytime if you need help 🐾",
+        "わかりました。何かあればいつでも呼んでください ",
+        "Understood. Call me anytime if you need help ",
       );
     });
   };
 
   const goClinics = () => {
     withTyping(500, () => {
-      pushAi("クリニックページに移動します... 🏥", "Taking you to clinics... 🏥");
+      pushAi("クリニックページに移動します... ", "Taking you to clinics... ");
       setTimeout(() => navigate({ to: "/clinics" }), 600);
     });
   };
   const goReport = () => {
     withTyping(500, () => {
-      pushAi("レポートページに移動します... 📊", "Taking you to your report... 📊");
+      pushAi("レポートページに移動します... ", "Taking you to your report... ");
       setTimeout(() => navigate({ to: "/report" }), 600);
     });
   };
@@ -1027,9 +1027,9 @@ function FollowupChips({
   onAsk: () => void;
 }) {
   const chips = [
-    { jp: "📊 詳細レポート", en: "📊 Full Report", color: "#7B68C8", bg: "#F0ECFF", onClick: onReport },
-    { jp: "🏥 クリニック", en: "🏥 Find Clinic", color: "#5B9BD5", bg: "#E8F2FF", onClick: onClinic },
-    { jp: "💬 質問する", en: "💬 Ask Question", color: "#E8829A", bg: "#FFF0F5", onClick: onAsk },
+    { jp: " 詳細レポート", en: " Full Report", color: "#7B68C8", bg: "#F0ECFF", onClick: onReport },
+    { jp: " クリニック", en: " Find Clinic", color: "#5B9BD5", bg: "#E8F2FF", onClick: onClinic },
+    { jp: " 質問する", en: " Ask Question", color: "#E8829A", bg: "#FFF0F5", onClick: onAsk },
   ];
   return (
     <div className="flex flex-wrap gap-1.5">

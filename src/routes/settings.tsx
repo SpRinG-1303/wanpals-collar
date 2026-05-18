@@ -31,11 +31,11 @@ function Settings() {
   };
 
   return (
-    <AppShell titleJp="⚙️ 設定" titleEn="⚙️ Settings">
+    <AppShell titleJp=" 設定" titleEn=" Settings">
       <div className="bg-card rounded-2xl p-4 shadow-card flex items-center gap-3">
         <div className="relative">
-          <div className="w-16 h-16 rounded-full bg-gradient-to-br from-sakura to-secondary flex items-center justify-center text-3xl">👤</div>
-          <button className="absolute -bottom-1 -right-1 w-6 h-6 bg-primary text-primary-foreground rounded-full text-xs">✏️</button>
+          <div className="w-16 h-16 rounded-full bg-gradient-to-br from-sakura to-secondary flex items-center justify-center text-3xl"></div>
+          <button className="absolute -bottom-1 -right-1 w-6 h-6 bg-primary text-primary-foreground rounded-full text-xs"></button>
         </div>
         <div>
           <div className="font-bold">{t("田中花子", "Hanako Tanaka")}</div>
@@ -87,15 +87,15 @@ function Settings() {
       </Section>
 
       <Section title={t("通知", "Notifications")}>
-        <NotifRow label={`🚨 ${t("緊急アラート", "Emergency Alerts")}`} sub={t("常にON", "Always On")} locked/>
-        <NotifRow label={`📊 ${t("デイリーインサイト", "Daily Insights")}`}/>
-        <NotifRow label={`💬 ${t("コミュニティ返信", "Community Replies")}`}/>
-        <NotifRow label={`🏥 ${t("獣医リマインダー", "Vet Reminders")}`}/>
+        <NotifRow label={` ${t("緊急アラート", "Emergency Alerts")}`} sub={t("常にON", "Always On")} locked/>
+        <NotifRow label={` ${t("デイリーインサイト", "Daily Insights")}`}/>
+        <NotifRow label={` ${t("コミュニティ返信", "Community Replies")}`}/>
+        <NotifRow label={` ${t("獣医リマインダー", "Vet Reminders")}`}/>
       </Section>
 
       <Section title={t("データ", "Data")}>
-        <Row label={`📤 ${t("データをエクスポート", "Export Data")}`}/>
-        <Row label={`🔒 ${t("プライバシー設定", "Privacy Settings")}`}/>
+        <Row label={` ${t("データをエクスポート", "Export Data")}`}/>
+        <Row label={` ${t("プライバシー設定", "Privacy Settings")}`}/>
       </Section>
 
       <div className="mt-4 bg-gradient-to-br from-warning to-sakura rounded-2xl p-5 shadow-card text-primary">
