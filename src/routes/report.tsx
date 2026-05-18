@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import AppShell from "@/components/AppShell";
+import AppShell, { TopBar } from "@/components/AppShell";
 import {
   AreaChart, Area, BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Tooltip,
   CartesianGrid, ReferenceLine, ReferenceArea,
@@ -35,7 +35,11 @@ function Report() {
   const sleepData = [7.2, 8.1, 7.5, 6.8, 7.9, 8.4, 7.5].map((v, i) => ({ d: dayLabels[i], v }));
 
   return (
-    <AppShell titleJp="健康レポート" titleEn="Health Report">
+    <AppShell
+      titleJp="健康レポート"
+      titleEn="Health Report"
+      renderTopBar={() => <TopBar showBack backTo="/home" />}
+    >
       {/* Hero Summary Card */}
       <HeroCard pet={pet} dogName={dogName} />
 
