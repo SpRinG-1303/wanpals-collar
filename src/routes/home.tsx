@@ -235,6 +235,23 @@ const BLOSSOMS: { cx: number; cy: number; r: number }[] = [
   { cx: 112, cy: 102, r: 9 },  { cx: 98,  cy: 110, r: 7 },
   // soft falling/floating blossoms in air
   { cx: 165, cy: 140, r: 6 }, { cx: 170, cy: 240, r: 5 }, { cx: 25,  cy: 90,  r: 6 },
+  // dense bloom coverage along trunk + branches
+  { cx: 50, cy: 250, r: 9 }, { cx: 62, cy: 245, r: 7 }, { cx: 75, cy: 242, r: 8 }, { cx: 88, cy: 240, r: 9 }, { cx: 102, cy: 232, r: 8 },
+  { cx: 58, cy: 200, r: 9 }, { cx: 72, cy: 196, r: 8 }, { cx: 88, cy: 190, r: 9 }, { cx: 104, cy: 185, r: 8 }, { cx: 120, cy: 175, r: 9 },
+  { cx: 68, cy: 148, r: 9 }, { cx: 82, cy: 142, r: 8 }, { cx: 98, cy: 135, r: 9 }, { cx: 114, cy: 125, r: 8 }, { cx: 130, cy: 118, r: 9 },
+  { cx: 78, cy: 96, r: 9 }, { cx: 92, cy: 88, r: 8 }, { cx: 106, cy: 80, r: 9 }, { cx: 120, cy: 72, r: 8 }, { cx: 132, cy: 64, r: 9 },
+  { cx: 40, cy: 298, r: 9 }, { cx: 52, cy: 296, r: 7 }, { cx: 66, cy: 294, r: 8 }, { cx: 122, cy: 282, r: 8 },
+  { cx: 38, cy: 224, r: 8 }, { cx: 30, cy: 210, r: 7 }, { cx: 22, cy: 196, r: 8 }, { cx: 16, cy: 182, r: 7 },
+  { cx: 46, cy: 272, r: 8 }, { cx: 60, cy: 270, r: 7 }, { cx: 78, cy: 268, r: 9 }, { cx: 108, cy: 262, r: 8 },
+  { cx: 62, cy: 184, r: 8 }, { cx: 76, cy: 180, r: 7 }, { cx: 92, cy: 175, r: 8 }, { cx: 110, cy: 165, r: 9 },
+  { cx: 74, cy: 122, r: 8 }, { cx: 96, cy: 112, r: 8 }, { cx: 118, cy: 100, r: 9 },
+  { cx: 28, cy: 256, r: 7 }, { cx: 36, cy: 240, r: 8 }, { cx: 44, cy: 224, r: 7 },
+  { cx: 64, cy: 162, r: 8 }, { cx: 50, cy: 148, r: 7 }, { cx: 40, cy: 132, r: 8 }, { cx: 32, cy: 116, r: 7 },
+  { cx: 84, cy: 60, r: 9 }, { cx: 98, cy: 50, r: 8 }, { cx: 112, cy: 42, r: 7 },
+  { cx: 54, cy: 282, r: 8 }, { cx: 70, cy: 286, r: 7 }, { cx: 86, cy: 290, r: 7 },
+  { cx: 14, cy: 200, r: 7 }, { cx: 18, cy: 220, r: 6 }, { cx: 14, cy: 244, r: 7 },
+  // airborne sparse
+  { cx: 158, cy: 188, r: 5 }, { cx: 175, cy: 110, r: 6 }, { cx: 38, cy: 60, r: 5 }, { cx: 152, cy: 268, r: 6 }, { cx: 188, cy: 200, r: 5 },
 ];
 
 function Scene({ theme, active }: { theme: SceneTheme; active: boolean }) {
