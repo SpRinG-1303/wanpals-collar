@@ -13,12 +13,11 @@ const DAYS = [
   { jp: "木", en: "Thu" }, { jp: "金", en: "Fri" }, { jp: "土", en: "Sat" }, { jp: "日", en: "Sun" },
 ];
 
-function SoftCard({ children, accent = ROSE }: { children: React.ReactNode; accent?: string }) {
+function SoftCard({ children }: { children: React.ReactNode; accent?: string }) {
   return (
     <div style={{
-      background: "#FFFFFF", borderRadius: 20, padding: 18, marginBottom: 16,
-      boxShadow: "0 2px 14px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.03)",
-      borderLeft: `3px solid ${accent}`,
+      background: "#FFFFFF", borderRadius: 20, padding: 20, marginBottom: 12,
+      boxShadow: "0 2px 16px rgba(0,0,0,0.06)",
     }}>{children}</div>
   );
 }
