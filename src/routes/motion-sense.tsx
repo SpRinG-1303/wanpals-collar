@@ -580,6 +580,9 @@ function TimelineCard() {
 // ---------- Card 6: AI Insight ----------
 function AIInsightBlock({ name }: { name: string }) {
   const t = useT();
+  const { language } = useLanguage();
+  const jp = `${name}は先週より12%多く動いています。木曜日が最も活発で、5,200歩を達成しました！`;
+  const en = `${name} is 12% more active than last week. Thursday was the most active day with 5,200 steps!`;
   return (
     <div style={{
       background: "linear-gradient(135deg,#FFF5F7,#FFFFFF)",
@@ -595,11 +598,6 @@ function AIInsightBlock({ name }: { name: string }) {
         </span>
       </div>
       <div style={{ height: 1, background: C.divider, margin: "12px 0" }} />
-  const { language } = useLanguage();
-  const jp = `${name}は先週より12%多く動いています。木曜日が最も活発で、5,200歩を達成しました！`;
-  const en = `${name} is 12% more active than last week. Thursday was the most active day with 5,200 steps!`;
-  return (
-    <>
       {language !== "english" && (
         <div style={{ fontSize: 14, color: C.ink, lineHeight: 1.8 }}>{jp}</div>
       )}
@@ -611,11 +609,7 @@ function AIInsightBlock({ name }: { name: string }) {
           marginTop: language === "mixed" ? 6 : 0,
         }}>{en}</div>
       )}
-    </>
-  );
-}
 
-function AIBlockWrapper({ name }: { name: string }) { return null; }
       <div className="inline-flex items-center" style={{
         marginTop: 12, gap: 4,
         background: C.greenBg, color: C.green,
