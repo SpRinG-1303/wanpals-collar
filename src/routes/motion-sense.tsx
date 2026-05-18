@@ -409,7 +409,7 @@ function MetricCards() {
   return (
     <div className="grid grid-cols-3" style={{ gap: 10 }}>
       <MetricCard
-        icon={<Activity size={20} />} color={C.rose} bg="rgba(244,63,114,0.1)"
+        icon={<Activity size={20} />} color={C.rose} bg="rgba(123,179,212,0.12)"
         value="2h 15m" jp="活動時間" en="Active Time" arcPct={0.09}
       />
       <MetricCard
