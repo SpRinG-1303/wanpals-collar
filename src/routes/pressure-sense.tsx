@@ -25,7 +25,9 @@ function SoftCard({ children }: { children: React.ReactNode; accent?: string }) 
 function SoftTabs({ value, onChange }: { value: string; onChange: (v: string) => void }) {
   const tabs = ["1d", "1w", "1m"];
   return (
-    <div className="flex items-center justify-center" style={{ gap: 6, marginBottom: 14 }}>
+    <div className="flex" style={{
+      background: "#F4F0EE", borderRadius: 999, padding: 4, gap: 4, marginBottom: 12,
+    }}>
       {tabs.map((tab) => {
         const active = value === tab;
         return (
@@ -33,11 +35,10 @@ function SoftTabs({ value, onChange }: { value: string; onChange: (v: string) =>
             key={tab}
             onClick={() => onChange(tab)}
             style={{
-              padding: "6px 18px", borderRadius: 999, fontSize: 12, fontWeight: 600,
-              letterSpacing: "0.06em", border: "none", cursor: "pointer",
-              background: active ? ROSE : "transparent",
+              flex: 1, height: 32, borderRadius: 999, fontSize: 12, fontWeight: 600,
+              letterSpacing: "0.04em", border: "none", cursor: "pointer",
+              background: active ? ROSE_DEEP : "transparent",
               color: active ? "#fff" : SP.usuzumi,
-              boxShadow: active ? "0 2px 8px rgba(232,130,154,0.28)" : "none",
               transition: "all 0.2s",
             }}
           >{tab.toUpperCase()}</button>
