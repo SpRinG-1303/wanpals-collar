@@ -148,11 +148,11 @@ function SkinSensePage() {
         />
 
         {/* ---- Stats card below banner ---- */}
-        <div style={{ padding: "16px 16px 0", position: "relative" }}>
+        <div style={{ padding: "0 16px", position: "relative", zIndex: 2, marginTop: -36 }}>
           <div style={{
             background: "#FFFFFF",
-            borderRadius: 22,
-            boxShadow: "0 4px 18px rgba(180,120,150,0.08)",
+            borderRadius: 20,
+            boxShadow: "0 8px 24px rgba(0,0,0,0.08)",
             padding: "16px 20px",
             display: "grid",
             gridTemplateColumns: "1fr 1fr 1fr",
