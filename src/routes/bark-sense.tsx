@@ -52,9 +52,12 @@ function Section({ children, style }: { children: ReactNode; style?: CSSProperti
       style={{
         background: "#FFFFFF",
         borderRadius: 24,
-        padding: 22,
-        boxShadow: "0 12px 32px rgba(91,33,182,0.10)",
-        borderLeft: `4px solid ${P.accent}`,
+        padding: 20,
+        width: "100%",
+        boxSizing: "border-box",
+        overflow: "hidden",
+        boxShadow: "0 12px 32px rgba(139,125,191,0.10)",
+        borderLeft: `4px solid #B5A8D8`,
         ...style,
       }}
     >
