@@ -586,26 +586,27 @@ function AIInsightBlock({ name }: { name: string }) {
   const en = `${name} is 12% more active than last week. Thursday was the most active day with 5,200 steps!`;
   return (
     <div style={{
-      background: "linear-gradient(135deg,#FFF5F7,#FFFFFF)",
+      background: "linear-gradient(135deg,#3D7A9E 0%,#5B9FBF 100%)",
       borderRadius: 22,
       padding: 20,
-      boxShadow: "0 2px 16px rgba(0,0,0,0.05)",
-      borderLeft: "4px solid rgba(244,63,114,0.4)",
+      boxShadow: "0 2px 16px rgba(61,122,158,0.18)",
+      borderLeft: "4px solid #7BB3D4",
+      color: "#FFFFFF",
     }}>
       <div className="flex items-center" style={{ gap: 6 }}>
-        <Sparkles size={16} color={C.rose} />
-        <span style={{ fontSize: 11, color: C.rose, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase" }}>
+        <Sparkles size={16} color="#BDD8ED" />
+        <span style={{ fontSize: 11, color: "#BDD8ED", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase" }}>
           {t("AIインサイト", "AI Insight")}
         </span>
       </div>
-      <div style={{ height: 1, background: C.divider, margin: "12px 0" }} />
+      <div style={{ height: 1, background: "rgba(255,255,255,0.18)", margin: "12px 0" }} />
       {language !== "english" && (
-        <div style={{ fontSize: 14, color: C.ink, lineHeight: 1.8 }}>{jp}</div>
+        <div style={{ fontSize: 14, color: "rgba(255,255,255,0.92)", lineHeight: 1.8 }}>{jp}</div>
       )}
       {language !== "japanese" && (
         <div style={{
           fontSize: language === "english" ? 14 : 12,
-          color: language === "english" ? C.ink : C.muted,
+          color: language === "english" ? "rgba(255,255,255,0.92)" : "rgba(255,255,255,0.7)",
           lineHeight: language === "english" ? 1.8 : 1.6,
           marginTop: language === "mixed" ? 6 : 0,
         }}>{en}</div>
@@ -613,16 +614,16 @@ function AIInsightBlock({ name }: { name: string }) {
 
       <div className="inline-flex items-center" style={{
         marginTop: 12, gap: 4,
-        background: C.greenBg, color: C.green,
+        background: "rgba(255,255,255,0.15)", color: "#FFFFFF",
         borderRadius: 50, padding: "4px 12px",
         fontSize: 11, fontWeight: 500, width: "fit-content",
       }}>
-        <ArrowUp size={12} />
+        <ArrowUp size={12} color="#86EFAC" />
         {t("先週比 +12% 改善", "12% improvement from last week")}
       </div>
       <div className="flex items-center justify-end" style={{ gap: 4, marginTop: 12 }}>
-        <span style={{ fontSize: 10, color: C.muted }}>{t("最終更新", "Last updated")}:</span>
-        <span style={{ fontSize: 11, color: C.muted }}>{t("今日 14:32", "Today 14:32")}</span>
+        <span style={{ fontSize: 10, color: "rgba(255,255,255,0.5)" }}>{t("最終更新", "Last updated")}:</span>
+        <span style={{ fontSize: 11, color: "rgba(255,255,255,0.5)" }}>{t("今日 14:32", "Today 14:32")}</span>
       </div>
     </div>
   );
