@@ -148,6 +148,81 @@ function getEnergyLevel(steps = 2340): Energy {
   return "medium";
 }
 
+/* Sample average hair (top band) & skin (face band) colors from a profile photo.
+   Falls back to friendly defaults when no photo / load fails / CORS blocks. */
+function useOwnerColors(photoUrl: string | null) {
+  const defaults = { hair: "#4A2E22", skin: "#F2C6A0" };
+  const [colors, setColors] = useState(defaults);
+  useEffect(() => {
+    if (!photoUrl) { setColors(defaults); return; }
+    let cancelled = false;
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.onload = () => {
+      try {
+        const c = document.createElement("canvas");
+        const w = 40, h = 40;
+        c.width = w; c.height = h;
+        const ctx = c.getContext("2d");
+        if (!ctx) return;
+        ctx.drawImage(img, 0, 0, w, h);
+        const avg = (y0: number, y1: number) => {
+          const d = ctx.getImageData(0, y0, w, y1 - y0).data;
+          let r = 0, g = 0, b = 0, n = 0;
+          for (let i = 0; i < d.length; i += 4) { r += d[i]; g += d[i+1]; b += d[i+2]; n++; }
+          return `rgb(${Math.round(r/n)},${Math.round(g/n)},${Math.round(b/n)})`;
+        };
+        if (!cancelled) setColors({ hair: avg(2, 10), skin: avg(12, 22) });
+      } catch { /* CORS — keep defaults */ }
+    };
+    img.src = photoUrl;
+    return () => { cancelled = true; };
+  }, [photoUrl]);
+  return colors;
+}
+
+/* Cute flat-design owner: t-shirt, jeans, swinging legs. Faces right. */
+function OwnerFigure({ photoUrl }: { photoUrl: string | null }) {
+  const { hair, skin } = useOwnerColors(photoUrl);
+  return (
+    <svg viewBox="0 0 56 124" width="100%" height="100%">
+      {/* Hair back */}
+      <path d="M16 14 Q28 2 40 14 L40 26 L16 26 Z" fill={hair} />
+      {/* Head */}
+      <circle cx="28" cy="22" r="10" fill={skin} />
+      {/* Hair fringe */}
+      <path d="M18 18 Q22 12 28 14 Q34 12 38 18 Q34 16 28 17 Q22 16 18 18 Z" fill={hair} />
+      {/* Ear */}
+      <circle cx="38" cy="23" r="1.6" fill={skin} />
+      {/* Smile + eye (facing right) */}
+      <circle cx="33" cy="22" r="1.1" fill="#2C2C2C" />
+      <path d="M31 26 Q34 28 36 26" stroke="#2C2C2C" strokeWidth="0.9" strokeLinecap="round" fill="none" />
+      <circle cx="35" cy="25" r="1.6" fill="#F2A0A8" opacity="0.55" />
+      {/* T-shirt */}
+      <path d="M14 34 Q28 30 42 34 L44 58 L36 58 L36 62 L20 62 L20 58 L12 58 Z" fill="#7FB8E0" />
+      {/* T-shirt collar */}
+      <path d="M24 33 Q28 36 32 33" stroke="#5A9BC8" strokeWidth="1.2" fill="none" />
+      {/* Arms */}
+      <path d="M14 38 L10 60 L12 62 L16 42 Z" fill={skin} />
+      <path d="M42 38 L48 62 L46 64 L40 42 Z" fill={skin} />
+      {/* Hand holding leash (right hand, screen-right) */}
+      <circle cx="47" cy="63" r="2.4" fill={skin} />
+      <circle cx="11" cy="61" r="2.2" fill={skin} />
+      {/* Jeans / shorts top */}
+      <rect x="18" y="60" width="20" height="14" rx="3" fill="#4A6FA5" />
+      {/* Legs (walk cycle) */}
+      <g style={{ transformOrigin: "50% 60%", animation: "ownerLegL 1.6s ease-in-out infinite" }}>
+        <path d="M20 70 L18 110 L24 110 L26 72 Z" fill="#3D5A8A" />
+        <ellipse cx="21" cy="114" rx="5" ry="2.6" fill="#2C2C2C" />
+      </g>
+      <g style={{ transformOrigin: "50% 60%", animation: "ownerLegR 1.6s ease-in-out infinite" }}>
+        <path d="M30 70 L30 110 L36 110 L36 72 Z" fill="#3D5A8A" />
+        <ellipse cx="33" cy="114" rx="5" ry="2.6" fill="#2C2C2C" />
+      </g>
+    </svg>
+  );
+}
+
 /* Decorative overlays + pose driven by time of day & live energy. */
 function DogTimeScene({
   band,
@@ -227,50 +302,55 @@ function DogTimeScene({
         </div>
       )}
 
-      {/* Owner silhouette walking next to dog */}
+      {/* Owner figure + leash (evening walk) */}
       {showOwner && (
-        <div
-          style={{
-            position: "absolute",
-            bottom: 6,
-            right: 150,
-            width: 60,
-            height: 130,
-            animation: "ownerWalk 1.6s linear infinite",
-            filter: "drop-shadow(0 4px 6px rgba(0,0,0,0.18))",
-            pointerEvents: "none",
-          }}
-        >
-          {ownerPhotoUrl ? (
-            <div
-              style={{
-                width: "100%",
-                height: "100%",
-                background: `url(${ownerPhotoUrl}) center/cover no-repeat`,
-                WebkitMaskImage:
-                  "radial-gradient(circle at 50% 22%, #000 18%, transparent 19%), linear-gradient(#000,#000)",
-                WebkitMaskComposite: "source-over" as any,
-                clipPath:
-                  "polygon(38% 0,62% 0,72% 18%,72% 38%,86% 50%,80% 78%,64% 100%,36% 100%,20% 78%,14% 50%,28% 38%,28% 18%)",
-                filter: "brightness(0.25) saturate(0)",
-                opacity: 0.85,
-              }}
+        <>
+          {/* Leash from owner's hand to dog's collar */}
+          <svg
+            style={{
+              position: "absolute",
+              right: 30,
+              bottom: 70,
+              width: 110,
+              height: 50,
+              pointerEvents: "none",
+            }}
+            viewBox="0 0 110 50"
+            fill="none"
+          >
+            <path
+              d="M8 6 Q40 38 100 30"
+              stroke="#C97A5A"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              opacity="0.85"
             />
-          ) : (
-            <svg viewBox="0 0 60 130" width="100%" height="100%" fill="#2C2C2C" opacity={0.7}>
-              <circle cx="30" cy="14" r="10" />
-              <path d="M18 28 Q30 24 42 28 L46 70 L40 72 L38 110 L34 110 L34 78 L26 78 L26 110 L22 110 L20 72 L14 70 Z" />
-            </svg>
-          )}
-        </div>
+          </svg>
+
+          <div
+            style={{
+              position: "absolute",
+              bottom: 8,
+              right: -6,
+              width: 56,
+              height: 124,
+              animation: "ownerWalk 1.6s ease-in-out infinite",
+              filter: "drop-shadow(0 4px 6px rgba(0,0,0,0.15))",
+              pointerEvents: "none",
+            }}
+          >
+            <OwnerFigure photoUrl={ownerPhotoUrl} />
+          </div>
+        </>
       )}
 
-      {/* Full-body breed dog (bottom-right, facing left toward greeting) */}
+      {/* Full-body breed dog (bottom-right, facing left toward greeting).
+          In evening mode, shift slightly left so the dog leads the walk. */}
       <div
         style={{
           position: "absolute",
           bottom: 4,
-          right: 6,
+          right: showOwner ? 56 : 6,
           height: 180,
           width: 180,
           transform: poseTransform,
@@ -426,6 +506,8 @@ function HeroPostcard({ score, name, mood, celebrate, breedKey, energy, ownerPho
         @keyframes dogBreathe { 0%,100% { transform: var(--pose, none) scaleY(1); } 50% { transform: var(--pose, none) scaleY(1.02); } }
         @keyframes dogWalk    { 0%,100% { transform: translate(-2px,0) rotate(-1deg); } 50% { transform: translate(2px,-3px) rotate(2deg); } }
         @keyframes ownerWalk  { 0%,100% { transform: translate(-2px,0); } 50% { transform: translate(2px,-3px); } }
+        @keyframes ownerLegL  { 0%,100% { transform: rotate(12deg); } 50% { transform: rotate(-12deg); } }
+        @keyframes ownerLegR  { 0%,100% { transform: rotate(-12deg); } 50% { transform: rotate(12deg); } }
         @keyframes zzzFloat   { 0% { transform: translateY(0); opacity: 0; } 30% { opacity: 0.8; } 100% { transform: translateY(-14px); opacity: 0; } }
         @keyframes bowlEat    { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-1px) scale(1.03); } }
         @keyframes tailWag    { 0%,100% { transform: rotate(-8deg); } 50% { transform: rotate(14deg); } }
