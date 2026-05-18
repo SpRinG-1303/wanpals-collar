@@ -111,7 +111,16 @@ function Splash() {
             initial={{ scale: 0.85, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ delay: 0.5, duration: 0.7, ease: [0.34, 1.56, 0.64, 1] }}
-            style={{ width: "55%", display: "flex", justifyContent: "center" }}
+            style={{
+              width: "55%",
+              display: "flex",
+              justifyContent: "center",
+              background: "transparent",
+              border: "none",
+              boxShadow: "none",
+              borderRadius: 0,
+              padding: 0,
+            }}
           >
             <motion.img
               src={dogImg}
@@ -123,6 +132,9 @@ function Splash() {
                 height: "auto",
                 objectFit: "contain",
                 display: "block",
+                background: "transparent",
+                backgroundColor: "transparent",
+                mixBlendMode: "multiply",
               }}
             />
           </motion.div>
