@@ -115,7 +115,9 @@ function TempSensePage() {
         background: O.pale,
         minHeight: "100%",
       }}>
-        <TimeTabs value={tab} onChange={setTab} />
+        <div style={{ marginTop: -52, position: "relative", zIndex: 2 }}>
+          <TimeTabs value={tab} onChange={setTab} />
+        </div>
 
         {/* ---- CURRENT TEMPERATURE ---- */}
         <div style={{

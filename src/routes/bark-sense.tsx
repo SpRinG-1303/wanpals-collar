@@ -198,12 +198,12 @@ function BarkSensePage() {
         />
 
         {/* Stats card below banner */}
-        <div style={{ padding: "16px 16px 0", position: "relative" }}>
+        <div style={{ padding: "0 16px", position: "relative", zIndex: 2, marginTop: -36 }}>
           <div
             style={{
               background: "#FFFFFF",
-              borderRadius: 22,
-              boxShadow: "0 4px 18px rgba(124,58,237,0.08)",
+              borderRadius: 20,
+              boxShadow: "0 8px 24px rgba(0,0,0,0.08)",
               padding: 16,
               display: "grid",
               gridTemplateColumns: "1fr 1fr 1fr",
@@ -226,7 +226,7 @@ function BarkSensePage() {
 
 
         {/* CARDS */}
-        <div style={{ padding: "20px 16px 0", display: "flex", flexDirection: "column", gap: 18, position: "relative" }}>
+        <div style={{ padding: "16px 16px 0", display: "flex", flexDirection: "column", gap: 18, position: "relative" }}>
 
           {/* CARD 1 - Emotion Radar */}
           <Section

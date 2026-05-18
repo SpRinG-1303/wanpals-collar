@@ -33,8 +33,9 @@ export function SenseBanner({
       <div
         style={{
           position: "relative",
-          height: 150,
-          padding: "20px 20px 0 20px",
+          zIndex: 1,
+          height: 186,
+          padding: "20px 20px 36px 20px",
           background: bgGradient,
           overflow: "hidden",
           boxSizing: "border-box",

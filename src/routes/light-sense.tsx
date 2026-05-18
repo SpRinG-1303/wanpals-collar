@@ -300,10 +300,10 @@ function LightSensePage() {
         />
 
         {/* Stats card below banner */}
-        <div style={{ padding: "16px 16px 0" }}>
+        <div style={{ padding: "0 16px", marginTop: -36, position: "relative", zIndex: 2 }}>
           <div style={{
             background: P.white, borderRadius: 20, padding: 16,
-            boxShadow: "0 4px 20px rgba(244,160,188,0.12)",
+            boxShadow: "0 8px 24px rgba(0,0,0,0.08)",
             display: "grid", gridTemplateColumns: "1fr 1fr 1fr",
             boxSizing: "border-box",
           }}>
