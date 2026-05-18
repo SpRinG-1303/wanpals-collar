@@ -217,56 +217,23 @@ function LightSensePage() {
 
       <div style={{ background: G.pale, minHeight: "100%", paddingBottom: 120, boxSizing: "border-box", position: "relative" }}>
         {/* HERO */}
-        <div style={{
-          position: "relative", height: 160, padding: 20,
-          background: "linear-gradient(135deg, #9E7A1A 0%, #C49A30 55%, #D4A843 100%)",
-          borderBottomLeftRadius: 28, borderBottomRightRadius: 28, overflow: "hidden",
-          color: "#fff", boxSizing: "border-box",
-        }}>
-          {/* light rays */}
-          <svg style={{ position: "absolute", right: -40, top: -40, width: 280, height: 280, pointerEvents: "none" }} viewBox="0 0 280 280">
-            {Array.from({ length: 6 }).map((_, i) => {
-              const angle = 90 + i * 18;
-              const rad = (angle * Math.PI) / 180;
-              return (
-                <line key={i} x1={40} y1={40} x2={40 + Math.cos(rad) * 280} y2={40 + Math.sin(rad) * 280}
-                  stroke="rgba(255,255,255,0.06)" strokeWidth={1} />
-              );
-            })}
-          </svg>
-          <div style={{
-            position: "absolute", right: -10, top: -30, fontSize: 140, opacity: 0.05,
-            color: "#fff", fontWeight: 900, lineHeight: 1, pointerEvents: "none",
-          }}>光</div>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", position: "relative" }}>
-            <div>
-              <div style={{ fontSize: 20, fontWeight: 600 }}>LightSense AI</div>
-              <div style={{ fontSize: 12, color: "rgba(255,255,255,0.75)", marginTop: 4 }}>
-                {t("カラーライト制御", "Collar Light Control")}
-              </div>
-            </div>
-            <div style={{ textAlign: "right" }}>
-              <div style={{
-                display: "inline-flex", alignItems: "center", gap: 6,
-                background: "rgba(255,255,255,0.18)", padding: "4px 10px", borderRadius: 50,
-                fontSize: 10, fontWeight: 700, letterSpacing: "0.1em",
-              }}>
-                <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#4ADE80" }} />
-                LIVE
-              </div>
-              <div style={{ fontSize: 10, color: "rgba(255,255,255,0.75)", marginTop: 6 }}>
-                {t("ライト作動中", "Light active")}
-              </div>
-            </div>
-          </div>
-        </div>
+        <SenseBanner
+          subtitleJp="ライトセンス AI"
+          titleEn="LightSense AI"
+          descriptorJp="カラーライト制御"
+          descriptorEn="Collar light control"
+          bgGradient="linear-gradient(135deg,#FFFDF5 0%,#FEF9E7 100%)"
+          kanji="光"
+          kanjiColor="rgba(212,168,67,0.07)"
+          subtitleColor="#C4A030"
+        />
 
-        {/* Floating glass stats */}
-        <div style={{ padding: "0 16px", marginTop: -34 }}>
+        {/* Stats card below banner */}
+        <div style={{ padding: "16px 16px 0" }}>
           <div style={{
-            background: "rgba(255,255,255,0.94)", backdropFilter: "blur(20px)",
+            background: "#FFFFFF",
             borderRadius: 22, padding: 16,
-            boxShadow: "0 16px 40px rgba(158,122,26,0.18)",
+            boxShadow: "0 4px 18px rgba(158,122,26,0.10)",
             display: "grid", gridTemplateColumns: "1fr 1fr 1fr",
             boxSizing: "border-box",
           }}>
@@ -288,6 +255,7 @@ function LightSensePage() {
             ))}
           </div>
         </div>
+
 
         <div style={{ padding: "20px 16px", display: "flex", flexDirection: "column", gap: 16 }}>
           {/* CARD 1: Color Wheel */}
