@@ -374,48 +374,31 @@ function BreedCard({ breed, onOpen, language, t }: { breed: Breed; onOpen: () =>
         display: "flex", flexDirection: "column",
       }}
     >
-      {/* TOP COLOUR BANNER */}
-      <div style={{
-        position: "relative", height: 100,
-        background: breed.bannerBg,
-        backgroundSize: breed.animateGradient ? "300% 300%" : undefined,
-        animation: breed.animateGradient ? "breedGradientShift 6s ease infinite" : undefined,
-        overflow: "hidden",
-      }}>
-        {/* Small icon top-left */}
-        <Icon
-          size={22}
-          color={breed.iconColor}
-          strokeWidth={2}
-          style={{ position: "absolute", top: 10, left: 10 }}
-        />
+      {/* TOP IMAGE BANNER */}
+      <div style={{ position: "relative", height: 100, overflow: "hidden" }}>
+        <BreedImage breed={breed}>
+          {/* Small icon top-left */}
+          <Icon
+            size={22}
+            color="rgba(255,255,255,0.95)"
+            strokeWidth={2}
+            style={{ position: "absolute", top: 10, left: 10, filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.4))" }}
+          />
 
-        {/* Centered giant kanji */}
-        <div style={{
-          position: "absolute", inset: 0,
-          display: "flex", alignItems: "center", justifyContent: "center",
-          fontSize: breed.kanjiSize, fontWeight: 900,
-          color: breed.kanjiColor,
-          letterSpacing: "-0.02em",
-          lineHeight: 1,
-          userSelect: "none",
-        }}>
-          {breed.kanji}
-        </div>
-
-        {/* Popularity badge top-right */}
-        {breed.rank !== null && (
-          <div style={{
-            position: "absolute", top: 0, right: 0,
-            background: breed.rankBg, color: "white",
-            padding: "4px 10px", height: 28,
-            fontSize: 11, fontWeight: 800,
-            borderRadius: "0 20px 0 12px",
-            display: "flex", alignItems: "center",
-          }}>
-            #{breed.rank}
-          </div>
-        )}
+          {/* Popularity badge top-right */}
+          {breed.rank !== null && (
+            <div style={{
+              position: "absolute", top: 0, right: 0,
+              background: breed.rankBg, color: "white",
+              padding: "4px 10px", height: 28,
+              fontSize: 11, fontWeight: 800,
+              borderRadius: "0 20px 0 12px",
+              display: "flex", alignItems: "center",
+            }}>
+              #{breed.rank}
+            </div>
+          )}
+        </BreedImage>
       </div>
 
       {/* BOTTOM INFO */}
