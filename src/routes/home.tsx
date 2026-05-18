@@ -240,15 +240,15 @@ function HeroPostcard({ score, name, mood, celebrate }: { score: number; name: s
       ))}
 
       {/* Left content */}
-      <div style={{ position: "absolute", top: 0, bottom: 0, left: 0, width: "55%", padding: "20px 0 20px 20px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+      <div style={{ position: "absolute", top: 0, bottom: 0, left: 0, width: "55%", padding: "28px 0 28px 28px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
         <div>
           <div style={{ fontSize: 11, color: JP.sakura, letterSpacing: "0.05em", fontWeight: 600 }}>
             {t(`${labelJp} / ${labelEn}`, `${labelEn} / ${labelJp}`)}
           </div>
-          <div style={{ fontSize: hasName ? 22 : 28, fontWeight: 800, color: JP.sumi, lineHeight: 1.15, marginTop: 4 }}>
+          <div style={{ fontSize: hasName ? 22 : 28, fontWeight: 800, color: JP.sumi, lineHeight: 1.15, marginTop: 8 }}>
             {greeting}
           </div>
-          <div className="flex items-center" style={{ gap: 6, marginTop: 4 }}>
+          <div className="flex items-center" style={{ gap: 6, marginTop: 8 }}>
             <span style={{ width: 6, height: 6, borderRadius: "50%", background: JP.matcha, display: "inline-block" }} />
             <span style={{ fontSize: 12, color: JP.matcha, fontWeight: 500 }}>
               {mood}
@@ -256,7 +256,7 @@ function HeroPostcard({ score, name, mood, celebrate }: { score: number; name: s
           </div>
         </div>
 
-        <div>
+        <div style={{ marginTop: 10 }}>
           <span style={{
             display: "inline-block",
             background: JP.sakuraSoft,
@@ -394,7 +394,6 @@ function Home() {
                     {t("今日の豆知識", "Daily Dog Fact")}
                   </span>
                 </div>
-                <span style={{ fontSize: 11, fontWeight: 700, color: JP.yuzu, fontVariantNumeric: "tabular-nums" }}>#{1247 + factIdx}</span>
               </div>
               <div style={{ marginTop: 10, fontSize: 15, lineHeight: 1.5, color: "#3C3020", fontWeight: 500 }}>
                 {language === "english" ? fact.en : fact.jp}
