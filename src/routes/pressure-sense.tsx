@@ -193,25 +193,20 @@ function PressureSensePage() {
 
       {/* AI Insight */}
       <div style={{
-        background: "linear-gradient(135deg,#FFF0F3 0%,#FFFFFF 100%)",
-        borderRadius: 20, padding: 18, marginBottom: 16,
-        boxShadow: "0 2px 14px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.03)",
-        borderLeft: `3px solid ${ROSE}`,
+        background: "#FFFFFF",
+        borderRadius: 20, padding: 20, marginBottom: 12,
+        boxShadow: "0 2px 16px rgba(0,0,0,0.06)",
       }}>
         <div className="flex items-center" style={{ gap: 6 }}>
-          <span style={{ color: ROSE, fontSize: 13, lineHeight: 1 }}>✦</span>
-          <span style={{ fontSize: 11, color: ROSE, fontWeight: 600, letterSpacing: "0.08em" }}>
-            {t("AI インサイト / AI Insight", "AI INSIGHT")}
+          <span style={{ color: ROSE_DEEP, fontSize: 13, lineHeight: 1 }}>✦</span>
+          <span style={{ fontSize: 11, color: ROSE_DEEP, fontWeight: 500, letterSpacing: "0.14em", textTransform: "uppercase" }}>
+            {t("AIインサイト / AI Insight", "AI Insight")}
           </span>
         </div>
-        <div style={{ height: 1, background: "#F5EAEE", margin: "10px 0 12px" }} />
-        <div style={{ fontSize: 13, color: SP.sumi, lineHeight: 1.55 }}>
+        <div style={{ height: 1, background: "#FAE0E8", margin: "10px 0 12px" }} />
+        <div style={{ fontSize: 13, color: SP.sumi, lineHeight: 1.6 }}>
           {t("嚥下パターンは正常です。異常は検出されていません。",
              "Swallowing pattern is normal. No irregularities detected.")}
-        </div>
-        <div style={{ fontSize: 11, color: SP.usuzumi, lineHeight: 1.5, marginTop: 4 }}>
-          {t("Swallowing pattern is normal. No irregularities detected.",
-             "嚥下パターンは正常です。")}
         </div>
         <div style={{ fontSize: 10, color: "#B0A8A2", marginTop: 12 }}>
           {t("最終更新 / Last updated: 今日 14:32", "Last updated: Today 14:32")}
