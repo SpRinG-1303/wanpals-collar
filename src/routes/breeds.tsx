@@ -528,8 +528,8 @@ function Breeds() {
         </div>
       )}
 
-      {/* GRID */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, padding: "12px 16px 24px" }}>
+      {/* RESULTS — rich single-column profile cards */}
+      <div style={{ display: "flex", flexDirection: "column", gap: 14, padding: "12px 16px 24px" }}>
         {filtered.map((b) => (
           <BreedCard
             key={b.en}
