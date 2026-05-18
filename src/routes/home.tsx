@@ -10,6 +10,7 @@ import { motion } from "framer-motion";
 import { T, useT, useLanguage } from "@/context/LanguageContext";
 import { usePet, displayName } from "@/context/PetContext";
 import DogAvatar, { BREED_KEY_BY_JP, type BreedKey } from "@/components/DogAvatar";
+import BreedFullBody from "@/components/BreedFullBody";
 
 export const Route = createFileRoute("/home")({ component: Home });
 
