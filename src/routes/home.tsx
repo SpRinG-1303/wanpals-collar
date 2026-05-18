@@ -137,12 +137,12 @@ function bandFromHour(h: number): TimeBand {
 }
 
 const BAND_META: Record<TimeBand, {
-  img: string; jp: string; orb: string; glow: string; startHour: number; endHour: number;
+  img: string; jp: string; orb: string; glow: string; size: number; startHour: number; endHour: number;
 }> = {
-  morning:   { img: morningImg, jp: "朝", orb: "#FF6A2E", glow: "rgba(255,140,60,0.85)",  startHour: 5,  endHour: 11 },
-  afternoon: { img: middayImg,  jp: "昼", orb: "#FF5733", glow: "rgba(255,120,60,0.80)",  startHour: 11, endHour: 17 },
-  evening:   { img: eveningImg, jp: "夕", orb: "#E55B1A", glow: "rgba(255,170,70,0.85)",  startHour: 17, endHour: 20 },
-  night:     { img: nightImg,   jp: "夜", orb: "#FFFFFF", glow: "rgba(190,220,255,0.75)", startHour: 20, endHour: 29 /* +5 next day */ },
+  morning:   { img: morningImg, jp: "朝", orb: "#E05010", glow: "rgba(224,80,16,0.75)",   size: 56, startHour: 5,  endHour: 11 },
+  afternoon: { img: middayImg,  jp: "昼", orb: "#F5C800", glow: "rgba(245,200,0,0.75)",   size: 56, startHour: 11, endHour: 17 },
+  evening:   { img: eveningImg, jp: "夕", orb: "#D04800", glow: "rgba(255,170,70,0.80)",  size: 56, startHour: 17, endHour: 20 },
+  night:     { img: nightImg,   jp: "夜", orb: "#FFFFFF", glow: "rgba(190,220,255,0.80)", size: 68, startHour: 20, endHour: 29 },
 };
 
 function getProgress(now: Date, band: TimeBand): number {
