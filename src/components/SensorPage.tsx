@@ -1,6 +1,7 @@
 import { useState, type ReactNode, type CSSProperties } from "react";
 import AppShell, { TopBar } from "@/components/AppShell";
 import { useLanguage, useT } from "@/context/LanguageContext";
+import { SenseBanner } from "@/components/SenseBanner";
 
 /**
  * Premium Japanese health-tech IoT design system for all sense pages.
@@ -40,21 +41,34 @@ export const SAKURA_HEADER = "linear-gradient(180deg,#FFF5F7 0%,#FFE8EF 100%)";
 export function SensorPage({
   titleJp,
   titleEn,
-  heroGradient,
-  kanji,
-  // legacy
+  subtitleJp,
+  descriptorJp,
+  descriptorEn,
+  bannerGradient,
+  bannerKanji,
+  bannerKanjiColor,
+  bannerSubtitleColor,
+  // legacy props (kept for backward compatibility)
+  heroGradient: _heroGradient,
+  kanji: _kanji,
   accent: _accent,
   children,
 }: {
   titleJp: string;
   titleEn: string;
+  subtitleJp?: string;
+  descriptorJp?: string;
+  descriptorEn?: string;
+  bannerGradient?: string;
+  bannerKanji?: string;
+  bannerKanjiColor?: string;
+  bannerSubtitleColor?: string;
   heroGradient?: string;
   kanji?: string;
   headerGradient?: string;
   accent?: string;
   children: ReactNode;
 }) {
-  const bg = heroGradient ?? "linear-gradient(135deg,#FFF5F7 0%,#FFE8EF 100%)";
   return (
     <AppShell
       noPadding
@@ -63,7 +77,6 @@ export function SensorPage({
       )}
     >
       <style>{`
-        @keyframes spLiveDot { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.3);opacity:.55} }
         @keyframes spCardIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
         .sp-stack > * {
           opacity: 0;
@@ -81,69 +94,19 @@ export function SensorPage({
       `}</style>
 
       <div style={{ background: SP.page, minHeight: "100%", paddingBottom: 100 }}>
-        {/* Hero */}
-        <div
-          style={{
-            background: bg,
-            padding: "20px 20px 34px",
-            position: "relative",
-            minHeight: 120,
-            overflow: "hidden",
-          }}
-        >
-          {kanji && (
-            <span
-              aria-hidden
-              style={{
-                position: "absolute",
-                top: -30, right: -10,
-                fontSize: 220,
-                lineHeight: 1,
-                color: SP.sumi,
-                opacity: 0.04,
-                fontWeight: 700,
-                pointerEvents: "none",
-                userSelect: "none",
-              }}
-            >
-              {kanji}
-            </span>
-          )}
-          <div className="flex items-center justify-between" style={{ position: "relative", zIndex: 1 }}>
-            <Bi
-              jp={titleJp}
-              en={titleEn}
-              jpStyle={{ fontSize: 17, fontWeight: 500, color: SP.sumi, letterSpacing: "0.01em", lineHeight: 1.2 }}
-              enStyle={{ fontSize: 17, fontWeight: 500, color: SP.sumi, letterSpacing: "0.01em", lineHeight: 1.2 }}
-            />
-            <span
-              className="flex items-center"
-              style={{
-                background: "#FFFFFF",
-                color: SP.sumi,
-                borderRadius: 50,
-                padding: "4px 10px 4px 8px",
-                fontSize: 11,
-                fontWeight: 700,
-                letterSpacing: "0.1em",
-                gap: 6,
-                boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
-              }}
-            >
-              <span
-                style={{
-                  width: 6, height: 6, borderRadius: "50%",
-                  background: "#E53935",
-                  animation: "spLiveDot 1.5s ease-in-out infinite",
-                }}
-              />
-              LIVE
-            </span>
-          </div>
-        </div>
+        <SenseBanner
+          subtitleJp={subtitleJp ?? titleJp}
+          titleEn={titleEn}
+          descriptorJp={descriptorJp ?? ""}
+          descriptorEn={descriptorEn ?? ""}
+          bgGradient={bannerGradient ?? "linear-gradient(135deg,#FFF5F7 0%,#FCE7F3 100%)"}
+          kanji={bannerKanji ?? "心"}
+          kanjiColor={bannerKanjiColor ?? "rgba(236,72,153,0.07)"}
+          subtitleColor={bannerSubtitleColor ?? "#C98BA8"}
+        />
 
         {/* Content */}
-        <div className="sp-stack" style={{ padding: "16px", marginTop: -14 }}>
+        <div className="sp-stack" style={{ padding: "16px" }}>
           {children}
         </div>
       </div>

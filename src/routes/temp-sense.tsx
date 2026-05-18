@@ -100,8 +100,13 @@ function TempSensePage() {
     <SensorPage
       titleJp="体温センス AI"
       titleEn="TempSense AI"
-      heroGradient="linear-gradient(135deg,#C96B3A 0%,#E8895A 50%,#F4A56A 100%)"
-      kanji="熱"
+      subtitleJp="テンプセンス AI"
+      descriptorJp="体温モニタリング"
+      descriptorEn="Body temperature monitoring"
+      bannerGradient="linear-gradient(135deg,#FFF8F3 0%,#FEF0E6 100%)"
+      bannerKanji="熱"
+      bannerKanjiColor="rgba(244,165,106,0.07)"
+      bannerSubtitleColor="#D4956A"
     >
       {/* full-bleed pastel orange page wash, sits behind all cards */}
       <div style={{

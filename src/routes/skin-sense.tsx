@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useRef, useState, useEffect, type CSSProperties, type ReactNode } from "react";
 import { Camera, Image as ImageIcon, Sparkles, Send, Droplet, Layers, Palette, Flame, ChevronDown, ChevronUp, RotateCcw } from "lucide-react";
 import AppShell, { TopBar } from "@/components/AppShell";
+import { SenseBanner } from "@/components/SenseBanner";
 import { useLanguage, useT } from "@/context/LanguageContext";
 
 export const Route = createFileRoute("/skin-sense")({ component: SkinSensePage });
@@ -135,71 +136,23 @@ function SkinSensePage() {
 
       <div style={{ background: "#FEF6FA", minHeight: "100%", paddingBottom: 110 }}>
         {/* ---- HERO ---- */}
-        <div style={{
-          position: "relative",
-          background: "linear-gradient(135deg, #D4849E 0%, #E8A0BF 50%, #F5BDD4 100%)",
-          minHeight: 160,
-          borderBottomLeftRadius: 28,
-          borderBottomRightRadius: 28,
-          overflow: "hidden",
-          padding: "22px 22px 60px",
-        }}>
-          {/* Kanji watermark */}
-          <span aria-hidden style={{
-            position: "absolute", top: -20, right: -16,
-            fontSize: 140, lineHeight: 1, fontWeight: 800,
-            color: "rgba(255,255,255,0.05)", pointerEvents: "none",
-          }}>皮</span>
-          {/* Sakura petals */}
-          {[
-            { top: 18, right: 60, size: 28, dur: 22 },
-            { top: 60, right: 130, size: 18, dur: 28 },
-            { top: 90, right: 40, size: 22, dur: 24 },
-            { top: 30, right: 200, size: 14, dur: 30 },
-          ].map((p, i) => (
-            <svg key={i} width={p.size} height={p.size} viewBox="0 0 24 24" aria-hidden style={{
-              position: "absolute", top: p.top, right: p.right,
-              animation: `ssPetal ${p.dur}s linear infinite`,
-              opacity: 0.6,
-            }}>
-              <path d="M12 2c2 3 5 5 5 9s-3 7-5 11c-2-4-5-7-5-11s3-6 5-9z" fill="rgba(255,255,255,0.06)" />
-            </svg>
-          ))}
+        <SenseBanner
+          subtitleJp="スキンセンス AI"
+          titleEn="SkinSense AI"
+          descriptorJp="皮膚健康診断"
+          descriptorEn="Skin health analysis"
+          bgGradient="linear-gradient(135deg,#FFF5F7 0%,#FCE7F3 100%)"
+          kanji="皮"
+          kanjiColor="rgba(236,72,153,0.06)"
+          subtitleColor="#C98BA8"
+        />
 
-          <div style={{ position: "relative", display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-            <div>
-              <div style={{ fontSize: 20, fontWeight: 600, color: "#fff", letterSpacing: "0.01em" }}>SkinSense AI</div>
-              <Bi
-                jp="皮膚健康診断"
-                en="Skin Health Analysis"
-                jpStyle={{ fontSize: 12, color: "rgba(255,255,255,0.75)", marginTop: 4 }}
-                enStyle={{ fontSize: 12, color: "rgba(255,255,255,0.75)", marginTop: 2 }}
-              />
-            </div>
-            <div style={{ textAlign: "right" }}>
-              <span style={{
-                display: "inline-flex", alignItems: "center", gap: 6,
-                background: "rgba(255,255,255,0.15)", backdropFilter: "blur(8px)",
-                borderRadius: 50, padding: "4px 10px 4px 8px",
-                fontSize: 11, fontWeight: 700, color: "#fff", letterSpacing: "0.1em",
-              }}>
-                <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#FF5252", animation: "ssLive 1.4s ease-in-out infinite" }} />
-                LIVE
-              </span>
-              <div style={{ fontSize: 11, color: "rgba(255,255,255,0.65)", marginTop: 6 }}>
-                {t("AIスキャン準備完了", "AI scanning ready")}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* ---- Floating glass stats ---- */}
-        <div style={{ padding: "0 16px", marginTop: -32, position: "relative", zIndex: 2 }}>
+        {/* ---- Stats card below banner ---- */}
+        <div style={{ padding: "16px 16px 0", position: "relative" }}>
           <div style={{
-            background: "rgba(255,255,255,0.92)",
-            backdropFilter: "blur(16px)",
+            background: "#FFFFFF",
             borderRadius: 22,
-            boxShadow: "0 12px 36px rgba(180,120,150,0.12)",
+            boxShadow: "0 4px 18px rgba(180,120,150,0.08)",
             padding: "16px 20px",
             display: "grid",
             gridTemplateColumns: "1fr 1fr 1fr",
@@ -222,6 +175,7 @@ function SkinSensePage() {
             ))}
           </div>
         </div>
+
 
         {/* ---- Content ---- */}
         <div style={{ padding: "16px" }}>
