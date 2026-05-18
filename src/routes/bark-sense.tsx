@@ -55,7 +55,7 @@ function BarkSensePage() {
   const { pet } = usePet();
   const name = displayName(pet, "Fluffy");
   const current: EmotionKey = "calm";
-  const cur = EMOTIONS[current];
+
 
   return (
     <AppShell
