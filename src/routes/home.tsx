@@ -148,6 +148,81 @@ function getEnergyLevel(steps = 2340): Energy {
   return "medium";
 }
 
+/* Sample average hair (top band) & skin (face band) colors from a profile photo.
+   Falls back to friendly defaults when no photo / load fails / CORS blocks. */
+function useOwnerColors(photoUrl: string | null) {
+  const defaults = { hair: "#4A2E22", skin: "#F2C6A0" };
+  const [colors, setColors] = useState(defaults);
+  useEffect(() => {
+    if (!photoUrl) { setColors(defaults); return; }
+    let cancelled = false;
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.onload = () => {
+      try {
+        const c = document.createElement("canvas");
+        const w = 40, h = 40;
+        c.width = w; c.height = h;
+        const ctx = c.getContext("2d");
+        if (!ctx) return;
+        ctx.drawImage(img, 0, 0, w, h);
+        const avg = (y0: number, y1: number) => {
+          const d = ctx.getImageData(0, y0, w, y1 - y0).data;
+          let r = 0, g = 0, b = 0, n = 0;
+          for (let i = 0; i < d.length; i += 4) { r += d[i]; g += d[i+1]; b += d[i+2]; n++; }
+          return `rgb(${Math.round(r/n)},${Math.round(g/n)},${Math.round(b/n)})`;
+        };
+        if (!cancelled) setColors({ hair: avg(2, 10), skin: avg(12, 22) });
+      } catch { /* CORS — keep defaults */ }
+    };
+    img.src = photoUrl;
+    return () => { cancelled = true; };
+  }, [photoUrl]);
+  return colors;
+}
+
+/* Cute flat-design owner: t-shirt, jeans, swinging legs. Faces right. */
+function OwnerFigure({ photoUrl }: { photoUrl: string | null }) {
+  const { hair, skin } = useOwnerColors(photoUrl);
+  return (
+    <svg viewBox="0 0 56 124" width="100%" height="100%">
+      {/* Hair back */}
+      <path d="M16 14 Q28 2 40 14 L40 26 L16 26 Z" fill={hair} />
+      {/* Head */}
+      <circle cx="28" cy="22" r="10" fill={skin} />
+      {/* Hair fringe */}
+      <path d="M18 18 Q22 12 28 14 Q34 12 38 18 Q34 16 28 17 Q22 16 18 18 Z" fill={hair} />
+      {/* Ear */}
+      <circle cx="38" cy="23" r="1.6" fill={skin} />
+      {/* Smile + eye (facing right) */}
+      <circle cx="33" cy="22" r="1.1" fill="#2C2C2C" />
+      <path d="M31 26 Q34 28 36 26" stroke="#2C2C2C" strokeWidth="0.9" strokeLinecap="round" fill="none" />
+      <circle cx="35" cy="25" r="1.6" fill="#F2A0A8" opacity="0.55" />
+      {/* T-shirt */}
+      <path d="M14 34 Q28 30 42 34 L44 58 L36 58 L36 62 L20 62 L20 58 L12 58 Z" fill="#7FB8E0" />
+      {/* T-shirt collar */}
+      <path d="M24 33 Q28 36 32 33" stroke="#5A9BC8" strokeWidth="1.2" fill="none" />
+      {/* Arms */}
+      <path d="M14 38 L10 60 L12 62 L16 42 Z" fill={skin} />
+      <path d="M42 38 L48 62 L46 64 L40 42 Z" fill={skin} />
+      {/* Hand holding leash (right hand, screen-right) */}
+      <circle cx="47" cy="63" r="2.4" fill={skin} />
+      <circle cx="11" cy="61" r="2.2" fill={skin} />
+      {/* Jeans / shorts top */}
+      <rect x="18" y="60" width="20" height="14" rx="3" fill="#4A6FA5" />
+      {/* Legs (walk cycle) */}
+      <g style={{ transformOrigin: "50% 60%", animation: "ownerLegL 1.6s ease-in-out infinite" }}>
+        <path d="M20 70 L18 110 L24 110 L26 72 Z" fill="#3D5A8A" />
+        <ellipse cx="21" cy="114" rx="5" ry="2.6" fill="#2C2C2C" />
+      </g>
+      <g style={{ transformOrigin: "50% 60%", animation: "ownerLegR 1.6s ease-in-out infinite" }}>
+        <path d="M30 70 L30 110 L36 110 L36 72 Z" fill="#3D5A8A" />
+        <ellipse cx="33" cy="114" rx="5" ry="2.6" fill="#2C2C2C" />
+      </g>
+    </svg>
+  );
+}
+
 /* Decorative overlays + pose driven by time of day & live energy. */
 function DogTimeScene({
   band,
