@@ -172,67 +172,55 @@ function BarkSensePage() {
   const daysEn = ["M","T","W","T","F","S","S"];
 
   return (
-    <SensorPage
-      titleJp="感情トラッカー"
-      titleEn="BarkSense AI — Emotion Tracker"
-      accent={SP.sakura}
-      headerGradient="linear-gradient(135deg,#FFE8EE 0%,#FFF2F5 60%,#FFF8F4 100%)"
-    >
-      {/* Meter card */}
-      <Card accent={SP.sakura}>
-        <Bi
-          jp="現在の感情"
-          en="Current Emotion"
-          jpStyle={{ fontSize: 13, fontWeight: 600, color: SP.sumi, letterSpacing: "0.02em" }}
-          enStyle={{ fontSize: 10, color: SP.usuzumi, marginBottom: 8, letterSpacing: "0.08em" }}
-        />
+    <SensorPage titleJp="バークセンス AI" titleEn="BarkSense AI">
+      {/* Emotion wheel card */}
+      <Card>
+        <SectionLabel jp="現在の感情" en="Current Emotion" />
         <div style={{ padding: "8px 0 4px" }}>
           <EmotionWheel current={current} />
         </div>
         <div style={{ textAlign: "center", marginTop: 18 }}>
           <div
             style={{
-              fontSize: 30,
+              fontSize: 28,
               fontWeight: 300,
-              color: cur.color,
+              color: cur.deep,
               letterSpacing: "0.04em",
               lineHeight: 1.1,
             }}
           >
             {t(cur.jp, cur.en)}
           </div>
-          <div style={{ fontSize: 10, color: SP.usuzumi, marginTop: 8, letterSpacing: "0.05em", fontWeight: 400 }}>
-            {t("ライブ解析", "Live analysis")}
+          <div style={{ fontSize: 11, color: SP.muted, marginTop: 8, letterSpacing: "0.1em", fontWeight: 400 }}>
+            {t("ライブ解析中", "Live Analysis")}
           </div>
         </div>
       </Card>
 
-      {/* 7-day timeline (unchanged behaviour, emoji-free) */}
-      <Card accent={SP.fuji}>
-        <Bi
-          jp="過去7日間の感情"
-          en="Last 7 Days"
-          jpStyle={{ fontSize: 14, fontWeight: 700, color: SP.sumi }}
-          enStyle={{ fontSize: 10, color: SP.usuzumi, marginBottom: 10 }}
-        />
-        <div className="flex items-end" style={{ gap: 6, marginTop: 10, height: 100 }}>
+      {/* 7-day timeline */}
+      <Card>
+        <SectionLabel jp="過去7日間" en="Last 7 Days" />
+        <div className="flex items-end" style={{ gap: 6, height: 110 }}>
           {WEEK.map((k, i) => {
-            const h = 36 + ((i * 7) % 36); // gentle varied heights for elegance
+            const h = 40 + ((i * 7) % 36);
+            const isToday = i === WEEK.length - 1;
             return (
               <div key={i} style={{ flex: 1, textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "flex-end" }}>
+                {isToday && (
+                  <span style={{ width: 5, height: 5, borderRadius: "50%", background: SP.rose, marginBottom: 3 }} />
+                )}
                 <div
                   style={{
                     width: "100%",
-                    height: h + 24,
+                    height: h,
                     borderRadius: "10px 10px 4px 4px",
                     background: EMOTIONS[k].color,
-                    opacity: 0.7,
                   }}
                 />
-                <div style={{ fontSize: 9, color: SP.sumi, marginTop: 6, fontWeight: 500, lineHeight: 1.1 }}>
+                <div style={{ fontSize: 9, color: SP.usuzumi, marginTop: 6, fontWeight: 500, lineHeight: 1.15 }}>
                   {t(EMOTIONS[k].jp, EMOTIONS[k].en)}
                 </div>
-                <div style={{ fontSize: 10, color: SP.usuzumi, marginTop: 2, fontWeight: 500 }}>
+                <div style={{ fontSize: 9, color: SP.muted, marginTop: 2 }}>
                   {t(days[i], daysEn[i])}
                 </div>
               </div>
@@ -241,20 +229,10 @@ function BarkSensePage() {
         </div>
       </Card>
 
-      {/* AI insight */}
-      <Card accent={SP.yuzu} style={{ background: "#FFFDF8" }}>
-        <div className="flex items-center" style={{ gap: 6, marginBottom: 8 }}>
-          <span style={{ fontSize: 11, fontWeight: 700, color: SP.yuzu, letterSpacing: "0.18em" }}>
-            {t("AIインサイト", "AI INSIGHT")}
-          </span>
-        </div>
-        <Bi
-          jp="今日のワンちゃんは全体的に穏やかで、午後には少し遊び心も見られました。週を通して安定した感情パターンを示しており、ストレスの兆候はほとんどありません。"
-          en="Your dog has been mostly calm today with playful moments in the afternoon. The weekly pattern shows stable emotions with few signs of stress."
-          jpStyle={{ fontSize: 13, lineHeight: 1.7, color: "#3C3020", fontWeight: 500 }}
-          enStyle={{ fontSize: 11, lineHeight: 1.5, color: SP.usuzumi, marginTop: 6 }}
-        />
-      </Card>
+      <AIInsightCard
+        jp="今日のワンちゃんは全体的に穏やかで、午後には少し遊び心も見られました。週を通して安定した感情パターンを示しており、ストレスの兆候はほとんどありません。"
+        en="Your dog has been mostly calm today with playful moments in the afternoon. The weekly pattern shows stable emotions with few signs of stress."
+      />
     </SensorPage>
   );
 }
