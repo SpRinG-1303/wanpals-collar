@@ -10,22 +10,23 @@ export const Route = createFileRoute("/motion-sense")({ component: MotionSensePa
 
 // ---------- Tokens ----------
 const C = {
-  page: "#FAFAF9",
+  page: "#F0F7FC",
   card: "#FFFFFF",
   sumi: "#1A1A2E",
   ink: "#374151",
   ink2: "#4B5563",
   muted: "#9CA3AF",
-  faint: "#C4B5B8",
-  divider: "#F3F4F6",
-  rose: "#F43F72",
-  roseDeep: "#E11D5A",
-  roseSoft: "#FF6B8A",
-  rosePale: "#FF9EBA",
-  roseTint: "#FFF0F3",
-  roseFill: "#FECDD3",
-  roseMid: "#F9A8C0",
-  roseTrack: "#F9E8ED",
+  faint: "#B6C8D4",
+  divider: "#E8F4FD",
+  // Pastel blue identity (token names kept as `rose*` for minimal diff)
+  rose: "#7BB3D4",       // primary soft sky blue
+  roseDeep: "#5B9FBF",   // medium ocean blue
+  roseSoft: "#93C4E0",   // pastel cornflower
+  rosePale: "#BDD8ED",   // soft blue
+  roseTint: "#E8F4FD",   // very light blue tint
+  roseFill: "#D6EAF5",   // barely blue
+  roseMid: "#93C4E0",    // medium pastel blue
+  roseTrack: "#D6EAF5",  // progress track
   indigo: "#6366F1",
   orange: "#F97316",
   green: "#16A34A",
@@ -127,7 +128,7 @@ function MotionSensePage() {
       <style>{`
         @keyframes msLive { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.35);opacity:.55} }
         @keyframes msCardIn { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
-        @keyframes msPulse { 0%,100%{box-shadow:0 0 0 0 rgba(244,63,114,.6)} 50%{box-shadow:0 0 12px 2px rgba(244,63,114,.5)} }
+        @keyframes msPulse { 0%,100%{box-shadow:0 0 0 0 rgba(123,179,212,.6)} 50%{box-shadow:0 0 12px 2px rgba(123,179,212,.5)} }
         @keyframes msFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-3px)} }
         .ms-stack > * { opacity:0; animation: msCardIn 350ms cubic-bezier(.2,.7,.2,1) forwards; }
         .ms-stack > *:nth-child(1){animation-delay:80ms}
@@ -142,7 +143,7 @@ function MotionSensePage() {
         {/* HEADER */}
         <div style={{
           height: 90,
-          background: "linear-gradient(180deg,#FFF0F5 0%,#FFE8F0 100%)",
+          background: "linear-gradient(135deg,#3D7A9E 0%,#5B9FBF 50%,#7BB3D4 100%)",
           position: "relative",
           overflow: "hidden",
           padding: "0 16px",
@@ -153,13 +154,13 @@ function MotionSensePage() {
           <span aria-hidden style={{
             position: "absolute", right: -10, top: -28,
             fontSize: 120, lineHeight: 1, fontWeight: 800,
-            color: "rgba(244,63,114,0.05)", pointerEvents: "none", userSelect: "none",
+            color: "rgba(255,255,255,0.05)", pointerEvents: "none", userSelect: "none",
           }}>動</span>
           <div style={{ position: "relative", zIndex: 1 }}>
-            <div style={{ fontSize: 18, fontWeight: 600, color: C.sumi, lineHeight: 1.2 }}>
+            <div style={{ fontSize: 18, fontWeight: 600, color: "#FFFFFF", lineHeight: 1.2 }}>
               {t("モーションセンス", "MotionSense")}
             </div>
-            <div style={{ fontSize: 11, color: C.muted, letterSpacing: "0.05em", marginTop: 2 }}>
+            <div style={{ fontSize: 11, color: "rgba(255,255,255,0.75)", letterSpacing: "0.05em", marginTop: 2 }}>
               {t("モーションセンス · アクティビティ追跡", "MotionSense · Activity Tracking")}
             </div>
           </div>
@@ -230,12 +231,12 @@ function HeroStepCard({ mounted }: { mounted: boolean }) {
       background: C.card,
       borderRadius: 24,
       padding: 24,
-      boxShadow: "0 4px 24px rgba(244,63,114,0.08)",
+      boxShadow: "0 12px 36px rgba(61,122,158,0.15)",
       overflow: "hidden",
     }}>
       <div style={{
         position: "absolute", top: 0, left: 0, right: 0, height: "60%",
-        background: "linear-gradient(180deg,rgba(244,63,114,0.04) 0%,rgba(255,255,255,0) 100%)",
+        background: "linear-gradient(180deg,rgba(123,179,212,0.06) 0%,rgba(255,255,255,0) 100%)",
         pointerEvents: "none",
       }} />
       <div className="flex" style={{ gap: 18, position: "relative", alignItems: "center" }}>
@@ -248,7 +249,7 @@ function HeroStepCard({ mounted }: { mounted: boolean }) {
                 <stop offset="100%" stopColor={C.rosePale} />
               </linearGradient>
             </defs>
-            <circle cx={cx} cy={cy} r={R + sw / 2 + 3} stroke="rgba(244,63,114,0.15)" strokeWidth={1} fill="none" />
+            <circle cx={cx} cy={cy} r={R + sw / 2 + 3} stroke="rgba(123,179,212,0.18)" strokeWidth={1} fill="none" />
             <circle cx={cx} cy={cy} r={R} stroke={C.roseTrack} strokeWidth={sw} fill="none" />
             <circle
               cx={cx} cy={cy} r={R}
@@ -260,7 +261,7 @@ function HeroStepCard({ mounted }: { mounted: boolean }) {
             />
             {mounted && (
               <circle cx={endX} cy={endY} r={5} fill={C.rose}
-                style={{ filter: "drop-shadow(0 0 6px rgba(244,63,114,0.7))", animation: "msPulse 1.8s ease-in-out infinite", transformOrigin: `${endX}px ${endY}px` }}
+                style={{ filter: "drop-shadow(0 0 6px rgba(123,179,212,0.7))", animation: "msPulse 1.8s ease-in-out infinite", transformOrigin: `${endX}px ${endY}px` }}
               />
             )}
           </svg>
@@ -408,7 +409,7 @@ function MetricCards() {
   return (
     <div className="grid grid-cols-3" style={{ gap: 10 }}>
       <MetricCard
-        icon={<Activity size={20} />} color={C.rose} bg="rgba(244,63,114,0.1)"
+        icon={<Activity size={20} />} color={C.rose} bg="rgba(123,179,212,0.12)"
         value="2h 15m" jp="活動時間" en="Active Time" arcPct={0.09}
       />
       <MetricCard
@@ -526,7 +527,7 @@ function TrendCard({ mounted }: { mounted: boolean }) {
 // ---------- Card 5: Timeline ----------
 function TimelineCard() {
   const t = useT();
-  const colors = ["#F9F9F9", C.roseFill, C.roseMid, C.rose];
+  const colors = ["#F0F7FC", C.roseFill, C.roseMid, C.rose];
   return (
     <CardBox>
       <SectionHeader jp="本日のタイムライン" en="Today's Timeline" />
@@ -585,26 +586,27 @@ function AIInsightBlock({ name }: { name: string }) {
   const en = `${name} is 12% more active than last week. Thursday was the most active day with 5,200 steps!`;
   return (
     <div style={{
-      background: "linear-gradient(135deg,#FFF5F7,#FFFFFF)",
+      background: "linear-gradient(135deg,#3D7A9E 0%,#5B9FBF 100%)",
       borderRadius: 22,
       padding: 20,
-      boxShadow: "0 2px 16px rgba(0,0,0,0.05)",
-      borderLeft: "4px solid rgba(244,63,114,0.4)",
+      boxShadow: "0 2px 16px rgba(61,122,158,0.18)",
+      borderLeft: "4px solid #7BB3D4",
+      color: "#FFFFFF",
     }}>
       <div className="flex items-center" style={{ gap: 6 }}>
-        <Sparkles size={16} color={C.rose} />
-        <span style={{ fontSize: 11, color: C.rose, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase" }}>
+        <Sparkles size={16} color="#BDD8ED" />
+        <span style={{ fontSize: 11, color: "#BDD8ED", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase" }}>
           {t("AIインサイト", "AI Insight")}
         </span>
       </div>
-      <div style={{ height: 1, background: C.divider, margin: "12px 0" }} />
+      <div style={{ height: 1, background: "rgba(255,255,255,0.18)", margin: "12px 0" }} />
       {language !== "english" && (
-        <div style={{ fontSize: 14, color: C.ink, lineHeight: 1.8 }}>{jp}</div>
+        <div style={{ fontSize: 14, color: "rgba(255,255,255,0.92)", lineHeight: 1.8 }}>{jp}</div>
       )}
       {language !== "japanese" && (
         <div style={{
           fontSize: language === "english" ? 14 : 12,
-          color: language === "english" ? C.ink : C.muted,
+          color: language === "english" ? "rgba(255,255,255,0.92)" : "rgba(255,255,255,0.7)",
           lineHeight: language === "english" ? 1.8 : 1.6,
           marginTop: language === "mixed" ? 6 : 0,
         }}>{en}</div>
@@ -612,16 +614,16 @@ function AIInsightBlock({ name }: { name: string }) {
 
       <div className="inline-flex items-center" style={{
         marginTop: 12, gap: 4,
-        background: C.greenBg, color: C.green,
+        background: "rgba(255,255,255,0.15)", color: "#FFFFFF",
         borderRadius: 50, padding: "4px 12px",
         fontSize: 11, fontWeight: 500, width: "fit-content",
       }}>
-        <ArrowUp size={12} />
+        <ArrowUp size={12} color="#86EFAC" />
         {t("先週比 +12% 改善", "12% improvement from last week")}
       </div>
       <div className="flex items-center justify-end" style={{ gap: 4, marginTop: 12 }}>
-        <span style={{ fontSize: 10, color: C.muted }}>{t("最終更新", "Last updated")}:</span>
-        <span style={{ fontSize: 11, color: C.muted }}>{t("今日 14:32", "Today 14:32")}</span>
+        <span style={{ fontSize: 10, color: "rgba(255,255,255,0.5)" }}>{t("最終更新", "Last updated")}:</span>
+        <span style={{ fontSize: 11, color: "rgba(255,255,255,0.5)" }}>{t("今日 14:32", "Today 14:32")}</span>
       </div>
     </div>
   );
