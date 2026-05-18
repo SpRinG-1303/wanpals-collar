@@ -314,7 +314,7 @@ function Home() {
 
   return (
     <AppShell titleJp="" titleEn="" noPadding>
-      <HeroPostcard score={score} name={heroName} mood={mood} celebrate={celebrate} />
+      <HeroPostcard score={score} name={heroName} mood={mood} celebrate={celebrate} breedKey={breedKey} />
 
 
       {sosOpen && (
