@@ -289,35 +289,39 @@ function SkinSensePage() {
           jpStyle={{ fontSize: 14, fontWeight: 700, color: SP.sumi }}
           enStyle={{ fontSize: 10, color: SP.usuzumi, marginBottom: 10 }}
         />
-        <div style={{ display: "grid", gap: 10, marginTop: 10 }}>
-          {HISTORY.map((h) => {
+        <div style={{ marginTop: 10 }}>
+          {HISTORY.map((h, idx) => {
             const s = SEVERITY[h.sev];
+            const d = new Date(h.date);
+            const formatted = d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
             return (
-              <div key={h.date} className="flex items-center" style={{
-                gap: 12, padding: 10, borderRadius: 12, background: "#FAFAF8",
-              }}>
+              <div
+                key={h.date}
+                className="flex items-center"
+                style={{
+                  gap: 12, padding: "12px 0",
+                  borderTop: idx === 0 ? "none" : "1px solid #F1ECE9",
+                }}
+              >
                 <div style={{
-                  width: 52, height: 52, borderRadius: 10,
-                  background: `linear-gradient(135deg, ${h.hue}, #FFFFFF)`,
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  fontSize: 22,
-                }}>🐕</div>
+                  width: 10, height: 10, borderRadius: "50%", background: s.color, flexShrink: 0,
+                }} />
                 <div className="flex-1 min-w-0">
                   <Bi
                     jp={h.jp}
                     en={h.en}
-                    jpStyle={{ fontSize: 13, fontWeight: 700, color: SP.sumi }}
+                    jpStyle={{ fontSize: 13, fontWeight: 600, color: SP.sumi }}
                     enStyle={{ fontSize: 10, color: SP.usuzumi, marginTop: 1 }}
                   />
-                  <div style={{ fontSize: 10, color: SP.usuzumi, marginTop: 3, fontVariantNumeric: "tabular-nums" }}>
-                    {h.date}
+                  <div style={{ fontSize: 11, color: SP.usuzumi, marginTop: 3 }}>
+                    {formatted}
                   </div>
                 </div>
                 <div style={{ textAlign: "right" }}>
-                  <div style={{ fontSize: 18, fontWeight: 800, color: SP.sumi, fontVariantNumeric: "tabular-nums" }}>{h.score}</div>
+                  <div style={{ fontSize: 20, fontWeight: 700, color: "#F43F72", fontVariantNumeric: "tabular-nums", lineHeight: 1 }}>{h.score}</div>
                   <span style={{
                     fontSize: 9, fontWeight: 700, color: s.color, background: s.bg,
-                    padding: "2px 6px", borderRadius: 999,
+                    padding: "2px 6px", borderRadius: 999, display: "inline-block", marginTop: 4,
                   }}>{t(s.jp, s.en)}</span>
                 </div>
               </div>

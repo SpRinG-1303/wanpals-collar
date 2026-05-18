@@ -37,11 +37,11 @@ function MotionSensePage() {
     >
       <TimeTabs value={tab} onChange={setTab} />
 
-      <Card accent={SP.sora}>
+      <Card>
         <div className="flex items-center" style={{ gap: 18 }}>
           <div style={{ position: "relative", width: 140, height: 140 }}>
             <svg width={140} height={140}>
-              <circle cx={70} cy={70} r={R} stroke="#EBF1FF" strokeWidth={10} fill="none" />
+              <circle cx={70} cy={70} r={R} stroke="#FFF0F3" strokeWidth={10} fill="none" />
               <circle
                 cx={70} cy={70} r={R} stroke="url(#mGrad)" strokeWidth={10} fill="none"
                 strokeLinecap="round" strokeDasharray={`${(C * pct) / 100} ${C}`}
@@ -49,15 +49,15 @@ function MotionSensePage() {
               />
               <defs>
                 <linearGradient id="mGrad" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0%" stopColor="#5B9BD5" />
-                  <stop offset="100%" stopColor="#7B68C8" />
+                  <stop offset="0%" stopColor="#F43F72" />
+                  <stop offset="100%" stopColor="#E8829A" />
                 </linearGradient>
               </defs>
             </svg>
             <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-              <div style={{ fontSize: 24, fontWeight: 800, color: SP.sumi, fontVariantNumeric: "tabular-nums" }}>{steps.toLocaleString()}</div>
+              <div style={{ fontSize: 24, fontWeight: 700, color: SP.sumi, fontVariantNumeric: "tabular-nums" }}>{steps.toLocaleString()}</div>
               <div style={{ fontSize: 11, color: SP.usuzumi, marginTop: 2 }}>{t("歩", "steps")}</div>
-              <div style={{ fontSize: 10, color: SP.sora, fontWeight: 700, marginTop: 4 }}>{pct}%</div>
+              <div style={{ fontSize: 10, color: SP.rose, fontWeight: 700, marginTop: 4 }}>{pct}%</div>
             </div>
           </div>
           <div style={{ flex: 1 }}>
@@ -74,35 +74,39 @@ function MotionSensePage() {
             <div style={{ fontSize: 18, fontWeight: 700, color: SP.sumi, fontVariantNumeric: "tabular-nums" }}>
               {goal.toLocaleString()}{t("歩", "")}
             </div>
-            <div style={{ marginTop: 6, fontSize: 11, color: SP.sora, fontWeight: 600 }}>
+            <div style={{ marginTop: 6, fontSize: 11, color: SP.rose, fontWeight: 600 }}>
               {t(`あと ${(goal - steps).toLocaleString()}歩`, `${(goal - steps).toLocaleString()} to go`)}
             </div>
           </div>
         </div>
       </Card>
 
-      <Card accent={SP.sora}>
+      <Card>
         <Bi
           jp="週間アクティビティ" en="Weekly Activity"
           jpStyle={{ fontSize: 14, fontWeight: 700, color: SP.sumi }}
           enStyle={{ fontSize: 11, color: SP.usuzumi, marginBottom: 14 }}
         />
-        <div className="flex items-end justify-between" style={{ height: 120, gap: 8, marginTop: language === "mixed" ? 0 : 14 }}>
+        <div
+          className="flex items-end justify-between"
+          style={{
+            height: 140, gap: 8, marginTop: language === "mixed" ? 0 : 14,
+            background: "#FFF8FA", borderRadius: 12, padding: "10px 8px",
+          }}
+        >
           {WEEK.map((d, i) => {
-            const h = (d.v / max) * 100;
+            const barH = Math.max(6, (d.v / max) * 96);
             const isToday = i === WEEK.length - 1;
             return (
-              <div key={d.en} className="flex flex-col items-center" style={{ flex: 1 }}>
+              <div key={d.en} className="flex flex-col items-center justify-end" style={{ flex: 1, height: "100%" }}>
                 <div style={{ fontSize: 9, color: SP.usuzumi, marginBottom: 4, fontVariantNumeric: "tabular-nums" }}>
                   {(d.v / 1000).toFixed(1)}k
                 </div>
                 <div style={{
-                  width: "100%", height: `${h}%`, borderRadius: 6,
-                  background: isToday
-                    ? "linear-gradient(180deg, #E8829A, #F093A0)"
-                    : "linear-gradient(180deg, #FFC9D4, #FFD9E1)",
+                  width: "100%", height: barH, borderRadius: "6px 6px 2px 2px",
+                  background: isToday ? "#F43F72" : "#F8B4C4",
                 }} />
-                <div style={{ fontSize: 11, color: isToday ? SP.sakura : SP.usuzumi, marginTop: 6, fontWeight: isToday ? 700 : 500 }}>
+                <div style={{ fontSize: 11, color: isToday ? SP.rose : SP.usuzumi, marginTop: 6, fontWeight: isToday ? 700 : 500 }}>
                   {t(d.jp, d.en)}
                 </div>
               </div>
@@ -112,12 +116,12 @@ function MotionSensePage() {
       </Card>
 
       <div className="grid grid-cols-3" style={{ gap: 8, marginBottom: 12 }}>
-        <StatCard icon={<Activity size={18} />} color={SP.sora} valJp="2時間" valEn="2h" labelJp="活動時間" labelEn="Active" />
-        <StatCard icon={<Moon size={18} />} color={SP.fuji} valJp="14時間" valEn="14h" labelJp="休息時間" labelEn="Rest" />
-        <StatCard icon={<Flame size={18} />} color={SP.momiji} valJp="285" valEn="285 kcal" labelJp="カロリー" labelEn="Calories" />
+        <StatCard icon={<Activity size={18} />} valJp="2時間" valEn="2h" labelJp="活動時間" labelEn="Active" />
+        <StatCard icon={<Moon size={18} />} valJp="14時間" valEn="14h" labelJp="休息時間" labelEn="Rest" />
+        <StatCard icon={<Flame size={18} />} valJp="285" valEn="285 kcal" labelJp="カロリー" labelEn="Calories" />
       </div>
 
-      <Card accent={SP.fuji}>
+      <Card>
         <Bi
           jp="活動レベル" en="Activity Level · Past 7 Days"
           jpStyle={{ fontSize: 14, fontWeight: 700, color: SP.sumi }}
@@ -126,8 +130,8 @@ function MotionSensePage() {
         <svg viewBox="0 0 280 100" width="100%" height={100} style={{ marginTop: language === "mixed" ? 0 : 12 }}>
           <defs>
             <linearGradient id="lineFill" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#7B68C8" stopOpacity="0.3" />
-              <stop offset="100%" stopColor="#7B68C8" stopOpacity="0" />
+              <stop offset="0%" stopColor="#F43F72" stopOpacity="0.25" />
+              <stop offset="100%" stopColor="#FFF0F3" stopOpacity="0" />
             </linearGradient>
           </defs>
           {(() => {
@@ -137,9 +141,9 @@ function MotionSensePage() {
             return (
               <>
                 <path d={fill} fill="url(#lineFill)" />
-                <path d={d} stroke="#7B68C8" strokeWidth={2.5} fill="none" strokeLinecap="round" strokeLinejoin="round" />
+                <path d={d} stroke="#F43F72" strokeWidth={2.5} fill="none" strokeLinecap="round" strokeLinejoin="round" />
                 {pts.map((p, i) => (
-                  <circle key={i} cx={p[0]} cy={p[1]} r={3} fill="#FFFFFF" stroke="#7B68C8" strokeWidth={2} />
+                  <circle key={i} cx={p[0]} cy={p[1]} r={3} fill="#FFFFFF" stroke="#F43F72" strokeWidth={2} />
                 ))}
               </>
             );
@@ -147,9 +151,9 @@ function MotionSensePage() {
         </svg>
       </Card>
 
-      <Card accent={SP.matcha} style={{ background: "linear-gradient(135deg,#F0FBF5,#FFFFFF)" }}>
+      <Card>
         <div className="flex items-start" style={{ gap: 10 }}>
-          <Footprints size={20} style={{ color: SP.matcha, flexShrink: 0, marginTop: 2 }} />
+          <Footprints size={20} style={{ color: SP.rose, flexShrink: 0, marginTop: 2 }} />
           <div>
             <Bi
               jp="AIインサイト" en="AI Insight"
@@ -171,16 +175,16 @@ function MotionSensePage() {
   );
 }
 
-function StatCard({ icon, color, valJp, valEn, labelJp, labelEn }: {
-  icon: React.ReactNode; color: string; valJp: string; valEn: string; labelJp: string; labelEn: string;
+function StatCard({ icon, valJp, valEn, labelJp, labelEn }: {
+  icon: React.ReactNode; valJp: string; valEn: string; labelJp: string; labelEn: string;
 }) {
   const t = useT();
   return (
     <div style={{
-      background: SP.card, borderRadius: 16, padding: 12, boxShadow: CARD_SHADOW_SM,
-      borderTop: `3px solid ${color}`,
+      background: SP.card, borderRadius: 16, padding: 14,
+      boxShadow: "0 2px 16px rgba(0,0,0,0.06)",
     }}>
-      <div style={{ color, marginBottom: 6 }}>{icon}</div>
+      <div style={{ color: SP.rose, marginBottom: 6 }}>{icon}</div>
       <div style={{ fontSize: 15, fontWeight: 700, color: SP.sumi, fontVariantNumeric: "tabular-nums" }}>
         {t(valJp, valEn)}
       </div>
@@ -188,5 +192,3 @@ function StatCard({ icon, color, valJp, valEn, labelJp, labelEn }: {
     </div>
   );
 }
-
-const CARD_SHADOW_SM = "0 2px 10px rgba(0,0,0,0.05)";

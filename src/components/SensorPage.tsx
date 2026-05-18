@@ -3,11 +3,13 @@ import AppShell, { TopBar } from "@/components/AppShell";
 import { useLanguage, useT } from "@/context/LanguageContext";
 
 export const SP = {
-  sumi: "#2C2C2C",
-  usuzumi: "#8A8A8A",
+  sumi: "#2D2D2D",
+  usuzumi: "#6B7280",
   card: "#FFFFFF",
   divider: "#F5F0EC",
   sakura: "#E8829A",
+  rose: "#F43F72",
+  roseSoft: "#FFF0F3",
   matcha: "#6BAF92",
   yuzu: "#D4A843",
   fuji: "#7B68C8",
@@ -15,19 +17,22 @@ export const SP = {
   sora: "#5B9BD5",
 };
 
-export const CARD_SHADOW = "0 2px 20px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.04)";
+export const CARD_SHADOW = "0 2px 16px rgba(0,0,0,0.06)";
+export const SAKURA_HEADER = "linear-gradient(135deg,#FFF0F3 0%,#FFE4EC 100%)";
 
 export function SensorPage({
   titleJp,
   titleEn,
-  headerGradient,
-  accent,
+  // legacy props kept for compatibility but ignored — every page uses the
+  // global sakura pink header now.
+  headerGradient: _headerGradient,
+  accent: _accent,
   children,
 }: {
   titleJp: string;
   titleEn: string;
-  headerGradient: string;
-  accent: string;
+  headerGradient?: string;
+  accent?: string;
   children: ReactNode;
 }) {
   const t = useT();
@@ -40,7 +45,7 @@ export function SensorPage({
     >
       <div
         style={{
-          background: headerGradient,
+          background: SAKURA_HEADER,
           padding: "16px 16px 24px",
           position: "relative",
           overflow: "hidden",
@@ -62,8 +67,8 @@ export function SensorPage({
         <Bi
           jp={titleJp}
           en={titleEn}
-          jpStyle={{ fontSize: 22, fontWeight: 800, color: SP.sumi, letterSpacing: "0.01em" }}
-          enStyle={{ fontSize: 13, color: SP.sumi, opacity: 0.65, marginTop: 2, fontWeight: 500 }}
+          jpStyle={{ fontSize: 20, fontWeight: 500, color: SP.sumi, letterSpacing: "0.01em" }}
+          enStyle={{ fontSize: 12, color: SP.sumi, opacity: 0.6, marginTop: 2, fontWeight: 400 }}
         />
         <span className="sr-only">{t("", "")}</span>
       </div>
@@ -72,11 +77,13 @@ export function SensorPage({
   );
 }
 
-export function Card({ accent, children, style }: { accent: string; children: ReactNode; style?: React.CSSProperties }) {
+// `accent` prop kept for backward compatibility but no longer rendered as a
+// colored left border — all sensor cards are now clean white with a soft shadow.
+export function Card({ accent: _accent, children, style }: { accent?: string; children: ReactNode; style?: React.CSSProperties }) {
   return (
     <div style={{
-      background: SP.card, borderRadius: 18, borderLeft: `4px solid ${accent}`,
-      boxShadow: CARD_SHADOW, padding: 16, marginBottom: 12, ...style,
+      background: SP.card, borderRadius: 20,
+      boxShadow: CARD_SHADOW, padding: 20, marginBottom: 12, ...style,
     }}>{children}</div>
   );
 }
@@ -85,18 +92,18 @@ export function TimeTabs({ value, onChange }: { value: string; onChange: (v: str
   const tabs = ["1d", "1w", "1m"];
   return (
     <div className="flex" style={{
-      background: "#F5F0EC", borderRadius: 12, padding: 4, gap: 4, marginBottom: 12,
+      background: "#F4F0EE", borderRadius: 999, padding: 4, gap: 4, marginBottom: 12,
     }}>
       {tabs.map((tab) => (
         <button
           key={tab}
           onClick={() => onChange(tab)}
           style={{
-            flex: 1, height: 32, borderRadius: 8, fontSize: 12, fontWeight: 700,
-            background: value === tab ? "#FFFFFF" : "transparent",
-            color: value === tab ? SP.sumi : SP.usuzumi,
-            boxShadow: value === tab ? "0 1px 4px rgba(0,0,0,0.08)" : "none",
+            flex: 1, height: 32, borderRadius: 999, fontSize: 12, fontWeight: 600,
+            background: value === tab ? SP.rose : "transparent",
+            color: value === tab ? "#FFFFFF" : SP.usuzumi,
             letterSpacing: "0.04em",
+            transition: "all 0.2s",
           }}
         >{tab.toUpperCase()}</button>
       ))}
@@ -116,6 +123,45 @@ export function BL({ jp, en }: { jp: string; en: string }) {
       jpStyle={{ fontSize: 13, fontWeight: 600, color: SP.sumi, lineHeight: 1.2 }}
       enStyle={{ fontSize: 10, color: SP.usuzumi, marginTop: 1 }}
     />
+  );
+}
+
+/**
+ * Section label — small, rose-pink, light, uppercase tracking.
+ * Use at the top of any card section.
+ */
+export function SectionLabel({ jp, en }: { jp: string; en: string }) {
+  const t = useT();
+  return (
+    <div style={{
+      fontSize: 10, color: SP.rose, fontWeight: 500,
+      letterSpacing: "0.16em", textTransform: "uppercase", marginBottom: 10,
+    }}>
+      {t(jp, en)}
+    </div>
+  );
+}
+
+/**
+ * AI Insight card — consistent design across all sense pages.
+ * Rose-pink sparkle, label, thin divider, body text.
+ */
+export function AIInsightCard({ jp, en }: { jp: string; en: string }) {
+  const t = useT();
+  return (
+    <div style={{
+      background: SP.card, borderRadius: 20, padding: 20, marginBottom: 12,
+      boxShadow: CARD_SHADOW,
+    }}>
+      <div className="flex items-center" style={{ gap: 6 }}>
+        <span style={{ color: SP.rose, fontSize: 13, lineHeight: 1 }}>✦</span>
+        <span style={{ fontSize: 11, color: SP.rose, fontWeight: 500, letterSpacing: "0.14em", textTransform: "uppercase" }}>
+          {t("AIインサイト / AI Insight", "AI Insight")}
+        </span>
+      </div>
+      <div style={{ height: 1, background: "#FAE0E8", margin: "10px 0 12px" }} />
+      <div style={{ fontSize: 13, color: SP.sumi, lineHeight: 1.6 }}>{t(jp, en)}</div>
+    </div>
   );
 }
 
