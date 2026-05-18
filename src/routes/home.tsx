@@ -509,10 +509,11 @@ function Home() {
   const breedLabel = language === "english" ? pet.breedEn : language === "japanese" ? pet.breedJp : `${pet.breedJp} / ${pet.breedEn}`;
   const ageLabel = pet.age != null ? t(`${pet.age}歳`, `${pet.age} yrs`) : null;
   const breedKey: BreedKey = (BREED_KEY_BY_JP[pet.breedJp] ?? (pet.breed as BreedKey) ?? "mixed");
+  const energy: Energy = getEnergyLevel(2340);
 
   return (
     <AppShell titleJp="" titleEn="" noPadding>
-      <HeroPostcard score={score} name={heroName} mood={mood} celebrate={celebrate} breedKey={breedKey} />
+      <HeroPostcard score={score} name={heroName} mood={mood} celebrate={celebrate} breedKey={breedKey} energy={energy} ownerPhotoUrl={pet.ownerPhotoUrl} />
 
 
       {sosOpen && (
