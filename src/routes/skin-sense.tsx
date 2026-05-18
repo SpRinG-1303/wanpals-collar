@@ -278,7 +278,7 @@ function SkinSensePage() {
                   onClick={() => { setPhoto(null); setDone(false); }}
                   style={{
                     position: "absolute", top: 10, right: 10,
-                    background: "rgba(255,255,255,0.95)", color: C.deep,
+                    background: "rgba(255,255,255,0.95)", color: "#6B3A52",
                     border: "none", borderRadius: 50, padding: "6px 12px",
                     fontSize: 11, fontWeight: 700, display: "flex", alignItems: "center", gap: 4,
                     boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
@@ -301,7 +301,7 @@ function SkinSensePage() {
                   onClick={() => cameraRef.current?.click()}
                   style={{
                     flex: 1, padding: "10px 0", borderRadius: 50,
-                    border: `1.5px solid ${C.primary}`, color: C.primary, background: "#fff",
+                    border: `1.5px solid #C98BA8`, color: "#C98BA8", background: "#fff",
                     fontSize: 13, fontWeight: 500, display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
                   }}
                 >
@@ -311,9 +311,9 @@ function SkinSensePage() {
                   onClick={() => galleryRef.current?.click()}
                   style={{
                     flex: 1, padding: "10px 0", borderRadius: 50,
-                    background: "linear-gradient(135deg, #EC4899, #F472B6)", color: "#fff",
+                    background: "linear-gradient(135deg, #E8A0BF, #F5BDD4)", color: "#6B3A52",
                     border: "none", fontSize: 13, fontWeight: 600,
-                    boxShadow: "0 4px 14px rgba(236,72,153,0.35)",
+                    boxShadow: "0 4px 14px rgba(232,160,191,0.3)",
                     display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
                   }}
                 >
@@ -326,7 +326,7 @@ function SkinSensePage() {
                 disabled={analyzing}
                 style={{
                   marginTop: 14, width: "100%", padding: "14px 0", borderRadius: 50,
-                  background: "linear-gradient(135deg, #EC4899, #F472B6)", color: "#fff",
+                  background: "linear-gradient(135deg, #E8A0BF, #F5BDD4)", color: "#6B3A52",
                   border: "none", fontSize: 15, fontWeight: 600,
                   display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
                   animation: analyzing ? "none" : "ssPulse 2s ease-in-out infinite",
@@ -353,7 +353,7 @@ function SkinSensePage() {
                     jpStyle={{ fontSize: 16, fontWeight: 700, color: C.text }}
                     enStyle={{ fontSize: 13, fontWeight: 600, color: C.text2 }}
                   />
-                  <div style={{ fontSize: 12, color: C.primary, marginTop: 2, fontWeight: 600 }}>
+                  <div style={{ fontSize: 12, color: "#C98BA8", marginTop: 2, fontWeight: 600 }}>
                     {t("信頼度 96%", "Confidence 96%")}
                   </div>
                 </div>
@@ -392,10 +392,10 @@ function SkinSensePage() {
                   }}>
                     <div style={{
                       width: 48, height: 48, borderRadius: "50%", flexShrink: 0,
-                      background: "linear-gradient(135deg, #FCE7F3, #FDF2F8)",
+                      background: "linear-gradient(135deg, #FEF0F6, #FEF6FA)",
                       display: "flex", alignItems: "center", justifyContent: "center",
                     }}>
-                      <PawIcon color={C.primary} size={22} />
+                      <PawIcon color="#E8B4CC" size={22} />
                     </div>
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <Bi jp={h.jp} en={h.en}
@@ -406,7 +406,7 @@ function SkinSensePage() {
                       <div style={{ display: "flex", gap: 4, marginTop: 5, flexWrap: "wrap" }}>
                         {h.tags.map((tag, ti) => (
                           <span key={ti} style={{
-                            background: C.soft, color: C.deep,
+                            background: C.soft, color: "#6B3A52",
                             fontSize: 9, fontWeight: 600, borderRadius: 50,
                             padding: "2px 8px",
                           }}>{t(tag.jp, tag.en)}</span>
@@ -414,7 +414,7 @@ function SkinSensePage() {
                       </div>
                     </div>
                     <div style={{ textAlign: "right", flexShrink: 0 }}>
-                      <div style={{ fontSize: 22, fontWeight: 800, color: C.mid, lineHeight: 1 }}>{h.score}</div>
+                      <div style={{ fontSize: 22, fontWeight: 800, color: "#C98BA8", lineHeight: 1 }}>{h.score}</div>
                       <span style={{
                         display: "inline-block", marginTop: 4, padding: "3px 8px",
                         borderRadius: 50, background: s.bg, color: s.color,
@@ -427,7 +427,7 @@ function SkinSensePage() {
             </div>
             <button style={{
               width: "100%", marginTop: 10, padding: "8px 0", border: "none", background: "transparent",
-              color: C.primary, fontSize: 13, fontWeight: 600,
+              color: "#C98BA8", fontSize: 13, fontWeight: 600,
             }}>
               {t("履歴をすべて見る ›", "View Full History ›")}
             </button>
@@ -450,15 +450,15 @@ function ScoreRing({ value }: { value: number }) {
     <svg width={52} height={52} viewBox="0 0 52 52">
       <defs>
         <linearGradient id="ssRing" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#EC4899" />
-          <stop offset="100%" stopColor="#F472B6" />
+          <stop offset="0%" stopColor="#F0A8C4" />
+          <stop offset="100%" stopColor="#F5BDD4" />
         </linearGradient>
       </defs>
       <circle cx={26} cy={26} r={r} fill="none" stroke={C.soft} strokeWidth={5} />
       <circle cx={26} cy={26} r={r} fill="none" stroke="url(#ssRing)" strokeWidth={5}
         strokeDasharray={c} strokeDashoffset={off} strokeLinecap="round"
         transform="rotate(-90 26 26)" />
-      <text x={26} y={30} textAnchor="middle" fontSize={14} fontWeight={800} fill={C.mid}>{value}</text>
+      <text x={26} y={30} textAnchor="middle" fontSize={14} fontWeight={800} fill="#C98BA8">{value}</text>
     </svg>
   );
 }
