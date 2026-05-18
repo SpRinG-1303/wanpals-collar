@@ -4,6 +4,7 @@ import { Eye, EyeOff, Mail, Lock, User, PawPrint, Check, ArrowLeft } from "lucid
 import { useT } from "@/context/LanguageContext";
 import { HeroIllustration } from "@/routes/language";
 import PhoneFrame from "@/components/PhoneFrame";
+import { PawLogo } from "@/components/PawLogo";
 
 export const Route = createFileRoute("/auth")({ component: Auth });
 
@@ -241,6 +242,10 @@ function LoginForm({
 
   return (
     <div>
+      {/* Page paw logo */}
+      <div className="flex justify-center mb-3">
+        <PawLogo size={64} color="#E87090" />
+      </div>
       {/* Header with back + role badge */}
       <div className="flex items-center gap-3 mb-4">
         <button
