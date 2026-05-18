@@ -355,6 +355,7 @@ function Scene({ theme, active }: { theme: SceneTheme; active: boolean }) {
               );
             })}
           </g>
+          </g>
         );
       })}
     </svg>
