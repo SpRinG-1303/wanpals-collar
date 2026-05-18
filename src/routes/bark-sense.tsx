@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { SensorPage, Card, Bi, SP } from "@/components/SensorPage";
+import { SensorPage, Card, Bi, SP, SectionLabel, AIInsightCard } from "@/components/SensorPage";
 import { useT, useLanguage } from "@/context/LanguageContext";
 
 export const Route = createFileRoute("/bark-sense")({ component: BarkSensePage });
@@ -9,16 +9,16 @@ type EmotionKey =
   | "happy" | "calm" | "excited" | "playful" | "tired"
   | "sad" | "anxious" | "scared" | "angry";
 
-const EMOTIONS: Record<EmotionKey, { jp: string; en: string; color: string; angle: number }> = {
-  happy:   { jp: "嬉しい",   en: "Happy",   color: "#F2D27A", angle: 0 },
-  calm:    { jp: "穏やか",   en: "Calm",    color: "#9CC4A8", angle: 40 },
-  excited: { jp: "興奮",     en: "Excited", color: "#F19A9A", angle: 80 },
-  playful: { jp: "遊びたい", en: "Playful", color: "#F2B284", angle: 120 },
-  tired:   { jp: "疲れた",   en: "Tired",   color: "#B5ADA4", angle: 160 },
-  sad:     { jp: "悲しい",   en: "Sad",     color: "#7A95B8", angle: 200 },
-  anxious: { jp: "不安",     en: "Anxious", color: "#B9A8D4", angle: 240 },
-  scared:  { jp: "怖い",     en: "Scared",  color: "#C2A1A8", angle: 280 },
-  angry:   { jp: "怒り",     en: "Angry",   color: "#C97A7A", angle: 320 },
+const EMOTIONS: Record<EmotionKey, { jp: string; en: string; color: string; angle: number; deep: string }> = {
+  happy:   { jp: "幸せ",     en: "Happy",   color: "#FEF9C3", deep: "#CA8A04", angle: 0 },
+  calm:    { jp: "穏やか",   en: "Calm",    color: "#DCFCE7", deep: "#16A34A", angle: 40 },
+  excited: { jp: "興奮",     en: "Excited", color: "#FFE4E6", deep: "#E11D48", angle: 80 },
+  playful: { jp: "遊びたい", en: "Playful", color: "#FFEDD5", deep: "#EA580C", angle: 120 },
+  tired:   { jp: "疲れた",   en: "Tired",   color: "#F3F4F6", deep: "#6B7280", angle: 160 },
+  sad:     { jp: "悲しい",   en: "Sad",     color: "#DBEAFE", deep: "#2563EB", angle: 200 },
+  anxious: { jp: "不安",     en: "Anxious", color: "#EDE9FE", deep: "#7C3AED", angle: 240 },
+  scared:  { jp: "怖い",     en: "Scared",  color: "#F5F3FF", deep: "#8B5CF6", angle: 280 },
+  angry:   { jp: "怒り",     en: "Angry",   color: "#FEE2E2", deep: "#DC2626", angle: 320 },
 };
 
 const ORDER: EmotionKey[] = ["happy","calm","excited","playful","tired","sad","anxious","scared","angry"];
