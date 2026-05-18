@@ -195,14 +195,27 @@ const BAND_META: Record<TimeBand, SceneTheme> = {
 const TRUNK_D =
   "M 8 410 C 28 360 18 310 40 260 C 55 220 38 180 60 130 C 72 100 60 70 78 30";
 const BRANCHES: { d: string }[] = [
+  // original main branches (right side)
   { d: "M 40 260 C 70 245 95 240 130 220" },
   { d: "M 50 200 C 85 195 110 180 140 165" },
   { d: "M 60 150 C 90 140 115 130 145 105" },
   { d: "M 70 100 C 95 92 115 78 138 60" },
   { d: "M 30 300 C 55 295 80 295 110 285" },
   { d: "M 45 230 C 25 210 18 195 12 170" },
+  // extra branches — more density, more reach
+  { d: "M 38 270 C 65 270 95 268 125 258" },
+  { d: "M 52 185 C 78 178 100 172 118 152" },
+  { d: "M 65 125 C 88 118 108 108 128 88" },
+  { d: "M 35 280 C 22 268 16 252 10 232" },
+  { d: "M 55 170 C 38 158 28 140 22 118" },
+  { d: "M 72 80 C 92 70 108 56 122 38" },
+  { d: "M 42 245 C 70 232 92 218 115 200" },
+  { d: "M 48 215 C 30 200 22 182 18 158" },
+  { d: "M 32 320 C 58 318 82 314 105 308" },
+  { d: "M 62 140 C 80 128 96 116 112 102" },
 ];
 const BLOSSOMS: { cx: number; cy: number; r: number }[] = [
+  // original clusters
   { cx: 130, cy: 220, r: 11 }, { cx: 118, cy: 210, r: 8 }, { cx: 142, cy: 230, r: 9 },
   { cx: 140, cy: 165, r: 11 }, { cx: 152, cy: 158, r: 8 }, { cx: 128, cy: 175, r: 9 },
   { cx: 145, cy: 105, r: 11 }, { cx: 157, cy: 95, r: 9 }, { cx: 132, cy: 115, r: 8 },
@@ -210,6 +223,18 @@ const BLOSSOMS: { cx: number; cy: number; r: number }[] = [
   { cx: 110, cy: 285, r: 10 }, { cx: 96,  cy: 290, r: 8 }, { cx: 80, cy: 296, r: 9 },
   { cx: 12,  cy: 170, r: 9 },  { cx: 22,  cy: 180, r: 7 },
   { cx: 78,  cy: 30,  r: 10 }, { cx: 92,  cy: 26,  r: 8 },
+  // new clusters on added branches
+  { cx: 125, cy: 258, r: 11 }, { cx: 112, cy: 262, r: 8 }, { cx: 98, cy: 268, r: 9 },
+  { cx: 118, cy: 152, r: 10 }, { cx: 106, cy: 160, r: 8 }, { cx: 92, cy: 168, r: 7 },
+  { cx: 128, cy: 88,  r: 10 }, { cx: 116, cy: 96,  r: 8 }, { cx: 104, cy: 104, r: 7 },
+  { cx: 22,  cy: 118, r: 9 },  { cx: 30,  cy: 130, r: 7 },
+  { cx: 122, cy: 38,  r: 9 },  { cx: 110, cy: 46,  r: 7 },
+  { cx: 115, cy: 200, r: 10 }, { cx: 102, cy: 208, r: 8 }, { cx: 88, cy: 214, r: 7 },
+  { cx: 18,  cy: 158, r: 8 },  { cx: 26,  cy: 168, r: 7 },
+  { cx: 105, cy: 308, r: 10 }, { cx: 90,  cy: 314, r: 8 }, { cx: 75, cy: 318, r: 8 },
+  { cx: 112, cy: 102, r: 9 },  { cx: 98,  cy: 110, r: 7 },
+  // soft falling/floating blossoms in air
+  { cx: 165, cy: 140, r: 6 }, { cx: 170, cy: 240, r: 5 }, { cx: 25,  cy: 90,  r: 6 },
 ];
 
 function Scene({ theme, active }: { theme: SceneTheme; active: boolean }) {
