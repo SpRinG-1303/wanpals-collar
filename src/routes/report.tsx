@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import AppShell from "@/components/AppShell";
+import AppShell, { TopBar } from "@/components/AppShell";
 import {
   AreaChart, Area, BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Tooltip,
   CartesianGrid, ReferenceLine, ReferenceArea,
