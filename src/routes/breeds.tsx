@@ -16,6 +16,7 @@ type SizeKey = "toy" | "small" | "medium" | "large" | "various";
 type Breed = {
   jp: string;
   en: string;
+  kana: string;          // katakana reading for fuzzy search
   rank: number | null;
   size: SizeKey;
   sizeJp: string;
