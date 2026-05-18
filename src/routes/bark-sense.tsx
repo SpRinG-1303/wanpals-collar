@@ -759,7 +759,7 @@ function BarkSensePage() {
               position: "relative",
               borderRadius: 26,
               padding: 22,
-              background: `linear-gradient(135deg, ${P.deep} 0%, #5B2D8E 100%)`,
+              background: `linear-gradient(135deg, ${P.deep} 0%, ${P.darker} 100%)`,
               boxShadow: "0 16px 40px rgba(59,31,106,0.35)",
               overflow: "hidden",
               animation: "bsFadeUp .6s ease-out .4s both",
