@@ -121,508 +121,128 @@ const sensors: Sensor[] = [
     jp: "総合分析", en: "CombineSense", subJp: "総合解析", subEn: "Combined Analysis", valJp: "87/100", valEn: "87/100" },
 ];
 
-/* ---------- Hero (time-based postcard with crossfading sky) ---------- */
+/* ---------- Hero (postcard-style, watercolour Japan) ---------- */
 type TimeBand = "morning" | "afternoon" | "evening" | "night";
-
-function bandFromHour(h: number): TimeBand {
-  if (h >= 5 && h < 11) return "morning";
-  if (h >= 11 && h < 17) return "afternoon";
-  if (h >= 17 && h < 20) return "evening";
+function getTimeBand(): TimeBand {
+  const h = new Date().getHours();
+  if (h >= 5 && h < 12) return "morning";
+  if (h >= 12 && h < 18) return "afternoon";
+  if (h >= 18 && h < 22) return "evening";
   return "night";
 }
 
-type SceneTheme = {
-  jp: string;
-  bg: string;
-  paperLines: string | null;
-  trunk: string;
-  blossom: string;
-  blossomStroke: string;
-  staticSun: { cx: number; cy: number; r: number; fill: string };
-  fujiBody: string;
-  fujiSnow: string;
-  mist: string;
-  stars: boolean;
-  treeline: string | null;
-  orb: string;
-  glow: string;
-  orbSize: number;
-  startHour: number;
-  endHour: number;
+const SCENE: Record<TimeBand, { bg: string; sun: string; fuji: string; blossom: string }> = {
+  morning:   { bg: "linear-gradient(135deg,#FFF8F0 0%,#FFE8EE 100%)", sun: "#FFD4A8", fuji: "#C5D8E8", blossom: "#FFB7C5" },
+  afternoon: { bg: "linear-gradient(135deg,#E8F4FF 0%,#D4EEFF 100%)", sun: "#F2C96E", fuji: "#8FB5C8", blossom: "#FFC8D0" },
+  evening:   { bg: "linear-gradient(135deg,#FFE8D0 0%,#FFD0B0 100%)", sun: "#F4A56B", fuji: "#7B6480", blossom: "#FFB7C5" },
+  night:     { bg: "linear-gradient(135deg,#E8EEF8 0%,#D4DCF0 100%)", sun: "#FFF4D8", fuji: "#9AA0B8", blossom: "#E8D8E4" },
 };
 
-const BAND_META: Record<TimeBand, SceneTheme> = {
-  morning: {
-    jp: "朝", bg: "#F2E8D0", paperLines: "rgba(120,90,60,0.06)",
-    trunk: "#1A0F08", blossom: "#E8A0A0", blossomStroke: "#B86060",
-    staticSun: { cx: 200, cy: 270, r: 70, fill: "#C93808" },
-    fujiBody: "#8AAAB5", fujiSnow: "#F0ECE0", mist: "rgba(200,195,185,0.55)",
-    stars: false, treeline: null,
-    orb: "#E05010", glow: "rgba(224,80,16,0.75)", orbSize: 56,
-    startHour: 5, endHour: 11,
-  },
-  afternoon: {
-    jp: "昼", bg: "#F5F0C8", paperLines: "rgba(160,140,60,0.05)",
-    trunk: "#1A0F08", blossom: "#F0B8A8", blossomStroke: "#C07868",
-    staticSun: { cx: 215, cy: 110, r: 50, fill: "#F5C800" },
-    fujiBody: "#7AAAB8", fujiSnow: "#FFFFFF", mist: "rgba(180,200,180,0.55)",
-    stars: false, treeline: null,
-    orb: "#F5C800", glow: "rgba(245,200,0,0.75)", orbSize: 56,
-    startHour: 11, endHour: 17,
-  },
-  evening: {
-    jp: "夕", bg: "#E8C070", paperLines: "rgba(160,90,30,0.07)",
-    trunk: "#1A0F08", blossom: "#E89080", blossomStroke: "#A85040",
-    staticSun: { cx: 205, cy: 200, r: 60, fill: "#D84808" },
-    fujiBody: "#607080", fujiSnow: "#E8D8B8", mist: "rgba(220,160,80,0.50)",
-    stars: false, treeline: null,
-    orb: "#D04800", glow: "rgba(255,170,70,0.80)", orbSize: 56,
-    startHour: 17, endHour: 20,
-  },
-  night: {
-    jp: "夜", bg: "#1C2048", paperLines: null,
-    trunk: "#120808", blossom: "#F0C8D8", blossomStroke: "#A878A0",
-    staticSun: { cx: 210, cy: 120, r: 56, fill: "#FFFFFF" },
-    fujiBody: "#2A3060", fujiSnow: "#D8DCEC", mist: "rgba(30,40,90,0.55)",
-    stars: true, treeline: "#0A0E28",
-    orb: "#FFFFFF", glow: "rgba(190,220,255,0.80)", orbSize: 68,
-    startHour: 20, endHour: 29,
-  },
-};
-
-/* Shared geometry: tree (left) + fuji (right-center).
-   viewBox 300 x 400 (3:4). */
-const TRUNK_D =
-  "M 8 410 C 28 360 18 310 40 260 C 55 220 38 180 60 130 C 72 100 60 70 78 30";
-const BRANCHES: { d: string }[] = [
-  // original main branches (right side)
-  { d: "M 40 260 C 70 245 95 240 130 220" },
-  { d: "M 50 200 C 85 195 110 180 140 165" },
-  { d: "M 60 150 C 90 140 115 130 145 105" },
-  { d: "M 70 100 C 95 92 115 78 138 60" },
-  { d: "M 30 300 C 55 295 80 295 110 285" },
-  { d: "M 45 230 C 25 210 18 195 12 170" },
-  // extra branches — more density, more reach
-  { d: "M 38 270 C 65 270 95 268 125 258" },
-  { d: "M 52 185 C 78 178 100 172 118 152" },
-  { d: "M 65 125 C 88 118 108 108 128 88" },
-  { d: "M 35 280 C 22 268 16 252 10 232" },
-  { d: "M 55 170 C 38 158 28 140 22 118" },
-  { d: "M 72 80 C 92 70 108 56 122 38" },
-  { d: "M 42 245 C 70 232 92 218 115 200" },
-  { d: "M 48 215 C 30 200 22 182 18 158" },
-  { d: "M 32 320 C 58 318 82 314 105 308" },
-  { d: "M 62 140 C 80 128 96 116 112 102" },
-];
-const BLOSSOMS: { cx: number; cy: number; r: number }[] = [
-  // original clusters
-  { cx: 130, cy: 220, r: 11 }, { cx: 118, cy: 210, r: 8 }, { cx: 142, cy: 230, r: 9 },
-  { cx: 140, cy: 165, r: 11 }, { cx: 152, cy: 158, r: 8 }, { cx: 128, cy: 175, r: 9 },
-  { cx: 145, cy: 105, r: 11 }, { cx: 157, cy: 95, r: 9 }, { cx: 132, cy: 115, r: 8 },
-  { cx: 138, cy: 60,  r: 11 }, { cx: 150, cy: 50, r: 9 }, { cx: 125, cy: 70, r: 8 },
-  { cx: 110, cy: 285, r: 10 }, { cx: 96,  cy: 290, r: 8 }, { cx: 80, cy: 296, r: 9 },
-  { cx: 12,  cy: 170, r: 9 },  { cx: 22,  cy: 180, r: 7 },
-  { cx: 78,  cy: 30,  r: 10 }, { cx: 92,  cy: 26,  r: 8 },
-  // new clusters on added branches
-  { cx: 125, cy: 258, r: 11 }, { cx: 112, cy: 262, r: 8 }, { cx: 98, cy: 268, r: 9 },
-  { cx: 118, cy: 152, r: 10 }, { cx: 106, cy: 160, r: 8 }, { cx: 92, cy: 168, r: 7 },
-  { cx: 128, cy: 88,  r: 10 }, { cx: 116, cy: 96,  r: 8 }, { cx: 104, cy: 104, r: 7 },
-  { cx: 22,  cy: 118, r: 9 },  { cx: 30,  cy: 130, r: 7 },
-  { cx: 122, cy: 38,  r: 9 },  { cx: 110, cy: 46,  r: 7 },
-  { cx: 115, cy: 200, r: 10 }, { cx: 102, cy: 208, r: 8 }, { cx: 88, cy: 214, r: 7 },
-  { cx: 18,  cy: 158, r: 8 },  { cx: 26,  cy: 168, r: 7 },
-  { cx: 105, cy: 308, r: 10 }, { cx: 90,  cy: 314, r: 8 }, { cx: 75, cy: 318, r: 8 },
-  { cx: 112, cy: 102, r: 9 },  { cx: 98,  cy: 110, r: 7 },
-  // dense flower coverage along every branch
-  { cx: 70, cy: 248, r: 7 }, { cx: 82, cy: 246, r: 8 }, { cx: 94, cy: 243, r: 7 }, { cx: 106, cy: 240, r: 8 }, { cx: 120, cy: 232, r: 9 },
-  { cx: 78, cy: 200, r: 7 }, { cx: 90, cy: 195, r: 8 }, { cx: 102, cy: 190, r: 7 }, { cx: 116, cy: 182, r: 8 }, { cx: 128, cy: 172, r: 9 },
-  { cx: 80, cy: 148, r: 7 }, { cx: 92, cy: 142, r: 8 }, { cx: 104, cy: 136, r: 7 }, { cx: 118, cy: 128, r: 8 }, { cx: 132, cy: 118, r: 9 },
-  { cx: 85, cy: 96, r: 7 }, { cx: 98, cy: 88, r: 8 }, { cx: 110, cy: 80, r: 7 }, { cx: 122, cy: 72, r: 8 }, { cx: 134, cy: 64, r: 9 },
-  { cx: 55, cy: 298, r: 7 }, { cx: 68, cy: 296, r: 8 }, { cx: 82, cy: 294, r: 7 }, { cx: 95, cy: 292, r: 8 },
-  { cx: 28, cy: 200, r: 7 }, { cx: 22, cy: 188, r: 6 }, { cx: 18, cy: 178, r: 7 },
-  { cx: 60, cy: 272, r: 7 }, { cx: 75, cy: 270, r: 8 }, { cx: 88, cy: 268, r: 7 }, { cx: 102, cy: 264, r: 8 }, { cx: 116, cy: 260, r: 9 },
-  { cx: 62, cy: 182, r: 7 }, { cx: 75, cy: 178, r: 8 }, { cx: 88, cy: 174, r: 7 }, { cx: 100, cy: 168, r: 8 },
-  { cx: 72, cy: 122, r: 7 }, { cx: 85, cy: 116, r: 8 }, { cx: 98, cy: 110, r: 7 }, { cx: 112, cy: 100, r: 8 }, { cx: 124, cy: 92, r: 9 },
-  { cx: 28, cy: 274, r: 7 }, { cx: 18, cy: 262, r: 6 }, { cx: 14, cy: 250, r: 7 },
-  { cx: 48, cy: 168, r: 7 }, { cx: 38, cy: 154, r: 7 }, { cx: 30, cy: 140, r: 7 }, { cx: 24, cy: 126, r: 6 },
-  { cx: 82, cy: 76, r: 7 }, { cx: 96, cy: 66, r: 8 }, { cx: 108, cy: 56, r: 7 }, { cx: 118, cy: 46, r: 8 },
-  { cx: 55, cy: 240, r: 7 }, { cx: 68, cy: 236, r: 8 }, { cx: 82, cy: 232, r: 7 }, { cx: 96, cy: 226, r: 8 }, { cx: 108, cy: 218, r: 9 },
-  { cx: 42, cy: 208, r: 7 }, { cx: 36, cy: 196, r: 6 }, { cx: 28, cy: 182, r: 7 }, { cx: 22, cy: 170, r: 6 },
-  { cx: 48, cy: 322, r: 7 }, { cx: 62, cy: 320, r: 8 }, { cx: 76, cy: 318, r: 7 }, { cx: 92, cy: 314, r: 8 },
-  { cx: 72, cy: 138, r: 7 }, { cx: 86, cy: 130, r: 8 }, { cx: 100, cy: 122, r: 7 }, { cx: 112, cy: 110, r: 8 },
-  // accent buds and tips
-  { cx: 148, cy: 218, r: 6 }, { cx: 156, cy: 168, r: 6 }, { cx: 162, cy: 108, r: 6 }, { cx: 154, cy: 62, r: 6 },
-  { cx: 122, cy: 285, r: 6 }, { cx: 138, cy: 248, r: 6 }, { cx: 130, cy: 142, r: 6 }, { cx: 140, cy: 80, r: 6 },
-  // soft falling/floating blossoms in air
-  { cx: 165, cy: 140, r: 6 }, { cx: 170, cy: 240, r: 5 }, { cx: 25,  cy: 90,  r: 6 },
-  { cx: 180, cy: 190, r: 5 }, { cx: 175, cy: 95, r: 5 }, { cx: 158, cy: 280, r: 5 },
-];
-
-function Scene({ theme, active }: { theme: SceneTheme; active: boolean }) {
+function PostcardScene({ band }: { band: TimeBand }) {
+  const s = SCENE[band];
   return (
-    <svg
-      viewBox="0 0 300 400"
-      preserveAspectRatio="xMidYMid slice"
-      aria-hidden
-      style={{
-        position: "absolute", inset: 0, width: "100%", height: "100%",
-        opacity: active ? 1 : 0,
-        transition: "opacity 2.5s ease-in-out",
-        display: "block",
-      }}
-    >
-      <defs>
-        {theme.paperLines && (
-          <pattern id={`paper-${theme.jp}`} width="6" height="400" patternUnits="userSpaceOnUse">
-            <rect width="6" height="400" fill={theme.bg} />
-            <line x1="0" y1="0" x2="0" y2="400" stroke={theme.paperLines} strokeWidth="1" />
-          </pattern>
-        )}
-      </defs>
-
-      {/* Background */}
-      <rect width="300" height="400" fill={theme.paperLines ? `url(#paper-${theme.jp})` : theme.bg} />
-
-      {/* Stars (night) */}
-      {theme.stars && [
-        [40, 40], [70, 25], [110, 55], [165, 30], [200, 18], [240, 45], [275, 28],
-        [60, 90], [130, 80], [185, 70], [225, 95], [260, 110], [30, 130], [95, 145],
-      ].map(([x, y], i) => (
-        <circle key={i} cx={x} cy={y} r={i % 3 === 0 ? 1.6 : 1} fill="#FFFFFF" opacity={0.85} />
-      ))}
-
-      {/* Mt Fuji */}
-      <path d="M 110 330 L 200 150 L 290 330 Z" fill={theme.fujiBody} />
-      {/* Snow cap */}
-      <path
-        d="M 200 150 L 175 205 Q 188 200 200 207 Q 212 200 225 205 Z"
-        fill={theme.fujiSnow}
-      />
-      {/* Snow drips */}
-      <path d="M 178 205 L 170 230 M 195 207 L 198 235 M 215 207 L 222 232 M 205 207 L 208 240"
-            stroke={theme.fujiSnow} strokeWidth="2" fill="none" strokeLinecap="round" />
-
-      {/* Mist bands */}
-      <ellipse cx="200" cy="330" rx="120" ry="10" fill={theme.mist} />
-      <ellipse cx="180" cy="345" rx="140" ry="8" fill={theme.mist} opacity="0.7" />
-
-      {/* Treeline silhouette (night) */}
-      {theme.treeline && (
-        <path
-          d="M 0 400 L 0 378 Q 30 360 60 372 Q 90 358 120 370 Q 150 354 180 368 Q 210 356 240 370 Q 270 358 300 372 L 300 400 Z"
-          fill={theme.treeline}
-        />
+    <div className="absolute inset-y-0 right-0" style={{ width: "55%", background: s.bg, overflow: "hidden" }}>
+      {/* Sun / moon */}
+      {band === "night" ? (
+        <div style={{ position: "absolute", top: 22, right: 28, width: 38, height: 38, borderRadius: "50%", background: s.sun, boxShadow: `inset -10px 2px 0 0 #D4DCF0` }} />
+      ) : (
+        <div style={{ position: "absolute", top: 18, right: 24, width: 70, height: 70, borderRadius: "50%", background: s.sun, opacity: 0.6 }} />
       )}
 
-      {/* Tree trunk — thick bark */}
-      <path d={TRUNK_D} stroke={theme.trunk} strokeWidth="24" strokeLinecap="round" fill="none" />
-      {/* Tree branches (gentle sway) */}
-      {BRANCHES.map((b, i) => {
-        const m = b.d.match(/M\s+(\d+)\s+(\d+)/);
-        const ox = m ? Number(m[1]) : 0;
-        const oy = m ? Number(m[2]) : 0;
-        const sw = i < 6 ? 6 : i < 12 ? 4.5 : 3.5;
-        return (
-          <g
-            key={i}
-            style={{
-              transformBox: "view-box",
-              transformOrigin: `${ox}px ${oy}px`,
-              animation: `branchSway ${4 + (i % 3)}s ease-in-out ${i * 0.5}s infinite`,
-            }}
-          >
-            <path d={b.d} stroke={theme.trunk} strokeWidth={sw} fill="none" strokeLinecap="round" />
-          </g>
-        );
+      {/* Stars (night) */}
+      {band === "night" && [[18,30],[44,18],[78,42],[110,22],[140,48],[60,60]].map(([l,t],i)=>(
+        <div key={i} style={{ position:"absolute", left:l, top:t, width: i%2?2:3, height: i%2?2:3, borderRadius:"50%", background:"#C8C0E8" }}/>
+      ))}
+
+      {/* Clouds (afternoon) */}
+      {band === "afternoon" && [[20,40,42],[100,22,36]].map(([l,t,w],i)=>(
+        <div key={i} style={{ position:"absolute", left:l, top:t, width:w, height:(w as number)*0.45, background:"#FFFFFF", opacity:0.85, borderRadius: 999 }}/>
+      ))}
+
+      {/* Diagonal sakura branch */}
+      <svg style={{ position:"absolute", top: 8, left: 4, width: 130, height: 70 }} viewBox="0 0 130 70" fill="none">
+        <path d="M2 60 Q40 30 124 6" stroke="#C4A882" strokeWidth="1.5" strokeLinecap="round" />
+      </svg>
+      {/* Blossom dots along branch */}
+      {[[18,52,8],[34,42,6],[52,32,9],[72,22,7],[92,14,10],[110,8,6],[40,58,5,0.5],[80,40,4,0.55]].map((p,i)=>{
+        const [l,t,sz,op] = p as [number,number,number,number?];
+        return <div key={i} style={{ position:"absolute", left:l, top:t, width:sz, height:sz, borderRadius:"50%", background: s.blossom, opacity: op ?? 0.95 }}/>;
       })}
-      {/* Sakura blossoms — 5-petal flower shapes */}
-      {BLOSSOMS.map((b, i) => {
-        const petals = 5;
-        const petalR = b.r * 0.62;
-        const offset = b.r * 0.55;
-        return (
-          <g
-            key={i}
-            style={{
-              transformBox: "view-box",
-              transformOrigin: `${b.cx}px ${b.cy}px`,
-              animation: `blossomSway ${3 + ((i * 7) % 3)}s ease-in-out ${((i * 0.37) % 3).toFixed(2)}s infinite`,
-            }}
-          >
-          <g transform={`rotate(${(i * 17) % 360} ${b.cx} ${b.cy})`}>
-            {Array.from({ length: petals }).map((_, p) => {
-              const ang = (p / petals) * Math.PI * 2 - Math.PI / 2;
-              const px = b.cx + Math.cos(ang) * offset;
-              const py = b.cy + Math.sin(ang) * offset;
-              const deg = (ang * 180) / Math.PI + 90;
-              return (
-                <g key={p} transform={`rotate(${deg} ${px} ${py})`}>
-                  {/* Petal: teardrop with notched tip */}
-                  <path
-                    d={`M ${px} ${py - petalR}
-                        C ${px + petalR * 0.85} ${py - petalR * 0.7},
-                          ${px + petalR * 0.7} ${py + petalR * 0.35},
-                          ${px + petalR * 0.18} ${py + petalR * 0.55}
-                        Q ${px} ${py + petalR * 0.45} ${px - petalR * 0.18} ${py + petalR * 0.55}
-                        C ${px - petalR * 0.7} ${py + petalR * 0.35},
-                          ${px - petalR * 0.85} ${py - petalR * 0.7},
-                          ${px} ${py - petalR}
-                        Z`}
-                    fill={theme.blossom}
-                    stroke={theme.blossomStroke}
-                    strokeWidth="0.5"
-                    opacity="0.95"
-                  />
-                  {/* Notch highlight on petal tip */}
-                  <path
-                    d={`M ${px - petalR * 0.18} ${py - petalR * 0.92}
-                        Q ${px} ${py - petalR * 0.75} ${px + petalR * 0.18} ${py - petalR * 0.92}`}
-                    stroke={theme.blossomStroke}
-                    strokeWidth="0.6"
-                    fill="none"
-                    opacity="0.7"
-                  />
-                </g>
-              );
-            })}
-            {/* Yellow center stamen */}
-            <circle cx={b.cx} cy={b.cy} r={b.r * 0.18} fill="#F5D050" opacity="0.95" />
-            {/* Stamen dots */}
-            {Array.from({ length: 5 }).map((_, s) => {
-              const a = (s / 5) * Math.PI * 2;
-              return (
-                <circle
-                  key={s}
-                  cx={b.cx + Math.cos(a) * b.r * 0.22}
-                  cy={b.cy + Math.sin(a) * b.r * 0.22}
-                  r={b.r * 0.07}
-                  fill={theme.blossomStroke}
-                  opacity="0.7"
-                />
-              );
-            })}
-          </g>
-          </g>
-        );
-      })}
-    </svg>
+
+      {/* Mount Fuji */}
+      <svg style={{ position:"absolute", bottom: 0, left: "50%", transform: "translateX(-50%)", width: 110, height: 80 }} viewBox="0 0 110 80" fill="none">
+        <path d="M55 6 L104 76 L6 76 Z" fill={s.fuji} />
+        <path d="M55 6 L70 28 Q55 22 40 28 Z" fill="#FFFFFF" opacity={band === "night" ? 0.7 : 0.95}/>
+        <ellipse cx="55" cy="76" rx="55" ry="4" fill="#FFFFFF" opacity={band === "night" ? 0.15 : 0.5}/>
+      </svg>
+
+      {/* Falling petals */}
+      {band !== "night" && [
+        { left: "20%", delay: "0s", dur: "8s" },
+        { left: "55%", delay: "2.5s", dur: "9s" },
+        { left: "80%", delay: "5s", dur: "7s" },
+      ].map((p,i)=>(
+        <div key={i} style={{
+          position:"absolute", left: p.left, top: -6, width: 6, height: 4,
+          background: s.blossom, borderRadius: "50% 50% 50% 50% / 60% 60% 40% 40%",
+          opacity: 0.7, animation: `petalFall ${p.dur} linear ${p.delay} infinite`,
+        }}/>
+      ))}
+    </div>
   );
 }
 
-
-function getProgress(now: Date, band: TimeBand): number {
-  const meta = BAND_META[band];
-  const h = now.getHours() + now.getMinutes() / 60 + now.getSeconds() / 3600;
-  let cur = h;
-  if (band === "night" && h < 5) cur = h + 24;
-  const p = (cur - meta.startHour) / (meta.endHour - meta.startHour);
-  return Math.max(0, Math.min(1, p));
-}
-
-function HeroPostcard({ score, name, mood, celebrate }: { score: number; name: string; mood: string; celebrate: boolean }) {
+function HeroPostcard({ score, name, mood, celebrate }: { score: number; name: string; mood: string; celebrate?: boolean }) {
   const t = useT();
-  const [now, setNow] = useState<Date | null>(null);
-  useEffect(() => {
-    setNow(new Date());
-    const id = setInterval(() => setNow(new Date()), 60_000);
-    return () => clearInterval(id);
-  }, []);
-
-  const band: TimeBand = now ? bandFromHour(now.getHours()) : "afternoon";
-  const meta = BAND_META[band];
-  const progress = now ? getProgress(now, band) : 0.5;
-
-  // Sine arc: x from 8% to 92%, y peaks at top (~15%) at progress=0.5
-  const orbX = 8 + progress * 84; // %
-  const orbY = 85 - Math.sin(progress * Math.PI) * 70; // 85% bottom -> 15% top -> 85% bottom
-
-  const timeStr = now
-    ? `${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}`
-    : "--:--";
-
+  const band = getTimeBand();
   const labelJp = band === "morning" ? "おはよう" : band === "afternoon" ? "こんにちは" : band === "evening" ? "こんばんは" : "おやすみ";
   const labelEn = band === "morning" ? "Good Morning" : band === "afternoon" ? "Good Afternoon" : band === "evening" ? "Good Evening" : "Good Night";
 
   const hasName = !!name && name !== t("ワンちゃん", "Your Dog");
-  const greeting = hasName
-    ? t(`ようこそ、${name}！`, `Welcome, ${name}! `)
-    : name;
-
-  const serif = `"Noto Serif JP", "Noto Sans JP", serif`;
+  const greeting = hasName ? t(`ようこそ、${name}！`, `Welcome, ${name}!`) : name;
 
   return (
     <div
       className="relative"
       style={{
         margin: "12px 16px 4px",
-        aspectRatio: "3 / 4",
+        height: 160,
         borderRadius: 24,
         overflow: "hidden",
-        background: "#1a1a1a",
-        boxShadow: "0 4px 24px rgba(0,0,0,0.18)",
+        background: JP.card,
+        boxShadow: "0 4px 24px rgba(232,130,154,0.15)",
         animation: celebrate ? "heroCelebrate 0.8s ease-out" : "none",
-        fontFamily: serif,
       }}
     >
-      {/* Crossfading SVG scenes */}
-      {(Object.keys(BAND_META) as TimeBand[]).map((k) => (
-        <Scene key={k} theme={BAND_META[k]} active={k === band} />
-      ))}
+      <PostcardScene band={band} />
 
-      {/* Realistic sun / moon traversing arc */}
-      {band === "night" ? (
-        <div
-          style={{
-            position: "absolute",
-            left: `${orbX}%`,
-            top: `${orbY}%`,
-            width: meta.orbSize, height: meta.orbSize,
-            marginLeft: -meta.orbSize / 2, marginTop: -meta.orbSize / 2,
-            borderRadius: "50%",
-            background:
-              "radial-gradient(circle at 38% 36%, #FFFFFF 0%, #F4F1E4 45%, #C9C4B0 78%, #8E8A78 100%)",
-            boxShadow:
-              "0 0 24px 4px rgba(230,235,255,0.55), 0 0 70px 18px rgba(180,200,255,0.35)",
-            transition: "left 60s linear, top 60s linear",
-            pointerEvents: "none",
-          }}
-        >
-          {/* Lunar maria — subtle craters */}
-          <span style={{ position: "absolute", top: "30%", left: "55%", width: "22%", height: "18%", borderRadius: "50%", background: "rgba(140,135,120,0.35)" }} />
-          <span style={{ position: "absolute", top: "55%", left: "30%", width: "16%", height: "14%", borderRadius: "50%", background: "rgba(140,135,120,0.28)" }} />
-          <span style={{ position: "absolute", top: "62%", left: "58%", width: "12%", height: "10%", borderRadius: "50%", background: "rgba(140,135,120,0.3)" }} />
+      {/* Left content */}
+      <div style={{ position: "absolute", top: 0, bottom: 0, left: 0, width: "50%", padding: "20px 0 20px 20px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+        <div>
+          <div style={{ fontSize: 11, color: JP.sakura, letterSpacing: "0.05em", fontWeight: 600 }}>
+            {t(`${labelJp} / ${labelEn}`, `${labelEn} / ${labelJp}`)}
+          </div>
+          <div style={{ fontSize: 24, fontWeight: 800, color: JP.sumi, lineHeight: 1.1, marginTop: 4 }}>
+            {greeting}
+          </div>
+          <div className="flex items-center" style={{ gap: 6, marginTop: 6 }}>
+            <span style={{ width: 6, height: 6, borderRadius: "50%", background: JP.matcha, display: "inline-block" }} />
+            <span style={{ fontSize: 12, color: JP.matcha, fontWeight: 500 }}>
+              {mood}
+            </span>
+          </div>
         </div>
-      ) : (
-        <div
-          style={{
-            position: "absolute",
-            left: `${orbX}%`,
-            top: `${orbY}%`,
-            width: meta.orbSize, height: meta.orbSize,
-            marginLeft: -meta.orbSize / 2, marginTop: -meta.orbSize / 2,
-            borderRadius: "50%",
-            background:
-              band === "evening"
-                ? "radial-gradient(circle at 50% 50%, #FFE8B0 0%, #FFB060 35%, #E85A20 75%, rgba(232,90,32,0) 100%)"
-                : band === "morning"
-                ? "radial-gradient(circle at 50% 50%, #FFF6D8 0%, #FFD070 35%, #FF8838 78%, rgba(255,136,56,0) 100%)"
-                : "radial-gradient(circle at 50% 50%, #FFFCE0 0%, #FFE070 40%, #FFB020 80%, rgba(255,176,32,0) 100%)",
-            boxShadow: `0 0 30px 8px ${meta.glow}, 0 0 80px 22px ${meta.glow}`,
-            transition: "left 60s linear, top 60s linear, background 2.5s ease, box-shadow 2.5s ease",
-            pointerEvents: "none",
-          }}
-        />
-      )}
 
-      {/* Falling petals overlay */}
-      <div
-        style={{
-          position: "absolute", inset: 0, overflow: "hidden", pointerEvents: "none",
-        }}
-        aria-hidden
-      >
-        {Array.from({ length: 8 }).map((_, i) => {
-          const leftPct = 6 + ((i * 13) % 85);
-          const dur = 7 + ((i * 1.3) % 3); // 7-10s
-          const delay = (i * 0.9) % 8;
-          const drift = (i % 2 === 0 ? 1 : -1) * (20 + (i * 7) % 40);
-          return (
-            <span
-              key={i}
-              style={{
-                position: "absolute",
-                left: `${leftPct}%`,
-                top: "-6%",
-                width: 10,
-                height: 14,
-                borderRadius: "60% 60% 50% 50% / 70% 70% 40% 40%",
-                background: "#F4B6C2",
-                boxShadow: "inset -2px -2px 0 rgba(184,96,128,0.25)",
-                opacity: 0,
-                ["--drift" as any]: `${drift}px`,
-                animation: `petalFall ${dur}s linear ${delay}s infinite`,
-              }}
-            />
-          );
-        })}
-      </div>
-
-      {/* Bottom dark gradient overlay (stronger, behind text) */}
-      <div
-        style={{
-          position: "absolute", inset: 0,
-          background: "linear-gradient(180deg, rgba(0,0,0,0) 50%, rgba(0,0,0,0.65) 100%)",
-          pointerEvents: "none",
-        }}
-      />
-
-      {/* Top-left JP time label (with dark pill) */}
-      <div
-        style={{
-          position: "absolute", top: 12, left: 14,
-          fontFamily: serif, fontSize: 26, fontWeight: 600,
-          color: "#fff",
-          background: "rgba(0,0,0,0.25)",
-          padding: "4px 12px",
-          borderRadius: 14,
-          lineHeight: 1,
-          backdropFilter: "blur(4px)",
-          WebkitBackdropFilter: "blur(4px)",
-        }}
-      >
-        {meta.jp}
-      </div>
-
-      {/* Top-right current time (with dark pill) */}
-      <div
-        style={{
-          position: "absolute", top: 14, right: 14,
-          fontFamily: serif, fontSize: 15, fontWeight: 500,
-          color: "#fff",
-          letterSpacing: "0.08em",
-          background: "rgba(0,0,0,0.25)",
-          padding: "5px 12px",
-          borderRadius: 14,
-          fontVariantNumeric: "tabular-nums",
-          backdropFilter: "blur(4px)",
-          WebkitBackdropFilter: "blur(4px)",
-        }}
-      >
-        {timeStr}
-      </div>
-
-      {/* Bottom content */}
-      <div
-        style={{
-          position: "absolute", left: 0, right: 0, bottom: 0,
-          padding: "0 20px 18px",
-          color: "#fff",
-          fontFamily: serif,
-        }}
-      >
-        <div style={{ fontSize: 12, fontWeight: 500, opacity: 0.92, letterSpacing: "0.05em" }}>
-          {t(`${labelJp} / ${labelEn}`, `${labelEn} / ${labelJp}`)}
-        </div>
-        <div style={{ fontSize: 26, fontWeight: 600, lineHeight: 1.15, marginTop: 4, textShadow: "0 2px 12px rgba(0,0,0,0.5)" }}>
-          {greeting}
-        </div>
-        <div className="flex items-center" style={{ gap: 8, marginTop: 8 }}>
-          <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#9EE3B8", display: "inline-block" }} />
-          <span style={{ fontSize: 12, opacity: 0.95 }}>{mood}</span>
-        </div>
-        <div style={{ marginTop: 10 }}>
+        <div>
           <span style={{
             display: "inline-block",
-            background: "rgba(255,255,255,0.18)",
-            backdropFilter: "blur(8px)",
-            WebkitBackdropFilter: "blur(8px)",
-            color: "#fff",
+            background: JP.sakuraSoft,
+            color: JP.sakura,
             borderRadius: 20,
-            padding: "5px 14px",
-            fontSize: 12,
-            fontWeight: 600,
+            padding: "4px 12px",
+            fontSize: 11,
+            fontWeight: 700,
             fontVariantNumeric: "tabular-nums",
-            border: "1px solid rgba(255,255,255,0.25)",
           }}>
             {score} / 100 ✦
           </span>
@@ -634,19 +254,6 @@ function HeroPostcard({ score, name, mood, celebrate }: { score: number; name: s
           0%,100% { transform: scale(1) rotate(0deg); }
           25% { transform: scale(1.02) rotate(-0.5deg); }
           75% { transform: scale(1.02) rotate(0.5deg); }
-        }
-        @keyframes branchSway {
-          0%,100% { transform: rotate(-1.5deg); }
-          50% { transform: rotate(1.5deg); }
-        }
-        @keyframes blossomSway {
-          0%,100% { transform: rotate(-2deg); }
-          50% { transform: rotate(2deg); }
-        }
-        @keyframes petalFall {
-          0%   { transform: translate(0, 0) rotate(0deg); opacity: 0; }
-          10%  { opacity: 0.8; }
-          100% { transform: translate(var(--drift, 30px), 120vh) rotate(540deg); opacity: 0; }
         }
       `}</style>
     </div>
