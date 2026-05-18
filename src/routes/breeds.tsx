@@ -341,6 +341,8 @@ function Breeds() {
       const fieldNames = [
         "name_jp", "name_en", "name_kana",
         "country_jp", "country_en", "size_jp", "size_en",
+        "group_jp", "group_en", "temperament_jp", "temperament_en",
+        "lifespan", "diagnostic_jp", "diagnostic_en",
       ] as const;
       const fuzzyResults =
         tokens.length > 1
