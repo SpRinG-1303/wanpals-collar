@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import AppShell from "@/components/AppShell";
-import { useMemo, useState, useEffect, type ComponentType } from "react";
+import { useMemo, useState, useEffect, type ComponentType, type CSSProperties, type ReactNode } from "react";
 import {
   Search, SlidersHorizontal, BookOpen, ArrowRight, ArrowLeft,
   AlertTriangle, MessageCircle, Dog, Sparkles, Heart, Wind, Sun, Minus, Zap, Crown, Shuffle,
@@ -33,6 +33,7 @@ type Breed = {
   Icon: ComponentType<LucideProps>;
   iconColor: string;
   animateGradient?: boolean;
+  image?: string;          // real breed photo (Unsplash)
   // Detail extras
   stats: { energy: number; friendly: number; train: number; groom: number };
   health: { jp: string; en: string; level: "watch" | "concern" }[];
@@ -42,6 +43,7 @@ const BREEDS: Breed[] = [
   {
     jp: "柴犬", en: "Shiba Inu", rank: 1, size: "small", sizeJp: "小型", sizeEn: "Small",
     originJp: "日本", originEn: "Japan", flag: "",
+    image: "https://images.unsplash.com/photo-1568572933382-74d440642117?w=600&q=80&auto=format&fit=crop",
     bannerBg: "linear-gradient(135deg, #FF9966, #FF6B35)",
     rankBg: "#CC4400", sizeBg: "#FFF0DC", sizeText: "#CC5500",
     kanji: "柴", kanjiSize: 64, kanjiColor: "rgba(255,255,255,0.25)",
@@ -52,6 +54,7 @@ const BREEDS: Breed[] = [
   {
     jp: "トイプードル", en: "Toy Poodle", rank: 2, size: "toy", sizeJp: "超小型", sizeEn: "Toy",
     originJp: "フランス", originEn: "France", flag: "",
+    image: "https://images.unsplash.com/photo-1591768793355-74d04bb6608f?w=600&q=80&auto=format&fit=crop",
     bannerBg: "linear-gradient(135deg, #9B72CF, #7B52AF)",
     rankBg: "#6B3AAF", sizeBg: "#F5F0FF", sizeText: "#7B52AF",
     kanji: "プー", kanjiSize: 44, kanjiColor: "rgba(255,255,255,0.22)",
@@ -62,6 +65,7 @@ const BREEDS: Breed[] = [
   {
     jp: "チワワ", en: "Chihuahua", rank: 3, size: "toy", sizeJp: "超小型", sizeEn: "Tiny",
     originJp: "メキシコ", originEn: "Mexico", flag: "",
+    image: "https://images.unsplash.com/photo-1605568427561-40dd23c2acea?w=600&q=80&auto=format&fit=crop",
     bannerBg: "linear-gradient(135deg, #F6D365, #FDA085)",
     rankBg: "#E8820A", sizeBg: "#FFF8DC", sizeText: "#D4920A",
     kanji: "チ", kanjiSize: 64, kanjiColor: "rgba(255,255,255,0.28)",
@@ -72,6 +76,7 @@ const BREEDS: Breed[] = [
   {
     jp: "ポメラニアン", en: "Pomeranian", rank: 4, size: "small", sizeJp: "小型", sizeEn: "Small",
     originJp: "ドイツ", originEn: "Germany", flag: "",
+    image: "https://images.unsplash.com/photo-1592194996308-7b43878e84a6?w=600&q=80&auto=format&fit=crop",
     bannerBg: "linear-gradient(135deg, #FFECD2, #FCB69F)",
     rankBg: "#C47040", sizeBg: "#FFF4EC", sizeText: "#C47040",
     kanji: "ポメ", kanjiSize: 42, kanjiColor: "rgba(180,90,40,0.22)",
@@ -82,6 +87,7 @@ const BREEDS: Breed[] = [
   {
     jp: "ゴールデンレトリバー", en: "Golden Retriever", rank: 5, size: "large", sizeJp: "大型", sizeEn: "Large",
     originJp: "イギリス", originEn: "UK", flag: "",
+    image: "https://images.unsplash.com/photo-1552053831-71594a27632d?w=600&q=80&auto=format&fit=crop",
     bannerBg: "linear-gradient(135deg, #F7971E, #FFD200)",
     rankBg: "#C48A00", sizeBg: "#FFF8DC", sizeText: "#C48A00",
     kanji: "金", kanjiSize: 64, kanjiColor: "rgba(255,255,255,0.25)",
@@ -92,6 +98,7 @@ const BREEDS: Breed[] = [
   {
     jp: "ミニチュアダックス", en: "Mini Dachshund", rank: 6, size: "small", sizeJp: "小型", sizeEn: "Small",
     originJp: "ドイツ", originEn: "Germany", flag: "",
+    image: "https://images.unsplash.com/photo-1612536057832-2ff7ead58194?w=600&q=80&auto=format&fit=crop",
     bannerBg: "linear-gradient(135deg, #C4714E, #A0522D)",
     rankBg: "#7A3A1E", sizeBg: "#FFF0DC", sizeText: "#A0522D",
     kanji: "ダックス", kanjiSize: 32, kanjiColor: "rgba(255,255,255,0.22)",
@@ -102,6 +109,7 @@ const BREEDS: Breed[] = [
   {
     jp: "フレンチブルドッグ", en: "French Bulldog", rank: 7, size: "small", sizeJp: "小型", sizeEn: "Small",
     originJp: "フランス", originEn: "France", flag: "",
+    image: "https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=600&q=80&auto=format&fit=crop",
     bannerBg: "linear-gradient(135deg, #4FACFE, #00F2FE)",
     rankBg: "#0080CC", sizeBg: "#E8F4FF", sizeText: "#0080CC",
     kanji: "フレブル", kanjiSize: 32, kanjiColor: "rgba(255,255,255,0.22)",
@@ -112,6 +120,7 @@ const BREEDS: Breed[] = [
   {
     jp: "ヨークシャテリア", en: "Yorkshire Terrier", rank: 8, size: "toy", sizeJp: "超小型", sizeEn: "Tiny",
     originJp: "イギリス", originEn: "UK", flag: "",
+    image: "https://images.unsplash.com/photo-1583511655826-05700d52f4d9?w=600&q=80&auto=format&fit=crop",
     bannerBg: "linear-gradient(135deg, #A18CD1, #FBC2EB)",
     rankBg: "#7B52AF", sizeBg: "#F8F0FF", sizeText: "#7B52AF",
     kanji: "ヨーキー", kanjiSize: 32, kanjiColor: "rgba(255,255,255,0.24)",
@@ -122,6 +131,7 @@ const BREEDS: Breed[] = [
   {
     jp: "ミックス犬", en: "Mixed Breed", rank: null, size: "various", sizeJp: "様々", sizeEn: "Various",
     originJp: "世界", originEn: "Global", flag: "",
+    image: "https://images.unsplash.com/photo-1477884213360-7e9d7dcc1e48?w=600&q=80&auto=format&fit=crop",
     bannerBg: "linear-gradient(135deg, #FF9966, #9B72CF, #4FACFE, #F7971E)",
     rankBg: "#6BAF92", sizeBg: "linear-gradient(135deg,#FFE4D0,#E8D6FF,#D6EEFF,#FFF4CC)", sizeText: "#7B52AF",
     kanji: "∞", kanjiSize: 56, kanjiColor: "rgba(255,255,255,0.4)",
@@ -131,6 +141,44 @@ const BREEDS: Breed[] = [
     health: [{ jp: "個体差あり", en: "Varies by mix", level: "watch" }],
   },
 ];
+
+/* ─────────────────────────────────────── Breed Image (with fallback) ─────────────────────────────────────── */
+
+function BreedImage({
+  breed, style, children, overlay = "linear-gradient(to bottom, rgba(0,0,0,0.10), rgba(0,0,0,0.45))",
+}: { breed: Breed; style?: CSSProperties; children?: ReactNode; overlay?: string | false }) {
+  const [failed, setFailed] = useState(false);
+  const showImage = !!breed.image && !failed;
+  return (
+    <div style={{ position: "absolute", inset: 0, ...style }}>
+      {/* Fallback layer: gradient + kanji (always present underneath) */}
+      <div style={{
+        position: "absolute", inset: 0,
+        background: breed.bannerBg,
+        backgroundSize: breed.animateGradient ? "300% 300%" : undefined,
+        animation: breed.animateGradient ? "breedGradientShift 6s ease infinite" : undefined,
+        display: "flex", alignItems: "center", justifyContent: "center",
+        fontSize: breed.kanjiSize, fontWeight: 900, color: breed.kanjiColor,
+        letterSpacing: "-0.02em", lineHeight: 1, userSelect: "none",
+      }}>
+        {!showImage && breed.kanji}
+      </div>
+      {showImage && (
+        <img
+          src={breed.image}
+          alt={breed.en}
+          loading="lazy"
+          onError={() => setFailed(true)}
+          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+        />
+      )}
+      {showImage && overlay && (
+        <div style={{ position: "absolute", inset: 0, background: overlay, pointerEvents: "none" }} />
+      )}
+      {children}
+    </div>
+  );
+}
 
 /* ─────────────────────────────────────── Filter Chips ─────────────────────────────────────── */
 
@@ -263,34 +311,38 @@ function Breeds() {
         <button
           onClick={() => setOpenBreed(featured)}
           style={{
-            width: "100%", height: 72, display: "flex", alignItems: "center",
-            background: featured.bannerBg,
-            borderRadius: 16, padding: "0 20px",
+            position: "relative",
+            width: "100%", height: 72,
+            borderRadius: 16, overflow: "hidden",
             boxShadow: "0 4px 16px rgba(255,107,53,0.25)",
-            textAlign: "left", gap: 12,
+            textAlign: "left",
+            border: "none", padding: 0,
           }}
         >
-          <div style={{ flex: 1, color: "white" }}>
-            <span style={{
-              display: "inline-block",
-              background: "#FFFFFF", color: "#FF6B35",
-              fontSize: 9, fontWeight: 800, letterSpacing: "0.08em",
-              padding: "3px 8px", borderRadius: 10, marginBottom: 4,
-            }}>
-              {t("今日の犬種", "TODAY'S BREED")}
-            </span>
-            <div style={{ fontSize: 18, fontWeight: 800, lineHeight: 1.1 }}>
-              {language === "english" ? "Shiba Inu" : language === "japanese" ? "柴犬" : "柴犬 · Shiba Inu"}
+          <BreedImage breed={featured} overlay="linear-gradient(90deg, rgba(0,0,0,0.55), rgba(0,0,0,0.15))" />
+          <div style={{ position: "relative", height: "100%", display: "flex", alignItems: "center", padding: "0 20px", gap: 12 }}>
+            <div style={{ flex: 1, color: "white" }}>
+              <span style={{
+                display: "inline-block",
+                background: "#FFFFFF", color: "#FF6B35",
+                fontSize: 9, fontWeight: 800, letterSpacing: "0.08em",
+                padding: "3px 8px", borderRadius: 10, marginBottom: 4,
+              }}>
+                {t("今日の犬種", "TODAY'S BREED")}
+              </span>
+              <div style={{ fontSize: 18, fontWeight: 800, lineHeight: 1.1, textShadow: "0 1px 4px rgba(0,0,0,0.4)" }}>
+                {language === "english" ? "Shiba Inu" : language === "japanese" ? "柴犬" : "柴犬 · Shiba Inu"}
+              </div>
             </div>
-          </div>
-          <div style={{
-            display: "flex", alignItems: "center", gap: 4,
-            background: "#FFFFFF", color: "#FF6B35",
-            fontSize: 12, fontWeight: 800,
-            padding: "6px 14px", borderRadius: 20,
-          }}>
-            <span>{t("詳しく", "More")}</span>
-            <ArrowRight size={12} strokeWidth={2.8} />
+            <div style={{
+              display: "flex", alignItems: "center", gap: 4,
+              background: "#FFFFFF", color: "#FF6B35",
+              fontSize: 12, fontWeight: 800,
+              padding: "6px 14px", borderRadius: 20,
+            }}>
+              <span>{t("詳しく", "More")}</span>
+              <ArrowRight size={12} strokeWidth={2.8} />
+            </div>
           </div>
         </button>
       </div>
@@ -326,48 +378,31 @@ function BreedCard({ breed, onOpen, language, t }: { breed: Breed; onOpen: () =>
         display: "flex", flexDirection: "column",
       }}
     >
-      {/* TOP COLOUR BANNER */}
-      <div style={{
-        position: "relative", height: 100,
-        background: breed.bannerBg,
-        backgroundSize: breed.animateGradient ? "300% 300%" : undefined,
-        animation: breed.animateGradient ? "breedGradientShift 6s ease infinite" : undefined,
-        overflow: "hidden",
-      }}>
-        {/* Small icon top-left */}
-        <Icon
-          size={22}
-          color={breed.iconColor}
-          strokeWidth={2}
-          style={{ position: "absolute", top: 10, left: 10 }}
-        />
+      {/* TOP IMAGE BANNER */}
+      <div style={{ position: "relative", height: 100, overflow: "hidden" }}>
+        <BreedImage breed={breed}>
+          {/* Small icon top-left */}
+          <Icon
+            size={22}
+            color="rgba(255,255,255,0.95)"
+            strokeWidth={2}
+            style={{ position: "absolute", top: 10, left: 10, filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.4))" }}
+          />
 
-        {/* Centered giant kanji */}
-        <div style={{
-          position: "absolute", inset: 0,
-          display: "flex", alignItems: "center", justifyContent: "center",
-          fontSize: breed.kanjiSize, fontWeight: 900,
-          color: breed.kanjiColor,
-          letterSpacing: "-0.02em",
-          lineHeight: 1,
-          userSelect: "none",
-        }}>
-          {breed.kanji}
-        </div>
-
-        {/* Popularity badge top-right */}
-        {breed.rank !== null && (
-          <div style={{
-            position: "absolute", top: 0, right: 0,
-            background: breed.rankBg, color: "white",
-            padding: "4px 10px", height: 28,
-            fontSize: 11, fontWeight: 800,
-            borderRadius: "0 20px 0 12px",
-            display: "flex", alignItems: "center",
-          }}>
-            #{breed.rank}
-          </div>
-        )}
+          {/* Popularity badge top-right */}
+          {breed.rank !== null && (
+            <div style={{
+              position: "absolute", top: 0, right: 0,
+              background: breed.rankBg, color: "white",
+              padding: "4px 10px", height: 28,
+              fontSize: 11, fontWeight: 800,
+              borderRadius: "0 20px 0 12px",
+              display: "flex", alignItems: "center",
+            }}>
+              #{breed.rank}
+            </div>
+          )}
+        </BreedImage>
       </div>
 
       {/* BOTTOM INFO */}
@@ -428,12 +463,14 @@ function BreedDetail({ breed, onClose }: { breed: Breed; onClose: () => void }) 
       >
         {/* HERO BANNER */}
         <div style={{
-          position: "relative", height: 200, overflow: "hidden",
-          background: breed.bannerBg,
-          backgroundSize: breed.animateGradient ? "300% 300%" : undefined,
-          animation: breed.animateGradient ? "breedGradientShift 6s ease infinite" : undefined,
+          position: "relative", height: 240, overflow: "hidden",
           borderRadius: "24px 24px 0 0",
         }}>
+          <BreedImage
+            breed={breed}
+            overlay="linear-gradient(to bottom, rgba(0,0,0,0.10) 0%, rgba(0,0,0,0.10) 55%, rgba(0,0,0,0.55) 100%)"
+          />
+
           <button onClick={onClose} style={{
             position: "absolute", top: 16, left: 16, width: 36, height: 36,
             borderRadius: "50%", background: "rgba(255,255,255,0.9)", backdropFilter: "blur(10px)",
@@ -443,34 +480,18 @@ function BreedDetail({ breed, onClose }: { breed: Breed; onClose: () => void }) 
             <ArrowLeft size={18} color="#2C2C2C" />
           </button>
 
-          <Icon
-            size={32}
-            color={breed.iconColor}
-            strokeWidth={2}
-            style={{ position: "absolute", top: 20, right: 20 }}
-          />
-
-          <div style={{
-            position: "absolute", inset: 0,
-            display: "flex", alignItems: "center", justifyContent: "center",
-            fontSize: Math.round(breed.kanjiSize * 2.2), fontWeight: 900,
-            color: breed.kanjiColor, lineHeight: 1, letterSpacing: "-0.02em",
-            userSelect: "none",
-          }}>
-            {breed.kanji}
-          </div>
-
           {breed.rank !== null && (
             <div style={{
-              position: "absolute", bottom: 16, right: 16,
+              position: "absolute", top: 16, right: 16, zIndex: 2,
               background: breed.rankBg, color: "white",
               padding: "6px 12px", fontSize: 12, fontWeight: 800, borderRadius: 14,
-              boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
+              boxShadow: "0 2px 8px rgba(0,0,0,0.25)",
             }}>
               #{breed.rank} {t("人気", "Popular")}
             </div>
           )}
-          <div className="w-12 h-1.5 rounded-full" style={{ position: "absolute", top: 8, left: "50%", transform: "translateX(-50%)", background: "rgba(0,0,0,0.15)" }} />
+
+          <div className="w-12 h-1.5 rounded-full" style={{ position: "absolute", top: 8, left: "50%", transform: "translateX(-50%)", background: "rgba(255,255,255,0.55)", zIndex: 2 }} />
         </div>
 
         {/* NAME */}
