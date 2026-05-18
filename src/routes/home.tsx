@@ -10,6 +10,7 @@ import { motion } from "framer-motion";
 import { T, useT, useLanguage } from "@/context/LanguageContext";
 import { usePet, displayName } from "@/context/PetContext";
 import DogAvatar, { BREED_KEY_BY_JP, type BreedKey } from "@/components/DogAvatar";
+import BreedFullBody from "@/components/BreedFullBody";
 
 export const Route = createFileRoute("/home")({ component: Home });
 
@@ -169,20 +170,19 @@ function PostcardScene({ band, breedKey }: { band: TimeBand; breedKey: BreedKey 
         return <div key={i} style={{ position:"absolute", left:l, top:t, width:sz, height:sz, borderRadius:"50%", background: s.blossom, opacity: op ?? 0.95 }}/>;
       })}
 
-      {/* Breed dog (replaces Mt. Fuji) */}
+      {/* Full-body breed dog (replaces Mt. Fuji) */}
       <div
         style={{
           position: "absolute",
-          bottom: 6,
-          right: 8,
-          width: 120,
-          height: 120,
-          animation: "dogIdleBounce 2.4s ease-in-out infinite",
-          transformOrigin: "50% 90%",
-          filter: "drop-shadow(0 4px 6px rgba(0,0,0,0.12))",
+          bottom: 0,
+          right: 6,
+          height: 160,
+          width: 160,
+          animation: "dogFloat 3s ease-in-out infinite",
+          filter: "drop-shadow(0 6px 8px rgba(0,0,0,0.12))",
         }}
       >
-        <DogAvatar breed={breedKey} size={120} ring={false} showCollar />
+        <BreedFullBody breed={breedKey} height={160} />
       </div>
 
       {/* Falling petals */}
@@ -225,11 +225,15 @@ function HeroPostcard({ score, name, mood, celebrate, breedKey }: { score: numbe
     >
       <PostcardScene band={band} breedKey={breedKey} />
 
-      {/* Idle bounce keyframes for breed dog */}
+      {/* Float + tail wag keyframes for breed dog */}
       <style>{`
-        @keyframes dogIdleBounce {
-          0%,100% { transform: translateY(0) rotate(-1deg); }
-          50% { transform: translateY(-4px) rotate(2deg); }
+        @keyframes dogFloat {
+          0%,100% { transform: translateY(0); }
+          50% { transform: translateY(-6px); }
+        }
+        @keyframes tailWag {
+          0%,100% { transform: rotate(-8deg); }
+          50% { transform: rotate(14deg); }
         }
       `}</style>
 
