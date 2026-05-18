@@ -409,10 +409,10 @@ function BreedCard({ breed, onOpen, language, t }: { breed: Breed; onOpen: () =>
       <div style={{ padding: "12px 14px", display: "flex", flexDirection: "column", gap: 8 }}>
         <div>
           <div style={{ fontSize: nameSize, fontWeight: 800, color: "#2C2C2C", lineHeight: 1.2 }}>
-            {language === "english" ? breed.en : breed.jp}
+            {breed.jp}
           </div>
           <div style={{ fontSize: 11, color: "#8A8A8A", marginTop: 2 }}>
-            {language === "japanese" ? breed.en : breed.en}
+            {breed.en}
           </div>
         </div>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 4 }}>
