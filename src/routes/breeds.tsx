@@ -248,13 +248,17 @@ function Breeds() {
       }
       // 2) Fallback: out-of-order multi-word fuzzy match via Fuse.
       const tokens = ql.split(/\s+/).filter(Boolean);
+      const fieldNames = [
+        "name_jp", "name_en", "name_kana",
+        "country_jp", "country_en", "size_jp", "size_en",
+      ] as const;
       const fuzzyResults =
         tokens.length > 1
-          ? fuse.search({ $and: tokens.map((tok) => ({ $or: [
-              { name_jp: tok }, { name_en: tok }, { name_kana: tok },
-              { country_jp: tok }, { country_en: tok },
-              { size_jp: tok }, { size_en: tok },
-            ] })) })
+          ? fuse.search({
+              $and: tokens.map((tok) => ({
+                $or: fieldNames.map((f) => ({ [f]: tok })),
+              })),
+            })
           : fuse.search(q);
       const fuzzyHits: Breed[] = [];
       fuzzyResults.forEach((r) => {
