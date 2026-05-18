@@ -204,16 +204,47 @@ function Breeds() {
   const [openBreed, setOpenBreed] = useState<Breed | null>(null);
   const [focused, setFocused] = useState(false);
 
-  const filtered = useMemo(() => {
-    let list = BREEDS;
-    if (filter === "popular") list = [...list].filter((b) => b.rank !== null).sort((a, b) => a.rank! - b.rank!);
-    else if (filter !== "all") list = list.filter((b) => b.size === filter);
-    if (query.trim()) {
-      const q = query.toLowerCase();
-      list = list.filter((b) => b.jp.toLowerCase().includes(q) || b.en.toLowerCase().includes(q));
+  const fuse = useMemo(
+    () =>
+      new Fuse(BREEDS, {
+        threshold: 0.4,
+        keys: [
+          { name: "name_jp", getFn: (b) => b.jp },
+          { name: "name_en", getFn: (b) => b.en },
+          { name: "name_kana", getFn: (b) => b.kana },
+          { name: "country_jp", getFn: (b) => b.originJp },
+          { name: "country_en", getFn: (b) => b.originEn },
+          { name: "size_jp", getFn: (b) => b.sizeJp },
+          { name: "size_en", getFn: (b) => b.sizeEn },
+        ],
+        includeScore: true,
+        includeMatches: true,
+        minMatchCharLength: 1,
+        ignoreLocation: true,
+      }),
+    []
+  );
+
+  const q = query.trim();
+  const hasQuery = q.length > 0;
+
+  const { filtered, matchesByKey } = useMemo(() => {
+    let list: Breed[] = BREEDS;
+    const matches = new Map<string, readonly FuseResultMatch[]>();
+    if (hasQuery) {
+      const results = fuse.search(q);
+      list = results.map((r) => r.item);
+      results.forEach((r) => {
+        if (r.matches) matches.set(r.item.en, r.matches);
+      });
     }
-    return list;
-  }, [filter, query]);
+    if (filter === "popular") {
+      list = [...list].filter((b) => b.rank !== null).sort((a, b) => a.rank! - b.rank!);
+    } else if (filter !== "all") {
+      list = list.filter((b) => b.size === filter);
+    }
+    return { filtered: list, matchesByKey: matches };
+  }, [filter, q, hasQuery, fuse]);
 
   const featured = BREEDS[0];
 
