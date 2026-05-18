@@ -205,3 +205,17 @@
   .scrollbar-hide::-webkit-scrollbar { display: none; }
   .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
 }
+
+/* === Global typography: kawaii Japanese-friendly stack === */
+body, p, span, div, li, a, label, input, textarea, select {
+  font-family: "Noto Serif JP", "Noto Sans JP", "Inter", system-ui, sans-serif;
+}
+h1, h2, h3, h4, h5, h6, button {
+  font-family: "Zen Maru Gothic", "Noto Sans JP", system-ui, sans-serif;
+}
+h1, h2, h3 { font-weight: 700; }
+h4, h5, h6 { font-weight: 500; }
+.font-numeric, time, .tabular-nums {
+  font-family: "Kosugi Maru", "Noto Sans JP", system-ui, sans-serif;
+  font-weight: 400;
+}
