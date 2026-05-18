@@ -16,7 +16,7 @@ type SizeKey = "toy" | "small" | "medium" | "large" | "various";
 type Breed = {
   jp: string;
   en: string;
-  kana: string;          // katakana reading for fuzzy search
+  kana: string;
   rank: number | null;
   size: SizeKey;
   sizeJp: string;
@@ -24,18 +24,26 @@ type Breed = {
   originJp: string;
   originEn: string;
   flag: string;
+  // Rich profile data
+  groupJp: string;
+  groupEn: string;
+  temperamentJp: string;
+  temperamentEn: string;
+  lifeSpan: string;
+  diagnosticNoteJp: string;
+  diagnosticNoteEn: string;
   // Banner styling
-  bannerBg: string;        // CSS background for top banner
-  rankBg: string;          // popularity pill colour
-  sizeBg: string;          // size pill background
-  sizeText: string;        // size pill text colour
-  kanji: string;           // big faded character(s) in banner
-  kanjiSize: number;       // px
-  kanjiColor: string;      // rgba(...)
+  bannerBg: string;
+  rankBg: string;
+  sizeBg: string;
+  sizeText: string;
+  kanji: string;
+  kanjiSize: number;
+  kanjiColor: string;
   Icon: ComponentType<LucideProps>;
   iconColor: string;
   animateGradient?: boolean;
-  image?: string;          // real breed photo (Unsplash)
+  image?: string;
   // Detail extras
   stats: { energy: number; friendly: number; train: number; groom: number };
   health: { jp: string; en: string; level: "watch" | "concern" }[];
@@ -45,6 +53,11 @@ const BREEDS: Breed[] = [
   {
     jp: "柴犬", en: "Shiba Inu", kana: "シバイヌ", rank: 1, size: "small", sizeJp: "小型", sizeEn: "Small",
     originJp: "日本", originEn: "Japan", flag: "",
+    groupJp: "非スポーティング", groupEn: "Non-Sporting",
+    temperamentJp: "警戒心が強い・忠実・自信家", temperamentEn: "Alert, Faithful, Confident",
+    lifeSpan: "12-15 years",
+    diagnosticNoteJp: "活動量が多いため、不安を隠す行動に注意したベースライン調整が必要。",
+    diagnosticNoteEn: "High activity telemetry requires careful baseline adjustment for anxiety hiding behaviors.",
     image: "https://images.unsplash.com/photo-1579213838429-c981f6f52bdf?w=400&q=80&auto=format&fit=crop",
     bannerBg: "linear-gradient(135deg, #FF9966, #FF6B35)",
     rankBg: "#CC4400", sizeBg: "#FFF0DC", sizeText: "#CC5500",
@@ -54,8 +67,45 @@ const BREEDS: Breed[] = [
     health: [{ jp: "膝蓋骨脱臼", en: "Patellar Luxation", level: "watch" }, { jp: "アレルギー", en: "Allergies", level: "watch" }],
   },
   {
+    jp: "シーズー", en: "Shih Tzu", kana: "シーズー", rank: 10, size: "toy", sizeJp: "超小型", sizeEn: "Toy",
+    originJp: "チベット", originEn: "Tibet", flag: "",
+    groupJp: "トイ", groupEn: "Toy",
+    temperamentJp: "愛情深い・遊び好き・賢い", temperamentEn: "Affectionate, Playful, Clever",
+    lifeSpan: "10-16 years",
+    diagnosticNoteJp: "短頭種のため、BarkSense AIによる呼吸器トラッキングが必須。",
+    diagnosticNoteEn: "Brachycephalic respiratory tracking required via BarkSense AI.",
+    image: "https://images.unsplash.com/photo-1591768793355-74d04bb6608f?w=400&q=80&auto=format&fit=crop",
+    bannerBg: "linear-gradient(135deg, #F4C7AB, #C99280)",
+    rankBg: "#8C5A46", sizeBg: "#FFF1E6", sizeText: "#8C5A46",
+    kanji: "獅", kanjiSize: 60, kanjiColor: "rgba(255,255,255,0.28)",
+    Icon: Crown, iconColor: "rgba(255,255,255,0.65)",
+    stats: { energy: 50, friendly: 85, train: 60, groom: 95 },
+    health: [{ jp: "短頭種症候群", en: "Brachycephalic Syndrome", level: "concern" }, { jp: "眼疾患", en: "Eye Issues", level: "watch" }],
+  },
+  {
+    jp: "シベリアンハスキー", en: "Siberian Husky", kana: "シベリアンハスキー", rank: 11, size: "large", sizeJp: "大型", sizeEn: "Large",
+    originJp: "シベリア", originEn: "Siberia", flag: "",
+    groupJp: "ワーキング", groupEn: "Working",
+    temperamentJp: "社交的・友好的・穏やか", temperamentEn: "Outgoing, Friendly, Gentle",
+    lifeSpan: "12-14 years",
+    diagnosticNoteJp: "寒冷地仕様のため、サーマルセンサーで体温変動を監視し熱中症を防ぐ。",
+    diagnosticNoteEn: "Thrives in cold environments; thermal sensors monitor internal temperature variations against dangerous overheating.",
+    image: "https://images.unsplash.com/photo-1605568427561-40dd23c2acea?w=400&q=80&auto=format&fit=crop",
+    bannerBg: "linear-gradient(135deg, #A8D0E8, #5A8FB8)",
+    rankBg: "#2E6B8A", sizeBg: "#E8F2FA", sizeText: "#2E6B8A",
+    kanji: "雪", kanjiSize: 64, kanjiColor: "rgba(255,255,255,0.28)",
+    Icon: Wind, iconColor: "rgba(255,255,255,0.65)",
+    stats: { energy: 95, friendly: 85, train: 70, groom: 70 },
+    health: [{ jp: "熱中症", en: "Heat Stroke", level: "concern" }, { jp: "眼疾患", en: "Eye Issues", level: "watch" }],
+  },
+  {
     jp: "トイプードル", en: "Toy Poodle", kana: "トイプードル", rank: 2, size: "toy", sizeJp: "超小型", sizeEn: "Toy",
     originJp: "フランス", originEn: "France", flag: "",
+    groupJp: "トイ", groupEn: "Toy",
+    temperamentJp: "賢い・活発・愛情深い", temperamentEn: "Intelligent, Active, Affectionate",
+    lifeSpan: "12-15 years",
+    diagnosticNoteJp: "外耳炎の傾向あり。耳道の湿度・温度トレンドの定期確認を推奨。",
+    diagnosticNoteEn: "Ear-canal humidity & temperature trends should be reviewed regularly to flag early otitis.",
     image: "https://images.unsplash.com/photo-1586671267731-da2cf3ceeb80?w=400&q=80&auto=format&fit=crop",
     bannerBg: "linear-gradient(135deg, #9B72CF, #7B52AF)",
     rankBg: "#6B3AAF", sizeBg: "#F5F0FF", sizeText: "#7B52AF",
@@ -67,6 +117,11 @@ const BREEDS: Breed[] = [
   {
     jp: "チワワ", en: "Chihuahua", kana: "チワワ", rank: 3, size: "toy", sizeJp: "超小型", sizeEn: "Tiny",
     originJp: "メキシコ", originEn: "Mexico", flag: "",
+    groupJp: "トイ", groupEn: "Toy",
+    temperamentJp: "勇敢・機敏・愛情深い", temperamentEn: "Bold, Alert, Devoted",
+    lifeSpan: "14-16 years",
+    diagnosticNoteJp: "気管虚脱の兆候を検知するため、咳と呼吸音の継続モニタリングが重要。",
+    diagnosticNoteEn: "Continuous cough & airway-sound monitoring helps detect early tracheal collapse signs.",
     image: "https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=400&q=80&auto=format&fit=crop",
     bannerBg: "linear-gradient(135deg, #F6D365, #FDA085)",
     rankBg: "#E8820A", sizeBg: "#FFF8DC", sizeText: "#D4920A",
@@ -78,6 +133,11 @@ const BREEDS: Breed[] = [
   {
     jp: "ポメラニアン", en: "Pomeranian", kana: "ポメラニアン", rank: 4, size: "small", sizeJp: "小型", sizeEn: "Small",
     originJp: "ドイツ", originEn: "Germany", flag: "",
+    groupJp: "トイ", groupEn: "Toy",
+    temperamentJp: "活発・人懐っこい・知的", temperamentEn: "Lively, Friendly, Intelligent",
+    lifeSpan: "12-16 years",
+    diagnosticNoteJp: "気管虚脱に注意。吠え声パターンと呼吸変動を継続追跡。",
+    diagnosticNoteEn: "Watch for tracheal weakness; continuously track bark patterns and breathing variability.",
     image: "https://images.unsplash.com/photo-1558788353-f76d92427f16?w=400&q=80&auto=format&fit=crop",
     bannerBg: "linear-gradient(135deg, #FFECD2, #FCB69F)",
     rankBg: "#C47040", sizeBg: "#FFF4EC", sizeText: "#C47040",
@@ -89,6 +149,11 @@ const BREEDS: Breed[] = [
   {
     jp: "ゴールデンレトリバー", en: "Golden Retriever", kana: "ゴールデンレトリバー", rank: 5, size: "large", sizeJp: "大型", sizeEn: "Large",
     originJp: "イギリス", originEn: "UK", flag: "",
+    groupJp: "スポーティング", groupEn: "Sporting",
+    temperamentJp: "知的・優しい・信頼できる", temperamentEn: "Intelligent, Kind, Trustworthy",
+    lifeSpan: "10-12 years",
+    diagnosticNoteJp: "早期関節症の素因あり。GaitSense AIが微細な歩行劣化を追跡。",
+    diagnosticNoteEn: "High predisposition to early-stage arthritis; GaitSense AI tracks subtle mobility degradation.",
     image: "https://images.unsplash.com/photo-1633722715463-d30f4f325e24?w=400&q=80&auto=format&fit=crop",
     bannerBg: "linear-gradient(135deg, #F7971E, #FFD200)",
     rankBg: "#C48A00", sizeBg: "#FFF8DC", sizeText: "#C48A00",
@@ -100,6 +165,11 @@ const BREEDS: Breed[] = [
   {
     jp: "ミニチュアダックス", en: "Mini Dachshund", kana: "ミニチュアダックスフンド", rank: 6, size: "small", sizeJp: "小型", sizeEn: "Small",
     originJp: "ドイツ", originEn: "Germany", flag: "",
+    groupJp: "ハウンド", groupEn: "Hound",
+    temperamentJp: "勇敢・好奇心旺盛・友好的", temperamentEn: "Spunky, Curious, Friendly",
+    lifeSpan: "12-16 years",
+    diagnosticNoteJp: "椎間板ヘルニアの高リスク。背中の姿勢と歩行を継続監視。",
+    diagnosticNoteEn: "High IVDD risk; spine posture and gait require continuous monitoring.",
     image: "https://images.unsplash.com/photo-1612195583950-b8fd34c87093?w=400&q=80&auto=format&fit=crop",
     bannerBg: "linear-gradient(135deg, #C4714E, #A0522D)",
     rankBg: "#7A3A1E", sizeBg: "#FFF0DC", sizeText: "#A0522D",
@@ -111,6 +181,11 @@ const BREEDS: Breed[] = [
   {
     jp: "フレンチブルドッグ", en: "French Bulldog", kana: "フレンチブルドッグ", rank: 7, size: "small", sizeJp: "小型", sizeEn: "Small",
     originJp: "フランス", originEn: "France", flag: "",
+    groupJp: "非スポーティング", groupEn: "Non-Sporting",
+    temperamentJp: "順応性・遊び好き・賢い", temperamentEn: "Adaptable, Playful, Smart",
+    lifeSpan: "10-12 years",
+    diagnosticNoteJp: "突発的な咳パターンと呼吸異常を検知。",
+    diagnosticNoteEn: "Prone to sudden respiratory cough patterns and breathing anomalies.",
     image: "https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=400&q=80&auto=format&fit=crop",
     bannerBg: "linear-gradient(135deg, #4FACFE, #00F2FE)",
     rankBg: "#0080CC", sizeBg: "#E8F4FF", sizeText: "#0080CC",
@@ -122,6 +197,11 @@ const BREEDS: Breed[] = [
   {
     jp: "ヨークシャテリア", en: "Yorkshire Terrier", kana: "ヨークシャーテリア", rank: 8, size: "toy", sizeJp: "超小型", sizeEn: "Tiny",
     originJp: "イギリス", originEn: "UK", flag: "",
+    groupJp: "トイ", groupEn: "Toy",
+    temperamentJp: "勇敢・愛情深い・活発", temperamentEn: "Brave, Affectionate, Energetic",
+    lifeSpan: "13-16 years",
+    diagnosticNoteJp: "歯周病に注意。咀嚼パターンと口腔音の追跡を推奨。",
+    diagnosticNoteEn: "Dental disease prone; chew patterns and oral sounds should be tracked.",
     image: "https://images.unsplash.com/photo-1516148806338-702cf5f65c41?w=400&q=80&auto=format&fit=crop",
     bannerBg: "linear-gradient(135deg, #A18CD1, #FBC2EB)",
     rankBg: "#7B52AF", sizeBg: "#F8F0FF", sizeText: "#7B52AF",
@@ -133,6 +213,11 @@ const BREEDS: Breed[] = [
   {
     jp: "ミックス犬", en: "Mixed Breed", kana: "ミックスケン", rank: null, size: "various", sizeJp: "様々", sizeEn: "Various",
     originJp: "世界", originEn: "Global", flag: "",
+    groupJp: "様々", groupEn: "Various",
+    temperamentJp: "個体差あり・ユニーク", temperamentEn: "Varies, Unique to each dog",
+    lifeSpan: "10-18 years",
+    diagnosticNoteJp: "個体差が大きいため、Pawsitive AIが独自のベースラインを学習。",
+    diagnosticNoteEn: "High individual variance; Pawsitive AI learns a personalized baseline per dog.",
     image: "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=400&q=80&auto=format&fit=crop",
     bannerBg: "linear-gradient(135deg, #FF9966, #9B72CF, #4FACFE, #F7971E)",
     rankBg: "#6BAF92", sizeBg: "linear-gradient(135deg,#FFE4D0,#E8D6FF,#D6EEFF,#FFF4CC)", sizeText: "#7B52AF",
@@ -216,6 +301,13 @@ function Breeds() {
           { name: "country_en", getFn: (b) => b.originEn },
           { name: "size_jp", getFn: (b) => b.sizeJp },
           { name: "size_en", getFn: (b) => b.sizeEn },
+          { name: "group_jp", getFn: (b) => b.groupJp },
+          { name: "group_en", getFn: (b) => b.groupEn },
+          { name: "temperament_jp", getFn: (b) => b.temperamentJp },
+          { name: "temperament_en", getFn: (b) => b.temperamentEn },
+          { name: "lifespan", getFn: (b) => b.lifeSpan },
+          { name: "diagnostic_jp", getFn: (b) => b.diagnosticNoteJp },
+          { name: "diagnostic_en", getFn: (b) => b.diagnosticNoteEn },
         ],
         includeScore: true,
         includeMatches: true,
@@ -233,11 +325,9 @@ function Breeds() {
     const matches = new Map<string, readonly FuseResultMatch[]>();
     if (hasQuery) {
       const ql = q.toLowerCase();
-      // 1) Prefix matches on any searchable field — like a search-engine
-      //    suggestion box, these float to the top.
-      const prefixFields = (b: Breed) => [
-        b.jp, b.en, b.kana, b.originJp, b.originEn, b.sizeJp, b.sizeEn,
-      ];
+      // 1) Prefix matches scoped to NAME fields (jp / en / kana) so partial
+      //    phrases like "Shi" instantly float Shih Tzu / Shiba Inu to the top.
+      const prefixFields = (b: Breed) => [b.jp, b.en, b.kana];
       const prefixHits: Breed[] = [];
       const prefixSet = new Set<string>();
       for (const b of BREEDS) {
@@ -251,6 +341,8 @@ function Breeds() {
       const fieldNames = [
         "name_jp", "name_en", "name_kana",
         "country_jp", "country_en", "size_jp", "size_en",
+        "group_jp", "group_en", "temperament_jp", "temperament_en",
+        "lifespan", "diagnostic_jp", "diagnostic_en",
       ] as const;
       const fuzzyResults =
         tokens.length > 1
@@ -436,8 +528,8 @@ function Breeds() {
         </div>
       )}
 
-      {/* GRID */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, padding: "12px 16px 24px" }}>
+      {/* RESULTS — rich single-column profile cards */}
+      <div style={{ display: "flex", flexDirection: "column", gap: 14, padding: "12px 16px 24px" }}>
         {filtered.map((b) => (
           <BreedCard
             key={b.en}
@@ -525,63 +617,114 @@ function SadDog() {
 
 function BreedCard({ breed, onOpen, language, t, matches }: { breed: Breed; onOpen: () => void; language: string; t: (jp: string, en: string) => string; matches?: readonly FuseResultMatch[] }) {
   const Icon = breed.Icon;
-  const nameSize = breed.jp.length > 8 ? 11 : breed.jp.length > 6 ? 13 : 15;
   const primaryName = language === "english" ? breed.en : breed.jp;
   const primaryKey = language === "english" ? "name_en" : "name_jp";
+  const showSecondary = language !== "japanese" && primaryName !== breed.en;
+
+  const rows: { jp: string; en: string; valueJp: string; valueEn: string; keyJp?: string; keyEn?: string }[] = [
+    { jp: "グループ", en: "GROUP", valueJp: breed.groupJp, valueEn: breed.groupEn, keyJp: "group_jp", keyEn: "group_en" },
+    { jp: "原産国", en: "ORIGIN", valueJp: breed.originJp, valueEn: breed.originEn, keyJp: "country_jp", keyEn: "country_en" },
+    { jp: "性格", en: "TEMPERAMENT", valueJp: breed.temperamentJp, valueEn: breed.temperamentEn, keyJp: "temperament_jp", keyEn: "temperament_en" },
+    { jp: "寿命", en: "LIFE SPAN", valueJp: breed.lifeSpan, valueEn: breed.lifeSpan, keyJp: "lifespan", keyEn: "lifespan" },
+  ];
+
   return (
     <button
       onClick={onOpen}
       style={{
-        background: "#FFFFFF", borderRadius: 20, overflow: "hidden",
-        boxShadow: "0 4px 16px rgba(0,0,0,0.08)", textAlign: "left",
-        display: "flex", flexDirection: "column",
+        background: "#FFFFFF", borderRadius: 22, overflow: "hidden",
+        boxShadow: "0 4px 16px rgba(0,0,0,0.06)", textAlign: "left",
+        display: "flex", flexDirection: "column", border: "1px solid #EFEAE3",
       }}
     >
-      {/* TOP IMAGE BANNER */}
-      <div style={{ position: "relative", height: 100, overflow: "hidden" }}>
+      {/* HERO BANNER */}
+      <div style={{ position: "relative", height: 132, overflow: "hidden" }}>
         <BreedImage breed={breed}>
           <Icon
             size={22}
             color="rgba(255,255,255,0.95)"
             strokeWidth={2}
-            style={{ position: "absolute", top: 10, left: 10, filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.4))" }}
+            style={{ position: "absolute", top: 12, left: 12, filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.4))" }}
           />
           {breed.rank !== null && (
             <div style={{
               position: "absolute", top: 0, right: 0,
               background: breed.rankBg, color: "white",
-              padding: "4px 10px", height: 28,
+              padding: "5px 12px", height: 28,
               fontSize: 11, fontWeight: 800,
-              borderRadius: "0 20px 0 12px",
+              borderRadius: "0 22px 0 12px",
               display: "flex", alignItems: "center",
             }}>
               #{breed.rank}
             </div>
           )}
+          {/* Name overlay */}
+          <div style={{ position: "absolute", left: 14, right: 14, bottom: 12, color: "white" }}>
+            <div style={{ fontSize: 20, fontWeight: 800, lineHeight: 1.1, letterSpacing: "-0.01em", textShadow: "0 1px 4px rgba(0,0,0,0.45)" }}>
+              <Highlight text={primaryName} matches={matches} keyName={primaryKey} />
+            </div>
+            {showSecondary && (
+              <div style={{ fontSize: 11, opacity: 0.9, marginTop: 2, textShadow: "0 1px 3px rgba(0,0,0,0.4)" }}>
+                <Highlight text={breed.en} matches={matches} keyName="name_en" />
+              </div>
+            )}
+          </div>
+          {/* Size pill */}
+          <span style={{
+            position: "absolute", top: 12, right: 12,
+            ...(breed.rank !== null ? { top: "auto", bottom: 12 } : {}),
+            background: "rgba(255,255,255,0.92)", color: breed.sizeText,
+            fontSize: 10, fontWeight: 800, padding: "4px 10px", borderRadius: 20,
+            letterSpacing: "0.04em",
+          }}>
+            {t(breed.sizeJp, breed.sizeEn).toUpperCase()}
+          </span>
         </BreedImage>
       </div>
 
-      {/* BOTTOM INFO */}
-      <div style={{ padding: "12px 14px", display: "flex", flexDirection: "column", gap: 8 }}>
-        <div>
-          <div style={{ fontSize: nameSize, fontWeight: 800, color: "#2C2C2C", lineHeight: 1.2 }}>
-            <Highlight text={primaryName} matches={matches} keyName={primaryKey} />
+      {/* PROFILE BODY */}
+      <div style={{ padding: "14px 16px 16px", display: "flex", flexDirection: "column", gap: 10 }}>
+        {rows.map((r) => (
+          <div key={r.en} style={{ display: "grid", gridTemplateColumns: "92px 1fr", gap: 10, alignItems: "baseline" }}>
+            <div style={{
+              fontSize: 9, fontWeight: 800, color: "#A89A8B",
+              letterSpacing: "0.14em", textTransform: "uppercase",
+            }}>
+              {t(r.jp, r.en)}
+            </div>
+            <div style={{ fontSize: 12.5, color: "#2C2C2C", fontWeight: 600, lineHeight: 1.35 }}>
+              {language === "japanese" ? (
+                <Highlight text={r.valueJp} matches={matches} keyName={r.keyJp ?? ""} />
+              ) : (
+                <Highlight text={r.valueEn} matches={matches} keyName={r.keyEn ?? ""} />
+              )}
+            </div>
           </div>
-          <div style={{ fontSize: 11, color: "#8A8A8A", marginTop: 2 }}>
-            <Highlight text={breed.en} matches={matches} keyName="name_en" />
+        ))}
+
+        {/* DIAGNOSTIC NOTE */}
+        <div style={{
+          marginTop: 4, padding: "10px 12px",
+          background: "linear-gradient(135deg, #FFF6F4, #FCEEEA)",
+          border: "1px solid #F5D9D2", borderRadius: 12,
+          display: "flex", gap: 10, alignItems: "flex-start",
+        }}>
+          <AlertTriangle size={14} color="#E8829A" strokeWidth={2.4} style={{ marginTop: 2, flexShrink: 0 }} />
+          <div style={{ minWidth: 0 }}>
+            <div style={{
+              fontSize: 9, fontWeight: 800, color: "#C86882",
+              letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 2,
+            }}>
+              {t("診断ノート", "Diagnostic Note")}
+            </div>
+            <div style={{ fontSize: 11.5, color: "#5A3D45", fontWeight: 500, lineHeight: 1.4 }}>
+              {language === "japanese" ? (
+                <Highlight text={breed.diagnosticNoteJp} matches={matches} keyName="diagnostic_jp" />
+              ) : (
+                <Highlight text={breed.diagnosticNoteEn} matches={matches} keyName="diagnostic_en" />
+              )}
+            </div>
           </div>
-        </div>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 4 }}>
-          <span style={{
-            background: breed.sizeBg, color: breed.sizeText,
-            fontSize: 10, fontWeight: 700, padding: "4px 10px", borderRadius: 20,
-            whiteSpace: "nowrap",
-          }}>
-            {t(breed.sizeJp, breed.sizeEn)}
-          </span>
-          <span style={{ fontSize: 10, color: "#8A8A8A", whiteSpace: "nowrap" }}>
-            {breed.flag} {t(breed.originJp, breed.originEn)}
-          </span>
         </div>
       </div>
     </button>
