@@ -8,14 +8,14 @@ export const Route = createFileRoute("/skin-sense")({ component: SkinSensePage }
 
 /* ---------- Pink palette ---------- */
 const C = {
-  primary: "#F472B6",
-  deep: "#BE185D",
-  mid: "#EC4899",
-  soft: "#FCE7F3",
-  pale: "#FDF2F8",
-  accent: "#F9A8D4",
-  muted: "#FBCFE8",
-  sakura: "#FFE4F0",
+  primary: "#F5BDD4",
+  deep: "#E8A0BF",
+  mid: "#F0A8C4",
+  soft: "#FEF0F6",
+  pale: "#FEF6FA",
+  accent: "#FAD0E4",
+  muted: "#FCE4EF",
+  sakura: "#FFF0F7",
   white: "#FFFFFF",
   text: "#1A1A2E",
   text2: "#6B7280",
@@ -42,8 +42,8 @@ function PinkCard({ children, style }: { children: ReactNode; style?: CSSPropert
     <div style={{
       background: C.white,
       borderRadius: 24,
-      boxShadow: "0 4px 20px rgba(244,114,182,0.1)",
-      borderLeft: `4px solid ${C.primary}`,
+      boxShadow: "0 4px 20px rgba(245,189,212,0.1)",
+      borderLeft: "4px solid #E8B4CC",
       padding: 20,
       marginBottom: 14,
       overflow: "hidden",
@@ -58,8 +58,8 @@ function Label({ jp, en }: { jp: string; en: string }) {
   const t = useT();
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 10 }}>
-      <span style={{ width: 6, height: 6, borderRadius: "50%", background: C.primary }} />
-      <span style={{ fontSize: 11, color: C.primary, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase" }}>
+      <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#C98BA8" }} />
+      <span style={{ fontSize: 11, color: "#C98BA8", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase" }}>
         {t(jp, en)}
       </span>
     </div>
@@ -128,16 +128,16 @@ function SkinSensePage() {
         @keyframes ssPetal { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
         @keyframes ssScan { 0%{top:0} 50%{top:calc(100% - 2px)} 100%{top:0} }
         @keyframes ssIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
-        @keyframes ssPulse { 0%,100%{box-shadow:0 6px 20px rgba(236,72,153,.4)} 50%{box-shadow:0 6px 28px rgba(236,72,153,.65)} }
+        @keyframes ssPulse { 0%,100%{box-shadow:0 6px 20px rgba(232,160,191,.4)} 50%{box-shadow:0 6px 28px rgba(232,160,191,.65)} }
         @keyframes ssDot { 0%,80%,100%{transform:translateY(0);opacity:.4} 40%{transform:translateY(-6px);opacity:1} }
         .ss-in { animation: ssIn 380ms cubic-bezier(.2,.7,.2,1) both; }
       `}</style>
 
-      <div style={{ background: C.pale, minHeight: "100%", paddingBottom: 110 }}>
+      <div style={{ background: "#FEF6FA", minHeight: "100%", paddingBottom: 110 }}>
         {/* ---- HERO ---- */}
         <div style={{
           position: "relative",
-          background: "linear-gradient(135deg, #BE185D 0%, #DB2777 50%, #F472B6 100%)",
+          background: "linear-gradient(135deg, #D4849E 0%, #E8A0BF 50%, #F5BDD4 100%)",
           minHeight: 160,
           borderBottomLeftRadius: 28,
           borderBottomRightRadius: 28,
@@ -199,13 +199,13 @@ function SkinSensePage() {
             background: "rgba(255,255,255,0.92)",
             backdropFilter: "blur(16px)",
             borderRadius: 22,
-            boxShadow: "0 12px 36px rgba(190,24,93,0.15)",
+            boxShadow: "0 12px 36px rgba(180,120,150,0.12)",
             padding: "16px 20px",
             display: "grid",
             gridTemplateColumns: "1fr 1fr 1fr",
           }}>
             {[
-              { label: t("皮膚スコア", "SKIN SCORE"), value: "94", color: C.mid },
+              { label: t("皮膚スコア", "SKIN SCORE"), value: "94", color: "#C98BA8" },
               { label: t("最終スキャン", "LAST SCAN"), value: t("5月12日", "May 12"), color: C.text },
               { label: t("状態", "CONDITION"), value: t("正常", "Normal"), color: C.ok },
             ].map((s, i) => (
@@ -232,7 +232,7 @@ function SkinSensePage() {
             {!photo ? (
               <div style={{
                 position: "relative",
-                background: "linear-gradient(135deg, #FDF2F8, #FCE7F3)",
+                background: "linear-gradient(135deg, #FEF6FA, #FEF0F6)",
                 border: `1.5px dashed ${C.accent}`,
                 borderRadius: 20,
                 height: 180,
@@ -242,21 +242,21 @@ function SkinSensePage() {
                 {/* scanning line */}
                 <div style={{
                   position: "absolute", left: 0, right: 0, height: 1.5,
-                  background: "linear-gradient(90deg, transparent, rgba(244,114,182,0.55), transparent)",
+                  background: "linear-gradient(90deg, transparent, rgba(245,189,212,0.55), transparent)",
                   animation: "ssScan 2.5s ease-in-out infinite",
                 }} />
                 {/* Viewfinder */}
                 <div style={{
                   width: 80, height: 80, borderRadius: "50%",
-                  border: "1px solid rgba(244,114,182,0.3)",
+                  border: "1px solid rgba(245,189,212,0.3)",
                   display: "flex", alignItems: "center", justifyContent: "center",
                   position: "relative",
                 }}>
                   <div style={{
                     position: "absolute", width: 65, height: 65, borderRadius: "50%",
-                    border: "1px solid rgba(244,114,182,0.15)",
+                    border: "1px solid rgba(245,189,212,0.15)",
                   }} />
-                  <Camera size={28} color={C.primary} strokeWidth={1.6} />
+                  <Camera size={28} color="#C98BA8" strokeWidth={1.6} />
                 </div>
                 <Bi
                   jp="愛犬の皮膚を撮影してください"
