@@ -8,17 +8,17 @@ export const Route = createFileRoute("/bark-sense")({ component: BarkSensePage }
 
 type Lang = "english" | "japanese" | "mixed";
 
-// Purple palette for this page
+// Soft pastel purple palette for this page
 const P = {
-  primary: "#7C3AED",
-  deep: "#3B1F6A",
-  mid: "#6D28D9",
-  soft: "#EDE9FE",
-  pale: "#F5F3FF",
-  accent: "#8B5CF6",
-  muted: "#DDD6FE",
-  light: "#C4B5FD",
-  darker: "#5B21B6",
+  primary: "#9B8EC4",   // was #7C3AED
+  deep:    "#6B5B9E",   // was #3B1F6A
+  mid:     "#A99DD4",   // was #6D28D9
+  soft:    "#F0ECFF",   // was #EDE9FE
+  pale:    "#F8F6FF",   // was #F5F3FF
+  accent:  "#B5A8D8",   // was #8B5CF6
+  muted:   "#E8E3FF",   // was #DDD6FE
+  light:   "#D4CCF5",   // was #C4B5FD
+  darker:  "#8B7DBF",   // was #5B21B6
 };
 
 type EmotionKey =
