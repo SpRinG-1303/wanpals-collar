@@ -128,7 +128,7 @@ function MotionSensePage() {
       <style>{`
         @keyframes msLive { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.35);opacity:.55} }
         @keyframes msCardIn { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
-        @keyframes msPulse { 0%,100%{box-shadow:0 0 0 0 rgba(244,63,114,.6)} 50%{box-shadow:0 0 12px 2px rgba(244,63,114,.5)} }
+        @keyframes msPulse { 0%,100%{box-shadow:0 0 0 0 rgba(123,179,212,.6)} 50%{box-shadow:0 0 12px 2px rgba(123,179,212,.5)} }
         @keyframes msFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-3px)} }
         .ms-stack > * { opacity:0; animation: msCardIn 350ms cubic-bezier(.2,.7,.2,1) forwards; }
         .ms-stack > *:nth-child(1){animation-delay:80ms}
