@@ -523,7 +523,7 @@ function GuideRow({ titleJp, titleEn, jp, en }: { titleJp: string; titleEn: stri
   return (
     <div>
       <Bi jp={titleJp} en={titleEn}
-        jpStyle={{ fontSize: 12, fontWeight: 700, color: C.deep }}
+        jpStyle={{ fontSize: 12, fontWeight: 700, color: "#6B3A52" }}
         enStyle={{ fontSize: 10, color: C.text3, marginTop: 1 }}
       />
       <Bi jp={jp} en={en}
