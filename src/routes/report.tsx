@@ -38,7 +38,7 @@ function Report() {
     <AppShell
       titleJp="健康レポート"
       titleEn="Health Report"
-      renderTopBar={() => <TopBar showBack backTo="/home" />}
+      renderTopBar={({ menuOpen, onMenuClick }) => <TopBar showBack backTo="/home" menuOpen={menuOpen} onMenuClick={onMenuClick} />}
     >
       {/* Hero Summary Card */}
       <HeroCard pet={pet} dogName={dogName} />
