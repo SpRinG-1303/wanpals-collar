@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useRef, useState, useEffect, type CSSProperties, type ReactNode } from "react";
 import { Camera, Image as ImageIcon, Sparkles, Send, Droplet, Layers, Palette, Flame, ChevronDown, ChevronUp, RotateCcw } from "lucide-react";
 import AppShell, { TopBar } from "@/components/AppShell";
+import { SenseBanner } from "@/components/SenseBanner";
 import { useLanguage, useT } from "@/context/LanguageContext";
 
 export const Route = createFileRoute("/skin-sense")({ component: SkinSensePage });
