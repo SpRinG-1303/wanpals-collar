@@ -122,11 +122,6 @@ const sensors: Sensor[] = [
 ];
 
 /* ---------- Hero (time-based postcard with crossfading sky) ---------- */
-import morningImg from "@/assets/morning.png";
-import middayImg from "@/assets/midday.png";
-import eveningImg from "@/assets/evening.png";
-import nightImg from "@/assets/night.png";
-
 type TimeBand = "morning" | "afternoon" | "evening" | "night";
 
 function bandFromHour(h: number): TimeBand {
@@ -136,14 +131,165 @@ function bandFromHour(h: number): TimeBand {
   return "night";
 }
 
-const BAND_META: Record<TimeBand, {
-  img: string; jp: string; orb: string; glow: string; size: number; startHour: number; endHour: number;
-}> = {
-  morning:   { img: morningImg, jp: "朝", orb: "#E05010", glow: "rgba(224,80,16,0.75)",   size: 56, startHour: 5,  endHour: 11 },
-  afternoon: { img: middayImg,  jp: "昼", orb: "#F5C800", glow: "rgba(245,200,0,0.75)",   size: 56, startHour: 11, endHour: 17 },
-  evening:   { img: eveningImg, jp: "夕", orb: "#D04800", glow: "rgba(255,170,70,0.80)",  size: 56, startHour: 17, endHour: 20 },
-  night:     { img: nightImg,   jp: "夜", orb: "#FFFFFF", glow: "rgba(190,220,255,0.80)", size: 68, startHour: 20, endHour: 29 },
+type SceneTheme = {
+  jp: string;
+  bg: string;
+  paperLines: string | null;
+  trunk: string;
+  blossom: string;
+  blossomStroke: string;
+  staticSun: { cx: number; cy: number; r: number; fill: string };
+  fujiBody: string;
+  fujiSnow: string;
+  mist: string;
+  stars: boolean;
+  treeline: string | null;
+  orb: string;
+  glow: string;
+  orbSize: number;
+  startHour: number;
+  endHour: number;
 };
+
+const BAND_META: Record<TimeBand, SceneTheme> = {
+  morning: {
+    jp: "朝", bg: "#F2E8D0", paperLines: "rgba(120,90,60,0.06)",
+    trunk: "#1A0F08", blossom: "#E8A0A0", blossomStroke: "#B86060",
+    staticSun: { cx: 200, cy: 270, r: 70, fill: "#C93808" },
+    fujiBody: "#8AAAB5", fujiSnow: "#F0ECE0", mist: "rgba(200,195,185,0.55)",
+    stars: false, treeline: null,
+    orb: "#E05010", glow: "rgba(224,80,16,0.75)", orbSize: 56,
+    startHour: 5, endHour: 11,
+  },
+  afternoon: {
+    jp: "昼", bg: "#F5F0C8", paperLines: "rgba(160,140,60,0.05)",
+    trunk: "#1A0F08", blossom: "#F0B8A8", blossomStroke: "#C07868",
+    staticSun: { cx: 215, cy: 110, r: 50, fill: "#F5C800" },
+    fujiBody: "#7AAAB8", fujiSnow: "#FFFFFF", mist: "rgba(180,200,180,0.55)",
+    stars: false, treeline: null,
+    orb: "#F5C800", glow: "rgba(245,200,0,0.75)", orbSize: 56,
+    startHour: 11, endHour: 17,
+  },
+  evening: {
+    jp: "夕", bg: "#E8C070", paperLines: "rgba(160,90,30,0.07)",
+    trunk: "#1A0F08", blossom: "#E89080", blossomStroke: "#A85040",
+    staticSun: { cx: 205, cy: 200, r: 60, fill: "#D84808" },
+    fujiBody: "#607080", fujiSnow: "#E8D8B8", mist: "rgba(220,160,80,0.50)",
+    stars: false, treeline: null,
+    orb: "#D04800", glow: "rgba(255,170,70,0.80)", orbSize: 56,
+    startHour: 17, endHour: 20,
+  },
+  night: {
+    jp: "夜", bg: "#1C2048", paperLines: null,
+    trunk: "#120808", blossom: "#F0C8D8", blossomStroke: "#A878A0",
+    staticSun: { cx: 210, cy: 120, r: 56, fill: "#FFFFFF" },
+    fujiBody: "#2A3060", fujiSnow: "#D8DCEC", mist: "rgba(30,40,90,0.55)",
+    stars: true, treeline: "#0A0E28",
+    orb: "#FFFFFF", glow: "rgba(190,220,255,0.80)", orbSize: 68,
+    startHour: 20, endHour: 29,
+  },
+};
+
+/* Shared geometry: tree (left) + fuji (right-center).
+   viewBox 300 x 400 (3:4). */
+const TRUNK_D =
+  "M 8 410 C 28 360 18 310 40 260 C 55 220 38 180 60 130 C 72 100 60 70 78 30";
+const BRANCHES: { d: string }[] = [
+  { d: "M 40 260 C 70 245 95 240 130 220" },
+  { d: "M 50 200 C 85 195 110 180 140 165" },
+  { d: "M 60 150 C 90 140 115 130 145 105" },
+  { d: "M 70 100 C 95 92 115 78 138 60" },
+  { d: "M 30 300 C 55 295 80 295 110 285" },
+  { d: "M 45 230 C 25 210 18 195 12 170" },
+];
+const BLOSSOMS: { cx: number; cy: number; r: number }[] = [
+  { cx: 130, cy: 220, r: 11 }, { cx: 118, cy: 210, r: 8 }, { cx: 142, cy: 230, r: 9 },
+  { cx: 140, cy: 165, r: 11 }, { cx: 152, cy: 158, r: 8 }, { cx: 128, cy: 175, r: 9 },
+  { cx: 145, cy: 105, r: 11 }, { cx: 157, cy: 95, r: 9 }, { cx: 132, cy: 115, r: 8 },
+  { cx: 138, cy: 60,  r: 11 }, { cx: 150, cy: 50, r: 9 }, { cx: 125, cy: 70, r: 8 },
+  { cx: 110, cy: 285, r: 10 }, { cx: 96,  cy: 290, r: 8 }, { cx: 80, cy: 296, r: 9 },
+  { cx: 12,  cy: 170, r: 9 },  { cx: 22,  cy: 180, r: 7 },
+  { cx: 78,  cy: 30,  r: 10 }, { cx: 92,  cy: 26,  r: 8 },
+];
+
+function Scene({ theme, active }: { theme: SceneTheme; active: boolean }) {
+  return (
+    <svg
+      viewBox="0 0 300 400"
+      preserveAspectRatio="xMidYMid slice"
+      aria-hidden
+      style={{
+        position: "absolute", inset: 0, width: "100%", height: "100%",
+        opacity: active ? 1 : 0,
+        transition: "opacity 2.5s ease-in-out",
+        display: "block",
+      }}
+    >
+      <defs>
+        {theme.paperLines && (
+          <pattern id={`paper-${theme.jp}`} width="6" height="400" patternUnits="userSpaceOnUse">
+            <rect width="6" height="400" fill={theme.bg} />
+            <line x1="0" y1="0" x2="0" y2="400" stroke={theme.paperLines} strokeWidth="1" />
+          </pattern>
+        )}
+      </defs>
+
+      {/* Background */}
+      <rect width="300" height="400" fill={theme.paperLines ? `url(#paper-${theme.jp})` : theme.bg} />
+
+      {/* Stars (night) */}
+      {theme.stars && [
+        [40, 40], [70, 25], [110, 55], [165, 30], [200, 18], [240, 45], [275, 28],
+        [60, 90], [130, 80], [185, 70], [225, 95], [260, 110], [30, 130], [95, 145],
+      ].map(([x, y], i) => (
+        <circle key={i} cx={x} cy={y} r={i % 3 === 0 ? 1.6 : 1} fill="#FFFFFF" opacity={0.85} />
+      ))}
+
+      {/* Static sun/moon behind Fuji */}
+      <circle cx={theme.staticSun.cx} cy={theme.staticSun.cy} r={theme.staticSun.r}
+              fill={theme.staticSun.fill} opacity={0.95} />
+
+      {/* Mt Fuji */}
+      <path d="M 110 330 L 200 150 L 290 330 Z" fill={theme.fujiBody} />
+      {/* Snow cap */}
+      <path
+        d="M 200 150 L 175 205 Q 188 200 200 207 Q 212 200 225 205 Z"
+        fill={theme.fujiSnow}
+      />
+      {/* Snow drips */}
+      <path d="M 178 205 L 170 230 M 195 207 L 198 235 M 215 207 L 222 232 M 205 207 L 208 240"
+            stroke={theme.fujiSnow} strokeWidth="2" fill="none" strokeLinecap="round" />
+
+      {/* Mist bands */}
+      <ellipse cx="200" cy="330" rx="120" ry="10" fill={theme.mist} />
+      <ellipse cx="180" cy="345" rx="140" ry="8" fill={theme.mist} opacity="0.7" />
+
+      {/* Treeline silhouette (night) */}
+      {theme.treeline && (
+        <path
+          d="M 0 400 L 0 378 Q 30 360 60 372 Q 90 358 120 370 Q 150 354 180 368 Q 210 356 240 370 Q 270 358 300 372 L 300 400 Z"
+          fill={theme.treeline}
+        />
+      )}
+
+      {/* Tree trunk */}
+      <path d={TRUNK_D} stroke={theme.trunk} strokeWidth="14" strokeLinecap="round" fill="none" />
+      {/* Tree branches */}
+      {BRANCHES.map((b, i) => (
+        <path key={i} d={b.d} stroke={theme.trunk} strokeWidth="3.5" fill="none" strokeLinecap="round" />
+      ))}
+      {/* Blossom clusters: outer soft, inner highlight */}
+      {BLOSSOMS.map((b, i) => (
+        <g key={i}>
+          <circle cx={b.cx} cy={b.cy} r={b.r + 2} fill={theme.blossom} opacity="0.55" />
+          <circle cx={b.cx} cy={b.cy} r={b.r} fill={theme.blossom} stroke={theme.blossomStroke} strokeWidth="0.6" />
+          <circle cx={b.cx - b.r * 0.25} cy={b.cy - b.r * 0.25} r={b.r * 0.35} fill="#FFFFFF" opacity="0.45" />
+        </g>
+      ))}
+    </svg>
+  );
+}
+
 
 function getProgress(now: Date, band: TimeBand): number {
   const meta = BAND_META[band];
@@ -199,20 +345,9 @@ function HeroPostcard({ score, name, mood, celebrate }: { score: number; name: s
         fontFamily: serif,
       }}
     >
-      {/* Crossfading background images */}
+      {/* Crossfading SVG scenes */}
       {(Object.keys(BAND_META) as TimeBand[]).map((k) => (
-        <img
-          key={k}
-          src={BAND_META[k].img}
-          alt=""
-          aria-hidden
-          style={{
-            position: "absolute", inset: 0, width: "100%", height: "100%",
-            objectFit: "cover",
-            opacity: k === band ? 1 : 0,
-            transition: "opacity 2.5s ease-in-out",
-          }}
-        />
+        <Scene key={k} theme={BAND_META[k]} active={k === band} />
       ))}
 
       {/* Sun / moon arc orb */}
@@ -221,8 +356,8 @@ function HeroPostcard({ score, name, mood, celebrate }: { score: number; name: s
           position: "absolute",
           left: `${orbX}%`,
           top: `${orbY}%`,
-          width: meta.size, height: meta.size,
-          marginLeft: -meta.size / 2, marginTop: -meta.size / 2,
+          width: meta.orbSize, height: meta.orbSize,
+          marginLeft: -meta.orbSize / 2, marginTop: -meta.orbSize / 2,
           borderRadius: "50%",
           background: `radial-gradient(circle at 35% 35%, #fff, ${meta.orb} 70%)`,
           boxShadow: `0 0 40px 10px ${meta.glow}, 0 0 90px 20px ${meta.glow}`,
