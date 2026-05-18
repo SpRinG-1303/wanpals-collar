@@ -186,117 +186,28 @@ function BarkSensePage() {
         </div>
 
         {/* HERO */}
-        <div
-          style={{
-            position: "relative",
-            padding: "20px 20px 56px",
-            height: 220,
-            background: `linear-gradient(135deg, ${P.deep} 0%, ${P.darker} 50%, ${P.primary} 100%)`,
-            borderBottomLeftRadius: 28,
-            borderBottomRightRadius: 28,
-            overflow: "hidden",
-            animation: "bsHeroFade .7s ease-out both",
-          }}
-        >
-          {/* sound waves */}
-          <svg
-            aria-hidden
-            viewBox="0 0 400 220"
-            preserveAspectRatio="none"
-            style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}
-          >
-            {[40, 80, 120, 160, 200].map((y, i) => (
-              <path
-                key={i}
-                d={`M0 ${y} Q 100 ${y - 18 + i * 4} 200 ${y} T 400 ${y}`}
-                stroke="rgba(255,255,255,0.07)"
-                strokeWidth={1}
-                fill="none"
-              />
-            ))}
-          </svg>
-          {/* Kanji watermark */}
-          <div
-            aria-hidden
-            style={{
-              position: "absolute",
-              right: -10,
-              top: 30,
-              fontSize: 150,
-              color: "white",
-              opacity: 0.05,
-              fontWeight: 900,
-              fontFamily: "'Noto Serif JP', serif",
-              lineHeight: 1,
-              userSelect: "none",
-            }}
-          >
-            声
-          </div>
+        <SenseBanner
+          subtitleJp="バークセンス AI"
+          titleEn="BarkSense AI"
+          descriptorJp="鳴き声から感情を解析"
+          descriptorEn="Emotion from bark patterns"
+          bgGradient="linear-gradient(135deg,#F5F0FF 0%,#EDE9FE 100%)"
+          kanji="声"
+          kanjiColor="rgba(139,92,246,0.06)"
+          subtitleColor="#9B8EC4"
+        />
 
-          <div style={{ position: "relative", display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-            <div>
-              <div style={{ color: "white", fontWeight: 800, fontSize: 22, lineHeight: 1.15, letterSpacing: "0.01em" }}>
-                {lang === "japanese" ? "バークセンスAI" : "BarkSense AI"}
-              </div>
-              {lang === "mixed" && (
-                <div style={{ color: "rgba(255,255,255,0.85)", fontSize: 13, fontWeight: 600, marginTop: 2 }}>BarkSense AI</div>
-              )}
-              <div style={{ color: "rgba(255,255,255,0.75)", fontSize: 13, marginTop: 8, maxWidth: 230, lineHeight: 1.4 }}>
-                {lang === "japanese"
-                  ? "鳴き声から感情を解析"
-                  : "Emotion from bark patterns"}
-                {lang === "mixed" && (
-                  <div style={{ fontSize: 11, opacity: 0.75 }}>Emotion from bark patterns</div>
-                )}
-              </div>
-            </div>
-
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 8 }}>
-              <div
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 6,
-                  background: "rgba(255,255,255,0.15)",
-                  backdropFilter: "blur(10px)",
-                  borderRadius: 999,
-                  padding: "6px 12px",
-                  color: "white",
-                  fontWeight: 700,
-                  fontSize: 11,
-                  letterSpacing: "0.12em",
-                  boxShadow: "0 6px 18px rgba(0,0,0,0.18)",
-                  border: "1px solid rgba(255,255,255,0.25)",
-                }}
-              >
-                <span style={{ position: "relative", width: 8, height: 8 }}>
-                  <span style={{ position: "absolute", inset: 0, borderRadius: "50%", background: "#FF5577", animation: "bsLiveDot 1.4s ease-in-out infinite" }} />
-                  <span style={{ position: "absolute", inset: -2, borderRadius: "50%", background: "#FF5577", animation: "bsPulseRing 1.8s ease-out infinite" }} />
-                </span>
-                LIVE
-              </div>
-              <div style={{ color: "rgba(255,255,255,0.7)", fontSize: 11 }}>
-                {pickT(lang, "リスニング中", "Listening now")}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Floating glass stat card overlapping hero */}
-        <div style={{ padding: "0 16px", marginTop: -36, position: "relative", zIndex: 2 }}>
+        {/* Stats card below banner */}
+        <div style={{ padding: "16px 16px 0", position: "relative" }}>
           <div
             style={{
-              background: "rgba(255,255,255,0.92)",
-              backdropFilter: "blur(16px)",
-              WebkitBackdropFilter: "blur(16px)",
+              background: "#FFFFFF",
               borderRadius: 22,
-              boxShadow: "0 12px 36px rgba(124,58,237,0.15)",
+              boxShadow: "0 4px 18px rgba(124,58,237,0.08)",
               padding: 16,
               display: "grid",
               gridTemplateColumns: "1fr 1fr 1fr",
               gap: 8,
-              border: "1px solid rgba(255,255,255,0.6)",
               animation: "bsFadeUp .7s ease-out .1s both",
             }}
           >
@@ -312,6 +223,7 @@ function BarkSensePage() {
             ))}
           </div>
         </div>
+
 
         {/* CARDS */}
         <div style={{ padding: "20px 16px 0", display: "flex", flexDirection: "column", gap: 18, position: "relative" }}>
