@@ -39,7 +39,7 @@ function Splash() {
           minHeight: "100vh",
           height: "100dvh",
           background:
-            "radial-gradient(ellipse at center, #FFFFFF 0%, #FFF4F7 55%, #FFE4EC 100%)",
+            "linear-gradient(180deg, #FFF0F5 0%, #FFE4EE 50%, #FFF0F5 100%)",
           display: "flex",
           flexDirection: "column",
           overflow: "hidden",
