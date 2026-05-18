@@ -617,67 +617,119 @@ function SadDog() {
 
 function BreedCard({ breed, onOpen, language, t, matches }: { breed: Breed; onOpen: () => void; language: string; t: (jp: string, en: string) => string; matches?: readonly FuseResultMatch[] }) {
   const Icon = breed.Icon;
-  const nameSize = breed.jp.length > 8 ? 11 : breed.jp.length > 6 ? 13 : 15;
   const primaryName = language === "english" ? breed.en : breed.jp;
   const primaryKey = language === "english" ? "name_en" : "name_jp";
+  const showSecondary = language !== "japanese" && primaryName !== breed.en;
+
+  const rows: { jp: string; en: string; valueJp: string; valueEn: string; keyJp?: string; keyEn?: string }[] = [
+    { jp: "グループ", en: "GROUP", valueJp: breed.groupJp, valueEn: breed.groupEn, keyJp: "group_jp", keyEn: "group_en" },
+    { jp: "原産国", en: "ORIGIN", valueJp: breed.originJp, valueEn: breed.originEn, keyJp: "country_jp", keyEn: "country_en" },
+    { jp: "性格", en: "TEMPERAMENT", valueJp: breed.temperamentJp, valueEn: breed.temperamentEn, keyJp: "temperament_jp", keyEn: "temperament_en" },
+    { jp: "寿命", en: "LIFE SPAN", valueJp: breed.lifeSpan, valueEn: breed.lifeSpan, keyJp: "lifespan", keyEn: "lifespan" },
+  ];
+
   return (
     <button
       onClick={onOpen}
       style={{
-        background: "#FFFFFF", borderRadius: 20, overflow: "hidden",
-        boxShadow: "0 4px 16px rgba(0,0,0,0.08)", textAlign: "left",
-        display: "flex", flexDirection: "column",
+        background: "#FFFFFF", borderRadius: 22, overflow: "hidden",
+        boxShadow: "0 4px 16px rgba(0,0,0,0.06)", textAlign: "left",
+        display: "flex", flexDirection: "column", border: "1px solid #EFEAE3",
       }}
     >
-      {/* TOP IMAGE BANNER */}
-      <div style={{ position: "relative", height: 100, overflow: "hidden" }}>
+      {/* HERO BANNER */}
+      <div style={{ position: "relative", height: 132, overflow: "hidden" }}>
         <BreedImage breed={breed}>
           <Icon
             size={22}
             color="rgba(255,255,255,0.95)"
             strokeWidth={2}
-            style={{ position: "absolute", top: 10, left: 10, filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.4))" }}
+            style={{ position: "absolute", top: 12, left: 12, filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.4))" }}
           />
           {breed.rank !== null && (
             <div style={{
               position: "absolute", top: 0, right: 0,
               background: breed.rankBg, color: "white",
-              padding: "4px 10px", height: 28,
+              padding: "5px 12px", height: 28,
               fontSize: 11, fontWeight: 800,
-              borderRadius: "0 20px 0 12px",
+              borderRadius: "0 22px 0 12px",
               display: "flex", alignItems: "center",
             }}>
               #{breed.rank}
             </div>
           )}
+          {/* Name overlay */}
+          <div style={{ position: "absolute", left: 14, right: 14, bottom: 12, color: "white" }}>
+            <div style={{ fontSize: 20, fontWeight: 800, lineHeight: 1.1, letterSpacing: "-0.01em", textShadow: "0 1px 4px rgba(0,0,0,0.45)" }}>
+              <Highlight text={primaryName} matches={matches} keyName={primaryKey} />
+            </div>
+            {showSecondary && (
+              <div style={{ fontSize: 11, opacity: 0.9, marginTop: 2, textShadow: "0 1px 3px rgba(0,0,0,0.4)" }}>
+                <Highlight text={breed.en} matches={matches} keyName="name_en" />
+              </div>
+            )}
+          </div>
+          {/* Size pill */}
+          <span style={{
+            position: "absolute", top: 12, right: 12,
+            ...(breed.rank !== null ? { top: "auto", bottom: 12 } : {}),
+            background: "rgba(255,255,255,0.92)", color: breed.sizeText,
+            fontSize: 10, fontWeight: 800, padding: "4px 10px", borderRadius: 20,
+            letterSpacing: "0.04em",
+          }}>
+            {t(breed.sizeJp, breed.sizeEn).toUpperCase()}
+          </span>
         </BreedImage>
       </div>
 
-      {/* BOTTOM INFO */}
-      <div style={{ padding: "12px 14px", display: "flex", flexDirection: "column", gap: 8 }}>
-        <div>
-          <div style={{ fontSize: nameSize, fontWeight: 800, color: "#2C2C2C", lineHeight: 1.2 }}>
-            <Highlight text={primaryName} matches={matches} keyName={primaryKey} />
+      {/* PROFILE BODY */}
+      <div style={{ padding: "14px 16px 16px", display: "flex", flexDirection: "column", gap: 10 }}>
+        {rows.map((r) => (
+          <div key={r.en} style={{ display: "grid", gridTemplateColumns: "92px 1fr", gap: 10, alignItems: "baseline" }}>
+            <div style={{
+              fontSize: 9, fontWeight: 800, color: "#A89A8B",
+              letterSpacing: "0.14em", textTransform: "uppercase",
+            }}>
+              {t(r.jp, r.en)}
+            </div>
+            <div style={{ fontSize: 12.5, color: "#2C2C2C", fontWeight: 600, lineHeight: 1.35 }}>
+              {language === "japanese" ? (
+                <Highlight text={r.valueJp} matches={matches} keyName={r.keyJp ?? ""} />
+              ) : (
+                <Highlight text={r.valueEn} matches={matches} keyName={r.keyEn ?? ""} />
+              )}
+            </div>
           </div>
-          <div style={{ fontSize: 11, color: "#8A8A8A", marginTop: 2 }}>
-            <Highlight text={breed.en} matches={matches} keyName="name_en" />
+        ))}
+
+        {/* DIAGNOSTIC NOTE */}
+        <div style={{
+          marginTop: 4, padding: "10px 12px",
+          background: "linear-gradient(135deg, #FFF6F4, #FCEEEA)",
+          border: "1px solid #F5D9D2", borderRadius: 12,
+          display: "flex", gap: 10, alignItems: "flex-start",
+        }}>
+          <AlertTriangle size={14} color="#E8829A" strokeWidth={2.4} style={{ marginTop: 2, flexShrink: 0 }} />
+          <div style={{ minWidth: 0 }}>
+            <div style={{
+              fontSize: 9, fontWeight: 800, color: "#C86882",
+              letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 2,
+            }}>
+              {t("診断ノート", "Diagnostic Note")}
+            </div>
+            <div style={{ fontSize: 11.5, color: "#5A3D45", fontWeight: 500, lineHeight: 1.4 }}>
+              {language === "japanese" ? (
+                <Highlight text={breed.diagnosticNoteJp} matches={matches} keyName="diagnostic_jp" />
+              ) : (
+                <Highlight text={breed.diagnosticNoteEn} matches={matches} keyName="diagnostic_en" />
+              )}
+            </div>
           </div>
-        </div>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 4 }}>
-          <span style={{
-            background: breed.sizeBg, color: breed.sizeText,
-            fontSize: 10, fontWeight: 700, padding: "4px 10px", borderRadius: 20,
-            whiteSpace: "nowrap",
-          }}>
-            {t(breed.sizeJp, breed.sizeEn)}
-          </span>
-          <span style={{ fontSize: 10, color: "#8A8A8A", whiteSpace: "nowrap" }}>
-            {breed.flag} {t(breed.originJp, breed.originEn)}
-          </span>
         </div>
       </div>
     </button>
   );
+}
 }
 
 /* ─────────────────────────────────────── Detail Sheet ─────────────────────────────────────── */
