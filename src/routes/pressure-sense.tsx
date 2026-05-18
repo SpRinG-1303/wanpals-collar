@@ -104,14 +104,13 @@ function GlassStats() {
   const t = useT();
   return (
     <div style={{
-      background: "rgba(255,255,255,0.94)",
-      backdropFilter: "blur(20px)",
-      WebkitBackdropFilter: "blur(20px)",
-      borderRadius: 22, padding: "16px 16px",
-      marginBottom: 16, overflow: "hidden",
-      boxShadow: "0 16px 40px rgba(158,122,26,0.18)",
+      background: "#FFFFFF",
+      borderRadius: 20, padding: "16px 16px",
+      marginTop: -36, marginBottom: 16, overflow: "hidden",
+      boxShadow: "0 8px 24px rgba(0,0,0,0.08)",
       display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr",
       boxSizing: "border-box",
+      position: "relative", zIndex: 2,
     }}>
       <StatCol label={t("圧力", "PRESSURE")} value="62" unit="kPa" valueColor={G.primary} />
       <StatCol label={t("嚥下", "SWALLOWS")} value="142" unit={t("回", "")} divider />
