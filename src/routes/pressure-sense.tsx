@@ -1,52 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Droplet } from "lucide-react";
-import { SensorPage, useTimeTab, SP, Bi } from "@/components/SensorPage";
+import { SensorPage, Card, TimeTabs, useTimeTab, SP, Bi, SectionLabel, AIInsightCard } from "@/components/SensorPage";
 import { useT } from "@/context/LanguageContext";
 
 export const Route = createFileRoute("/pressure-sense")({ component: PressureSensePage });
 
-const ROSE = "#E8829A";
-const ROSE_DEEP = "#F43F72";
 const PATTERN = [42, 48, 45, 52, 50, 47, 49];
 const DAYS = [
   { jp: "月", en: "Mon" }, { jp: "火", en: "Tue" }, { jp: "水", en: "Wed" },
   { jp: "木", en: "Thu" }, { jp: "金", en: "Fri" }, { jp: "土", en: "Sat" }, { jp: "日", en: "Sun" },
 ];
-
-function SoftCard({ children }: { children: React.ReactNode; accent?: string }) {
-  return (
-    <div style={{
-      background: "#FFFFFF", borderRadius: 20, padding: 20, marginBottom: 12,
-      boxShadow: "0 2px 16px rgba(0,0,0,0.06)",
-    }}>{children}</div>
-  );
-}
-
-function SoftTabs({ value, onChange }: { value: string; onChange: (v: string) => void }) {
-  const tabs = ["1d", "1w", "1m"];
-  return (
-    <div className="flex" style={{
-      background: "#F4F0EE", borderRadius: 999, padding: 4, gap: 4, marginBottom: 12,
-    }}>
-      {tabs.map((tab) => {
-        const active = value === tab;
-        return (
-          <button
-            key={tab}
-            onClick={() => onChange(tab)}
-            style={{
-              flex: 1, height: 32, borderRadius: 999, fontSize: 12, fontWeight: 600,
-              letterSpacing: "0.04em", border: "none", cursor: "pointer",
-              background: active ? ROSE_DEEP : "transparent",
-              color: active ? "#fff" : SP.usuzumi,
-              transition: "all 0.2s",
-            }}
-          >{tab.toUpperCase()}</button>
-        );
-      })}
-    </div>
-  );
-}
 
 function PressureSensePage() {
   const [tab, setTab] = useTimeTab();
