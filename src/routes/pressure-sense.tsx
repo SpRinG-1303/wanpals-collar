@@ -99,63 +99,6 @@ function PressureSensePage() {
   );
 }
 
-// ═════════════ HERO ═════════════
-function HeroOverlay() {
-  const t = useT();
-  return (
-    <div style={{ position: "relative", marginTop: -50, marginBottom: 4, pointerEvents: "none", height: 0 }}>
-      {/* kanji watermark */}
-      <span aria-hidden style={{
-        position: "absolute", right: -8, top: -120, fontSize: 150,
-        color: "rgba(255,255,255,0.05)", fontWeight: 700, lineHeight: 1, userSelect: "none",
-      }}>嚥</span>
-
-      {/* animated sine waves */}
-      <svg
-        aria-hidden viewBox="0 0 800 120" preserveAspectRatio="none"
-        style={{ position: "absolute", left: 0, right: 0, top: -90, width: "100%", height: 90, opacity: 1 }}
-      >
-        <defs>
-          <pattern id="ps-wave-a" x="0" y="0" width="200" height="40" patternUnits="userSpaceOnUse">
-            <path d="M0 20 Q 50 0 100 20 T 200 20" stroke="rgba(255,255,255,0.07)" strokeWidth="1.2" fill="none" />
-          </pattern>
-          <pattern id="ps-wave-b" x="0" y="0" width="160" height="40" patternUnits="userSpaceOnUse">
-            <path d="M0 20 Q 40 6 80 20 T 160 20" stroke="rgba(255,255,255,0.05)" strokeWidth="1" fill="none" />
-          </pattern>
-        </defs>
-        <g style={{ animation: "psWaveSlide 14s linear infinite" }}>
-          <rect x="0" y="0" width="1600" height="40" fill="url(#ps-wave-a)" />
-        </g>
-        <g style={{ animation: "psWaveSlide 9s linear infinite", transform: "translateY(28px)" }}>
-          <rect x="0" y="0" width="1600" height="40" fill="url(#ps-wave-b)" />
-        </g>
-        <g style={{ animation: "psWaveSlide 18s linear infinite", transform: "translateY(56px)" }}>
-          <rect x="0" y="0" width="1600" height="40" fill="url(#ps-wave-a)" />
-        </g>
-      </svg>
-
-      {/* subtitle + live badge area sits over hero */}
-      <div style={{
-        position: "absolute", left: 20, top: -110, color: "#fff",
-        pointerEvents: "auto",
-      }}>
-        <div style={{ fontSize: 12, color: "rgba(255,255,255,0.8)", marginTop: 26 }}>
-          {t("嚥下圧力モニター", "Swallowing Pressure Monitor")}
-        </div>
-        <div style={{ fontSize: 11, color: "rgba(255,255,255,0.6)", marginTop: 2 }}>
-          {t("リアルタイム医療モニタリング", "Real-time medical monitoring")}
-        </div>
-      </div>
-
-      <div style={{
-        position: "absolute", right: 20, top: -64, color: "rgba(255,255,255,0.65)",
-        fontSize: 10, letterSpacing: "0.1em", textAlign: "right", pointerEvents: "auto",
-      }}>
-        Listening
-      </div>
-    </div>
-  );
-}
 
 function GlassStats() {
   const t = useT();
