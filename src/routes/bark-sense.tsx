@@ -197,32 +197,21 @@ function BarkSensePage() {
           subtitleColor="#9B8EC4"
         />
 
-        {/* Stats card below banner */}
-        <div style={{ padding: "0 16px", position: "relative", zIndex: 2, marginTop: -36 }}>
-          <div
-            style={{
-              background: "#FFFFFF",
-              borderRadius: 20,
-              boxShadow: "0 8px 24px rgba(0,0,0,0.08)",
-              padding: 16,
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr 1fr",
-              gap: 8,
-              animation: "bsFadeUp .7s ease-out .1s both",
-            }}
-          >
-            {[
-              { label: pickT(lang, "現在の感情", "Emotion"), value: pickT(lang, "穏やか", "Calm"), color: "#6DBA91" },
-              { label: pickT(lang, "信頼度", "Confidence"), value: "94%", color: P.primary },
-              { label: pickT(lang, "本日の鳴き声", "Bark samples"), value: "128", color: "#1A1A2E" },
-            ].map((s, i) => (
-              <div key={i} style={{ textAlign: "center", padding: "2px 4px", borderRight: i < 2 ? "1px solid rgba(124,58,237,0.12)" : "none" }}>
-                <div style={{ fontSize: 10, color: "#6B7280", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase" }}>{s.label}</div>
-                <div style={{ fontSize: 20, color: s.color, fontWeight: 800, marginTop: 4, lineHeight: 1 }}>{s.value}</div>
-              </div>
-            ))}
-          </div>
-        </div>
+        {/* Redesigned hero stats bar */}
+        <HeroStatsBar
+          lang={lang}
+          dogName={dogName}
+          emotion="calm"
+          confidence={94}
+          barkSamples={128}
+          deltaYesterday={12}
+          sparkline={[14, 18, 12, 22, 30, 24, 28]}
+          trendJp="過去30分で増加傾向"
+          trendEn="Increasing past 30 min"
+          timestamp="14:32"
+          live
+        />
+
 
 
         {/* CARDS */}
