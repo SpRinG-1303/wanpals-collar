@@ -116,8 +116,49 @@ function TempSensePage() {
         minHeight: "100%",
       }}>
         <div style={{ marginTop: -52, position: "relative", zIndex: 2 }}>
-          <TimeTabs value={tab} onChange={setTab} />
+          <OrangeTimeTabs value={tab} onChange={setTab} />
         </div>
+
+        {/* ---- QUICK STATS ROW ---- */}
+        <div style={{
+          background: "#FFFFFF",
+          borderRadius: 20,
+          padding: "16px 20px",
+          marginBottom: 12,
+          boxShadow: "0 4px 16px rgba(244,165,106,0.1)",
+          display: "flex",
+          alignItems: "center",
+          overflow: "hidden",
+        }}>
+          {[
+            { lbl: t("平均", "Avg"), val: `${avg}°C`, color: O.primary },
+            { lbl: t("最低 / Min", "Min"), val: `${min}°C`, color: "#38BDF8" },
+            { lbl: t("最高 / Max", "Max"), val: `${max}°C`, color: "#F97316" },
+            { lbl: t("状態 / Status", "Status"), val: t("正常 / Normal", "Normal"), color: "#16A34A", isStatus: true },
+          ].map((s, i, arr) => (
+            <span key={i} style={{ display: "contents" }}>
+              <div style={{ flex: 1, textAlign: "center", minWidth: 0 }}>
+                <div style={{ fontSize: 10, color: "#9CA3AF" }}>{s.lbl}</div>
+                <div style={{
+                  fontSize: s.isStatus ? 12 : 15,
+                  fontWeight: s.isStatus ? 600 : 700,
+                  color: s.color,
+                  fontVariantNumeric: "tabular-nums",
+                  marginTop: 3,
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}>{s.val}</div>
+              </div>
+              {i < arr.length - 1 && <div style={{ width: 1, height: 28, background: "#FEF0E6" }} />}
+            </span>
+          ))}
+        </div>
+
+        {/* ---- DYNAMIC TREND STRIP ---- */}
+        <TrendStripCard tab={tab} />
+
+
 
         {/* ---- CURRENT TEMPERATURE ---- */}
         <div style={{
