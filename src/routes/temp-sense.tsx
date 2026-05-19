@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Thermometer, TrendingDown, TrendingUp, Sparkles } from "lucide-react";
 import { useEffect, useState } from "react";
-import { SensorPage, Card, TimeTabs, useTimeTab, SP } from "@/components/SensorPage";
+import { SensorPage, Card, useTimeTab, SP } from "@/components/SensorPage";
 import { useLanguage, useT } from "@/context/LanguageContext";
 import { usePet, displayName } from "@/context/PetContext";
 
