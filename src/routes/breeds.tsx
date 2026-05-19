@@ -2027,6 +2027,7 @@ function BreedCard({ breed, onOpen, language, t, matches }: { breed: Breed; onOp
   const primaryName = language === "english" ? breed.en : breed.jp;
   const primaryKey = language === "english" ? "name_en" : "name_jp";
   const showSecondary = language !== "japanese" && primaryName !== breed.en;
+  const { url: imgUrl, loading: imgLoading, refresh: refreshImg } = useBreedImage(breed.en);
 
   const rows: { jp: string; en: string; valueJp: string; valueEn: string; keyJp?: string; keyEn?: string }[] = [
     { jp: "グループ", en: "GROUP", valueJp: breed.groupJp, valueEn: breed.groupEn, keyJp: "group_jp", keyEn: "group_en" },
