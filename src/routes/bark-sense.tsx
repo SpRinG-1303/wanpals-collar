@@ -750,3 +750,259 @@ function BarkSensePage() {
     </AppShell>
   );
 }
+
+// ============================================================
+// Hero Stats Bar — primary emotion card + confidence + samples
+// ============================================================
+
+type HeroEmotion =
+  | "calm" | "joy" | "affection" | "distress"
+  | "pain" | "suspicion" | "fear" | "aggression";
+
+const HERO_EMO: Record<HeroEmotion, { jp: string; en: string; color: string; alert: boolean }> = {
+  calm:       { jp: "穏やか",   en: "Calm",       color: "#7EC8A4", alert: false },
+  joy:        { jp: "喜び",     en: "Joy",        color: "#F4A261", alert: false },
+  affection:  { jp: "愛情",     en: "Affection",  color: "#F28B9F", alert: false },
+  distress:   { jp: "苦悩",     en: "Distress",   color: "#E05C5C", alert: true  },
+  pain:       { jp: "痛み",     en: "Pain",       color: "#E05C5C", alert: true  },
+  suspicion:  { jp: "警戒",     en: "Suspicion",  color: "#9B8EC4", alert: false },
+  fear:       { jp: "恐れ",     en: "Fear",       color: "#5C6BC0", alert: false },
+  aggression: { jp: "攻撃性",   en: "Aggression", color: "#E8572A", alert: true  },
+};
+
+function hexA(hex: string, a: number) {
+  const h = hex.replace("#", "");
+  const r = parseInt(h.slice(0, 2), 16);
+  const g = parseInt(h.slice(2, 4), 16);
+  const b = parseInt(h.slice(4, 6), 16);
+  return `rgba(${r},${g},${b},${a})`;
+}
+
+function HeroStatsBar({
+  lang, dogName, emotion, confidence, barkSamples, deltaYesterday,
+  sparkline, trendJp, trendEn, timestamp, live,
+}: {
+  lang: Lang;
+  dogName: string;
+  emotion: HeroEmotion;
+  confidence: number;
+  barkSamples: number;
+  deltaYesterday: number | null;
+  sparkline: number[];
+  trendJp: string;
+  trendEn: string;
+  timestamp: string;
+  live: boolean;
+}) {
+  const emo = HERO_EMO[emotion];
+  const alert = emo.alert;
+  const lowConf = confidence < 65;
+  const confColor = confidence >= 80 ? "#2EA56A" : confidence >= 60 ? "#D97706" : "#E05C5C";
+  const confSubJp = confidence >= 80 ? "高い信頼性" : confidence >= 60 ? "中程度" : "低い — 再試行中";
+  const confSubEn = confidence >= 80 ? "High reliability" : confidence >= 60 ? "Moderate" : "Low — retrying";
+
+  // semicircle gauge
+  const gaugeR = 26;
+  const gaugeC = Math.PI * gaugeR; // half-circumference
+  const gaugeFill = gaugeC * (1 - Math.min(100, Math.max(0, confidence)) / 100);
+
+  // sparkline
+  const sMax = Math.max(...sparkline, 1);
+  const sw = 64, sh = 22, gap = 2;
+  const bw = (sw - gap * (sparkline.length - 1)) / sparkline.length;
+
+  return (
+    <>
+      <style>{`
+        @keyframes hsbPulseBorder { 0%,100% { box-shadow: 0 8px 24px rgba(0,0,0,0.08), 0 0 0 0 var(--alertC);} 50% { box-shadow: 0 8px 24px rgba(0,0,0,0.08), 0 0 0 6px rgba(0,0,0,0);} }
+        @keyframes hsbCalmRing { 0%,100% { transform: scale(1); opacity: .55;} 50% { transform: scale(1.18); opacity: .15;} }
+        @keyframes hsbSpike { 0%,100% { transform: scaleY(0.4);} 40% { transform: scaleY(1);} 70% { transform: scaleY(.3);} }
+        @keyframes hsbAlertPulse { 0%,100% { transform: scale(1); opacity: 1;} 50% { transform: scale(1.12); opacity: .55;} }
+        @keyframes hsbLiveDot { 0%,100% { opacity: 1; transform: scale(1);} 50% { opacity: .35; transform: scale(.85);} }
+        .hsb-alert-card { animation: hsbPulseBorder 1.8s ease-in-out infinite; }
+      `}</style>
+
+      <div style={{ padding: "0 16px", position: "relative", zIndex: 2, marginTop: -36, maxWidth: 390, marginLeft: "auto", marginRight: "auto" }}>
+        {/* Attention banner */}
+        {alert && (
+          <div
+            style={{
+              background: hexA(emo.color, 0.12),
+              color: emo.color,
+              border: `1px solid ${hexA(emo.color, 0.35)}`,
+              borderRadius: 12,
+              padding: "8px 12px",
+              fontSize: 12,
+              fontWeight: 700,
+              marginBottom: 10,
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+              animation: "bsFadeUp .5s ease-out both",
+            }}
+          >
+            <span style={{ fontSize: 14 }}>⚠</span>
+            <span>
+              {pickT(lang, `注意が必要 — ${dogName}を確認してください`, `Attention needed — check on ${dogName}`)}
+            </span>
+          </div>
+        )}
+
+        {/* PRIMARY CARD */}
+        <div
+          className={alert ? "hsb-alert-card" : ""}
+          style={{
+            // @ts-expect-error css var
+            "--alertC": hexA(emo.color, 0.55),
+            background: `linear-gradient(135deg, ${hexA(emo.color, 0.14)} 0%, #FFFFFF 70%)`,
+            borderRadius: 16,
+            boxShadow: "0 8px 24px rgba(0,0,0,0.08)",
+            padding: 16,
+            position: "relative",
+            overflow: "hidden",
+            animation: "bsFadeUp .7s ease-out .05s both",
+          }}
+        >
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 12 }}>
+            <div style={{ minWidth: 0, flex: 1 }}>
+              <div style={{ fontSize: 11, color: "#6B7280", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase" }}>
+                {pickT(lang, "現在の感情", "Current Emotion")}
+              </div>
+              <div style={{ fontSize: 32, fontWeight: 800, color: "#1A1A2E", lineHeight: 1.05, marginTop: 4, letterSpacing: "-0.02em" }}>
+                {lang === "japanese" ? emo.jp : emo.en}
+              </div>
+              {lang === "mixed" && (
+                <div style={{ fontSize: 12, color: "#9CA3AF", fontWeight: 500, marginTop: 2 }}>{emo.jp}</div>
+              )}
+              <div style={{ fontSize: 11, color: "#6B7280", fontWeight: 500, marginTop: 6, display: "flex", alignItems: "center", gap: 4 }}>
+                <span style={{ color: emo.color, fontWeight: 700 }}>↑</span>
+                {pickT(lang, trendJp, trendEn)}
+              </div>
+            </div>
+
+            {/* Emotion icon */}
+            <div style={{ width: 52, height: 52, position: "relative", flexShrink: 0 }}>
+              {alert ? (
+                <div
+                  style={{
+                    position: "absolute", inset: 0,
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                  }}
+                >
+                  <svg width="44" height="44" viewBox="0 0 44 44" style={{ animation: "hsbAlertPulse 1.2s ease-in-out infinite", transformOrigin: "center" }}>
+                    <path d="M22 6 L40 36 L4 36 Z" fill="none" stroke={emo.color} strokeWidth="2.4" strokeLinejoin="round" />
+                    <line x1="22" y1="17" x2="22" y2="26" stroke={emo.color} strokeWidth="2.4" strokeLinecap="round" />
+                    <circle cx="22" cy="31" r="1.6" fill={emo.color} />
+                  </svg>
+                </div>
+              ) : emotion === "calm" ? (
+                <>
+                  <div style={{ position: "absolute", inset: 0, borderRadius: "50%", background: hexA(emo.color, 0.35), animation: "hsbCalmRing 3s ease-in-out infinite" }} />
+                  <div style={{ position: "absolute", inset: 10, borderRadius: "50%", background: emo.color }} />
+                </>
+              ) : (
+                <div style={{ position: "absolute", inset: 6, borderRadius: "50%", background: hexA(emo.color, 0.85), display: "flex", alignItems: "flex-end", justifyContent: "center", gap: 2, padding: 8 }}>
+                  {[0.5, 0.9, 1, 0.7].map((h, i) => (
+                    <div key={i} style={{ width: 3, height: 18 * h, borderRadius: 2, background: "#fff", animation: "hsbSpike 1.2s ease-in-out infinite", animationDelay: `${i * 0.12}s`, transformOrigin: "bottom" }} />
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Timestamp */}
+          <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", gap: 6, marginTop: 10, fontSize: 10, color: "#9CA3AF", fontWeight: 600 }}>
+            {live ? (
+              <>
+                <span>{pickT(lang, `最終更新 ${timestamp}`, `Last updated ${timestamp}`)}</span>
+                <span style={{ display: "inline-flex", alignItems: "center", gap: 4, color: "#2EA56A" }}>
+                  <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#2EA56A", animation: "hsbLiveDot 1.3s ease-in-out infinite" }} />
+                  LIVE
+                </span>
+              </>
+            ) : (
+              <span>{pickT(lang, `最終同期 ${timestamp}`, `Last sync ${timestamp}`)}</span>
+            )}
+          </div>
+        </div>
+
+        {/* SECONDARY ROW */}
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginTop: 16 }}>
+          {/* Confidence */}
+          <div style={{
+            background: "#FFFFFF", borderRadius: 16, padding: 14,
+            boxShadow: "0 6px 18px rgba(0,0,0,0.06)",
+            position: "relative", overflow: "hidden",
+            animation: "bsFadeUp .7s ease-out .15s both",
+          }}>
+            <div style={{ fontSize: 11, color: "#6B7280", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase" }}>
+              {pickT(lang, "信頼度", "Confidence")}
+            </div>
+            <div style={{ display: "flex", alignItems: "flex-end", gap: 10, marginTop: 8 }}>
+              <svg width="64" height="34" viewBox="0 0 64 34" style={{ flexShrink: 0 }}>
+                <path d={`M 6 32 A ${gaugeR} ${gaugeR} 0 0 1 58 32`} fill="none" stroke="#EEF0F4" strokeWidth="5" strokeLinecap="round" />
+                <path
+                  d={`M 6 32 A ${gaugeR} ${gaugeR} 0 0 1 58 32`}
+                  fill="none" stroke={confColor} strokeWidth="5" strokeLinecap="round"
+                  strokeDasharray={`${gaugeC} ${gaugeC}`}
+                  strokeDashoffset={gaugeFill}
+                  style={{ transition: "stroke-dashoffset .8s ease-out" }}
+                />
+              </svg>
+              <div style={{ fontSize: 28, fontWeight: 800, color: "#1A1A2E", lineHeight: 1, letterSpacing: "-0.02em" }}>
+                {confidence}<span style={{ fontSize: 16, color: "#9CA3AF" }}>%</span>
+              </div>
+            </div>
+            <div style={{ fontSize: 10, color: lowConf ? "#D97706" : "#6B7280", fontWeight: 600, marginTop: 6 }}>
+              {lowConf
+                ? pickT(lang, "信号弱 — 首輪を近づけてください", "Low signal — move collar closer")
+                : pickT(lang, confSubJp, confSubEn)}
+            </div>
+          </div>
+
+          {/* Bark Samples */}
+          <div style={{
+            background: "#FFFFFF", borderRadius: 16, padding: 14,
+            boxShadow: "0 6px 18px rgba(0,0,0,0.06)",
+            position: "relative", overflow: "hidden",
+            animation: "bsFadeUp .7s ease-out .22s both",
+          }}>
+            <div style={{ fontSize: 11, color: "#6B7280", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase" }}>
+              {pickT(lang, "本日の鳴き声", "Bark Samples Today")}
+            </div>
+            <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 6, marginTop: 8 }}>
+              <div style={{ fontSize: 28, fontWeight: 800, color: "#1A1A2E", lineHeight: 1, letterSpacing: "-0.02em" }}>
+                {barkSamples}
+              </div>
+              <svg width={sw} height={sh} viewBox={`0 0 ${sw} ${sh}`} style={{ flexShrink: 0 }}>
+                {sparkline.map((v, i) => {
+                  const h = Math.max(2, (v / sMax) * sh);
+                  return (
+                    <rect
+                      key={i}
+                      x={i * (bw + gap)}
+                      y={sh - h}
+                      width={bw}
+                      height={h}
+                      rx={1.5}
+                      fill={i === sparkline.length - 1 ? "#9B8EC4" : "#D4CCF5"}
+                    />
+                  );
+                })}
+              </svg>
+            </div>
+            <div style={{ fontSize: 10, fontWeight: 600, marginTop: 6,
+              color: deltaYesterday === null ? "#9CA3AF" : deltaYesterday >= 0 ? "#2EA56A" : "#B57373" }}>
+              {deltaYesterday === null
+                ? pickT(lang, "基準日 1日目", "Baseline day 1")
+                : deltaYesterday >= 0
+                  ? pickT(lang, `昨日より +${deltaYesterday}`, `+${deltaYesterday} from yesterday`)
+                  : pickT(lang, `昨日より ${deltaYesterday}`, `${deltaYesterday} from yesterday`)}
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
