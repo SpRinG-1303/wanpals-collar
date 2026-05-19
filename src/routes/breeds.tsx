@@ -1,14 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
 import AppShell from "@/components/AppShell";
-import { useMemo, useState, useEffect, type ComponentType, type CSSProperties, type ReactNode } from "react";
+import { useMemo, useState, useEffect, useCallback, type ComponentType, type CSSProperties, type ReactNode } from "react";
 import Fuse, { type FuseResultMatch } from "fuse.js";
 import {
   Search, SlidersHorizontal, BookOpen, ArrowRight, ArrowLeft, X,
-  AlertTriangle, MessageCircle, Dog, Sparkles, Heart, Wind, Sun, Minus, Zap, Crown, Shuffle,
+  AlertTriangle, MessageCircle, Dog, Sparkles, Heart, Wind, Sun, Minus, Zap, Crown, Shuffle, RefreshCw,
   type LucideProps,
 } from "lucide-react";
 import { useT, useLanguage, T } from "@/context/LanguageContext";
 import { POSTS } from "@/lib/mock";
+import {
+  fetchBreedImage, fetchMultipleBreedImages, getCachedImage, setCachedImage, hasBreedSlug,
+} from "@/lib/dogCeo";
 
 export const Route = createFileRoute("/breeds")({ component: Breeds });
 
