@@ -170,18 +170,18 @@ function Step2() {
             <UploadCard
               label={t("ワンちゃん", "Your Dog")}
               placeholderEmoji=""
-              imageUrl={ghibli.kind === "done" ? ghibli.ghibliUrl : ghibli.kind === "converting" ? ghibli.rawUrl : null}
-              loading={ghibli.kind === "converting"}
+              imageUrl={dogRawUrl}
+              loading={false}
               onTap={() => openSheet("dog")}
               onRetake={resetDog}
             />
             <UploadCard
               label={t("オーナー", "You (Owner)")}
               placeholderEmoji=""
-              imageUrl={ownerUrl}
-              loading={ownerLoading}
+              imageUrl={ownerRawUrl}
+              loading={false}
               onTap={() => openSheet("owner")}
-              onRetake={() => { setOwnerUrl(null); openSheet("owner"); }}
+              onRetake={resetOwner}
             />
           </div>
 
@@ -195,12 +195,13 @@ function Step2() {
           <input ref={ownerGalRef} type="file" accept="image/*"
             className="hidden" onChange={(e) => handleOwnerFile(e.target.files?.[0])} />
 
-          {/* Animation display field */}
-          <AnimationField
-            state={ghibli}
-            onRetake={resetDog}
-            onRetry={retryConversion}
+          {/* Avatar preview field (transparent, no frame) */}
+          <AvatarPreview
+            generating={generating}
+            dogAvatarUrl={dogAvatarUrl}
+            ownerAvatarUrl={ownerAvatarUrl}
           />
+
 
           {/* Skip / fallback */}
           <div
