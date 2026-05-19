@@ -557,7 +557,7 @@ function AnimationField({
         <div className="mt-3">
           <div className="flex items-center justify-between mb-1.5">
             <span className="text-[11px] font-bold" style={{ color: "#E8678A" }}>
-              {t(" ジブリ風に変換中...", " Applying Ghibli magic...")}
+              {t(" アート風に変換中...", " Applying art magic...")}
             </span>
             <span className="text-[10px] font-bold" style={{ color: "#A38B82" }}>
               {Math.round(state.progress)}%
