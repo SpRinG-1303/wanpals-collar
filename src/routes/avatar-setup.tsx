@@ -476,7 +476,7 @@ function Step2({
         <div style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
           <div style={{ fontSize: 22 }}></div>
           <div style={{ fontSize: 13, color: TEXT, lineHeight: 1.5 }}>
-            <b>How it works:</b> Your photos are sent to a Ghibli-style AI model. The result is a soft,
+            <b>How it works:</b> Your photos are sent to an illustration AI model. The result is a soft,
             painterly anime illustration — not a realistic photo. Best results with clear, well-lit face shots.
           </div>
         </div>
