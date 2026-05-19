@@ -1785,6 +1785,9 @@ function Breeds() {
           0% { background-position: 200% 0; }
           100% { background-position: -200% 0; }
         }
+        @keyframes breedSpin {
+          to { transform: rotate(360deg); }
+        }
       `}</style>
 
       {/* HERO BANNER */}
