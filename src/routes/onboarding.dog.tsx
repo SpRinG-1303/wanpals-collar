@@ -450,6 +450,95 @@ function UploadCard({
 /*  Animation Display Field                                     */
 /* ============================================================ */
 
+/* ============================================================ */
+/*  Avatar Preview — generated avatars on transparent background */
+/* ============================================================ */
+
+function AvatarPreview({
+  generating,
+  dogAvatarUrl,
+  ownerAvatarUrl,
+}: {
+  generating: boolean;
+  dogAvatarUrl: string | null;
+  ownerAvatarUrl: string | null;
+}) {
+  const t = useT();
+  const hasResult = !!dogAvatarUrl || !!ownerAvatarUrl;
+
+  if (!generating && !hasResult) return null;
+
+  return (
+    <div
+      className="mt-5 flex flex-col items-center justify-center"
+      style={{ minHeight: 220 }}
+    >
+      {generating && (
+        <div className="flex flex-col items-center gap-3">
+          <Loader2 className="w-8 h-8 animate-spin" style={{ color: "#E8678A" }} />
+          <div className="text-[13px] font-bold" style={{ color: "#3B2A23" }}>
+            {t("アバターを作成中...", "Creating your avatar...")}
+          </div>
+        </div>
+      )}
+      {!generating && hasResult && (
+        <div className="flex items-end justify-center gap-4">
+          {dogAvatarUrl && (
+            <img
+              src={dogAvatarUrl}
+              alt="Dog avatar"
+              style={{
+                width: 150,
+                height: 150,
+                objectFit: "contain",
+                background: "transparent",
+                animation: "afBreathe 3.6s ease-in-out infinite",
+              }}
+            />
+          )}
+          {ownerAvatarUrl && (
+            <img
+              src={ownerAvatarUrl}
+              alt="Owner avatar"
+              style={{
+                width: 150,
+                height: 150,
+                objectFit: "contain",
+                background: "transparent",
+                animation: "afBreathe 3.6s ease-in-out infinite",
+              }}
+            />
+          )}
+        </div>
+      )}
+      <style>{`
+        @keyframes afBreathe {
+          0%,100% { transform: scale(1); }
+          50% { transform: scale(1.03); }
+        }
+      `}</style>
+    </div>
+  );
+}
+
+/* ============================================================ */
+/*  Legacy Animation Display Field (unused, kept for reference)  */
+/* ============================================================ */
+
+type GhibliState =
+  | { kind: "idle" }
+  | { kind: "converting"; rawUrl: string; progress: number }
+  | { kind: "done"; ghibliUrl: string; palette: unknown }
+  | { kind: "error"; message: string; rawFile: File | null };
+
+type DogPalette = {
+  fur?: string;
+  furDeep?: string;
+  earInner?: string;
+  chest?: string;
+};
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function AnimationField({
   state,
   onRetake,
@@ -460,6 +549,7 @@ function AnimationField({
   onRetry: () => void;
 }) {
   const t = useT();
+
 
   return (
     <div className="mt-5">
