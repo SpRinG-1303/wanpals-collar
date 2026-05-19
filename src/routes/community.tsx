@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import AppShell from "@/components/AppShell";
 import { POSTS as SEED_POSTS } from "@/lib/mock";
-import { useMemo, useState, useRef, useEffect } from "react";
+import { useMemo, useState, useRef } from "react";
 import {
   PenLine,
   ArrowUp,
