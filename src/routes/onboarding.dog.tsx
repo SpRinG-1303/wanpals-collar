@@ -590,7 +590,7 @@ function AnimationField({
             }}
           />
           <span className="text-[12px] font-bold" style={{ color: "#16A34A" }}>
-             {t("ジブリの分身ができました！", "Your Ghibli twin is ready!")}
+             {t("アートアバターができました！", "Your art avatar is ready!")}
           </span>
         </div>
       )}
