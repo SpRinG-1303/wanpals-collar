@@ -1899,7 +1899,7 @@ function Breeds() {
               border: "none", padding: 0,
             }}
           >
-            <BreedImage breed={featured} overlay="linear-gradient(90deg, rgba(0,0,0,0.55), rgba(0,0,0,0.15))" />
+            <BreedImage breed={featured} srcOverride={featuredUrl} loading={featuredLoading} overlay="linear-gradient(90deg, rgba(0,0,0,0.55), rgba(0,0,0,0.15))" />
             <div style={{ position: "relative", height: "100%", display: "flex", alignItems: "center", padding: "0 20px", gap: 12 }}>
               <div style={{ flex: 1, color: "white" }}>
                 <span style={{
