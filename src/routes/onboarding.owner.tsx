@@ -59,8 +59,8 @@ function Step3() {
           </h1>
           <p className="text-center text-[13px] mt-2 leading-relaxed" style={{ color: "#8A766C" }}>
             {t(
-              "色々な気分と瞬間のジブリ風コンビ ",
-              "Your Ghibli duo across different moods and moments "
+              "色々な気分と瞬間のアバターコンビ ",
+              "Your avatar duo across different moods and moments "
             )}
           </p>
 
