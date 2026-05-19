@@ -2222,6 +2222,8 @@ function BreedDetail({ breed, onClose }: { breed: Breed; onClose: () => void }) 
         }}>
           <BreedImage
             breed={breed}
+            srcOverride={heroUrl}
+            loading={heroLoading}
             overlay="linear-gradient(to bottom, rgba(0,0,0,0.10) 0%, rgba(0,0,0,0.10) 55%, rgba(0,0,0,0.55) 100%)"
           />
 
