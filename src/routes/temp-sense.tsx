@@ -486,3 +486,309 @@ function ThresholdRow({ color, textColor, jp, en, range, first }: {
 // keep import used to avoid tree-shake warnings when SP referenced indirectly
 void SP;
 void Card;
+
+// ─── New: orange time tabs (1D / 1W / 1M) ──────────────────────
+function OrangeTimeTabs({ value, onChange }: { value: string; onChange: (v: string) => void }) {
+  const tabs: { k: string; en: string; jp: string }[] = [
+    { k: "1d", en: "1D", jp: "今日" },
+    { k: "1w", en: "1W", jp: "今週" },
+    { k: "1m", en: "1M", jp: "今月" },
+  ];
+  return (
+    <div
+      style={{
+        background: "#FEF8F3",
+        borderRadius: 50,
+        padding: 3,
+        display: "flex",
+        gap: 3,
+        marginBottom: 12,
+        overflow: "hidden",
+      }}
+    >
+      {tabs.map((tb) => {
+        const active = value === tb.k;
+        return (
+          <button
+            key={tb.k}
+            onClick={() => onChange(tb.k)}
+            style={{
+              flex: 1,
+              padding: "8px 0",
+              borderRadius: 50,
+              background: active ? O.primary : "transparent",
+              color: active ? "#FFFFFF" : "#9CA3AF",
+              transition: "all 200ms ease",
+              touchAction: "manipulation",
+              lineHeight: 1.15,
+            }}
+          >
+            <div style={{ fontSize: 13, fontWeight: 600 }}>{tb.en}</div>
+            <div style={{ fontSize: 9, color: active ? "rgba(255,255,255,0.85)" : "#9CA3AF", marginTop: 1 }}>{tb.jp}</div>
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+// ─── New: dynamic trend strip per tab ──────────────────────────
+function TrendStripCard({ tab }: { tab: string }) {
+  const t = useT();
+  const contextLabel =
+    tab === "1d" ? t("本日 / Today", "Today")
+    : tab === "1w" ? t("今週 / This Week", "This Week")
+    : t("今月 / This Month", "This Month");
+
+  return (
+    <div style={{
+      background: "#FFFFFF",
+      borderRadius: 22,
+      padding: 20,
+      marginBottom: 12,
+      borderLeft: "4px solid #F7BC8E",
+      boxShadow: "0 4px 20px rgba(244,165,106,0.1)",
+      overflow: "hidden",
+    }}>
+      <div className="flex items-center justify-between" style={{ marginBottom: 14 }}>
+        <div className="flex items-center" style={{ gap: 6 }}>
+          <span style={{ width: 6, height: 6, borderRadius: "50%", background: O.primary }} />
+          <span style={{ fontSize: 11, color: O.primary, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase" }}>
+            {t("体温の推移", "Temperature Trend")}
+          </span>
+        </div>
+        <span style={{ fontSize: 11, color: "#9CA3AF" }}>{contextLabel}</span>
+      </div>
+
+      {tab === "1d" && <HourlyStrip />}
+      {tab === "1w" && <WeeklyStrip />}
+      {tab === "1m" && <MonthlyCalendar />}
+    </div>
+  );
+}
+
+// 1D – hourly horizontal strip
+function HourlyStrip() {
+  const t = useT();
+  const HOURS = [
+    { h: 6, v: 38.1 }, { h: 7, v: 38.2 }, { h: 8, v: 38.3 }, { h: 9, v: 38.4 },
+    { h: 10, v: 38.5 }, { h: 11, v: 38.6 }, { h: 12, v: 38.7 }, { h: 13, v: 38.6 },
+    { h: 14, v: 38.5 }, // current
+    { h: 15, v: null }, { h: 16, v: null }, { h: 17, v: null }, { h: 18, v: null },
+    { h: 19, v: null }, { h: 20, v: null }, { h: 21, v: null },
+  ] as { h: number; v: number | null }[];
+  const COL_W = 44;
+  const W = HOURS.length * COL_W;
+  const DOT_Y = 60;
+  const TEMP_Y = 38;
+  const HOUR_Y = 84;
+
+  const dotColor = (v: number | null) => {
+    if (v == null) return "#E5E7EB";
+    if (v > 40) return "#DC2626";
+    if (v > 39.2) return "#D97706";
+    return "#16A34A";
+  };
+
+  // sparkline path through filled values
+  const filled = HOURS.map((d, i) => ({ ...d, i })).filter((d) => d.v != null);
+  const sparkPath = filled.reduce((acc, d, i) => {
+    const x = d.i * COL_W + COL_W / 2;
+    const y = DOT_Y;
+    return acc + (i === 0 ? `M${x},${y}` : ` L${x},${y}`);
+  }, "");
+
+  return (
+    <div style={{ overflowX: "auto", overflowY: "hidden", WebkitOverflowScrolling: "touch", margin: "0 -8px" }}>
+      <svg width={W} height={100} style={{ display: "block" }}>
+        {/* highlight current column bg */}
+        {HOURS.map((d, i) =>
+          d.h === 14 ? (
+            <rect key={`bg${i}`} x={i * COL_W + 4} y={6} width={COL_W - 8} height={88}
+              rx={12} fill="#FEF0E6" />
+          ) : null
+        )}
+        <path d={sparkPath} stroke="#F4A56A" strokeWidth={1.5} fill="none" strokeLinecap="round" />
+        {HOURS.map((d, i) => {
+          const cx = i * COL_W + COL_W / 2;
+          const isNow = d.h === 14;
+          return (
+            <g key={i} opacity={d.v == null ? 0.45 : 1}>
+              {isNow && (
+                <text x={cx} y={18} fontSize="9" fill="#F4A56A" fontWeight={700} textAnchor="middle">
+                  {t("今", "Now")}
+                </text>
+              )}
+              {d.v != null && (
+                <text x={cx} y={TEMP_Y} fontSize="11" fontWeight={600} fill="#1A1A2E" textAnchor="middle">
+                  {d.v.toFixed(1)}
+                </text>
+              )}
+              <circle cx={cx} cy={DOT_Y} r={5} fill={dotColor(d.v)} />
+              <text x={cx} y={HOUR_Y} fontSize="10" fill="#9CA3AF" textAnchor="middle">{d.h}{t("時", "h")}</text>
+            </g>
+          );
+        })}
+      </svg>
+    </div>
+  );
+}
+
+// 1W – 7 day cards
+function WeeklyStrip() {
+  const t = useT();
+  const week = [
+    { jp: "月", en: "Mon", v: 38.3 },
+    { jp: "火", en: "Tue", v: 38.5 },
+    { jp: "水", en: "Wed", v: 38.4 },
+    { jp: "木", en: "Thu", v: 38.8 },
+    { jp: "金", en: "Fri", v: 38.6 },
+    { jp: "土", en: "Sat", v: 38.4 },
+    { jp: "日", en: "Sun", v: 38.5, today: true },
+  ];
+  const ringColor = (v: number) => (v > 40 ? "#DC2626" : v > 39.2 ? "#D97706" : "#F4A56A");
+  const dot = (v: number) => (v > 40 ? "#DC2626" : v > 39.2 ? "#D97706" : "#16A34A");
+
+  return (
+    <>
+      <div style={{ overflowX: "auto", WebkitOverflowScrolling: "touch", margin: "0 -8px", padding: "4px 8px 4px" }}>
+        <div style={{ display: "flex", gap: 8 }}>
+          {week.map((d, i) => (
+            <div key={i} style={{
+              flex: "0 0 auto",
+              width: 70,
+              background: "#FFFFFF",
+              borderRadius: 14,
+              padding: "10px 8px",
+              boxShadow: "0 2px 8px rgba(244,165,106,0.1)",
+              border: d.today ? "1.5px solid #F4A56A" : "1px solid #FEF0E6",
+              textAlign: "center",
+              position: "relative",
+            }}>
+              {d.today && (
+                <div style={{ fontSize: 9, color: "#F4A56A", fontWeight: 700, marginBottom: 2 }}>
+                  {t("今日", "Today")}
+                </div>
+              )}
+              <div style={{ fontSize: 11, color: "#9CA3AF" }}>{t(d.jp, d.en)}</div>
+              <div style={{
+                width: 40, height: 40, borderRadius: "50%",
+                border: `2.5px solid ${ringColor(d.v)}`,
+                margin: "6px auto 4px",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                background: "#FFF8F3",
+              }}>
+                <div style={{ fontSize: 10, fontWeight: 700, color: "#1A1A2E", fontVariantNumeric: "tabular-nums" }}>
+                  {d.v.toFixed(1)}
+                </div>
+              </div>
+              <div style={{ width: 6, height: 6, borderRadius: "50%", background: dot(d.v), margin: "0 auto" }} />
+            </div>
+          ))}
+        </div>
+      </div>
+      <div style={{ fontSize: 12, color: "#9CA3AF", marginTop: 12 }}>
+        {t("週間平均 38.5°C · 先週比 +0.1°C ↑", "Weekly avg 38.5°C · vs last week +0.1°C ↑")}
+      </div>
+    </>
+  );
+}
+
+// 1M – calendar grid
+function MonthlyCalendar() {
+  const t = useT();
+  const [monthOffset, setMonthOffset] = useState(0);
+  const base = new Date(2025, 4, 1); // May 2025
+  const d = new Date(base.getFullYear(), base.getMonth() + monthOffset, 1);
+  const year = d.getFullYear();
+  const month = d.getMonth();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  // Monday-first weekday index
+  const firstDow = (new Date(year, month, 1).getDay() + 6) % 7;
+  const today = monthOffset === 0 ? 14 : -1;
+
+  // generate cells (35-42)
+  const cells: (number | null)[] = [];
+  for (let i = 0; i < firstDow; i++) cells.push(null);
+  for (let n = 1; n <= daysInMonth; n++) cells.push(n);
+  while (cells.length % 7 !== 0) cells.push(null);
+
+  // simulated status per day
+  const status = (n: number | null): "normal" | "elevated" | "none" => {
+    if (n == null) return "none";
+    if (n > 14) return "none"; // future / no data
+    if (n === 7 || n === 12) return "elevated";
+    return "normal";
+  };
+
+  const cellStyle = (n: number | null) => {
+    const s = status(n);
+    if (s === "normal") return { bg: "#FEF0E6", dot: "#F4A56A" };
+    if (s === "elevated") return { bg: "#FFF3CD", dot: "#D97706" };
+    return { bg: "#F9F9F9", dot: null as string | null };
+  };
+
+  const wk = [
+    { jp: "月", en: "Mo" }, { jp: "火", en: "Tu" }, { jp: "水", en: "We" }, { jp: "木", en: "Th" },
+    { jp: "金", en: "Fr" }, { jp: "土", en: "Sa" }, { jp: "日", en: "Su" },
+  ];
+
+  return (
+    <>
+      <div className="flex items-center justify-center" style={{ gap: 12, marginBottom: 10 }}>
+        <button onClick={() => setMonthOffset((o) => o - 1)} style={{ color: "#1A1A2E", fontSize: 14 }}>←</button>
+        <div style={{ fontSize: 13, fontWeight: 600, color: "#1A1A2E" }}>
+          {year}{t("年", "/")}{month + 1}{t("月", "")}
+        </div>
+        <button onClick={() => setMonthOffset((o) => o + 1)} style={{ color: "#1A1A2E", fontSize: 14 }}>→</button>
+      </div>
+
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(7,1fr)", gap: 6, marginBottom: 6 }}>
+        {wk.map((w, i) => (
+          <div key={i} style={{ fontSize: 10, color: "#9CA3AF", textAlign: "center" }}>{t(w.jp, w.en)}</div>
+        ))}
+      </div>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(7,1fr)", gap: 6 }}>
+        {cells.map((n, i) => {
+          const s = cellStyle(n);
+          const isToday = n === today;
+          return (
+            <div key={i} style={{ display: "flex", justifyContent: "center" }}>
+              <div style={{
+                width: 30, height: 30, borderRadius: "50%",
+                background: n == null ? "transparent" : s.bg,
+                border: isToday ? "2px solid #F4A56A" : "none",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                position: "relative",
+              }}>
+                {n != null && (
+                  <span style={{ fontSize: 10, color: "#6B7280" }}>{n}</span>
+                )}
+                {n != null && s.dot && (
+                  <span style={{
+                    position: "absolute", bottom: 2, left: "50%", transform: "translateX(-50%)",
+                    width: 4, height: 4, borderRadius: "50%", background: s.dot,
+                  }} />
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 8, marginTop: 16 }}>
+        {[
+          { jp: "記録日数", en: "Days", v: "31" + t("日", "d") },
+          { jp: "平均体温", en: "Avg", v: "38.4°C" },
+          { jp: "正常日数", en: "Normal", v: "29" + t("日", "d") },
+          { jp: "アラート", en: "Alerts", v: "2" + t("回", "x") },
+        ].map((s, i) => (
+          <div key={i} style={{ textAlign: "center" }}>
+            <div style={{ fontSize: 14, fontWeight: 700, color: "#1A1A2E", fontVariantNumeric: "tabular-nums" }}>{s.v}</div>
+            <div style={{ fontSize: 10, color: "#9CA3AF", marginTop: 2 }}>{t(s.jp, s.en)}</div>
+          </div>
+        ))}
+      </div>
+    </>
+  );
+}
