@@ -494,7 +494,7 @@ function AnimationField({
           <div className="absolute inset-0 flex items-center justify-center">
             <img
               src={state.ghibliUrl}
-              alt="Ghibli dog"
+              alt="Art avatar dog"
               style={{
                 width: 200, height: 200, objectFit: "cover",
                 borderRadius: 24,
