@@ -2047,7 +2047,7 @@ function BreedCard({ breed, onOpen, language, t, matches }: { breed: Breed; onOp
     >
       {/* HERO BANNER */}
       <div style={{ position: "relative", height: 132, overflow: "hidden" }}>
-        <BreedImage breed={breed}>
+        <BreedImage breed={breed} srcOverride={imgUrl} loading={imgLoading}>
           <Icon
             size={22}
             color="rgba(255,255,255,0.95)"
