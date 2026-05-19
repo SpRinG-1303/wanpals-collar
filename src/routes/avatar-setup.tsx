@@ -495,7 +495,7 @@ function Step2({
           fontFamily: "'Quicksand', monospace",
         }}
       >
-        <b>Integration:</b> Replicate API → <code>animegan2-pytorch</code> model. Returns Ghibli-style PNG.
+        <b>Integration:</b> Replicate API → <code>animegan2-pytorch</code> model. Returns illustrated PNG.
         PNG is silently converted to SVG in the background using <code>vtracer</code> (color mode, spline
         curves) for crisp rendering at all sizes. SVG is stored and served back to the app.
       </div>
