@@ -2250,6 +2250,45 @@ function BreedDetail({ breed, onClose }: { breed: Breed; onClose: () => void }) 
           <div className="w-12 h-1.5 rounded-full" style={{ position: "absolute", top: 8, left: "50%", transform: "translateX(-50%)", background: "rgba(255,255,255,0.55)", zIndex: 2 }} />
         </div>
 
+        {/* PHOTO STRIP — 3 more breed images, horizontally scrollable */}
+        {(stripLoading || strip.length > 0) && (
+          <div
+            className="scrollbar-hide"
+            style={{
+              display: "flex", gap: 10, overflowX: "auto",
+              padding: "14px 16px 4px",
+              scrollSnapType: "x mandatory",
+            }}
+          >
+            {stripLoading
+              ? [0, 1, 2].map((i) => (
+                  <div
+                    key={i}
+                    style={{
+                      flexShrink: 0, width: 132, height: 96, borderRadius: 14,
+                      background: "linear-gradient(110deg, #FFE4EC 25%, #FFF5F8 50%, #FFE4EC 75%)",
+                      backgroundSize: "200% 100%",
+                      animation: "breedSkeletonShimmer 1.4s ease-in-out infinite",
+                    }}
+                  />
+                ))
+              : strip.map((u, i) => (
+                  <img
+                    key={u + i}
+                    src={u}
+                    alt={`${breed.en} ${i + 1}`}
+                    loading="lazy"
+                    style={{
+                      flexShrink: 0, width: 132, height: 96, borderRadius: 14,
+                      objectFit: "cover", scrollSnapAlign: "start",
+                      boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+                    }}
+                  />
+                ))}
+          </div>
+        )}
+
+
         {/* NAME */}
         <div style={{ padding: "20px 20px 8px" }}>
           <div style={{ fontSize: 24, fontWeight: 800, color: "#2C2C2C", letterSpacing: "-0.01em" }}>
