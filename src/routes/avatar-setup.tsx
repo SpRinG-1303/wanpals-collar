@@ -448,12 +448,12 @@ function Step2({
 }) {
   return (
     <div style={{ paddingBottom: 120 }}>
-      <StepNav step={2} label="Ghibli Photos" onBack={onBack} />
+      <StepNav step={2} label="Photos" onBack={onBack} />
 
       <div style={{ padding: "8px 20px 0", textAlign: "center" }}>
-        <h2 style={{ fontSize: 22, fontWeight: 800, margin: "8px 0 6px" }}>Add Your Ghibli Photos</h2>
+        <h2 style={{ fontSize: 22, fontWeight: 800, margin: "8px 0 6px" }}>Add Your Photos</h2>
         <p style={{ fontSize: 14, color: MUTED, lineHeight: 1.5, margin: 0 }}>
-          Upload photos of your dog and yourself. We'll transform them into a beautiful Ghibli-style art duo 
+          Upload photos of your dog and yourself. We'll transform them into a beautiful illustrated art duo 
         </p>
       </div>
 
