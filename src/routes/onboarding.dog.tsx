@@ -248,23 +248,32 @@ function Step2() {
         >
           <button
             onClick={onGenerate}
-            disabled={!bothReady}
-            className="w-full h-14 rounded-full text-[15px] font-bold transition-all"
+            disabled={!canGenerate}
+            className="w-full h-14 rounded-full text-[15px] font-bold transition-all flex items-center justify-center gap-2"
             style={{
-              background: bothReady
+              background: canGenerate
                 ? "linear-gradient(135deg,#E8678A 0%,#F48BA9 100%)"
                 : "#E5D5CC",
               color: "#FFFFFF",
-              boxShadow: bothReady
+              boxShadow: canGenerate
                 ? "0 8px 24px rgba(232,103,138,0.35)"
                 : "none",
-              animation: bothReady ? "pulseGlow 1.8s ease-in-out infinite" : "none",
-              opacity: bothReady ? 1 : 0.7,
+              animation: canGenerate && !generating ? "pulseGlow 1.8s ease-in-out infinite" : "none",
+              opacity: !dogRawFile ? 0.55 : 1,
+              cursor: !dogRawFile || generating ? "not-allowed" : "pointer",
             }}
           >
-             {t("ポーズを生成", "Generate Poses")} →
+            {generating ? (
+              <>
+                <Loader2 className="w-5 h-5 animate-spin" />
+                {t("アバターを作成中...", "Creating your avatar...")}
+              </>
+            ) : (
+              <>{t("ポーズを生成", "Generate Poses")} →</>
+            )}
           </button>
         </div>
+
 
         <style>{`
           @keyframes pulseGlow {
