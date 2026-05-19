@@ -1,38 +1,38 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { Camera, Image as ImageIcon, RotateCcw } from "lucide-react";
+import { toast } from "sonner";
+import { Camera, Image as ImageIcon, RotateCcw, Loader2 } from "lucide-react";
 import PhoneFrame from "@/components/PhoneFrame";
 import DogAvatar from "@/components/DogAvatar";
 import { Stepper, TopBar } from "@/routes/onboarding.avatar";
 import { useT } from "@/context/LanguageContext";
 import { usePet } from "@/context/PetContext";
-import { convertToGhibli } from "@/lib/ghibli.functions";
-import { extractDogColors, type DogPalette } from "@/lib/extractDogColors";
+import { generateAvatar } from "@/lib/avatar.functions";
 import type { BreedKey, EarStyle, EyeStyle } from "@/components/DogAvatar";
 
 export const Route = createFileRoute("/onboarding/dog")({ component: Step2 });
 
 type SheetTarget = null | "dog" | "owner";
-type GhibliState =
-  | { kind: "idle" }
-  | { kind: "converting"; rawUrl: string; progress: number }
-  | { kind: "done"; ghibliUrl: string; palette: DogPalette | null }
-  | { kind: "error"; message: string; rawFile: File | null };
 
 function Step2() {
   const nav = useNavigate();
   const t = useT();
   const { pet, updatePet } = usePet();
-  const runConvert = useServerFn(convertToGhibli);
+  const runGenerate = useServerFn(generateAvatar);
 
-  const [dogUrl, setDogUrl] = useState<string | null>(pet.dogPhotoUrl);
-  const [ownerUrl, setOwnerUrl] = useState<string | null>(pet.ownerPhotoUrl);
-  const [ownerLoading, setOwnerLoading] = useState(false);
+  // Raw uploaded previews (local object URLs)
+  const [dogRawUrl, setDogRawUrl] = useState<string | null>(null);
+  const [dogRawFile, setDogRawFile] = useState<File | null>(null);
+  const [ownerRawUrl, setOwnerRawUrl] = useState<string | null>(null);
+  const [ownerRawFile, setOwnerRawFile] = useState<File | null>(null);
+
+  // Final generated avatars
+  const [dogAvatarUrl, setDogAvatarUrl] = useState<string | null>(pet.dogPhotoUrl);
+  const [ownerAvatarUrl, setOwnerAvatarUrl] = useState<string | null>(pet.ownerPhotoUrl);
+
+  const [generating, setGenerating] = useState(false);
   const [sheet, setSheet] = useState<SheetTarget>(null);
-  const [ghibli, setGhibli] = useState<GhibliState>(() =>
-    pet.dogPhotoUrl ? { kind: "done", ghibliUrl: pet.dogPhotoUrl, palette: null } : { kind: "idle" }
-  );
 
   const dogCamRef = useRef<HTMLInputElement>(null);
   const dogGalRef = useRef<HTMLInputElement>(null);
@@ -52,71 +52,34 @@ function Step2() {
       reader.readAsDataURL(file);
     });
 
-  const startGhibliConversion = useCallback(
-    async (file: File) => {
-      const rawUrl = URL.createObjectURL(file);
-      setGhibli({ kind: "converting", rawUrl, progress: 0 });
-      try {
-        const { base64, mime } = await fileToBase64(file);
-        const ghibliRes = await runConvert({ data: { base64, mime } });
-        const ghibliUrl = ghibliRes.url;
-        setGhibli({ kind: "done", ghibliUrl, palette: null });
-        setDogUrl(ghibliUrl);
-        updatePet({ dogPhotoUrl: ghibliUrl, avatarStatus: "ghibli_ready" });
-        // Extract dog colors from the Ghibli image to recolor the mascot
-        try {
-          const palette = await extractDogColors(ghibliUrl);
-          setGhibli((g) => (g.kind === "done" ? { ...g, palette } : g));
-        } catch (colorErr) {
-          console.warn("Color extraction failed, using defaults:", colorErr);
-        }
-      } catch (e) {
-        const msg = e instanceof Error ? e.message : "Conversion failed";
-        setGhibli({ kind: "error", message: msg, rawFile: file });
-      }
-    },
-    [runConvert, updatePet]
-  );
-
-  // Fake progress bar while converting (two-stage: 0-50 ghibli, 50-100 video)
-  useEffect(() => {
-    if (ghibli.kind !== "converting") return;
-    const id = setInterval(() => {
-      setGhibli((g) => {
-        if (g.kind !== "converting") return g;
-        return { ...g, progress: Math.min(94, g.progress + Math.random() * 4 + 1) };
-      });
-    }, 600);
-    return () => clearInterval(id);
-  }, [ghibli.kind]);
-
   const handleDogFile = (file: File | undefined) => {
     if (!file) return;
-    startGhibliConversion(file);
+    setDogRawFile(file);
+    setDogRawUrl(URL.createObjectURL(file));
+    setDogAvatarUrl(null);
   };
 
   const handleOwnerFile = (file: File | undefined) => {
     if (!file) return;
-    const url = URL.createObjectURL(file);
-    setOwnerLoading(true);
-    setTimeout(() => {
-      setOwnerUrl(url);
-      setOwnerLoading(false);
-      updatePet({ ownerPhotoUrl: url });
-    }, 900);
-  };
-
-  const retryConversion = () => {
-    if (ghibli.kind === "error" && ghibli.rawFile) {
-      startGhibliConversion(ghibli.rawFile);
-    }
+    setOwnerRawFile(file);
+    setOwnerRawUrl(URL.createObjectURL(file));
+    setOwnerAvatarUrl(null);
   };
 
   const resetDog = () => {
-    setDogUrl(null);
-    setGhibli({ kind: "idle" });
+    setDogRawUrl(null);
+    setDogRawFile(null);
+    setDogAvatarUrl(null);
     updatePet({ dogPhotoUrl: null });
     openSheet("dog");
+  };
+
+  const resetOwner = () => {
+    setOwnerRawUrl(null);
+    setOwnerRawFile(null);
+    setOwnerAvatarUrl(null);
+    updatePet({ ownerPhotoUrl: null });
+    openSheet("owner");
   };
 
   const openSheet = (target: "dog" | "owner") => setSheet(target);
@@ -133,17 +96,54 @@ function Step2() {
     closeSheet();
   };
 
-  const bothReady = ghibli.kind === "done" && !!ownerUrl;
+  const canGenerate = !!dogRawFile && !generating;
 
-  const onGenerate = () => {
-    updatePet({ avatarStatus: "ghibli_ready", path: "A" });
-    nav({ to: "/onboarding/owner" });
-  };
+  const onGenerate = useCallback(async () => {
+    if (!dogRawFile) return;
+    setGenerating(true);
+    try {
+      const dogPayload = await fileToBase64(dogRawFile);
+      const dogRes = await runGenerate({
+        data: { ...dogPayload, subject: "dog" },
+      });
+      setDogAvatarUrl(dogRes.url);
+
+      let ownerUrl: string | null = null;
+      if (ownerRawFile) {
+        const ownerPayload = await fileToBase64(ownerRawFile);
+        const ownerRes = await runGenerate({
+          data: { ...ownerPayload, subject: "person" },
+        });
+        ownerUrl = ownerRes.url;
+        setOwnerAvatarUrl(ownerUrl);
+      }
+
+      updatePet({
+        dogPhotoUrl: dogRes.url,
+        ownerPhotoUrl: ownerUrl,
+        avatarStatus: "ghibli_ready",
+        path: "A",
+      });
+
+      nav({ to: "/onboarding/owner" });
+    } catch (e) {
+      console.error("Avatar generation failed:", e);
+      toast.error(
+        t(
+          "アバターの生成に失敗しました — もう一度お試しください。",
+          "Avatar generation failed — please try again.",
+        ),
+      );
+    } finally {
+      setGenerating(false);
+    }
+  }, [dogRawFile, ownerRawFile, runGenerate, updatePet, nav, t]);
 
   const onBuildOwn = () => {
     updatePet({ path: "B" });
     nav({ to: "/onboarding/avatar" });
   };
+
 
   return (
     <PhoneFrame>
@@ -170,18 +170,18 @@ function Step2() {
             <UploadCard
               label={t("ワンちゃん", "Your Dog")}
               placeholderEmoji=""
-              imageUrl={ghibli.kind === "done" ? ghibli.ghibliUrl : ghibli.kind === "converting" ? ghibli.rawUrl : null}
-              loading={ghibli.kind === "converting"}
+              imageUrl={dogRawUrl}
+              loading={false}
               onTap={() => openSheet("dog")}
               onRetake={resetDog}
             />
             <UploadCard
               label={t("オーナー", "You (Owner)")}
               placeholderEmoji=""
-              imageUrl={ownerUrl}
-              loading={ownerLoading}
+              imageUrl={ownerRawUrl}
+              loading={false}
               onTap={() => openSheet("owner")}
-              onRetake={() => { setOwnerUrl(null); openSheet("owner"); }}
+              onRetake={resetOwner}
             />
           </div>
 
@@ -195,12 +195,13 @@ function Step2() {
           <input ref={ownerGalRef} type="file" accept="image/*"
             className="hidden" onChange={(e) => handleOwnerFile(e.target.files?.[0])} />
 
-          {/* Animation display field */}
-          <AnimationField
-            state={ghibli}
-            onRetake={resetDog}
-            onRetry={retryConversion}
+          {/* Avatar preview field (transparent, no frame) */}
+          <AvatarPreview
+            generating={generating}
+            dogAvatarUrl={dogAvatarUrl}
+            ownerAvatarUrl={ownerAvatarUrl}
           />
+
 
           {/* Skip / fallback */}
           <div
@@ -247,23 +248,32 @@ function Step2() {
         >
           <button
             onClick={onGenerate}
-            disabled={!bothReady}
-            className="w-full h-14 rounded-full text-[15px] font-bold transition-all"
+            disabled={!canGenerate}
+            className="w-full h-14 rounded-full text-[15px] font-bold transition-all flex items-center justify-center gap-2"
             style={{
-              background: bothReady
+              background: canGenerate
                 ? "linear-gradient(135deg,#E8678A 0%,#F48BA9 100%)"
                 : "#E5D5CC",
               color: "#FFFFFF",
-              boxShadow: bothReady
+              boxShadow: canGenerate
                 ? "0 8px 24px rgba(232,103,138,0.35)"
                 : "none",
-              animation: bothReady ? "pulseGlow 1.8s ease-in-out infinite" : "none",
-              opacity: bothReady ? 1 : 0.7,
+              animation: canGenerate && !generating ? "pulseGlow 1.8s ease-in-out infinite" : "none",
+              opacity: !dogRawFile ? 0.55 : 1,
+              cursor: !dogRawFile || generating ? "not-allowed" : "pointer",
             }}
           >
-             {t("ポーズを生成", "Generate Poses")} →
+            {generating ? (
+              <>
+                <Loader2 className="w-5 h-5 animate-spin" />
+                {t("アバターを作成中...", "Creating your avatar...")}
+              </>
+            ) : (
+              <>{t("ポーズを生成", "Generate Poses")} →</>
+            )}
           </button>
         </div>
+
 
         <style>{`
           @keyframes pulseGlow {
@@ -440,6 +450,95 @@ function UploadCard({
 /*  Animation Display Field                                     */
 /* ============================================================ */
 
+/* ============================================================ */
+/*  Avatar Preview — generated avatars on transparent background */
+/* ============================================================ */
+
+function AvatarPreview({
+  generating,
+  dogAvatarUrl,
+  ownerAvatarUrl,
+}: {
+  generating: boolean;
+  dogAvatarUrl: string | null;
+  ownerAvatarUrl: string | null;
+}) {
+  const t = useT();
+  const hasResult = !!dogAvatarUrl || !!ownerAvatarUrl;
+
+  if (!generating && !hasResult) return null;
+
+  return (
+    <div
+      className="mt-5 flex flex-col items-center justify-center"
+      style={{ minHeight: 220 }}
+    >
+      {generating && (
+        <div className="flex flex-col items-center gap-3">
+          <Loader2 className="w-8 h-8 animate-spin" style={{ color: "#E8678A" }} />
+          <div className="text-[13px] font-bold" style={{ color: "#3B2A23" }}>
+            {t("アバターを作成中...", "Creating your avatar...")}
+          </div>
+        </div>
+      )}
+      {!generating && hasResult && (
+        <div className="flex items-end justify-center gap-4">
+          {dogAvatarUrl && (
+            <img
+              src={dogAvatarUrl}
+              alt="Dog avatar"
+              style={{
+                width: 150,
+                height: 150,
+                objectFit: "contain",
+                background: "transparent",
+                animation: "afBreathe 3.6s ease-in-out infinite",
+              }}
+            />
+          )}
+          {ownerAvatarUrl && (
+            <img
+              src={ownerAvatarUrl}
+              alt="Owner avatar"
+              style={{
+                width: 150,
+                height: 150,
+                objectFit: "contain",
+                background: "transparent",
+                animation: "afBreathe 3.6s ease-in-out infinite",
+              }}
+            />
+          )}
+        </div>
+      )}
+      <style>{`
+        @keyframes afBreathe {
+          0%,100% { transform: scale(1); }
+          50% { transform: scale(1.03); }
+        }
+      `}</style>
+    </div>
+  );
+}
+
+/* ============================================================ */
+/*  Legacy Animation Display Field (unused, kept for reference)  */
+/* ============================================================ */
+
+type GhibliState =
+  | { kind: "idle" }
+  | { kind: "converting"; rawUrl: string; progress: number }
+  | { kind: "done"; ghibliUrl: string; palette: unknown }
+  | { kind: "error"; message: string; rawFile: File | null };
+
+type DogPalette = {
+  fur?: string;
+  furDeep?: string;
+  earInner?: string;
+  chest?: string;
+};
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function AnimationField({
   state,
   onRetake,
@@ -450,6 +549,7 @@ function AnimationField({
   onRetry: () => void;
 }) {
   const t = useT();
+
 
   return (
     <div className="mt-5">
