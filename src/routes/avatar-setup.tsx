@@ -640,7 +640,7 @@ function Step3({
       <div style={{ padding: "8px 20px 0", textAlign: "center" }}>
         <h2 style={{ fontSize: 22, fontWeight: 800, margin: "8px 0 6px" }}>Your Avatar Sticker Pack</h2>
         <p style={{ fontSize: 14, color: MUTED, lineHeight: 1.5, margin: 0 }}>
-          Your Ghibli duo across different moods and moments 
+          Your avatar duo across different moods and moments 
         </p>
       </div>
 
