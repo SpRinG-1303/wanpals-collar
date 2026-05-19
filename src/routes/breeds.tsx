@@ -2175,11 +2175,26 @@ function BreedDetail({ breed, onClose }: { breed: Breed; onClose: () => void }) 
   const { language } = useLanguage();
   const [animated, setAnimated] = useState(false);
   const Icon = breed.Icon;
+  const { url: heroUrl, loading: heroLoading } = useBreedImage(breed.en);
+  const [strip, setStrip] = useState<string[]>([]);
+  const [stripLoading, setStripLoading] = useState(true);
 
   useEffect(() => {
     const id = requestAnimationFrame(() => setAnimated(true));
     return () => cancelAnimationFrame(id);
   }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+    setStripLoading(true);
+    fetchMultipleBreedImages(breed.en, 3).then((imgs) => {
+      if (!cancelled) {
+        setStrip(imgs);
+        setStripLoading(false);
+      }
+    });
+    return () => { cancelled = true; };
+  }, [breed.en]);
 
   const bars = [
     { jp: "エネルギー", en: "Energy", v: breed.stats.energy, color: "#E8829A" },
