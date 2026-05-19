@@ -1584,11 +1584,52 @@ const BREEDS: Breed[] = [
 
 /* ─────────────────────────────────────── Breed Image (with fallback) ─────────────────────────────────────── */
 
+function useBreedImage(en: string) {
+  const initial = typeof window !== "undefined" ? getCachedImage(en) : null;
+  const [url, setUrl] = useState<string | null>(initial);
+  const [loading, setLoading] = useState<boolean>(!initial && hasBreedSlug(en));
+
+  const load = useCallback(
+    async (skipCache = false) => {
+      if (!hasBreedSlug(en)) {
+        setUrl(null);
+        setLoading(false);
+        return;
+      }
+      if (!skipCache) {
+        const c = getCachedImage(en);
+        if (c) {
+          setUrl(c);
+          setLoading(false);
+          return;
+        }
+      }
+      setLoading(true);
+      const u = await fetchBreedImage(en);
+      setUrl(u);
+      setCachedImage(en, u);
+      setLoading(false);
+    },
+    [en],
+  );
+
+  useEffect(() => {
+    void load();
+  }, [load]);
+
+  return { url, loading, refresh: () => void load(true) };
+}
+
 function BreedImage({
   breed, style, children, overlay = "linear-gradient(to bottom, rgba(0,0,0,0.10), rgba(0,0,0,0.45))",
-}: { breed: Breed; style?: CSSProperties; children?: ReactNode; overlay?: string | false }) {
+  srcOverride, loading: loadingOverride,
+}: {
+  breed: Breed; style?: CSSProperties; children?: ReactNode; overlay?: string | false;
+  srcOverride?: string | null; loading?: boolean;
+}) {
   const [failed, setFailed] = useState(false);
-  const showImage = !!breed.image && !failed;
+  const src = srcOverride ?? breed.image ?? null;
+  const showImage = !!src && !failed;
   return (
     <div style={{ position: "absolute", inset: 0, ...style }}>
       {/* Fallback layer: gradient + kanji (always present underneath) */}
@@ -1605,7 +1646,7 @@ function BreedImage({
       </div>
       {showImage && (
         <img
-          src={breed.image}
+          src={src}
           alt={breed.en}
           loading="lazy"
           onError={() => setFailed(true)}
@@ -1614,6 +1655,15 @@ function BreedImage({
       )}
       {showImage && overlay && (
         <div style={{ position: "absolute", inset: 0, background: overlay, pointerEvents: "none" }} />
+      )}
+      {loadingOverride && (
+        <div style={{
+          position: "absolute", inset: 0,
+          background: "linear-gradient(110deg, rgba(255,228,236,0.6) 25%, rgba(255,245,248,0.9) 50%, rgba(255,228,236,0.6) 75%)",
+          backgroundSize: "200% 100%",
+          animation: "breedSkeletonShimmer 1.4s ease-in-out infinite",
+          pointerEvents: "none",
+        }} />
       )}
       {children}
     </div>
