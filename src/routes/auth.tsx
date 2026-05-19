@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { Eye, EyeOff, Mail, Lock, User, PawPrint, Check, ArrowLeft } from "lucide-react";
+import { Eye, EyeOff, Mail, Lock, User, PawPrint, Check, ArrowLeft, ChevronRight, Heart, Plus, Stethoscope } from "lucide-react";
 import { useT } from "@/context/LanguageContext";
 import { HeroIllustration } from "@/routes/language";
 import PhoneFrame from "@/components/PhoneFrame";
