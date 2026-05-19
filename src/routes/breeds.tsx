@@ -2087,6 +2087,31 @@ function BreedCard({ breed, onOpen, language, t, matches }: { breed: Breed; onOp
           }}>
             {t(breed.sizeJp, breed.sizeEn).toUpperCase()}
           </span>
+          {/* Refresh button — fetches a new random photo */}
+          {hasBreedSlug(breed.en) && (
+            <span
+              role="button"
+              tabIndex={0}
+              aria-label="Refresh photo"
+              onClick={(e) => { e.stopPropagation(); refreshImg(); }}
+              onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.stopPropagation(); refreshImg(); } }}
+              style={{
+                position: "absolute", bottom: 12, left: 12,
+                width: 30, height: 30, borderRadius: "50%",
+                background: "rgba(255,255,255,0.92)",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                boxShadow: "0 2px 8px rgba(0,0,0,0.18)", cursor: "pointer",
+                zIndex: 3,
+              }}
+            >
+              <RefreshCw
+                size={14}
+                color="#E8829A"
+                strokeWidth={2.5}
+                style={{ animation: imgLoading ? "breedGradientShift 0.9s linear infinite" : undefined }}
+              />
+            </span>
+          )}
         </BreedImage>
       </div>
 
