@@ -156,12 +156,12 @@ function Step2() {
           <Stepper current={1} path={pet.path} />
 
           <h1 className="text-[22px] font-extrabold text-center mt-2" style={{ color: "#3B2A23" }}>
-            {t("ギブリ写真を追加", "Add Your Ghibli Photos")}
+            {t("写真を追加", "Add Your Photos")}
           </h1>
           <p className="text-center text-[13px] mt-2 leading-relaxed" style={{ color: "#8A766C" }}>
             {t(
-              "ワンちゃんとあなたの写真をアップロード。美しいジブリ風のアート作品に変身させます ",
-              "Upload photos of your dog and yourself. We'll transform them into a beautiful Ghibli-style art duo "
+              "ワンちゃんとあなたの写真をアップロード。美しいイラストのアートコンビに変身させます ",
+              "Upload photos of your dog and yourself. We'll transform them into a beautiful illustrated art duo "
             )}
           </p>
 
@@ -494,7 +494,7 @@ function AnimationField({
           <div className="absolute inset-0 flex items-center justify-center">
             <img
               src={state.ghibliUrl}
-              alt="Ghibli dog"
+              alt="Art avatar dog"
               style={{
                 width: 200, height: 200, objectFit: "cover",
                 borderRadius: 24,
@@ -557,7 +557,7 @@ function AnimationField({
         <div className="mt-3">
           <div className="flex items-center justify-between mb-1.5">
             <span className="text-[11px] font-bold" style={{ color: "#E8678A" }}>
-              {t(" ジブリ風に変換中...", " Applying Ghibli magic...")}
+              {t(" アート風に変換中...", " Applying art magic...")}
             </span>
             <span className="text-[10px] font-bold" style={{ color: "#A38B82" }}>
               {Math.round(state.progress)}%
@@ -590,7 +590,7 @@ function AnimationField({
             }}
           />
           <span className="text-[12px] font-bold" style={{ color: "#16A34A" }}>
-             {t("ジブリの分身ができました！", "Your Ghibli twin is ready!")}
+             {t("アートアバターができました！", "Your art avatar is ready!")}
           </span>
         </div>
       )}

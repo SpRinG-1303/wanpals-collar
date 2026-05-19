@@ -448,12 +448,12 @@ function Step2({
 }) {
   return (
     <div style={{ paddingBottom: 120 }}>
-      <StepNav step={2} label="Ghibli Photos" onBack={onBack} />
+      <StepNav step={2} label="Photos" onBack={onBack} />
 
       <div style={{ padding: "8px 20px 0", textAlign: "center" }}>
-        <h2 style={{ fontSize: 22, fontWeight: 800, margin: "8px 0 6px" }}>Add Your Ghibli Photos</h2>
+        <h2 style={{ fontSize: 22, fontWeight: 800, margin: "8px 0 6px" }}>Add Your Photos</h2>
         <p style={{ fontSize: 14, color: MUTED, lineHeight: 1.5, margin: 0 }}>
-          Upload photos of your dog and yourself. We'll transform them into a beautiful Ghibli-style art duo 
+          Upload photos of your dog and yourself. We'll transform them into a beautiful illustrated art duo 
         </p>
       </div>
 
@@ -476,7 +476,7 @@ function Step2({
         <div style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
           <div style={{ fontSize: 22 }}></div>
           <div style={{ fontSize: 13, color: TEXT, lineHeight: 1.5 }}>
-            <b>How it works:</b> Your photos are sent to a Ghibli-style AI model. The result is a soft,
+            <b>How it works:</b> Your photos are sent to an illustration AI model. The result is a soft,
             painterly anime illustration — not a realistic photo. Best results with clear, well-lit face shots.
           </div>
         </div>
@@ -495,7 +495,7 @@ function Step2({
           fontFamily: "'Quicksand', monospace",
         }}
       >
-        <b>Integration:</b> Replicate API → <code>animegan2-pytorch</code> model. Returns Ghibli-style PNG.
+        <b>Integration:</b> Replicate API → <code>animegan2-pytorch</code> model. Returns illustrated PNG.
         PNG is silently converted to SVG in the background using <code>vtracer</code> (color mode, spline
         curves) for crisp rendering at all sizes. SVG is stored and served back to the app.
       </div>
@@ -640,7 +640,7 @@ function Step3({
       <div style={{ padding: "8px 20px 0", textAlign: "center" }}>
         <h2 style={{ fontSize: 22, fontWeight: 800, margin: "8px 0 6px" }}>Your Avatar Sticker Pack</h2>
         <p style={{ fontSize: 14, color: MUTED, lineHeight: 1.5, margin: 0 }}>
-          Your Ghibli duo across different moods and moments 
+          Your avatar duo across different moods and moments 
         </p>
       </div>
 

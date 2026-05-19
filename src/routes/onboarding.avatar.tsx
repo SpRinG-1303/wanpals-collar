@@ -237,7 +237,7 @@ export function TopBar({ to = "/onboarding/welcome" }: { to?: string } = {}) {
 export function Stepper({ current, path }: { current: 1 | 2 | 3 | 4; path?: "A" | "B" | null }) {
   const t = useT();
   const labels = [
-    t("ギブリの相棒に会う", "Meet Your Ghibli Twin"),
+    t("アートアバターを作る", "Create Your Art Avatar"),
     t("アバターをカスタマイズ", "Customise Avatar"),
     t("ポーズパック", "Pose Pack"),
     t("犬の詳細", "Dog Details"),
