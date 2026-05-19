@@ -1771,6 +1771,7 @@ function Breeds() {
   }, [filter, q, hasQuery, fuse]);
 
   const featured = BREEDS[0];
+  const { url: featuredUrl, loading: featuredLoading } = useBreedImage(featured.en);
 
   return (
     <AppShell noPadding>
