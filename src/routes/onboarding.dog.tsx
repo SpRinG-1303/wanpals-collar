@@ -156,12 +156,12 @@ function Step2() {
           <Stepper current={1} path={pet.path} />
 
           <h1 className="text-[22px] font-extrabold text-center mt-2" style={{ color: "#3B2A23" }}>
-            {t("ギブリ写真を追加", "Add Your Ghibli Photos")}
+            {t("写真を追加", "Add Your Photos")}
           </h1>
           <p className="text-center text-[13px] mt-2 leading-relaxed" style={{ color: "#8A766C" }}>
             {t(
-              "ワンちゃんとあなたの写真をアップロード。美しいジブリ風のアート作品に変身させます ",
-              "Upload photos of your dog and yourself. We'll transform them into a beautiful Ghibli-style art duo "
+              "ワンちゃんとあなたの写真をアップロード。美しいイラストのアートコンビに変身させます ",
+              "Upload photos of your dog and yourself. We'll transform them into a beautiful illustrated art duo "
             )}
           </p>
 
