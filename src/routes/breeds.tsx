@@ -2111,7 +2111,7 @@ function BreedCard({ breed, onOpen, language, t, matches }: { breed: Breed; onOp
                 size={14}
                 color="#E8829A"
                 strokeWidth={2.5}
-                style={{ animation: imgLoading ? "breedGradientShift 0.9s linear infinite" : undefined }}
+                style={{ animation: imgLoading ? "breedSpin 0.9s linear infinite" : undefined }}
               />
             </span>
           )}
