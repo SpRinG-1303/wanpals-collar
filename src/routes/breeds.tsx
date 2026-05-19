@@ -1,14 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
 import AppShell from "@/components/AppShell";
-import { useMemo, useState, useEffect, type ComponentType, type CSSProperties, type ReactNode } from "react";
+import { useMemo, useState, useEffect, useCallback, type ComponentType, type CSSProperties, type ReactNode } from "react";
 import Fuse, { type FuseResultMatch } from "fuse.js";
 import {
   Search, SlidersHorizontal, BookOpen, ArrowRight, ArrowLeft, X,
-  AlertTriangle, MessageCircle, Dog, Sparkles, Heart, Wind, Sun, Minus, Zap, Crown, Shuffle,
+  AlertTriangle, MessageCircle, Dog, Sparkles, Heart, Wind, Sun, Minus, Zap, Crown, Shuffle, RefreshCw,
   type LucideProps,
 } from "lucide-react";
 import { useT, useLanguage, T } from "@/context/LanguageContext";
 import { POSTS } from "@/lib/mock";
+import {
+  fetchBreedImage, fetchMultipleBreedImages, getCachedImage, setCachedImage, hasBreedSlug,
+} from "@/lib/dogCeo";
 
 export const Route = createFileRoute("/breeds")({ component: Breeds });
 
@@ -1581,11 +1584,52 @@ const BREEDS: Breed[] = [
 
 /* ─────────────────────────────────────── Breed Image (with fallback) ─────────────────────────────────────── */
 
+function useBreedImage(en: string) {
+  const initial = typeof window !== "undefined" ? getCachedImage(en) : null;
+  const [url, setUrl] = useState<string | null>(initial);
+  const [loading, setLoading] = useState<boolean>(!initial && hasBreedSlug(en));
+
+  const load = useCallback(
+    async (skipCache = false) => {
+      if (!hasBreedSlug(en)) {
+        setUrl(null);
+        setLoading(false);
+        return;
+      }
+      if (!skipCache) {
+        const c = getCachedImage(en);
+        if (c) {
+          setUrl(c);
+          setLoading(false);
+          return;
+        }
+      }
+      setLoading(true);
+      const u = await fetchBreedImage(en);
+      setUrl(u);
+      setCachedImage(en, u);
+      setLoading(false);
+    },
+    [en],
+  );
+
+  useEffect(() => {
+    void load();
+  }, [load]);
+
+  return { url, loading, refresh: () => void load(true) };
+}
+
 function BreedImage({
   breed, style, children, overlay = "linear-gradient(to bottom, rgba(0,0,0,0.10), rgba(0,0,0,0.45))",
-}: { breed: Breed; style?: CSSProperties; children?: ReactNode; overlay?: string | false }) {
+  srcOverride, loading: loadingOverride,
+}: {
+  breed: Breed; style?: CSSProperties; children?: ReactNode; overlay?: string | false;
+  srcOverride?: string | null; loading?: boolean;
+}) {
   const [failed, setFailed] = useState(false);
-  const showImage = !!breed.image && !failed;
+  const src = srcOverride ?? breed.image ?? null;
+  const showImage = !!src && !failed;
   return (
     <div style={{ position: "absolute", inset: 0, ...style }}>
       {/* Fallback layer: gradient + kanji (always present underneath) */}
@@ -1602,7 +1646,7 @@ function BreedImage({
       </div>
       {showImage && (
         <img
-          src={breed.image}
+          src={src}
           alt={breed.en}
           loading="lazy"
           onError={() => setFailed(true)}
@@ -1611,6 +1655,15 @@ function BreedImage({
       )}
       {showImage && overlay && (
         <div style={{ position: "absolute", inset: 0, background: overlay, pointerEvents: "none" }} />
+      )}
+      {loadingOverride && (
+        <div style={{
+          position: "absolute", inset: 0,
+          background: "linear-gradient(110deg, rgba(255,228,236,0.6) 25%, rgba(255,245,248,0.9) 50%, rgba(255,228,236,0.6) 75%)",
+          backgroundSize: "200% 100%",
+          animation: "breedSkeletonShimmer 1.4s ease-in-out infinite",
+          pointerEvents: "none",
+        }} />
       )}
       {children}
     </div>
@@ -1718,6 +1771,7 @@ function Breeds() {
   }, [filter, q, hasQuery, fuse]);
 
   const featured = BREEDS[0];
+  const { url: featuredUrl, loading: featuredLoading } = useBreedImage(featured.en);
 
   return (
     <AppShell noPadding>
@@ -1727,6 +1781,13 @@ function Breeds() {
           0% { background-position: 0% 50%; }
           50% { background-position: 100% 50%; }
           100% { background-position: 0% 50%; }
+        }
+        @keyframes breedSkeletonShimmer {
+          0% { background-position: 200% 0; }
+          100% { background-position: -200% 0; }
+        }
+        @keyframes breedSpin {
+          to { transform: rotate(360deg); }
         }
       `}</style>
 
@@ -1838,7 +1899,7 @@ function Breeds() {
               border: "none", padding: 0,
             }}
           >
-            <BreedImage breed={featured} overlay="linear-gradient(90deg, rgba(0,0,0,0.55), rgba(0,0,0,0.15))" />
+            <BreedImage breed={featured} srcOverride={featuredUrl} loading={featuredLoading} overlay="linear-gradient(90deg, rgba(0,0,0,0.55), rgba(0,0,0,0.15))" />
             <div style={{ position: "relative", height: "100%", display: "flex", alignItems: "center", padding: "0 20px", gap: 12 }}>
               <div style={{ flex: 1, color: "white" }}>
                 <span style={{
@@ -1970,6 +2031,7 @@ function BreedCard({ breed, onOpen, language, t, matches }: { breed: Breed; onOp
   const primaryName = language === "english" ? breed.en : breed.jp;
   const primaryKey = language === "english" ? "name_en" : "name_jp";
   const showSecondary = language !== "japanese" && primaryName !== breed.en;
+  const { url: imgUrl, loading: imgLoading, refresh: refreshImg } = useBreedImage(breed.en);
 
   const rows: { jp: string; en: string; valueJp: string; valueEn: string; keyJp?: string; keyEn?: string }[] = [
     { jp: "グループ", en: "GROUP", valueJp: breed.groupJp, valueEn: breed.groupEn, keyJp: "group_jp", keyEn: "group_en" },
@@ -1989,7 +2051,7 @@ function BreedCard({ breed, onOpen, language, t, matches }: { breed: Breed; onOp
     >
       {/* HERO BANNER */}
       <div style={{ position: "relative", height: 132, overflow: "hidden" }}>
-        <BreedImage breed={breed}>
+        <BreedImage breed={breed} srcOverride={imgUrl} loading={imgLoading}>
           <Icon
             size={22}
             color="rgba(255,255,255,0.95)"
@@ -2029,6 +2091,31 @@ function BreedCard({ breed, onOpen, language, t, matches }: { breed: Breed; onOp
           }}>
             {t(breed.sizeJp, breed.sizeEn).toUpperCase()}
           </span>
+          {/* Refresh button — fetches a new random photo */}
+          {hasBreedSlug(breed.en) && (
+            <span
+              role="button"
+              tabIndex={0}
+              aria-label="Refresh photo"
+              onClick={(e) => { e.stopPropagation(); refreshImg(); }}
+              onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.stopPropagation(); refreshImg(); } }}
+              style={{
+                position: "absolute", bottom: 12, left: 12,
+                width: 30, height: 30, borderRadius: "50%",
+                background: "rgba(255,255,255,0.92)",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                boxShadow: "0 2px 8px rgba(0,0,0,0.18)", cursor: "pointer",
+                zIndex: 3,
+              }}
+            >
+              <RefreshCw
+                size={14}
+                color="#E8829A"
+                strokeWidth={2.5}
+                style={{ animation: imgLoading ? "breedSpin 0.9s linear infinite" : undefined }}
+              />
+            </span>
+          )}
         </BreedImage>
       </div>
 
@@ -2088,11 +2175,26 @@ function BreedDetail({ breed, onClose }: { breed: Breed; onClose: () => void }) 
   const { language } = useLanguage();
   const [animated, setAnimated] = useState(false);
   const Icon = breed.Icon;
+  const { url: heroUrl, loading: heroLoading } = useBreedImage(breed.en);
+  const [strip, setStrip] = useState<string[]>([]);
+  const [stripLoading, setStripLoading] = useState(true);
 
   useEffect(() => {
     const id = requestAnimationFrame(() => setAnimated(true));
     return () => cancelAnimationFrame(id);
   }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+    setStripLoading(true);
+    fetchMultipleBreedImages(breed.en, 3).then((imgs) => {
+      if (!cancelled) {
+        setStrip(imgs);
+        setStripLoading(false);
+      }
+    });
+    return () => { cancelled = true; };
+  }, [breed.en]);
 
   const bars = [
     { jp: "エネルギー", en: "Energy", v: breed.stats.energy, color: "#E8829A" },
@@ -2120,6 +2222,8 @@ function BreedDetail({ breed, onClose }: { breed: Breed; onClose: () => void }) 
         }}>
           <BreedImage
             breed={breed}
+            srcOverride={heroUrl}
+            loading={heroLoading}
             overlay="linear-gradient(to bottom, rgba(0,0,0,0.10) 0%, rgba(0,0,0,0.10) 55%, rgba(0,0,0,0.55) 100%)"
           />
 
@@ -2145,6 +2249,45 @@ function BreedDetail({ breed, onClose }: { breed: Breed; onClose: () => void }) 
 
           <div className="w-12 h-1.5 rounded-full" style={{ position: "absolute", top: 8, left: "50%", transform: "translateX(-50%)", background: "rgba(255,255,255,0.55)", zIndex: 2 }} />
         </div>
+
+        {/* PHOTO STRIP — 3 more breed images, horizontally scrollable */}
+        {(stripLoading || strip.length > 0) && (
+          <div
+            className="scrollbar-hide"
+            style={{
+              display: "flex", gap: 10, overflowX: "auto",
+              padding: "14px 16px 4px",
+              scrollSnapType: "x mandatory",
+            }}
+          >
+            {stripLoading
+              ? [0, 1, 2].map((i) => (
+                  <div
+                    key={i}
+                    style={{
+                      flexShrink: 0, width: 132, height: 96, borderRadius: 14,
+                      background: "linear-gradient(110deg, #FFE4EC 25%, #FFF5F8 50%, #FFE4EC 75%)",
+                      backgroundSize: "200% 100%",
+                      animation: "breedSkeletonShimmer 1.4s ease-in-out infinite",
+                    }}
+                  />
+                ))
+              : strip.map((u, i) => (
+                  <img
+                    key={u + i}
+                    src={u}
+                    alt={`${breed.en} ${i + 1}`}
+                    loading="lazy"
+                    style={{
+                      flexShrink: 0, width: 132, height: 96, borderRadius: 14,
+                      objectFit: "cover", scrollSnapAlign: "start",
+                      boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+                    }}
+                  />
+                ))}
+          </div>
+        )}
+
 
         {/* NAME */}
         <div style={{ padding: "20px 20px 8px" }}>
