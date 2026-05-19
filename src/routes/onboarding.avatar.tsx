@@ -246,15 +246,10 @@ export function Stepper({ current, path }: { current: 1 | 2 | 3 | 4; path?: "A" 
     <div className="mb-3">
       <div className="flex items-center justify-center gap-0">
         {[1, 2, 3, 4].map((n, i) => {
-          const skipped = n === 2 && path === "A" && current !== 2;
-          const completed = !skipped && n < current;
+          const completed = n < current;
           const active = n === current;
-          const bg = skipped
-            ? "transparent"
-            : completed ? "#F4A3B8" : active ? "#E8678A" : "#EDE8E4";
-          const color = skipped
-            ? "#B8ADA6"
-            : completed || active ? "#FFFFFF" : "#C4B8B4";
+          const bg = completed ? "#F4A3B8" : active ? "#E8678A" : "#EDE8E4";
+          const color = completed || active ? "#FFFFFF" : "#C4B8B4";
           return (
             <div key={n} className="flex items-center">
               <div
@@ -262,47 +257,24 @@ export function Stepper({ current, path }: { current: 1 | 2 | 3 | 4; path?: "A" 
                 style={{
                   background: bg,
                   color,
-                  border: skipped ? "1.5px dashed #C4B8B4" : "none",
+                  border: "none",
                   boxShadow: active ? "0 0 0 4px rgba(232,103,138,0.18)" : "none",
                 }}
               >
-                {skipped ? (
-                  <>
-                    <span>{n}</span>
-                    <span
-                      style={{
-                        position: "absolute",
-                        inset: 0,
-                        margin: "auto",
-                        width: 22,
-                        height: 1.5,
-                        background: "#C4B8B4",
-                        transform: "rotate(-45deg)",
-                      }}
-                    />
-                  </>
-                ) : completed ? (
-                  <Check className="w-4 h-4" strokeWidth={3} />
-                ) : (
-                  n
-                )}
+                {completed ? <Check className="w-4 h-4" strokeWidth={3} /> : n}
               </div>
               {i < 3 && (
                 <div
                   className="w-7 h-[2px]"
                   style={{
-                    background:
-                      (n === 1 && (current > 1 || path === "A")) ||
-                      (n === 2 && current > 2) ||
-                      (n === 3 && current > 3)
-                        ? "#F4A3B8"
-                        : "#EDE8E4",
+                    background: n < current ? "#F4A3B8" : "#EDE8E4",
                   }}
                 />
               )}
             </div>
           );
         })}
+
       </div>
       <p className="text-[12px] text-center mt-2" style={{ color: "#8A8A8A" }}>
         {t(`ステップ ${current} / 4`, `Step ${current} of 4`)} · {labels[current - 1]}
