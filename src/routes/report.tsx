@@ -398,7 +398,7 @@ function ChartCard({
       ...glass,
       marginBottom: 12,
       overflow: "hidden",
-      borderLeft: `3px solid ${accent}`,
+      borderLeft: `4px solid ${accent}`,
     }}>
       <div style={{
         display: "flex", justifyContent: "space-between", alignItems: "center",
