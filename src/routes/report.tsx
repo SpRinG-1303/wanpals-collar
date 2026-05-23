@@ -28,12 +28,12 @@ const C = {
 };
 
 const glass: CSSProperties = {
-  background: "rgba(214, 235, 243, 0.45)",
-  backdropFilter: "blur(16px) saturate(180%)",
-  WebkitBackdropFilter: "blur(16px) saturate(180%)",
-  border: "1px solid rgba(185, 219, 225, 0.6)",
+  background: "#FFFFFF",
+  backdropFilter: "blur(8px)",
+  WebkitBackdropFilter: "blur(8px)",
+  border: "1px solid rgba(185, 219, 225, 0.5)",
   borderRadius: 20,
-  boxShadow: "0 8px 32px rgba(68, 127, 152, 0.12)",
+  boxShadow: "0 4px 20px rgba(68, 127, 152, 0.08)",
 };
 
 function Report() {
