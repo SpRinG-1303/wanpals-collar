@@ -239,18 +239,13 @@ function Report() {
 }
 
 /* ─────────── Hero ─────────── */
-function HeroCard({ pet, dogName }: { pet: PetProfile; dogName: string }) {
+function HeroCard({ pet: _pet, dogName: _dogName }: { pet: PetProfile; dogName: string }) {
   const t = useT();
-  const { language } = useLanguage();
   const score = 87;
   const r = 44;
   const circ = 2 * Math.PI * r;
   const offset = circ - (score / 100) * circ;
-  const breedKey: BreedKey = BREED_KEY_BY_JP[pet.breedJp] ?? "shiba";
 
-  const title = language === "english"
-    ? `${dogName}'s Health Report`
-    : `${dogName}の健康レポート`;
 
   return (
     <div style={{
