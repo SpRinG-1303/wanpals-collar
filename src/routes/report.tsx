@@ -481,8 +481,8 @@ function VaccinationCard() {
           </span>
         </div>
         <span style={{
-          background: "rgba(136,144,99,0.2)", color: C.moss, fontSize: 11, fontWeight: 700,
-          padding: "3px 10px", borderRadius: 20,
+          background: "rgba(136,144,99,0.15)", color: C.kombu, fontSize: 11, fontWeight: 700,
+          padding: "3px 10px", borderRadius: 20, border: `1px solid ${C.moss}`,
         }}>{t("4件", "4 records")}</span>
       </div>
       <div>
