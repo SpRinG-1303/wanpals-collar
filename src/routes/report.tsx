@@ -261,47 +261,7 @@ function HeroCard({ pet, dogName }: { pet: PetProfile; dogName: string }) {
     }}>
       <div style={{ height: 8, background: `linear-gradient(90deg, ${C.turquoise}, ${C.slate}, ${C.glacier})` }} />
       <div style={{ padding: 20 }}>
-        {/* Row 1: identity */}
-        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <div style={{
-            width: 44, height: 44, borderRadius: "50%",
-            border: `2px solid ${C.glacier}`, overflow: "hidden",
-            boxShadow: "0 4px 12px rgba(68,127,152,0.2)",
-            display: "flex", alignItems: "center", justifyContent: "center",
-            background: C.ice, flexShrink: 0,
-          }}>
-            <DogAvatar
-              breed={breedKey}
-              furColor={pet.avatar.furColor}
-              earStyle={pet.avatar.earStyle as any}
-              eyeStyle={pet.avatar.eyeStyle as any}
-              collarColor={pet.avatar.collarColor}
-              size={40}
-              showCollar={false}
-              ring={false}
-            />
-          </div>
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontSize: 16, fontWeight: 700, color: C.heading, lineHeight: 1.2 }}>
-              {title}
-            </div>
-            <div style={{ fontSize: 11, color: C.slate, marginTop: 2 }}>
-              {t(pet.breedJp || "柴犬", pet.breedEn || "Shiba Inu")} · {t("2026年5月", "May 2026")}
-            </div>
-          </div>
-          <div style={{
-            display: "flex", alignItems: "center", gap: 6,
-            background: "rgba(98, 139, 133, 0.2)", border: `1px solid ${C.slate}`,
-            borderRadius: 20, padding: "4px 12px", flexShrink: 0,
-          }}>
-            <span style={{ width: 6, height: 6, borderRadius: "50%", background: C.slate }} />
-            <span style={{ fontSize: 11, fontWeight: 700, color: C.slate }}>
-              {t("良好", "Good")}
-            </span>
-          </div>
-        </div>
-
-        <div style={{ height: 1, background: "rgba(185,219,225,0.5)", margin: "14px 0" }} />
+        {/* Row 1 removed — identity now lives in HeroBanner above */}
 
         {/* Row 2: ring + stats */}
         <div style={{ display: "grid", gridTemplateColumns: "auto 1fr", gap: 20, alignItems: "center" }}>
