@@ -73,7 +73,7 @@ function Report() {
           margin: "-16px -16px 0",
           padding: "16px",
           minHeight: "calc(100% + 32px)",
-          background: `linear-gradient(180deg, ${C.bone} 0%, ${C.tan} 100%)`,
+          background: C.bone,
         }}
       >
         {/* Paper-grain texture overlay */}
