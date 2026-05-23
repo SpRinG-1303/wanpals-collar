@@ -712,8 +712,8 @@ function HeroBanner({ pet }: { pet: PetProfile }) {
         margin: "-16px -16px 16px",
         borderRadius: "0 0 32px 32px",
         overflow: "hidden",
-        background: `linear-gradient(135deg, ${C.kombu} 0%, ${C.cafe} 100%)`,
-        boxShadow: "0 10px 30px rgba(76,61,25,0.25)",
+        background: `linear-gradient(90deg, ${C.kombu} 0%, ${C.moss} 100%)`,
+        boxShadow: "0 10px 30px rgba(53,64,36,0.25)",
       }}
     >
       {/* Large leaf-like blob top-right */}
