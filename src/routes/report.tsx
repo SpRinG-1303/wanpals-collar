@@ -676,5 +676,127 @@ function PDFCard() {
   );
 }
 
+/* ─────────── Hero Banner ─────────── */
+function HeroBanner({ pet }: { pet: PetProfile }) {
+  const t = useT();
+  const { language } = useLanguage();
+  const breedEn = pet.breedEn || "Shiba Inu";
+  const breedJp = pet.breedJp || "柴犬";
+  const name = pet.name || (language === "english" ? "your dog" : "ワンちゃん");
+
+  return (
+    <div
+      style={{
+        position: "relative",
+        width: "auto",
+        height: 160,
+        margin: "-16px -16px 16px",
+        borderRadius: "0 0 28px 28px",
+        overflow: "hidden",
+        background: `linear-gradient(135deg, ${C.turquoise} 0%, ${C.glacier} 100%)`,
+        boxShadow: "0 6px 24px rgba(68,127,152,0.18)",
+      }}
+    >
+      {/* Decorative blobs */}
+      <div style={{
+        position: "absolute", top: -60, right: -50, width: 180, height: 180,
+        borderRadius: "50%", background: "rgba(214, 235, 243, 0.25)",
+        filter: "blur(2px)",
+      }} />
+      <div style={{
+        position: "absolute", bottom: -40, left: -30, width: 120, height: 120,
+        borderRadius: "50%", background: "rgba(255, 255, 255, 0.15)",
+      }} />
+      <div style={{
+        position: "absolute", top: 40, left: "55%", width: 70, height: 70,
+        borderRadius: "50%", background: "rgba(255, 255, 255, 0.1)",
+      }} />
+
+      {/* Decorative ECG/heartbeat line on the right */}
+      <svg
+        width={140} height={80} viewBox="0 0 140 80"
+        style={{
+          position: "absolute", right: -10, top: "50%",
+          transform: "translateY(-50%)",
+          opacity: 1, pointerEvents: "none",
+        }}
+        aria-hidden
+      >
+        <path
+          d="M0 40 L25 40 L32 20 L40 60 L48 10 L56 65 L66 40 L90 40 L96 28 L104 52 L112 40 L140 40"
+          stroke="rgba(255,255,255,0.18)"
+          strokeWidth={2.5}
+          fill="none"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+
+      {/* Bottom fade overlay */}
+      <div style={{
+        position: "absolute", inset: 0,
+        background: "linear-gradient(180deg, transparent 65%, rgba(240,247,250,0.35) 100%)",
+        pointerEvents: "none",
+      }} />
+
+      {/* Text content */}
+      <div style={{
+        position: "relative", zIndex: 1,
+        padding: 24,
+        display: "flex", flexDirection: "column",
+        height: "100%", justifyContent: "space-between",
+      }}>
+        <div>
+          <div style={{
+            fontSize: 11,
+            color: "rgba(255,255,255,0.75)",
+            letterSpacing: "0.1em",
+            fontWeight: 600,
+            textTransform: "uppercase",
+          }}>
+            {t("ヘルスレポート", "Health")}
+          </div>
+          <div style={{
+            fontSize: 28, fontWeight: 700, color: "#FFFFFF",
+            lineHeight: 1.1, marginTop: 4,
+            letterSpacing: "-0.01em",
+          }}>
+            {t("健康レポート", "Health Report")}
+          </div>
+          <div style={{
+            fontSize: 13, color: "rgba(255,255,255,0.85)",
+            marginTop: 6, display: "flex", alignItems: "center", gap: 6,
+          }}>
+            <span style={{ color: "rgba(255,255,255,0.6)" }} aria-hidden>🐾</span>
+            <span>{name} · {t(breedJp, breedEn)} · {t("2026年5月", "May 2026")}</span>
+          </div>
+        </div>
+
+        <div style={{
+          alignSelf: "flex-start",
+          display: "inline-flex", alignItems: "center", gap: 6,
+          background: "rgba(255,255,255,0.25)",
+          backdropFilter: "blur(8px)",
+          WebkitBackdropFilter: "blur(8px)",
+          border: "1px solid rgba(255,255,255,0.4)",
+          borderRadius: 20,
+          padding: "4px 12px",
+        }}>
+          <span style={{
+            width: 6, height: 6, borderRadius: "50%",
+            background: "#FFFFFF",
+            boxShadow: "0 0 8px rgba(255,255,255,0.8)",
+          }} />
+          <span style={{ fontSize: 12, color: "#FFFFFF", fontWeight: 600 }}>
+            {t("良好", "Good")}
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // AlertTriangle import retained for future overdue states
+void AlertTriangle;
+
 void AlertTriangle;
