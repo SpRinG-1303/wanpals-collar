@@ -468,7 +468,7 @@ function VaccinationCard() {
       ...glass,
       marginBottom: 12,
       overflow: "hidden",
-      borderLeft: `3px solid ${C.moss}`,
+      borderLeft: `4px solid ${C.moss}`,
     }}>
       <div style={{
         display: "flex", justifyContent: "space-between", alignItems: "center",
