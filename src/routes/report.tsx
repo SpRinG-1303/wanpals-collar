@@ -660,7 +660,7 @@ function PDFCard() {
   return (
     <div style={{
       ...glass,
-      borderLeft: `3px solid ${C.moss}`,
+      borderLeft: `4px solid ${C.moss}`,
       padding: 16,
       display: "flex", flexDirection: "column", alignItems: "center", gap: 8,
     }}>
