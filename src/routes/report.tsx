@@ -783,19 +783,19 @@ function HeroBanner({ pet }: { pet: PetProfile }) {
         <div style={{
           alignSelf: "flex-start",
           display: "inline-flex", alignItems: "center", gap: 6,
-          background: "rgba(136, 144, 99, 0.35)",
+          background: "rgba(255, 255, 255, 0.2)",
           backdropFilter: "blur(8px)",
           WebkitBackdropFilter: "blur(8px)",
-          border: "1px solid rgba(136, 144, 99, 0.6)",
+          border: "1px solid rgba(255, 255, 255, 0.6)",
           borderRadius: 20,
           padding: "4px 12px",
         }}>
           <span style={{
             width: 6, height: 6, borderRadius: "50%",
-            background: C.bone,
-            boxShadow: "0 0 8px rgba(229,215,196,0.8)",
+            background: "#FFFFFF",
+            boxShadow: "0 0 8px rgba(255,255,255,0.8)",
           }} />
-          <span style={{ fontSize: 12, color: C.bone, fontWeight: 600 }}>
+          <span style={{ fontSize: 12, color: "#FFFFFF", fontWeight: 600 }}>
             {t("良好", "Good")}
           </span>
         </div>
