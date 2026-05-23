@@ -720,13 +720,13 @@ function HeroBanner({ pet }: { pet: PetProfile }) {
       <div style={{
         position: "absolute", top: -70, right: -60, width: 220, height: 220,
         borderRadius: "60% 40% 55% 45% / 50% 60% 40% 50%",
-        background: "rgba(136, 144, 99, 0.2)",
+        background: "rgba(207, 187, 153, 0.2)",
         filter: "blur(1px)",
       }} />
       {/* Smaller bottom-left blob */}
       <div style={{
         position: "absolute", bottom: -40, left: -30, width: 140, height: 140,
-        borderRadius: "50%", background: "rgba(207, 187, 153, 0.15)",
+        borderRadius: "50%", background: "rgba(207, 187, 153, 0.2)",
       }} />
 
       {/* Faint paw print watermark right side */}
