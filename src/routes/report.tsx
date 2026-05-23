@@ -36,6 +36,16 @@ const glass: CSSProperties = {
   boxShadow: "0 4px 20px rgba(68, 127, 152, 0.08)",
 };
 
+// Frosted variant preserved for QR & PDF cards (unchanged from prior design)
+const frosted: CSSProperties = {
+  background: "rgba(214, 235, 243, 0.45)",
+  backdropFilter: "blur(16px) saturate(180%)",
+  WebkitBackdropFilter: "blur(16px) saturate(180%)",
+  border: "1px solid rgba(185, 219, 225, 0.6)",
+  borderRadius: 20,
+  boxShadow: "0 8px 32px rgba(68, 127, 152, 0.12)",
+};
+
 function Report() {
   const t = useT();
   const { language } = useLanguage();
