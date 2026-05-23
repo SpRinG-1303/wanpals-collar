@@ -26,12 +26,12 @@ const C = {
 };
 
 const glass: CSSProperties = {
-  background: "rgba(229, 215, 196, 0.6)",
-  backdropFilter: "blur(16px) saturate(150%)",
-  WebkitBackdropFilter: "blur(16px) saturate(150%)",
-  border: "1px solid rgba(207, 187, 153, 0.7)",
+  background: "#FFFFFF",
+  backdropFilter: "blur(8px)",
+  WebkitBackdropFilter: "blur(8px)",
+  border: "1.5px solid rgba(136, 144, 99, 0.25)",
   borderRadius: 20,
-  boxShadow: "0 8px 32px rgba(76, 61, 25, 0.1)",
+  boxShadow: "0 4px 24px rgba(76, 61, 25, 0.08)",
 };
 
 function Report() {
@@ -73,7 +73,7 @@ function Report() {
           margin: "-16px -16px 0",
           padding: "16px",
           minHeight: "calc(100% + 32px)",
-          background: `linear-gradient(180deg, ${C.bone} 0%, ${C.tan} 100%)`,
+          background: C.bone,
         }}
       >
         {/* Paper-grain texture overlay */}
@@ -95,14 +95,13 @@ function Report() {
           {/* Time filter tabs */}
           <div
             style={{
-              background: "rgba(229, 215, 196, 0.5)",
-              backdropFilter: "blur(12px)",
-              WebkitBackdropFilter: "blur(12px)",
-              border: "1px solid rgba(207, 187, 153, 0.5)",
+              background: "#FFFFFF",
+              border: "1px solid rgba(136,144,99,0.2)",
               borderRadius: 16,
               padding: 4,
               margin: "0 0 12px",
               display: "flex",
+              boxShadow: "0 2px 12px rgba(76,61,25,0.05)",
             }}
           >
             {TABS.map((tb) => {
@@ -399,7 +398,7 @@ function ChartCard({
       ...glass,
       marginBottom: 12,
       overflow: "hidden",
-      borderLeft: `3px solid ${accent}`,
+      borderLeft: `4px solid ${accent}`,
     }}>
       <div style={{
         display: "flex", justifyContent: "space-between", alignItems: "center",
@@ -469,7 +468,7 @@ function VaccinationCard() {
       ...glass,
       marginBottom: 12,
       overflow: "hidden",
-      borderLeft: `3px solid ${C.moss}`,
+      borderLeft: `4px solid ${C.moss}`,
     }}>
       <div style={{
         display: "flex", justifyContent: "space-between", alignItems: "center",
@@ -482,8 +481,8 @@ function VaccinationCard() {
           </span>
         </div>
         <span style={{
-          background: "rgba(136,144,99,0.2)", color: C.moss, fontSize: 11, fontWeight: 700,
-          padding: "3px 10px", borderRadius: 20,
+          background: "rgba(136,144,99,0.15)", color: C.kombu, fontSize: 11, fontWeight: 700,
+          padding: "3px 10px", borderRadius: 20, border: `1px solid ${C.moss}`,
         }}>{t("4件", "4 records")}</span>
       </div>
       <div>
@@ -501,15 +500,15 @@ function VaccineRow({ jp, en, date, status, isLast }: {
     ? {
         icon: <Check size={16} color={C.kombu} />,
         bg: "rgba(53,64,36,0.1)",
-        chipBg: "rgba(53,64,36,0.12)",
-        chipBorder: "rgba(53,64,36,0.3)",
-        chipColor: C.kombu,
+        chipBg: C.kombu,
+        chipBorder: C.kombu,
+        chipColor: C.bone,
         chipText: t("最新", "Current"),
       }
     : {
-        icon: <Clock size={16} color={C.moss} />,
+        icon: <Clock size={16} color={C.cafe} />,
         bg: "rgba(207,187,153,0.3)",
-        chipBg: "rgba(207,187,153,0.3)",
+        chipBg: C.tan,
         chipBorder: C.tan,
         chipColor: C.cafe,
         chipText: t("もうすぐ", "Soon"),
@@ -548,7 +547,7 @@ function LastVisitCard() {
       ...glass,
       marginBottom: 12,
       overflow: "hidden",
-      borderLeft: `3px solid ${C.cafe}`,
+      borderLeft: `4px solid ${C.kombu}`,
     }}>
       <div style={{ padding: "14px 16px 4px", display: "flex", alignItems: "center", gap: 10 }}>
         <Stethoscope size={18} color={C.cafe} />
@@ -610,7 +609,7 @@ function QRCard() {
   return (
     <div style={{
       ...glass,
-      borderLeft: `3px solid ${C.kombu}`,
+      borderLeft: `4px solid ${C.kombu}`,
       padding: 16,
       display: "flex", flexDirection: "column", alignItems: "center", gap: 8,
     }}>
@@ -661,7 +660,7 @@ function PDFCard() {
   return (
     <div style={{
       ...glass,
-      borderLeft: `3px solid ${C.moss}`,
+      borderLeft: `4px solid ${C.moss}`,
       padding: 16,
       display: "flex", flexDirection: "column", alignItems: "center", gap: 8,
     }}>
@@ -713,21 +712,21 @@ function HeroBanner({ pet }: { pet: PetProfile }) {
         margin: "-16px -16px 16px",
         borderRadius: "0 0 32px 32px",
         overflow: "hidden",
-        background: `linear-gradient(135deg, ${C.kombu} 0%, ${C.cafe} 100%)`,
-        boxShadow: "0 10px 30px rgba(76,61,25,0.25)",
+        background: `linear-gradient(90deg, ${C.kombu} 0%, ${C.moss} 100%)`,
+        boxShadow: "0 10px 30px rgba(53,64,36,0.25)",
       }}
     >
       {/* Large leaf-like blob top-right */}
       <div style={{
         position: "absolute", top: -70, right: -60, width: 220, height: 220,
         borderRadius: "60% 40% 55% 45% / 50% 60% 40% 50%",
-        background: "rgba(136, 144, 99, 0.2)",
+        background: "rgba(207, 187, 153, 0.2)",
         filter: "blur(1px)",
       }} />
       {/* Smaller bottom-left blob */}
       <div style={{
         position: "absolute", bottom: -40, left: -30, width: 140, height: 140,
-        borderRadius: "50%", background: "rgba(207, 187, 153, 0.15)",
+        borderRadius: "50%", background: "rgba(207, 187, 153, 0.2)",
       }} />
 
       {/* Faint paw print watermark right side */}
@@ -739,7 +738,7 @@ function HeroBanner({ pet }: { pet: PetProfile }) {
         }}
         aria-hidden
       >
-        <g fill="rgba(229,215,196,0.1)">
+        <g fill="rgba(229,215,196,0.15)">
           <ellipse cx="12" cy="16" rx="4" ry="3.2" />
           <ellipse cx="6" cy="10" rx="1.8" ry="2.4" />
           <ellipse cx="10" cy="7" rx="1.8" ry="2.4" />
@@ -758,7 +757,7 @@ function HeroBanner({ pet }: { pet: PetProfile }) {
         <div>
           <div style={{
             fontSize: 11,
-            color: "rgba(207, 187, 153, 0.8)",
+            color: "rgba(229, 215, 196, 0.85)",
             letterSpacing: "0.12em",
             fontWeight: 600,
             textTransform: "uppercase",
@@ -784,19 +783,19 @@ function HeroBanner({ pet }: { pet: PetProfile }) {
         <div style={{
           alignSelf: "flex-start",
           display: "inline-flex", alignItems: "center", gap: 6,
-          background: "rgba(136, 144, 99, 0.35)",
+          background: "rgba(255, 255, 255, 0.2)",
           backdropFilter: "blur(8px)",
           WebkitBackdropFilter: "blur(8px)",
-          border: "1px solid rgba(136, 144, 99, 0.6)",
+          border: "1px solid rgba(255, 255, 255, 0.6)",
           borderRadius: 20,
           padding: "4px 12px",
         }}>
           <span style={{
             width: 6, height: 6, borderRadius: "50%",
-            background: C.bone,
-            boxShadow: "0 0 8px rgba(229,215,196,0.8)",
+            background: "#FFFFFF",
+            boxShadow: "0 0 8px rgba(255,255,255,0.8)",
           }} />
-          <span style={{ fontSize: 12, color: C.bone, fontWeight: 600 }}>
+          <span style={{ fontSize: 12, color: "#FFFFFF", fontWeight: 600 }}>
             {t("良好", "Good")}
           </span>
         </div>
