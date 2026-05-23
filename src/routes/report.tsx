@@ -757,7 +757,7 @@ function HeroBanner({ pet }: { pet: PetProfile }) {
         <div>
           <div style={{
             fontSize: 11,
-            color: "rgba(207, 187, 153, 0.8)",
+            color: "rgba(229, 215, 196, 0.85)",
             letterSpacing: "0.12em",
             fontWeight: 600,
             textTransform: "uppercase",
