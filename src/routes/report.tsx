@@ -28,6 +28,16 @@ const C = {
 };
 
 const glass: CSSProperties = {
+  background: "#FFFFFF",
+  backdropFilter: "blur(8px)",
+  WebkitBackdropFilter: "blur(8px)",
+  border: "1px solid rgba(185, 219, 225, 0.5)",
+  borderRadius: 20,
+  boxShadow: "0 4px 20px rgba(68, 127, 152, 0.08)",
+};
+
+// Frosted variant preserved for QR & PDF cards (unchanged from prior design)
+const frosted: CSSProperties = {
   background: "rgba(214, 235, 243, 0.45)",
   backdropFilter: "blur(16px) saturate(180%)",
   WebkitBackdropFilter: "blur(16px) saturate(180%)",
@@ -64,7 +74,7 @@ function Report() {
           margin: "-16px -16px 0",
           padding: "16px",
           minHeight: "calc(100% + 32px)",
-          background: `linear-gradient(160deg, ${C.ice} 0%, ${C.platinum} 100%)`,
+          background: `linear-gradient(160deg, #F0F7FA 0%, ${C.platinum} 100%)`,
         }}
       >
         <HeroCard pet={pet} dogName={dogName} />
@@ -91,8 +101,8 @@ function Report() {
                   borderRadius: 12,
                   fontSize: 12,
                   fontWeight: 700,
-                  color: active ? "#fff" : C.turquoise,
-                  background: active ? C.turquoise : "rgba(185, 219, 225, 0.4)",
+                  color: active ? "#fff" : C.slate,
+                  background: active ? C.turquoise : "rgba(214, 235, 243, 0.6)",
                   border: "none",
                   margin: 2,
                   boxShadow: active ? "0 2px 8px rgba(68,127,152,0.25)" : "none",
@@ -616,7 +626,7 @@ function QRCard() {
   const t = useT();
   return (
     <div style={{
-      ...glass,
+      ...frosted,
       padding: 16,
       display: "flex", flexDirection: "column", alignItems: "center", gap: 8,
     }}>
@@ -668,7 +678,7 @@ function PDFCard() {
   ];
   return (
     <div style={{
-      ...glass,
+      ...frosted,
       padding: 16,
       display: "flex", flexDirection: "column", alignItems: "center", gap: 8,
     }}>
