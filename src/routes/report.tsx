@@ -547,7 +547,7 @@ function LastVisitCard() {
       ...glass,
       marginBottom: 12,
       overflow: "hidden",
-      borderLeft: `3px solid ${C.cafe}`,
+      borderLeft: `4px solid ${C.kombu}`,
     }}>
       <div style={{ padding: "14px 16px 4px", display: "flex", alignItems: "center", gap: 10 }}>
         <Stethoscope size={18} color={C.cafe} />
