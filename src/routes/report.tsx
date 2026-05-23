@@ -95,14 +95,13 @@ function Report() {
           {/* Time filter tabs */}
           <div
             style={{
-              background: "rgba(229, 215, 196, 0.5)",
-              backdropFilter: "blur(12px)",
-              WebkitBackdropFilter: "blur(12px)",
-              border: "1px solid rgba(207, 187, 153, 0.5)",
+              background: "#FFFFFF",
+              border: "1px solid rgba(136,144,99,0.2)",
               borderRadius: 16,
               padding: 4,
               margin: "0 0 12px",
               display: "flex",
+              boxShadow: "0 2px 12px rgba(76,61,25,0.05)",
             }}
           >
             {TABS.map((tb) => {
