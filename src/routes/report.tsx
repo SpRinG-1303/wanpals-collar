@@ -77,6 +77,7 @@ function Report() {
           background: `linear-gradient(160deg, #F0F7FA 0%, ${C.platinum} 100%)`,
         }}
       >
+        <HeroBanner pet={pet} />
         <HeroCard pet={pet} dogName={dogName} />
 
         {/* Time filter tabs */}
