@@ -500,15 +500,15 @@ function VaccineRow({ jp, en, date, status, isLast }: {
     ? {
         icon: <Check size={16} color={C.kombu} />,
         bg: "rgba(53,64,36,0.1)",
-        chipBg: "rgba(53,64,36,0.12)",
-        chipBorder: "rgba(53,64,36,0.3)",
-        chipColor: C.kombu,
+        chipBg: C.kombu,
+        chipBorder: C.kombu,
+        chipColor: C.bone,
         chipText: t("最新", "Current"),
       }
     : {
-        icon: <Clock size={16} color={C.moss} />,
+        icon: <Clock size={16} color={C.cafe} />,
         bg: "rgba(207,187,153,0.3)",
-        chipBg: "rgba(207,187,153,0.3)",
+        chipBg: C.tan,
         chipBorder: C.tan,
         chipColor: C.cafe,
         chipText: t("もうすぐ", "Soon"),
