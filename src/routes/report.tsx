@@ -609,7 +609,7 @@ function QRCard() {
   return (
     <div style={{
       ...glass,
-      borderLeft: `3px solid ${C.kombu}`,
+      borderLeft: `4px solid ${C.kombu}`,
       padding: 16,
       display: "flex", flexDirection: "column", alignItems: "center", gap: 8,
     }}>
