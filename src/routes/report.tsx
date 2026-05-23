@@ -738,7 +738,7 @@ function HeroBanner({ pet }: { pet: PetProfile }) {
         }}
         aria-hidden
       >
-        <g fill="rgba(229,215,196,0.1)">
+        <g fill="rgba(229,215,196,0.15)">
           <ellipse cx="12" cy="16" rx="4" ry="3.2" />
           <ellipse cx="6" cy="10" rx="1.8" ry="2.4" />
           <ellipse cx="10" cy="7" rx="1.8" ry="2.4" />
