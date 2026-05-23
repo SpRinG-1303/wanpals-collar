@@ -578,19 +578,24 @@ function LastVisitCard() {
 }
 
 /* ─────────── QR & PDF Cards ─────────── */
+const accentCard = (accent: string): CSSProperties => ({
+  background: "#FFFFFF",
+  borderRadius: 20,
+  borderLeft: `4px solid ${accent}`,
+  boxShadow: "0 4px 16px rgba(68, 127, 152, 0.08)",
+});
+
 function QRCard() {
   const t = useT();
   return (
     <div style={{
-      ...frosted,
+      ...accentCard(C.turquoise),
       padding: 16,
       display: "flex", flexDirection: "column", alignItems: "center", gap: 8,
     }}>
       <div style={{
-        width: 56, height: 56, borderRadius: "50%", background: "rgba(185, 219, 225, 0.6)",
-        border: `1px solid ${C.glacier}`,
+        width: 56, height: 56, borderRadius: "50%", background: "rgba(185, 219, 225, 0.3)",
         display: "flex", alignItems: "center", justifyContent: "center",
-        boxShadow: "0 4px 12px rgba(68,127,152,0.18)",
       }}>
         <QrCode size={28} color={C.turquoise} />
       </div>
@@ -601,8 +606,8 @@ function QRCard() {
         {t("毎回新しいQRを生成", "New QR every visit")}
       </div>
       <div style={{
-        width: 80, height: 80, background: "rgba(214, 235, 243, 0.7)", borderRadius: 12,
-        border: `2px solid ${C.glacier}`, padding: 6,
+        width: 80, height: 80, background: "#FFFFFF", borderRadius: 8,
+        border: "1px solid rgba(185, 219, 225, 0.5)", padding: 6,
         display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: 1,
       }}>
         {Array.from({ length: 49 }).map((_, i) => (
@@ -614,10 +619,9 @@ function QRCard() {
       </div>
       <button style={{
         width: "100%", height: 40, marginTop: 4,
-        background: C.turquoise,
-        color: "#fff", fontWeight: 700, fontSize: 13, borderRadius: 12,
-        border: "none",
-        boxShadow: "0 4px 12px rgba(68,127,152,0.3)",
+        background: "rgba(68, 127, 152, 0.12)",
+        color: C.turquoise, fontWeight: 700, fontSize: 13, borderRadius: 12,
+        border: `1px solid ${C.turquoise}`,
       }}>
         {t("生成", "Generate")}
       </button>
@@ -634,15 +638,13 @@ function PDFCard() {
   ];
   return (
     <div style={{
-      ...frosted,
+      ...accentCard(C.slate),
       padding: 16,
       display: "flex", flexDirection: "column", alignItems: "center", gap: 8,
     }}>
       <div style={{
-        width: 56, height: 56, borderRadius: "50%", background: "rgba(185, 219, 225, 0.6)",
-        border: `1px solid ${C.glacier}`,
+        width: 56, height: 56, borderRadius: "50%", background: "rgba(185, 219, 225, 0.3)",
         display: "flex", alignItems: "center", justifyContent: "center",
-        boxShadow: "0 4px 12px rgba(98,139,133,0.18)",
       }}>
         <FileDown size={28} color={C.slate} />
       </div>
@@ -652,22 +654,16 @@ function PDFCard() {
       <div style={{ width: "100%", display: "flex", flexDirection: "column", gap: 4, marginTop: 4 }}>
         {items.map(([jp, en]) => (
           <div key={en} style={{ display: "flex", alignItems: "center", gap: 6 }}>
-            <div style={{
-              width: 14, height: 14, borderRadius: "50%", background: C.turquoise,
-              display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
-            }}>
-              <Check size={9} color="#fff" strokeWidth={3} />
-            </div>
+            <Check size={12} color={C.turquoise} strokeWidth={3} style={{ flexShrink: 0 }} />
             <span style={{ fontSize: 10, color: C.slate }}>{t(jp, en)}</span>
           </div>
         ))}
       </div>
       <button style={{
         width: "100%", height: 40, marginTop: "auto",
-        background: C.slate,
-        color: "#fff", fontWeight: 700, fontSize: 12, borderRadius: 12,
-        border: "none",
-        boxShadow: "0 4px 12px rgba(98,139,133,0.4)",
+        background: "rgba(98, 139, 133, 0.12)",
+        color: C.slate, fontWeight: 700, fontSize: 12, borderRadius: 12,
+        border: `1px solid ${C.slate}`,
         display: "flex", alignItems: "center", justifyContent: "center", gap: 4,
       }}>
         {t("PDF出力", "PDF Export")}
