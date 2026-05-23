@@ -64,7 +64,7 @@ function Report() {
           margin: "-16px -16px 0",
           padding: "16px",
           minHeight: "calc(100% + 32px)",
-          background: `linear-gradient(160deg, ${C.ice} 0%, ${C.platinum} 100%)`,
+          background: `linear-gradient(160deg, #F0F7FA 0%, ${C.platinum} 100%)`,
         }}
       >
         <HeroCard pet={pet} dogName={dogName} />
