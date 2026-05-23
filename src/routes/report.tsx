@@ -626,7 +626,7 @@ function QRCard() {
   const t = useT();
   return (
     <div style={{
-      ...glass,
+      ...frosted,
       padding: 16,
       display: "flex", flexDirection: "column", alignItems: "center", gap: 8,
     }}>
@@ -678,7 +678,7 @@ function PDFCard() {
   ];
   return (
     <div style={{
-      ...glass,
+      ...frosted,
       padding: 16,
       display: "flex", flexDirection: "column", alignItems: "center", gap: 8,
     }}>
