@@ -259,14 +259,14 @@ export function PetMatchSection() {
         <div className="relative flex items-end justify-between" style={{ padding: "0 4px 14px", zIndex: 1 }}>
           <div>
             <div className="flex items-center gap-2" style={{ marginBottom: 2 }}>
-              <PawPrint size={14} style={{ color: "var(--accent-sakura)" }} />
-              <span style={{ fontSize: 11, fontWeight: 800, color: "var(--accent-sakura)", letterSpacing: "0.16em" }}>
+              <PawPrint size={16} style={{ color: "var(--accent-sakura)" }} />
+              <span style={{ fontSize: 14, fontWeight: 800, color: "var(--accent-sakura)", letterSpacing: "0.16em" }}>
                 PET MATCH
               </span>
             </div>
             <div
               style={{
-                fontSize: 22,
+                fontSize: 18,
                 fontWeight: 800,
                 color: "var(--text-primary)",
                 lineHeight: 1.15,
