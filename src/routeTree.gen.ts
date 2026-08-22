@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as VetRxRouteImport } from './routes/vet-rx'
+import { Route as VetPatientsRouteImport } from './routes/vet-patients'
 import { Route as VetConsultRouteImport } from './routes/vet-consult'
 import { Route as TempSenseRouteImport } from './routes/temp-sense'
 import { Route as SkinSenseRouteImport } from './routes/skin-sense'
@@ -29,6 +30,7 @@ import { Route as AvatarSetupRouteImport } from './routes/avatar-setup'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AiRouteImport } from './routes/ai'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as VetPatientIdRouteImport } from './routes/vet-patient.$id'
 import { Route as OnboardingWelcomeRouteImport } from './routes/onboarding.welcome'
 import { Route as OnboardingOwnerRouteImport } from './routes/onboarding.owner'
 import { Route as OnboardingDogRouteImport } from './routes/onboarding.dog'
@@ -38,6 +40,11 @@ import { Route as OnboardingAvatarRouteImport } from './routes/onboarding.avatar
 const VetRxRoute = VetRxRouteImport.update({
   id: '/vet-rx',
   path: '/vet-rx',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VetPatientsRoute = VetPatientsRouteImport.update({
+  id: '/vet-patients',
+  path: '/vet-patients',
   getParentRoute: () => rootRouteImport,
 } as any)
 const VetConsultRoute = VetConsultRouteImport.update({
@@ -135,6 +142,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const VetPatientIdRoute = VetPatientIdRouteImport.update({
+  id: '/vet-patient/$id',
+  path: '/vet-patient/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const OnboardingWelcomeRoute = OnboardingWelcomeRouteImport.update({
   id: '/onboarding/welcome',
   path: '/onboarding/welcome',
@@ -181,12 +193,14 @@ export interface FileRoutesByFullPath {
   '/skin-sense': typeof SkinSenseRoute
   '/temp-sense': typeof TempSenseRoute
   '/vet-consult': typeof VetConsultRoute
+  '/vet-patients': typeof VetPatientsRoute
   '/vet-rx': typeof VetRxRoute
   '/onboarding/avatar': typeof OnboardingAvatarRoute
   '/onboarding/details': typeof OnboardingDetailsRoute
   '/onboarding/dog': typeof OnboardingDogRoute
   '/onboarding/owner': typeof OnboardingOwnerRoute
   '/onboarding/welcome': typeof OnboardingWelcomeRoute
+  '/vet-patient/$id': typeof VetPatientIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -208,12 +222,14 @@ export interface FileRoutesByTo {
   '/skin-sense': typeof SkinSenseRoute
   '/temp-sense': typeof TempSenseRoute
   '/vet-consult': typeof VetConsultRoute
+  '/vet-patients': typeof VetPatientsRoute
   '/vet-rx': typeof VetRxRoute
   '/onboarding/avatar': typeof OnboardingAvatarRoute
   '/onboarding/details': typeof OnboardingDetailsRoute
   '/onboarding/dog': typeof OnboardingDogRoute
   '/onboarding/owner': typeof OnboardingOwnerRoute
   '/onboarding/welcome': typeof OnboardingWelcomeRoute
+  '/vet-patient/$id': typeof VetPatientIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -236,12 +252,14 @@ export interface FileRoutesById {
   '/skin-sense': typeof SkinSenseRoute
   '/temp-sense': typeof TempSenseRoute
   '/vet-consult': typeof VetConsultRoute
+  '/vet-patients': typeof VetPatientsRoute
   '/vet-rx': typeof VetRxRoute
   '/onboarding/avatar': typeof OnboardingAvatarRoute
   '/onboarding/details': typeof OnboardingDetailsRoute
   '/onboarding/dog': typeof OnboardingDogRoute
   '/onboarding/owner': typeof OnboardingOwnerRoute
   '/onboarding/welcome': typeof OnboardingWelcomeRoute
+  '/vet-patient/$id': typeof VetPatientIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -265,12 +283,14 @@ export interface FileRouteTypes {
     | '/skin-sense'
     | '/temp-sense'
     | '/vet-consult'
+    | '/vet-patients'
     | '/vet-rx'
     | '/onboarding/avatar'
     | '/onboarding/details'
     | '/onboarding/dog'
     | '/onboarding/owner'
     | '/onboarding/welcome'
+    | '/vet-patient/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -292,12 +312,14 @@ export interface FileRouteTypes {
     | '/skin-sense'
     | '/temp-sense'
     | '/vet-consult'
+    | '/vet-patients'
     | '/vet-rx'
     | '/onboarding/avatar'
     | '/onboarding/details'
     | '/onboarding/dog'
     | '/onboarding/owner'
     | '/onboarding/welcome'
+    | '/vet-patient/$id'
   id:
     | '__root__'
     | '/'
@@ -319,12 +341,14 @@ export interface FileRouteTypes {
     | '/skin-sense'
     | '/temp-sense'
     | '/vet-consult'
+    | '/vet-patients'
     | '/vet-rx'
     | '/onboarding/avatar'
     | '/onboarding/details'
     | '/onboarding/dog'
     | '/onboarding/owner'
     | '/onboarding/welcome'
+    | '/vet-patient/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -347,12 +371,14 @@ export interface RootRouteChildren {
   SkinSenseRoute: typeof SkinSenseRoute
   TempSenseRoute: typeof TempSenseRoute
   VetConsultRoute: typeof VetConsultRoute
+  VetPatientsRoute: typeof VetPatientsRoute
   VetRxRoute: typeof VetRxRoute
   OnboardingAvatarRoute: typeof OnboardingAvatarRoute
   OnboardingDetailsRoute: typeof OnboardingDetailsRoute
   OnboardingDogRoute: typeof OnboardingDogRoute
   OnboardingOwnerRoute: typeof OnboardingOwnerRoute
   OnboardingWelcomeRoute: typeof OnboardingWelcomeRoute
+  VetPatientIdRoute: typeof VetPatientIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -362,6 +388,13 @@ declare module '@tanstack/react-router' {
       path: '/vet-rx'
       fullPath: '/vet-rx'
       preLoaderRoute: typeof VetRxRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/vet-patients': {
+      id: '/vet-patients'
+      path: '/vet-patients'
+      fullPath: '/vet-patients'
+      preLoaderRoute: typeof VetPatientsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/vet-consult': {
@@ -497,6 +530,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/vet-patient/$id': {
+      id: '/vet-patient/$id'
+      path: '/vet-patient/$id'
+      fullPath: '/vet-patient/$id'
+      preLoaderRoute: typeof VetPatientIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/onboarding/welcome': {
       id: '/onboarding/welcome'
       path: '/onboarding/welcome'
@@ -555,12 +595,14 @@ const rootRouteChildren: RootRouteChildren = {
   SkinSenseRoute: SkinSenseRoute,
   TempSenseRoute: TempSenseRoute,
   VetConsultRoute: VetConsultRoute,
+  VetPatientsRoute: VetPatientsRoute,
   VetRxRoute: VetRxRoute,
   OnboardingAvatarRoute: OnboardingAvatarRoute,
   OnboardingDetailsRoute: OnboardingDetailsRoute,
   OnboardingDogRoute: OnboardingDogRoute,
   OnboardingOwnerRoute: OnboardingOwnerRoute,
   OnboardingWelcomeRoute: OnboardingWelcomeRoute,
+  VetPatientIdRoute: VetPatientIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
