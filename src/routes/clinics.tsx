@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import AppShell from "@/components/AppShell";
 import { CLINICS } from "@/lib/mock";
 import {
@@ -77,8 +77,8 @@ function Stars({ rating }: { rating: number }) {
 function SectionLabel({ jp, en }: { jp: string; en: string }) {
   const t = useT();
   return (
-    <div className="flex items-center justify-between" style={{ margin: "22px 20px 12px" }}>
-      <div style={{ fontSize: 16, fontWeight: 700, color: "var(--text-primary)", letterSpacing: "-0.01em" }}>
+    <div className="flex items-center justify-between" style={{ margin: "24px 20px 12px" }}>
+      <div style={{ fontSize: 11, fontWeight: 800, color: "var(--text-secondary)", letterSpacing: "0.14em", textTransform: "uppercase" }}>
         {t(jp, en)}
       </div>
     </div>
@@ -87,6 +87,7 @@ function SectionLabel({ jp, en }: { jp: string; en: string }) {
 
 function Clinics() {
   const t = useT();
+  const navigate = useNavigate();
   const { language } = useLanguage();
   const [filter, setFilter] = useState(false);
   const [active, setActive] = useState(1);
@@ -137,69 +138,71 @@ function Clinics() {
 
   return (
     <AppShell noPadding>
-      {/* ── Header banner ──────────────────────────────────── */}
-      <div className="relative">
+      {/* ── Hero card ──────────────────────────────────────── */}
+      <div
+        className="relative overflow-hidden"
+        style={{
+          margin: "16px 20px 0",
+          borderRadius: 24,
+          background: "linear-gradient(135deg, var(--acc-pale) 0%, var(--accent-sakura-soft) 55%, var(--acc2-pale) 100%)",
+          border: "1px solid var(--acc2-soft)",
+          padding: "20px 20px 18px",
+        }}
+      >
+        {/* Faint medical-cross pattern */}
+        <div style={{ position: "absolute", right: 18, top: 16, width: 56, height: 56, opacity: 0.08, pointerEvents: "none" }}>
+          <div style={{ position: "absolute", left: 21, top: 0, width: 14, height: 56, borderRadius: 6, background: "var(--acc-strong)" }} />
+          <div style={{ position: "absolute", left: 0, top: 21, width: 56, height: 14, borderRadius: 6, background: "var(--acc-strong)" }} />
+        </div>
+        <div style={{ position: "absolute", right: 76, bottom: 14, width: 30, height: 30, opacity: 0.06, pointerEvents: "none" }}>
+          <div style={{ position: "absolute", left: 11, top: 0, width: 8, height: 30, borderRadius: 4, background: "var(--acc-strong)" }} />
+          <div style={{ position: "absolute", left: 0, top: 11, width: 30, height: 8, borderRadius: 4, background: "var(--acc-strong)" }} />
+        </div>
+
+        <div style={{ fontSize: 10, color: "var(--acc-strong)", letterSpacing: "0.16em", fontWeight: 800 }}>
+          {t("動物病院", "ANIMAL CLINICS")}
+        </div>
+        <div style={{ fontSize: 28, fontWeight: 800, color: "var(--text-primary)", lineHeight: 1.15, marginTop: 6, fontFamily: "var(--font-display, inherit)" }}>
+          {t("クリニックを探す", "Find Care")}
+        </div>
+        <div style={{ fontSize: 14, color: "var(--text-secondary)", marginTop: 2, fontWeight: 500 }}>
+          {t("近くの動物病院", "Near You")}
+        </div>
         <div
-          className="relative overflow-hidden"
+          className="inline-flex items-center gap-1"
           style={{
-            height: 130,
-            background: "linear-gradient(135deg,var(--acc2-pale) 0%,var(--acc-pale) 50%,#F0F5FF 100%)",
-            borderRadius: "0 0 28px 28px",
+            marginTop: 12,
+            background: "rgba(255,255,255,0.85)",
+            border: "1px solid var(--acc2-soft)",
+            borderRadius: 999,
+            padding: "5px 12px",
+            fontSize: 11,
+            color: "var(--acc-strong)",
+            fontWeight: 700,
           }}
         >
-          {/* Soft cross */}
-          <div style={{ position: "absolute", right: 30, top: 30, width: 80, height: 80, opacity: 0.12 }}>
-            <div style={{ position: "absolute", left: 30, top: 0, width: 20, height: 80, borderRadius: 8, background: "var(--accent-sora)" }} />
-            <div style={{ position: "absolute", left: 0, top: 30, width: 80, height: 20, borderRadius: 8, background: "var(--accent-sora)" }} />
-          </div>
-
-          <div style={{ position: "absolute", left: 20, top: 20, right: 130 }}>
-            <div style={{ fontSize: 11, color: "var(--accent-sora)", letterSpacing: "0.1em", fontWeight: 600 }}>
-              {t("動物病院", "Animal Clinics")}
-            </div>
-            <div style={{ fontSize: 26, fontWeight: 800, color: "var(--text-primary)", lineHeight: 1.1, marginTop: 2 }}>
-              {t("クリニックを探す", "Find Care")}
-            </div>
-            <div style={{ fontSize: 13, color: "var(--text-secondary)", marginTop: 4 }}>
-              {t("近くの動物病院", "Near You")}
-            </div>
-            <div
-              className="inline-flex items-center gap-1"
-              style={{
-                marginTop: 8,
-                background: "rgba(255,255,255,0.7)",
-                border: "1px solid var(--acc2-soft)",
-                borderRadius: 20,
-                padding: "4px 12px",
-                fontSize: 11,
-                color: "var(--accent-sora)",
-                fontWeight: 600,
-              }}
-            >
-              <MapPin size={11} />
-              {t("Bandra West, Mumbai", "Bandra West, Mumbai")}
-            </div>
-          </div>
+          <MapPin size={11} />
+          {t("Bandra West, Mumbai", "Bandra West, Mumbai")}
         </div>
       </div>
 
       {/* ── Search bar ─────────────────────────────────────── */}
-      <div className="flex items-center" style={{ margin: "14px 16px 4px", gap: 10 }}>
+      <div className="flex items-center" style={{ margin: "16px 20px 0", gap: 12 }}>
         <div
           className="flex items-center flex-1"
           style={{
             background: "#FFFFFF",
-            borderRadius: 14,
-            height: 48,
-            padding: "0 14px",
+            borderRadius: 16,
+            height: 56,
+            padding: "0 16px",
             gap: 10,
             minWidth: 0,
-            border: `1.5px solid ${focused ? "var(--accent-sakura)" : "transparent"}`,
-            boxShadow: CARD_SHADOW,
+            border: `1.5px solid ${focused ? "var(--accent-sakura)" : "var(--border-card)"}`,
+            boxShadow: "0 1px 4px rgba(0,0,0,0.04)",
             transition: "border 0.18s ease",
           }}
         >
-          <Search size={18} strokeWidth={2} style={{ color: "var(--text-placeholder)", flexShrink: 0 }} />
+          <Search size={19} strokeWidth={2} style={{ color: "var(--text-placeholder)", flexShrink: 0 }} />
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
@@ -214,42 +217,42 @@ function Clinics() {
           onClick={() => setFilter(true)}
           className="flex items-center justify-center"
           style={{
-            width: 48, height: 48, borderRadius: 14, flexShrink: 0,
-            background: "linear-gradient(135deg, var(--accent-sakura), var(--accent-sakura-dark))",
-            boxShadow: "0 6px 16px color-mix(in oklab, var(--accent-sakura) 35%, transparent)",
+            width: 56, height: 56, borderRadius: 16, flexShrink: 0,
+            background: "var(--accent-sakura)",
+            boxShadow: "0 4px 12px color-mix(in oklab, var(--accent-sakura) 30%, transparent)",
             color: "#FFFFFF",
           }}
           aria-label={t("絞り込み", "Filters")}
         >
-          <SlidersHorizontal size={19} strokeWidth={2.2} />
+          <SlidersHorizontal size={20} strokeWidth={2.2} />
         </button>
       </div>
 
-      {/* ── Quick stats (icon-circle columns) ──────────────── */}
+      {/* ── Quick stats — one card, three divided columns ──── */}
       <div
         className="grid grid-cols-3"
         style={{
-          margin: "10px 16px 0",
+          margin: "16px 20px 0",
           background: "#FFFFFF",
           borderRadius: 20,
-          boxShadow: CARD_SHADOW,
-          padding: "14px 8px",
+          border: "1px solid var(--border-card)",
+          boxShadow: "0 1px 4px rgba(0,0,0,0.04)",
+          padding: "16px 0",
         }}
       >
         {[
-          { n: String(CLINICS.length), jp: "近隣クリニック", en: "Clinics Nearby", color: "var(--accent-sakura)", soft: "var(--accent-sakura-soft)", Icon: Building2 },
-          { n: avgRating, jp: "平均評価", en: "Avg Rating", color: "var(--accent-yuzu)", soft: "var(--acc-pale)", Icon: Star },
-          { n: String(emCount), jp: "24時間対応", en: "24h Open", color: "#E53935", soft: "#FDECEA", Icon: Clock },
-        ].map((s) => (
-          <div key={s.en} className="flex flex-col items-center" style={{ gap: 6 }}>
-            <div
-              className="flex items-center justify-center"
-              style={{ width: 44, height: 44, borderRadius: "50%", background: s.soft }}
-            >
-              <s.Icon size={20} style={{ color: s.color }} />
-            </div>
-            <span className="tabular-nums" style={{ fontSize: 17, fontWeight: 800, color: "var(--text-primary)", lineHeight: 1 }}>{s.n}</span>
-            <div style={{ fontSize: 10, color: "var(--text-secondary)", lineHeight: 1.2, textAlign: "center" }}>
+          { n: String(CLINICS.length), jp: "近隣クリニック", en: "Clinics Nearby", color: "var(--accent-sakura)", Icon: Building2 },
+          { n: avgRating, jp: "平均評価", en: "Avg Rating", color: "var(--accent-yuzu)", Icon: Star },
+          { n: String(emCount), jp: "24時間対応", en: "24h Open", color: "var(--acc-strong)", Icon: Clock },
+        ].map((s, i) => (
+          <div
+            key={s.en}
+            className="flex flex-col items-center"
+            style={{ gap: 4, borderLeft: i > 0 ? "1px solid var(--border-card)" : "none", padding: "0 8px" }}
+          >
+            <s.Icon size={16} style={{ color: s.color }} />
+            <span className="tabular-nums" style={{ fontSize: 20, fontWeight: 800, color: "var(--text-primary)", lineHeight: 1.1 }}>{s.n}</span>
+            <div style={{ fontSize: 10, color: "var(--text-secondary)", lineHeight: 1.2, textAlign: "center", fontWeight: 500 }}>
               {t(s.jp, s.en)}
             </div>
           </div>
@@ -260,22 +263,25 @@ function Clinics() {
       <div
         className="relative overflow-hidden"
         style={{
-          margin: "12px 16px 4px",
-          height: 120,
+          margin: "16px 20px 0",
+          aspectRatio: "16 / 9",
           borderRadius: 20,
+          border: "1px solid var(--border-card)",
           background:
-            "linear-gradient(180deg,var(--acc-pale),var(--acc-pale)), repeating-linear-gradient(0deg,transparent,transparent 18px,color-mix(in oklab, var(--acc-strong) 8.0%, transparent) 19px), repeating-linear-gradient(90deg,transparent,transparent 18px,color-mix(in oklab, var(--acc-strong) 8.0%, transparent) 19px)",
+            "linear-gradient(180deg,var(--acc-pale),var(--acc2-pale)), repeating-linear-gradient(0deg,transparent,transparent 22px,color-mix(in oklab, var(--acc-strong) 7.0%, transparent) 23px), repeating-linear-gradient(90deg,transparent,transparent 22px,color-mix(in oklab, var(--acc-strong) 7.0%, transparent) 23px)",
         }}
       >
         {/* Faux roads */}
-        <div style={{ position: "absolute", top: 40, left: 0, right: 0, height: 3, background: "rgba(255,255,255,0.7)" }} />
-        <div style={{ position: "absolute", top: 0, bottom: 0, left: "55%", width: 3, background: "rgba(255,255,255,0.7)" }} />
+        <div style={{ position: "absolute", top: "34%", left: 0, right: 0, height: 4, background: "rgba(255,255,255,0.75)" }} />
+        <div style={{ position: "absolute", top: 0, bottom: 0, left: "58%", width: 4, background: "rgba(255,255,255,0.75)" }} />
+        <div style={{ position: "absolute", top: 0, bottom: 0, left: "24%", width: 3, background: "rgba(255,255,255,0.55)" }} />
         {/* Pins */}
         {[
-          { l: "20%", t: "30%", c: "var(--accent-matcha)" },
-          { l: "60%", t: "25%", c: "var(--accent-sakura)" },
-          { l: "45%", t: "65%", c: "var(--accent-sora)" },
-          { l: "75%", t: "60%", c: "var(--accent-yuzu)" },
+          { l: "16%", t: "18%", c: "var(--accent-matcha)" },
+          { l: "44%", t: "14%", c: "var(--accent-sakura)" },
+          { l: "72%", t: "22%", c: "var(--acc-strong)" },
+          { l: "34%", t: "52%", c: "var(--accent-yuzu)" },
+          { l: "80%", t: "56%", c: "var(--accent-sakura)" },
         ].map((p, i) => (
           <div
             key={i}
@@ -283,19 +289,22 @@ function Clinics() {
               position: "absolute", left: p.l, top: p.t,
               width: 14, height: 14, borderRadius: "50%",
               background: p.c, border: "2px solid #fff",
-              boxShadow: "0 2px 6px rgba(0,0,0,0.2)",
+              boxShadow: "0 2px 6px rgba(0,0,0,0.18)",
             }}
           />
         ))}
         <button
+          onClick={() => navigate({ to: "/map" })}
           className="absolute"
           style={{
-            left: "50%", top: "50%", transform: "translate(-50%,-50%)",
-            background: "#fff", color: "var(--accent-sora)",
-            borderRadius: 20, padding: "8px 20px",
+            left: "50%", bottom: 12, transform: "translateX(-50%)",
+            background: "#fff", color: "var(--acc-strong)",
+            borderRadius: 999, padding: "8px 18px",
             fontSize: 12, fontWeight: 700,
-            boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+            border: "1px solid var(--acc2-soft)",
+            boxShadow: "0 4px 12px rgba(0,0,0,0.12)",
             display: "flex", alignItems: "center", gap: 6,
+            whiteSpace: "nowrap",
           }}
         >
           <MapPin size={14} /> {t("地図で見る", "View on Map")}
@@ -303,7 +312,7 @@ function Clinics() {
       </div>
 
       {/* ── Category tabs ──────────────────────────────────── */}
-      <div className="flex gap-2 overflow-x-auto scrollbar-hide" style={{ padding: "12px 16px 4px" }}>
+      <div className="flex overflow-x-auto scrollbar-hide" style={{ padding: "16px 20px 0", gap: 8 }}>
         {CATS.map((c, i) => {
           const sel = active === i;
           const Icon = c.Icon;
@@ -311,77 +320,74 @@ function Clinics() {
             <button
               key={c.en}
               onClick={() => setActive(i)}
-              className="shrink-0 flex items-center gap-1.5"
+              className="shrink-0 flex items-center"
               style={{
-                background: sel ? "linear-gradient(135deg, var(--accent-sakura), var(--accent-sakura-dark))" : "#FFFFFF",
-                border: `1.5px solid ${sel ? "transparent" : "var(--border-card)"}`,
+                background: sel ? "var(--accent-sakura)" : "#FFFFFF",
+                border: `1.5px solid ${sel ? "var(--accent-sakura)" : "var(--border-card)"}`,
                 color: sel ? "#FFFFFF" : "var(--text-secondary)",
                 fontWeight: sel ? 700 : 500,
                 fontSize: 12,
-                borderRadius: 20,
-                padding: "8px 14px",
-                height: 36,
-                boxShadow: sel ? "0 4px 12px color-mix(in oklab, var(--accent-sakura) 30%, transparent)" : "0 2px 6px rgba(0,0,0,0.04)",
+                borderRadius: 999,
+                padding: "0 16px",
+                height: 40,
+                gap: 6,
+                boxShadow: sel ? "0 4px 12px color-mix(in oklab, var(--accent-sakura) 28%, transparent)" : "none",
                 transition: "all 0.18s ease",
               }}
             >
-              <Icon size={14} style={{ color: sel ? "#FFFFFF" : "var(--text-secondary)" }} fill={sel && c.en === "Top Rated" ? "#FFFFFF" : "none"} />
+              <Icon size={14} style={{ color: sel ? "#FFFFFF" : "var(--text-placeholder)" }} fill={sel && c.en === "Top Rated" ? "#FFFFFF" : "none"} />
               {t(c.jp, c.en)}
             </button>
           );
         })}
       </div>
 
-      {/* ── Emergency banner ───────────────────────────────── */}
+      {/* ── Emergency card ─────────────────────────────────── */}
       <SectionLabel jp="緊急対応" en="Emergency" />
-      <motion.div
-        animate={{ boxShadow: ["0 8px 24px rgba(229,57,53,0.3)", "0 8px 32px rgba(229,57,53,0.5)", "0 8px 24px rgba(229,57,53,0.3)"] }}
-        transition={{ duration: 2, repeat: Infinity }}
+      <div
+        className="flex items-center justify-between"
         style={{
-          margin: "0 16px 12px",
-          background: "linear-gradient(135deg,#FF4444,#E53935)",
+          margin: "0 20px",
+          background: "linear-gradient(135deg,#F25449,#E53935)",
           borderRadius: 20,
           padding: "16px 20px",
           color: "#fff",
+          boxShadow: "0 6px 18px rgba(229,57,53,0.25)",
+          gap: 12,
         }}
       >
-        <div className="flex items-start justify-between gap-3">
-          <div className="flex items-start gap-3 flex-1 min-w-0">
-
-            <div className="min-w-0">
-              <div style={{ fontSize: 11, color: "rgba(255,255,255,0.85)" }}>
-                {t("緊急の場合", "In Emergency")}
-              </div>
-              <div style={{ fontSize: 16, fontWeight: 800, lineHeight: 1.25 }}>
-                {t("最寄りの24時間病院", "Nearest 24H Hospital")}
-              </div>
-              <div style={{ fontSize: 12, color: "rgba(255,255,255,0.9)", marginTop: 4 }}>
-                {language === "english" ? emergencyClinic.en : emergencyClinic.jp} · {emergencyClinic.km}km · {emergencyClinic.rating}
-              </div>
-            </div>
+        <div className="min-w-0">
+          <div style={{ fontSize: 10, fontWeight: 800, color: "rgba(255,255,255,0.85)", letterSpacing: "0.12em", textTransform: "uppercase" }}>
+            {t("緊急の場合", "In Emergency")}
           </div>
-          <a
-            href="tel:+81000000000"
-            className="flex items-center gap-1.5 shrink-0"
-            style={{
-              background: "#fff", color: "#E53935",
-              borderRadius: 20, padding: "8px 14px",
-              fontSize: 13, fontWeight: 800,
-              boxShadow: "0 4px 8px rgba(0,0,0,0.15)",
-            }}
-          >
-            <Phone size={14} />
-            {t("電話", "Call")}
-          </a>
+          <div style={{ fontSize: 17, fontWeight: 800, lineHeight: 1.25, marginTop: 2 }}>
+            {t("最寄りの24時間病院", "Nearest 24H Hospital")}
+          </div>
+          <div style={{ fontSize: 12, color: "rgba(255,255,255,0.9)", marginTop: 4 }}>
+            {language === "english" ? emergencyClinic.en : emergencyClinic.jp} · {emergencyClinic.km}km · ★ {emergencyClinic.rating}
+          </div>
         </div>
-      </motion.div>
+        <a
+          href="tel:+919820001234"
+          className="flex items-center gap-1.5 shrink-0"
+          style={{
+            background: "#fff", color: "#E53935",
+            borderRadius: 999, padding: "10px 18px",
+            fontSize: 13, fontWeight: 800,
+            boxShadow: "0 4px 10px rgba(0,0,0,0.18)",
+          }}
+        >
+          <Phone size={14} />
+          {t("電話", "Call")}
+        </a>
+      </div>
 
       {/* ── Video consultation ─────────────────────────────── */}
       <button
         onClick={bookVideoConsult}
         className="w-full text-left flex items-center gap-3 active:scale-[0.98] transition-transform"
         style={{
-          margin: "0 16px 12px",
+          margin: "16px 20px 0",
           width: "calc(100% - 32px)",
           background: "#FFFFFF",
           boxShadow: CARD_SHADOW,
@@ -433,7 +439,7 @@ function Clinics() {
               style={{
                 background: "#FFFFFF",
                 borderRadius: 20,
-                margin: "0 16px 12px",
+                margin: "0 20px 12px",
                 boxShadow: CARD_SHADOW,
                 overflow: "hidden",
               }}
