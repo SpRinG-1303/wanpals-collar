@@ -19,6 +19,7 @@ type Ctx = {
   signIn: (email: string, password: string) => string | null;
   signUp: (u: StoredUser) => string | null;
   signOut: () => void;
+  updateProfile: (patch: { name?: string; email?: string; password?: string }) => string | null;
 };
 
 const AuthContext = createContext<Ctx>({
@@ -27,6 +28,7 @@ const AuthContext = createContext<Ctx>({
   signIn: () => "Not ready",
   signUp: () => "Not ready",
   signOut: () => {},
+  updateProfile: () => "Not ready",
 });
 
 function readUsers(): StoredUser[] {
