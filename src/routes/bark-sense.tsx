@@ -180,9 +180,9 @@ function BarkSensePage() {
       >
         {/* Ambient background blobs (purple) */}
         <div aria-hidden style={{ position: "absolute", inset: 0, pointerEvents: "none", overflow: "hidden" }}>
-          <div style={{ position: "absolute", top: 240, left: -60, width: 220, height: 220, borderRadius: "50%", background: P.accent, filter: "blur(80px)", opacity: 0.18 }} />
-          <div style={{ position: "absolute", top: 620, right: -80, width: 260, height: 260, borderRadius: "50%", background: P.primary, filter: "blur(90px)", opacity: 0.16 }} />
-          <div style={{ position: "absolute", top: 1100, left: -40, width: 200, height: 200, borderRadius: "50%", background: P.light, filter: "blur(80px)", opacity: 0.22 }} />
+          <div style={{ position: "absolute", top: 240, left: -60, width: 220, height: 220, borderRadius: "50%", background: P.accent, opacity: 0.07 }} />
+          <div style={{ position: "absolute", top: 620, right: -80, width: 260, height: 260, borderRadius: "50%", background: P.primary, opacity: 0.07 }} />
+          <div style={{ position: "absolute", top: 1100, left: -40, width: 200, height: 200, borderRadius: "50%", background: P.light, opacity: 0.09 }} />
         </div>
 
         {/* HERO */}

@@ -50,10 +50,10 @@ export function TopBar({
               </Link>
             )}
             <Link
-              to="/settings"
+              to="/home"
               className="flex items-center justify-center"
               style={{ width: 42, height: 42, background: "transparent" }}
-              aria-label="Profile"
+              aria-label="Home"
             >
               <img
                 src={pawLogoAsset.url}
@@ -222,7 +222,6 @@ export default function AppShell({
           maxWidth: 430,
           height: "100dvh",
           background: "var(--bg-page)",
-          boxShadow: "0 0 40px rgba(0,0,0,0.15)",
           display: "flex",
           flexDirection: "column",
           // Containing block for position:fixed descendants — keeps modals,

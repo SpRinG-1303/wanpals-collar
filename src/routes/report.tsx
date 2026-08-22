@@ -50,16 +50,6 @@ function Report() {
   const stepsData = [1800, 2600, 2400, 2200, 2000, 2800, 3100].map((v, i) => ({ d: dayLabels[i], v }));
   const sleepData = [7.2, 8.1, 7.5, 6.8, 7.9, 8.4, 7.5].map((v, i) => ({ d: dayLabels[i], v }));
 
-  // Faint paper-grain noise overlay
-  const noiseSvg =
-    "data:image/svg+xml;utf8," +
-    encodeURIComponent(
-      `<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'>
-        <filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter>
-        <rect width='100%' height='100%' filter='url(#n)' opacity='0.6'/>
-      </svg>`
-    );
-
   return (
     <AppShell
       titleJp="健康レポート"
@@ -75,17 +65,6 @@ function Report() {
           background: C.bone,
         }}
       >
-        {/* Paper-grain texture overlay */}
-        <div
-          aria-hidden
-          style={{
-            position: "absolute", inset: 0,
-            backgroundImage: `url("${noiseSvg}")`,
-            opacity: 0.03,
-            pointerEvents: "none",
-            mixBlendMode: "multiply",
-          }}
-        />
 
         <div style={{ position: "relative", zIndex: 1 }}>
           <HeroBanner pet={pet} />
@@ -154,7 +133,7 @@ function Report() {
                 <XAxis dataKey="d" tick={{ fill: C.moss, fontSize: 10 }} axisLine={false} tickLine={false} />
                 <YAxis domain={[60, 100]} tick={{ fill: C.moss, fontSize: 10 }} axisLine={false} tickLine={false} />
                 <Tooltip content={<NiceTooltip suffix="" />} />
-                <Area type="monotone" dataKey="v" stroke={C.kombu} strokeWidth={2.5} fill="url(#scoreFill)"
+                <Area type="monotone" dataKey="v" stroke={C.kombu} strokeWidth={2.5} fill="url(#scoreFill)" isAnimationActive={false}
                   dot={{ r: 3, fill: C.kombu, stroke: C.bone, strokeWidth: 1.5 }} animationDuration={1000} />
               </AreaChart>
             </ResponsiveContainer>
@@ -186,7 +165,7 @@ function Report() {
                 <ReferenceLine y={38.5} stroke={C.moss} strokeDasharray="4 4" strokeOpacity={0.4}
                   label={{ value: t("正常", "Normal"), position: "right", fill: C.moss, fontSize: 10 }} />
                 <Tooltip content={<NiceTooltip suffix="°C" />} />
-                <Area type="monotone" dataKey="v" stroke={C.moss} strokeWidth={2.5} fill="url(#tempFill)"
+                <Area type="monotone" dataKey="v" stroke={C.moss} strokeWidth={2.5} fill="url(#tempFill)" isAnimationActive={false}
                   dot={{ r: 3, fill: C.moss, stroke: C.bone, strokeWidth: 1.5 }} animationDuration={1000} />
               </AreaChart>
             </ResponsiveContainer>
@@ -217,7 +196,7 @@ function Report() {
                 <ReferenceLine y={3000} stroke={C.kombu} strokeDasharray="4 4" strokeOpacity={0.4}
                   label={{ value: t("目標", "Goal"), position: "right", fill: C.kombu, fontSize: 10 }} />
                 <Tooltip content={<NiceTooltip suffix="" />} />
-                <Bar dataKey="v" fill="url(#stepsFill)" radius={[6, 6, 0, 0]} animationDuration={1000} />
+                <Bar dataKey="v" fill="url(#stepsFill)" radius={[6, 6, 0, 0]} isAnimationActive={false} />
               </BarChart>
             </ResponsiveContainer>
           </ChartCard>
@@ -246,7 +225,7 @@ function Report() {
                 <YAxis domain={[0, 12]} tick={{ fill: C.moss, fontSize: 10 }} axisLine={false} tickLine={false} />
                 <ReferenceArea y1={8} y2={10} fill={C.moss} fillOpacity={0.08} />
                 <Tooltip content={<NiceTooltip suffix="h" />} />
-                <Bar dataKey="v" fill="url(#sleepFill)" radius={[6, 6, 0, 0]} animationDuration={1000} />
+                <Bar dataKey="v" fill="url(#sleepFill)" radius={[6, 6, 0, 0]} isAnimationActive={false} />
               </BarChart>
             </ResponsiveContainer>
           </ChartCard>
@@ -657,11 +636,21 @@ function QRCard() {
 
 function PDFCard() {
   const t = useT();
+  const [generating, setGenerating] = useState(false);
   const items: [string, string][] = [
     ["ワクチン履歴", "Vaccination history"],
     ["最終診察", "Last checkup details"],
     ["年間データ", "Annual data"],
   ];
+  const exportPdf = () => {
+    if (generating) return;
+    setGenerating(true);
+    toast.success(t("レポートを準備中…", "Preparing report…"));
+    setTimeout(() => {
+      setGenerating(false);
+      window.print();
+    }, 900);
+  };
   return (
     <div style={{
       ...glass,
@@ -670,7 +659,7 @@ function PDFCard() {
       display: "flex", flexDirection: "column", alignItems: "center", gap: 8,
     }}>
       <div style={{
-        width: 56, height: 56, borderRadius: "50%", background: "color-mix(in oklab, var(--acc-deep) 20.0%, transparent)",
+        width: 56, height: 56, borderRadius: "50%", background: "color-mix(in oklab, #628B85 18%, #FFFFFF)",
         display: "flex", alignItems: "center", justifyContent: "center",
       }}>
         <FileDown size={28} color={C.moss} />
@@ -687,20 +676,30 @@ function PDFCard() {
         ))}
       </div>
       <button
-        onClick={() => {
-          toast.success(t("レポートを準備中…", "Preparing report…"));
-          setTimeout(() => window.print(), 700);
-        }}
+        onClick={exportPdf}
+        disabled={generating}
+        className="active:scale-[0.97] transition-transform"
         style={{
-          width: "100%", height: 40, marginTop: "auto",
-          background: C.moss,
-          color: C.bone, fontWeight: 700, fontSize: 12, borderRadius: 12,
-          border: "none",
-          boxShadow: "0 4px 16px color-mix(in oklab, var(--acc-deep) 30.0%, transparent)",
-          display: "flex", alignItems: "center", justifyContent: "center", gap: 4,
+          width: "100%", height: 42, marginTop: "auto",
+          background: generating
+            ? `linear-gradient(135deg, ${C.moss}, ${C.kombu})`
+            : `linear-gradient(135deg, ${C.kombu}, ${C.moss})`,
+          color: "#FFFFFF", fontWeight: 700, fontSize: 12, borderRadius: 12,
+          border: "none", cursor: generating ? "default" : "pointer",
+          boxShadow: `0 6px 16px color-mix(in oklab, ${C.kombu} 35%, transparent)`,
+          display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
         }}
       >
-        {t("PDF出力", "PDF Export")}
+        {generating && (
+          <span
+            className="animate-spin"
+            style={{
+              width: 14, height: 14, borderRadius: "50%", display: "inline-block",
+              border: "2px solid rgba(255,255,255,0.4)", borderTopColor: "#FFFFFF",
+            }}
+          />
+        )}
+        {generating ? t("生成中…", "Generating…") : t("PDF出力", "Export PDF Report")}
       </button>
     </div>
   );

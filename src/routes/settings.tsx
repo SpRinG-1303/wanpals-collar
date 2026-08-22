@@ -1,10 +1,11 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import AppShell from "@/components/AppShell";
 import { useEffect, useState } from "react";
-import { ChevronRight, Sun, Moon, Crown, User, X } from "lucide-react";
+import { ChevronRight, Sun, Moon, Crown, User, X, PawPrint, Plus, Trash2, Check } from "lucide-react";
 import { toast } from "sonner";
 import { useT, useLanguage, type Language } from "@/context/LanguageContext";
 import { useAuth } from "@/context/AuthContext";
+import { usePet } from "@/context/PetContext";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 export const Route = createFileRoute("/settings")({ component: Settings });
@@ -21,6 +22,62 @@ function Settings() {
   const [shareData, setShareData] = useState(true);
   const [publicProfile, setPublicProfile] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
+
+  // ---- Multi-pet management ----
+  const { pet, updatePet } = usePet();
+  const PETS_KEY = "pawsitive_pets";
+  type PetEntry = { id: string; name: string; breed: string };
+  const [pets, setPets] = useState<PetEntry[]>([]);
+  const [addPetOpen, setAddPetOpen] = useState(false);
+  const [newPetName, setNewPetName] = useState("");
+  const [newPetBreed, setNewPetBreed] = useState("");
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      const raw = localStorage.getItem(PETS_KEY);
+      if (raw) setPets(JSON.parse(raw) as PetEntry[]);
+    } catch {}
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const persistPets = (next: PetEntry[]) => {
+    setPets(next);
+    try { localStorage.setItem(PETS_KEY, JSON.stringify(next)); } catch {}
+  };
+
+  // If no list stored yet, show the current profile pet as the single entry.
+  const displayPets: PetEntry[] = pets.length
+    ? pets
+    : pet.name
+      ? [{ id: "current", name: pet.name, breed: pet.breedEn || pet.breed || "Indian Pariah Dog" }]
+      : [];
+
+  function switchPet(p: PetEntry) {
+    updatePet({ name: p.name, breed: p.breed, breedEn: p.breed });
+    toast.success(`Switched to ${p.name}`);
+  }
+
+  function savePet() {
+    const name = newPetName.trim();
+    if (!name) { toast.error("Please enter your pet's name."); return; }
+    const entry: PetEntry = { id: `p${Date.now()}`, name, breed: newPetBreed.trim() || "Mixed Breed" };
+    persistPets([...(pets.length ? pets : displayPets), entry]);
+    updatePet({ name: entry.name, breed: entry.breed, breedEn: entry.breed });
+    toast.success(`${name} added to your family.`);
+    setAddPetOpen(false);
+    setNewPetName("");
+    setNewPetBreed("");
+  }
+
+  function removePet(id: string) {
+    const removed = pets.find((p) => p.id === id);
+    const next = pets.filter((p) => p.id !== id);
+    persistPets(next);
+    if (removed && removed.name === pet.name && next.length > 0) switchPet(next[0]);
+    toast.success("Pet removed.");
+  }
+
 
   function saveEdit() {
     if (!editField) return;
@@ -149,6 +206,60 @@ function Settings() {
         <Row label={` ${t("プライバシー設定", "Privacy Settings")}`} onClick={() => setPrivacyOpen(true)}/>
       </Section>
 
+      <Section title={t("マイペット", "My Pets")}>
+        {displayPets.map((p) => {
+          const active = p.name === pet.name;
+          return (
+            <div key={p.id} className="flex items-center gap-3">
+              <button onClick={() => switchPet(p)} className="flex items-center gap-3 flex-1 text-left min-w-0">
+                <span
+                  className="flex items-center justify-center shrink-0"
+                  style={{ width: 40, height: 40, borderRadius: "50%", background: "var(--acc-pale)" }}
+                >
+                  <PawPrint size={18} style={{ color: "var(--accent-sakura)" }} />
+                </span>
+                <span className="flex-1 min-w-0">
+                  <span className="flex items-center gap-1.5 text-sm font-bold" style={{ color: "var(--text-primary)" }}>
+                    <span className="truncate">{p.name}</span>
+                    {active && <Check size={14} strokeWidth={3} style={{ color: "var(--accent-matcha)", flexShrink: 0 }} />}
+                  </span>
+                  <span className="block text-[11px] text-muted-foreground truncate">{p.breed}</span>
+                </span>
+                {active ? (
+                  <span
+                    className="shrink-0 text-[10px] font-bold"
+                    style={{ color: "var(--acc-strong)", background: "var(--acc-pale)", borderRadius: 12, padding: "3px 8px" }}
+                  >
+                    Active
+                  </span>
+                ) : (
+                  <ChevronRight className="w-4 h-4 text-muted-foreground shrink-0" />
+                )}
+              </button>
+              {pets.length > 1 && (
+                <button
+                  onClick={() => removePet(p.id)}
+                  aria-label={`Remove ${p.name}`}
+                  className="shrink-0 flex items-center justify-center"
+                  style={{ width: 32, height: 32, borderRadius: "50%", color: "var(--destructive, #E53935)" }}
+                >
+                  <Trash2 size={15} />
+                </button>
+              )}
+            </div>
+          );
+        })}
+        <button onClick={() => setAddPetOpen(true)} className="w-full flex items-center gap-3 text-left pt-1">
+          <span
+            className="flex items-center justify-center shrink-0"
+            style={{ width: 40, height: 40, borderRadius: "50%", border: "1.5px dashed var(--acc-soft)", color: "var(--acc-strong)" }}
+          >
+            <Plus size={18} />
+          </span>
+          <span className="text-sm font-bold" style={{ color: "var(--acc-strong)" }}>{t("ペットを追加", "Add Another Pet")}</span>
+        </button>
+      </Section>
+
       <div className="mt-4 bg-gradient-to-br from-warning to-sakura rounded-2xl p-5 shadow-card text-primary">
         <div className="flex items-center gap-2"><Crown className="w-5 h-5"/><div className="font-black">{t("プロプランにアップグレード", "Upgrade to Pawsitive Pro")}</div></div>
         <ul className="mt-3 text-xs space-y-1">
@@ -221,6 +332,38 @@ function Settings() {
                 </button>
               </div>
             ))}
+          </div>
+        </div>
+      )}
+
+      {/* Add pet sheet */}
+      {addPetOpen && (
+        <div className="fixed inset-0 z-[120] flex items-end justify-center" style={{ maxWidth: 430, margin: "0 auto" }}>
+          <div className="absolute inset-0 bg-black/40" onClick={() => setAddPetOpen(false)} />
+          <div className="relative w-full rounded-t-3xl p-5 pb-8" style={{ background: "var(--bg-card)" }}>
+            <div className="flex items-center justify-between mb-4">
+              <div className="font-bold">Add a Pet</div>
+              <button onClick={() => setAddPetOpen(false)} aria-label="Close"><X className="w-5 h-5 text-muted-foreground" /></button>
+            </div>
+            <input
+              autoFocus
+              type="text"
+              value={newPetName}
+              onChange={(e) => setNewPetName(e.target.value)}
+              placeholder="Pet name *"
+              className="w-full rounded-xl px-4 py-3 text-sm outline-none"
+              style={{ background: "var(--acc-pale)", color: "var(--text-primary)" }}
+            />
+            <input
+              type="text"
+              value={newPetBreed}
+              onChange={(e) => setNewPetBreed(e.target.value)}
+              onKeyDown={(e) => { if (e.key === "Enter") savePet(); }}
+              placeholder="Breed (e.g. Indian Pariah Dog)"
+              className="w-full rounded-xl px-4 py-3 text-sm outline-none mt-2"
+              style={{ background: "var(--acc-pale)", color: "var(--text-primary)" }}
+            />
+            <button onClick={savePet} className="mt-3 w-full rounded-xl py-3 font-bold text-sm text-white" style={{ background: "var(--acc-strong)" }}>Add Pet</button>
           </div>
         </div>
       )}
