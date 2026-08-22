@@ -1,7 +1,8 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import AppShell from "@/components/AppShell";
 import { useEffect, useState } from "react";
-import { ChevronRight, Sun, Moon, Crown, User } from "lucide-react";
+import { ChevronRight, Sun, Moon, Crown, User, X } from "lucide-react";
+import { toast } from "sonner";
 import { useT, useLanguage, type Language } from "@/context/LanguageContext";
 import { useAuth } from "@/context/AuthContext";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
@@ -12,8 +13,55 @@ function Settings() {
   const nav = useNavigate();
   const t = useT();
   const { language, setLanguage } = useLanguage();
-  const { session } = useAuth();
+  const { session, signOut, updateProfile } = useAuth();
   const [dark, setDark] = useState(false);
+  const [editField, setEditField] = useState<"name" | "email" | "password" | null>(null);
+  const [editValue, setEditValue] = useState("");
+  const [privacyOpen, setPrivacyOpen] = useState(false);
+  const [shareData, setShareData] = useState(true);
+  const [publicProfile, setPublicProfile] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
+
+  function saveEdit() {
+    if (!editField) return;
+    const v = editValue.trim();
+    if (editField !== "password" && !v) { toast.error("Please enter a value."); return; }
+    if (editField === "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) { toast.error("Please enter a valid email."); return; }
+    if (editField === "password" && v.length < 6) { toast.error("Password must be at least 6 characters."); return; }
+    const err = updateProfile({ [editField]: v });
+    if (err) { toast.error(err); return; }
+    toast.success("Profile updated.");
+    setEditField(null);
+    setEditValue("");
+  }
+
+  function exportData() {
+    const data: Record<string, unknown> = {};
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i);
+      if (k && (k.startsWith("pawsitive") || k.startsWith("wancare"))) {
+        try { data[k] = JSON.parse(localStorage.getItem(k) ?? ""); } catch { data[k] = localStorage.getItem(k); }
+      }
+    }
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "pawsitive-data.json";
+    a.click();
+    URL.revokeObjectURL(a.href);
+    toast.success("Your data has been downloaded.");
+  }
+
+  function deleteAccount() {
+    try {
+      localStorage.removeItem("pawsitive_session");
+      localStorage.removeItem("pawsitive_users");
+    } catch {}
+    signOut();
+    setConfirmDelete(false);
+    toast.success("Account deleted.");
+    nav({ to: "/auth" });
+  }
   useEffect(() => {
     if (typeof window === "undefined") return;
     const d = localStorage.getItem("wancare-theme") === "dark";
