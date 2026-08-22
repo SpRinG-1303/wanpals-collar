@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Download, Check } from "lucide-react";
 import PhoneFrame from "@/components/PhoneFrame";
 import { Stepper, TopBar } from "@/routes/onboarding.avatar";
-import { PrimaryButton } from "@/routes/auth";
+import { PrimaryButton } from "@/components/PrimaryButton";
 import { useT } from "@/context/LanguageContext";
 import { usePet } from "@/context/PetContext";
 import DogAvatar from "@/components/DogAvatar";

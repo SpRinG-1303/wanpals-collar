@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import DogAvatar from "@/components/DogAvatar";
 import PhoneFrame from "@/components/PhoneFrame";
-import { PrimaryButton } from "@/routes/auth";
+import { PrimaryButton } from "@/components/PrimaryButton";
 import { PawLogo } from "@/components/PawLogo";
 import { useT } from "@/context/LanguageContext";
 

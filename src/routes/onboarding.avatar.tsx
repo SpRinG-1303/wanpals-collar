@@ -4,7 +4,7 @@ import { ChevronLeft, Edit3, Check } from "lucide-react";
 import { BREEDS } from "@/lib/mock";
 import { useT, useLanguage } from "@/context/LanguageContext";
 import { usePet } from "@/context/PetContext";
-import { PrimaryButton } from "@/routes/auth";
+import { PrimaryButton } from "@/components/PrimaryButton";
 import DogAvatar, { BREED_KEY_BY_JP, type BreedKey, type EarStyle, type EyeStyle } from "@/components/DogAvatar";
 import PhoneFrame from "@/components/PhoneFrame";
 
