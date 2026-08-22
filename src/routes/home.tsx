@@ -8,7 +8,7 @@ import {
   ChevronDown, ArrowUpRight, ChevronRight, type LucideIcon,
 } from "lucide-react";
 import { motion } from "framer-motion";
-import { useT, useLanguage } from "@/context/LanguageContext";
+import { useLanguage } from "@/context/LanguageContext";
 import { usePet, displayName } from "@/context/PetContext";
 
 export const Route = createFileRoute("/home")({ component: Home });
