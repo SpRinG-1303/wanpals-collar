@@ -369,7 +369,7 @@ function Community() {
             <Flame size={14} style={{ color: "var(--accent-sakura)" }} />
             {t("トレンド", "Trending")}
           </div>
-          <button style={{ fontSize: 12, color: "var(--accent-sakura)", fontWeight: 600 }}>
+          <button onClick={() => setTrendingAll(true)} style={{ fontSize: 12, color: "var(--accent-sakura)", fontWeight: 600 }}>
             {t("すべて見る →", "See all →")}
           </button>
         </div>
@@ -430,7 +430,7 @@ function Community() {
               </div>
             )}
 
-            {filtered.map((p) => {
+            {filtered.slice(0, visibleCount).map((p) => {
               const th = themeFor(p.flair);
               const pal = avatarPalette(p.user);
               const initial = p.user.trim()[0] ?? "?";
