@@ -89,14 +89,14 @@ export function TopBar({
             </button>
             <button
               onClick={() => setSosOpen(true)}
-              className="pulse-red font-bold flex items-center"
+              className="font-bold flex items-center active:scale-95 transition-transform"
               style={{
                 background: "#E53935",
                 color: "#fff",
                 borderRadius: 20,
-                padding: "8px 14px",
-                fontSize: 13,
-                boxShadow: "0 4px 12px rgba(229,57,53,0.4)",
+                padding: "6px 12px",
+                fontSize: 12,
+                boxShadow: "0 2px 8px rgba(229,57,53,0.3)",
               }}
             >
               SOS
