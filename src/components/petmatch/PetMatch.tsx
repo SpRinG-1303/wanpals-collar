@@ -122,10 +122,13 @@ function writePhoto(id: string, url: string) {
 }
 
 function usePetPhoto(p: MatchProfile): string | null {
-  const [url, setUrl] = useState<string | null>(() => readPhoto(p.id));
+  const [url, setUrl] = useState<string | null>(null);
   useEffect(() => {
     let alive = true;
-    if (!url) {
+    const cached = readPhoto(p.id);
+    if (cached) {
+      setUrl(cached);
+    } else {
       fetch(`https://dog.ceo/api/breed/${p.slug}/images/random`)
         .then((r) => r.json())
         .then((d) => {
@@ -247,6 +250,22 @@ export function PetMatchSection() {
             <div className="flex items-center gap-1.5" style={{ fontSize: 11, color: "var(--text-secondary)" }}>
               <Check size={12} style={{ color: "var(--accent-matcha)" }} />
               {featured.summary}
+            </div>
+            {/* Owner */}
+            <div className="flex items-center gap-2" style={{ marginTop: 10 }}>
+              <span
+                className="flex items-center justify-center shrink-0"
+                style={{ width: 28, height: 28, borderRadius: "50%", background: "var(--bg-card-lavender)", fontSize: 12, fontWeight: 800, color: "var(--accent-fuji)" }}
+              >
+                {featured.owner[0]}
+              </span>
+              <div className="flex items-center gap-1" style={{ fontSize: 11, fontWeight: 700, color: "var(--text-primary)" }}>
+                {featured.owner}
+                {featured.verified && <BadgeCheck size={12} style={{ color: "var(--accent-matcha)" }} />}
+              </div>
+              <span style={{ fontSize: 10, color: "var(--text-placeholder)" }}>
+                · {featured.ownerPets} pets · since {featured.since}
+              </span>
             </div>
             <div className="flex gap-2" style={{ marginTop: 12 }}>
               <button
