@@ -93,7 +93,7 @@ function Splash() {
             Pawsitive Diagnostics
           </div>
           <div style={{ fontSize: 12, fontWeight: 400, color: "#9CA3AF", letterSpacing: "0.15em" }}>
-            AI SMART COLLAR
+            ポジティブ診断
           </div>
           <div style={{ width: 40, height: 1, background: "rgba(244,63,114,0.3)", marginTop: 4 }} />
         </motion.div>
@@ -177,6 +177,9 @@ function Splash() {
               }}
             />
             <div style={{ fontSize: 13, color: "#374151", fontWeight: 500 }}>
+              わんちゃんの健康を守ります 
+            </div>
+            <div style={{ fontSize: 11, color: "#9CA3AF", marginTop: 2 }}>
               Protecting your dog's health
             </div>
           </motion.div>
@@ -212,7 +215,7 @@ function Splash() {
               boxShadow: { duration: 2, repeat: Infinity, ease: "easeInOut", delay: 1.5 },
             }}
             whileTap={{ scale: 0.97 }}
-            onClick={() => nav({ to: "/auth" })}
+            onClick={() => nav({ to: "/language" })}
             style={{
               width: "78%",
               height: 52,
@@ -225,7 +228,7 @@ function Splash() {
               cursor: "pointer",
             }}
           >
-            Get Started
+            はじめる / Get Started
           </motion.button>
 
           <motion.div
@@ -235,7 +238,7 @@ function Splash() {
             style={{ textAlign: "center" }}
           >
             <div style={{ fontSize: 11, color: "#9CA3AF" }}>
-              Already have an account?
+              すでにアカウントをお持ちですか？ / Already have an account?
             </div>
             <button
               onClick={() => nav({ to: "/auth" })}
@@ -249,7 +252,7 @@ function Splash() {
                 marginTop: 2,
               }}
             >
-              Login
+              ログイン / Login
             </button>
           </motion.div>
         </div>
