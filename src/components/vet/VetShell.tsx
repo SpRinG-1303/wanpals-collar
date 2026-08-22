@@ -66,32 +66,39 @@ function BrandBlock() {
 function SideNav({ onNavigate }: { onNavigate?: () => void }) {
   const loc = useLocation();
   return (
-    <nav style={{ padding: "10px 12px", display: "flex", flexDirection: "column", gap: 2, flex: 1, overflowY: "auto" }}>
-      {NAV.map(({ to, label, Icon }) => {
-        const active = to === "/home" ? loc.pathname === "/home" : loc.pathname.startsWith(to);
-        return (
-          <Link
-            key={to}
-            to={to}
-            onClick={onNavigate}
-            className="flex items-center"
-            style={{
-              gap: 11,
-              padding: "10px 11px",
-              borderRadius: 10,
-              fontSize: 13.5,
-              fontWeight: active ? 700 : 500,
-              color: active ? E.accentDeep : E.sub,
-              background: active ? E.pale : "transparent",
-              textDecoration: "none",
-              borderLeft: active ? `3px solid ${E.accent}` : "3px solid transparent",
-            }}
-          >
-            <Icon size={18} strokeWidth={active ? 2.2 : 1.8} />
-            {label}
-          </Link>
-        );
-      })}
+    <nav style={{ padding: "8px 12px", display: "flex", flexDirection: "column", flex: 1, overflowY: "auto" }}>
+      {NAV_SECTIONS.map((section) => (
+        <div key={section.label} style={{ marginBottom: 6 }}>
+          <div style={{ fontSize: 10, fontWeight: 700, color: E.faint, letterSpacing: "0.08em", textTransform: "uppercase", padding: "8px 11px 5px" }}>
+            {section.label}
+          </div>
+          {section.items.map(({ to, label, Icon }) => {
+            const active = to === "/home" ? loc.pathname === "/home" : loc.pathname.startsWith(to);
+            return (
+              <Link
+                key={to}
+                to={to}
+                onClick={onNavigate}
+                className="flex items-center"
+                style={{
+                  gap: 11,
+                  padding: "9px 11px",
+                  borderRadius: 10,
+                  fontSize: 13.5,
+                  fontWeight: active ? 700 : 500,
+                  color: active ? E.accentDeep : E.sub,
+                  background: active ? E.pale : "transparent",
+                  textDecoration: "none",
+                  borderLeft: active ? `3px solid ${E.accent}` : "3px solid transparent",
+                }}
+              >
+                <Icon size={17} strokeWidth={active ? 2.2 : 1.8} />
+                {label}
+              </Link>
+            );
+          })}
+        </div>
+      ))}
     </nav>
   );
 }
