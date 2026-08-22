@@ -198,20 +198,35 @@ function Home() {
           </div>
         </div>
 
-        {/* Collar status bar — single compact line */}
-        <JCard style={{ padding: "12px 14px", marginTop: 16, display: "flex", alignItems: "center", gap: 10 }}>
-          <div className="flex items-center justify-center" style={{ width: 34, height: 34, borderRadius: 10, background: "var(--acc-pale)", flexShrink: 0 }}>
-            <Check size={18} strokeWidth={2.5} style={{ color: JP.sora }} />
+        {/* Collar status bar — colorful, compact single line */}
+        <JCard
+          style={{
+            padding: 0,
+            marginTop: 16,
+            display: "flex",
+            alignItems: "center",
+            overflow: "hidden",
+            border: "1.5px solid var(--accent-sakura-soft)",
+          }}
+        >
+          <div
+            className="flex items-center justify-center"
+            style={{
+              width: 44, height: 44, flexShrink: 0,
+              background: `linear-gradient(135deg, ${JP.sakura}, var(--accent-sakura-dark))`,
+            }}
+          >
+            <Check size={20} strokeWidth={2.6} style={{ color: "#FFFFFF" }} />
           </div>
-          <div className="flex-1" style={{ minWidth: 0 }}>
+          <div className="flex-1" style={{ minWidth: 0, padding: "0 12px" }}>
             <div style={{ fontSize: 13, fontWeight: 700, color: JP.sumi }}>Connected</div>
-            <div className="flex items-center" style={{ gap: 10, marginTop: 1 }}>
+            <div className="flex items-center" style={{ gap: 12, marginTop: 1 }}>
               <div className="flex items-center" style={{ gap: 4 }}>
-                <BatteryMedium size={13} strokeWidth={1.8} style={{ color: JP.usuzumi }} />
+                <BatteryMedium size={13} strokeWidth={1.8} style={{ color: JP.sakura }} />
                 <span style={{ fontSize: 11, fontWeight: 600, color: JP.usuzumi }}>87%</span>
               </div>
               <div className="flex items-center" style={{ gap: 4 }}>
-                <Signal size={13} strokeWidth={1.8} style={{ color: JP.usuzumi }} />
+                <Signal size={13} strokeWidth={1.8} style={{ color: JP.sakura }} />
                 <span style={{ fontSize: 11, fontWeight: 600, color: JP.usuzumi }}>Excellent</span>
               </div>
             </div>
@@ -219,15 +234,14 @@ function Home() {
           <button
             className="flex items-center justify-center active:scale-[0.98] transition-transform"
             style={{
-              width: 36, height: 36, borderRadius: 12, flexShrink: 0,
-              background: `linear-gradient(135deg, ${JP.sakura}, var(--accent-sakura-dark))`,
-              color: "#FFFFFF",
+              width: 34, height: 34, borderRadius: 10, flexShrink: 0, marginRight: 10,
+              background: "var(--accent-sakura-soft)",
+              color: JP.sakura,
               border: "none",
-              boxShadow: "0 4px 10px color-mix(in oklab, var(--accent-sakura) 30%, transparent)",
             }}
             aria-label="Connect collar"
           >
-            <Bluetooth size={17} strokeWidth={2} />
+            <Bluetooth size={16} strokeWidth={2} />
           </button>
         </JCard>
 
