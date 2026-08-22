@@ -387,7 +387,7 @@ function Clinics() {
         onClick={bookVideoConsult}
         className="w-full text-left flex items-center gap-3 active:scale-[0.98] transition-transform"
         style={{
-          margin: "0 16px 12px",
+          margin: "16px 20px 0",
           width: "calc(100% - 32px)",
           background: "#FFFFFF",
           boxShadow: CARD_SHADOW,
@@ -439,7 +439,7 @@ function Clinics() {
               style={{
                 background: "#FFFFFF",
                 borderRadius: 20,
-                margin: "0 16px 12px",
+                margin: "0 20px 12px",
                 boxShadow: CARD_SHADOW,
                 overflow: "hidden",
               }}
