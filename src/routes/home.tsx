@@ -287,79 +287,6 @@ function Home() {
           </JCard>
         </motion.div>
 
-        {/* Sensor quick icons — all 8 visible in one line, no scrolling */}
-        <SectionHeader en="Sense AI" />
-        {filtered.length === 0 ? (
-          <JCard style={{ padding: 20, textAlign: "center" }}>
-            <div style={{ fontSize: 13, color: JP.usuzumi }}>No sensors match “{query}”.</div>
-          </JCard>
-        ) : viewMode === "list" ? (
-          <JCard style={{ padding: 6 }}>
-            {filtered.map((s, i) => {
-              const Icon = s.Icon;
-              return (
-                <Link
-                  key={s.en}
-                  to={s.to}
-                  className="flex items-center"
-                  style={{
-                    gap: 12, padding: "12px 10px",
-                    borderTop: i === 0 ? "none" : "1px solid var(--border-subtle)",
-                  }}
-                >
-                  <div
-                    className="flex items-center justify-center"
-                    style={{ width: 44, height: 44, borderRadius: "50%", background: s.iconBg, flexShrink: 0 }}
-                  >
-                    <Icon size={20} strokeWidth={1.8} style={{ color: s.accent }} />
-                  </div>
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontSize: 14, fontWeight: 700, color: JP.sumi }}>{s.en}</div>
-                    <div style={{ fontSize: 11, color: JP.usuzumi, marginTop: 1 }}>{s.subEn}</div>
-                  </div>
-                  <span style={{ fontSize: 12, fontWeight: 700, color: s.accent, flexShrink: 0 }}>{s.valEn}</span>
-                </Link>
-              );
-            })}
-          </JCard>
-        ) : (
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(4, 1fr)",
-              rowGap: 18,
-              columnGap: 8,
-            }}
-          >
-            {filtered.map((s) => {
-              const Icon = s.Icon;
-              return (
-                <Link
-                  key={s.en}
-                  to={s.to}
-                  className="flex flex-col items-center"
-                  style={{ gap: 8 }}
-                  aria-label={s.en}
-                >
-                  <div
-                    className="flex items-center justify-center"
-                    style={{
-                      width: 58, height: 58, borderRadius: "50%",
-                      background: s.iconBg,
-                      boxShadow: "0 3px 10px rgba(0,0,0,0.06)",
-                    }}
-                  >
-                    <Icon size={25} strokeWidth={1.8} style={{ color: s.accent }} />
-                  </div>
-                  <span style={{ fontSize: 11, fontWeight: 600, color: JP.usuzumi, textAlign: "center", lineHeight: 1.15, maxWidth: 74, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                    {s.en.replace(" AI", "").replace("Sense", "")}
-                  </span>
-                </Link>
-              );
-            })}
-          </div>
-        )}
-
         {/* Collar status — white card + solid accent CTA */}
         <SectionHeader en="Collar Status" />
         <JCard style={{ padding: 16 }}>
@@ -436,6 +363,79 @@ function Home() {
             {collarState === "connecting" ? "Connecting…" : collarState === "connected" ? "Connected ✓" : "Connect Collar"}
           </button>
         </JCard>
+
+        {/* Sensor quick icons — all 8 visible in one line, no scrolling */}
+        <SectionHeader en="Sense AI" />
+        {filtered.length === 0 ? (
+          <JCard style={{ padding: 20, textAlign: "center" }}>
+            <div style={{ fontSize: 13, color: JP.usuzumi }}>No sensors match “{query}”.</div>
+          </JCard>
+        ) : viewMode === "list" ? (
+          <JCard style={{ padding: 6 }}>
+            {filtered.map((s, i) => {
+              const Icon = s.Icon;
+              return (
+                <Link
+                  key={s.en}
+                  to={s.to}
+                  className="flex items-center"
+                  style={{
+                    gap: 12, padding: "12px 10px",
+                    borderTop: i === 0 ? "none" : "1px solid var(--border-subtle)",
+                  }}
+                >
+                  <div
+                    className="flex items-center justify-center"
+                    style={{ width: 44, height: 44, borderRadius: "50%", background: s.iconBg, flexShrink: 0 }}
+                  >
+                    <Icon size={20} strokeWidth={1.8} style={{ color: s.accent }} />
+                  </div>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ fontSize: 14, fontWeight: 700, color: JP.sumi }}>{s.en}</div>
+                    <div style={{ fontSize: 11, color: JP.usuzumi, marginTop: 1 }}>{s.subEn}</div>
+                  </div>
+                  <span style={{ fontSize: 12, fontWeight: 700, color: s.accent, flexShrink: 0 }}>{s.valEn}</span>
+                </Link>
+              );
+            })}
+          </JCard>
+        ) : (
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(4, 1fr)",
+              rowGap: 18,
+              columnGap: 8,
+            }}
+          >
+            {filtered.map((s) => {
+              const Icon = s.Icon;
+              return (
+                <Link
+                  key={s.en}
+                  to={s.to}
+                  className="flex flex-col items-center"
+                  style={{ gap: 8 }}
+                  aria-label={s.en}
+                >
+                  <div
+                    className="flex items-center justify-center"
+                    style={{
+                      width: 58, height: 58, borderRadius: "50%",
+                      background: s.iconBg,
+                      boxShadow: "0 3px 10px rgba(0,0,0,0.06)",
+                    }}
+                  >
+                    <Icon size={25} strokeWidth={1.8} style={{ color: s.accent }} />
+                  </div>
+                  <span style={{ fontSize: 11, fontWeight: 600, color: JP.usuzumi, textAlign: "center", lineHeight: 1.15, maxWidth: 74, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                    {s.en.replace(" AI", "").replace("Sense", "")}
+                  </span>
+                </Link>
+              );
+            })}
+          </div>
+        )}
 
         {/* Quick Access — circular icons matching the sensor row style */}
         <SectionHeader en="Quick Access" />
