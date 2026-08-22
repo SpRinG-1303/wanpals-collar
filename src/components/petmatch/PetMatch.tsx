@@ -200,7 +200,7 @@ export function PetMatchSection() {
   return (
     <>
       {/* ── Featured Pet Match card ── */}
-      <div style={{ margin: "20px 16px 4px" }}>
+      <div style={{ margin: "36px 16px 4px" }}>
         <div className="flex items-center justify-between" style={{ margin: "0 4px 10px" }}>
           <div className="flex items-center gap-1.5" style={{ fontSize: 11, fontWeight: 800, color: "var(--accent-sakura)", letterSpacing: "0.14em" }}>
             <PawPrint size={12} />

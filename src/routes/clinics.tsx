@@ -698,7 +698,7 @@ function DirectionsView({ clinic, onClose }: { clinic: (typeof CLINICS)[number];
         <div style={{ margin: "4px 16px 0", borderRadius: 22, overflow: "hidden", boxShadow: CARD_SHADOW, position: "relative", background: "#F3F0FA" }}>
           <svg key={playKey} viewBox="0 0 390 280" style={{ width: "100%", display: "block" }}>
             {/* streets */}
-            <g stroke="#FFFFFF" strokeWidth="10" strokeLinecap="round">
+            <g fill="none" stroke="#FFFFFF" strokeWidth="10" strokeLinecap="round">
               <path d="M -10 90 H 400" />
               <path d="M -10 190 H 400" />
               <path d="M 90 -10 V 290" />
@@ -706,7 +706,7 @@ function DirectionsView({ clinic, onClose }: { clinic: (typeof CLINICS)[number];
               <path d="M 320 -10 V 290" />
               <path d="M -10 140 C 120 130, 260 160, 400 120" />
             </g>
-            <g stroke="#E7E1F4" strokeWidth="2">
+            <g fill="none" stroke="#E7E1F4" strokeWidth="2">
               <path d="M -10 40 H 400" />
               <path d="M -10 240 H 400" />
               <path d="M 160 -10 V 290" />
