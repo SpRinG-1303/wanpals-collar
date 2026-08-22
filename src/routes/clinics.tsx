@@ -288,19 +288,19 @@ function Clinics() {
               onClick={() => setActive(i)}
               className="shrink-0 flex items-center gap-1.5"
               style={{
-                background: sel ? `linear-gradient(135deg, ${c.from}, ${c.to})` : "#FFFFFF",
-                border: `1.5px solid ${sel ? c.accent : "var(--border-card)"}`,
-                color: sel ? c.accent : "var(--text-secondary)",
+                background: sel ? "linear-gradient(135deg, var(--accent-sakura), var(--accent-sakura-dark))" : "#FFFFFF",
+                border: `1.5px solid ${sel ? "transparent" : "var(--border-card)"}`,
+                color: sel ? "#FFFFFF" : "var(--text-secondary)",
                 fontWeight: sel ? 700 : 500,
                 fontSize: 12,
                 borderRadius: 20,
                 padding: "8px 14px",
                 height: 36,
-                boxShadow: sel ? `0 2px 8px ${c.accent}26` : "0 2px 6px rgba(0,0,0,0.04)",
+                boxShadow: sel ? "0 4px 12px color-mix(in oklab, var(--accent-sakura) 30%, transparent)" : "0 2px 6px rgba(0,0,0,0.04)",
                 transition: "all 0.18s ease",
               }}
             >
-              <Icon size={14} style={{ color: sel ? c.accent : "var(--text-secondary)" }} fill={sel && c.en === "Top Rated" ? c.accent : "none"} />
+              <Icon size={14} style={{ color: sel ? "#FFFFFF" : "var(--text-secondary)" }} fill={sel && c.en === "Top Rated" ? "#FFFFFF" : "none"} />
               {t(c.jp, c.en)}
             </button>
           );
@@ -322,7 +322,7 @@ function Clinics() {
       >
         <div className="flex items-start justify-between gap-3">
           <div className="flex items-start gap-3 flex-1 min-w-0">
-            <span style={{ fontSize: 28, lineHeight: 1 }}></span>
+
             <div className="min-w-0">
               <div style={{ fontSize: 11, color: "rgba(255,255,255,0.85)" }}>
                 {t("緊急の場合", "In Emergency")}
@@ -357,29 +357,29 @@ function Clinics() {
         style={{
           margin: "0 16px 12px",
           width: "calc(100% - 32px)",
-          background: "linear-gradient(135deg,var(--acc-pale),var(--acc-pale))",
-          border: "1.5px solid var(--acc2-soft)",
+          background: "#FFFFFF",
+          boxShadow: CARD_SHADOW,
           borderRadius: 20,
           padding: "14px 16px",
         }}
       >
         <div
           className="shrink-0 flex items-center justify-center"
-          style={{ width: 56, height: 56, borderRadius: "50%", background: "#fff", boxShadow: "0 4px 12px color-mix(in oklab, var(--acc-strong) 20.0%, transparent)" }}
+          style={{ width: 56, height: 56, borderRadius: "50%", background: "var(--bg-card-lavender)" }}
         >
           <Video size={26} style={{ color: "var(--accent-fuji)" }} />
         </div>
         <div className="flex-1 min-w-0">
-          <div style={{ fontSize: 15, fontWeight: 800, color: "var(--acc-deep)" }}>
+          <div style={{ fontSize: 15, fontWeight: 700, color: "var(--text-primary)" }}>
             {t("ビデオ診察", "Video Consultation")}
           </div>
-          <div style={{ fontSize: 12, color: "var(--accent-fuji)", marginTop: 2 }}>
+          <div style={{ fontSize: 12, color: "var(--text-secondary)", marginTop: 2 }}>
             {t("今すぐ獣医と相談", "Consult a vet now")}
           </div>
           <span
             className="inline-block"
             style={{
-              marginTop: 6, background: "var(--acc-pale)", color: "var(--accent-matcha)",
+              marginTop: 6, background: "var(--accent-sakura-soft)", color: "var(--accent-sakura)",
               fontSize: 10, fontWeight: 700,
               padding: "2px 8px", borderRadius: 20,
             }}
@@ -389,7 +389,7 @@ function Clinics() {
         </div>
         <div
           className="shrink-0 flex items-center justify-center"
-          style={{ width: 36, height: 36, borderRadius: "50%", background: "var(--accent-fuji)", color: "#fff" }}
+          style={{ width: 36, height: 36, borderRadius: "50%", background: "var(--accent-sakura)", color: "#fff" }}
         >
           <ChevronRight size={18} />
         </div>
@@ -409,103 +409,45 @@ function Clinics() {
                 background: "#FFFFFF",
                 borderRadius: 20,
                 margin: "0 16px 12px",
-                boxShadow: "0 4px 16px rgba(0,0,0,0.07)",
+                boxShadow: CARD_SHADOW,
                 overflow: "hidden",
               }}
             >
-              {/* Banner */}
-              <div
-                className="relative"
-                style={{ height: 100, background: `linear-gradient(135deg, ${th.from}, ${th.to})` }}
-              >
-                {/* Watermark cross */}
-                <div style={{ position: "absolute", right: 16, top: 14, opacity: 0.18 }}>
-                  <Plus size={70} style={{ color: th.accent }} strokeWidth={2.5} />
-                </div>
-                {/* Tiny scattered paws */}
-                {[{ l: 90, t: 18 }, { l: 140, t: 60 }, { l: 60, t: 70 }].map((p, k) => (
-                  <span
-                    key={k}
-                    style={{ position: "absolute", left: p.l, top: p.t, fontSize: 12, opacity: 0.35 }}
-                  >
-                    
-                  </span>
-                ))}
-                {/* Clinic icon */}
+              {/* Header */}
+              <div className="flex items-center" style={{ padding: "14px 16px 0", gap: 12 }}>
                 <div
-                  className="absolute flex items-center justify-center"
-                  style={{
-                    left: 14, top: "50%", transform: "translateY(-50%)",
-                    width: 56, height: 56, borderRadius: "50%",
-                    background: "#fff",
-                    border: "2px solid #fff",
-                    boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-                  }}
+                  className="flex items-center justify-center"
+                  style={{ width: 52, height: 52, borderRadius: "50%", background: th.soft, flexShrink: 0 }}
                 >
-                  <HeartPulse size={28} style={{ color: th.accent }} />
+                  <HeartPulse size={24} style={{ color: th.accent }} />
                 </div>
-                {/* 24H badge */}
-                {c.em && (
-                  <div
-                    className="pulse-red absolute"
-                    style={{
-                      top: 0, right: 0,
-                      background: "#E53935", color: "#fff",
-                      fontSize: 10, fontWeight: 800,
-                      padding: "5px 10px",
-                      borderRadius: "0 20px 0 12px",
-                      letterSpacing: "0.05em",
-                    }}
-                  >
-                    24H 
-                  </div>
-                )}
-                {/* NEW badge */}
+                <div style={{ flex: 1 }} />
                 {isNew && (
-                  <div
-                    className="absolute"
-                    style={{
-                      top: 8, left: 80,
-                      background: "var(--accent-fuji)", color: "#fff",
-                      fontSize: 9, fontWeight: 800,
-                      padding: "3px 8px", borderRadius: 10,
-                      letterSpacing: "0.1em",
-                    }}
-                  >
+                  <span style={{ background: "var(--accent-sakura)", color: "#fff", fontSize: 9, fontWeight: 800, padding: "3px 8px", borderRadius: 10, letterSpacing: "0.1em" }}>
                     NEW
-                  </div>
+                  </span>
                 )}
-                {/* Closed overlay */}
-                {closed && (
-                  <div
-                    className="absolute inset-0 flex items-center justify-center"
-                    style={{ background: "rgba(0,0,0,0.35)", color: "#fff", fontSize: 12, fontWeight: 800 }}
-                  >
-                    {t("閉院中", "Closed")}
-                  </div>
+                {c.em && (
+                  <span className="pulse-red" style={{ background: "#E53935", color: "#fff", fontSize: 10, fontWeight: 800, padding: "4px 10px", borderRadius: 12, letterSpacing: "0.05em" }}>
+                    24H
+                  </span>
                 )}
-                {/* Bookmark */}
                 <button
                   onClick={() => setSaved((s) => ({ ...s, [i]: !s[i] }))}
                   aria-label="save"
-                  className="absolute flex items-center justify-center"
-                  style={{
-                    bottom: 8, right: 10,
-                    width: 32, height: 32, borderRadius: "50%",
-                    background: "rgba(255,255,255,0.95)",
-                    boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
-                  }}
+                  className="flex items-center justify-center"
+                  style={{ width: 34, height: 34, borderRadius: "50%", background: "var(--bg-page)", flexShrink: 0 }}
                 >
                   <Bookmark
                     size={14}
-                    style={{ color: saved[i] ? "var(--accent-yuzu)" : "var(--text-placeholder)" }}
-                    fill={saved[i] ? "var(--accent-yuzu)" : "none"}
+                    style={{ color: saved[i] ? "var(--accent-sakura)" : "var(--text-placeholder)" }}
+                    fill={saved[i] ? "var(--accent-sakura)" : "none"}
                   />
                 </button>
               </div>
 
-              {/* Body */}
-              <div style={{ padding: "14px 16px" }}>
+               {/* Body */}
+              <div style={{ padding: "10px 16px 14px" }}>
                 <div className="flex items-start justify-between gap-2">
                   <div className="min-w-0">
                     <div style={{ fontSize: 16, fontWeight: 800, color: "var(--text-primary)", lineHeight: 1.25 }}>
@@ -597,9 +539,9 @@ function Clinics() {
                     className="flex items-center justify-center gap-1.5"
                     style={{
                       flex: "0 0 60%", height: 40, borderRadius: 12,
-                      background: "linear-gradient(135deg,var(--accent-sora),var(--acc-strong))",
+                      background: "linear-gradient(135deg, var(--accent-sakura), var(--accent-sakura-dark))",
                       color: "#fff", fontSize: 13, fontWeight: 700,
-                      boxShadow: "0 4px 12px color-mix(in oklab, var(--acc-strong) 30.0%, transparent)",
+                      boxShadow: "0 4px 12px color-mix(in oklab, var(--accent-sakura) 35%, transparent)",
                     }}
                   >
                     <Navigation size={14} /> {t("道案内", "Directions")}
@@ -609,8 +551,8 @@ function Clinics() {
                     className="flex items-center justify-center gap-1.5 flex-1"
                     style={{
                       height: 40, borderRadius: 12,
-                      background: "var(--acc-pale)", border: "1px solid var(--acc2-soft)",
-                      color: "var(--accent-matcha)", fontSize: 13, fontWeight: 700,
+                      background: "var(--accent-sakura-soft)", border: "1px solid var(--acc-pale)",
+                      color: "var(--accent-sakura)", fontSize: 13, fontWeight: 700,
                     }}
                   >
                     <Phone size={14} /> {t("電話", "Call")}
