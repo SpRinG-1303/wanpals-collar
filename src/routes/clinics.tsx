@@ -181,36 +181,6 @@ function Clinics() {
         </button>
       </div>
 
-      {/* ── Quick stats — one card, three divided columns ──── */}
-      <div
-        className="grid grid-cols-3"
-        style={{
-          margin: "16px 20px 0",
-          background: "#FFFFFF",
-          borderRadius: 20,
-          border: "1px solid var(--border-card)",
-          boxShadow: "0 1px 4px rgba(0,0,0,0.04)",
-          padding: "16px 0",
-        }}
-      >
-        {[
-          { n: String(CLINICS.length), jp: "近隣クリニック", en: "Clinics Nearby", color: "var(--accent-sakura)", Icon: Building2 },
-          { n: avgRating, jp: "平均評価", en: "Avg Rating", color: "var(--accent-yuzu)", Icon: Star },
-          { n: String(emCount), jp: "24時間対応", en: "24h Open", color: "var(--acc-strong)", Icon: Clock },
-        ].map((s, i) => (
-          <div
-            key={s.en}
-            className="flex flex-col items-center"
-            style={{ gap: 4, borderLeft: i > 0 ? "1px solid var(--border-card)" : "none", padding: "0 8px" }}
-          >
-            <s.Icon size={16} style={{ color: s.color }} />
-            <span className="tabular-nums" style={{ fontSize: 20, fontWeight: 800, color: "var(--text-primary)", lineHeight: 1.1 }}>{s.n}</span>
-            <div style={{ fontSize: 10, color: "var(--text-secondary)", lineHeight: 1.2, textAlign: "center", fontWeight: 500 }}>
-              {t(s.jp, s.en)}
-            </div>
-          </div>
-        ))}
-      </div>
 
       {/* ── Map preview ────────────────────────────────────── */}
       <div
