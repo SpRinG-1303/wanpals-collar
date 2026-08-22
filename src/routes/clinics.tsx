@@ -17,11 +17,14 @@ import {
   Building2,
   Bookmark,
   ChevronRight,
+  ChevronLeft,
   Clock,
+  CornerUpRight,
+  Flag,
   X,
 } from "lucide-react";
 import { useMemo, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
 import { useT, useLanguage } from "@/context/LanguageContext";
 
@@ -63,9 +66,9 @@ function Stars({ rating }: { rating: number }) {
   return (
     <div className="flex items-center" style={{ gap: 1 }}>
       {[1, 2, 3, 4, 5].map((i) => (
-        <Star
+          <Star
           key={i}
-          size={12}
+          size={11}
           style={{ color: i <= Math.round(rating) ? "var(--accent-yuzu)" : "var(--border-card)" }}
           fill={i <= Math.round(rating) ? "var(--accent-yuzu)" : "var(--border-card)"}
         />
@@ -102,6 +105,7 @@ function Clinics() {
   const [applied, setApplied] = useState({ minStars: 0, distance: 50, openOnly: false, emOnly: false });
   const [visible, setVisible] = useState(3);
   const [videoBooking, setVideoBooking] = useState(false);
+  const [dirFor, setDirFor] = useState<(typeof CLINICS)[number] | null>(null);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -127,12 +131,6 @@ function Clinics() {
 
   const emergencyClinic = CLINICS.find((c) => c.em && c.open) ?? CLINICS[0];
 
-  const openMaps = (name: string) => {
-    if (typeof window !== "undefined") {
-      window.open(`https://maps.google.com/?q=${encodeURIComponent(name)}`, "_blank");
-    }
-  };
-
   return (
     <AppShell noPadding>
 
@@ -152,7 +150,7 @@ function Clinics() {
             transition: "border 0.18s ease",
           }}
         >
-          <Search size={19} strokeWidth={2} style={{ color: "var(--text-placeholder)", flexShrink: 0 }} />
+          <Search size={17} strokeWidth={2} style={{ color: "var(--text-placeholder)", flexShrink: 0 }} />
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
@@ -167,14 +165,14 @@ function Clinics() {
           onClick={() => setFilter(true)}
           className="flex items-center justify-center"
           style={{
-            width: 56, height: 56, borderRadius: 16, flexShrink: 0,
+            width: 52, height: 52, borderRadius: 15, flexShrink: 0,
             background: "var(--accent-sakura)",
             boxShadow: "0 4px 12px color-mix(in oklab, var(--accent-sakura) 30%, transparent)",
             color: "#FFFFFF",
           }}
           aria-label={t("絞り込み", "Filters")}
         >
-          <SlidersHorizontal size={20} strokeWidth={2.2} />
+          <SlidersHorizontal size={18} strokeWidth={2.2} />
         </button>
       </div>
 
@@ -196,14 +194,14 @@ function Clinics() {
                 fontWeight: sel ? 700 : 500,
                 fontSize: 12,
                 borderRadius: 999,
-                padding: "0 16px",
-                height: 40,
+                padding: "0 14px",
+                height: 38,
                 gap: 6,
                 boxShadow: sel ? "0 4px 12px color-mix(in oklab, var(--accent-sakura) 28%, transparent)" : "none",
                 transition: "all 0.18s ease",
               }}
             >
-              <Icon size={14} style={{ color: sel ? "#FFFFFF" : "var(--text-placeholder)" }} fill={sel && c.en === "Top Rated" ? "#FFFFFF" : "none"} />
+              <Icon size={12} style={{ color: sel ? "#FFFFFF" : "var(--text-placeholder)" }} fill={sel && c.en === "Top Rated" ? "#FFFFFF" : "none"} />
               {t(c.jp, c.en)}
             </button>
           );
@@ -245,7 +243,7 @@ function Clinics() {
             boxShadow: "0 4px 10px rgba(0,0,0,0.18)",
           }}
         >
-          <Phone size={14} />
+          <Phone size={12} />
           {t("電話", "Call")}
         </a>
       </div>
@@ -265,9 +263,9 @@ function Clinics() {
       >
         <div
           className="shrink-0 flex items-center justify-center"
-          style={{ width: 56, height: 56, borderRadius: "50%", background: "var(--bg-card-lavender)" }}
+          style={{ width: 50, height: 50, borderRadius: "50%", background: "var(--bg-card-lavender)" }}
         >
-          <Video size={26} style={{ color: "var(--accent-fuji)" }} />
+          <Video size={22} style={{ color: "var(--accent-fuji)" }} />
         </div>
         <div className="flex-1 min-w-0">
           <div style={{ fontSize: 15, fontWeight: 700, color: "var(--text-primary)" }}>
@@ -289,9 +287,9 @@ function Clinics() {
         </div>
         <div
           className="shrink-0 flex items-center justify-center"
-          style={{ width: 36, height: 36, borderRadius: "50%", background: "var(--accent-sakura)", color: "#fff" }}
+          style={{ width: 32, height: 32, borderRadius: "50%", background: "var(--accent-sakura)", color: "#fff" }}
         >
-          <ChevronRight size={18} />
+          <ChevronRight size={16} />
         </div>
       </button>
 
@@ -314,12 +312,12 @@ function Clinics() {
             >
               {/* Header — profile row: icon + name + bookmark */}
               <div className="flex items-start" style={{ padding: "16px 16px 0", gap: 12 }}>
-                <div
-                  className="flex items-center justify-center"
-                  style={{ width: 52, height: 52, borderRadius: "50%", background: th.soft, flexShrink: 0 }}
-                >
-                  <HeartPulse size={24} style={{ color: th.accent }} />
-                </div>
+                  <div
+                    className="flex items-center justify-center"
+                    style={{ width: 46, height: 46, borderRadius: "50%", background: th.soft, flexShrink: 0 }}
+                  >
+                    <HeartPulse size={20} style={{ color: th.accent }} />
+                  </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-1.5" style={{ flexWrap: "wrap" }}>
                     <span style={{ fontSize: 16, fontWeight: 800, color: "var(--text-primary)", lineHeight: 1.25 }}>
@@ -356,10 +354,10 @@ function Clinics() {
                   onClick={() => setSaved((s) => ({ ...s, [i]: !s[i] }))}
                   aria-label="save"
                   className="flex items-center justify-center"
-                  style={{ width: 34, height: 34, borderRadius: "50%", background: "var(--bg-page)", flexShrink: 0 }}
+                  style={{ width: 30, height: 30, borderRadius: "50%", background: "var(--bg-page)", flexShrink: 0 }}
                 >
                   <Bookmark
-                    size={14}
+                    size={12}
                     style={{ color: saved[i] ? "var(--accent-sakura)" : "var(--text-placeholder)" }}
                     fill={saved[i] ? "var(--accent-sakura)" : "none"}
                   />
@@ -426,34 +424,34 @@ function Clinics() {
 
                 {/* Hours */}
                 <div className="flex items-center gap-1" style={{ marginTop: 8, fontSize: 11, color: "var(--text-secondary)" }}>
-                  <Clock size={11} />
+                  <Clock size={10} />
                   {t("月-金 9:00-18:00", "Mon–Fri 9–6pm")}
                 </div>
 
                 {/* Actions — big solid CTA + outlined secondary */}
                 <div className="flex gap-2" style={{ marginTop: 14 }}>
                   <button
-                    onClick={() => openMaps(c.en)}
+                    onClick={() => setDirFor(c)}
                     className="flex items-center justify-center gap-1.5"
                     style={{
-                      flex: "1 1 auto", height: 46, borderRadius: 14,
+                      flex: "1 1 auto", height: 42, borderRadius: 13,
                       background: "linear-gradient(135deg, var(--accent-sakura), var(--accent-sakura-dark))",
-                      color: "#fff", fontSize: 14, fontWeight: 700,
+                      color: "#fff", fontSize: 13, fontWeight: 700,
                       boxShadow: "0 6px 16px color-mix(in oklab, var(--accent-sakura) 35%, transparent)",
                     }}
                   >
-                    <Navigation size={15} /> {t("道案内", "Get Directions")}
+                    <Navigation size={13} /> {t("道案内", "Get Directions")}
                   </button>
                   <a
-                    href="tel:+81000000000"
+                    href="tel:+919820001234"
                     className="flex items-center justify-center gap-1.5"
                     style={{
-                      flex: "0 0 96px", height: 46, borderRadius: 14,
+                      flex: "0 0 92px", height: 42, borderRadius: 13,
                       background: "#FFFFFF", border: "1.5px solid var(--accent-sakura)",
-                      color: "var(--accent-sakura)", fontSize: 14, fontWeight: 700,
+                      color: "var(--accent-sakura)", fontSize: 13, fontWeight: 700,
                     }}
                   >
-                    <Phone size={15} /> {t("電話", "Call")}
+                    <Phone size={13} /> {t("電話", "Call")}
                   </a>
                 </div>
               </div>
@@ -641,6 +639,173 @@ function Clinics() {
           </motion.div>
         </div>
       )}
+
+      {/* ── In-app directions with animated route ──────────── */}
+      <AnimatePresence>
+        {dirFor && <DirectionsView clinic={dirFor} onClose={() => setDirFor(null)} />}
+      </AnimatePresence>
     </AppShell>
+  );
+}
+
+/* ── Directions view — plays the route out to the clinic ────── */
+function DirectionsView({ clinic, onClose }: { clinic: (typeof CLINICS)[number]; onClose: () => void }) {
+  const [playKey, setPlayKey] = useState(0);
+  const mins = Math.max(4, Math.round(clinic.km * 12));
+  const routeD = "M 46 252 C 110 246, 128 196, 176 176 S 268 116, 336 58";
+
+  const steps = [
+    { icon: <Navigation size={13} />, text: "Head north on Linking Rd", dist: "400 m" },
+    { icon: <CornerUpRight size={13} />, text: "Turn right onto Waterfield Rd", dist: `${(clinic.km * 0.6).toFixed(1)} km` },
+    { icon: <Flag size={13} />, text: `Arrive at ${clinic.en}`, dist: `${(clinic.km * 0.3).toFixed(1)} km` },
+  ];
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 40 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 40 }}
+      transition={{ duration: 0.22 }}
+      className="fixed inset-0 z-[130] flex justify-center"
+      style={{ background: "var(--bg-page)" }}
+    >
+      <div className="w-full max-w-md flex flex-col" style={{ height: "100%" }}>
+        {/* Header */}
+        <div className="flex items-center gap-3" style={{ padding: "14px 16px 10px" }}>
+          <button
+            onClick={onClose}
+            aria-label="Back"
+            className="flex items-center justify-center shrink-0"
+            style={{ width: 34, height: 34, borderRadius: "50%", background: "#FFFFFF", boxShadow: CARD_SHADOW }}
+          >
+            <ChevronLeft size={17} style={{ color: "var(--text-primary)" }} />
+          </button>
+          <div className="min-w-0">
+            <div style={{ fontSize: 15, fontWeight: 800, color: "var(--text-primary)", fontFamily: "Fraunces, serif" }}>Directions</div>
+            <div style={{ fontSize: 11, color: "var(--text-secondary)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+              to {clinic.en}
+            </div>
+          </div>
+          <span
+            className="shrink-0"
+            style={{ marginLeft: "auto", background: "var(--accent-sakura-soft)", color: "var(--accent-sakura-dark)", fontSize: 11, fontWeight: 800, padding: "4px 12px", borderRadius: 999 }}
+          >
+            {mins} min
+          </span>
+        </div>
+
+        {/* Map with animated route */}
+        <div style={{ margin: "4px 16px 0", borderRadius: 22, overflow: "hidden", boxShadow: CARD_SHADOW, position: "relative", background: "#F3F0FA" }}>
+          <svg key={playKey} viewBox="0 0 390 280" style={{ width: "100%", display: "block" }}>
+            {/* streets */}
+            <g fill="none" stroke="#FFFFFF" strokeWidth="10" strokeLinecap="round">
+              <path d="M -10 90 H 400" />
+              <path d="M -10 190 H 400" />
+              <path d="M 90 -10 V 290" />
+              <path d="M 230 -10 V 290" />
+              <path d="M 320 -10 V 290" />
+              <path d="M -10 140 C 120 130, 260 160, 400 120" />
+            </g>
+            <g fill="none" stroke="#E7E1F4" strokeWidth="2">
+              <path d="M -10 40 H 400" />
+              <path d="M -10 240 H 400" />
+              <path d="M 160 -10 V 290" />
+              <path d="M 280 -10 V 290" />
+            </g>
+            {/* park blocks */}
+            <rect x="108" y="106" width="52" height="30" rx="8" fill="#DFF0E4" />
+            <rect x="248" y="206" width="56" height="34" rx="8" fill="#DFF0E4" />
+
+            {/* route glow + draw-on animation */}
+            <path d={routeD} fill="none" stroke="var(--accent-sakura)" strokeWidth="10" strokeLinecap="round" opacity="0.18" />
+            <motion.path
+              d={routeD}
+              fill="none"
+              stroke="var(--accent-sakura)"
+              strokeWidth="5"
+              strokeLinecap="round"
+              strokeDasharray="1 0"
+              initial={{ pathLength: 0 }}
+              animate={{ pathLength: 1 }}
+              transition={{ duration: 2.2, ease: "easeInOut" }}
+            />
+            {/* moving dot along the route */}
+            <circle r="7" fill="#FFFFFF" stroke="var(--accent-sakura-dark)" strokeWidth="4">
+              <animateMotion dur="4.5s" repeatCount="indefinite" path={routeD} />
+            </circle>
+
+            {/* origin pin (you) */}
+            <circle cx="46" cy="252" r="9" fill="var(--accent-sora)" stroke="#fff" strokeWidth="3" />
+            {/* destination pin (clinic) */}
+            <g>
+              <circle cx="336" cy="58" r="12" fill="var(--accent-sakura)" stroke="#fff" strokeWidth="3" />
+              <circle cx="336" cy="58" r="4" fill="#fff" />
+            </g>
+          </svg>
+
+          {/* ETA card */}
+          <div
+            className="flex items-center justify-between"
+            style={{
+              position: "absolute", left: 12, right: 12, bottom: 12,
+              background: "rgba(255,255,255,0.94)", backdropFilter: "blur(8px)",
+              borderRadius: 16, padding: "10px 14px",
+              boxShadow: "0 6px 18px rgba(0,0,0,0.10)",
+            }}
+          >
+            <div>
+              <div style={{ fontSize: 15, fontWeight: 800, color: "var(--text-primary)" }}>{mins} min · {clinic.km} km</div>
+              <div style={{ fontSize: 10, color: "var(--text-secondary)", marginTop: 1 }}>Fastest route · light traffic</div>
+            </div>
+            <span className="flex items-center gap-1" style={{ fontSize: 10, fontWeight: 700, color: clinic.open ? "var(--accent-matcha)" : "#E53935" }}>
+              <span style={{ width: 6, height: 6, borderRadius: "50%", background: "currentColor" }} />
+              {clinic.open ? "Open now" : "Closed"}
+            </span>
+          </div>
+        </div>
+
+        {/* Turn-by-turn steps */}
+        <div style={{ margin: "14px 16px 0", background: "#FFFFFF", borderRadius: 20, boxShadow: CARD_SHADOW, padding: "6px 14px" }}>
+          {steps.map((s, i) => (
+            <div key={i} className="flex items-center gap-3" style={{ padding: "11px 0", borderBottom: i < steps.length - 1 ? "1px solid var(--bg-elevated)" : "none" }}>
+              <span className="flex items-center justify-center shrink-0" style={{ width: 30, height: 30, borderRadius: "50%", background: i === steps.length - 1 ? "var(--accent-sakura-soft)" : "var(--bg-page)", color: i === steps.length - 1 ? "var(--accent-sakura-dark)" : "var(--text-secondary)" }}>
+                {s.icon}
+              </span>
+              <span className="flex-1 min-w-0" style={{ fontSize: 12.5, fontWeight: 600, color: "var(--text-primary)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{s.text}</span>
+              <span style={{ fontSize: 11, color: "var(--text-placeholder)", flexShrink: 0 }}>{s.dist}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* Actions */}
+        <div className="flex gap-2" style={{ margin: "14px 16px 20px" }}>
+          <button
+            onClick={() => {
+              setPlayKey((k) => k + 1);
+              toast.success("Navigation started", { description: `Guiding you to ${clinic.en} · ${mins} min away`, duration: 2500 });
+            }}
+            className="flex items-center justify-center gap-1.5 active:scale-[0.97] transition-transform"
+            style={{
+              flex: 1, height: 44, borderRadius: 14,
+              background: "linear-gradient(135deg, var(--accent-sakura), var(--accent-sakura-dark))",
+              color: "#fff", fontSize: 13, fontWeight: 700,
+              boxShadow: "0 6px 16px color-mix(in oklab, var(--accent-sakura) 35%, transparent)",
+            }}
+          >
+            <Navigation size={13} /> Start Navigation
+          </button>
+          <button
+            onClick={() => {
+              if (typeof window !== "undefined") {
+                window.open(`https://maps.google.com/?q=${encodeURIComponent(clinic.en)}`, "_blank");
+              }
+            }}
+            style={{ height: 44, padding: "0 16px", borderRadius: 14, background: "#FFFFFF", border: "1.5px solid var(--border-card)", color: "var(--text-secondary)", fontSize: 12, fontWeight: 700 }}
+          >
+            Google Maps
+          </button>
+        </div>
+      </div>
+    </motion.div>
   );
 }

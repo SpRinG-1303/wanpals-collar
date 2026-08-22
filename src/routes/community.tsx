@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useT, useLanguage } from "@/context/LanguageContext";
+import { PetMatchSection } from "@/components/petmatch/PetMatch";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/community")({ component: Community });
@@ -267,12 +268,12 @@ function Community() {
 
           <div style={{ position: "absolute", left: 20, top: 20, right: 96 }}>
             <div style={{ fontSize: 13, color: "var(--accent-sakura)", letterSpacing: "0.1em", fontWeight: 600 }}>COMMUNITY</div>
-            <div style={{ fontSize: 24, fontWeight: 800, color: "var(--text-primary)", lineHeight: 1.1, marginTop: 2 }}>
-              {t("コミュニティ", "Community")}
+            <div style={{ fontSize: 24, fontWeight: 800, color: "var(--text-primary)", lineHeight: 1.1, marginTop: 2, fontFamily: "Fraunces, serif" }}>
+              {t("ペットコミュニティ", "Pet Community")}
             </div>
             <div style={{ fontSize: 12, color: "var(--text-secondary)", marginTop: 6, display: "flex", alignItems: "center", gap: 4 }}>
               <PawPrint size={12} style={{ color: "var(--accent-sakura)" }} />
-              <span>{t("1,648 ワンちゃん家族", "1,648 dog families")}</span>
+              <span>{t("つながる・マッチ・シェア", "Connect. Match. Share.")}</span>
             </div>
           </div>
         </div>
@@ -300,6 +301,9 @@ function Community() {
           {t("投稿する", "Create Post")}
         </button>
       </div>
+
+      {/* ── Pet Match (signature feature) ────────────────────── */}
+      <PetMatchSection />
 
       {/* ── Stats Bar ─────────────────────────────────────────── */}
       <div
@@ -408,6 +412,42 @@ function Community() {
               </button>
             );
           })}
+        </div>
+      </div>
+
+      {/* ── Groups & Discussions ─────────────────────────────── */}
+      <div style={{ padding: "4px 16px 4px" }}>
+        <div className="flex items-center justify-between" style={{ marginBottom: 8 }}>
+          <div className="flex items-center gap-1.5" style={{ fontSize: 13, fontWeight: 600, color: "var(--text-primary)" }}>
+            <UsersIcon size={14} style={{ color: "var(--accent-sakura)" }} />
+            {t("グループ＆ディスカッション", "Groups & Discussions")}
+          </div>
+        </div>
+        <div className="grid grid-cols-2" style={{ gap: 10 }}>
+          {[
+            { name: "Indie Parents India", members: "12.4k", accent: "var(--accent-sakura)", soft: "var(--accent-sakura-soft)" },
+            { name: "Labrador Club Mumbai", members: "8.1k", accent: "var(--accent-fuji)", soft: "var(--bg-card-lavender)" },
+            { name: "Puppy Training 101", members: "5.7k", accent: "var(--accent-matcha)", soft: "var(--acc-pale)" },
+            { name: "Vet Q&A Board", members: "9.3k", accent: "var(--accent-sora)", soft: "var(--acc2-pale)" },
+          ].map((g) => (
+            <button
+              key={g.name}
+              onClick={() => toast(`Joined "${g.name}"`, { description: "New discussions will appear in your feed.", duration: 1800 })}
+              className="text-left active:scale-[0.97] transition-transform"
+              style={{
+                background: "#FFFFFF",
+                borderRadius: 16,
+                boxShadow: "0 2px 20px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.04)",
+                padding: "12px 14px",
+              }}
+            >
+              <span className="flex items-center justify-center" style={{ width: 30, height: 30, borderRadius: "50%", background: g.soft }}>
+                <UsersIcon size={14} style={{ color: g.accent }} />
+              </span>
+              <div style={{ fontSize: 12, fontWeight: 700, color: "var(--text-primary)", marginTop: 8, lineHeight: 1.3 }}>{g.name}</div>
+              <div style={{ fontSize: 10, color: "var(--text-secondary)", marginTop: 2 }}>{g.members} members · Join</div>
+            </button>
+          ))}
         </div>
       </div>
 
