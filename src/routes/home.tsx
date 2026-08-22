@@ -479,7 +479,6 @@ const HeroPostcard = memo(function HeroPostcard({ score, name, mood, celebrate, 
   // Time band is client-only (server & client timezones differ) to avoid hydration mismatches.
   const [band, setBand] = useState<TimeBand>("morning");
   useEffect(() => { setBand(getTimeBand()); }, []);
-  const labelJp = band === "morning" ? "おはよう" : band === "afternoon" ? "こんにちは" : band === "evening" ? "こんばんは" : "おやすみ";
   const labelEn = band === "morning" ? "Good Morning" : band === "afternoon" ? "Good Afternoon" : band === "evening" ? "Good Evening" : "Good Night";
 
   const hasName = !!name && name !== t("ワンちゃん", "Your Dog");
@@ -519,7 +518,7 @@ const HeroPostcard = memo(function HeroPostcard({ score, name, mood, celebrate, 
       <div style={{ position: "absolute", top: 0, bottom: 0, left: 0, width: "50%", padding: "20px 0 20px 20px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
         <div>
           <div style={{ fontSize: 11, color: JP.sakura, letterSpacing: "0.05em", fontWeight: 600 }}>
-            {t(`${labelJp} / ${labelEn}`, `${labelEn} / ${labelJp}`)}
+            {labelEn}
           </div>
           <div style={{ fontSize: 24, fontWeight: 800, color: JP.sumi, lineHeight: 1.1, marginTop: 4 }}>
             {greeting}
