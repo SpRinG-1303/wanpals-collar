@@ -12,6 +12,17 @@ import { BREED_KEY_BY_JP, type BreedKey } from "@/components/DogAvatar";
 
 export const Route = createFileRoute("/map")({ component: MapScreen });
 
+/* Home-page card spec */
+const CARD_SHADOW = "0 2px 20px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.04)";
+
+function SectionHeader({ title }: { title: string }) {
+  return (
+    <div style={{ margin: "20px 20px 10px", fontSize: 16, fontWeight: 700, color: "var(--text-primary)", letterSpacing: "-0.01em" }}>
+      {title}
+    </div>
+  );
+}
+
 function MapScreen() {
   const t = useT();
   const navigate = useNavigate();
@@ -38,17 +49,17 @@ function MapScreen() {
         @keyframes borderPulse { 0%,100% { box-shadow: 0 0 0 0 rgba(229,57,53,.5) } 50% { box-shadow: 0 0 0 8px rgba(229,57,53,0) } }
         .map-pulse-ring { animation: mapPulse 2s ease-in-out infinite; }
         .safe-rotate { animation: safeRotate 60s linear infinite; }
-        .green-pulse::before { content:""; position:absolute; inset:0; border-radius:9999px; background:var(--accent-matcha); animation: greenPulse 1.6s ease-in-out infinite; }
+        .green-pulse::before { content:""; position:absolute; inset:0; border-radius:9999px; background:var(--accent-sakura); animation: greenPulse 1.6s ease-in-out infinite; }
       `}</style>
 
       {/* LIVE STATUS BAR */}
-      <div style={{ margin: "8px 16px", padding: "10px 16px", background: "#FFFFFF", borderRadius: 16, boxShadow: "0 2px 8px rgba(0,0,0,0.05)" }}>
+      <div style={{ margin: "8px 16px", padding: "12px 16px", background: "#FFFFFF", borderRadius: 20, boxShadow: CARD_SHADOW }}>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="relative inline-block green-pulse" style={{ width: 8, height: 8, borderRadius: "50%", background: "var(--accent-matcha)" }} />
+            <span className="relative inline-block green-pulse" style={{ width: 8, height: 8, borderRadius: "50%", background: "var(--accent-sakura)" }} />
             <span style={{ fontSize: 13, fontWeight: 700, color: "var(--text-primary)" }}>{t("ライブ追跡中", "Live Tracking")}</span>
           </div>
-          <div className="flex items-center gap-1.5" style={{ color: "var(--accent-matcha)" }}>
+          <div className="flex items-center gap-1.5" style={{ color: "var(--accent-sakura)" }}>
             <Satellite size={14} />
             <span style={{ fontSize: 12, fontWeight: 600 }}>GPS ✓</span>
           </div>
@@ -59,7 +70,7 @@ function MapScreen() {
       </div>
 
       {/* MAP CARD */}
-      <div style={{ margin: "12px 16px", borderRadius: 24, overflow: "hidden", height: 320, position: "relative", boxShadow: "0 8px 32px rgba(0,0,0,0.1)", background: "var(--acc-pale)" }}>
+      <div style={{ margin: "12px 16px", borderRadius: 20, overflow: "hidden", height: 320, position: "relative", boxShadow: CARD_SHADOW, background: "var(--acc-pale)" }}>
         {/* Base watercolor map */}
         <div className="absolute inset-0" style={{
           background: `
@@ -180,8 +191,8 @@ function MapScreen() {
       </div>
 
       {/* DOG INFO CARD */}
-      <div style={{ margin: "0 16px 12px", background: "#FFFFFF", borderRadius: 20, boxShadow: "0 4px 16px rgba(0,0,0,0.07)", borderLeft: "4px solid var(--accent-sakura)", overflow: "hidden" }}>
-        <div style={{ height: 6, background: "linear-gradient(90deg, var(--bg-card-sakura), var(--accent-sakura-soft))" }} />
+      <SectionHeader title={t("マイペット", "My Pet")} />
+      <div style={{ margin: "0 16px 12px", background: "#FFFFFF", borderRadius: 20, boxShadow: CARD_SHADOW }}>
         <div style={{ padding: 14 }}>
           <div className="flex items-start justify-between">
             <div className="flex items-start gap-3 flex-1 min-w-0">
@@ -192,8 +203,8 @@ function MapScreen() {
                   {"Linking Road, Bandra West, Mumbai"}
                 </div>
                 <div className="flex items-center gap-1.5 mt-1">
-                  <span style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--accent-matcha)" }} />
-                  <span style={{ fontSize: 12, color: "var(--accent-matcha)", fontWeight: 600 }}>{t("今移動中", "Moving now")}</span>
+                  <span style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--accent-sakura)" }} />
+                  <span style={{ fontSize: 12, color: "var(--accent-sakura)", fontWeight: 600 }}>{t("今移動中", "Moving now")}</span>
                 </div>
               </div>
             </div>
@@ -210,7 +221,7 @@ function MapScreen() {
             <span> {t("4分", "4 min")}</span>
           </div>
 
-          <button onClick={openDirections} className="w-full flex items-center justify-center gap-2 mt-3" style={{ height: 48, borderRadius: 14, background: "linear-gradient(135deg, var(--accent-sora), var(--acc-strong))", color: "#fff", fontWeight: 700, fontSize: 14, boxShadow: "0 6px 16px color-mix(in oklab, var(--acc-strong) 30.0%, transparent)" }}>
+          <button onClick={openDirections} className="w-full flex items-center justify-center gap-2 mt-3" style={{ height: 48, borderRadius: 14, background: "linear-gradient(135deg, var(--accent-sakura), var(--accent-sakura-dark))", color: "#fff", fontWeight: 700, fontSize: 14, boxShadow: "0 6px 16px color-mix(in oklab, var(--accent-sakura) 35%, transparent)" }}>
             <Navigation size={16} />
             {t("道案内", "Get Directions")}
           </button>
@@ -218,15 +229,15 @@ function MapScreen() {
       </div>
 
       {/* SAFE ZONE CARD */}
-      <div style={{ margin: "0 16px 12px", background: "#FFFFFF", borderRadius: 20, boxShadow: "0 4px 16px rgba(0,0,0,0.07)", borderLeft: "4px solid var(--accent-matcha)", overflow: "hidden" }}>
-        <div style={{ height: 6, background: "linear-gradient(90deg, var(--acc-pale), var(--acc2-pale))" }} />
+      <SectionHeader title={t("安全", "Safety")} />
+      <div style={{ margin: "0 16px 12px", background: "#FFFFFF", borderRadius: 20, boxShadow: CARD_SHADOW }}>
         <div style={{ padding: 14 }}>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Shield size={20} style={{ color: "var(--accent-matcha)" }} />
+              <Shield size={20} style={{ color: "var(--accent-sakura)" }} />
               <span style={{ fontSize: 15, fontWeight: 700, color: "var(--text-primary)" }}>{t("安全ゾーン", "Safe Zone")}</span>
             </div>
-            <Toggle on={safeZone} onChange={setSafeZone} activeColor="var(--accent-matcha)" />
+            <Toggle on={safeZone} onChange={setSafeZone} activeColor="var(--accent-sakura)" />
           </div>
           {safeZone && (
             <div className="mt-2">
@@ -234,10 +245,10 @@ function MapScreen() {
                 {t(`${radius < 1000 ? radius + "m" : "1km"} 半径で通知`, `Notify within ${radius < 1000 ? radius + "m" : "1km"} radius`)}
               </div>
               <div className="flex gap-2 mt-2">
-                {([100,200,500,1000] as const).map(r => (
+                 {([100,200,500,1000] as const).map(r => (
                   <button key={r} onClick={() => setRadius(r)} style={{
                     padding: "5px 12px", borderRadius: 20, fontSize: 11, fontWeight: 600,
-                    background: radius === r ? "var(--accent-matcha)" : "var(--bg-elevated)",
+                    background: radius === r ? "var(--accent-sakura)" : "var(--bg-elevated)",
                     color: radius === r ? "#fff" : "var(--text-secondary)",
                   }}>{r < 1000 ? `${r}m` : "1km"}</button>
                 ))}
@@ -250,11 +261,10 @@ function MapScreen() {
       {/* LOST MODE CARD */}
       <div style={{
         margin: "0 16px 12px",
-        background: lost ? "linear-gradient(135deg, var(--acc-pale), var(--acc-pale))" : "#FFFFFF",
+        background: "#FFFFFF",
         borderRadius: 20,
-        boxShadow: "0 4px 16px rgba(0,0,0,0.07)",
+        boxShadow: CARD_SHADOW,
         border: lost ? "2px solid #E53935" : "none",
-        borderLeft: `4px solid ${lost ? "#E53935" : "var(--text-placeholder)"}`,
         animation: lost ? "borderPulse 1.6s infinite" : undefined,
         padding: 14,
       }}>
@@ -285,17 +295,18 @@ function MapScreen() {
       </div>
 
       {/* LOCATION HISTORY */}
-      <div style={{ margin: "0 16px 12px", background: "#FFFFFF", borderRadius: 20, boxShadow: "0 4px 16px rgba(0,0,0,0.07)", borderLeft: "4px solid var(--accent-fuji)", padding: 14 }}>
+      <SectionHeader title={t("アクティビティ", "Activity")} />
+      <div style={{ margin: "0 16px 12px", background: "#FFFFFF", borderRadius: 20, boxShadow: CARD_SHADOW, padding: 14 }}>
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-2">
-            <History size={18} style={{ color: "var(--accent-fuji)" }} />
+            <History size={18} style={{ color: "var(--accent-sakura)" }} />
             <span style={{ fontSize: 14, fontWeight: 700, color: "var(--text-primary)" }}>{t("移動履歴", "Location History")}</span>
           </div>
-          <span style={{ fontSize: 11, fontWeight: 600, color: "var(--accent-fuji)", background: "var(--acc-pale)", padding: "3px 10px", borderRadius: 20 }}>{t("今日", "Today")}</span>
+          <span style={{ fontSize: 11, fontWeight: 600, color: "var(--accent-sakura)", background: "var(--accent-sakura-soft)", padding: "3px 10px", borderRadius: 20 }}>{t("今日", "Today")}</span>
         </div>
 
         {[
-          { time: "14:30", jp: "代々木公園", en: "Yoyogi Park", dist: "+1.2km", color: "var(--accent-yuzu)" },
+          { time: "14:30", jp: "ジョガーズパーク", en: "Joggers Park", dist: "+1.2km", color: "var(--accent-yuzu)" },
           { time: "12:15", jp: "", en: "Near Bandra Stn", dist: "+0.5km", color: "var(--accent-sora)" },
           { time: "09:00", jp: "自宅", en: "Home", dist: t("出発地", "Start"), color: "var(--accent-matcha)" },
         ].map((h, i) => (
@@ -311,25 +322,25 @@ function MapScreen() {
           </div>
         ))}
 
-        <button className="flex items-center gap-1 mt-2" style={{ fontSize: 12, color: "var(--accent-fuji)", fontWeight: 600 }}>
+        <button className="flex items-center gap-1 mt-2" style={{ fontSize: 12, color: "var(--accent-sakura)", fontWeight: 600 }}>
           {t("全履歴を見る", "View Full History")} <ChevronRight size={14} />
         </button>
       </div>
 
       {/* NEARBY CLINIC */}
-      <button onClick={() => navigate({ to: "/clinics" })} className="w-full flex items-center gap-3" style={{ margin: "0 16px 24px", width: "calc(100% - 32px)", background: "linear-gradient(135deg, var(--acc2-pale), var(--acc2-pale))", border: "1px solid var(--acc2-soft)", borderRadius: 20, padding: 14, textAlign: "left" }}>
-        <div className="flex items-center justify-center" style={{ width: 40, height: 40, borderRadius: "50%", background: "#FFFFFF" }}>
-          <Stethoscope size={20} style={{ color: "var(--accent-sora)" }} />
+      <button onClick={() => navigate({ to: "/clinics" })} className="w-full flex items-center gap-3" style={{ margin: "0 16px 24px", width: "calc(100% - 32px)", background: "#FFFFFF", boxShadow: CARD_SHADOW, borderRadius: 20, padding: 14, textAlign: "left" }}>
+        <div className="flex items-center justify-center" style={{ width: 44, height: 44, borderRadius: "50%", background: "var(--accent-sakura-soft)" }}>
+          <Stethoscope size={20} style={{ color: "var(--accent-sakura)" }} />
         </div>
         <div className="flex-1 min-w-0">
-          <div style={{ fontSize: 14, fontWeight: 700, color: "var(--acc-deep)" }}>
+          <div style={{ fontSize: 14, fontWeight: 700, color: "var(--text-primary)" }}>
             {t("最寄りの動物病院", "Nearest Animal Hospital")}
           </div>
-          <div style={{ fontSize: 12, color: "var(--accent-sora)", marginTop: 2 }}>
+          <div style={{ fontSize: 12, color: "var(--text-secondary)", marginTop: 2 }}>
              {"Bandra Pet Hosp."} · 0.8km · 4.6 · 24H
           </div>
         </div>
-        <div className="flex items-center justify-center" style={{ width: 36, height: 36, borderRadius: "50%", background: "var(--accent-sora)", color: "#fff", flexShrink: 0 }}>
+        <div className="flex items-center justify-center" style={{ width: 36, height: 36, borderRadius: "50%", background: "var(--accent-sakura)", color: "#fff", flexShrink: 0 }}>
           <ChevronRight size={18} />
         </div>
       </button>

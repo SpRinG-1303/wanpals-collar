@@ -334,11 +334,8 @@ function Community() {
       <div className="flex gap-2 overflow-x-auto scrollbar-hide" style={{ padding: "12px 16px", scrollSnapType: "x mandatory" }}>
         {CATS.map((c, i) => {
           const active = sub === i;
-          const isAll = i === 0;
           const style: React.CSSProperties = active
-            ? isAll
-              ? { background: c.soft, color: "#fff", border: "1.5px solid transparent", boxShadow: "0 4px 12px color-mix(in srgb, var(--accent-sakura) calc(0.35 * 100%), transparent)" }
-              : { background: c.soft, color: c.accent, border: `1.5px solid ${c.accent}`, boxShadow: `0 2px 8px ${c.accent}22` }
+            ? { background: "linear-gradient(135deg, var(--accent-sakura), var(--accent-sakura-dark))", color: "#fff", border: "1.5px solid transparent", boxShadow: "0 4px 12px color-mix(in srgb, var(--accent-sakura) calc(0.35 * 100%), transparent)" }
             : { background: "#FFFFFF", color: "var(--text-secondary)", border: "1.5px solid var(--border-card)", boxShadow: "0 2px 6px rgba(0,0,0,0.05)" };
           return (
             <button
@@ -384,25 +381,27 @@ function Community() {
                 className="shrink-0 text-left flex flex-col justify-between"
                 style={{
                   width: 160,
-                  height: 100,
-                  borderRadius: 16,
+                  height: 104,
+                  borderRadius: 20,
                   padding: 12,
-                  background: `linear-gradient(135deg, ${th.gradFrom}, ${th.gradTo})`,
-                  boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
-                  color: "#fff",
+                  background: "#FFFFFF",
+                  boxShadow: "0 2px 20px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.04)",
                 }}
               >
-                <div style={{ fontSize: 12, fontWeight: 700, lineHeight: 1.3, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
-                  {language === "english" ? p.titleEn : p.titleJp}
-                </div>
-                <div className="flex items-center justify-between" style={{ fontSize: 10, opacity: 0.95 }}>
-                  <span className="flex items-center gap-1">
-                    <PawPrint size={10} />
-                    {p.up}
-                  </span>
-                  <span style={{ background: "rgba(255,255,255,0.25)", padding: "2px 6px", borderRadius: 10, fontWeight: 600 }}>
+                <div className="flex items-center" style={{ gap: 6 }}>
+                  <div className="flex items-center justify-center" style={{ width: 22, height: 22, borderRadius: "50%", background: th.soft }}>
+                    <Flame size={11} style={{ color: th.accent }} />
+                  </div>
+                  <span style={{ fontSize: 10, fontWeight: 700, color: th.accent, background: th.soft, padding: "2px 8px", borderRadius: 10 }}>
                     #{language === "english" ? th.en : th.jp}
                   </span>
+                </div>
+                <div style={{ fontSize: 12, fontWeight: 700, lineHeight: 1.3, color: "var(--text-primary)", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
+                  {language === "english" ? p.titleEn : p.titleJp}
+                </div>
+                <div className="flex items-center" style={{ fontSize: 10, color: "var(--text-secondary)", gap: 4 }}>
+                  <PawPrint size={10} style={{ color: "var(--accent-sakura)" }} />
+                  {p.up} {t("いいね", "upvotes")}
                 </div>
               </button>
             );
@@ -448,12 +447,10 @@ function Community() {
                     borderRadius: 20,
                     margin: "0 16px 12px",
                     boxShadow: "0 2px 20px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.04)",
-                    borderLeft: `4px solid ${th.accent}`,
                     overflow: "hidden",
                     position: "relative",
                   }}
                 >
-                  <div style={{ height: 6, background: `linear-gradient(90deg, ${th.gradFrom}, ${th.gradTo})` }} />
 
                   <button onClick={() => setOpen(p.id)} className="w-full text-left" style={{ padding: 16 }}>
                     <div className="flex items-start gap-3">
@@ -464,7 +461,6 @@ function Community() {
                           height: 44,
                           borderRadius: "50%",
                           background: pal.bg,
-                          border: `2px solid ${th.accent}`,
                           color: pal.fg,
                           fontSize: 16,
                           fontWeight: 800,
