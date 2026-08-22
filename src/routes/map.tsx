@@ -49,17 +49,17 @@ function MapScreen() {
         @keyframes borderPulse { 0%,100% { box-shadow: 0 0 0 0 rgba(229,57,53,.5) } 50% { box-shadow: 0 0 0 8px rgba(229,57,53,0) } }
         .map-pulse-ring { animation: mapPulse 2s ease-in-out infinite; }
         .safe-rotate { animation: safeRotate 60s linear infinite; }
-        .green-pulse::before { content:""; position:absolute; inset:0; border-radius:9999px; background:var(--accent-matcha); animation: greenPulse 1.6s ease-in-out infinite; }
+        .green-pulse::before { content:""; position:absolute; inset:0; border-radius:9999px; background:var(--accent-sakura); animation: greenPulse 1.6s ease-in-out infinite; }
       `}</style>
 
       {/* LIVE STATUS BAR */}
-      <div style={{ margin: "8px 16px", padding: "10px 16px", background: "#FFFFFF", borderRadius: 16, boxShadow: "0 2px 8px rgba(0,0,0,0.05)" }}>
+      <div style={{ margin: "8px 16px", padding: "12px 16px", background: "#FFFFFF", borderRadius: 20, boxShadow: CARD_SHADOW }}>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="relative inline-block green-pulse" style={{ width: 8, height: 8, borderRadius: "50%", background: "var(--accent-matcha)" }} />
+            <span className="relative inline-block green-pulse" style={{ width: 8, height: 8, borderRadius: "50%", background: "var(--accent-sakura)" }} />
             <span style={{ fontSize: 13, fontWeight: 700, color: "var(--text-primary)" }}>{t("ライブ追跡中", "Live Tracking")}</span>
           </div>
-          <div className="flex items-center gap-1.5" style={{ color: "var(--accent-matcha)" }}>
+          <div className="flex items-center gap-1.5" style={{ color: "var(--accent-sakura)" }}>
             <Satellite size={14} />
             <span style={{ fontSize: 12, fontWeight: 600 }}>GPS ✓</span>
           </div>
@@ -70,7 +70,7 @@ function MapScreen() {
       </div>
 
       {/* MAP CARD */}
-      <div style={{ margin: "12px 16px", borderRadius: 24, overflow: "hidden", height: 320, position: "relative", boxShadow: "0 8px 32px rgba(0,0,0,0.1)", background: "var(--acc-pale)" }}>
+      <div style={{ margin: "12px 16px", borderRadius: 20, overflow: "hidden", height: 320, position: "relative", boxShadow: CARD_SHADOW, background: "var(--acc-pale)" }}>
         {/* Base watercolor map */}
         <div className="absolute inset-0" style={{
           background: `
@@ -191,8 +191,8 @@ function MapScreen() {
       </div>
 
       {/* DOG INFO CARD */}
-      <div style={{ margin: "0 16px 12px", background: "#FFFFFF", borderRadius: 20, boxShadow: "0 4px 16px rgba(0,0,0,0.07)", borderLeft: "4px solid var(--accent-sakura)", overflow: "hidden" }}>
-        <div style={{ height: 6, background: "linear-gradient(90deg, var(--bg-card-sakura), var(--accent-sakura-soft))" }} />
+      <SectionHeader title={t("マイペット", "My Pet")} />
+      <div style={{ margin: "0 16px 12px", background: "#FFFFFF", borderRadius: 20, boxShadow: CARD_SHADOW }}>
         <div style={{ padding: 14 }}>
           <div className="flex items-start justify-between">
             <div className="flex items-start gap-3 flex-1 min-w-0">
@@ -203,8 +203,8 @@ function MapScreen() {
                   {"Linking Road, Bandra West, Mumbai"}
                 </div>
                 <div className="flex items-center gap-1.5 mt-1">
-                  <span style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--accent-matcha)" }} />
-                  <span style={{ fontSize: 12, color: "var(--accent-matcha)", fontWeight: 600 }}>{t("今移動中", "Moving now")}</span>
+                  <span style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--accent-sakura)" }} />
+                  <span style={{ fontSize: 12, color: "var(--accent-sakura)", fontWeight: 600 }}>{t("今移動中", "Moving now")}</span>
                 </div>
               </div>
             </div>
@@ -221,7 +221,7 @@ function MapScreen() {
             <span> {t("4分", "4 min")}</span>
           </div>
 
-          <button onClick={openDirections} className="w-full flex items-center justify-center gap-2 mt-3" style={{ height: 48, borderRadius: 14, background: "linear-gradient(135deg, var(--accent-sora), var(--acc-strong))", color: "#fff", fontWeight: 700, fontSize: 14, boxShadow: "0 6px 16px color-mix(in oklab, var(--acc-strong) 30.0%, transparent)" }}>
+          <button onClick={openDirections} className="w-full flex items-center justify-center gap-2 mt-3" style={{ height: 48, borderRadius: 14, background: "linear-gradient(135deg, var(--accent-sakura), var(--accent-sakura-dark))", color: "#fff", fontWeight: 700, fontSize: 14, boxShadow: "0 6px 16px color-mix(in oklab, var(--accent-sakura) 35%, transparent)" }}>
             <Navigation size={16} />
             {t("道案内", "Get Directions")}
           </button>
