@@ -471,7 +471,7 @@ export function PetMatchDiscovery({ startId, onClose }: { startId: string; onClo
                   else if (info.offset.x < -90) pass();
                 }}
                 className="flex flex-col"
-                style={{ background: "#FFFFFF", borderRadius: 24, boxShadow: "0 10px 30px rgba(0,0,0,0.10)", overflow: "hidden", minHeight: 0 }}
+                style={{ background: "#FFFFFF", borderRadius: 24, boxShadow: "0 10px 30px rgba(0,0,0,0.10)", overflow: "hidden", minHeight: 0, maxHeight: "100%" }}
               >
                 {/* Photo */}
                 <div style={{ position: "relative", flexShrink: 0 }}>
