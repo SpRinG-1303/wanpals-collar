@@ -122,10 +122,13 @@ function writePhoto(id: string, url: string) {
 }
 
 function usePetPhoto(p: MatchProfile): string | null {
-  const [url, setUrl] = useState<string | null>(() => readPhoto(p.id));
+  const [url, setUrl] = useState<string | null>(null);
   useEffect(() => {
     let alive = true;
-    if (!url) {
+    const cached = readPhoto(p.id);
+    if (cached) {
+      setUrl(cached);
+    } else {
       fetch(`https://dog.ceo/api/breed/${p.slug}/images/random`)
         .then((r) => r.json())
         .then((d) => {
@@ -247,6 +250,22 @@ export function PetMatchSection() {
             <div className="flex items-center gap-1.5" style={{ fontSize: 11, color: "var(--text-secondary)" }}>
               <Check size={12} style={{ color: "var(--accent-matcha)" }} />
               {featured.summary}
+            </div>
+            {/* Owner */}
+            <div className="flex items-center gap-2" style={{ marginTop: 10 }}>
+              <span
+                className="flex items-center justify-center shrink-0"
+                style={{ width: 28, height: 28, borderRadius: "50%", background: "var(--bg-card-lavender)", fontSize: 12, fontWeight: 800, color: "var(--accent-fuji)" }}
+              >
+                {featured.owner[0]}
+              </span>
+              <div className="flex items-center gap-1" style={{ fontSize: 11, fontWeight: 700, color: "var(--text-primary)" }}>
+                {featured.owner}
+                {featured.verified && <BadgeCheck size={12} style={{ color: "var(--accent-matcha)" }} />}
+              </div>
+              <span style={{ fontSize: 10, color: "var(--text-placeholder)" }}>
+                · {featured.ownerPets} pets · since {featured.since}
+              </span>
             </div>
             <div className="flex gap-2" style={{ marginTop: 12 }}>
               <button
@@ -452,7 +471,7 @@ export function PetMatchDiscovery({ startId, onClose }: { startId: string; onClo
                   else if (info.offset.x < -90) pass();
                 }}
                 className="flex flex-col"
-                style={{ background: "#FFFFFF", borderRadius: 24, boxShadow: "0 10px 30px rgba(0,0,0,0.10)", overflow: "hidden", minHeight: 0 }}
+                style={{ background: "#FFFFFF", borderRadius: 24, boxShadow: "0 10px 30px rgba(0,0,0,0.10)", overflow: "hidden", minHeight: 0, maxHeight: "100%" }}
               >
                 {/* Photo */}
                 <div style={{ position: "relative", flexShrink: 0 }}>
@@ -488,7 +507,7 @@ export function PetMatchDiscovery({ startId, onClose }: { startId: string; onClo
                 </div>
 
                 {/* Details */}
-                <div style={{ padding: "12px 16px 16px" }}>
+                <div style={{ padding: "12px 16px 16px", overflowY: "auto", minHeight: 0 }}>
                   <div className="flex gap-2" style={{ flexWrap: "wrap" }}>
                     <span className="flex items-center gap-1" style={{ fontSize: 10, fontWeight: 700, padding: "4px 10px", borderRadius: 999, background: current.vaccinated ? "var(--acc-pale)" : "#FFF3F0", color: current.vaccinated ? "var(--accent-matcha)" : "#E53935" }}>
                       <Syringe size={10} /> {current.vaccinated ? "Vaccinated" : "Vaccination due"}
@@ -532,6 +551,30 @@ export function PetMatchDiscovery({ startId, onClose }: { startId: string; onClo
                       Compatibility is guidance based on breed, age, distance and health data — not a medical or genetic guarantee.
                     </div>
                   </div>
+
+                  {/* Owner */}
+                  <button
+                    onClick={() => setOwnerFor(current)}
+                    className="flex items-center gap-2.5 w-full text-left active:scale-[0.98] transition-transform"
+                    style={{ marginTop: 12, background: "var(--bg-page)", border: "1px solid var(--border-subtle)", borderRadius: 14, padding: "10px 12px" }}
+                  >
+                    <span
+                      className="flex items-center justify-center shrink-0"
+                      style={{ width: 38, height: 38, borderRadius: "50%", background: "var(--bg-card-lavender)", fontSize: 15, fontWeight: 800, color: "var(--accent-fuji)" }}
+                    >
+                      {current.owner[0]}
+                    </span>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-1">
+                        <span style={{ fontSize: 13, fontWeight: 800, color: "var(--text-primary)" }}>{current.owner}</span>
+                        {current.verified && <BadgeCheck size={12} style={{ color: "var(--accent-matcha)" }} />}
+                      </div>
+                      <div style={{ fontSize: 10, color: "var(--text-secondary)", marginTop: 1 }}>
+                        {current.ownerPets} {current.ownerPets === 1 ? "pet" : "pets"} · Member since {current.since} · {current.posts} posts
+                      </div>
+                    </div>
+                    <span style={{ fontSize: 10, fontWeight: 800, color: "var(--accent-sakura)", flexShrink: 0 }}>View</span>
+                  </button>
                 </div>
               </motion.div>
             ) : (
