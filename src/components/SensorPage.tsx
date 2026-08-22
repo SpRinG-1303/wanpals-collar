@@ -39,34 +39,18 @@ export const CARD_SHADOW = "0 2px 20px rgba(0,0,0,0.055)";
 export const SAKURA_HEADER = "linear-gradient(180deg,#FFF5F7 0%,#FFE8EF 100%)";
 
 export function SensorPage({
-  titleJp,
   titleEn,
-  subtitleJp,
-  descriptorJp,
+  subtitleEn,
   descriptorEn,
   bannerGradient,
-  bannerKanji,
-  bannerKanjiColor,
   bannerSubtitleColor,
-  // legacy props (kept for backward compatibility)
-  heroGradient: _heroGradient,
-  kanji: _kanji,
-  accent: _accent,
   children,
 }: {
-  titleJp: string;
   titleEn: string;
-  subtitleJp?: string;
-  descriptorJp?: string;
+  subtitleEn?: string;
   descriptorEn?: string;
   bannerGradient?: string;
-  bannerKanji?: string;
-  bannerKanjiColor?: string;
   bannerSubtitleColor?: string;
-  heroGradient?: string;
-  kanji?: string;
-  headerGradient?: string;
-  accent?: string;
   children: ReactNode;
 }) {
   return (
@@ -95,13 +79,10 @@ export function SensorPage({
 
       <div style={{ background: SP.page, minHeight: "100%", paddingBottom: 100 }}>
         <SenseBanner
-          subtitleJp={subtitleJp ?? titleJp}
+          subtitleEn={subtitleEn ?? titleEn}
           titleEn={titleEn}
-          descriptorJp={descriptorJp ?? ""}
           descriptorEn={descriptorEn ?? ""}
           bgGradient={bannerGradient ?? "linear-gradient(135deg,#FFF5F7 0%,#FCE7F3 100%)"}
-          kanji={bannerKanji ?? "心"}
-          kanjiColor={bannerKanjiColor ?? "rgba(236,72,153,0.07)"}
           subtitleColor={bannerSubtitleColor ?? "#C98BA8"}
         />
 

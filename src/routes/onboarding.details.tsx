@@ -182,7 +182,7 @@ function Step4() {
               >
                 {TOP5.map((b) => (
                   <option key={b.jp} value={b.jp}>
-                    {b.jp} / {b.en}
+                    {b.en}
                   </option>
                 ))}
                 <option value="__other__">{t("その他（入力）", "Other (type below)")}</option>

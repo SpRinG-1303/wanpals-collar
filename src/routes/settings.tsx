@@ -26,8 +26,8 @@ function Settings() {
 
   const langLabel: Record<Language, string> = {
     english: "English",
-    japanese: "日本語",
-    mixed: t("混合", "Mixed (JP+EN)"),
+    japanese: "English",
+    mixed: "English",
   };
 
   return (

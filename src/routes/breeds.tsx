@@ -4,7 +4,7 @@ import { useMemo, useState, useEffect, useCallback, type ComponentType, type CSS
 import Fuse, { type FuseResultMatch } from "fuse.js";
 import {
   Search, SlidersHorizontal, BookOpen, ArrowRight, ArrowLeft, X,
-  AlertTriangle, MessageCircle, Dog, Sparkles, Heart, Wind, Sun, Minus, Zap, Crown, Shuffle, RefreshCw,
+  AlertTriangle, MessageCircle, Dog, Sparkles, Heart, Wind, Sun, Minus, Zap, Crown, Shuffle, RefreshCw, PawPrint,
   type LucideProps,
 } from "lucide-react";
 import { useT, useLanguage, T } from "@/context/LanguageContext";
@@ -1632,17 +1632,17 @@ function BreedImage({
   const showImage = !!src && !failed;
   return (
     <div style={{ position: "absolute", inset: 0, ...style }}>
-      {/* Fallback layer: gradient + kanji (always present underneath) */}
+      {/* Fallback layer: gradient + paw icon (always present underneath) */}
       <div style={{
         position: "absolute", inset: 0,
         background: breed.bannerBg,
         backgroundSize: breed.animateGradient ? "300% 300%" : undefined,
         animation: breed.animateGradient ? "breedGradientShift 6s ease infinite" : undefined,
         display: "flex", alignItems: "center", justifyContent: "center",
-        fontSize: breed.kanjiSize, fontWeight: 900, color: breed.kanjiColor,
-        letterSpacing: "-0.02em", lineHeight: 1, userSelect: "none",
+        color: breed.kanjiColor,
+        userSelect: "none",
       }}>
-        {!showImage && breed.kanji}
+        {!showImage && <PawPrint size={Math.min(64, breed.kanjiSize)} strokeWidth={1.5} />}
       </div>
       {showImage && (
         <img
@@ -1800,7 +1800,7 @@ function Breeds() {
         <div style={{ position: "absolute", left: 20, top: 24 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 6, color: "#E8829A", fontSize: 13, letterSpacing: "0.1em", fontWeight: 600 }}>
             <BookOpen size={14} strokeWidth={2} />
-            <span>犬種図鑑</span>
+            <span>BREED GUIDE</span>
           </div>
           <div style={{ fontSize: 22, fontWeight: 800, color: "#2C2C2C", marginTop: 2, letterSpacing: "-0.01em" }}>
             {t("犬種図鑑", "Breed Encyclopedia")}

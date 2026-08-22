@@ -517,7 +517,7 @@ function TermsCheckbox({ label, accent }: { label: string; accent: string }) {
         {on && <Check className="w-3 h-3 text-white" strokeWidth={3} />}
       </button>
       <span style={{ fontSize: 13, color: "#8A8A8A" }}>
-        <span className="underline" style={{ color: accent }}>利用規約</span>{" "}{label}
+        <span className="underline" style={{ color: accent }}>Terms of Service</span>{" "}{label}
       </span>
     </label>
   );

@@ -137,13 +137,10 @@ function SkinSensePage() {
       <div style={{ background: "#FEF6FA", minHeight: "100%", paddingBottom: 110 }}>
         {/* ---- HERO ---- */}
         <SenseBanner
-          subtitleJp="スキンセンス AI"
+          subtitleEn="SkinSense AI"
           titleEn="SkinSense AI"
-          descriptorJp="皮膚健康診断"
           descriptorEn="Skin health analysis"
           bgGradient="linear-gradient(135deg,#FFF5F7 0%,#FCE7F3 100%)"
-          kanji="皮"
-          kanjiColor="rgba(236,72,153,0.06)"
           subtitleColor="#C98BA8"
         />
 

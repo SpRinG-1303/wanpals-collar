@@ -39,14 +39,10 @@ function PressureSensePage() {
 
   return (
     <SensorPage
-      titleJp="プレッシャーセンス AI"
       titleEn="PressureSense AI"
-      subtitleJp="プレッシャーセンス AI"
-      descriptorJp="嚥下圧力解析"
+      subtitleEn="PressureSense AI"
       descriptorEn="Swallowing pressure analysis"
       bannerGradient="linear-gradient(135deg,#FFFCF0 0%,#FEF8E1 100%)"
-      bannerKanji="嚥"
-      bannerKanjiColor="rgba(212,168,67,0.07)"
       bannerSubtitleColor="#C4A030"
     >
       <style>{`
@@ -612,7 +608,7 @@ function PressurePatternCard({ mode, setMode }: {
   mode: "pressure" | "count"; setMode: (m: "pressure" | "count") => void;
 }) {
   const t = useT();
-  const days = ["月", "火", "水", "木", "金", "土", "日"];
+  const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
   const daysEn = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
   const pressure = [60, 63, 58, 67, 61, 62, 62];
   const counts = [135, 148, 129, 156, 138, 144, 142];
@@ -721,13 +717,13 @@ function PressurePatternCard({ mode, setMode }: {
 function WeeklyReportCard() {
   const t = useT();
   const rows = [
-    { d: "月", swallows: 135, p: 60, status: "ok" as const },
-    { d: "火", swallows: 148, p: 63, status: "ok" as const },
-    { d: "水", swallows: 129, p: 58, status: "ok" as const },
-    { d: "木", swallows: 156, p: 67, status: "warn" as const },
-    { d: "金", swallows: 138, p: 61, status: "ok" as const },
-    { d: "土", swallows: 144, p: 62, status: "ok" as const },
-    { d: "日", swallows: 142, p: 62, status: "ok" as const, live: true },
+    { d: "Mon", swallows: 135, p: 60, status: "ok" as const },
+    { d: "Tue", swallows: 148, p: 63, status: "ok" as const },
+    { d: "Wed", swallows: 129, p: 58, status: "ok" as const },
+    { d: "Thu", swallows: 156, p: 67, status: "warn" as const },
+    { d: "Fri", swallows: 138, p: 61, status: "ok" as const },
+    { d: "Sat", swallows: 144, p: 62, status: "ok" as const },
+    { d: "Sun", swallows: 142, p: 62, status: "ok" as const, live: true },
   ];
   return (
     <CardG borderColor={G.accent} bg="#FFFDF5">
@@ -796,11 +792,6 @@ function AIInsightCard({ petName }: { petName: string }) {
       position: "relative", boxSizing: "border-box",
       boxShadow: "0 8px 28px rgba(158,122,26,0.25)",
     }}>
-      {/* kanji watermark */}
-      <span aria-hidden style={{
-        position: "absolute", right: -6, top: -22, fontSize: 120,
-        color: "rgba(255,255,255,0.04)", fontWeight: 700, lineHeight: 1, userSelect: "none",
-      }}>健</span>
       {/* wave watermark */}
       <svg aria-hidden viewBox="0 0 400 80" preserveAspectRatio="none"
         style={{ position: "absolute", left: 0, right: 0, bottom: 0, width: "100%", height: 60, opacity: 1 }}>

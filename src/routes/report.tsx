@@ -42,9 +42,7 @@ function Report() {
 
   const dogName = pet.name || (language === "english" ? "your dog" : "ワンちゃん");
 
-  const dayLabels = language === "english"
-    ? ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
-    : ["月", "火", "水", "木", "金", "土", "日"];
+  const dayLabels = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
   const scoreData = [82, 85, 83, 87, 86, 88, 87].map((v, i) => ({ d: dayLabels[i], v }));
   const tempData = [38.3, 38.6, 38.4, 38.8, 38.5, 38.7, 38.5].map((v, i) => ({ d: dayLabels[i], v }));
@@ -700,7 +698,7 @@ function HeroBanner({ pet }: { pet: PetProfile }) {
   const t = useT();
   const { language } = useLanguage();
   const breedEn = pet.breedEn || "Shiba Inu";
-  const breedJp = pet.breedJp || "柴犬";
+  const breedJp = pet.breedJp || "Shiba Inu";
   const name = pet.name || (language === "english" ? "your dog" : "ワンちゃん");
 
   return (
@@ -769,7 +767,7 @@ function HeroBanner({ pet }: { pet: PetProfile }) {
             lineHeight: 1.1, marginTop: 4,
             letterSpacing: "-0.01em",
           }}>
-            {t("'''Do not make any visual modifications. The phrases I write are commands to understand what I want, not to be written down. Understand their content well, then execute what is required.'''\n                                        \n                                            \n                                            Replace all remaining Japan/Japanese-specific UI content across the entire app with generic English content.", "'''Do not make any visual modifications. The phrases I write are commands to understand what I want, not to be written down. Understand their content well, then execute what is required.'''\n                                        \n                                            \n                                            Replace all remaining Japan/Japanese-specific UI content across the entire app with generic English content.")}
+            Health Report
           </div>
           <div style={{
             fontSize: 13, color: "rgba(229, 215, 196, 0.75)",

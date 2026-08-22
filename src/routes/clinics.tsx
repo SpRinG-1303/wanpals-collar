@@ -43,7 +43,7 @@ const SPECIALTIES = [
   { jp: "内科", en: "Internal" },
 ];
 
-const TYPE_LABEL = ["一般 / General", "専門 / Specialist", "一般 / General", "一般 / General", "専門 / Specialist"];
+const TYPE_LABEL = ["General", "Specialist", "General", "General", "Specialist"];
 
 // ── Category tabs ─────────────────────────────────────────────
 type Cat = { jp: string; en: string; Icon: typeof Star; accent: string; from: string; to: string };

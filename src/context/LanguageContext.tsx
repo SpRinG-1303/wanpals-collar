@@ -1,5 +1,7 @@
-import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import { createContext, useContext, type ReactNode } from "react";
 
+// Legacy union kept for type compatibility with existing comparisons.
+// The app is English-only: the provider always reports "english".
 export type Language = "english" | "japanese" | "mixed";
 
 type Ctx = {
@@ -7,77 +9,47 @@ type Ctx = {
   setLanguage: (l: Language) => void;
 };
 
-const LanguageContext = createContext<Ctx>({ language: "mixed", setLanguage: () => {} });
+const LanguageContext = createContext<Ctx>({ language: "english", setLanguage: () => {} });
 
-const KEY = "appLanguage";
-
-// Migration from earlier short codes
-function normalize(v: string | null): Language {
-  if (v === "english" || v === "japanese" || v === "mixed") return v;
-  if (v === "en") return "english";
-  if (v === "jp") return "japanese";
-  if (v === "mix") return "mixed";
-  return "mixed";
+// The app is English-only; clear any legacy stored language preference.
+function clearLegacyLangKeys() {
+  if (typeof window === "undefined") return;
+  try {
+    localStorage.removeItem("appLanguage");
+    localStorage.removeItem("preferredLanguage");
+    localStorage.removeItem("wancare-lang");
+  } catch {}
 }
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [language, setLangState] = useState<Language>("mixed");
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const stored =
-      localStorage.getItem(KEY) ??
-      localStorage.getItem("preferredLanguage") ??
-      localStorage.getItem("wancare-lang");
-    setLangState(normalize(stored));
-  }, []);
-
-  const setLanguage = (l: Language) => {
-    setLangState(l);
-    if (typeof window !== "undefined") {
-      localStorage.setItem(KEY, l);
-      localStorage.setItem("preferredLanguage", l);
-    }
-  };
-
-  return <LanguageContext.Provider value={{ language, setLanguage }}>{children}</LanguageContext.Provider>;
+  clearLegacyLangKeys();
+  return (
+    <LanguageContext.Provider value={{ language: "english", setLanguage: () => {} }}>
+      {children}
+    </LanguageContext.Provider>
+  );
 }
 
 export function useLanguage() {
   return useContext(LanguageContext);
 }
 
-/** Inline bilingual text. Renders one or both languages depending on mode. */
+/** Text renderer. English-only app: always renders the English copy. */
 export function T({
-  jp,
   en,
   className = "",
   as: As = "span",
-  enClassName = "",
 }: {
-  jp: string;
+  jp?: string;
   en: string;
   className?: string;
   enClassName?: string;
   as?: "span" | "div";
 }) {
-  const { language } = useLanguage();
-  if (language === "english") return <As className={className}>{en}</As>;
-  if (language === "japanese") return <As className={className}>{jp}</As>;
-  return (
-    <As className={className}>
-      <span className="block">{jp}</span>
-      <span className={`block text-[0.75em] opacity-70 font-normal ${enClassName}`}>{en}</span>
-    </As>
-  );
+  return <As className={className}>{en}</As>;
 }
 
 /** String helper for places that need a plain string (placeholders, titles, attrs). */
 export function useT() {
-  const { language } = useLanguage();
-  return (jp: string, en: string) => {
-    if (language === "english") return en;
-    if (language === "japanese") return jp;
-    return `${jp} / ${en}`;
-  };
+  return (_jp: string, en: string) => en;
 }

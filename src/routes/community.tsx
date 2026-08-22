@@ -66,7 +66,7 @@ const CATS: Cat[] = [
 function matchesCat(p: PostT, idx: number): boolean {
   switch (idx) {
     case 0: return true;
-    case 1: return p.breed === "柴犬";
+    case 1: return p.breed.toLowerCase().includes("shiba");
     case 2: return p.breed.includes("プードル") || p.breed.toLowerCase().includes("poodle");
     case 3: return p.flair === "迷子";
     case 4: return p.flair === "獣医Q&A";
@@ -97,9 +97,9 @@ function avatarPalette(name: string) {
 }
 
 const BREED_EMOJI: Record<string, string> = {
-  柴犬: "", トイプードル: "", チワワ: "", ポメラニアン: "",
-  ゴールデンレトリバー: "", ミニチュアダックスフンド: "",
-  フレンチブルドッグ: "", ヨークシャーテリア: "", ミックス犬: "",
+  "Shiba Inu": "", "Toy Poodle": "", "Chihuahua": "", "Pomeranian": "",
+  "Golden Retriever": "", "Mini Dachshund": "",
+  "French Bulldog": "", "Yorkshire Terrier": "", "Mixed Breed": "",
 };
 
 // ── Post / Comment data shapes ────────────────────────────────
@@ -137,7 +137,7 @@ const TAGS: { key: string; jp: string; en: string }[] = [
 ];
 
 // Current logged-in user (mock)
-const ME = { user: "あなた", userEn: "You", breed: "柴犬" };
+const ME = { user: "You", userEn: "You", breed: "Shiba Inu" };
 
 function Community() {
   const t = useT();
@@ -154,8 +154,8 @@ function Community() {
   // Comments per post id
   const [commentsByPost, setCommentsByPost] = useState<Record<string, CommentT[]>>(() => ({
     "1": [
-      { id: "c1", user: "ハナちゃんママ", time: "2時間前", text: "うちの子も同じでした！獣医に行ったら熱があると言われました。", up: 8 },
-      { id: "c2", user: "Tokyo Dog Lover", time: "1時間前", text: "すぐに獣医に連れて行ってあげてください！", up: 12 },
+      { id: "c1", user: "Hana's Mom", time: "2h ago", text: "Mine had the same thing! The vet said she had a fever.", up: 8 },
+      { id: "c2", user: "Tokyo Dog Lover", time: "1h ago", text: "Please take him to the vet right away!", up: 12 },
     ],
   }));
 
@@ -264,7 +264,7 @@ function Community() {
           ))}
 
           <div style={{ position: "absolute", left: 20, top: 20, right: 96 }}>
-            <div style={{ fontSize: 13, color: "#E8829A", letterSpacing: "0.1em", fontWeight: 600 }}>コミュニティ</div>
+            <div style={{ fontSize: 13, color: "#E8829A", letterSpacing: "0.1em", fontWeight: 600 }}>COMMUNITY</div>
             <div style={{ fontSize: 24, fontWeight: 800, color: "#2C2C2C", lineHeight: 1.1, marginTop: 2 }}>
               {t("コミュニティ", "Community")}
             </div>
