@@ -289,13 +289,10 @@ function LightSensePage() {
       <div style={{ background: P.pale, minHeight: "100%", paddingBottom: 120, boxSizing: "border-box" }}>
         {/* HERO */}
         <SenseBanner
-          subtitleJp="ライトセンス AI"
+          subtitleEn="LightSense AI"
           titleEn="LightSense AI"
-          descriptorJp="カラーライト制御"
           descriptorEn="Collar light control"
           bgGradient="linear-gradient(135deg, #FFF5F8 0%, #FEE8F0 100%)"
-          kanji="光"
-          kanjiColor="rgba(244,160,188,0.08)"
           subtitleColor="#D4849E"
         />
 

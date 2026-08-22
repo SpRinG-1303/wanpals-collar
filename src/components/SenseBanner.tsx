@@ -1,30 +1,20 @@
-import { useLanguage } from "@/context/LanguageContext";
-
 /**
  * Shared sense-page banner. Soft pastel gradient, dark navy title,
- * subtle kanji watermark, white LIVE pill. Flat bottom edge, 150px tall.
+ * white LIVE pill. Flat bottom edge, 186px tall.
  */
 export function SenseBanner({
-  subtitleJp,
+  subtitleEn,
   titleEn,
-  descriptorJp,
   descriptorEn,
   bgGradient,
-  kanji,
-  kanjiColor,
   subtitleColor,
 }: {
-  subtitleJp: string;
+  subtitleEn: string;
   titleEn: string;
-  descriptorJp: string;
   descriptorEn: string;
   bgGradient: string;
-  kanji: string;
-  kanjiColor: string;
   subtitleColor: string;
 }) {
-  const { language } = useLanguage();
-  const descriptor = language === "japanese" ? descriptorJp : descriptorEn;
   return (
     <>
       <style>{`
@@ -41,23 +31,6 @@ export function SenseBanner({
           boxSizing: "border-box",
         }}
       >
-        <span
-          aria-hidden
-          style={{
-            position: "absolute",
-            right: -10,
-            top: 10,
-            fontSize: 120,
-            lineHeight: 1,
-            fontWeight: 800,
-            color: kanjiColor,
-            pointerEvents: "none",
-            userSelect: "none",
-            fontFamily: "'Noto Serif JP', serif",
-          }}
-        >
-          {kanji}
-        </span>
         <div
           style={{
             position: "relative",
@@ -71,13 +44,14 @@ export function SenseBanner({
             <div
               style={{
                 fontSize: 13,
-                fontWeight: 400,
+                fontWeight: 600,
                 color: subtitleColor,
                 letterSpacing: "0.08em",
                 lineHeight: 1.2,
+                textTransform: "uppercase",
               }}
             >
-              {subtitleJp}
+              {subtitleEn}
             </div>
             <div
               style={{
@@ -100,7 +74,7 @@ export function SenseBanner({
                 lineHeight: 1.3,
               }}
             >
-              {descriptor}
+              {descriptorEn}
             </div>
           </div>
           <span

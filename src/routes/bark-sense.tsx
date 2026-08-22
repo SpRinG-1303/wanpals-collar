@@ -187,13 +187,10 @@ function BarkSensePage() {
 
         {/* HERO */}
         <SenseBanner
-          subtitleJp="バークセンス AI"
+          subtitleEn="BarkSense AI"
           titleEn="BarkSense AI"
-          descriptorJp="鳴き声から感情を解析"
           descriptorEn="Emotion from bark patterns"
           bgGradient="linear-gradient(135deg,#F5F0FF 0%,#EDE9FE 100%)"
-          kanji="声"
-          kanjiColor="rgba(139,92,246,0.06)"
           subtitleColor="#9B8EC4"
         />
 
@@ -698,11 +695,6 @@ function BarkSensePage() {
                 />
               ))}
             </svg>
-            <div aria-hidden style={{
-              position: "absolute", right: -20, top: -20,
-              fontSize: 140, color: "white", opacity: 0.06,
-              fontFamily: "'Noto Serif JP', serif", fontWeight: 900, lineHeight: 1,
-            }}>声</div>
 
             <div style={{ position: "relative", display: "flex", alignItems: "center", gap: 10 }}>
               <div style={{

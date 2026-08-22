@@ -1,23 +1,13 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
-import { useLanguage, type Language } from "@/context/LanguageContext";
 import { PawPrint } from "lucide-react";
 import { PawLogo } from "@/components/PawLogo";
 import PhoneFrame from "@/components/PhoneFrame";
 
 export const Route = createFileRoute("/language")({ component: LanguagePicker });
 
-const opts: { id: Language; flag: string; jp: string; en: string; subJp: string; subEn: string }[] = [
-  { id: "english", flag: "", jp: "English Only", en: "English", subJp: "英語のみ", subEn: "English only" },
-  { id: "japanese", flag: "", jp: "日本語のみ", en: "Japanese Only", subJp: "日本語", subEn: "Japanese only" },
-  { id: "mixed", flag: "", jp: "ミックス", en: "Mixed", subJp: "英語・日本語", subEn: "English + Japanese" },
-];
-
 function LanguagePicker() {
-  const { language, setLanguage } = useLanguage();
-  const [sel, setSel] = useState<Language>(language);
   const nav = useNavigate();
-  const choose = () => { setLanguage(sel); nav({ to: "/auth" }); };
+  const choose = () => nav({ to: "/auth" });
 
   return (
     <PhoneFrame>
@@ -25,43 +15,32 @@ function LanguagePicker() {
       <HeroIllustration />
       <div className="flex-1 px-6 pb-8 w-full">
         <h1 className="text-base font-semibold text-center mt-2" style={{ color: "#2C2C2C" }}>
-          言語を選択してください<br/>
-          <span className="text-xs font-normal" style={{ color: "#8A8A8A" }}>Please select your language</span>
+          App Language<br/>
+          <span className="text-xs font-normal" style={{ color: "#8A8A8A" }}>Pawsitive is available in English</span>
         </h1>
         <div className="mt-6 space-y-3">
-          {opts.map((o) => {
-            const selected = sel === o.id;
-            return (
-              <button
-                key={o.id}
-                onClick={() => setSel(o.id)}
-                className="w-full h-16 rounded-2xl flex items-center justify-between px-5 transition-all"
-                style={{
-                  background: selected ? "#FFFAFB" : "#FFFFFF",
-                  border: selected ? "2px solid #E8829A" : "2px solid transparent",
-                  borderLeft: selected ? "4px solid #E8829A" : "2px solid transparent",
-                  boxShadow: "0 2px 12px rgba(0,0,0,0.06)",
-                }}
-              >
-                <div className="flex items-center gap-3">
-                  <span className="text-2xl">{o.flag}</span>
-                  <div className="text-left">
-                    <div className="text-[15px] font-semibold" style={{ color: "#2C2C2C" }}>{o.jp}</div>
-                    <div className="text-[12px]" style={{ color: "#8A8A8A" }}>{o.en} · {o.subJp}</div>
-                  </div>
-                </div>
-                <div
-                  className="w-[22px] h-[22px] rounded-full flex items-center justify-center"
-                  style={{
-                    background: selected ? "#E8829A" : "#FFFFFF",
-                    border: selected ? "none" : "1.5px solid #EDE8E4",
-                  }}
-                >
-                  {selected && <span className="w-2 h-2 rounded-full bg-white" />}
-                </div>
-              </button>
-            );
-          })}
+          <div
+            className="w-full h-16 rounded-2xl flex items-center justify-between px-5"
+            style={{
+              background: "#FFFAFB",
+              border: "2px solid #E8829A",
+              borderLeft: "4px solid #E8829A",
+              boxShadow: "0 2px 12px rgba(0,0,0,0.06)",
+            }}
+          >
+            <div className="flex items-center gap-3">
+              <div className="text-left">
+                <div className="text-[15px] font-semibold" style={{ color: "#2C2C2C" }}>English</div>
+                <div className="text-[12px]" style={{ color: "#8A8A8A" }}>Default app language</div>
+              </div>
+            </div>
+            <div
+              className="w-[22px] h-[22px] rounded-full flex items-center justify-center"
+              style={{ background: "#E8829A" }}
+            >
+              <span className="w-2 h-2 rounded-full bg-white" />
+            </div>
+          </div>
         </div>
         <button
           onClick={choose}
@@ -72,7 +51,7 @@ function LanguagePicker() {
           }}
         >
           <PawPrint className="w-4 h-4" strokeWidth={2.2} />
-          続ける / Continue →
+          Continue →
         </button>
       </div>
     </div>
@@ -84,7 +63,6 @@ export function HeroIllustration({ compact = false }: { compact?: boolean }) {
   const H = compact ? 220 : 260;
   const logo = compact ? 56 : 72;
   const titleSize = compact ? 22 : 24;
-  const jpSize = compact ? 13 : 14;
   const tagSize = compact ? 11 : 12;
   return (
     <div
@@ -132,10 +110,8 @@ export function HeroIllustration({ compact = false }: { compact?: boolean }) {
         <div className="mt-2 font-bold leading-none" style={{ color: "#2C2C2C", fontSize: titleSize, letterSpacing: "0.05em" }}>
           Pawsitive
         </div>
-        <div className="mt-1" style={{ color: "#8A8A8A", fontSize: jpSize, letterSpacing: "0.05em" }}>ポジティブ</div>
         <div className="mt-1.5 italic text-center" style={{ color: "#8A8A8A", fontSize: tagSize }}>
-          あなたの愛犬を、もっと近くに。<br/>
-          <span className="not-italic">Closer to your beloved dog.</span>
+          Closer to your beloved dog.
         </div>
       </div>
     </div>

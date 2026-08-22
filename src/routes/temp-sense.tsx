@@ -98,14 +98,10 @@ function TempSensePage() {
 
   return (
     <SensorPage
-      titleJp="体温センス AI"
       titleEn="TempSense AI"
-      subtitleJp="テンプセンス AI"
-      descriptorJp="体温モニタリング"
+      subtitleEn="TempSense AI"
       descriptorEn="Body temperature monitoring"
       bannerGradient="linear-gradient(135deg,#FFF8F3 0%,#FEF0E6 100%)"
-      bannerKanji="熱"
-      bannerKanjiColor="rgba(244,165,106,0.07)"
       bannerSubtitleColor="#D4956A"
     >
       {/* full-bleed pastel orange page wash, sits behind all cards */}
@@ -422,11 +418,6 @@ function OrangeAIInsightCard({ name }: { name: string }) {
       color: "#FFFFFF",
       boxShadow: "0 6px 24px rgba(201,107,58,0.2)",
     }}>
-      <span aria-hidden style={{
-        position: "absolute", top: -28, right: -8,
-        fontSize: 140, lineHeight: 1, fontWeight: 800,
-        color: "rgba(255,255,255,0.06)", pointerEvents: "none", userSelect: "none",
-      }}>温</span>
       <div className="flex items-center" style={{ gap: 6, position: "relative" }}>
         <Sparkles size={14} color={O.muted} />
         <span style={{

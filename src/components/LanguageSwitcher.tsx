@@ -4,9 +4,7 @@ import { toast } from "sonner";
 import { useLanguage, type Language } from "@/context/LanguageContext";
 
 const OPTIONS: { value: Language; flag: string; code: string; title: string; sub: string; toast: string }[] = [
-  { value: "english", flag: "", code: "EN", title: "English Only", sub: "English", toast: "Language changed to English ✓" },
-  { value: "japanese", flag: "", code: "JP", title: "日本語 Only", sub: "Japanese", toast: "言語を日本語に変更しました ✓" },
-  { value: "mixed", flag: "", code: "MX", title: "Mixed", sub: "EN + JP", toast: "言語: Mixed に変更しました ✓" },
+  { value: "english", flag: "", code: "EN", title: "English", sub: "Default app language", toast: "Language: English ✓" },
 ];
 
 export default function LanguageSwitcher({ variant = "pill" }: { variant?: "pill" | "panel" }) {

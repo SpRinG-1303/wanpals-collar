@@ -143,13 +143,10 @@ function MotionSensePage() {
       <div style={{ background: C.page, minHeight: "100%", paddingBottom: 100 }}>
         {/* HEADER */}
         <SenseBanner
-          subtitleJp="モーションセンス"
+          subtitleEn="MotionSense"
           titleEn="MotionSense"
-          descriptorJp="アクティビティ追跡"
           descriptorEn="Activity tracking"
           bgGradient="linear-gradient(135deg,#F0F7FC 0%,#E1F0FA 100%)"
-          kanji="動"
-          kanjiColor="rgba(123,179,212,0.07)"
           subtitleColor="#7BB3D4"
         />
 
@@ -250,7 +247,7 @@ function HeroStepCard({ mounted }: { mounted: boolean }) {
               <span style={{ fontSize: 30, fontWeight: 800, color: C.sumi, fontVariantNumeric: "tabular-nums", lineHeight: 1 }}>
                 {stepsAnim.toLocaleString()}
               </span>
-              <span style={{ fontSize: 14, color: C.rose, fontWeight: 600 }}>歩</span>
+              <span style={{ fontSize: 14, color: C.rose, fontWeight: 600 }}>steps</span>
             </div>
             <div style={{ fontSize: 12, color: C.rose, fontWeight: 500, marginTop: 4 }}>
               {Math.round(pct * 100)}%
@@ -262,7 +259,7 @@ function HeroStepCard({ mounted }: { mounted: boolean }) {
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ fontSize: 10, color: C.muted, letterSpacing: "0.08em" }}>{t("目標", "GOAL")}</div>
           <div style={{ fontSize: 18, fontWeight: 700, color: C.sumi, fontVariantNumeric: "tabular-nums" }}>
-            {goal.toLocaleString()}歩
+            {goal.toLocaleString()} steps
           </div>
           <div style={{ height: 4, background: C.divider, borderRadius: 2, marginTop: 6, overflow: "hidden" }}>
             <div style={{ width: mounted ? `${pct * 100}%` : 0, height: "100%", background: C.rose, borderRadius: 2, transition: "width 1.2s ease-out" }} />
@@ -270,10 +267,10 @@ function HeroStepCard({ mounted }: { mounted: boolean }) {
           <div style={{ height: 1, background: C.divider, margin: "12px 0" }} />
           <div style={{ fontSize: 10, color: C.muted, letterSpacing: "0.08em" }}>{t("残り", "REMAINING")}</div>
           <div style={{ fontSize: 16, fontWeight: 600, color: C.rose, fontVariantNumeric: "tabular-nums" }}>
-            {(goal - steps).toLocaleString()}歩
+            {(goal - steps).toLocaleString()} steps
           </div>
           <div style={{ fontSize: 10, color: C.muted, marginTop: 8, letterSpacing: "0.08em" }}>{t("予想達成", "EST. GOAL")}</div>
-          <div style={{ fontSize: 14, fontWeight: 500, color: C.sumi }}>17:30頃</div>
+          <div style={{ fontSize: 14, fontWeight: 500, color: C.sumi }}>~5:30 PM</div>
         </div>
       </div>
 

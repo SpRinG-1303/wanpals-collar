@@ -213,7 +213,7 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
             </div>
             <div>
               <div style={{ fontSize: 20, fontWeight: 700, color: "var(--text-primary)", lineHeight: 1 }}>Pawsitive</div>
-              <div style={{ fontSize: 12, color: "var(--text-secondary)", marginTop: 4 }}>ポジティブ</div>
+              <div style={{ fontSize: 12, color: "var(--text-secondary)", marginTop: 4 }}>Smart Dog Care</div>
             </div>
           </div>
 
@@ -289,7 +289,7 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
           </button>
 
           <div style={{ textAlign: "center", fontSize: 9, color: "var(--text-placeholder)", paddingBottom: 8 }}>
-            Pawsitive v1.0 · ポジティブ
+            Pawsitive v1.0
           </div>
         </div>
       </aside>

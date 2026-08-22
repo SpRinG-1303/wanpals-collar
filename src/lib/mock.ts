@@ -1,11 +1,3 @@
-export const PREFECTURES = [
-  "北海道","青森県","岩手県","宮城県","秋田県","山形県","福島県","茨城県","栃木県","群馬県",
-  "埼玉県","千葉県","東京都","神奈川県","新潟県","富山県","石川県","福井県","山梨県","長野県",
-  "岐阜県","静岡県","愛知県","三重県","滋賀県","京都府","大阪府","兵庫県","奈良県","和歌山県",
-  "鳥取県","島根県","岡山県","広島県","山口県","徳島県","香川県","愛媛県","高知県","福岡県",
-  "佐賀県","長崎県","熊本県","大分県","宮崎県","鹿児島県","沖縄県",
-];
-
 export const BREEDS = [
   { jp: "柴犬", en: "Shiba Inu", rank: 1, size: "small" },
   { jp: "トイプードル", en: "Toy Poodle", rank: 2, size: "small" },
@@ -35,8 +27,8 @@ export const CLINICS = [
 ];
 
 export const POSTS = [
-  { id: "1", user: "ハナちゃんママ", breed: "柴犬", time: "3時間前", titleJp: "柴犬の体温が少し高いのですが", titleEn: "My Shiba's temp seems high", flair: "健康", up: 47, com: 12 },
-  { id: "2", user: "Tokyo Dog Lover", breed: "トイプードル", time: "5時間前", titleJp: "東京でおすすめの獣医さん", titleEn: "Recommended vet in Tokyo?", flair: "獣医Q&A", up: 23, com: 34 },
-  { id: "3", user: "ポメ太郎", breed: "ポメラニアン", time: "昨日", titleJp: "うちの子の毎日の散歩ルーティン", titleEn: "My dog's daily walk routine", flair: "日常", up: 89, com: 6 },
-  { id: "4", user: "迷子サポート", breed: "ミックス犬", time: "2時間前", titleJp: "渋谷で黒い柴犬を見かけませんでしたか", titleEn: "Did you see a black Shiba in Shibuya?", flair: "迷子", up: 156, com: 28 },
+  { id: "1", user: "Hana's Mom", breed: "Shiba Inu", time: "3h ago", titleJp: "My Shiba's temp seems high", titleEn: "My Shiba's temp seems high", flair: "健康", up: 47, com: 12 },
+  { id: "2", user: "Tokyo Dog Lover", breed: "Toy Poodle", time: "5h ago", titleJp: "Recommended vet in Tokyo?", titleEn: "Recommended vet in Tokyo?", flair: "獣医Q&A", up: 23, com: 34 },
+  { id: "3", user: "Pom Dad", breed: "Pomeranian", time: "Yesterday", titleJp: "My dog's daily walk routine", titleEn: "My dog's daily walk routine", flair: "日常", up: 89, com: 6 },
+  { id: "4", user: "Lost Pet Support", breed: "Mixed Breed", time: "2h ago", titleJp: "Did you see a black Shiba in Shibuya?", titleEn: "Did you see a black Shiba in Shibuya?", flair: "迷子", up: 156, com: 28 },
 ];

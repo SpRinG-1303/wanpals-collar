@@ -991,7 +991,7 @@ function EditProfileSheet({ onClose }: { onClose: () => void }) {
               style={{ background: "#FAFAF8", border: "1.5px solid #EDE8E4", color: "#2C2C2C" }}
             >
               {BREEDS.map((b) => (
-                <option key={b.jp} value={b.jp}>{b.jp} / {b.en}</option>
+                <option key={b.jp} value={b.jp}>{b.en}</option>
               ))}
             </select>
           </Field>
