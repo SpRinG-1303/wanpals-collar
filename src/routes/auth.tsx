@@ -104,7 +104,8 @@ function AuthPage() {
     if (role === "owner") {
       setStep("profile");
     } else {
-      toast.success(`Welcome, Dr. ${name.trim()}!`);
+      const vetName = /^dr\.?/i.test(name.trim()) ? name.trim() : `Dr. ${name.trim()}`;
+      toast.success(`Welcome, ${vetName}!`);
       navigate({ to: "/home" });
     }
   }
