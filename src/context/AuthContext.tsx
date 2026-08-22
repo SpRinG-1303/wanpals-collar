@@ -95,7 +95,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (!session) return "Not signed in.";
     const users = readUsers();
     const idx = users.findIndex((x) => x.email.toLowerCase() === session.email.toLowerCase());
-    if (idx === -1) return "Account not found.";
+    if (idx === -1) {
+      // Session exists without a stored account (legacy/imported session) — update the session only.
+      persistSession({ ...session, ...(patch.name ? { name: patch.name } : {}), ...(patch.email ? { email: patch.email } : {}) });
+      return null;
+    }
     if (patch.email && users.some((x, i) => i !== idx && x.email.toLowerCase() === patch.email!.toLowerCase())) {
       return "That email is already used by another account.";
     }
