@@ -296,34 +296,6 @@ export function PetMatchSection() {
         </div>
       </div>
 
-      {/* ── Responsible breeding note ── */}
-      <div
-        style={{
-          margin: "10px 16px 0",
-          background: "#FFFFFF",
-          borderRadius: 18,
-          boxShadow: SHADOW,
-          padding: "12px 14px",
-          display: "flex",
-          gap: 10,
-          alignItems: "flex-start",
-          border: "1px solid var(--border-subtle)",
-        }}
-      >
-        <span className="flex items-center justify-center shrink-0" style={{ width: 34, height: 34, borderRadius: "50%", background: "var(--acc-pale)" }}>
-          <ShieldCheck size={16} style={{ color: "var(--accent-matcha)" }} />
-        </span>
-        <div className="min-w-0">
-          <div style={{ fontSize: 12, fontWeight: 800, color: "var(--text-primary)" }}>Responsible Breeding</div>
-          <div style={{ fontSize: 11, color: "var(--text-secondary)", lineHeight: 1.5, marginTop: 3 }}>
-            Always consider veterinary health checks, vaccination status, genetic screening, breed-specific risks and reproductive age suitability. Compatibility scores are guidance — not a medical or genetic guarantee.
-          </div>
-          <div className="flex items-center gap-1" style={{ fontSize: 11, fontWeight: 700, color: "var(--accent-sakura)", marginTop: 6 }}>
-            <Syringe size={11} /> Consult a veterinarian before breeding.
-          </div>
-        </div>
-      </div>
-
       <AnimatePresence>
         {discoveryOpen && (
           <PetMatchDiscovery startId={startId} onClose={() => setDiscoveryOpen(false)} />
