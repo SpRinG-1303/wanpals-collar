@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Bell, ArrowLeft } from "lucide-react";
-import { PawLogo } from "@/components/PawLogo";
+import pawLogoAsset from "@/assets/pawsitive-paw-logo.png.asset.json";
 import { motion } from "framer-motion";
 import { useState, useEffect, type ReactNode } from "react";
 import { T, useT } from "@/context/LanguageContext";
@@ -47,7 +47,11 @@ export function TopBar({
               style={{ width: 42, height: 42, background: "transparent" }}
               aria-label="Profile"
             >
-              <PawLogo size={32} color="var(--accent-sakura)" />
+              <img
+                src={pawLogoAsset.url}
+                alt="Pawsitive logo"
+                style={{ width: 40, height: 40, objectFit: "contain", display: "block" }}
+              />
             </Link>
           </div>
           {showTitle ? (
