@@ -11,6 +11,8 @@ import { toast } from "sonner";
 import { useLanguage } from "@/context/LanguageContext";
 import { usePet, displayName } from "@/context/PetContext";
 import { useGeoLocation } from "@/lib/useGeoLocation";
+import { useAuth } from "@/context/AuthContext";
+import VetHome from "@/components/vet/VetHome";
 
 export const Route = createFileRoute("/home")({ component: Home });
 
