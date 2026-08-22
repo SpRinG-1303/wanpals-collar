@@ -49,10 +49,14 @@ export default function VetHome() {
   const [q, setQ] = useState("");
   const [species, setSpecies] = useState<Species | "all">("all");
 
-  const hour = new Date().getHours();
-  const greet = hour < 12 ? "Good morning" : hour < 17 ? "Good afternoon" : "Good evening";
+  // Compute time-based greeting only after mount — server (UTC) and client
+  // (local timezone) clocks differ and would break hydration.
+  const [now, setNow] = useState<Date | null>(null);
+  useEffect(() => setNow(new Date()), []);
+  const hour = (now ?? new Date(0)).getHours();
+  const greet = now ? (hour < 12 ? "Good morning" : hour < 17 ? "Good afternoon" : "Good evening") : "Hello";
   const drName = session?.name ? (session.name.startsWith("Dr") ? session.name : `Dr. ${session.name}`) : "Dr. Sharma";
-  const today = new Date().toLocaleDateString("en-IN", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
+  const today = now ? now.toLocaleDateString("en-IN", { weekday: "long", day: "numeric", month: "long", year: "numeric" }) : "";
 
   const waiting = APPOINTMENTS.filter((a) => a.status === "waiting" || a.status === "checked-in").length;
   const inConsult = APPOINTMENTS.filter((a) => a.status === "in-consultation").length;
