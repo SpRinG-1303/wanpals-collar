@@ -244,9 +244,11 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
               </div>
               <div>
                 <div style={{ fontSize: 12, fontWeight: 600, color: "var(--accent-sakura)" }}>
-                  {t(`${name}のせかい`, `${name}'s World`)} 
+                  {isVet ? "Veterinary Console" : t(`${name}のせかい`, `${name}'s World`)}
                 </div>
-                <div style={{ fontSize: 11, color: "var(--text-secondary)", marginTop: 1 }}>{greet}</div>
+                <div style={{ fontSize: 11, color: "var(--text-secondary)", marginTop: 1 }}>
+                  {isVet && session ? `Dr. ${session.name}` : greet}
+                </div>
               </div>
             </div>
           </div>
@@ -266,6 +268,7 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
 
         {/* Bottom */}
         <div style={{ marginTop: "auto" }}>
+          {!isVet && (
           <div style={{ margin: 12, padding: 12, background: "var(--bg-elevated)", borderRadius: 16 }}>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
