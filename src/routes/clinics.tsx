@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
+import { toast } from "sonner";
 import { useT, useLanguage } from "@/context/LanguageContext";
 
 export const Route = createFileRoute("/clinics")({ component: Clinics });
@@ -97,14 +98,31 @@ function Clinics() {
   const [openOnly, setOpenOnly] = useState(true);
   const [emOnly, setEmOnly] = useState(false);
   const [specSel, setSpecSel] = useState<Record<string, boolean>>({});
+  const [applied, setApplied] = useState({ minStars: 0, distance: 50, openOnly: false, emOnly: false });
+  const [visible, setVisible] = useState(3);
+  const [videoBooking, setVideoBooking] = useState(false);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     return CLINICS.filter((c) => {
       if (q && !c.en.toLowerCase().includes(q) && !c.jp.includes(query.trim())) return false;
+      if (c.rating < applied.minStars) return false;
+      if (c.km > applied.distance) return false;
+      if (applied.openOnly && !c.open) return false;
+      if (applied.emOnly && !c.em) return false;
       return true;
     });
-  }, [query]);
+  }, [query, applied]);
+
+  function bookVideoConsult() {
+    if (videoBooking) return;
+    setVideoBooking(true);
+    toast.loading("Connecting you to the next available vet…", { id: "video-consult" });
+    setTimeout(() => {
+      setVideoBooking(false);
+      toast.success("Booked! Dr. Mehta will video call you in ~5 minutes.", { id: "video-consult" });
+    }, 1800);
+  }
 
   const emergencyClinic = CLINICS.find((c) => c.em && c.open) ?? CLINICS[0];
   const openCount = CLINICS.filter((c) => c.open).length;
