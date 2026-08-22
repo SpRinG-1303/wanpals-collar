@@ -83,7 +83,7 @@ function AuthPage() {
     if (v) { setError(v); return; }
     setError(null);
     if (mode === "login") {
-      const err = signIn(email.trim(), password);
+      const err = signIn(email.trim(), password, role);
       if (err) { setError(err); return; }
       toast.success("Welcome back!");
       navigate({ to: "/home" });
