@@ -245,60 +245,60 @@ function Home() {
           </button>
         </JCard>
 
-        {/* Health overview — solid accent card, reference "upcoming schedule" style */}
+        {/* Health overview — compact, toned-down accent card */}
         <Link
           to="/report"
           style={{
             display: "block",
-            marginTop: 14,
-            borderRadius: 20,
+            marginTop: 12,
+            borderRadius: 18,
             background: "linear-gradient(135deg, var(--accent-sakura) 0%, var(--accent-sakura-dark) 100%)",
-            boxShadow: "0 10px 28px color-mix(in oklab, var(--accent-sakura) 40%, transparent)",
-            padding: 16,
+            boxShadow: "0 6px 16px color-mix(in oklab, var(--accent-sakura) 28%, transparent)",
+            padding: "14px 16px",
             position: "relative",
             overflow: "hidden",
           }}
         >
-          {/* Decorative circles */}
-          <div style={{ position: "absolute", top: -30, right: 40, width: 90, height: 90, borderRadius: "50%", background: "rgba(255,255,255,0.08)", pointerEvents: "none" }} />
-          <div style={{ position: "absolute", bottom: -24, left: -16, width: 70, height: 70, borderRadius: "50%", background: "rgba(255,255,255,0.07)", pointerEvents: "none" }} />
+          {/* Soft decorative circles */}
+          <div style={{ position: "absolute", top: -26, right: 36, width: 74, height: 74, borderRadius: "50%", background: "rgba(255,255,255,0.06)", pointerEvents: "none" }} />
+          <div style={{ position: "absolute", bottom: -20, left: -14, width: 58, height: 58, borderRadius: "50%", background: "rgba(255,255,255,0.05)", pointerEvents: "none" }} />
 
-          <div className="flex items-center" style={{ gap: 12, position: "relative", zIndex: 1 }}>
+          <div className="flex items-center" style={{ gap: 10, position: "relative", zIndex: 1 }}>
             <div
               className="flex items-center justify-center"
-              style={{ width: 46, height: 46, borderRadius: "50%", background: "#FFFFFF", flexShrink: 0 }}
+              style={{ width: 38, height: 38, borderRadius: "50%", background: "rgba(255,255,255,0.92)", flexShrink: 0 }}
             >
-              <PawPrint size={22} strokeWidth={2} style={{ color: JP.sakura }} />
+              <PawPrint size={18} strokeWidth={2} style={{ color: JP.sakura }} />
             </div>
             <div style={{ flex: 1, minWidth: 0 }}>
-              <div style={{ fontSize: 15, fontWeight: 700, color: "#FFFFFF", lineHeight: 1.2 }}>
+              <div style={{ fontSize: 14, fontWeight: 700, color: "#FFFFFF", lineHeight: 1.2 }}>
                 Overall Health Score
               </div>
-              <div style={{ fontSize: 12, color: "rgba(255,255,255,0.85)", marginTop: 2 }}>
+              <div style={{ fontSize: 11, color: "rgba(255,255,255,0.82)", marginTop: 1 }}>
                 {mood}
               </div>
             </div>
             <div
               className="flex items-center justify-center"
-              style={{ width: 40, height: 40, borderRadius: "50%", background: "#FFFFFF", flexShrink: 0 }}
+              style={{ width: 32, height: 32, borderRadius: "50%", background: "rgba(255,255,255,0.92)", flexShrink: 0 }}
             >
-              <ArrowUpRight size={19} strokeWidth={2.4} style={{ color: JP.sakura }} />
+              <ArrowUpRight size={16} strokeWidth={2.4} style={{ color: JP.sakura }} />
             </div>
           </div>
 
-          <div style={{ height: 1, background: "rgba(255,255,255,0.25)", margin: "14px 0 12px", position: "relative", zIndex: 1 }} />
+          <div style={{ height: 1, background: "rgba(255,255,255,0.18)", margin: "10px 0 8px", position: "relative", zIndex: 1 }} />
 
           <div className="flex items-center justify-between" style={{ position: "relative", zIndex: 1 }}>
-            <div className="flex items-center" style={{ gap: 6 }}>
-              <span className="relative inline-block" style={{ width: 8, height: 8 }}>
+            <div className="flex items-center" style={{ gap: 5 }}>
+              <span className="relative inline-block" style={{ width: 7, height: 7 }}>
                 <span style={{ position: "absolute", inset: 0, borderRadius: "50%", background: "#FFFFFF" }} />
-                <span className="animate-ping" style={{ position: "absolute", inset: 0, borderRadius: "50%", background: "#FFFFFF", opacity: 0.6 }} />
+                <span className="animate-ping" style={{ position: "absolute", inset: 0, borderRadius: "50%", background: "#FFFFFF", opacity: 0.5 }} />
               </span>
-              <span style={{ fontSize: 11, fontWeight: 700, color: "#FFFFFF", letterSpacing: "0.06em" }}>LIVE</span>
-              <span style={{ fontSize: 11, color: "rgba(255,255,255,0.8)" }}>· All sensors active</span>
+              <span style={{ fontSize: 10, fontWeight: 700, color: "#FFFFFF", letterSpacing: "0.05em" }}>LIVE</span>
+              <span style={{ fontSize: 10, color: "rgba(255,255,255,0.75)" }}>· All sensors active</span>
             </div>
-            <span style={{ fontSize: 17, fontWeight: 800, color: "#FFFFFF", fontVariantNumeric: "tabular-nums" }}>
-              {score}<span style={{ fontSize: 12, fontWeight: 600, opacity: 0.8 }}> / 100</span>
+            <span style={{ fontSize: 15, fontWeight: 800, color: "#FFFFFF", fontVariantNumeric: "tabular-nums" }}>
+              {score}<span style={{ fontSize: 11, fontWeight: 600, opacity: 0.8 }}> / 100</span>
             </span>
           </div>
         </Link>
