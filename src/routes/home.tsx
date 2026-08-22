@@ -5,7 +5,7 @@ import { DAILY_FACTS } from "@/lib/mock";
 import {
   Brain, Microscope, Activity, Thermometer, MapPin, Wind, Sun, GitMerge,
   Check, BatteryMedium, Signal, Bluetooth, PawPrint, Search, SlidersHorizontal,
-  ChevronDown, ArrowUpRight, ChevronRight, type LucideIcon,
+  ChevronDown, ArrowUpRight, type LucideIcon,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/context/LanguageContext";
