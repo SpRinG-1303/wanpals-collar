@@ -587,22 +587,30 @@ function Clinics() {
           );
         })}
 
-        <div className="flex justify-center" style={{ padding: "8px 16px 16px" }}>
-          <button
-            className="flex items-center gap-2"
-            style={{
-              background: "#FFFFFF",
-              border: "1.5px solid var(--accent-sakura)",
-              color: "var(--accent-sakura)",
-              borderRadius: 20,
-              padding: "10px 24px",
-              fontSize: 13,
-              fontWeight: 700,
-            }}
-          >
-             {t("もっと見る", "Load More")}
-          </button>
-        </div>
+        {filtered.length === 0 && (
+          <div style={{ padding: "24px 16px", textAlign: "center", fontSize: 13, color: "var(--text-secondary)" }}>
+            No clinics match these filters.
+          </div>
+        )}
+        {visible < filtered.length && (
+          <div className="flex justify-center" style={{ padding: "8px 16px 16px" }}>
+            <button
+              onClick={() => setVisible((v) => v + 3)}
+              className="flex items-center gap-2 active:scale-95 transition-transform"
+              style={{
+                background: "#FFFFFF",
+                border: "1.5px solid var(--accent-sakura)",
+                color: "var(--accent-sakura)",
+                borderRadius: 20,
+                padding: "10px 24px",
+                fontSize: 13,
+                fontWeight: 700,
+              }}
+            >
+               {t("もっと見る", "Load More")} · {filtered.length - visible}
+            </button>
+          </div>
+        )}
       </div>
 
       {/* ── Filter bottom sheet ────────────────────────────── */}
