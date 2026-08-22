@@ -289,6 +289,7 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
               <div style={{ fontSize: 11, color: "var(--accent-sakura)", fontWeight: 600 }}>87/100 ✦</div>
             </div>
           </div>
+          )}
 
           <button
             className="pulse-red"
