@@ -207,24 +207,31 @@ function Clinics() {
         </button>
       </div>
 
-      {/* ── Quick stats ─────────────────────────────────────── */}
-      <div className="grid grid-cols-3 gap-2" style={{ padding: "8px 16px 0" }}>
+      {/* ── Quick stats (icon-circle columns) ──────────────── */}
+      <div
+        className="grid grid-cols-3"
+        style={{
+          margin: "10px 16px 0",
+          background: "#FFFFFF",
+          borderRadius: 20,
+          boxShadow: CARD_SHADOW,
+          padding: "14px 8px",
+        }}
+      >
         {[
-          { n: String(CLINICS.length), jp: "近隣クリニック", en: "Clinics Nearby", color: "var(--accent-sakura)" },
-          { n: avgRating, jp: "平均評価", en: "Avg Rating", color: "var(--accent-yuzu)" },
-          { n: String(emCount), jp: "24時間対応", en: "24h Open", color: "#E53935" },
+          { n: String(CLINICS.length), jp: "近隣クリニック", en: "Clinics Nearby", color: "var(--accent-sakura)", soft: "var(--accent-sakura-soft)", Icon: Building2 },
+          { n: avgRating, jp: "平均評価", en: "Avg Rating", color: "var(--accent-yuzu)", soft: "var(--acc-pale)", Icon: Star },
+          { n: String(emCount), jp: "24時間対応", en: "24h Open", color: "#E53935", soft: "#FDECEA", Icon: Clock },
         ].map((s) => (
-          <div
-            key={s.en}
-            style={{
-              background: "#FFFFFF",
-              borderRadius: 20,
-              padding: "12px 14px",
-              boxShadow: CARD_SHADOW,
-            }}
-          >
-            <span className="tabular-nums" style={{ fontSize: 20, fontWeight: 800, color: s.color }}>{s.n}</span>
-            <div style={{ fontSize: 10, color: "var(--text-secondary)", marginTop: 2, lineHeight: 1.2 }}>
+          <div key={s.en} className="flex flex-col items-center" style={{ gap: 6 }}>
+            <div
+              className="flex items-center justify-center"
+              style={{ width: 44, height: 44, borderRadius: "50%", background: s.soft }}
+            >
+              <s.Icon size={20} style={{ color: s.color }} />
+            </div>
+            <span className="tabular-nums" style={{ fontSize: 17, fontWeight: 800, color: "var(--text-primary)", lineHeight: 1 }}>{s.n}</span>
+            <div style={{ fontSize: 10, color: "var(--text-secondary)", lineHeight: 1.2, textAlign: "center" }}>
               {t(s.jp, s.en)}
             </div>
           </div>
@@ -412,25 +419,46 @@ function Clinics() {
                 overflow: "hidden",
               }}
             >
-              {/* Header */}
-              <div className="flex items-center" style={{ padding: "14px 16px 0", gap: 12 }}>
+              {/* Header — profile row: icon + name + bookmark */}
+              <div className="flex items-start" style={{ padding: "16px 16px 0", gap: 12 }}>
                 <div
                   className="flex items-center justify-center"
                   style={{ width: 52, height: 52, borderRadius: "50%", background: th.soft, flexShrink: 0 }}
                 >
                   <HeartPulse size={24} style={{ color: th.accent }} />
                 </div>
-                <div style={{ flex: 1 }} />
-                {isNew && (
-                  <span style={{ background: "var(--accent-sakura)", color: "#fff", fontSize: 9, fontWeight: 800, padding: "3px 8px", borderRadius: 10, letterSpacing: "0.1em" }}>
-                    NEW
-                  </span>
-                )}
-                {c.em && (
-                  <span className="pulse-red" style={{ background: "#E53935", color: "#fff", fontSize: 10, fontWeight: 800, padding: "4px 10px", borderRadius: 12, letterSpacing: "0.05em" }}>
-                    24H
-                  </span>
-                )}
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-1.5" style={{ flexWrap: "wrap" }}>
+                    <span style={{ fontSize: 16, fontWeight: 800, color: "var(--text-primary)", lineHeight: 1.25 }}>
+                      {language === "english" ? c.en : c.jp}
+                    </span>
+                    {isNew && (
+                      <span style={{ background: "var(--accent-sakura)", color: "#fff", fontSize: 9, fontWeight: 800, padding: "3px 8px", borderRadius: 10, letterSpacing: "0.1em" }}>
+                        NEW
+                      </span>
+                    )}
+                    {c.em && (
+                      <span className="pulse-red" style={{ background: "#E53935", color: "#fff", fontSize: 10, fontWeight: 800, padding: "3px 8px", borderRadius: 10, letterSpacing: "0.05em" }}>
+                        24H
+                      </span>
+                    )}
+                  </div>
+                  {language === "mixed" && (
+                    <div style={{ fontSize: 11, color: "var(--text-secondary)", marginTop: 2 }}>{c.en}</div>
+                  )}
+                  <div className="flex items-center gap-1.5" style={{ marginTop: 5 }}>
+                    <span
+                      style={{
+                        width: 7, height: 7, borderRadius: "50%",
+                        background: c.open ? "var(--accent-matcha)" : "var(--text-placeholder)",
+                        flexShrink: 0,
+                      }}
+                    />
+                    <span style={{ fontSize: 11, fontWeight: 600, color: c.open ? "var(--accent-matcha)" : "var(--text-secondary)" }}>
+                      {c.open ? t("営業中", "Open Now") : t("閉院中", "Closed")}
+                    </span>
+                  </div>
+                </div>
                 <button
                   onClick={() => setSaved((s) => ({ ...s, [i]: !s[i] }))}
                   aria-label="save"
@@ -446,29 +474,7 @@ function Clinics() {
               </div>
 
                {/* Body */}
-              <div style={{ padding: "10px 16px 14px" }}>
-                <div className="flex items-start justify-between gap-2">
-                  <div className="min-w-0">
-                    <div style={{ fontSize: 16, fontWeight: 800, color: "var(--text-primary)", lineHeight: 1.25 }}>
-                      {language === "english" ? c.en : c.jp}
-                    </div>
-                    {language === "mixed" && (
-                      <div style={{ fontSize: 11, color: "var(--text-secondary)", marginTop: 2 }}>{c.en}</div>
-                    )}
-                  </div>
-                  <span
-                    className="shrink-0"
-                    style={{
-                      fontSize: 10, fontWeight: 700,
-                      padding: "3px 10px", borderRadius: 20,
-                      background: c.open ? "var(--acc-pale)" : "var(--bg-elevated)",
-                      color: c.open ? "var(--accent-matcha)" : "var(--text-secondary)",
-                      border: `1px solid ${c.open ? "var(--acc2-soft)" : "var(--border-card)"}`,
-                    }}
-                  >
-                    {c.open ? t("営業中", "Open") : t("閉院中", "Closed")}
-                  </span>
-                </div>
+              <div style={{ padding: "10px 16px 16px" }}>
 
                 {/* Rating row */}
                 <div className="flex items-center gap-2" style={{ marginTop: 8, flexWrap: "wrap" }}>
@@ -531,30 +537,30 @@ function Clinics() {
                   {t("月-金 9:00-18:00", "Mon–Fri 9–6pm")}
                 </div>
 
-                {/* Actions */}
-                <div className="flex gap-2" style={{ marginTop: 12 }}>
+                {/* Actions — big solid CTA + outlined secondary */}
+                <div className="flex gap-2" style={{ marginTop: 14 }}>
                   <button
                     onClick={() => openMaps(c.en)}
                     className="flex items-center justify-center gap-1.5"
                     style={{
-                      flex: "0 0 60%", height: 40, borderRadius: 12,
+                      flex: "1 1 auto", height: 46, borderRadius: 14,
                       background: "linear-gradient(135deg, var(--accent-sakura), var(--accent-sakura-dark))",
-                      color: "#fff", fontSize: 13, fontWeight: 700,
-                      boxShadow: "0 4px 12px color-mix(in oklab, var(--accent-sakura) 35%, transparent)",
+                      color: "#fff", fontSize: 14, fontWeight: 700,
+                      boxShadow: "0 6px 16px color-mix(in oklab, var(--accent-sakura) 35%, transparent)",
                     }}
                   >
-                    <Navigation size={14} /> {t("道案内", "Directions")}
+                    <Navigation size={15} /> {t("道案内", "Get Directions")}
                   </button>
                   <a
                     href="tel:+81000000000"
-                    className="flex items-center justify-center gap-1.5 flex-1"
+                    className="flex items-center justify-center gap-1.5"
                     style={{
-                      height: 40, borderRadius: 12,
-                      background: "var(--accent-sakura-soft)", border: "1px solid var(--acc-pale)",
-                      color: "var(--accent-sakura)", fontSize: 13, fontWeight: 700,
+                      flex: "0 0 96px", height: 46, borderRadius: 14,
+                      background: "#FFFFFF", border: "1.5px solid var(--accent-sakura)",
+                      color: "var(--accent-sakura)", fontSize: 14, fontWeight: 700,
                     }}
                   >
-                    <Phone size={14} /> {t("電話", "Call")}
+                    <Phone size={15} /> {t("電話", "Call")}
                   </a>
                 </div>
               </div>
