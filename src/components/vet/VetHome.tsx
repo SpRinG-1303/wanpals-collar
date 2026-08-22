@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   CalendarDays, Hourglass, Stethoscope, RotateCcw, AlertTriangle,
   Search, Video, ChevronRight, CalendarPlus, Pill, FlaskConical,
