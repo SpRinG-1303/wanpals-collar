@@ -186,22 +186,22 @@ function Clinics() {
       </div>
 
       {/* ── Search bar ─────────────────────────────────────── */}
-      <div className="flex items-center" style={{ margin: "14px 16px 4px", gap: 10 }}>
+      <div className="flex items-center" style={{ margin: "16px 20px 0", gap: 12 }}>
         <div
           className="flex items-center flex-1"
           style={{
             background: "#FFFFFF",
-            borderRadius: 14,
-            height: 48,
-            padding: "0 14px",
+            borderRadius: 16,
+            height: 56,
+            padding: "0 16px",
             gap: 10,
             minWidth: 0,
-            border: `1.5px solid ${focused ? "var(--accent-sakura)" : "transparent"}`,
-            boxShadow: CARD_SHADOW,
+            border: `1.5px solid ${focused ? "var(--accent-sakura)" : "var(--border-card)"}`,
+            boxShadow: "0 1px 4px rgba(0,0,0,0.04)",
             transition: "border 0.18s ease",
           }}
         >
-          <Search size={18} strokeWidth={2} style={{ color: "var(--text-placeholder)", flexShrink: 0 }} />
+          <Search size={19} strokeWidth={2} style={{ color: "var(--text-placeholder)", flexShrink: 0 }} />
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
@@ -216,14 +216,14 @@ function Clinics() {
           onClick={() => setFilter(true)}
           className="flex items-center justify-center"
           style={{
-            width: 48, height: 48, borderRadius: 14, flexShrink: 0,
-            background: "linear-gradient(135deg, var(--accent-sakura), var(--accent-sakura-dark))",
-            boxShadow: "0 6px 16px color-mix(in oklab, var(--accent-sakura) 35%, transparent)",
+            width: 56, height: 56, borderRadius: 16, flexShrink: 0,
+            background: "var(--accent-sakura)",
+            boxShadow: "0 4px 12px color-mix(in oklab, var(--accent-sakura) 30%, transparent)",
             color: "#FFFFFF",
           }}
           aria-label={t("絞り込み", "Filters")}
         >
-          <SlidersHorizontal size={19} strokeWidth={2.2} />
+          <SlidersHorizontal size={20} strokeWidth={2.2} />
         </button>
       </div>
 
