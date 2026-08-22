@@ -58,7 +58,7 @@ function hexToHsl(hex: string) {
 
 type NamedColor = { hex: string; jp: string; en: string };
 const JAPANESE_PALETTE: NamedColor[] = [
-  { hex: "#FFB7C5", jp: "桜", en: "Sakura" },
+  { hex: "var(--accent-sakura)", jp: "桜", en: "Sakura" },
   { hex: "#F19BAB", jp: "撫子", en: "Nadeshiko" },
   { hex: "#E8B4BD", jp: "梅", en: "Ume" },
   { hex: "#DB7093", jp: "牡丹", en: "Botan" },
@@ -236,7 +236,7 @@ function Toggle({ on, onChange }: { on: boolean; onChange: () => void }) {
 // ───────────── Page ─────────────
 function LightSensePage() {
   const t = useT();
-  const [color, setColor] = useState("#FFB7C5");
+  const [color, setColor] = useState("var(--accent-sakura)");
   const [saturation, setSaturation] = useState(85);
   const [brightness, setBrightness] = useState(75);
   const [mode, setMode] = useState<Mode>("steady");

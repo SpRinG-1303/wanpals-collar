@@ -54,7 +54,7 @@ function Settings() {
           <div className="flex items-center gap-2 text-sm font-bold">
             {dark
               ? <Moon className="w-5 h-5" style={{ color: "#9B88D8" }} />
-              : <Sun className="w-5 h-5" style={{ color: "#D4A843" }} />}
+              : <Sun className="w-5 h-5" style={{ color: "var(--accent-yuzu)" }} />}
             <span>{dark ? t("ダークモード", "Dark Mode") : t("ライトモード", "Light Mode")}</span>
           </div>
           <button
@@ -62,7 +62,7 @@ function Settings() {
             aria-label="Toggle dark mode"
             style={{
               width: 52, height: 28, borderRadius: 14, position: "relative",
-              background: dark ? "#7B68C8" : "var(--border-card)",
+              background: dark ? "var(--accent-fuji)" : "var(--border-card)",
               transition: "background 0.3s ease",
             }}
           >

@@ -110,7 +110,7 @@ const BREEDS: Breed[] = [
     diagnosticNoteJp: "外耳炎の傾向あり。耳道の湿度・温度トレンドの定期確認を推奨。",
     diagnosticNoteEn: "Ear-canal humidity & temperature trends should be reviewed regularly to flag early otitis.",
     image: "https://images.unsplash.com/photo-1586671267731-da2cf3ceeb80?w=400&q=80&auto=format&fit=crop",
-    bannerBg: "linear-gradient(135deg, #9B72CF, #7B52AF)",
+    bannerBg: "linear-gradient(135deg, var(--accent-fuji), #7B52AF)",
     rankBg: "#6B3AAF", sizeBg: "#F5F0FF", sizeText: "#7B52AF",
     kanji: "プー", kanjiSize: 44, kanjiColor: "rgba(255,255,255,0.22)",
     Icon: Sparkles, iconColor: "rgba(255,255,255,0.65)",
@@ -222,8 +222,8 @@ const BREEDS: Breed[] = [
     diagnosticNoteJp: "個体差が大きいため、Pawsitive AIが独自のベースラインを学習。",
     diagnosticNoteEn: "High individual variance; Pawsitive AI learns a personalized baseline per dog.",
     image: "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=400&q=80&auto=format&fit=crop",
-    bannerBg: "linear-gradient(135deg, #FF9966, #9B72CF, #4FACFE, #F7971E)",
-    rankBg: "#6BAF92", sizeBg: "linear-gradient(135deg,#FFE4D0,#E8D6FF,#D6EEFF,#FFF4CC)", sizeText: "#7B52AF",
+    bannerBg: "linear-gradient(135deg, #FF9966, var(--accent-fuji), #4FACFE, #F7971E)",
+    rankBg: "var(--accent-matcha)", sizeBg: "linear-gradient(135deg,#FFE4D0,#E8D6FF,#D6EEFF,#FFF4CC)", sizeText: "#7B52AF",
     kanji: "∞", kanjiSize: 56, kanjiColor: "rgba(255,255,255,0.4)",
     Icon: Shuffle, iconColor: "rgba(255,255,255,0.55)",
     animateGradient: true,
@@ -1812,7 +1812,7 @@ function Breeds() {
 
         {/* Right: stacked size pills (small/medium/large suggestion) */}
         <div style={{ position: "absolute", right: 22, top: 32, display: "flex", flexDirection: "column", gap: 6, opacity: 0.5 }}>
-          <div style={{ width: 20, height: 8, borderRadius: 4, background: "#FFB7C5", alignSelf: "flex-end" }} />
+          <div style={{ width: 20, height: 8, borderRadius: 4, background: "var(--accent-sakura)", alignSelf: "flex-end" }} />
           <div style={{ width: 28, height: 8, borderRadius: 4, background: "#C8C0F0", alignSelf: "flex-end" }} />
           <div style={{ width: 36, height: 8, borderRadius: 4, background: "#A8D0E8", alignSelf: "flex-end" }} />
         </div>
@@ -1854,7 +1854,7 @@ function Breeds() {
               width: 34, height: 34, borderRadius: "50%", background: "#F0ECFF",
               display: "flex", alignItems: "center", justifyContent: "center",
             }}>
-              <SlidersHorizontal size={16} color="#7B68C8" strokeWidth={2} />
+              <SlidersHorizontal size={16} color="var(--accent-fuji)" strokeWidth={2} />
             </div>
           )}
         </div>
@@ -2156,9 +2156,9 @@ function BreedDetail({ breed, onClose }: { breed: Breed; onClose: () => void }) 
 
   const bars = [
     { jp: "エネルギー", en: "Energy", v: breed.stats.energy, color: "var(--accent-sakura)" },
-    { jp: "友好性", en: "Friendliness", v: breed.stats.friendly, color: "#6BAF92" },
-    { jp: "訓練性", en: "Trainability", v: breed.stats.train, color: "#7B68C8" },
-    { jp: "手入れ", en: "Grooming", v: breed.stats.groom, color: "#D4A843" },
+    { jp: "友好性", en: "Friendliness", v: breed.stats.friendly, color: "var(--accent-matcha)" },
+    { jp: "訓練性", en: "Trainability", v: breed.stats.train, color: "var(--accent-fuji)" },
+    { jp: "手入れ", en: "Grooming", v: breed.stats.groom, color: "var(--accent-yuzu)" },
   ];
 
   const relatedPosts = POSTS.slice(0, 3);
@@ -2304,7 +2304,7 @@ function BreedDetail({ breed, onClose }: { breed: Breed; onClose: () => void }) 
                   background: isConcern ? "#FFEEEC" : "#FFF8E0",
                   border: `1px solid ${isConcern ? "#F5C0BC" : "#F0DCA0"}`,
                 }}>
-                  <AlertTriangle size={16} color={isConcern ? "#E53935" : "#D4A843"} strokeWidth={2} />
+                  <AlertTriangle size={16} color={isConcern ? "#E53935" : "var(--accent-yuzu)"} strokeWidth={2} />
                   <div style={{ fontSize: 12, color: "var(--text-primary)", fontWeight: 600 }}>
                     {t(h.jp, h.en)}
                   </div>

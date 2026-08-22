@@ -29,11 +29,11 @@ export const Route = createFileRoute("/clinics")({ component: Clinics });
 // ── Per-clinic themes ─────────────────────────────────────────
 type Theme = { from: string; to: string; accent: string; soft: string };
 const CLINIC_THEMES: Theme[] = [
-  { from: "#E8F5EE", to: "#D4F0E4", accent: "#6BAF92", soft: "#E8F5EE" }, // Shibuya mint
+  { from: "#E8F5EE", to: "#D4F0E4", accent: "var(--accent-matcha)", soft: "#E8F5EE" }, // Shibuya mint
   { from: "var(--accent-sakura-soft)", to: "var(--bg-card-sakura)", accent: "var(--accent-sakura)", soft: "var(--accent-sakura-soft)" }, // Harajuku sakura
-  { from: "#EEF5FF", to: "#E0EEFF", accent: "#5B9BD5", soft: "#E8F2FF" }, // Shinjuku blue
-  { from: "#FFF8DC", to: "#FFF3CC", accent: "#D4A843", soft: "#FFF8DC" }, // Yoyogi yuzu
-  { from: "#F0ECFF", to: "#E8E0FF", accent: "#7B68C8", soft: "#F0ECFF" }, // Meguro fuji
+  { from: "#EEF5FF", to: "#E0EEFF", accent: "var(--accent-sora)", soft: "#E8F2FF" }, // Shinjuku blue
+  { from: "#FFF8DC", to: "#FFF3CC", accent: "var(--accent-yuzu)", soft: "#FFF8DC" }, // Yoyogi yuzu
+  { from: "#F0ECFF", to: "#E8E0FF", accent: "var(--accent-fuji)", soft: "#F0ECFF" }, // Meguro fuji
 ];
 
 const SPECIALTIES = [
@@ -48,10 +48,10 @@ const TYPE_LABEL = ["General", "Specialist", "General", "General", "Specialist"]
 // ── Category tabs ─────────────────────────────────────────────
 type Cat = { jp: string; en: string; Icon: typeof Star; accent: string; from: string; to: string };
 const CATS: Cat[] = [
-  { jp: "高評価", en: "Top Rated", Icon: Star, accent: "#D4A843", from: "#FFF3CC", to: "#FFF8E8" },
-  { jp: "近く", en: "Nearby", Icon: MapPin, accent: "#5B9BD5", from: "#E8F2FF", to: "#F0F7FF" },
-  { jp: "おすすめ", en: "Recommended", Icon: ThumbsUp, accent: "#6BAF92", from: "#E8F5EE", to: "#F2FAF5" },
-  { jp: "専門", en: "Specialized", Icon: Microscope, accent: "#7B68C8", from: "#F0ECFF", to: "#F8F5FF" },
+  { jp: "高評価", en: "Top Rated", Icon: Star, accent: "var(--accent-yuzu)", from: "#FFF3CC", to: "#FFF8E8" },
+  { jp: "近く", en: "Nearby", Icon: MapPin, accent: "var(--accent-sora)", from: "#E8F2FF", to: "#F0F7FF" },
+  { jp: "おすすめ", en: "Recommended", Icon: ThumbsUp, accent: "var(--accent-matcha)", from: "#E8F5EE", to: "#F2FAF5" },
+  { jp: "専門", en: "Specialized", Icon: Microscope, accent: "var(--accent-fuji)", from: "#F0ECFF", to: "#F8F5FF" },
   { jp: "公立/私立", en: "Public/Private", Icon: Building2, accent: "var(--accent-sakura)", from: "var(--accent-sakura-soft)", to: "#FFF8FA" },
 ];
 
@@ -62,8 +62,8 @@ function Stars({ rating }: { rating: number }) {
         <Star
           key={i}
           size={12}
-          style={{ color: i <= Math.round(rating) ? "#D4A843" : "var(--border-card)" }}
-          fill={i <= Math.round(rating) ? "#D4A843" : "var(--border-card)"}
+          style={{ color: i <= Math.round(rating) ? "var(--accent-yuzu)" : "var(--border-card)" }}
+          fill={i <= Math.round(rating) ? "var(--accent-yuzu)" : "var(--border-card)"}
         />
       ))}
     </div>
@@ -130,19 +130,19 @@ function Clinics() {
         >
           {/* Soft cross */}
           <div style={{ position: "absolute", right: 30, top: 30, width: 80, height: 80, opacity: 0.12 }}>
-            <div style={{ position: "absolute", left: 30, top: 0, width: 20, height: 80, borderRadius: 8, background: "#5B9BD5" }} />
-            <div style={{ position: "absolute", left: 0, top: 30, width: 80, height: 20, borderRadius: 8, background: "#5B9BD5" }} />
+            <div style={{ position: "absolute", left: 30, top: 0, width: 20, height: 80, borderRadius: 8, background: "var(--accent-sora)" }} />
+            <div style={{ position: "absolute", left: 0, top: 30, width: 80, height: 20, borderRadius: 8, background: "var(--accent-sora)" }} />
           </div>
           <Heart size={12} style={{ position: "absolute", right: 110, top: 28, color: "var(--accent-sakura)", opacity: 0.45 }} fill="var(--accent-sakura)" />
-          <Heart size={8} style={{ position: "absolute", right: 28, top: 78, color: "#6BAF92", opacity: 0.45 }} fill="#6BAF92" />
-          <Heart size={10} style={{ position: "absolute", right: 80, top: 96, color: "#5B9BD5", opacity: 0.45 }} fill="#5B9BD5" />
+          <Heart size={8} style={{ position: "absolute", right: 28, top: 78, color: "var(--accent-matcha)", opacity: 0.45 }} fill="var(--accent-matcha)" />
+          <Heart size={10} style={{ position: "absolute", right: 80, top: 96, color: "var(--accent-sora)", opacity: 0.45 }} fill="var(--accent-sora)" />
           {/* Petals */}
           {[{ l: 200, t: 14 }, { l: 240, t: 70 }, { l: 170, t: 90 }].map((p, i) => (
             <div
               key={i}
               style={{
                 position: "absolute", left: p.l, top: p.t,
-                width: 8, height: 12, background: "#FFB7C5", opacity: 0.35,
+                width: 8, height: 12, background: "var(--accent-sakura)", opacity: 0.35,
                 borderRadius: "50% 50% 50% 50% / 60% 60% 40% 40%",
                 animation: `petalFall 7s ${i * 1.3}s ease-in-out infinite`,
               }}
@@ -150,7 +150,7 @@ function Clinics() {
           ))}
 
           <div style={{ position: "absolute", left: 20, top: 20, right: 130 }}>
-            <div style={{ fontSize: 11, color: "#5B9BD5", letterSpacing: "0.1em", fontWeight: 600 }}>
+            <div style={{ fontSize: 11, color: "var(--accent-sora)", letterSpacing: "0.1em", fontWeight: 600 }}>
               {t("動物病院", "Animal Clinics")}
             </div>
             <div style={{ fontSize: 26, fontWeight: 800, color: "var(--text-primary)", lineHeight: 1.1, marginTop: 2 }}>
@@ -168,7 +168,7 @@ function Clinics() {
                 borderRadius: 20,
                 padding: "4px 12px",
                 fontSize: 11,
-                color: "#5B9BD5",
+                color: "var(--accent-sora)",
                 fontWeight: 600,
               }}
             >
@@ -212,15 +212,15 @@ function Clinics() {
           style={{ marginLeft: 12, width: 36, height: 36, borderRadius: "50%", background: "#E8F2FF" }}
           aria-label={t("絞り込み", "Filters")}
         >
-          <SlidersHorizontal size={18} style={{ color: "#5B9BD5" }} />
+          <SlidersHorizontal size={18} style={{ color: "var(--accent-sora)" }} />
         </button>
       </div>
 
       {/* ── Quick stats ─────────────────────────────────────── */}
       <div className="grid grid-cols-3 gap-2" style={{ padding: "0 16px" }}>
         {[
-          { n: String(CLINICS.length), jp: "近隣クリニック", en: "Clinics Nearby", color: "#5B9BD5", emoji: "" },
-          { n: avgRating, jp: "平均評価", en: "Avg Rating", color: "#D4A843", emoji: "" },
+          { n: String(CLINICS.length), jp: "近隣クリニック", en: "Clinics Nearby", color: "var(--accent-sora)", emoji: "" },
+          { n: avgRating, jp: "平均評価", en: "Avg Rating", color: "var(--accent-yuzu)", emoji: "" },
           { n: String(emCount), jp: "24時間対応", en: "24h Open", color: "#E53935", emoji: "" },
         ].map((s) => (
           <div
@@ -260,10 +260,10 @@ function Clinics() {
         <div style={{ position: "absolute", top: 0, bottom: 0, left: "55%", width: 3, background: "rgba(255,255,255,0.7)" }} />
         {/* Pins */}
         {[
-          { l: "20%", t: "30%", c: "#6BAF92" },
+          { l: "20%", t: "30%", c: "var(--accent-matcha)" },
           { l: "60%", t: "25%", c: "var(--accent-sakura)" },
-          { l: "45%", t: "65%", c: "#5B9BD5" },
-          { l: "75%", t: "60%", c: "#D4A843" },
+          { l: "45%", t: "65%", c: "var(--accent-sora)" },
+          { l: "75%", t: "60%", c: "var(--accent-yuzu)" },
         ].map((p, i) => (
           <div
             key={i}
@@ -279,7 +279,7 @@ function Clinics() {
           className="absolute"
           style={{
             left: "50%", top: "50%", transform: "translate(-50%,-50%)",
-            background: "#fff", color: "#5B9BD5",
+            background: "#fff", color: "var(--accent-sora)",
             borderRadius: 20, padding: "8px 20px",
             fontSize: 12, fontWeight: 700,
             boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
@@ -380,19 +380,19 @@ function Clinics() {
           className="shrink-0 flex items-center justify-center"
           style={{ width: 56, height: 56, borderRadius: "50%", background: "#fff", boxShadow: "0 4px 12px rgba(123,104,200,0.2)" }}
         >
-          <Video size={26} style={{ color: "#7B68C8" }} />
+          <Video size={26} style={{ color: "var(--accent-fuji)" }} />
         </div>
         <div className="flex-1 min-w-0">
           <div style={{ fontSize: 15, fontWeight: 800, color: "#4A3A8A" }}>
             {t("ビデオ診察", "Video Consultation")}
           </div>
-          <div style={{ fontSize: 12, color: "#7B68C8", marginTop: 2 }}>
+          <div style={{ fontSize: 12, color: "var(--accent-fuji)", marginTop: 2 }}>
             {t("今すぐ獣医と相談", "Consult a vet now")}
           </div>
           <span
             className="inline-block"
             style={{
-              marginTop: 6, background: "#E8F5EE", color: "#6BAF92",
+              marginTop: 6, background: "#E8F5EE", color: "var(--accent-matcha)",
               fontSize: 10, fontWeight: 700,
               padding: "2px 8px", borderRadius: 20,
             }}
@@ -402,7 +402,7 @@ function Clinics() {
         </div>
         <div
           className="shrink-0 flex items-center justify-center"
-          style={{ width: 36, height: 36, borderRadius: "50%", background: "#7B68C8", color: "#fff" }}
+          style={{ width: 36, height: 36, borderRadius: "50%", background: "var(--accent-fuji)", color: "#fff" }}
         >
           <ChevronRight size={18} />
         </div>
@@ -479,7 +479,7 @@ function Clinics() {
                     className="absolute"
                     style={{
                       top: 8, left: 80,
-                      background: "#7B68C8", color: "#fff",
+                      background: "var(--accent-fuji)", color: "#fff",
                       fontSize: 9, fontWeight: 800,
                       padding: "3px 8px", borderRadius: 10,
                       letterSpacing: "0.1em",
@@ -511,8 +511,8 @@ function Clinics() {
                 >
                   <Bookmark
                     size={14}
-                    style={{ color: saved[i] ? "#D4A843" : "var(--text-placeholder)" }}
-                    fill={saved[i] ? "#D4A843" : "none"}
+                    style={{ color: saved[i] ? "var(--accent-yuzu)" : "var(--text-placeholder)" }}
+                    fill={saved[i] ? "var(--accent-yuzu)" : "none"}
                   />
                 </button>
               </div>
@@ -534,7 +534,7 @@ function Clinics() {
                       fontSize: 10, fontWeight: 700,
                       padding: "3px 10px", borderRadius: 20,
                       background: c.open ? "#E8F5EE" : "#F5F5F5",
-                      color: c.open ? "#6BAF92" : "var(--text-secondary)",
+                      color: c.open ? "var(--accent-matcha)" : "var(--text-secondary)",
                       border: `1px solid ${c.open ? "#B8D4C0" : "var(--border-card)"}`,
                     }}
                   >
@@ -545,7 +545,7 @@ function Clinics() {
                 {/* Rating row */}
                 <div className="flex items-center gap-2" style={{ marginTop: 8, flexWrap: "wrap" }}>
                   <Stars rating={c.rating} />
-                  <span style={{ fontSize: 13, fontWeight: 700, color: "#D4A843" }}>{c.rating}</span>
+                  <span style={{ fontSize: 13, fontWeight: 700, color: "var(--accent-yuzu)" }}>{c.rating}</span>
                   <span style={{ fontSize: 11, color: "var(--text-placeholder)" }}>(47)</span>
                   <span style={{ color: "var(--border-card)" }}>·</span>
                   <span className="flex items-center gap-1" style={{ fontSize: 12, color: "var(--text-secondary)" }}>
@@ -559,7 +559,7 @@ function Clinics() {
                     style={{
                       fontSize: 10, fontWeight: 700,
                       padding: "2px 8px", borderRadius: 20,
-                      background: "#F5F0FF", color: "#7B68C8",
+                      background: "#F5F0FF", color: "var(--accent-fuji)",
                     }}
                   >
                     {t(TYPE_LABEL[i % TYPE_LABEL.length].split(" / ")[0], TYPE_LABEL[i % TYPE_LABEL.length].split(" / ")[1])}
@@ -586,7 +586,7 @@ function Clinics() {
                   <span
                     style={{
                       background: "#E8F5EE",
-                      color: "#6BAF92",
+                      color: "var(--accent-matcha)",
                       borderRadius: 20,
                       padding: "2px 8px",
                       fontSize: 10,
@@ -610,7 +610,7 @@ function Clinics() {
                     className="flex items-center justify-center gap-1.5"
                     style={{
                       flex: "0 0 60%", height: 40, borderRadius: 12,
-                      background: "linear-gradient(135deg,#5B9BD5,#4A8AC4)",
+                      background: "linear-gradient(135deg,var(--accent-sora),#4A8AC4)",
                       color: "#fff", fontSize: 13, fontWeight: 700,
                       boxShadow: "0 4px 12px rgba(91,155,213,0.3)",
                     }}
@@ -623,7 +623,7 @@ function Clinics() {
                     style={{
                       height: 40, borderRadius: 12,
                       background: "#E8F5EE", border: "1px solid #B8D4C0",
-                      color: "#6BAF92", fontSize: 13, fontWeight: 700,
+                      color: "var(--accent-matcha)", fontSize: 13, fontWeight: 700,
                     }}
                   >
                     <Phone size={14} /> {t("電話", "Call")}
@@ -706,13 +706,13 @@ function Clinics() {
                       className="flex items-center gap-1 flex-1 justify-center"
                       style={{
                         background: sel ? "#FFF8DC" : "#fff",
-                        border: `1.5px solid ${sel ? "#D4A843" : "var(--border-card)"}`,
+                        border: `1.5px solid ${sel ? "var(--accent-yuzu)" : "var(--border-card)"}`,
                         borderRadius: 12, padding: "10px 0",
                         fontSize: 12, fontWeight: 700,
-                        color: sel ? "#D4A843" : "var(--text-secondary)",
+                        color: sel ? "var(--accent-yuzu)" : "var(--text-secondary)",
                       }}
                     >
-                      <Star size={12} fill={sel ? "#D4A843" : "none"} /> {n}.0+
+                      <Star size={12} fill={sel ? "var(--accent-yuzu)" : "none"} /> {n}.0+
                     </button>
                   );
                 })}

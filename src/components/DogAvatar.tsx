@@ -9,7 +9,7 @@ export const BREED_DEFAULTS: Record<BreedKey, { fur: string; ear: EarStyle }> = 
   poodle: { fur: "#F5D5A0", ear: "floppy" },
   chihuahua: { fur: "#D4A87A", ear: "round" },
   pomeranian: { fur: "#F2C878", ear: "round" },
-  golden: { fur: "#D4A843", ear: "floppy" },
+  golden: { fur: "var(--accent-yuzu)", ear: "floppy" },
   dachshund: { fur: "#7A4A2A", ear: "floppy" },
   frenchie: { fur: "#9A8A80", ear: "round" },
   yorkie: { fur: "#5A4030", ear: "floppy" },
@@ -184,8 +184,8 @@ export default function DogAvatar({
         {/* Cheek blush */}
         {showCheeks && (
           <>
-            <circle cx="28" cy="64" r="6" fill="#FFB7C5" opacity="0.6" />
-            <circle cx="72" cy="64" r="6" fill="#FFB7C5" opacity="0.6" />
+            <circle cx="28" cy="64" r="6" fill="var(--accent-sakura)" opacity="0.6" />
+            <circle cx="72" cy="64" r="6" fill="var(--accent-sakura)" opacity="0.6" />
           </>
         )}
 

@@ -39,11 +39,11 @@ type Theme = {
 };
 
 const FLAIR_THEMES: Record<string, Theme> = {
-  健康: { key: "健康", jp: "健康", en: "Health", accent: "#6BAF92", soft: "#E8F5EE", ring: "#C8E5D7", gradFrom: "#6BAF92", gradTo: "#A8D4BE", emoji: "" },
-  "獣医Q&A": { key: "獣医Q&A", jp: "獣医Q&A", en: "Vet Q&A", accent: "#5B9BD5", soft: "#E8F2FF", ring: "#C8E0F8", gradFrom: "#5B9BD5", gradTo: "#8BBDE8", emoji: "" },
-  迷子: { key: "迷子", jp: "迷子", en: "Lost", accent: "#D4A843", soft: "#FFF8DC", ring: "#F0E4A0", gradFrom: "#D4A843", gradTo: "#E8C470", emoji: "" },
+  健康: { key: "健康", jp: "健康", en: "Health", accent: "var(--accent-matcha)", soft: "#E8F5EE", ring: "#C8E5D7", gradFrom: "var(--accent-matcha)", gradTo: "#A8D4BE", emoji: "" },
+  "獣医Q&A": { key: "獣医Q&A", jp: "獣医Q&A", en: "Vet Q&A", accent: "var(--accent-sora)", soft: "#E8F2FF", ring: "#C8E0F8", gradFrom: "var(--accent-sora)", gradTo: "#8BBDE8", emoji: "" },
+  迷子: { key: "迷子", jp: "迷子", en: "Lost", accent: "var(--accent-yuzu)", soft: "#FFF8DC", ring: "#F0E4A0", gradFrom: "var(--accent-yuzu)", gradTo: "#E8C470", emoji: "" },
   日常: { key: "日常", jp: "日常", en: "Daily", accent: "var(--accent-sakura)", soft: "var(--accent-sakura-soft)", ring: "#FFD0DC", gradFrom: "var(--accent-sakura)", gradTo: "#F0A8B8", emoji: "" },
-  しつけ: { key: "しつけ", jp: "しつけ", en: "Training", accent: "#7B68C8", soft: "#F0ECFF", ring: "#DDD4F8", gradFrom: "#7B68C8", gradTo: "#9B88D8", emoji: "" },
+  しつけ: { key: "しつけ", jp: "しつけ", en: "Training", accent: "var(--accent-fuji)", soft: "#F0ECFF", ring: "#DDD4F8", gradFrom: "var(--accent-fuji)", gradTo: "#9B88D8", emoji: "" },
 };
 
 function themeFor(flair: string): Theme {
@@ -55,10 +55,10 @@ type Cat = { jp: string; en: string; emoji: string; accent: string; soft: string
 const CATS: Cat[] = [
   { jp: "すべて", en: "All", emoji: "", accent: "#FFFFFF", soft: "linear-gradient(135deg,var(--accent-sakura),var(--accent-sakura-dark))", gradFrom: "var(--accent-sakura)", gradTo: "var(--accent-sakura-dark)" },
   { jp: "Indie Club", en: "Indie Club", emoji: "", accent: "var(--accent-sakura)", soft: "var(--accent-sakura-soft)" },
-  { jp: "Labrador Club", en: "Labrador Club", emoji: "", accent: "#7B68C8", soft: "#F5F0FF" },
-  { jp: "迷子情報", en: "Lost Pets", emoji: "", accent: "#D4A843", soft: "#FFF3CC" },
-  { jp: "獣医Q&A", en: "Vet Q&A", emoji: "", accent: "#6BAF92", soft: "#E8F5EE" },
-  { jp: "Mumbai", en: "Mumbai", emoji: "", accent: "#5B9BD5", soft: "#E8F2FF" },
+  { jp: "Labrador Club", en: "Labrador Club", emoji: "", accent: "var(--accent-fuji)", soft: "#F5F0FF" },
+  { jp: "迷子情報", en: "Lost Pets", emoji: "", accent: "var(--accent-yuzu)", soft: "#FFF3CC" },
+  { jp: "獣医Q&A", en: "Vet Q&A", emoji: "", accent: "var(--accent-matcha)", soft: "#E8F5EE" },
+  { jp: "Mumbai", en: "Mumbai", emoji: "", accent: "var(--accent-sora)", soft: "#E8F2FF" },
   { jp: "Delhi", en: "Delhi", emoji: "", accent: "var(--accent-sakura)", soft: "var(--accent-sakura-soft)" },
 ];
 
@@ -80,14 +80,14 @@ function matchesCat(p: PostT, idx: number): boolean {
 function avatarPalette(name: string) {
   const c = (name?.trim()?.[0] ?? "A").toUpperCase().charCodeAt(0);
   if (c >= 65 && c <= 68) return { bg: "var(--bg-card-sakura)", fg: "#C45478" };
-  if (c >= 69 && c <= 72) return { bg: "#EDE0FF", fg: "#6B57B8" };
+  if (c >= 69 && c <= 72) return { bg: "var(--bg-card-lavender)", fg: "#6B57B8" };
   if (c >= 73 && c <= 76) return { bg: "#D6EEFF", fg: "#3F7BB8" };
   if (c >= 77 && c <= 80) return { bg: "#FFF3CC", fg: "#A88128" };
   if (c >= 81 && c <= 84) return { bg: "#D4F0E8", fg: "#3F8C72" };
   if (c >= 85 && c <= 90) return { bg: "#FFE8D6", fg: "#B8784A" };
   const palettes = [
     { bg: "var(--bg-card-sakura)", fg: "#C45478" },
-    { bg: "#EDE0FF", fg: "#6B57B8" },
+    { bg: "var(--bg-card-lavender)", fg: "#6B57B8" },
     { bg: "#D6EEFF", fg: "#3F7BB8" },
     { bg: "#FFF3CC", fg: "#A88128" },
     { bg: "#D4F0E8", fg: "#3F8C72" },
@@ -255,7 +255,7 @@ function Community() {
                 top: p.t,
                 width: 8,
                 height: 12,
-                background: "#FFB7C5",
+                background: "var(--accent-sakura)",
                 opacity: 0.5,
                 borderRadius: "50% 50% 50% 50% / 60% 60% 40% 40%",
                 animation: `petalFall 6s ${p.d}s ease-in-out infinite`,
@@ -314,8 +314,8 @@ function Community() {
       >
         {[
           { icon: <UsersIcon size={14} style={{ color: "var(--accent-sakura)" }} />, n: "1,648", jp: "メンバー", en: "Members" },
-          { icon: <FileText size={14} style={{ color: "#7B68C8" }} />, n: "3,420", jp: "投稿", en: "Posts" },
-          { icon: <PawPrint size={14} style={{ color: "#6BAF92" }} />, n: "892", jp: "ワンちゃん", en: "Dogs" },
+          { icon: <FileText size={14} style={{ color: "var(--accent-fuji)" }} />, n: "3,420", jp: "投稿", en: "Posts" },
+          { icon: <PawPrint size={14} style={{ color: "var(--accent-matcha)" }} />, n: "892", jp: "ワンちゃん", en: "Dogs" },
         ].map((s, i, arr) => (
           <span key={s.en} style={{ display: "contents" }}>
             <div style={{ textAlign: "center" }}>
@@ -619,7 +619,7 @@ function Community() {
                           borderRadius: 20,
                           padding: "6px 12px",
                           height: 32,
-                          color: "#5B9BD5",
+                          color: "var(--accent-sora)",
                         }}
                       >
                         <MessageCircle size={14} />
@@ -655,7 +655,7 @@ function Community() {
                           borderRadius: "50%",
                           width: 32,
                           height: 32,
-                          color: bookmarked[p.id] ? "#F59E0B" : "#D4A843",
+                          color: bookmarked[p.id] ? "#F59E0B" : "var(--accent-yuzu)",
                         }}
                       >
                         <Bookmark size={14} fill={bookmarked[p.id] ? "#F59E0B" : "none"} />
@@ -850,7 +850,7 @@ function PostDetailSheet({
           )}
 
           {post.location && (
-            <div className="inline-flex items-center gap-1" style={{ marginTop: 12, background: "#EEF5FF", color: "#5B9BD5", border: "1px solid #C8E0F8", borderRadius: 20, padding: "4px 10px", fontSize: 11, fontWeight: 600 }}>
+            <div className="inline-flex items-center gap-1" style={{ marginTop: 12, background: "#EEF5FF", color: "var(--accent-sora)", border: "1px solid #C8E0F8", borderRadius: 20, padding: "4px 10px", fontSize: 11, fontWeight: 600 }}>
               <MapPin size={12} />
               {post.location}
             </div>
@@ -892,7 +892,7 @@ function PostDetailSheet({
                 borderRadius: "50%",
                 width: 32,
                 height: 32,
-                color: bookmarked ? "#F59E0B" : "#D4A843",
+                color: bookmarked ? "#F59E0B" : "var(--accent-yuzu)",
               }}
             >
               <Bookmark size={14} fill={bookmarked ? "#F59E0B" : "none"} />
@@ -1207,10 +1207,10 @@ function ComposeSheet({
 
           {/* location pill */}
           {location && (
-            <div className="inline-flex items-center gap-1" style={{ marginTop: 12, background: "#EEF5FF", color: "#5B9BD5", border: "1px solid #C8E0F8", borderRadius: 20, padding: "4px 10px", fontSize: 11, fontWeight: 600 }}>
+            <div className="inline-flex items-center gap-1" style={{ marginTop: 12, background: "#EEF5FF", color: "var(--accent-sora)", border: "1px solid #C8E0F8", borderRadius: 20, padding: "4px 10px", fontSize: 11, fontWeight: 600 }}>
               <MapPin size={12} />
               {location}
-              <button onClick={() => setLocation("")} style={{ marginLeft: 4, color: "#5B9BD5" }}>
+              <button onClick={() => setLocation("")} style={{ marginLeft: 4, color: "var(--accent-sora)" }}>
                 <X size={11} />
               </button>
             </div>
@@ -1241,7 +1241,7 @@ function ComposeSheet({
               onClick={() => setLocation(location ? "" : t("Bandra, Mumbai", "Bandra, Mumbai"))}
               className="flex flex-col items-center gap-1"
             >
-              <span className="flex items-center justify-center" style={{ width: 36, height: 36, borderRadius: "50%", background: location ? "#EEF5FF" : "#F9F9F9", color: location ? "#5B9BD5" : "var(--text-secondary)" }}>
+              <span className="flex items-center justify-center" style={{ width: 36, height: 36, borderRadius: "50%", background: location ? "#EEF5FF" : "#F9F9F9", color: location ? "var(--accent-sora)" : "var(--text-secondary)" }}>
                 <MapPin size={16} />
               </span>
               <span style={{ fontSize: 10, color: "#9CA3AF" }}>{t("場所", "Location")}</span>

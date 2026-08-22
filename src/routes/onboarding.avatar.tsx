@@ -16,9 +16,9 @@ const FUR: { c: string; jp: string; en: string }[] = [
   { c: "#F5F5F0", jp: "白", en: "White" },
   { c: "#2C1810", jp: "黒", en: "Black" },
   { c: "#9A8A80", jp: "グレー", en: "Gray" },
-  { c: "#D4A843", jp: "ゴールド", en: "Gold" },
+  { c: "var(--accent-yuzu)", jp: "ゴールド", en: "Gold" },
 ];
-const COLLAR = ["var(--accent-sakura)", "#7B68C8", "#6BAF92", "#5B9BD5", "#D4A843", "#E53935"];
+const COLLAR = ["var(--accent-sakura)", "var(--accent-fuji)", "var(--accent-matcha)", "var(--accent-sora)", "var(--accent-yuzu)", "#E53935"];
 const EARS: { id: EarStyle; jp: string; en: string }[] = [
   { id: "upright", jp: "立ち耳", en: "Upright" },
   { id: "floppy", jp: "垂れ耳", en: "Floppy" },

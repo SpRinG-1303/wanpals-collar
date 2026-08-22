@@ -78,17 +78,17 @@ export function HeroIllustration({ compact = false }: { compact?: boolean }) {
       />
       <svg className="absolute top-3 left-3" width="90" height="60" viewBox="0 0 90 60" style={{ opacity: 0.25 }}>
         <path d="M2 8 Q 30 18, 60 12 T 88 22" stroke="#9A6B6B" strokeWidth="1.2" fill="none" />
-        <circle cx="20" cy="14" r="4" fill="#FFB7C5" />
-        <circle cx="38" cy="16" r="3" fill="#FFB7C5" />
-        <circle cx="55" cy="12" r="3.5" fill="#FFB7C5" />
-        <circle cx="72" cy="18" r="3" fill="#FFB7C5" />
+        <circle cx="20" cy="14" r="4" fill="var(--accent-sakura)" />
+        <circle cx="38" cy="16" r="3" fill="var(--accent-sakura)" />
+        <circle cx="55" cy="12" r="3.5" fill="var(--accent-sakura)" />
+        <circle cx="72" cy="18" r="3" fill="var(--accent-sakura)" />
       </svg>
       {[
-        { l: "20%", t: "30%", s: 8, c: "#FFB7C5", d: 0 },
+        { l: "20%", t: "30%", s: 8, c: "var(--accent-sakura)", d: 0 },
         { l: "70%", t: "20%", s: 10, c: "#FFD4DC", d: 1 },
-        { l: "85%", t: "55%", s: 6, c: "#FFB7C5", d: 2 },
+        { l: "85%", t: "55%", s: 6, c: "var(--accent-sakura)", d: 2 },
         { l: "15%", t: "65%", s: 9, c: "#FFD4DC", d: 3 },
-        { l: "55%", t: "75%", s: 7, c: "#FFB7C5", d: 1.5 },
+        { l: "55%", t: "75%", s: 7, c: "var(--accent-sakura)", d: 1.5 },
       ].map((p, i) => (
         <div
           key={i}

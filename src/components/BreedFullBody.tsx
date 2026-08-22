@@ -85,8 +85,8 @@ function Face({ cx, cy, C, scale = 1 }: { cx: number; cy: number; C: Palette; sc
       <circle cx={-9} cy={-3} r="0.9" fill="#fff" />
       <circle cx={11} cy={-3} r="0.9" fill="#fff" />
       {/* blush */}
-      <circle cx={-14} cy={6} r="3.5" fill="#FFB7C5" opacity="0.55" />
-      <circle cx={14} cy={6} r="3.5" fill="#FFB7C5" opacity="0.55" />
+      <circle cx={-14} cy={6} r="3.5" fill="var(--accent-sakura)" opacity="0.55" />
+      <circle cx={14} cy={6} r="3.5" fill="var(--accent-sakura)" opacity="0.55" />
       {/* muzzle */}
       <ellipse cx={0} cy={10} rx="11" ry="8" fill={C.belly} />
       {/* nose */}
@@ -271,16 +271,16 @@ function Chihuahua({ C }: { C: Palette }) {
       {/* huge upright bat ears */}
       <path d="M44 78 L36 38 L62 70 Z" fill={C.fur} />
       <path d="M82 70 L106 38 L98 78 Z" fill={C.fur} />
-      <path d="M47 74 L42 50 L58 70 Z" fill="#FFB7C5" opacity="0.7" />
-      <path d="M85 70 L100 50 L96 74 Z" fill="#FFB7C5" opacity="0.7" />
+      <path d="M47 74 L42 50 L58 70 Z" fill="var(--accent-sakura)" opacity="0.7" />
+      <path d="M85 70 L100 50 L96 74 Z" fill="var(--accent-sakura)" opacity="0.7" />
       {/* big eyes — override face */}
       <g transform="translate(72 100)">
         <circle cx={-12} cy={-4} r="4" fill="#1A1410" />
         <circle cx={12} cy={-4} r="4" fill="#1A1410" />
         <circle cx={-11} cy={-5} r="1.4" fill="#fff" />
         <circle cx={13} cy={-5} r="1.4" fill="#fff" />
-        <circle cx={-16} cy={6} r="3.5" fill="#FFB7C5" opacity="0.55" />
-        <circle cx={16} cy={6} r="3.5" fill="#FFB7C5" opacity="0.55" />
+        <circle cx={-16} cy={6} r="3.5" fill="var(--accent-sakura)" opacity="0.55" />
+        <circle cx={16} cy={6} r="3.5" fill="var(--accent-sakura)" opacity="0.55" />
         <ellipse cx={0} cy={10} rx="9" ry="6" fill={C.belly} />
         <ellipse cx={0} cy={6} rx="2.6" ry="2" fill={C.nose} />
         <path d="M0 8 L0 11 M-3 13 Q0 16 3 13" stroke={C.nose} strokeWidth="1.2" fill="none" strokeLinecap="round" />
@@ -309,8 +309,8 @@ function Frenchie({ C }: { C: Palette }) {
       {/* bat ears upright rounded */}
       <path d="M46 72 Q40 48 56 50 Q60 64 60 76 Z" fill={C.fur} />
       <path d="M100 72 Q106 48 90 50 Q86 64 86 76 Z" fill={C.fur} />
-      <path d="M50 70 Q48 58 56 60 Z" fill="#FFB7C5" opacity="0.6" />
-      <path d="M96 70 Q98 58 90 60 Z" fill="#FFB7C5" opacity="0.6" />
+      <path d="M50 70 Q48 58 56 60 Z" fill="var(--accent-sakura)" opacity="0.6" />
+      <path d="M96 70 Q98 58 90 60 Z" fill="var(--accent-sakura)" opacity="0.6" />
       {/* face wrinkle */}
       <path d="M58 110 Q73 116 88 110" stroke={C.furDeep} strokeWidth="1.2" fill="none" />
       <Face cx={73} cy={100} C={C} scale={0.95} />
@@ -377,7 +377,7 @@ function Dachshund({ C }: { C: Palette }) {
       {/* eye */}
       <circle cx="44" cy="106" r="2.6" fill="#1A1410" />
       <circle cx="45" cy="105" r="0.9" fill="#fff" />
-      <circle cx="34" cy="116" r="3" fill="#FFB7C5" opacity="0.55" />
+      <circle cx="34" cy="116" r="3" fill="var(--accent-sakura)" opacity="0.55" />
       <path d="M14 121 L14 124 M11 126 Q14 128 17 126" stroke={C.nose} strokeWidth="1.1" fill="none" strokeLinecap="round" />
       <Collar cx={60} cy={130} w={24} C={C} />
     </g>

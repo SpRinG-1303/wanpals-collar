@@ -29,7 +29,7 @@ type EmotionKey =
 const EMO: Record<EmotionKey, { jp: string; en: string; color: string }> = {
   contentment: { jp: "穏やか",   en: "Contentment", color: "#6DBA91" },
   joy:         { jp: "喜び",     en: "Joy",         color: "#FCD34D" },
-  affection:   { jp: "愛情",     en: "Affection",   color: "#F472B6" },
+  affection:   { jp: "愛情",     en: "Affection",   color: "var(--accent-sakura)" },
   excitement:  { jp: "興奮",     en: "Excitement",  color: "#F59E0B" },
   distress:    { jp: "苦悩",     en: "Distress",    color: "#EF4444" },
   fear:        { jp: "恐れ",     en: "Fear",        color: "#94A3B8" },

@@ -38,17 +38,17 @@ function MapScreen() {
         @keyframes borderPulse { 0%,100% { box-shadow: 0 0 0 0 rgba(229,57,53,.5) } 50% { box-shadow: 0 0 0 8px rgba(229,57,53,0) } }
         .map-pulse-ring { animation: mapPulse 2s ease-in-out infinite; }
         .safe-rotate { animation: safeRotate 60s linear infinite; }
-        .green-pulse::before { content:""; position:absolute; inset:0; border-radius:9999px; background:#6BAF92; animation: greenPulse 1.6s ease-in-out infinite; }
+        .green-pulse::before { content:""; position:absolute; inset:0; border-radius:9999px; background:var(--accent-matcha); animation: greenPulse 1.6s ease-in-out infinite; }
       `}</style>
 
       {/* LIVE STATUS BAR */}
       <div style={{ margin: "8px 16px", padding: "10px 16px", background: "#FFFFFF", borderRadius: 16, boxShadow: "0 2px 8px rgba(0,0,0,0.05)" }}>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="relative inline-block green-pulse" style={{ width: 8, height: 8, borderRadius: "50%", background: "#6BAF92" }} />
+            <span className="relative inline-block green-pulse" style={{ width: 8, height: 8, borderRadius: "50%", background: "var(--accent-matcha)" }} />
             <span style={{ fontSize: 13, fontWeight: 700, color: "var(--text-primary)" }}>{t("ライブ追跡中", "Live Tracking")}</span>
           </div>
-          <div className="flex items-center gap-1.5" style={{ color: "#6BAF92" }}>
+          <div className="flex items-center gap-1.5" style={{ color: "var(--accent-matcha)" }}>
             <Satellite size={14} />
             <span style={{ fontSize: 12, fontWeight: 600 }}>GPS ✓</span>
           </div>
@@ -89,7 +89,7 @@ function MapScreen() {
         <span className="absolute" style={{ left: 200, bottom: 60, fontSize: 9, color: "#8A9AAA", opacity: 0.4 }}>Carter Road</span>
 
         {/* Collar GPS badge top-left */}
-        <div className="absolute" style={{ top: 12, left: 12, background: "#FFFFFF", padding: "5px 10px", borderRadius: 12, fontSize: 11, color: "#6BAF92", fontWeight: 700, boxShadow: "0 2px 8px rgba(0,0,0,0.08)" }}>
+        <div className="absolute" style={{ top: 12, left: 12, background: "#FFFFFF", padding: "5px 10px", borderRadius: 12, fontSize: 11, color: "var(--accent-matcha)", fontWeight: 700, boxShadow: "0 2px 8px rgba(0,0,0,0.08)" }}>
            {t("カラーGPS", "Collar GPS")}
         </div>
 
@@ -115,7 +115,7 @@ function MapScreen() {
 
         {/* My location button bottom-right */}
         <button className="absolute flex items-center justify-center" style={{ bottom: 14, right: 12, width: 40, height: 40, borderRadius: "50%", background: "rgba(255,255,255,0.9)", backdropFilter: "blur(8px)", boxShadow: "0 2px 8px rgba(0,0,0,0.1)" }}>
-          <Crosshair size={20} style={{ color: "#5B9BD5" }} />
+          <Crosshair size={20} style={{ color: "var(--accent-sora)" }} />
         </button>
 
         {/* Safe zone circle */}
@@ -128,9 +128,9 @@ function MapScreen() {
           }}>
             <div className="absolute inset-0 safe-rotate" style={{
               borderRadius: "50%",
-              border: "2px dashed #6BAF92",
+              border: "2px dashed var(--accent-matcha)",
             }} />
-            <div className="absolute" style={{ left: "50%", top: -10, transform: "translateX(-50%)", background: "#FFFFFF", border: "1px solid #6BAF92", color: "#6BAF92", fontSize: 10, fontWeight: 700, padding: "2px 8px", borderRadius: 20, whiteSpace: "nowrap" }}>
+            <div className="absolute" style={{ left: "50%", top: -10, transform: "translateX(-50%)", background: "#FFFFFF", border: "1px solid var(--accent-matcha)", color: "var(--accent-matcha)", fontSize: 10, fontWeight: 700, padding: "2px 8px", borderRadius: 20, whiteSpace: "nowrap" }}>
               {t("安全ゾーン", "Safe Zone")}
             </div>
           </div>
@@ -144,10 +144,10 @@ function MapScreen() {
         {/* Owner marker */}
         <div className="absolute" style={{ left: "33%", top: "66%", transform: "translate(-50%,-50%)" }}>
           <div className="absolute" style={{ left: "50%", top: "50%", transform: "translate(-50%,-50%)", width: 40, height: 40, borderRadius: "50%", background: "rgba(91,155,213,0.15)", border: "1px dashed rgba(91,155,213,0.4)" }} />
-          <div className="relative flex items-center justify-center" style={{ width: 16, height: 16, borderRadius: "50%", background: "#5B9BD5", border: "3px solid white", boxShadow: "0 2px 8px rgba(91,155,213,0.4)" }}>
+          <div className="relative flex items-center justify-center" style={{ width: 16, height: 16, borderRadius: "50%", background: "var(--accent-sora)", border: "3px solid white", boxShadow: "0 2px 8px rgba(91,155,213,0.4)" }}>
             <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#fff" }} />
           </div>
-          <div className="absolute" style={{ left: "50%", top: -22, transform: "translateX(-50%)", background: "#E8F2FF", border: "1px solid #5B9BD5", color: "#5B9BD5", fontSize: 10, fontWeight: 700, padding: "2px 8px", borderRadius: 20, whiteSpace: "nowrap" }}>
+          <div className="absolute" style={{ left: "50%", top: -22, transform: "translateX(-50%)", background: "#E8F2FF", border: "1px solid var(--accent-sora)", color: "var(--accent-sora)", fontSize: 10, fontWeight: 700, padding: "2px 8px", borderRadius: 20, whiteSpace: "nowrap" }}>
             {t("あなた", "You")}
           </div>
           <div className="absolute" style={{ left: "50%", top: 18, transform: "translateX(-50%)", fontSize: 9, color: "var(--text-secondary)", whiteSpace: "nowrap" }}>
@@ -192,8 +192,8 @@ function MapScreen() {
                   {t("東京都渋谷区神南1-2-3", "1-2-3 Jinnan, Shibuya, Tokyo")}
                 </div>
                 <div className="flex items-center gap-1.5 mt-1">
-                  <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#6BAF92" }} />
-                  <span style={{ fontSize: 12, color: "#6BAF92", fontWeight: 600 }}>{t("今移動中", "Moving now")}</span>
+                  <span style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--accent-matcha)" }} />
+                  <span style={{ fontSize: 12, color: "var(--accent-matcha)", fontWeight: 600 }}>{t("今移動中", "Moving now")}</span>
                 </div>
               </div>
             </div>
@@ -210,7 +210,7 @@ function MapScreen() {
             <span> {t("4分", "4 min")}</span>
           </div>
 
-          <button onClick={openDirections} className="w-full flex items-center justify-center gap-2 mt-3" style={{ height: 48, borderRadius: 14, background: "linear-gradient(135deg, #5B9BD5, #4A8AC4)", color: "#fff", fontWeight: 700, fontSize: 14, boxShadow: "0 6px 16px rgba(91,155,213,0.3)" }}>
+          <button onClick={openDirections} className="w-full flex items-center justify-center gap-2 mt-3" style={{ height: 48, borderRadius: 14, background: "linear-gradient(135deg, var(--accent-sora), #4A8AC4)", color: "#fff", fontWeight: 700, fontSize: 14, boxShadow: "0 6px 16px rgba(91,155,213,0.3)" }}>
             <Navigation size={16} />
             {t("道案内", "Get Directions")}
           </button>
@@ -218,15 +218,15 @@ function MapScreen() {
       </div>
 
       {/* SAFE ZONE CARD */}
-      <div style={{ margin: "0 16px 12px", background: "#FFFFFF", borderRadius: 20, boxShadow: "0 4px 16px rgba(0,0,0,0.07)", borderLeft: "4px solid #6BAF92", overflow: "hidden" }}>
+      <div style={{ margin: "0 16px 12px", background: "#FFFFFF", borderRadius: 20, boxShadow: "0 4px 16px rgba(0,0,0,0.07)", borderLeft: "4px solid var(--accent-matcha)", overflow: "hidden" }}>
         <div style={{ height: 6, background: "linear-gradient(90deg, #E8F5EE, #F2FAF5)" }} />
         <div style={{ padding: 14 }}>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Shield size={20} style={{ color: "#6BAF92" }} />
+              <Shield size={20} style={{ color: "var(--accent-matcha)" }} />
               <span style={{ fontSize: 15, fontWeight: 700, color: "var(--text-primary)" }}>{t("安全ゾーン", "Safe Zone")}</span>
             </div>
-            <Toggle on={safeZone} onChange={setSafeZone} activeColor="#6BAF92" />
+            <Toggle on={safeZone} onChange={setSafeZone} activeColor="var(--accent-matcha)" />
           </div>
           {safeZone && (
             <div className="mt-2">
@@ -237,7 +237,7 @@ function MapScreen() {
                 {([100,200,500,1000] as const).map(r => (
                   <button key={r} onClick={() => setRadius(r)} style={{
                     padding: "5px 12px", borderRadius: 20, fontSize: 11, fontWeight: 600,
-                    background: radius === r ? "#6BAF92" : "#F5F5F5",
+                    background: radius === r ? "var(--accent-matcha)" : "#F5F5F5",
                     color: radius === r ? "#fff" : "var(--text-secondary)",
                   }}>{r < 1000 ? `${r}m` : "1km"}</button>
                 ))}
@@ -285,19 +285,19 @@ function MapScreen() {
       </div>
 
       {/* LOCATION HISTORY */}
-      <div style={{ margin: "0 16px 12px", background: "#FFFFFF", borderRadius: 20, boxShadow: "0 4px 16px rgba(0,0,0,0.07)", borderLeft: "4px solid #7B68C8", padding: 14 }}>
+      <div style={{ margin: "0 16px 12px", background: "#FFFFFF", borderRadius: 20, boxShadow: "0 4px 16px rgba(0,0,0,0.07)", borderLeft: "4px solid var(--accent-fuji)", padding: 14 }}>
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-2">
-            <History size={18} style={{ color: "#7B68C8" }} />
+            <History size={18} style={{ color: "var(--accent-fuji)" }} />
             <span style={{ fontSize: 14, fontWeight: 700, color: "var(--text-primary)" }}>{t("移動履歴", "Location History")}</span>
           </div>
-          <span style={{ fontSize: 11, fontWeight: 600, color: "#7B68C8", background: "#F0ECFF", padding: "3px 10px", borderRadius: 20 }}>{t("今日", "Today")}</span>
+          <span style={{ fontSize: 11, fontWeight: 600, color: "var(--accent-fuji)", background: "#F0ECFF", padding: "3px 10px", borderRadius: 20 }}>{t("今日", "Today")}</span>
         </div>
 
         {[
-          { time: "14:30", jp: "代々木公園", en: "Yoyogi Park", dist: "+1.2km", color: "#D4A843" },
-          { time: "12:15", jp: "渋谷駅周辺", en: "Near Shibuya Stn", dist: "+0.5km", color: "#5B9BD5" },
-          { time: "09:00", jp: "自宅", en: "Home", dist: t("出発地", "Start"), color: "#6BAF92" },
+          { time: "14:30", jp: "代々木公園", en: "Yoyogi Park", dist: "+1.2km", color: "var(--accent-yuzu)" },
+          { time: "12:15", jp: "渋谷駅周辺", en: "Near Shibuya Stn", dist: "+0.5km", color: "var(--accent-sora)" },
+          { time: "09:00", jp: "自宅", en: "Home", dist: t("出発地", "Start"), color: "var(--accent-matcha)" },
         ].map((h, i) => (
           <div key={i} className="flex items-center gap-3" style={{ padding: "8px 0", borderTop: i === 0 ? "none" : "1px solid #F5F0EC" }}>
             <span style={{ width: 8, height: 8, borderRadius: "50%", background: h.color, flexShrink: 0 }} />
@@ -311,7 +311,7 @@ function MapScreen() {
           </div>
         ))}
 
-        <button className="flex items-center gap-1 mt-2" style={{ fontSize: 12, color: "#7B68C8", fontWeight: 600 }}>
+        <button className="flex items-center gap-1 mt-2" style={{ fontSize: 12, color: "var(--accent-fuji)", fontWeight: 600 }}>
           {t("全履歴を見る", "View Full History")} <ChevronRight size={14} />
         </button>
       </div>
@@ -319,17 +319,17 @@ function MapScreen() {
       {/* NEARBY CLINIC */}
       <button onClick={() => navigate({ to: "/clinics" })} className="w-full flex items-center gap-3" style={{ margin: "0 16px 24px", width: "calc(100% - 32px)", background: "linear-gradient(135deg, #EEF5FF, #E8F2FF)", border: "1px solid #C8E0F8", borderRadius: 20, padding: 14, textAlign: "left" }}>
         <div className="flex items-center justify-center" style={{ width: 40, height: 40, borderRadius: "50%", background: "#FFFFFF" }}>
-          <Stethoscope size={20} style={{ color: "#5B9BD5" }} />
+          <Stethoscope size={20} style={{ color: "var(--accent-sora)" }} />
         </div>
         <div className="flex-1 min-w-0">
           <div style={{ fontSize: 14, fontWeight: 700, color: "#1A3C5E" }}>
             {t("最寄りの動物病院", "Nearest Animal Hospital")}
           </div>
-          <div style={{ fontSize: 12, color: "#5B9BD5", marginTop: 2 }}>
+          <div style={{ fontSize: 12, color: "var(--accent-sora)", marginTop: 2 }}>
              {t("渋谷動物病院", "Shibuya Animal Hosp.")} · 0.8km · 4.6 · 24H
           </div>
         </div>
-        <div className="flex items-center justify-center" style={{ width: 36, height: 36, borderRadius: "50%", background: "#5B9BD5", color: "#fff", flexShrink: 0 }}>
+        <div className="flex items-center justify-center" style={{ width: 36, height: 36, borderRadius: "50%", background: "var(--accent-sora)", color: "#fff", flexShrink: 0 }}>
           <ChevronRight size={18} />
         </div>
       </button>
@@ -337,7 +337,7 @@ function MapScreen() {
   );
 }
 
-function Toggle({ on, onChange, activeColor = "#6BAF92" }: { on: boolean; onChange: (v: boolean) => void; activeColor?: string }) {
+function Toggle({ on, onChange, activeColor = "var(--accent-matcha)" }: { on: boolean; onChange: (v: boolean) => void; activeColor?: string }) {
   return (
     <button onClick={() => onChange(!on)} style={{
       width: 48, height: 28, borderRadius: 999, position: "relative", transition: "background .3s",

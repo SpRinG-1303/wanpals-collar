@@ -83,7 +83,7 @@ export default function BottomNav() {
                   width: 52,
                   height: 52,
                   borderRadius: "50%",
-                  background: `linear-gradient(135deg, var(--accent-fuji), #AC99E8)`,
+                  background: `linear-gradient(135deg, var(--accent-fuji), var(--accent-fuji))`,
                   border: "3px solid var(--bg-bottomnav)",
                   boxShadow: active
                     ? "0 6px 20px rgba(123,104,200,0.5)"

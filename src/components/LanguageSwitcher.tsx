@@ -73,7 +73,7 @@ export default function LanguageSwitcher({ variant = "pill" }: { variant?: "pill
           padding: "6px 14px",
           borderRadius: 20,
           background: "#F0EEF8",
-          color: "#7B68C8",
+          color: "var(--accent-fuji)",
           fontSize: 12,
           fontWeight: 700,
           letterSpacing: "0.02em",

@@ -24,16 +24,16 @@ const JP = {
   sakura: "var(--accent-sakura)",
   sakuraSoft: "var(--accent-sakura-soft)",
   sakuraStrip: "linear-gradient(90deg,var(--bg-card-sakura),var(--accent-sakura-soft))",
-  fuji: "#7B68C8",
+  fuji: "var(--accent-fuji)",
   fujiSoft: "#F0EEF8",
-  fujiStrip: "linear-gradient(90deg,#EDE0FF,#F5F0FF)",
-  matcha: "#6BAF92",
+  fujiStrip: "linear-gradient(90deg,var(--bg-card-lavender),#F5F0FF)",
+  matcha: "var(--accent-matcha)",
   matchaSoft: "#E8F5EE",
   matchaStrip: "linear-gradient(90deg,#E8F5EE,#F5FBF8)",
-  yuzu: "#D4A843",
+  yuzu: "var(--accent-yuzu)",
   yuzuSoft: "#FFF8DC",
   yuzuStrip: "linear-gradient(90deg,#FFF8DC,#FFFEF5)",
-  sora: "#5B9BD5",
+  sora: "var(--accent-sora)",
   soraSoft: "#E8F2FF",
   soraStrip: "linear-gradient(90deg,#E8F2FF,#F5F9FF)",
   momiji: "#D4714E",
@@ -104,7 +104,7 @@ type Sensor = {
 };
 
 const sensors: Sensor[] = [
-  { Icon: Brain, accent: JP.fuji, iconBg: "#EDE0FF", strip: JP.fujiStrip, to: "/bark-sense",
+  { Icon: Brain, accent: JP.fuji, iconBg: "var(--bg-card-lavender)", strip: JP.fujiStrip, to: "/bark-sense",
     jp: "吠え分析", en: "BarkSense AI", subJp: "鳴き声解析", subEn: "Bark Analysis", valJp: "穏やか", valEn: "Calm", ml: true },
   { Icon: Microscope, accent: JP.sakura, iconBg: "var(--bg-card-sakura)", strip: JP.sakuraStrip, to: "/skin-sense",
     jp: "皮膚センサー", en: "SkinSense AI", subJp: "皮膚の健康", subEn: "Skin Health", valJp: "正常", valEn: "Normal", ml: true },
@@ -118,7 +118,7 @@ const sensors: Sensor[] = [
     jp: "圧力センサー", en: "PressureSense", subJp: "圧力データ", subEn: "Pressure Data", valJp: "正常範囲", valEn: "Normal Range" },
   { Icon: Sun, accent: "#C4920A", iconBg: "#FFFBCC", strip: "linear-gradient(90deg,#FFF8DC,#FFFEF0)", to: "/light-sense",
     jp: "光センサー", en: "LightSense AI", subJp: "RGB光データ", subEn: "RGB Light Data", valJp: "室内", valEn: "Indoor" },
-  { Icon: GitMerge, accent: "#9B72CF", iconBg: "#F0E8FF", strip: "linear-gradient(90deg,#F0E8FF,#F8F5FF)", to: "/report",
+  { Icon: GitMerge, accent: "var(--accent-fuji)", iconBg: "var(--bg-card-lavender)", strip: "linear-gradient(90deg,var(--bg-card-lavender),#F8F5FF)", to: "/report",
     jp: "総合分析", en: "CombineSense", subJp: "総合解析", subEn: "Combined Analysis", valJp: "87/100", valEn: "87/100" },
 ];
 
@@ -133,9 +133,9 @@ function getTimeBand(): TimeBand {
 }
 
 const SCENE: Record<TimeBand, { bg: string; sun: string; fuji: string; blossom: string }> = {
-  morning:   { bg: "linear-gradient(135deg,#FFF8F0 0%,#FFE8EE 100%)", sun: "#FFD4A8", fuji: "#C5D8E8", blossom: "#FFB7C5" },
+  morning:   { bg: "linear-gradient(135deg,#FFF8F0 0%,#FFE8EE 100%)", sun: "#FFD4A8", fuji: "#C5D8E8", blossom: "var(--accent-sakura)" },
   afternoon: { bg: "linear-gradient(135deg,#E8F4FF 0%,#D4EEFF 100%)", sun: "#F2C96E", fuji: "#8FB5C8", blossom: "#FFC8D0" },
-  evening:   { bg: "linear-gradient(135deg,#FFE8D0 0%,#FFD0B0 100%)", sun: "#F4A56B", fuji: "#7B6480", blossom: "#FFB7C5" },
+  evening:   { bg: "linear-gradient(135deg,#FFE8D0 0%,#FFD0B0 100%)", sun: "#F4A56B", fuji: "#7B6480", blossom: "var(--accent-sakura)" },
   night:     { bg: "linear-gradient(135deg,#E8EEF8 0%,#D4DCF0 100%)", sun: "#FFF4D8", fuji: "#9AA0B8", blossom: "#E8D8E4" },
 };
 
@@ -291,7 +291,7 @@ function DogTimeScene({
               style={{
                 fontSize: sz,
                 fontWeight: 700,
-                color: "#7B68C8",
+                color: "var(--accent-fuji)",
                 opacity: 0.75,
                 animation: `zzzFloat 2.6s ease-in-out ${i * 0.6}s infinite`,
               }}
@@ -404,7 +404,7 @@ function PostcardScene({
   energy: Energy;
   ownerPhotoUrl: string | null;
 }) {
-  const blossom = "#FFB7C5";
+  const blossom = "var(--accent-sakura)";
   return (
     <div
       className="absolute inset-y-0 right-0"
@@ -805,7 +805,7 @@ function Home() {
             style={{
               height: 90,
               borderRadius: 20,
-              background: "linear-gradient(135deg, #667EEA 0%, #9B72CF 100%)",
+              background: "linear-gradient(135deg, #667EEA 0%, var(--accent-fuji) 100%)",
               boxShadow: "0 8px 24px rgba(102,126,234,0.35)",
               transition: "transform 0.2s ease, box-shadow 0.2s ease",
             }}
@@ -873,7 +873,7 @@ function Home() {
             style={{
               height: 90,
               borderRadius: 20,
-              background: "linear-gradient(135deg, #F093A0 0%, var(--accent-sakura) 100%)",
+              background: "linear-gradient(135deg, var(--accent-sakura) 0%, var(--accent-sakura) 100%)",
               boxShadow: "0 8px 24px color-mix(in srgb, var(--accent-sakura) calc(0.35 * 100%), transparent)",
               transition: "transform 0.2s ease, box-shadow 0.2s ease",
             }}
@@ -1017,7 +1017,7 @@ function EditProfileSheet({ onClose }: { onClose: () => void }) {
           <button
             onClick={save}
             className="w-full h-12 rounded-2xl text-white text-[15px] font-bold"
-            style={{ background: "linear-gradient(135deg, var(--accent-sakura), #D86F88)", boxShadow: "0 6px 18px color-mix(in srgb, var(--accent-sakura) calc(0.35 * 100%), transparent)" }}
+            style={{ background: "linear-gradient(135deg, var(--accent-sakura), var(--accent-sakura-dark))", boxShadow: "0 6px 18px color-mix(in srgb, var(--accent-sakura) calc(0.35 * 100%), transparent)" }}
           >
             {t("保存", "Save Changes")}
           </button>
