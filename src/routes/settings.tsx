@@ -95,9 +95,9 @@ function Settings() {
       </div>
 
       <Section title={t("プロフィール", "Profile")}>
-        <Row label={t("メールを変更", "Change Email")}/>
-        <Row label={t("名前を変更", "Change Name")}/>
-        <Row label={t("パスワード変更", "Change Password")}/>
+        <Row label={t("メールを変更", "Change Email")} onClick={() => { setEditField("email"); setEditValue(session?.email ?? ""); }}/>
+        <Row label={t("名前を変更", "Change Name")} onClick={() => { setEditField("name"); setEditValue(session?.name ?? ""); }}/>
+        <Row label={t("パスワード変更", "Change Password")} onClick={() => { setEditField("password"); setEditValue(""); }}/>
       </Section>
 
       <Section title={t("表示", "Appearance")}>
@@ -145,8 +145,8 @@ function Settings() {
       </Section>
 
       <Section title={t("データ", "Data")}>
-        <Row label={` ${t("データをエクスポート", "Export Data")}`}/>
-        <Row label={` ${t("プライバシー設定", "Privacy Settings")}`}/>
+        <Row label={` ${t("データをエクスポート", "Export Data")}`} onClick={exportData}/>
+        <Row label={` ${t("プライバシー設定", "Privacy Settings")}`} onClick={() => setPrivacyOpen(true)}/>
       </Section>
 
       <div className="mt-4 bg-gradient-to-br from-warning to-sakura rounded-2xl p-5 shadow-card text-primary">
