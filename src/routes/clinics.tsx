@@ -131,12 +131,6 @@ function Clinics() {
 
   const emergencyClinic = CLINICS.find((c) => c.em && c.open) ?? CLINICS[0];
 
-  const openMaps = (name: string) => {
-    if (typeof window !== "undefined") {
-      window.open(`https://maps.google.com/?q=${encodeURIComponent(name)}`, "_blank");
-    }
-  };
-
   return (
     <AppShell noPadding>
 
