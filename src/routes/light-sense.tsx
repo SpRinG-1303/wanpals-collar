@@ -13,7 +13,7 @@ const P = {
   medium: "#E8849A",
   deep: "#C96B82",
   soft: "#FEF0F5",
-  pale: "#FFF5F8",
+  pale: "var(--accent-sakura-soft)",
   accent: "#F7B8CC",
   muted: "#FAD0DF",
   light: "#FDE8EF",
@@ -292,7 +292,7 @@ function LightSensePage() {
           subtitleEn="LightSense AI"
           titleEn="LightSense AI"
           descriptorEn="Collar light control"
-          bgGradient="linear-gradient(135deg, #FFF5F8 0%, #FEE8F0 100%)"
+          bgGradient="linear-gradient(135deg, var(--accent-sakura-soft) 0%, #FEE8F0 100%)"
           subtitleColor="#D4849E"
         />
 

@@ -46,14 +46,14 @@ function MapScreen() {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <span className="relative inline-block green-pulse" style={{ width: 8, height: 8, borderRadius: "50%", background: "#6BAF92" }} />
-            <span style={{ fontSize: 13, fontWeight: 700, color: "#2C2C2C" }}>{t("ライブ追跡中", "Live Tracking")}</span>
+            <span style={{ fontSize: 13, fontWeight: 700, color: "var(--text-primary)" }}>{t("ライブ追跡中", "Live Tracking")}</span>
           </div>
           <div className="flex items-center gap-1.5" style={{ color: "#6BAF92" }}>
             <Satellite size={14} />
             <span style={{ fontSize: 12, fontWeight: 600 }}>GPS ✓</span>
           </div>
         </div>
-        <div style={{ fontSize: 11, color: "#8A8A8A", marginTop: 2 }}>
+        <div style={{ fontSize: 11, color: "var(--text-secondary)", marginTop: 2 }}>
           {t("最終更新: たった今", "Last updated: Just now")}
         </div>
       </div>
@@ -98,8 +98,8 @@ function MapScreen() {
           {(["map", "satellite"] as const).map(m => (
             <button key={m} onClick={() => setMapType(m)} style={{
               padding: "4px 10px", borderRadius: 12,
-              background: mapType === m ? "#E8829A" : "transparent",
-              color: mapType === m ? "#fff" : "#8A8A8A",
+              background: mapType === m ? "var(--accent-sakura)" : "transparent",
+              color: mapType === m ? "#fff" : "var(--text-secondary)",
             }}>
               {m === "map" ? t("地図", "Map") : t("衛星", "Satellite")}
             </button>
@@ -108,9 +108,9 @@ function MapScreen() {
 
         {/* Zoom controls top-right */}
         <div className="absolute" style={{ top: 12, right: 12, background: "rgba(255,255,255,0.9)", backdropFilter: "blur(8px)", borderRadius: 12, boxShadow: "0 2px 8px rgba(0,0,0,0.1)" }}>
-          <button className="flex items-center justify-center" style={{ width: 36, height: 36, color: "#2C2C2C" }}><Plus size={16} /></button>
-          <div style={{ height: 1, background: "#EDE8E4" }} />
-          <button className="flex items-center justify-center" style={{ width: 36, height: 36, color: "#2C2C2C" }}><Minus size={16} /></button>
+          <button className="flex items-center justify-center" style={{ width: 36, height: 36, color: "var(--text-primary)" }}><Plus size={16} /></button>
+          <div style={{ height: 1, background: "var(--border-card)" }} />
+          <button className="flex items-center justify-center" style={{ width: 36, height: 36, color: "var(--text-primary)" }}><Minus size={16} /></button>
         </div>
 
         {/* My location button bottom-right */}
@@ -138,7 +138,7 @@ function MapScreen() {
 
         {/* Activity trail dots */}
         {[{x:38,y:62,s:5},{x:42,y:58,s:4.5},{x:45,y:55,s:4},{x:47,y:52,s:3.5},{x:48,y:50,s:3}].map((d,i)=>(
-          <div key={i} className="absolute" style={{ left: `${d.x}%`, top: `${d.y}%`, width: d.s, height: d.s, borderRadius: "50%", background: `rgba(232,130,154,${0.4-i*0.06})` }} />
+          <div key={i} className="absolute" style={{ left: `${d.x}%`, top: `${d.y}%`, width: d.s, height: d.s, borderRadius: "50%", background: `color-mix(in srgb, var(--accent-sakura) calc(${0.4-i*0.06} * 100%), transparent)` }} />
         ))}
 
         {/* Owner marker */}
@@ -150,7 +150,7 @@ function MapScreen() {
           <div className="absolute" style={{ left: "50%", top: -22, transform: "translateX(-50%)", background: "#E8F2FF", border: "1px solid #5B9BD5", color: "#5B9BD5", fontSize: 10, fontWeight: 700, padding: "2px 8px", borderRadius: 20, whiteSpace: "nowrap" }}>
             {t("あなた", "You")}
           </div>
-          <div className="absolute" style={{ left: "50%", top: 18, transform: "translateX(-50%)", fontSize: 9, color: "#8A8A8A", whiteSpace: "nowrap" }}>
+          <div className="absolute" style={{ left: "50%", top: 18, transform: "translateX(-50%)", fontSize: 9, color: "var(--text-secondary)", whiteSpace: "nowrap" }}>
             {t("精度: ±5m", "±5m")}
           </div>
         </div>
@@ -158,37 +158,37 @@ function MapScreen() {
         {/* Dog marker center */}
         <div className="absolute" style={{ left: "50%", top: "50%", transform: "translate(-50%,-50%)" }}>
           {/* Pulse ring */}
-          <div className="absolute map-pulse-ring" style={{ left: "50%", top: "50%", transform: "translate(-50%,-50%)", width: 48, height: 48, borderRadius: "50%", background: "rgba(232,130,154,0.15)", border: "2px solid rgba(232,130,154,0.4)" }} />
+          <div className="absolute map-pulse-ring" style={{ left: "50%", top: "50%", transform: "translate(-50%,-50%)", width: 48, height: 48, borderRadius: "50%", background: "color-mix(in srgb, var(--accent-sakura) calc(0.15 * 100%), transparent)", border: "2px solid color-mix(in srgb, var(--accent-sakura) calc(0.4 * 100%), transparent)" }} />
           {/* Middle */}
-          <div className="absolute" style={{ left: "50%", top: "50%", transform: "translate(-50%,-50%)", width: 32, height: 32, borderRadius: "50%", background: "rgba(232,130,154,0.25)", border: "2px solid #E8829A" }} />
+          <div className="absolute" style={{ left: "50%", top: "50%", transform: "translate(-50%,-50%)", width: 32, height: 32, borderRadius: "50%", background: "color-mix(in srgb, var(--accent-sakura) calc(0.25 * 100%), transparent)", border: "2px solid var(--accent-sakura)" }} />
           {/* Inner */}
-          <div className="relative flex items-center justify-center" style={{ width: 20, height: 20, borderRadius: "50%", background: "linear-gradient(135deg, #E8829A, #C86882)", boxShadow: "0 4px 12px rgba(232,130,154,0.5)" }}>
+          <div className="relative flex items-center justify-center" style={{ width: 20, height: 20, borderRadius: "50%", background: "linear-gradient(135deg, var(--accent-sakura), var(--accent-sakura-dark))", boxShadow: "0 4px 12px color-mix(in srgb, var(--accent-sakura) calc(0.5 * 100%), transparent)" }}>
             <span style={{ color: "#fff", fontSize: 10 }}></span>
           </div>
           {/* Pin tip */}
-          <div className="absolute" style={{ left: "50%", top: 20, transform: "translateX(-50%)", width: 0, height: 0, borderLeft: "4px solid transparent", borderRight: "4px solid transparent", borderTop: "6px solid #C86882" }} />
+          <div className="absolute" style={{ left: "50%", top: 20, transform: "translateX(-50%)", width: 0, height: 0, borderLeft: "4px solid transparent", borderRight: "4px solid transparent", borderTop: "6px solid var(--accent-sakura-dark)" }} />
           {/* Name tag */}
-          <div className="absolute" style={{ left: "50%", top: -26, transform: "translateX(-50%)", background: "#FFFFFF", border: "1px solid #FFD0DC", color: "#E8829A", fontSize: 11, fontWeight: 700, padding: "3px 8px", borderRadius: 20, whiteSpace: "nowrap", boxShadow: "0 2px 8px rgba(0,0,0,0.1)" }}>
+          <div className="absolute" style={{ left: "50%", top: -26, transform: "translateX(-50%)", background: "#FFFFFF", border: "1px solid #FFD0DC", color: "var(--accent-sakura)", fontSize: 11, fontWeight: 700, padding: "3px 8px", borderRadius: 20, whiteSpace: "nowrap", boxShadow: "0 2px 8px rgba(0,0,0,0.1)" }}>
             {dogName} 
           </div>
         </div>
 
         {/* Attribution */}
-        <div className="absolute" style={{ bottom: 4, right: 8, fontSize: 8, color: "#8A8A8A" }}>
+        <div className="absolute" style={{ bottom: 4, right: 8, fontSize: 8, color: "var(--text-secondary)" }}>
           © OpenStreetMap / 地図データ
         </div>
       </div>
 
       {/* DOG INFO CARD */}
-      <div style={{ margin: "0 16px 12px", background: "#FFFFFF", borderRadius: 20, boxShadow: "0 4px 16px rgba(0,0,0,0.07)", borderLeft: "4px solid #E8829A", overflow: "hidden" }}>
-        <div style={{ height: 6, background: "linear-gradient(90deg, #FFE4EC, #FFF0F5)" }} />
+      <div style={{ margin: "0 16px 12px", background: "#FFFFFF", borderRadius: 20, boxShadow: "0 4px 16px rgba(0,0,0,0.07)", borderLeft: "4px solid var(--accent-sakura)", overflow: "hidden" }}>
+        <div style={{ height: 6, background: "linear-gradient(90deg, var(--bg-card-sakura), var(--accent-sakura-soft))" }} />
         <div style={{ padding: 14 }}>
           <div className="flex items-start justify-between">
             <div className="flex items-start gap-3 flex-1 min-w-0">
               <DogAvatar breed={breedKey} furColor={pet.avatar.furColor} collarColor={pet.avatar.collarColor} size={44} ring />
               <div className="min-w-0">
-                <div style={{ fontSize: 17, fontWeight: 700, color: "#2C2C2C" }}>{dogName}</div>
-                <div style={{ fontSize: 12, color: "#8A8A8A", marginTop: 1 }}>
+                <div style={{ fontSize: 17, fontWeight: 700, color: "var(--text-primary)" }}>{dogName}</div>
+                <div style={{ fontSize: 12, color: "var(--text-secondary)", marginTop: 1 }}>
                   {t("東京都渋谷区神南1-2-3", "1-2-3 Jinnan, Shibuya, Tokyo")}
                 </div>
                 <div className="flex items-center gap-1.5 mt-1">
@@ -197,10 +197,10 @@ function MapScreen() {
                 </div>
               </div>
             </div>
-            <span style={{ background: "#FFF0F5", border: "1px solid #FFD0DC", color: "#E8829A", fontSize: 13, fontWeight: 700, padding: "4px 12px", borderRadius: 20 }}>0.3km</span>
+            <span style={{ background: "var(--accent-sakura-soft)", border: "1px solid #FFD0DC", color: "var(--accent-sakura)", fontSize: 13, fontWeight: 700, padding: "4px 12px", borderRadius: 20 }}>0.3km</span>
           </div>
 
-          <div className="flex items-center gap-2 mt-3" style={{ fontSize: 11, color: "#8A8A8A" }}>
+          <div className="flex items-center gap-2 mt-3" style={{ fontSize: 11, color: "var(--text-secondary)" }}>
             <span> {t("移動中", "Moving")}</span>
             <span>·</span>
             <span> {t("渋谷区", "Shibuya")}</span>
@@ -224,13 +224,13 @@ function MapScreen() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Shield size={20} style={{ color: "#6BAF92" }} />
-              <span style={{ fontSize: 15, fontWeight: 700, color: "#2C2C2C" }}>{t("安全ゾーン", "Safe Zone")}</span>
+              <span style={{ fontSize: 15, fontWeight: 700, color: "var(--text-primary)" }}>{t("安全ゾーン", "Safe Zone")}</span>
             </div>
             <Toggle on={safeZone} onChange={setSafeZone} activeColor="#6BAF92" />
           </div>
           {safeZone && (
             <div className="mt-2">
-              <div style={{ fontSize: 12, color: "#8A8A8A" }}>
+              <div style={{ fontSize: 12, color: "var(--text-secondary)" }}>
                 {t(`${radius < 1000 ? radius + "m" : "1km"} 半径で通知`, `Notify within ${radius < 1000 ? radius + "m" : "1km"} radius`)}
               </div>
               <div className="flex gap-2 mt-2">
@@ -238,7 +238,7 @@ function MapScreen() {
                   <button key={r} onClick={() => setRadius(r)} style={{
                     padding: "5px 12px", borderRadius: 20, fontSize: 11, fontWeight: 600,
                     background: radius === r ? "#6BAF92" : "#F5F5F5",
-                    color: radius === r ? "#fff" : "#8A8A8A",
+                    color: radius === r ? "#fff" : "var(--text-secondary)",
                   }}>{r < 1000 ? `${r}m` : "1km"}</button>
                 ))}
               </div>
@@ -254,18 +254,18 @@ function MapScreen() {
         borderRadius: 20,
         boxShadow: "0 4px 16px rgba(0,0,0,0.07)",
         border: lost ? "2px solid #E53935" : "none",
-        borderLeft: `4px solid ${lost ? "#E53935" : "#C4B8B4"}`,
+        borderLeft: `4px solid ${lost ? "#E53935" : "var(--text-placeholder)"}`,
         animation: lost ? "borderPulse 1.6s infinite" : undefined,
         padding: 14,
       }}>
         <div className="flex items-center justify-between">
           <div className="flex items-start gap-2 flex-1">
-            <AlertTriangle size={20} style={{ color: lost ? "#E53935" : "#C4B8B4", marginTop: 2 }} className={lost ? "animate-pulse" : ""} />
+            <AlertTriangle size={20} style={{ color: lost ? "#E53935" : "var(--text-placeholder)", marginTop: 2 }} className={lost ? "animate-pulse" : ""} />
             <div>
-              <div style={{ fontSize: 15, fontWeight: 700, color: lost ? "#E53935" : "#2C2C2C" }}>
+              <div style={{ fontSize: 15, fontWeight: 700, color: lost ? "#E53935" : "var(--text-primary)" }}>
                 {lost ? ` ${t("迷子モード起動中", "Lost Mode ACTIVE")}` : t("迷子モード", "Lost Mode")}
               </div>
-              <div style={{ fontSize: 12, color: lost ? "#E53935" : "#8A8A8A", marginTop: 2 }}>
+              <div style={{ fontSize: 12, color: lost ? "#E53935" : "var(--text-secondary)", marginTop: 2 }}>
                 {lost ? t("緊急追跡中...", "Emergency tracking active...") : t("紛失時の緊急追跡", "Emergency tracking if lost")}
               </div>
             </div>
@@ -289,7 +289,7 @@ function MapScreen() {
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-2">
             <History size={18} style={{ color: "#7B68C8" }} />
-            <span style={{ fontSize: 14, fontWeight: 700, color: "#2C2C2C" }}>{t("移動履歴", "Location History")}</span>
+            <span style={{ fontSize: 14, fontWeight: 700, color: "var(--text-primary)" }}>{t("移動履歴", "Location History")}</span>
           </div>
           <span style={{ fontSize: 11, fontWeight: 600, color: "#7B68C8", background: "#F0ECFF", padding: "3px 10px", borderRadius: 20 }}>{t("今日", "Today")}</span>
         </div>
@@ -303,11 +303,11 @@ function MapScreen() {
             <span style={{ width: 8, height: 8, borderRadius: "50%", background: h.color, flexShrink: 0 }} />
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2">
-                <span style={{ fontSize: 12, color: "#8A8A8A" }}> {h.time}</span>
-                <span style={{ fontSize: 13, fontWeight: 700, color: "#2C2C2C" }}> {t(h.jp, h.en)}</span>
+                <span style={{ fontSize: 12, color: "var(--text-secondary)" }}> {h.time}</span>
+                <span style={{ fontSize: 13, fontWeight: 700, color: "var(--text-primary)" }}> {t(h.jp, h.en)}</span>
               </div>
             </div>
-            <span style={{ fontSize: 11, color: "#E8829A", fontWeight: 600 }}>{h.dist}</span>
+            <span style={{ fontSize: 11, color: "var(--accent-sakura)", fontWeight: 600 }}>{h.dist}</span>
           </div>
         ))}
 
@@ -341,7 +341,7 @@ function Toggle({ on, onChange, activeColor = "#6BAF92" }: { on: boolean; onChan
   return (
     <button onClick={() => onChange(!on)} style={{
       width: 48, height: 28, borderRadius: 999, position: "relative", transition: "background .3s",
-      background: on ? activeColor : "#EDE8E4",
+      background: on ? activeColor : "var(--border-card)",
     }}>
       <span style={{
         position: "absolute", top: 3, left: on ? 23 : 3, width: 22, height: 22, borderRadius: "50%",

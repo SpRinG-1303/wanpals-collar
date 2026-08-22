@@ -1,4 +1,4 @@
-export function PawLogo({ size = 32, color = "#E87090" }: { size?: number; color?: string }) {
+export function PawLogo({ size = 32, color = "var(--accent-sakura)" }: { size?: number; color?: string }) {
   return (
     <svg
       width={size}

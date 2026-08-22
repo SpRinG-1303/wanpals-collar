@@ -27,13 +27,13 @@ export const Route = createFileRoute("/avatar-setup")({
  * ──────────────────────────────────────────────────────────────────────── */
 
 const ROSE = "#e8678a";
-const ROSE_SOFT = "#f4a3b8";
-const CREAM = "#f5ede8";
-const PINK_BG = "#fdedf2";
-const TEXT = "#3a2a26";
-const MUTED = "#9c8a82";
+const ROSE_SOFT = "var(--accent-sakura)";
+const CREAM = "var(--bg-page)";
+const PINK_BG = "var(--accent-sakura-soft)";
+const TEXT = "var(--text-primary)";
+const MUTED = "var(--text-secondary)";
 
-const FONT = "'Nunito', 'Quicksand', system-ui, sans-serif";
+const FONT = "var(--font-sans)";
 
 type Screen = "welcome" | 1 | 2 | 3;
 
@@ -84,15 +84,15 @@ function AvatarSetupFlow() {
   return (
     <div
       style={{
-        minHeight: "100vh",
-        background: CREAM,
+        minHeight: "100dvh",
+        background: "var(--bg-outside)",
         color: TEXT,
         fontFamily: FONT,
         display: "flex",
         justifyContent: "center",
       }}
     >
-      <div style={{ width: "100%", maxWidth: 430, position: "relative" }}>
+      <div style={{ width: "100%", maxWidth: 430, position: "relative", background: CREAM, minHeight: "100dvh", boxShadow: "0 0 40px rgba(30,25,45,0.10)" }}>
         <div key={String(screen)} style={{ animation: "fadeSlide .35s ease both" }}>
           {screen === "welcome" && <Welcome onStart={() => setScreen(1)} avatar={avatar} />}
           {screen === 1 && (
@@ -492,7 +492,7 @@ function Step2({
           fontSize: 11.5,
           color: "#7a4f24",
           lineHeight: 1.55,
-          fontFamily: "'Quicksand', monospace",
+          fontFamily: "var(--font-sans)",
         }}
       >
         <b>Integration:</b> Replicate API → <code>animegan2-pytorch</code> model. Returns illustrated PNG.

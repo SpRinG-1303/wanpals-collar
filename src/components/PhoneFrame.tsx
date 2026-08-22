@@ -4,8 +4,8 @@ export default function PhoneFrame({ children, innerStyle }: { children: ReactNo
   return (
     <div
       style={{
-        background: "#E8E0D8",
-        minHeight: "100vh",
+        background: "var(--bg-outside)",
+        minHeight: "100dvh",
         display: "flex",
         justifyContent: "center",
         alignItems: "flex-start",
@@ -17,9 +17,9 @@ export default function PhoneFrame({ children, innerStyle }: { children: ReactNo
           overflow: "hidden",
           width: "100%",
           maxWidth: 430,
-          minHeight: "100vh",
-          background: "#FAFAF8",
-          boxShadow: "0 0 60px rgba(0,0,0,0.15)",
+          minHeight: "100dvh",
+          background: "var(--bg-page)",
+          boxShadow: "0 0 40px rgba(30,25,45,0.10)",
           ...innerStyle,
         }}
       >

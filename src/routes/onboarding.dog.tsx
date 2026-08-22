@@ -149,7 +149,7 @@ function Step2() {
     <PhoneFrame>
       <div
         className="min-h-screen pb-32"
-        style={{ background: "#F5EDE8", fontFamily: "'Nunito','Quicksand',system-ui,sans-serif" }}
+        style={{ background: "var(--bg-page)", fontFamily: "var(--font-sans)" }}
       >
         <div className="px-6 pt-4">
           <TopBar to="/onboarding/welcome" />
@@ -231,7 +231,7 @@ function Step2() {
             <button
               onClick={onBuildOwn}
               className="text-[11px] font-bold px-3 py-1.5 rounded-full"
-              style={{ background: "#FFF0F5", color: "#E8678A", border: "1.5px solid #E8678A" }}
+              style={{ background: "var(--accent-sakura-soft)", color: "#E8678A", border: "1.5px solid #E8678A" }}
             >
               {t("自分で作る", "Build My Own")} →
             </button>
@@ -243,7 +243,7 @@ function Step2() {
           className="fixed bottom-0 inset-x-0 mx-auto p-4"
           style={{
             maxWidth: 430,
-            background: "linear-gradient(to top, #F5EDE8, rgba(245,237,232,0.9) 70%, transparent)",
+            background: "linear-gradient(to top, var(--bg-page), rgba(245,237,232,0.9) 70%, transparent)",
           }}
         >
           <button
@@ -360,7 +360,7 @@ function SheetRow({
         className="flex items-center justify-center"
         style={{
           width: 40, height: 40, borderRadius: 999,
-          background: "#FFF0F5", color: "#E8678A",
+          background: "var(--accent-sakura-soft)", color: "#E8678A",
         }}
       >
         {icon}
@@ -573,7 +573,7 @@ function AnimationField({
               style={{
                 width: 168, height: 168, objectFit: "cover",
                 borderRadius: 20,
-                boxShadow: "0 0 0 4px #FFF0F5, 0 10px 28px rgba(232,103,138,0.18)",
+                boxShadow: "0 0 0 4px var(--accent-sakura-soft), 0 10px 28px rgba(232,103,138,0.18)",
               }}
             />
             <div
@@ -598,7 +598,7 @@ function AnimationField({
               style={{
                 width: 200, height: 200, objectFit: "cover",
                 borderRadius: 24,
-                boxShadow: "0 0 0 4px #FFF0F5, 0 12px 30px rgba(232,103,138,0.22)",
+                boxShadow: "0 0 0 4px var(--accent-sakura-soft), 0 12px 30px rgba(232,103,138,0.22)",
                 animation: "afBreathe 3.6s ease-in-out infinite",
               }}
             />
@@ -954,7 +954,7 @@ function PawBotSVG({ palette }: { palette?: DogPalette }) {
       {/* Collar tag */}
       <circle cx="50" cy="73" r="4" fill={COLLAR_DEEP} stroke={OUTLINE} strokeWidth="2" />
       {/* Paw print on tag */}
-      <g fill="#FFF0F5">
+      <g fill="var(--accent-sakura-soft)">
         <circle cx="50" cy="74" r="1.3" />
         <circle cx="48" cy="71.5" r="0.7" />
         <circle cx="50" cy="71" r="0.7" />

@@ -1,6 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
-import { PawPrint } from "lucide-react";
 import logoUrl from "@/assets/logo.png";
 import { useAuth } from "@/context/AuthContext";
 
@@ -29,60 +28,54 @@ function Splash() {
   }, [hydrated, session, navigate]);
 
   return (
-    <div
-      className="flex flex-col items-center justify-center min-h-screen"
-      style={{ background: "linear-gradient(160deg,#FFF5F8 0%,#FAFAF8 45%,#F0F6FF 100%)" }}
-    >
-      <style>{`
-        @keyframes splashPop { 0% { transform: scale(0.6); opacity: 0; } 60% { transform: scale(1.08); opacity: 1; } 100% { transform: scale(1); opacity: 1; } }
-        @keyframes splashPulse { 0%,100% { transform: scale(1); opacity: 0.25; } 50% { transform: scale(1.5); opacity: 0; } }
-        @keyframes splashDot { 0%,100% { transform: translateY(0); opacity: 0.4; } 50% { transform: translateY(-5px); opacity: 1; } }
-        @keyframes splashFadeUp { from { transform: translateY(10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-      `}</style>
-
-      <div className="relative flex items-center justify-center" style={{ width: 120, height: 120 }}>
-        <span
-          className="absolute inset-0"
-          style={{ borderRadius: "50%", background: "#E8829A", animation: "splashPulse 1.8s ease-out infinite" }}
-        />
-        <div
-          className="flex items-center justify-center"
-          style={{
-            width: 96, height: 96, borderRadius: "50%", background: "#FFFFFF",
-            border: "3px solid #E8829A", boxShadow: "0 12px 32px rgba(232,130,154,0.3)",
-            animation: "splashPop 0.7s cubic-bezier(0.34,1.56,0.64,1) both",
-          }}
-        >
-          <img src={logoUrl} alt="Pawsitive logo" style={{ width: 60, height: 60, objectFit: "contain" }} />
-        </div>
-      </div>
-
+    <div style={{ background: "var(--bg-outside)", minHeight: "100dvh", display: "flex", justifyContent: "center" }}>
       <div
+        className="flex flex-col items-center justify-center"
         style={{
-          marginTop: 22, fontSize: 30, fontWeight: 900, color: "#2C2C2C", letterSpacing: "-0.02em",
-          animation: "splashFadeUp 0.5s ease 0.25s both", fontFamily: "'Nunito', sans-serif",
+          width: "100%", maxWidth: 430, minHeight: "100dvh",
+          background: "var(--bg-page)",
+          boxShadow: "0 0 40px rgba(30,25,45,0.10)",
+          fontFamily: "var(--font-sans)",
         }}
       >
-        Pawsitive
-      </div>
-      <div
-        className="flex items-center"
-        style={{ gap: 6, marginTop: 6, color: "#8A8A8A", fontSize: 13, fontWeight: 600, animation: "splashFadeUp 0.5s ease 0.4s both" }}
-      >
-        <PawPrint size={13} style={{ color: "#E8829A" }} />
-        Smart Dog Care for India
-      </div>
+        <style>{`
+          @keyframes splashFadeUp { from { transform: translateY(8px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+          @keyframes splashDot { 0%,100% { transform: translateY(0); opacity: 0.35; } 50% { transform: translateY(-4px); opacity: 1; } }
+        `}</style>
 
-      <div className="flex" style={{ gap: 8, marginTop: 34 }}>
-        {[0, 1, 2].map((i) => (
-          <span
-            key={i}
-            style={{
-              width: 8, height: 8, borderRadius: "50%", background: "#E8829A",
-              animation: `splashDot 1s ease-in-out ${i * 0.15}s infinite`,
-            }}
-          />
-        ))}
+        <img
+          src={logoUrl}
+          alt="Pawsitive logo"
+          style={{ width: 64, height: 64, objectFit: "contain", animation: "splashFadeUp 0.5s ease both" }}
+        />
+        <div
+          style={{
+            marginTop: 18, fontSize: 30, fontWeight: 500, color: "var(--text-primary)", letterSpacing: "-0.01em",
+            animation: "splashFadeUp 0.5s ease 0.15s both", fontFamily: "var(--font-display)",
+          }}
+        >
+          Pawsitive
+        </div>
+        <div
+          style={{
+            marginTop: 6, color: "var(--text-secondary)", fontSize: 13, fontWeight: 500, letterSpacing: "0.02em",
+            animation: "splashFadeUp 0.5s ease 0.3s both",
+          }}
+        >
+          Smart dog care, made simple
+        </div>
+
+        <div className="flex" style={{ gap: 7, marginTop: 36 }}>
+          {[0, 1, 2].map((i) => (
+            <span
+              key={i}
+              style={{
+                width: 7, height: 7, borderRadius: "50%", background: "var(--accent-sakura)",
+                animation: `splashDot 1s ease-in-out ${i * 0.15}s infinite`,
+              }}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );

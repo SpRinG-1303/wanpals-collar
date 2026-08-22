@@ -41,7 +41,7 @@ function getColors(breed: BreedKey): Palette {
   };
   return {
     nose: "#2A1E18",
-    collar: "#E8829A",
+    collar: "var(--accent-sakura)",
     fur: "#D69354",
     furDeep: "#A86A2E",
     belly: "#F5E1C8",
@@ -336,9 +336,9 @@ function Yorkie({ C }: { C: Palette }) {
       {/* hair flop over forehead */}
       <path d="M44 86 Q70 60 96 86 Q92 70 70 64 Q48 70 44 86 Z" fill={C.furDeep} />
       {/* top knot bow */}
-      <circle cx="70" cy="62" r="5" fill="#E8829A" />
-      <path d="M64 62 L58 58 L60 66 Z" fill="#E8829A" />
-      <path d="M76 62 L82 58 L80 66 Z" fill="#E8829A" />
+      <circle cx="70" cy="62" r="5" fill="var(--accent-sakura)" />
+      <path d="M64 62 L58 58 L60 66 Z" fill="var(--accent-sakura)" />
+      <path d="M76 62 L82 58 L80 66 Z" fill="var(--accent-sakura)" />
       {/* small ears */}
       <path d="M48 80 L52 64 L60 80 Z" fill={C.fur} />
       <path d="M80 80 L88 64 L92 80 Z" fill={C.fur} />

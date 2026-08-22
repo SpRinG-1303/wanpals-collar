@@ -48,7 +48,7 @@ function Step3() {
     <PhoneFrame>
       <div
         className="min-h-screen pb-32"
-        style={{ background: "#F5EDE8", fontFamily: "'Nunito','Quicksand',system-ui,sans-serif" }}
+        style={{ background: "var(--bg-page)", fontFamily: "var(--font-sans)" }}
       >
         <div className="px-6 pt-4">
           <TopBar to={pet.path === "B" ? "/onboarding/avatar" : "/onboarding/dog"} />
@@ -129,7 +129,7 @@ function Step3() {
           className="fixed bottom-0 inset-x-0 mx-auto p-4"
           style={{
             maxWidth: 430,
-            background: "linear-gradient(to top, #F5EDE8, rgba(245,237,232,0.9) 70%, transparent)",
+            background: "linear-gradient(to top, var(--bg-page), rgba(245,237,232,0.9) 70%, transparent)",
           }}
         >
           <PrimaryButton onClick={() => nav({ to: "/onboarding/details" })}>

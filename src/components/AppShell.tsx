@@ -47,7 +47,7 @@ export function TopBar({
               style={{ width: 42, height: 42, background: "transparent" }}
               aria-label="Profile"
             >
-              <PawLogo size={32} color="#E87090" />
+              <PawLogo size={32} color="var(--accent-sakura)" />
             </Link>
           </div>
           {showTitle ? (

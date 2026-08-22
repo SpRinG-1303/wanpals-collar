@@ -105,7 +105,7 @@ function Step4() {
     <PhoneFrame>
       <div
         className="min-h-screen pb-40"
-        style={{ background: "#F5EDE8", fontFamily: "'Nunito','Quicksand',system-ui,sans-serif" }}
+        style={{ background: "var(--bg-page)", fontFamily: "var(--font-sans)" }}
       >
         <div className="px-6 pt-4">
           <TopBar to="/onboarding/owner" />
@@ -149,7 +149,7 @@ function Step4() {
               placeholder={t("ワンちゃんの名前は？", "What's your dog's name?")}
               className="w-full bg-transparent outline-none transition-all"
               style={{
-                fontFamily: "'Nunito',sans-serif",
+                fontFamily: "var(--font-sans)",
                 fontSize: 16,
                 color: "#3B2A23",
                 padding: "10px 2px",
@@ -173,7 +173,7 @@ function Step4() {
                 onChange={(e) => setBreedSelect(e.target.value)}
                 className="w-full bg-transparent outline-none"
                 style={{
-                  fontFamily: "'Nunito',sans-serif",
+                  fontFamily: "var(--font-sans)",
                   fontSize: 15,
                   color: "#3B2A23",
                   padding: "10px 2px",
@@ -194,7 +194,7 @@ function Step4() {
                   placeholder={t("犬種を入力", "Type breed")}
                   className="w-full bg-transparent outline-none mt-2"
                   style={{
-                    fontFamily: "'Nunito',sans-serif",
+                    fontFamily: "var(--font-sans)",
                     fontSize: 15,
                     color: "#3B2A23",
                     padding: "8px 2px",
@@ -245,7 +245,7 @@ function Step4() {
                   placeholder={t("体重を入力", "Enter weight")}
                   className="flex-1 bg-transparent outline-none"
                   style={{
-                    fontFamily: "'Nunito',sans-serif",
+                    fontFamily: "var(--font-sans)",
                     fontSize: 15,
                     color: "#3B2A23",
                     padding: "10px 2px",
@@ -286,7 +286,7 @@ function Step4() {
                 )}
                 className="w-full bg-transparent outline-none mt-1 rounded-xl p-3 transition-all"
                 style={{
-                  fontFamily: "'Nunito',sans-serif",
+                  fontFamily: "var(--font-sans)",
                   fontSize: 14,
                   color: "#3B2A23",
                   minHeight: 80,
@@ -306,7 +306,7 @@ function Step4() {
                 placeholder={t("あなたの獣医の名前", "Your vet's name")}
                 className="w-full bg-transparent outline-none mt-1"
                 style={{
-                  fontFamily: "'Nunito',sans-serif",
+                  fontFamily: "var(--font-sans)",
                   fontSize: 15,
                   color: "#3B2A23",
                   padding: "10px 2px",
@@ -325,7 +325,7 @@ function Step4() {
               placeholder="e.g. PAW-2024-XXXX"
               className="w-full bg-transparent outline-none mt-1"
               style={{
-                fontFamily: "'Nunito',sans-serif",
+                fontFamily: "var(--font-sans)",
                 fontSize: 15,
                 color: "#3B2A23",
                 padding: "10px 2px",
@@ -364,7 +364,7 @@ function Step4() {
           className="fixed bottom-0 inset-x-0 mx-auto p-4"
           style={{
             maxWidth: 430,
-            background: "linear-gradient(to top, #F5EDE8, rgba(245,237,232,0.95) 70%, transparent)",
+            background: "linear-gradient(to top, var(--bg-page), rgba(245,237,232,0.95) 70%, transparent)",
           }}
         >
           <button
@@ -443,7 +443,7 @@ function NumberField({
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
         className="flex-1 bg-transparent outline-none"
-        style={{ fontFamily: "'Nunito',sans-serif", fontSize: 15, color: "#3B2A23" }}
+        style={{ fontFamily: "var(--font-sans)", fontSize: 15, color: "#3B2A23" }}
       />
       <span className="text-[11px] font-bold" style={{ color: "#A38B82" }}>{suffix}</span>
     </div>
@@ -480,7 +480,7 @@ function UnitToggle({
       className="rounded-lg text-[12px] font-bold transition-all"
       style={{
         padding: "8px 12px",
-        background: selected ? "#FFF0F5" : "#FFFFFF",
+        background: selected ? "var(--accent-sakura-soft)" : "#FFFFFF",
         color: selected ? "#E8678A" : "#A38B82",
         border: selected ? "1.5px solid #E8678A" : "1.5px solid #E5D5CC",
       }}

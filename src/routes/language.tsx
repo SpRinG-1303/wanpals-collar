@@ -11,32 +11,32 @@ function LanguagePicker() {
 
   return (
     <PhoneFrame>
-    <div className="min-h-screen flex flex-col" style={{ background: "#FAFAF8" }}>
+    <div className="min-h-screen flex flex-col" style={{ background: "var(--bg-page)" }}>
       <HeroIllustration />
       <div className="flex-1 px-6 pb-8 w-full">
-        <h1 className="text-base font-semibold text-center mt-2" style={{ color: "#2C2C2C" }}>
+        <h1 className="text-base font-semibold text-center mt-2" style={{ color: "var(--text-primary)" }}>
           App Language<br/>
-          <span className="text-xs font-normal" style={{ color: "#8A8A8A" }}>Pawsitive is available in English</span>
+          <span className="text-xs font-normal" style={{ color: "var(--text-secondary)" }}>Pawsitive is available in English</span>
         </h1>
         <div className="mt-6 space-y-3">
           <div
             className="w-full h-16 rounded-2xl flex items-center justify-between px-5"
             style={{
               background: "#FFFAFB",
-              border: "2px solid #E8829A",
-              borderLeft: "4px solid #E8829A",
+              border: "2px solid var(--accent-sakura)",
+              borderLeft: "4px solid var(--accent-sakura)",
               boxShadow: "0 2px 12px rgba(0,0,0,0.06)",
             }}
           >
             <div className="flex items-center gap-3">
               <div className="text-left">
-                <div className="text-[15px] font-semibold" style={{ color: "#2C2C2C" }}>English</div>
-                <div className="text-[12px]" style={{ color: "#8A8A8A" }}>Default app language</div>
+                <div className="text-[15px] font-semibold" style={{ color: "var(--text-primary)" }}>English</div>
+                <div className="text-[12px]" style={{ color: "var(--text-secondary)" }}>Default app language</div>
               </div>
             </div>
             <div
               className="w-[22px] h-[22px] rounded-full flex items-center justify-center"
-              style={{ background: "#E8829A" }}
+              style={{ background: "var(--accent-sakura)" }}
             >
               <span className="w-2 h-2 rounded-full bg-white" />
             </div>
@@ -46,8 +46,8 @@ function LanguagePicker() {
           onClick={choose}
           className="w-full mt-8 h-[52px] rounded-[14px] text-white font-bold text-[16px] flex items-center justify-center gap-2 active:scale-[0.98] transition-transform"
           style={{
-            background: "linear-gradient(135deg, #E8829A, #C86882)",
-            boxShadow: "0 8px 20px rgba(232,130,154,0.35)",
+            background: "linear-gradient(135deg, var(--accent-sakura), var(--accent-sakura-dark))",
+            boxShadow: "0 8px 20px color-mix(in srgb, var(--accent-sakura) calc(0.35 * 100%), transparent)",
           }}
         >
           <PawPrint className="w-4 h-4" strokeWidth={2.2} />
@@ -69,7 +69,7 @@ export function HeroIllustration({ compact = false }: { compact?: boolean }) {
       className="relative w-full overflow-hidden"
       style={{
         height: H,
-        background: "linear-gradient(160deg, #FFF0F5 0%, #F5F0FF 50%, #F0F5FF 100%)",
+        background: "linear-gradient(160deg, var(--accent-sakura-soft) 0%, #F5F0FF 50%, #F0F5FF 100%)",
       }}
     >
       <div
@@ -103,14 +103,14 @@ export function HeroIllustration({ compact = false }: { compact?: boolean }) {
       <div className="absolute inset-0 flex flex-col items-center justify-center">
         <div
           className="rounded-full bg-white flex items-center justify-center"
-          style={{ width: logo, height: logo, border: "2px solid #FFE4EC", boxShadow: "0 8px 24px rgba(232,130,154,0.2)" }}
+          style={{ width: logo, height: logo, border: "2px solid var(--bg-card-sakura)", boxShadow: "0 8px 24px color-mix(in srgb, var(--accent-sakura) calc(0.2 * 100%), transparent)" }}
         >
-          <PawLogo size={logo * 0.55} color="#E8829A" />
+          <PawLogo size={logo * 0.55} color="var(--accent-sakura)" />
         </div>
-        <div className="mt-2 font-bold leading-none" style={{ color: "#2C2C2C", fontSize: titleSize, letterSpacing: "0.05em" }}>
+        <div className="mt-2 font-bold leading-none" style={{ color: "var(--text-primary)", fontSize: titleSize, letterSpacing: "0.05em" }}>
           Pawsitive
         </div>
-        <div className="mt-1.5 italic text-center" style={{ color: "#8A8A8A", fontSize: tagSize }}>
+        <div className="mt-1.5 italic text-center" style={{ color: "var(--text-secondary)", fontSize: tagSize }}>
           Closer to your beloved dog.
         </div>
       </div>

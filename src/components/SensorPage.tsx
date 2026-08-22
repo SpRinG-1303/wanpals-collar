@@ -20,7 +20,7 @@ export const SP = {
   // Rose / sakura accent
   rose: "#F43F72",
   roseSoft: "#FF6B8A",
-  roseTint: "#FFF0F3",
+  roseTint: "var(--accent-sakura-soft)",
   roseFaint: "rgba(244,63,114,0.08)",
   // Status
   ok: "#16A34A", okDot: "#22C55E", okBg: "#F0FDF4",

@@ -18,7 +18,7 @@ type Item = {
 };
 
 const MAIN_ITEMS: Item[] = [
-  { route: "/home", Icon: Home, iconBg: "#FFE4EC", iconColor: "#E8829A", labelJp: "ホーム", labelEn: "Home", subJp: "ダッシュボード", subEn: "Dashboard" },
+  { route: "/home", Icon: Home, iconBg: "var(--bg-card-sakura)", iconColor: "var(--accent-sakura)", labelJp: "ホーム", labelEn: "Home", subJp: "ダッシュボード", subEn: "Dashboard" },
   { route: "/map", Icon: MapPin, iconBg: "#E8F2FF", iconColor: "#5B9BD5", labelJp: "地図", labelEn: "Map", subJp: "位置トラッカー", subEn: "Location Tracker" },
   { route: "/ai", Icon: Bot, iconBg: "#F0ECFF", iconColor: "#7B68C8", labelJp: "AIアシスタント", labelEn: "AI Assistant", subJp: "AIチャット", subEn: "Pawsitive AI" },
   { route: "/clinics", Icon: HeartPulse, iconBg: "#D6EEFF", iconColor: "#5B9BD5", labelJp: "クリニック", labelEn: "Clinics", subJp: "獣医を探す", subEn: "Find Vets" },
@@ -27,10 +27,10 @@ const MAIN_ITEMS: Item[] = [
 
 const SECONDARY_ITEMS: Item[] = [
   { route: "/report", Icon: FileHeart, iconBg: "#E8F5EE", iconColor: "#6BAF92", labelJp: "健康レポート", labelEn: "Health Report", subJp: "詳細レポート", subEn: "Detailed Report" },
-  { route: "/breeds", Icon: BookOpen, iconBg: "#FFF0F5", iconColor: "#E8829A", labelJp: "犬種図鑑", labelEn: "Breed Guide", subJp: "犬種百科", subEn: "Encyclopedia" },
+  { route: "/breeds", Icon: BookOpen, iconBg: "var(--accent-sakura-soft)", iconColor: "var(--accent-sakura)", labelJp: "犬種図鑑", labelEn: "Breed Guide", subJp: "犬種百科", subEn: "Encyclopedia" },
 ];
 
-const SETTINGS_ITEM: Item = { route: "/settings", Icon: Settings, iconBg: "#F5F5F5", iconColor: "#8A8A8A", labelJp: "設定", labelEn: "Settings", subJp: "設定", subEn: "Preferences" };
+const SETTINGS_ITEM: Item = { route: "/settings", Icon: Settings, iconBg: "#F5F5F5", iconColor: "var(--text-secondary)", labelJp: "設定", labelEn: "Settings", subJp: "設定", subEn: "Preferences" };
 
 function greeting() {
   const h = new Date().getHours();
@@ -92,7 +92,7 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
       >
         <div
           className="flex items-center justify-center shrink-0"
-          style={{ width: 36, height: 36, borderRadius: 10, background: active ? "#FFE4EC" : it.iconBg }}
+          style={{ width: 36, height: 36, borderRadius: 10, background: active ? "var(--bg-card-sakura)" : it.iconBg }}
         >
           <Icon size={18} strokeWidth={2} style={{ color: it.iconColor }} />
         </div>
@@ -210,8 +210,8 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
               className="flex items-center justify-center overflow-hidden"
               style={{
                 width: 48, height: 48, borderRadius: "50%",
-                background: "#FAF8F5", border: "2px solid #E8829A",
-                boxShadow: "0 4px 16px rgba(232,130,154,0.2)",
+                background: "#FAF8F5", border: "2px solid var(--accent-sakura)",
+                boxShadow: "0 4px 16px color-mix(in srgb, var(--accent-sakura) calc(0.2 * 100%), transparent)",
               }}
             >
               <img src={logoUrl} alt="Pawsitive logo" style={{ width: 32, height: 32, objectFit: "contain" }} />
@@ -226,12 +226,12 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
             <div className="flex items-center gap-2">
               <div
                 className="flex items-center justify-center"
-                style={{ width: 32, height: 32, borderRadius: "50%", background: "#fff", border: "1.5px solid #E8829A", fontSize: 16 }}
+                style={{ width: 32, height: 32, borderRadius: "50%", background: "#fff", border: "1.5px solid var(--accent-sakura)", fontSize: 16 }}
               >
                 
               </div>
               <div>
-                <div style={{ fontSize: 12, fontWeight: 600, color: "#E8829A" }}>
+                <div style={{ fontSize: 12, fontWeight: 600, color: "var(--accent-sakura)" }}>
                   {t(`${name}のせかい`, `${name}'s World`)} 
                 </div>
                 <div style={{ fontSize: 11, color: "var(--text-secondary)", marginTop: 1 }}>{greet}</div>
@@ -309,7 +309,7 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
               width: "calc(100% - 24px)",
               height: 42,
               gap: 8,
-              background: session ? "var(--bg-elevated)" : "linear-gradient(135deg, #E8829A, #C86882)",
+              background: session ? "var(--bg-elevated)" : "linear-gradient(135deg, var(--accent-sakura), var(--accent-sakura-dark))",
               color: session ? "var(--text-secondary)" : "#fff",
               fontWeight: 700,
               fontSize: 13,
