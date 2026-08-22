@@ -112,6 +112,7 @@ const sensors: Sensor[] = [
 
 /* ---------- Page ---------- */
 function Home() {
+  const { session } = useAuth();
   const [factIdx, setFactIdx] = useState(0);
   const [query, setQuery] = useState("");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");

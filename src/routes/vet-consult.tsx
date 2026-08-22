@@ -26,6 +26,7 @@ const T = {
   ink: "var(--text-primary)",
   sub: "var(--text-secondary)",
   accent: "var(--accent-sakura)",
+  accentDark: "var(--accent-sakura-dark)",
   soft: "var(--accent-sakura-soft)",
   pale: "var(--acc-pale)",
   red: "#D9534F",
