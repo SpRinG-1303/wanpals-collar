@@ -60,7 +60,7 @@ export const DEFAULT_PET: PetProfile = {
     furColor: "#C4813A",
     earStyle: "upright",
     eyeStyle: "round",
-    collarColor: "#E8829A",
+    collarColor: "var(--accent-sakura)",
   },
   ownerName: "",
   ownerAge: null,

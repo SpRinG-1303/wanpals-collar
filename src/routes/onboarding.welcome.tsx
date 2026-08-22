@@ -15,11 +15,11 @@ function Welcome() {
     <PhoneFrame>
       <div
         className="min-h-screen flex flex-col px-6 pt-10 pb-10"
-        style={{ background: "#F5EDE8", fontFamily: "'Nunito','Quicksand',system-ui,sans-serif" }}
+        style={{ background: "var(--bg-page)", fontFamily: "var(--font-sans)" }}
       >
         {/* Logo */}
         <div className="flex flex-col items-center gap-2">
-          <PawLogo size={56} color="#E87090" />
+          <PawLogo size={56} color="var(--accent-sakura)" />
           <div className="text-[22px] font-extrabold tracking-tight" style={{ color: "#3B2A23" }}>
             Pawsit<span style={{ position: "relative" }}>
               i

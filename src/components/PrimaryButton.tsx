@@ -3,13 +3,13 @@ import { PawPrint } from "lucide-react";
 export function PrimaryButton({
   children,
   onClick,
-  accent = "#E8829A",
+  accent = "var(--accent-sakura)",
 }: {
   children: React.ReactNode;
   onClick?: () => void;
   accent?: string;
 }) {
-  const darker = accent === "#7BB5B0" ? "#5C9590" : "#C86882";
+  const darker = accent === "#7BB5B0" ? "#5C9590" : "var(--accent-sakura-dark)";
   return (
     <button
       onClick={onClick}

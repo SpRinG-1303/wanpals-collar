@@ -9,7 +9,7 @@ export const BREED_DEFAULTS: Record<BreedKey, { fur: string; ear: EarStyle }> = 
   poodle: { fur: "#F5D5A0", ear: "floppy" },
   chihuahua: { fur: "#D4A87A", ear: "round" },
   pomeranian: { fur: "#F2C878", ear: "round" },
-  golden: { fur: "#D4A843", ear: "floppy" },
+  golden: { fur: "var(--accent-yuzu)", ear: "floppy" },
   dachshund: { fur: "#7A4A2A", ear: "floppy" },
   frenchie: { fur: "#9A8A80", ear: "round" },
   yorkie: { fur: "#5A4030", ear: "floppy" },
@@ -50,7 +50,7 @@ export default function DogAvatar({
   furColor,
   earStyle,
   eyeStyle = "round",
-  collarColor = "#E8829A",
+  collarColor = "var(--accent-sakura)",
   size = 160,
   showCollar = true,
   showCheeks = true,
@@ -60,10 +60,10 @@ export default function DogAvatar({
   const fur = furColor ?? BREED_DEFAULTS[breed].fur;
   const ear = earStyle ?? BREED_DEFAULTS[breed].ear;
   const innerEar = "#E8A8A0";
-  const noseDark = "#2C2C2C";
+  const noseDark = "var(--text-primary)";
   const mouthBrown = "#8B5C2A";
   const isDark = isDarkColor(fur);
-  const eyeColor = isDark ? "#1A1A1A" : "#2C2C2C";
+  const eyeColor = isDark ? "#1A1A1A" : "var(--text-primary)";
 
   const wrapRef = useRef<HTMLDivElement>(null);
   const prevBreed = useRef(breed);
@@ -108,7 +108,7 @@ export default function DogAvatar({
         borderRadius: "50%",
         background: "#FFFFFF",
         border: ring ? "3px solid #FFD4E8" : "none",
-        boxShadow: ring ? "0 8px 32px rgba(232,130,154,0.25)" : "none",
+        boxShadow: ring ? "0 8px 32px color-mix(in srgb, var(--accent-sakura) calc(0.25 * 100%), transparent)" : "none",
         overflow: "hidden",
         cursor: onTap ? "pointer" : "default",
         animation: "dogPop .4s cubic-bezier(.34,1.56,.64,1)",
@@ -118,7 +118,7 @@ export default function DogAvatar({
         <defs>
           <radialGradient id={`bg-${size}`} cx="50%" cy="40%" r="60%">
             <stop offset="0%" stopColor="#FFFAFB" />
-            <stop offset="100%" stopColor="#FFF0F5" />
+            <stop offset="100%" stopColor="var(--accent-sakura-soft)" />
           </radialGradient>
         </defs>
         <rect width="100" height="100" fill={`url(#bg-${size})`} />
@@ -184,8 +184,8 @@ export default function DogAvatar({
         {/* Cheek blush */}
         {showCheeks && (
           <>
-            <circle cx="28" cy="64" r="6" fill="#FFB7C5" opacity="0.6" />
-            <circle cx="72" cy="64" r="6" fill="#FFB7C5" opacity="0.6" />
+            <circle cx="28" cy="64" r="6" fill="var(--accent-sakura)" opacity="0.6" />
+            <circle cx="72" cy="64" r="6" fill="var(--accent-sakura)" opacity="0.6" />
           </>
         )}
 

@@ -8,7 +8,7 @@ export const Route = createFileRoute("/pressure-sense")({ component: PressureSen
 
 // ───────── Palette ─────────
 const G = {
-  primary: "#D4A843",
+  primary: "var(--accent-yuzu)",
   medium: "#C49A30",
   deep: "#9E7A1A",
   soft: "#FEF8E1",

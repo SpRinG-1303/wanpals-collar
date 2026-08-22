@@ -6,9 +6,9 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-sans: "Noto Serif JP", "Noto Sans JP", "Inter", system-ui, sans-serif;
-  --font-display: "Zen Maru Gothic", "Noto Sans JP", system-ui, sans-serif;
-  --font-mono: "Kosugi Maru", "Noto Sans JP", system-ui, sans-serif;
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-display: "Fraunces", Georgia, serif;
+  --font-mono: "Inter", system-ui, sans-serif;
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 16px;
@@ -41,72 +41,117 @@
   --color-ring: var(--ring);
 }
 
-:root {
-  /* === Chrome / surface tokens (light) === */
-  --bg-page: #FAFAF8;
-  --bg-outside: #E8E0D8;
+:root,
+[data-role="owner"] {
+  /* === Pet parent theme: pastel purple & white (minimal, demure) === */
+  --bg-page: #FCFBFE;
+  --bg-outside: #ECE8F3;
   --bg-card: #FFFFFF;
-  --bg-card-sakura: #FFE4EC;
-  --bg-card-lavender: #EDE0FF;
-  --bg-card-mint: #D4F0E8;
-  --bg-card-yellow: #FFF3CC;
-  --bg-card-blue: #D6EEFF;
-  --bg-card-peach: #FFE8D6;
+  --bg-card-sakura: #F1EBFB;
+  --bg-card-lavender: #EDE8F9;
+  --bg-card-mint: #E6F3EC;
+  --bg-card-yellow: #FBF4DF;
+  --bg-card-blue: #E7F0FA;
+  --bg-card-peach: #FAEEDF;
   --bg-surface: #FFFFFF;
-  --bg-elevated: #FAFAF8;
-  --bg-topbar: #FAFAF8;
+  --bg-elevated: #FCFBFE;
+  --bg-topbar: #FCFBFE;
   --bg-bottomnav: #FFFFFF;
   --bg-drawer: #FFFFFF;
-  --bg-drawer-hero: linear-gradient(160deg, #FFF0F5 0%, #F5F0FF 60%, #EEF5FF 100%);
-  --text-primary: #2C2C2C;
-  --text-secondary: #8A8A8A;
-  --text-placeholder: #C4B8B4;
-  --text-muted-soft: #B0A8A4;
-  --border-subtle: #F0ECE8;
-  --border-card: #EDE8E4;
-  --shadow-nav: 0 -4px 20px rgba(0,0,0,0.06);
-  --accent-sakura: #E8829A;
-  --accent-matcha: #6BAF92;
-  --accent-fuji: #7B68C8;
-  --accent-yuzu: #D4A843;
-  --accent-sora: #5B9BD5;
-  --accent-red: #E53935;
+  --bg-drawer-hero: linear-gradient(160deg, #F4F0FC 0%, #FCFBFE 60%, #F0F4FB 100%);
+  --text-primary: #2A2730;
+  --text-secondary: #8B8794;
+  --text-placeholder: #C6C1CE;
+  --text-muted-soft: #B4AFC0;
+  --border-subtle: #EFEDF4;
+  --border-card: #E9E6F0;
+  --shadow-nav: 0 -4px 20px rgba(70,55,105,0.06);
+  --accent-sakura: #A78BDB;
+  --accent-sakura-dark: #8B6FC7;
+  --accent-sakura-soft: #F4F0FC;
+  --accent-matcha: #7FB89E;
+  --accent-fuji: #8B6FC7;
+  --accent-yuzu: #C9A85C;
+  --accent-sora: #7CA3CF;
+  --accent-red: #D9534F;
 
-  /* Washi white #FAFAF8 */
-  --background: oklch(0.984 0.002 90);
-  /* Soft black #2D2D2D */
-  --foreground: oklch(0.31 0 0);
+  --background: oklch(0.987 0.004 300);
+  --foreground: oklch(0.28 0.015 300);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.31 0 0);
+  --card-foreground: oklch(0.28 0.015 300);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.31 0 0);
-  /* Dusty rose #E8A598 */
-  --primary: oklch(0.76 0.07 28);
+  --popover-foreground: oklch(0.28 0.015 300);
+  /* Pastel purple primary */
+  --primary: oklch(0.68 0.105 305);
   --primary-foreground: oklch(0.99 0 0);
-  /* Sage green #B8D4C8 */
-  --secondary: oklch(0.84 0.04 160);
-  --secondary-foreground: oklch(0.31 0 0);
-  /* Dusty rose tokens (kept name "sakura" for compat) */
-  --sakura: oklch(0.76 0.07 28);
-  --sakura-soft: oklch(0.95 0.02 28);
-  --muted: oklch(0.94 0.01 60);
-  /* Warm gray #9A8F8F */
-  --muted-foreground: oklch(0.62 0.01 30);
-  --accent: oklch(0.88 0.05 300);
-  --accent-foreground: oklch(0.31 0 0);
-  /* Sage success */
+  --secondary: oklch(0.94 0.015 300);
+  --secondary-foreground: oklch(0.3 0.02 300);
+  --sakura: oklch(0.68 0.105 305);
+  --sakura-soft: oklch(0.96 0.015 305);
+  --muted: oklch(0.955 0.008 300);
+  --muted-foreground: oklch(0.56 0.02 300);
+  --accent: oklch(0.945 0.015 300);
+  --accent-foreground: oklch(0.3 0.02 300);
   --success: oklch(0.78 0.07 160);
   --success-foreground: oklch(0.25 0.04 160);
-  /* Golden #F2C96E */
-  --warning: oklch(0.84 0.13 85);
+  --warning: oklch(0.84 0.1 85);
   --warning-foreground: oklch(0.3 0.08 70);
-  /* Keep SOS red */
-  --destructive: oklch(0.62 0.23 27);
+  --destructive: oklch(0.6 0.19 27);
   --destructive-foreground: oklch(0.99 0 0);
-  --border: oklch(0.92 0.01 40);
-  --input: oklch(0.92 0.01 40);
-  --ring: oklch(0.76 0.07 28);
-  --shadow-card: 0 4px 16px rgba(180,150,140,0.12);
+  --border: oklch(0.925 0.008 300);
+  --input: oklch(0.925 0.008 300);
+  --ring: oklch(0.68 0.105 305);
+  --shadow-card: 0 4px 16px rgba(120,100,165,0.10);
+}
+
+/* === Veterinarian theme: pastel dark blue & white === */
+[data-role="vet"] {
+  --bg-page: #F9FBFD;
+  --bg-outside: #E3E9F3;
+  --bg-card-sakura: #E8F0F9;
+  --bg-card-lavender: #E5EDF8;
+  --bg-card-mint: #E6F3EC;
+  --bg-card-yellow: #FBF4DF;
+  --bg-card-blue: #E4EDF8;
+  --bg-card-peach: #FAEEDF;
+  --bg-topbar: #F9FBFD;
+  --bg-bottomnav: #FFFFFF;
+  --bg-drawer: #FFFFFF;
+  --bg-drawer-hero: linear-gradient(160deg, #EAF1F9 0%, #F9FBFD 60%, #EFF3FA 100%);
+  --text-primary: #242B36;
+  --text-secondary: #7E8797;
+  --text-placeholder: #BEC6D2;
+  --text-muted-soft: #A9B2C0;
+  --border-subtle: #EBEEF4;
+  --border-card: #E2E8F0;
+  --shadow-nav: 0 -4px 20px rgba(40,60,95,0.07);
+  --accent-sakura: #7CA3CF;
+  --accent-sakura-dark: #5C86B8;
+  --accent-sakura-soft: #EFF4FB;
+  --accent-fuji: #4E6E9E;
+  --accent-sora: #7CA3CF;
+
+  --background: oklch(0.985 0.004 245);
+  --foreground: oklch(0.27 0.02 255);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.27 0.02 255);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.27 0.02 255);
+  /* Pastel steel blue primary */
+  --primary: oklch(0.62 0.085 255);
+  --primary-foreground: oklch(0.99 0 0);
+  --secondary: oklch(0.94 0.012 250);
+  --secondary-foreground: oklch(0.3 0.02 255);
+  --sakura: oklch(0.62 0.085 255);
+  --sakura-soft: oklch(0.955 0.012 250);
+  --muted: oklch(0.955 0.006 250);
+  --muted-foreground: oklch(0.53 0.02 255);
+  --accent: oklch(0.945 0.012 250);
+  --accent-foreground: oklch(0.3 0.02 255);
+  --border: oklch(0.92 0.008 250);
+  --input: oklch(0.92 0.008 250);
+  --ring: oklch(0.62 0.085 255);
+  --shadow-card: 0 4px 16px rgba(70,100,150,0.10);
 }
 
 .dark {
@@ -206,18 +251,21 @@
   .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
 }
 
-/* === Global typography: kawaii Japanese-friendly stack === */
+/* === Global typography: minimal professional stack === */
 body, p, span, div, li, a, label, input, textarea, select {
-  font-family: "Noto Serif JP", "Noto Sans JP", "Inter", system-ui, sans-serif;
+  font-family: var(--font-sans);
 }
-h1, h2, h3, h4, h5, h6, button {
-  font-family: "Zen Maru Gothic", "Noto Sans JP", system-ui, sans-serif;
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: -0.01em;
 }
-h1, h2, h3 { font-weight: 700; }
-h4, h5, h6 { font-weight: 500; }
+button {
+  font-family: var(--font-sans);
+}
 .font-numeric, time, .tabular-nums {
-  font-family: "Kosugi Maru", "Noto Sans JP", system-ui, sans-serif;
-  font-weight: 400;
+  font-family: var(--font-sans);
+  font-variant-numeric: tabular-nums;
 }
 
 /* === Performance: remove tap delay, GPU compositing, smooth scroll === */

@@ -16,9 +16,9 @@ const FUR: { c: string; jp: string; en: string }[] = [
   { c: "#F5F5F0", jp: "白", en: "White" },
   { c: "#2C1810", jp: "黒", en: "Black" },
   { c: "#9A8A80", jp: "グレー", en: "Gray" },
-  { c: "#D4A843", jp: "ゴールド", en: "Gold" },
+  { c: "var(--accent-yuzu)", jp: "ゴールド", en: "Gold" },
 ];
-const COLLAR = ["#E8829A", "#7B68C8", "#6BAF92", "#5B9BD5", "#D4A843", "#E53935"];
+const COLLAR = ["var(--accent-sakura)", "var(--accent-fuji)", "var(--accent-matcha)", "var(--accent-sora)", "var(--accent-yuzu)", "#E53935"];
 const EARS: { id: EarStyle; jp: string; en: string }[] = [
   { id: "upright", jp: "立ち耳", en: "Upright" },
   { id: "floppy", jp: "垂れ耳", en: "Floppy" },
@@ -63,12 +63,12 @@ function Step1() {
 
   return (
     <PhoneFrame>
-    <div className="min-h-screen pb-32" style={{ background: "#FAFAF8" }}>
+    <div className="min-h-screen pb-32" style={{ background: "var(--bg-page)" }}>
       <div className="px-6 pt-4">
         <TopBar to="/onboarding/dog" />
         <Stepper current={2} path={pet.path} />
 
-        <h1 className="text-[20px] font-bold text-center mt-2" style={{ color: "#2C2C2C" }}>
+        <h1 className="text-[20px] font-bold text-center mt-2" style={{ color: "var(--text-primary)" }}>
           {t("あなたのワンちゃんを作ろう！", "Create Your Dog's Avatar")}
         </h1>
 
@@ -83,7 +83,7 @@ function Step1() {
             size={160}
             onTap={() => {}}
           />
-          <button className="mt-2 flex items-center gap-1 text-[11px]" style={{ color: "#C4B8B4" }}>
+          <button className="mt-2 flex items-center gap-1 text-[11px]" style={{ color: "var(--text-placeholder)" }}>
             <Edit3 className="w-3 h-3" />
             {t("タップしてカスタマイズ", "Tap to customize")}
           </button>
@@ -103,20 +103,20 @@ function Step1() {
                 style={{
                   width: 80, height: 110,
                   borderRadius: 18,
-                  background: sel ? "linear-gradient(135deg, #FFF0F5, #FFFAFB)" : "#FFFFFF",
-                  border: sel ? "2px solid #E8829A" : "2px solid transparent",
-                  boxShadow: sel ? "0 4px 16px rgba(232,130,154,0.2)" : "0 2px 8px rgba(0,0,0,0.06)",
+                  background: sel ? "linear-gradient(135deg, var(--accent-sakura-soft), #FFFAFB)" : "#FFFFFF",
+                  border: sel ? "2px solid var(--accent-sakura)" : "2px solid transparent",
+                  boxShadow: sel ? "0 4px 16px color-mix(in srgb, var(--accent-sakura) calc(0.2 * 100%), transparent)" : "0 2px 8px rgba(0,0,0,0.06)",
                 }}
               >
                 <DogAvatar breed={key} size={42} ring={false} showCollar={false} showCheeks={false} />
                 <span
                   className="font-bold mt-1 text-center leading-tight"
-                  style={{ color: "#2C2C2C", fontSize: b.jp.length > 8 ? 9 : 11 }}
+                  style={{ color: "var(--text-primary)", fontSize: b.jp.length > 8 ? 9 : 11 }}
                 >
                   {language === "english" ? b.en : b.jp}
                 </span>
                 {language === "mixed" && (
-                  <span className="text-[9px] text-center leading-tight" style={{ color: "#8A8A8A" }}>
+                  <span className="text-[9px] text-center leading-tight" style={{ color: "var(--text-secondary)" }}>
                     {b.en}
                   </span>
                 )}
@@ -130,7 +130,7 @@ function Step1() {
           className="mt-5 p-5 rounded-3xl"
           style={{ background: "#FFFFFF", boxShadow: "0 2px 16px rgba(0,0,0,0.05)" }}
         >
-          <h3 className="text-[14px] font-semibold" style={{ color: "#2C2C2C" }}>
+          <h3 className="text-[14px] font-semibold" style={{ color: "var(--text-primary)" }}>
             {t("カスタマイズ", "Customize")}
           </h3>
 
@@ -139,7 +139,7 @@ function Step1() {
             {FUR.map((f) => (
               <div key={f.c} className="flex flex-col items-center" style={{ width: 44 }}>
                 <Swatch color={f.c} selected={fur === f.c} onClick={() => selectFur(f.c)} />
-                <span className="text-[8px] mt-1 text-center leading-tight" style={{ color: "#8A8A8A" }}>
+                <span className="text-[8px] mt-1 text-center leading-tight" style={{ color: "var(--text-secondary)" }}>
                   {breedLabel(f.jp, f.en)}
                 </span>
               </div>
@@ -156,9 +156,9 @@ function Step1() {
                   onClick={() => selectEar(e.id)}
                   className="h-12 rounded-xl text-[12px] font-medium transition-all"
                   style={{
-                    background: sel ? "#FFF0F5" : "#FAFAF8",
-                    border: sel ? "1.5px solid #E8829A" : "1.5px solid #EDE8E4",
-                    color: sel ? "#E8829A" : "#2C2C2C",
+                    background: sel ? "var(--accent-sakura-soft)" : "var(--bg-page)",
+                    border: sel ? "1.5px solid var(--accent-sakura)" : "1.5px solid var(--border-card)",
+                    color: sel ? "var(--accent-sakura)" : "var(--text-primary)",
                   }}
                 >
                   {language === "english" ? e.en : e.jp}
@@ -177,9 +177,9 @@ function Step1() {
                   onClick={() => selectEye(e.id)}
                   className="h-12 rounded-xl text-[14px] font-bold transition-all"
                   style={{
-                    background: sel ? "#FFF0F5" : "#FAFAF8",
-                    border: sel ? "1.5px solid #E8829A" : "1.5px solid #EDE8E4",
-                    color: sel ? "#E8829A" : "#2C2C2C",
+                    background: sel ? "var(--accent-sakura-soft)" : "var(--bg-page)",
+                    border: sel ? "1.5px solid var(--accent-sakura)" : "1.5px solid var(--border-card)",
+                    color: sel ? "var(--accent-sakura)" : "var(--text-primary)",
                   }}
                   aria-label={language === "english" ? e.en : e.jp}
                 >
@@ -199,8 +199,8 @@ function Step1() {
       </div>
 
       {/* Bottom CTA */}
-      <div className="fixed bottom-0 inset-x-0 mx-auto p-4" style={{ maxWidth: 430, background: "linear-gradient(to top, #FAFAF8, rgba(250,250,248,0.9) 70%, transparent)" }}>
-        <p className="text-center text-[11px] mb-2" style={{ color: "#C4B8B4" }}>
+      <div className="fixed bottom-0 inset-x-0 mx-auto p-4" style={{ maxWidth: 430, background: "linear-gradient(to top, var(--bg-page), rgba(250,250,248,0.9) 70%, transparent)" }}>
+        <p className="text-center text-[11px] mb-2" style={{ color: "var(--text-placeholder)" }}>
           {t("あとで変更できます", "You can change this later")}
         </p>
         <PrimaryButton onClick={() => { updatePet({ path: "B" }); nav({ to: "/onboarding/owner" }); }}>
@@ -222,7 +222,7 @@ export function TopBar({ to = "/onboarding/welcome" }: { to?: string } = {}) {
         className="flex items-center justify-center"
         style={{
           width: 36, height: 36, borderRadius: 999,
-          background: "#FFF0F5", color: "#E8678A",
+          background: "var(--accent-sakura-soft)", color: "#E8678A",
           boxShadow: "0 1px 4px rgba(232,103,138,0.15)",
         }}
         aria-label="Back"
@@ -248,8 +248,8 @@ export function Stepper({ current, path }: { current: 1 | 2 | 3 | 4; path?: "A" 
         {[1, 2, 3, 4].map((n, i) => {
           const completed = n < current;
           const active = n === current;
-          const bg = completed ? "#F4A3B8" : active ? "#E8678A" : "#EDE8E4";
-          const color = completed || active ? "#FFFFFF" : "#C4B8B4";
+          const bg = completed ? "#F4A3B8" : active ? "#E8678A" : "var(--border-card)";
+          const color = completed || active ? "#FFFFFF" : "var(--text-placeholder)";
           return (
             <div key={n} className="flex items-center">
               <div
@@ -267,7 +267,7 @@ export function Stepper({ current, path }: { current: 1 | 2 | 3 | 4; path?: "A" 
                 <div
                   className="w-7 h-[2px]"
                   style={{
-                    background: n < current ? "#F4A3B8" : "#EDE8E4",
+                    background: n < current ? "#F4A3B8" : "var(--border-card)",
                   }}
                 />
               )}
@@ -276,7 +276,7 @@ export function Stepper({ current, path }: { current: 1 | 2 | 3 | 4; path?: "A" 
         })}
 
       </div>
-      <p className="text-[12px] text-center mt-2" style={{ color: "#8A8A8A" }}>
+      <p className="text-[12px] text-center mt-2" style={{ color: "var(--text-secondary)" }}>
         {t(`ステップ ${current} / 4`, `Step ${current} of 4`)} · {labels[current - 1]}
       </p>
     </div>
@@ -285,7 +285,7 @@ export function Stepper({ current, path }: { current: 1 | 2 | 3 | 4; path?: "A" 
 
 function Section({ title, small }: { title: string; small?: boolean }) {
   return (
-    <h3 className={`font-semibold ${small ? "text-[12px] mt-4" : "text-[13px] mt-6"}`} style={{ color: "#2C2C2C" }}>
+    <h3 className={`font-semibold ${small ? "text-[12px] mt-4" : "text-[13px] mt-6"}`} style={{ color: "var(--text-primary)" }}>
       {title}
     </h3>
   );
@@ -299,7 +299,7 @@ function Swatch({ color, selected, onClick }: { color: string; selected: boolean
       style={{
         background: color,
         boxShadow: selected
-          ? `0 0 0 3px #FFFFFF, 0 0 0 5px rgba(232,130,154,0.5)`
+          ? `0 0 0 3px #FFFFFF, 0 0 0 5px color-mix(in srgb, var(--accent-sakura) calc(0.5 * 100%), transparent)`
           : "0 1px 3px rgba(0,0,0,0.12)",
       }}
     />

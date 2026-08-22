@@ -13,7 +13,7 @@ const P = {
   medium: "#E8849A",
   deep: "#C96B82",
   soft: "#FEF0F5",
-  pale: "#FFF5F8",
+  pale: "var(--accent-sakura-soft)",
   accent: "#F7B8CC",
   muted: "#FAD0DF",
   light: "#FDE8EF",
@@ -58,7 +58,7 @@ function hexToHsl(hex: string) {
 
 type NamedColor = { hex: string; jp: string; en: string };
 const JAPANESE_PALETTE: NamedColor[] = [
-  { hex: "#FFB7C5", jp: "桜", en: "Sakura" },
+  { hex: "var(--accent-sakura)", jp: "桜", en: "Sakura" },
   { hex: "#F19BAB", jp: "撫子", en: "Nadeshiko" },
   { hex: "#E8B4BD", jp: "梅", en: "Ume" },
   { hex: "#DB7093", jp: "牡丹", en: "Botan" },
@@ -236,7 +236,7 @@ function Toggle({ on, onChange }: { on: boolean; onChange: () => void }) {
 // ───────────── Page ─────────────
 function LightSensePage() {
   const t = useT();
-  const [color, setColor] = useState("#FFB7C5");
+  const [color, setColor] = useState("var(--accent-sakura)");
   const [saturation, setSaturation] = useState(85);
   const [brightness, setBrightness] = useState(75);
   const [mode, setMode] = useState<Mode>("steady");
@@ -292,7 +292,7 @@ function LightSensePage() {
           subtitleEn="LightSense AI"
           titleEn="LightSense AI"
           descriptorEn="Collar light control"
-          bgGradient="linear-gradient(135deg, #FFF5F8 0%, #FEE8F0 100%)"
+          bgGradient="linear-gradient(135deg, var(--accent-sakura-soft) 0%, #FEE8F0 100%)"
           subtitleColor="#D4849E"
         />
 

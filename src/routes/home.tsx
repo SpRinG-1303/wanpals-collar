@@ -16,24 +16,24 @@ export const Route = createFileRoute("/home")({ component: Home });
 
 /* ---------- Japanese palette ---------- */
 const JP = {
-  bg: "#FAFAF8",
+  bg: "var(--bg-page)",
   card: "#FFFFFF",
-  sumi: "#2C2C2C",
-  usuzumi: "#8A8A8A",
+  sumi: "var(--text-primary)",
+  usuzumi: "var(--text-secondary)",
   divider: "#F5F0EC",
-  sakura: "#E8829A",
-  sakuraSoft: "#FFF0F3",
-  sakuraStrip: "linear-gradient(90deg,#FFE4EC,#FFF0F5)",
-  fuji: "#7B68C8",
+  sakura: "var(--accent-sakura)",
+  sakuraSoft: "var(--accent-sakura-soft)",
+  sakuraStrip: "linear-gradient(90deg,var(--bg-card-sakura),var(--accent-sakura-soft))",
+  fuji: "var(--accent-fuji)",
   fujiSoft: "#F0EEF8",
-  fujiStrip: "linear-gradient(90deg,#EDE0FF,#F5F0FF)",
-  matcha: "#6BAF92",
+  fujiStrip: "linear-gradient(90deg,var(--bg-card-lavender),#F5F0FF)",
+  matcha: "var(--accent-matcha)",
   matchaSoft: "#E8F5EE",
   matchaStrip: "linear-gradient(90deg,#E8F5EE,#F5FBF8)",
-  yuzu: "#D4A843",
+  yuzu: "var(--accent-yuzu)",
   yuzuSoft: "#FFF8DC",
   yuzuStrip: "linear-gradient(90deg,#FFF8DC,#FFFEF5)",
-  sora: "#5B9BD5",
+  sora: "var(--accent-sora)",
   soraSoft: "#E8F2FF",
   soraStrip: "linear-gradient(90deg,#E8F2FF,#F5F9FF)",
   momiji: "#D4714E",
@@ -104,9 +104,9 @@ type Sensor = {
 };
 
 const sensors: Sensor[] = [
-  { Icon: Brain, accent: JP.fuji, iconBg: "#EDE0FF", strip: JP.fujiStrip, to: "/bark-sense",
+  { Icon: Brain, accent: JP.fuji, iconBg: "var(--bg-card-lavender)", strip: JP.fujiStrip, to: "/bark-sense",
     jp: "吠え分析", en: "BarkSense AI", subJp: "鳴き声解析", subEn: "Bark Analysis", valJp: "穏やか", valEn: "Calm", ml: true },
-  { Icon: Microscope, accent: JP.sakura, iconBg: "#FFE4EC", strip: JP.sakuraStrip, to: "/skin-sense",
+  { Icon: Microscope, accent: JP.sakura, iconBg: "var(--bg-card-sakura)", strip: JP.sakuraStrip, to: "/skin-sense",
     jp: "皮膚センサー", en: "SkinSense AI", subJp: "皮膚の健康", subEn: "Skin Health", valJp: "正常", valEn: "Normal", ml: true },
   { Icon: Activity, accent: JP.sora, iconBg: "#E8F2FF", strip: JP.soraStrip, to: "/motion-sense",
     jp: "運動センサー", en: "MotionSense", subJp: "活動量", subEn: "Activity Track", valJp: "2,340 歩", valEn: "2,340 steps", progress: 65 },
@@ -118,7 +118,7 @@ const sensors: Sensor[] = [
     jp: "圧力センサー", en: "PressureSense", subJp: "圧力データ", subEn: "Pressure Data", valJp: "正常範囲", valEn: "Normal Range" },
   { Icon: Sun, accent: "#C4920A", iconBg: "#FFFBCC", strip: "linear-gradient(90deg,#FFF8DC,#FFFEF0)", to: "/light-sense",
     jp: "光センサー", en: "LightSense AI", subJp: "RGB光データ", subEn: "RGB Light Data", valJp: "室内", valEn: "Indoor" },
-  { Icon: GitMerge, accent: "#9B72CF", iconBg: "#F0E8FF", strip: "linear-gradient(90deg,#F0E8FF,#F8F5FF)", to: "/report",
+  { Icon: GitMerge, accent: "var(--accent-fuji)", iconBg: "var(--bg-card-lavender)", strip: "linear-gradient(90deg,var(--bg-card-lavender),#F8F5FF)", to: "/report",
     jp: "総合分析", en: "CombineSense", subJp: "総合解析", subEn: "Combined Analysis", valJp: "87/100", valEn: "87/100" },
 ];
 
@@ -133,9 +133,9 @@ function getTimeBand(): TimeBand {
 }
 
 const SCENE: Record<TimeBand, { bg: string; sun: string; fuji: string; blossom: string }> = {
-  morning:   { bg: "linear-gradient(135deg,#FFF8F0 0%,#FFE8EE 100%)", sun: "#FFD4A8", fuji: "#C5D8E8", blossom: "#FFB7C5" },
+  morning:   { bg: "linear-gradient(135deg,#FFF8F0 0%,#FFE8EE 100%)", sun: "#FFD4A8", fuji: "#C5D8E8", blossom: "var(--accent-sakura)" },
   afternoon: { bg: "linear-gradient(135deg,#E8F4FF 0%,#D4EEFF 100%)", sun: "#F2C96E", fuji: "#8FB5C8", blossom: "#FFC8D0" },
-  evening:   { bg: "linear-gradient(135deg,#FFE8D0 0%,#FFD0B0 100%)", sun: "#F4A56B", fuji: "#7B6480", blossom: "#FFB7C5" },
+  evening:   { bg: "linear-gradient(135deg,#FFE8D0 0%,#FFD0B0 100%)", sun: "#F4A56B", fuji: "#7B6480", blossom: "var(--accent-sakura)" },
   night:     { bg: "linear-gradient(135deg,#E8EEF8 0%,#D4DCF0 100%)", sun: "#FFF4D8", fuji: "#9AA0B8", blossom: "#E8D8E4" },
 };
 
@@ -195,8 +195,8 @@ function OwnerFigure({ photoUrl }: { photoUrl: string | null }) {
       {/* Ear */}
       <circle cx="38" cy="23" r="1.6" fill={skin} />
       {/* Smile + eye (facing right) */}
-      <circle cx="33" cy="22" r="1.1" fill="#2C2C2C" />
-      <path d="M31 26 Q34 28 36 26" stroke="#2C2C2C" strokeWidth="0.9" strokeLinecap="round" fill="none" />
+      <circle cx="33" cy="22" r="1.1" fill="var(--text-primary)" />
+      <path d="M31 26 Q34 28 36 26" stroke="var(--text-primary)" strokeWidth="0.9" strokeLinecap="round" fill="none" />
       <circle cx="35" cy="25" r="1.6" fill="#F2A0A8" opacity="0.55" />
       {/* T-shirt */}
       <path d="M14 34 Q28 30 42 34 L44 58 L36 58 L36 62 L20 62 L20 58 L12 58 Z" fill="#7FB8E0" />
@@ -213,11 +213,11 @@ function OwnerFigure({ photoUrl }: { photoUrl: string | null }) {
       {/* Legs (walk cycle) */}
       <g style={{ transformOrigin: "50% 60%", animation: "ownerLegL 1.6s ease-in-out infinite" }}>
         <path d="M20 70 L18 110 L24 110 L26 72 Z" fill="#3D5A8A" />
-        <ellipse cx="21" cy="114" rx="5" ry="2.6" fill="#2C2C2C" />
+        <ellipse cx="21" cy="114" rx="5" ry="2.6" fill="var(--text-primary)" />
       </g>
       <g style={{ transformOrigin: "50% 60%", animation: "ownerLegR 1.6s ease-in-out infinite" }}>
         <path d="M30 70 L30 110 L36 110 L36 72 Z" fill="#3D5A8A" />
-        <ellipse cx="33" cy="114" rx="5" ry="2.6" fill="#2C2C2C" />
+        <ellipse cx="33" cy="114" rx="5" ry="2.6" fill="var(--text-primary)" />
       </g>
     </svg>
   );
@@ -291,7 +291,7 @@ function DogTimeScene({
               style={{
                 fontSize: sz,
                 fontWeight: 700,
-                color: "#7B68C8",
+                color: "var(--accent-fuji)",
                 opacity: 0.75,
                 animation: `zzzFloat 2.6s ease-in-out ${i * 0.6}s infinite`,
               }}
@@ -404,7 +404,7 @@ function PostcardScene({
   energy: Energy;
   ownerPhotoUrl: string | null;
 }) {
-  const blossom = "#FFB7C5";
+  const blossom = "var(--accent-sakura)";
   return (
     <div
       className="absolute inset-y-0 right-0"
@@ -493,7 +493,7 @@ const HeroPostcard = memo(function HeroPostcard({ score, name, mood, celebrate, 
         borderRadius: 24,
         overflow: "hidden",
         background: JP.card,
-        boxShadow: "0 4px 24px rgba(232,130,154,0.15)",
+        boxShadow: "0 4px 24px color-mix(in srgb, var(--accent-sakura) calc(0.15 * 100%), transparent)",
         animation: celebrate ? "heroCelebrate 0.8s ease-out" : "none",
       }}
     >
@@ -783,7 +783,7 @@ function Home() {
                   )}
 
                   {s.progress !== undefined && (
-                    <div style={{ marginTop: 10, height: 4, borderRadius: 4, overflow: "hidden", background: "#F0ECE8" }}>
+                    <div style={{ marginTop: 10, height: 4, borderRadius: 4, overflow: "hidden", background: "var(--border-subtle)" }}>
                       <div style={{ width: `${s.progress}%`, height: "100%", background: s.accent, borderRadius: 4 }}/>
                     </div>
                   )}
@@ -805,7 +805,7 @@ function Home() {
             style={{
               height: 90,
               borderRadius: 20,
-              background: "linear-gradient(135deg, #667EEA 0%, #9B72CF 100%)",
+              background: "linear-gradient(135deg, #667EEA 0%, var(--accent-fuji) 100%)",
               boxShadow: "0 8px 24px rgba(102,126,234,0.35)",
               transition: "transform 0.2s ease, box-shadow 0.2s ease",
             }}
@@ -873,17 +873,17 @@ function Home() {
             style={{
               height: 90,
               borderRadius: 20,
-              background: "linear-gradient(135deg, #F093A0 0%, #E8829A 100%)",
-              boxShadow: "0 8px 24px rgba(232,130,154,0.35)",
+              background: "linear-gradient(135deg, var(--accent-sakura) 0%, var(--accent-sakura) 100%)",
+              boxShadow: "0 8px 24px color-mix(in srgb, var(--accent-sakura) calc(0.35 * 100%), transparent)",
               transition: "transform 0.2s ease, box-shadow 0.2s ease",
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.transform = "scale(1.02)";
-              e.currentTarget.style.boxShadow = "0 12px 32px rgba(232,130,154,0.45)";
+              e.currentTarget.style.boxShadow = "0 12px 32px color-mix(in srgb, var(--accent-sakura) calc(0.45 * 100%), transparent)";
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.transform = "scale(1)";
-              e.currentTarget.style.boxShadow = "0 8px 24px rgba(232,130,154,0.35)";
+              e.currentTarget.style.boxShadow = "0 8px 24px color-mix(in srgb, var(--accent-sakura) calc(0.35 * 100%), transparent)";
             }}
           >
             {/* Inner highlight */}
@@ -971,8 +971,8 @@ function EditProfileSheet({ onClose }: { onClose: () => void }) {
       >
         <div className="mx-auto mt-3 mb-2 rounded-full" style={{ width: 32, height: 4, background: "#E8E0DC" }} />
         <div className="px-5 pb-3 flex items-center justify-between">
-          <h3 className="text-[15px] font-semibold" style={{ color: "#2C2C2C" }}>{t("プロフィール編集", "Edit Profile")}</h3>
-          <button onClick={onClose}><X className="w-5 h-5" style={{ color: "#8A8A8A" }} /></button>
+          <h3 className="text-[15px] font-semibold" style={{ color: "var(--text-primary)" }}>{t("プロフィール編集", "Edit Profile")}</h3>
+          <button onClick={onClose}><X className="w-5 h-5" style={{ color: "var(--text-secondary)" }} /></button>
         </div>
         <div className="px-5 pb-4 space-y-3 overflow-y-auto">
           <Field label={t("名前", "Name")}>
@@ -981,7 +981,7 @@ function EditProfileSheet({ onClose }: { onClose: () => void }) {
               onChange={(e) => setName(e.target.value)}
               placeholder={t("例: ハナ", "e.g. Hana")}
               className="w-full h-[48px] rounded-[12px] px-4 text-[15px] outline-none"
-              style={{ background: "#FAFAF8", border: "1.5px solid #EDE8E4", color: "#2C2C2C" }}
+              style={{ background: "var(--bg-page)", border: "1.5px solid var(--border-card)", color: "var(--text-primary)" }}
             />
           </Field>
           <Field label={t("犬種", "Breed")}>
@@ -989,7 +989,7 @@ function EditProfileSheet({ onClose }: { onClose: () => void }) {
               value={breedJp}
               onChange={(e) => setBreedJp(e.target.value)}
               className="w-full h-[48px] rounded-[12px] px-3 text-[15px] outline-none"
-              style={{ background: "#FAFAF8", border: "1.5px solid #EDE8E4", color: "#2C2C2C" }}
+              style={{ background: "var(--bg-page)", border: "1.5px solid var(--border-card)", color: "var(--text-primary)" }}
             >
               {BREEDS.map((b) => (
                 <option key={b.jp} value={b.jp}>{b.en}</option>
@@ -1001,14 +1001,14 @@ function EditProfileSheet({ onClose }: { onClose: () => void }) {
               <input
                 value={age} onChange={(e) => setAge(e.target.value)} type="number" placeholder="3"
                 className="w-full h-[48px] rounded-[12px] px-4 text-[15px] outline-none"
-                style={{ background: "#FAFAF8", border: "1.5px solid #EDE8E4", color: "#2C2C2C" }}
+                style={{ background: "var(--bg-page)", border: "1.5px solid var(--border-card)", color: "var(--text-primary)" }}
               />
             </Field>
             <Field label={t("体重 (kg)", "Weight (kg)")}>
               <input
                 value={weight} onChange={(e) => setWeight(e.target.value)} type="number" placeholder="8.5"
                 className="w-full h-[48px] rounded-[12px] px-4 text-[15px] outline-none"
-                style={{ background: "#FAFAF8", border: "1.5px solid #EDE8E4", color: "#2C2C2C" }}
+                style={{ background: "var(--bg-page)", border: "1.5px solid var(--border-card)", color: "var(--text-primary)" }}
               />
             </Field>
           </div>
@@ -1017,11 +1017,11 @@ function EditProfileSheet({ onClose }: { onClose: () => void }) {
           <button
             onClick={save}
             className="w-full h-12 rounded-2xl text-white text-[15px] font-bold"
-            style={{ background: "linear-gradient(135deg, #E8829A, #D86F88)", boxShadow: "0 6px 18px rgba(232,130,154,0.35)" }}
+            style={{ background: "linear-gradient(135deg, var(--accent-sakura), var(--accent-sakura-dark))", boxShadow: "0 6px 18px color-mix(in srgb, var(--accent-sakura) calc(0.35 * 100%), transparent)" }}
           >
             {t("保存", "Save Changes")}
           </button>
-          <button onClick={onClose} className="w-full h-10 text-[13px] font-medium" style={{ color: "#8A8A8A" }}>
+          <button onClick={onClose} className="w-full h-10 text-[13px] font-medium" style={{ color: "var(--text-secondary)" }}>
             {t("キャンセル", "Cancel")}
           </button>
         </div>
@@ -1033,7 +1033,7 @@ function EditProfileSheet({ onClose }: { onClose: () => void }) {
 function Field({ label, children }: { label: string; children: ReactNode }) {
   return (
     <div>
-      <div className="text-[12px] font-semibold mb-1.5" style={{ color: "#2C2C2C" }}>{label}</div>
+      <div className="text-[12px] font-semibold mb-1.5" style={{ color: "var(--text-primary)" }}>{label}</div>
       {children}
     </div>
   );

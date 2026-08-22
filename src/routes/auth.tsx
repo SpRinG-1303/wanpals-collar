@@ -1,8 +1,8 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useState, type CSSProperties } from "react";
+import { useEffect, useState, type CSSProperties } from "react";
 import {
   PawPrint, Heart, Stethoscope, Mail, Lock, User, Building2,
-  ArrowLeft, Eye, EyeOff, Check,
+  ArrowLeft, Eye, EyeOff, ChevronRight,
 } from "lucide-react";
 import { toast } from "sonner";
 import logoUrl from "@/assets/logo.png";
@@ -22,26 +22,16 @@ export const Route = createFileRoute("/auth")({
   component: AuthPage,
 });
 
-/* Home page palette */
-const P = {
-  bg: "#FAFAF8",
-  card: "#FFFFFF",
-  sumi: "#2C2C2C",
-  usuzumi: "#8A8A8A",
-  divider: "#F5F0EC",
-  sakura: "#E8829A",
-  sakuraDark: "#C86882",
-  sakuraSoft: "#FFF0F3",
-  sora: "#5B9BD5",
-  soraDark: "#4A83B8",
-  soraSoft: "#E8F2FF",
-  matcha: "#6BAF92",
-  matchaSoft: "#E8F5EE",
-  yuzu: "#D4A843",
-  border: "#F0ECE8",
-  danger: "#E53935",
-};
-const SHADOW = "0 2px 20px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.04)";
+/* Minimal role palettes — pastel purple (owner) / pastel blue (vet), on white */
+const OWNER = { accent: "#A78BDB", dark: "#8B6FC7", soft: "#F4F0FC" };
+const VET = { accent: "#7CA3CF", dark: "#5C86B8", soft: "#EFF4FB" };
+
+const INK = "#2A2730";
+const SUB = "#8B8794";
+const LINE = "#EFEDF4";
+const INPUT_BG = "#FBFAFD";
+const DANGER = "#D9534F";
+const CARD_SHADOW = "0 1px 2px rgba(30,25,45,0.04), 0 8px 24px rgba(30,25,45,0.05)";
 
 type Step = "role" | "auth" | "profile";
 type Mode = "login" | "signup";
@@ -71,9 +61,12 @@ function AuthPage() {
   const [gender, setGender] = useState<"male" | "female" | null>(null);
   const [vax, setVax] = useState<"yes" | "partial" | "unsure" | null>(null);
 
-  const accent = role === "owner" ? P.sakura : P.sora;
-  const accentDark = role === "owner" ? P.sakuraDark : P.soraDark;
-  const accentSoft = role === "owner" ? P.sakuraSoft : P.soraSoft;
+  const rc = role === "owner" ? OWNER : VET;
+
+  // Preview the selected role's theme while on the auth screen
+  useEffect(() => {
+    document.documentElement.dataset.role = role;
+  }, [role]);
 
   const breedOptions = Array.from(new Set([breed, ...BREEDS.map((b) => b.en)]));
 
@@ -130,35 +123,38 @@ function AuthPage() {
   }
 
   const inputStyle: CSSProperties = {
-    width: "100%", height: 50, borderRadius: 14, border: `1.5px solid ${P.border}`,
-    background: "#FCFBFA", padding: "0 14px 0 42px", fontSize: 15, color: P.sumi,
-    outline: "none", fontFamily: "'Nunito', sans-serif",
+    width: "100%", height: 52, borderRadius: 12, border: `1px solid ${LINE}`,
+    background: INPUT_BG, padding: "0 14px 0 42px", fontSize: 15, color: INK,
+    outline: "none", fontFamily: "var(--font-sans)",
   };
 
   const Field = ({ icon: Icon, children }: { icon: typeof Mail; children: React.ReactNode }) => (
     <div className="relative" style={{ marginBottom: 12 }}>
-      <Icon size={17} style={{ position: "absolute", left: 14, top: "50%", transform: "translateY(-50%)", color: P.usuzumi, pointerEvents: "none" }} />
+      <Icon size={17} style={{ position: "absolute", left: 14, top: "50%", transform: "translateY(-50%)", color: SUB, pointerEvents: "none" }} />
       {children}
     </div>
   );
 
   return (
-    <div
-      className="min-h-screen flex flex-col items-center"
-      style={{ background: `linear-gradient(170deg, ${accentSoft} 0%, ${P.bg} 40%)`, padding: "28px 20px 40px", fontFamily: "'Nunito', sans-serif" }}
-    >
-      <div style={{ width: "100%", maxWidth: 420 }}>
+    <div style={{ background: "var(--bg-outside)", minHeight: "100dvh", display: "flex", justifyContent: "center" }}>
+      <div
+        style={{
+          width: "100%", maxWidth: 430, minHeight: "100dvh",
+          background: "var(--bg-page)",
+          boxShadow: "0 0 40px rgba(30,25,45,0.10)",
+          padding: "32px 22px 48px",
+          fontFamily: "var(--font-sans)",
+          display: "flex", flexDirection: "column",
+        }}
+      >
         {/* Brand header */}
-        <div className="flex flex-col items-center" style={{ marginBottom: 26 }}>
-          <div
-            className="flex items-center justify-center"
-            style={{ width: 72, height: 72, borderRadius: "50%", background: P.card, border: "2.5px solid #E8829A", boxShadow: "0 8px 24px rgba(232,130,154,0.25)" }}
-          >
-            <img src={logoUrl} alt="Pawsitive logo" style={{ width: 44, height: 44, objectFit: "contain" }} />
+        <div className="flex flex-col items-center" style={{ marginBottom: 34, marginTop: 8 }}>
+          <img src={logoUrl} alt="Pawsitive logo" style={{ width: 52, height: 52, objectFit: "contain" }} />
+          <div style={{ marginTop: 14, fontSize: 30, fontWeight: 500, color: INK, letterSpacing: "-0.01em", fontFamily: "var(--font-display)" }}>
+            Pawsitive
           </div>
-          <div style={{ marginTop: 12, fontSize: 26, fontWeight: 900, color: P.sumi, letterSpacing: "-0.02em" }}>Pawsitive</div>
-          <div className="flex items-center" style={{ gap: 5, marginTop: 3, fontSize: 12, fontWeight: 600, color: P.usuzumi }}>
-            <PawPrint size={12} style={{ color: P.sakura }} /> Smart Dog Care for India
+          <div style={{ marginTop: 4, fontSize: 13, fontWeight: 500, color: SUB, letterSpacing: "0.02em" }}>
+            Smart dog care, made simple
           </div>
         </div>
 
@@ -166,7 +162,7 @@ function AuthPage() {
           <button
             onClick={() => { setError(null); setStep(step === "profile" ? "auth" : "role"); }}
             className="flex items-center"
-            style={{ gap: 4, fontSize: 13, fontWeight: 700, color: P.usuzumi, marginBottom: 14 }}
+            style={{ gap: 4, fontSize: 13, fontWeight: 600, color: SUB, marginBottom: 14 }}
           >
             <ArrowLeft size={15} /> Back
           </button>
@@ -175,45 +171,45 @@ function AuthPage() {
         {/* STEP 1 — role selection */}
         {step === "role" && (
           <>
-            <div style={{ textAlign: "center", fontSize: 20, fontWeight: 800, color: P.sumi, marginBottom: 4 }}>
-              Who's joining today?
+            <div style={{ textAlign: "center", fontSize: 22, fontWeight: 500, color: INK, fontFamily: "var(--font-display)", marginBottom: 6 }}>
+              Welcome
             </div>
-            <div style={{ textAlign: "center", fontSize: 13, color: P.usuzumi, marginBottom: 20 }}>
-              Pick your account type to continue
+            <div style={{ textAlign: "center", fontSize: 13.5, color: SUB, marginBottom: 26, lineHeight: 1.5 }}>
+              Choose how you'll use Pawsitive
             </div>
 
             <RoleCard
-              tint={P.sakura} soft={P.sakuraSoft}
+              tint={OWNER.accent} soft={OWNER.soft}
               title="Pet Parent"
-              desc="Track your dog's health, location & vibes"
+              desc="Track your dog's health, location and wellbeing"
               icon={
                 <div className="relative">
-                  <PawPrint size={30} strokeWidth={2} style={{ color: P.sakura }} />
-                  <Heart size={15} style={{ position: "absolute", right: -8, bottom: -4, color: P.sakuraDark, fill: P.sakuraDark }} />
+                  <PawPrint size={26} strokeWidth={1.8} style={{ color: OWNER.accent }} />
+                  <Heart size={13} style={{ position: "absolute", right: -7, bottom: -3, color: OWNER.dark, fill: OWNER.dark }} />
                 </div>
               }
               onClick={() => { setRole("owner"); setError(null); setStep("auth"); }}
             />
 
             {/* or divider */}
-            <div className="flex items-center" style={{ gap: 14, margin: "16px 0" }}>
-              <div style={{ flex: 1, height: 1, background: "#E8E2DC" }} />
-              <span style={{ fontSize: 11, fontWeight: 800, color: P.usuzumi, letterSpacing: "0.18em", textTransform: "uppercase" }}>or</span>
-              <div style={{ flex: 1, height: 1, background: "#E8E2DC" }} />
+            <div className="flex items-center" style={{ gap: 14, margin: "18px 0" }}>
+              <div style={{ flex: 1, height: 1, background: LINE }} />
+              <span style={{ fontSize: 11, fontWeight: 600, color: SUB, letterSpacing: "0.16em", textTransform: "uppercase" }}>or</span>
+              <div style={{ flex: 1, height: 1, background: LINE }} />
             </div>
 
             <RoleCard
-              tint={P.sora} soft={P.soraSoft}
+              tint={VET.accent} soft={VET.soft}
               title="Veterinarian"
-              desc="Monitor patients & review sensor reports"
+              desc="Monitor patients and review health reports"
               icon={
                 <div className="relative">
-                  <Stethoscope size={30} strokeWidth={2} style={{ color: P.sora }} />
+                  <Stethoscope size={26} strokeWidth={1.8} style={{ color: VET.accent }} />
                   <div
                     className="flex items-center justify-center"
-                    style={{ position: "absolute", right: -9, bottom: -5, width: 16, height: 16, borderRadius: "50%", background: P.soraDark }}
+                    style={{ position: "absolute", right: -8, bottom: -4, width: 15, height: 15, borderRadius: "50%", background: VET.dark }}
                   >
-                    <span style={{ color: "#fff", fontSize: 12, fontWeight: 900, lineHeight: 1, marginTop: -1 }}>+</span>
+                    <span style={{ color: "#fff", fontSize: 11, fontWeight: 700, lineHeight: 1, marginTop: -1 }}>+</span>
                   </div>
                 </div>
               }
@@ -222,7 +218,7 @@ function AuthPage() {
 
             <button
               onClick={() => navigate({ to: "/home" })}
-              style={{ display: "block", margin: "22px auto 0", fontSize: 13, fontWeight: 700, color: P.usuzumi, textDecoration: "underline", textUnderlineOffset: 3 }}
+              style={{ display: "block", margin: "26px auto 0", fontSize: 13, fontWeight: 600, color: SUB, textDecoration: "underline", textUnderlineOffset: 3 }}
             >
               Continue as guest
             </button>
@@ -231,27 +227,27 @@ function AuthPage() {
 
         {/* STEP 2 — login / signup */}
         {step === "auth" && (
-          <div style={{ background: P.card, borderRadius: 24, boxShadow: SHADOW, padding: "22px 20px", borderTop: `6px solid ${accent}` }}>
+          <div style={{ background: "#FFFFFF", borderRadius: 18, boxShadow: CARD_SHADOW, border: `1px solid ${LINE}`, padding: "22px 20px" }}>
             <div className="flex items-center" style={{ gap: 8, marginBottom: 16 }}>
               <span
                 className="flex items-center justify-center"
-                style={{ padding: "4px 12px", borderRadius: 20, background: accentSoft, color: accent, fontSize: 11, fontWeight: 800, letterSpacing: "0.06em", textTransform: "uppercase" }}
+                style={{ padding: "4px 12px", borderRadius: 20, background: rc.soft, color: rc.dark, fontSize: 11, fontWeight: 600, letterSpacing: "0.06em", textTransform: "uppercase" }}
               >
                 {role === "owner" ? "Pet Parent" : "Veterinarian"}
               </span>
             </div>
 
             {/* mode tabs */}
-            <div className="flex" style={{ background: "#F6F3F0", borderRadius: 14, padding: 4, marginBottom: 18 }}>
+            <div className="flex" style={{ background: rc.soft, borderRadius: 12, padding: 4, marginBottom: 18 }}>
               {(["login", "signup"] as Mode[]).map((m) => (
                 <button
                   key={m}
                   onClick={() => { setMode(m); setError(null); }}
                   style={{
-                    flex: 1, height: 40, borderRadius: 11, fontSize: 14, fontWeight: 800,
-                    background: mode === m ? P.card : "transparent",
-                    color: mode === m ? accent : P.usuzumi,
-                    boxShadow: mode === m ? "0 2px 8px rgba(0,0,0,0.08)" : "none",
+                    flex: 1, height: 40, borderRadius: 9, fontSize: 14, fontWeight: 600,
+                    background: mode === m ? "#FFFFFF" : "transparent",
+                    color: mode === m ? rc.dark : SUB,
+                    boxShadow: mode === m ? "0 1px 4px rgba(30,25,45,0.08)" : "none",
                     transition: "all 0.18s ease",
                   }}
                 >
@@ -287,7 +283,7 @@ function AuthPage() {
                 type="button"
                 onClick={() => setShowPw((s) => !s)}
                 className="absolute flex items-center justify-center"
-                style={{ right: 6, top: "50%", transform: "translateY(-50%)", width: 34, height: 34, color: P.usuzumi }}
+                style={{ right: 6, top: "50%", transform: "translateY(-50%)", width: 34, height: 34, color: SUB }}
                 aria-label={showPw ? "Hide password" : "Show password"}
               >
                 {showPw ? <EyeOff size={17} /> : <Eye size={17} />}
@@ -295,7 +291,7 @@ function AuthPage() {
             </Field>
 
             {error && (
-              <div style={{ fontSize: 12, fontWeight: 700, color: P.danger, background: "#FFEBEA", borderRadius: 10, padding: "9px 12px", marginBottom: 12 }}>
+              <div style={{ fontSize: 12.5, fontWeight: 500, color: DANGER, background: "#FBEEED", borderRadius: 10, padding: "10px 12px", marginBottom: 12 }}>
                 {error}
               </div>
             )}
@@ -304,16 +300,16 @@ function AuthPage() {
               onClick={handleAuthSubmit}
               className="w-full flex items-center justify-center active:scale-[0.98] transition-transform"
               style={{
-                height: 54, borderRadius: 14, fontSize: 16, fontWeight: 800, color: "#fff", gap: 8,
-                background: `linear-gradient(135deg, ${accent}, ${accentDark})`,
-                boxShadow: `0 8px 20px ${accent}59`,
+                height: 52, borderRadius: 12, fontSize: 15, fontWeight: 600, color: "#fff", gap: 8,
+                background: rc.accent,
+                boxShadow: `0 6px 16px ${rc.accent}40`,
               }}
             >
-              <PawPrint size={16} />
               {mode === "login" ? "Log In" : role === "owner" ? "Continue" : "Create Account"}
+              <ChevronRight size={16} />
             </button>
 
-            <div style={{ textAlign: "center", fontSize: 12, color: P.usuzumi, marginTop: 14, lineHeight: 1.5 }}>
+            <div style={{ textAlign: "center", fontSize: 12, color: SUB, marginTop: 14, lineHeight: 1.5 }}>
               {mode === "login" ? "New here? Switch to Sign Up above." : "By signing up you agree to our Terms & Privacy Policy."}
             </div>
           </div>
@@ -321,10 +317,10 @@ function AuthPage() {
 
         {/* STEP 3 — owner profile setup */}
         {step === "profile" && (
-          <div style={{ background: P.card, borderRadius: 24, boxShadow: SHADOW, padding: "22px 20px", borderTop: `6px solid ${P.sakura}` }}>
-            <div style={{ fontSize: 19, fontWeight: 800, color: P.sumi }}>Set up your pet's profile</div>
-            <div style={{ fontSize: 12, color: P.usuzumi, marginTop: 3, marginBottom: 18 }}>
-              Only the pet name is required — fill the rest anytime.
+          <div style={{ background: "#FFFFFF", borderRadius: 18, boxShadow: CARD_SHADOW, border: `1px solid ${LINE}`, padding: "22px 20px" }}>
+            <div style={{ fontSize: 20, fontWeight: 500, color: INK, fontFamily: "var(--font-display)" }}>Set up your pet's profile</div>
+            <div style={{ fontSize: 12.5, color: SUB, marginTop: 4, marginBottom: 18, lineHeight: 1.5 }}>
+              Only the pet name is required — you can fill in the rest anytime.
             </div>
 
             <Label required>Pet Name</Label>
@@ -332,8 +328,8 @@ function AuthPage() {
               <input style={inputStyle} placeholder="e.g. Bruno" value={petName} onChange={(e) => { setPetName(e.target.value); setError(null); }} />
             </Field>
 
-            <Label>Breed <span style={{ fontWeight: 500, color: P.usuzumi }}>(pre-filled from selection)</span></Label>
-            <Field icon={Check}>
+            <Label>Breed <span style={{ fontWeight: 400, color: SUB }}>(pre-filled from selection)</span></Label>
+            <Field icon={ChevronRight}>
               <select style={{ ...inputStyle, appearance: "none" }} value={breed} onChange={(e) => setBreed(e.target.value)}>
                 {breedOptions.map((b) => <option key={b} value={b}>{b}</option>)}
               </select>
@@ -354,7 +350,7 @@ function AuthPage() {
             <Label>Gender</Label>
             <div className="flex" style={{ gap: 8, marginBottom: 14 }}>
               {(["male", "female"] as const).map((g) => (
-                <Chip key={g} active={gender === g} accent={P.sakura} soft={P.sakuraSoft} onClick={() => setGender(gender === g ? null : g)}>
+                <Chip key={g} active={gender === g} accent={OWNER.accent} soft={OWNER.soft} onClick={() => setGender(gender === g ? null : g)}>
                   {g === "male" ? "Male" : "Female"}
                 </Chip>
               ))}
@@ -363,14 +359,14 @@ function AuthPage() {
             <Label>Vaccination Status</Label>
             <div className="flex flex-wrap" style={{ gap: 8, marginBottom: 16 }}>
               {([["yes", "Up to date"], ["partial", "Partially"], ["unsure", "Not sure"]] as const).map(([k, label]) => (
-                <Chip key={k} active={vax === k} accent={P.matcha} soft={P.matchaSoft} onClick={() => setVax(vax === k ? null : k)}>
+                <Chip key={k} active={vax === k} accent="#7FB89E" soft="#EBF5F0" onClick={() => setVax(vax === k ? null : k)}>
                   {label}
                 </Chip>
               ))}
             </div>
 
             {error && (
-              <div style={{ fontSize: 12, fontWeight: 700, color: P.danger, background: "#FFEBEA", borderRadius: 10, padding: "9px 12px", marginBottom: 12 }}>
+              <div style={{ fontSize: 12.5, fontWeight: 500, color: DANGER, background: "#FBEEED", borderRadius: 10, padding: "10px 12px", marginBottom: 12 }}>
                 {error}
               </div>
             )}
@@ -379,16 +375,16 @@ function AuthPage() {
               onClick={() => handleProfileSubmit(false)}
               className="w-full flex items-center justify-center active:scale-[0.98] transition-transform"
               style={{
-                height: 54, borderRadius: 14, fontSize: 16, fontWeight: 800, color: "#fff", gap: 8,
-                background: `linear-gradient(135deg, ${P.sakura}, ${P.sakuraDark})`,
-                boxShadow: `0 8px 20px ${P.sakura}59`,
+                height: 52, borderRadius: 12, fontSize: 15, fontWeight: 600, color: "#fff", gap: 8,
+                background: OWNER.accent,
+                boxShadow: `0 6px 16px ${OWNER.accent}40`,
               }}
             >
-              <PawPrint size={16} /> Start Caring
+              Start Caring <ChevronRight size={16} />
             </button>
             <button
               onClick={() => handleProfileSubmit(true)}
-              style={{ display: "block", margin: "12px auto 0", fontSize: 13, fontWeight: 700, color: P.usuzumi, textDecoration: "underline", textUnderlineOffset: 3 }}
+              style={{ display: "block", margin: "12px auto 0", fontSize: 13, fontWeight: 600, color: SUB, textDecoration: "underline", textUnderlineOffset: 3 }}
             >
               Skip for now
             </button>
@@ -401,31 +397,17 @@ function AuthPage() {
 
 function Label({ children, required }: { children: React.ReactNode; required?: boolean }) {
   return (
-    <div style={{ fontSize: 12, fontWeight: 800, color: P.sumi, marginBottom: 6, letterSpacing: "0.02em" }}>
-      {children} {required && <span style={{ color: P.sakura }}>*</span>}
+    <div style={{ fontSize: 12, fontWeight: 600, color: INK, marginBottom: 6, letterSpacing: "0.02em" }}>
+      {children} {required && <span style={{ color: OWNER.accent }}>*</span>}
     </div>
   );
 }
 
-function Chip({ active, accent, soft, onClick, children }: { active: boolean; accent: string; soft: string; onClick: () => void; children: React.ReactNode }) {
-  return (
-    <button
-      onClick={onClick}
-      className="active:scale-95 transition-transform"
-      style={{
-        flex: 1, height: 40, borderRadius: 12, fontSize: 13, fontWeight: 700,
-        background: active ? soft : "#F9F7F5",
-        color: active ? accent : P.usuzumi,
-        border: `1.5px solid ${active ? accent : P.border}`,
-        whiteSpace: "nowrap", padding: "0 10px",
-      }}
-    >
-      {children}
-    </button>
-  );
-}
-
-function RoleCard({ tint, soft, title, desc, icon, onClick }: { tint: string; soft: string; title: string; desc: string; icon: React.ReactNode; onClick: () => void }) {
+function RoleCard({
+  tint, soft, title, desc, icon, onClick,
+}: {
+  tint: string; soft: string; title: string; desc: string; icon: React.ReactNode; onClick: () => void;
+}) {
   const [pressed, setPressed] = useState(false);
   return (
     <button
@@ -435,24 +417,51 @@ function RoleCard({ tint, soft, title, desc, icon, onClick }: { tint: string; so
       onPointerLeave={() => setPressed(false)}
       className="w-full flex items-center text-left"
       style={{
-        gap: 16, padding: "18px 18px", borderRadius: 20, background: P.card,
-        border: `1.5px solid ${tint}55`, boxShadow: SHADOW,
-        transform: pressed ? "scale(0.98)" : "scale(1)", transition: "transform 0.15s ease",
+        gap: 14,
+        background: "#FFFFFF",
+        border: `1px solid ${LINE}`,
+        borderRadius: 18,
+        padding: "18px 16px",
+        boxShadow: CARD_SHADOW,
+        transform: pressed ? "scale(0.98)" : "scale(1)",
+        transition: "transform 0.15s ease, border-color 0.15s ease",
       }}
     >
-      <div className="flex items-center justify-center shrink-0" style={{ width: 64, height: 64, borderRadius: 18, background: soft }}>
+      <div
+        className="flex items-center justify-center shrink-0"
+        style={{ width: 54, height: 54, borderRadius: 14, background: soft }}
+      >
         {icon}
       </div>
-      <div className="flex-1">
-        <div style={{ fontSize: 17, fontWeight: 800, color: P.sumi }}>{title}</div>
-        <div style={{ fontSize: 12, color: P.usuzumi, marginTop: 3, lineHeight: 1.4 }}>{desc}</div>
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div style={{ fontSize: 16, fontWeight: 600, color: INK }}>{title}</div>
+        <div style={{ fontSize: 12.5, color: SUB, marginTop: 2, lineHeight: 1.45 }}>{desc}</div>
       </div>
-      <div
-        className="flex items-center justify-center"
-        style={{ width: 30, height: 30, borderRadius: "50%", background: soft, color: tint, fontSize: 16, fontWeight: 800 }}
-      >
-        →
-      </div>
+      <ChevronRight size={18} style={{ color: tint, flexShrink: 0 }} />
+    </button>
+  );
+}
+
+function Chip({
+  active, accent, soft, onClick, children,
+}: {
+  active: boolean; accent: string; soft: string; onClick: () => void; children: React.ReactNode;
+}) {
+  return (
+    <button
+      onClick={onClick}
+      style={{
+        padding: "9px 16px",
+        borderRadius: 20,
+        fontSize: 13,
+        fontWeight: 600,
+        border: `1px solid ${active ? accent : LINE}`,
+        background: active ? soft : "#FFFFFF",
+        color: active ? accent : SUB,
+        transition: "all 0.15s ease",
+      }}
+    >
+      {children}
     </button>
   );
 }

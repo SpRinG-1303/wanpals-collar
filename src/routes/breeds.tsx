@@ -110,7 +110,7 @@ const BREEDS: Breed[] = [
     diagnosticNoteJp: "外耳炎の傾向あり。耳道の湿度・温度トレンドの定期確認を推奨。",
     diagnosticNoteEn: "Ear-canal humidity & temperature trends should be reviewed regularly to flag early otitis.",
     image: "https://images.unsplash.com/photo-1586671267731-da2cf3ceeb80?w=400&q=80&auto=format&fit=crop",
-    bannerBg: "linear-gradient(135deg, #9B72CF, #7B52AF)",
+    bannerBg: "linear-gradient(135deg, var(--accent-fuji), #7B52AF)",
     rankBg: "#6B3AAF", sizeBg: "#F5F0FF", sizeText: "#7B52AF",
     kanji: "プー", kanjiSize: 44, kanjiColor: "rgba(255,255,255,0.22)",
     Icon: Sparkles, iconColor: "rgba(255,255,255,0.65)",
@@ -222,8 +222,8 @@ const BREEDS: Breed[] = [
     diagnosticNoteJp: "個体差が大きいため、Pawsitive AIが独自のベースラインを学習。",
     diagnosticNoteEn: "High individual variance; Pawsitive AI learns a personalized baseline per dog.",
     image: "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=400&q=80&auto=format&fit=crop",
-    bannerBg: "linear-gradient(135deg, #FF9966, #9B72CF, #4FACFE, #F7971E)",
-    rankBg: "#6BAF92", sizeBg: "linear-gradient(135deg,#FFE4D0,#E8D6FF,#D6EEFF,#FFF4CC)", sizeText: "#7B52AF",
+    bannerBg: "linear-gradient(135deg, #FF9966, var(--accent-fuji), #4FACFE, #F7971E)",
+    rankBg: "var(--accent-matcha)", sizeBg: "linear-gradient(135deg,#FFE4D0,#E8D6FF,#D6EEFF,#FFF4CC)", sizeText: "#7B52AF",
     kanji: "∞", kanjiSize: 56, kanjiColor: "rgba(255,255,255,0.4)",
     Icon: Shuffle, iconColor: "rgba(255,255,255,0.55)",
     animateGradient: true,
@@ -329,7 +329,7 @@ const BREEDS: Breed[] = [
     diagnosticNoteJp: "短頭種症候群の傾向を継続モニタリング。早期検知で予後を改善。",
     diagnosticNoteEn: "Continuous monitoring for brachycephalic syndrome supports early detection and better outcomes.",
     image: "https://images.unsplash.com/photo-1517849845537-4d257902454a?w=400&q=80&auto=format&fit=crop",
-    bannerBg: "linear-gradient(135deg, #FFD3E0, #E8829A)", rankBg: "#C44A6A", sizeBg: "#FFE4EC", sizeText: "#C44A6A",
+    bannerBg: "linear-gradient(135deg, #FFD3E0, var(--accent-sakura))", rankBg: "#C44A6A", sizeBg: "var(--bg-card-sakura)", sizeText: "#C44A6A",
     kanji: "狆", kanjiSize: 60, kanjiColor: "rgba(255,255,255,0.25)",
     Icon: Crown, iconColor: "rgba(255,255,255,0.65)",
     stats: { energy: 40, friendly: 80, train: 60, groom: 70 },
@@ -359,7 +359,7 @@ const BREEDS: Breed[] = [
     diagnosticNoteJp: "歯周病の傾向を継続モニタリング。早期検知で予後を改善。",
     diagnosticNoteEn: "Continuous monitoring for dental issues supports early detection and better outcomes.",
     image: "https://images.unsplash.com/photo-1583337426008-2fef51aa841a?w=400&q=80&auto=format&fit=crop",
-    bannerBg: "linear-gradient(135deg, #FFD3E0, #E8829A)", rankBg: "#C44A6A", sizeBg: "#FFE4EC", sizeText: "#C44A6A",
+    bannerBg: "linear-gradient(135deg, #FFD3E0, var(--accent-sakura))", rankBg: "#C44A6A", sizeBg: "var(--bg-card-sakura)", sizeText: "#C44A6A",
     kanji: "白", kanjiSize: 60, kanjiColor: "rgba(255,255,255,0.25)",
     Icon: Crown, iconColor: "rgba(255,255,255,0.65)",
     stats: { energy: 55, friendly: 85, train: 70, groom: 90 },
@@ -374,7 +374,7 @@ const BREEDS: Breed[] = [
     diagnosticNoteJp: "膝蓋骨脱臼の傾向を継続モニタリング。早期検知で予後を改善。",
     diagnosticNoteEn: "Continuous monitoring for patellar luxation supports early detection and better outcomes.",
     image: "https://images.unsplash.com/photo-1620189507195-68309c04c4d0?w=400&q=80&auto=format&fit=crop",
-    bannerBg: "linear-gradient(135deg, #FFD3E0, #E8829A)", rankBg: "#C44A6A", sizeBg: "#FFE4EC", sizeText: "#C44A6A",
+    bannerBg: "linear-gradient(135deg, #FFD3E0, var(--accent-sakura))", rankBg: "#C44A6A", sizeBg: "var(--bg-card-sakura)", sizeText: "#C44A6A",
     kanji: "蝶", kanjiSize: 60, kanjiColor: "rgba(255,255,255,0.25)",
     Icon: Crown, iconColor: "rgba(255,255,255,0.65)",
     stats: { energy: 75, friendly: 85, train: 90, groom: 75 },
@@ -404,7 +404,7 @@ const BREEDS: Breed[] = [
     diagnosticNoteJp: "膝蓋骨脱臼の傾向を継続モニタリング。早期検知で予後を改善。",
     diagnosticNoteEn: "Continuous monitoring for patellar luxation supports early detection and better outcomes.",
     image: "https://images.unsplash.com/photo-1551717743-49959800b1f6?w=400&q=80&auto=format&fit=crop",
-    bannerBg: "linear-gradient(135deg, #FFD3E0, #E8829A)", rankBg: "#C44A6A", sizeBg: "#FFE4EC", sizeText: "#C44A6A",
+    bannerBg: "linear-gradient(135deg, #FFD3E0, var(--accent-sakura))", rankBg: "#C44A6A", sizeBg: "var(--bg-card-sakura)", sizeText: "#C44A6A",
     kanji: "独", kanjiSize: 60, kanjiColor: "rgba(255,255,255,0.25)",
     Icon: Crown, iconColor: "rgba(255,255,255,0.65)",
     stats: { energy: 85, friendly: 60, train: 75, groom: 40 },
@@ -419,7 +419,7 @@ const BREEDS: Breed[] = [
     diagnosticNoteJp: "膝蓋骨脱臼の傾向を継続モニタリング。早期検知で予後を改善。",
     diagnosticNoteEn: "Continuous monitoring for patellar luxation supports early detection and better outcomes.",
     image: "https://images.unsplash.com/photo-1568393691080-fcd87bd66f72?w=400&q=80&auto=format&fit=crop",
-    bannerBg: "linear-gradient(135deg, #FFD3E0, #E8829A)", rankBg: "#C44A6A", sizeBg: "#FFE4EC", sizeText: "#C44A6A",
+    bannerBg: "linear-gradient(135deg, #FFD3E0, var(--accent-sakura))", rankBg: "#C44A6A", sizeBg: "var(--bg-card-sakura)", sizeText: "#C44A6A",
     kanji: "狐", kanjiSize: 60, kanjiColor: "rgba(255,255,255,0.25)",
     Icon: Crown, iconColor: "rgba(255,255,255,0.65)",
     stats: { energy: 80, friendly: 75, train: 80, groom: 40 },
@@ -449,7 +449,7 @@ const BREEDS: Breed[] = [
     diagnosticNoteJp: "短頭種症候群の傾向を継続モニタリング。早期検知で予後を改善。",
     diagnosticNoteEn: "Continuous monitoring for brachycephalic syndrome supports early detection and better outcomes.",
     image: "https://images.unsplash.com/photo-1583511655802-41f0036fdc7e?w=400&q=80&auto=format&fit=crop",
-    bannerBg: "linear-gradient(135deg, #FFD3E0, #E8829A)", rankBg: "#C44A6A", sizeBg: "#FFE4EC", sizeText: "#C44A6A",
+    bannerBg: "linear-gradient(135deg, #FFD3E0, var(--accent-sakura))", rankBg: "#C44A6A", sizeBg: "var(--bg-card-sakura)", sizeText: "#C44A6A",
     kanji: "京", kanjiSize: 60, kanjiColor: "rgba(255,255,255,0.25)",
     Icon: Crown, iconColor: "rgba(255,255,255,0.65)",
     stats: { energy: 35, friendly: 65, train: 40, groom: 80 },
@@ -464,7 +464,7 @@ const BREEDS: Breed[] = [
     diagnosticNoteJp: "白内障の傾向を継続モニタリング。早期検知で予後を改善。",
     diagnosticNoteEn: "Continuous monitoring for cataracts supports early detection and better outcomes.",
     image: "https://images.unsplash.com/photo-1583511655802-41f0036fdc7e?w=400&q=80&auto=format&fit=crop",
-    bannerBg: "linear-gradient(135deg, #FFD3E0, #E8829A)", rankBg: "#C44A6A", sizeBg: "#FFE4EC", sizeText: "#C44A6A",
+    bannerBg: "linear-gradient(135deg, #FFD3E0, var(--accent-sakura))", rankBg: "#C44A6A", sizeBg: "var(--bg-card-sakura)", sizeText: "#C44A6A",
     kanji: "哈", kanjiSize: 60, kanjiColor: "rgba(255,255,255,0.25)",
     Icon: Crown, iconColor: "rgba(255,255,255,0.65)",
     stats: { energy: 65, friendly: 90, train: 80, groom: 80 },
@@ -479,7 +479,7 @@ const BREEDS: Breed[] = [
     diagnosticNoteJp: "アレルギーの傾向を継続モニタリング。早期検知で予後を改善。",
     diagnosticNoteEn: "Continuous monitoring for allergies supports early detection and better outcomes.",
     image: "https://images.unsplash.com/photo-1574158622682-e40e69881006?w=400&q=80&auto=format&fit=crop",
-    bannerBg: "linear-gradient(135deg, #FFD3E0, #E8829A)", rankBg: "#C44A6A", sizeBg: "#FFE4EC", sizeText: "#C44A6A",
+    bannerBg: "linear-gradient(135deg, #FFD3E0, var(--accent-sakura))", rankBg: "#C44A6A", sizeBg: "var(--bg-card-sakura)", sizeText: "#C44A6A",
     kanji: "雪", kanjiSize: 60, kanjiColor: "rgba(255,255,255,0.25)",
     Icon: Heart, iconColor: "rgba(255,255,255,0.65)",
     stats: { energy: 65, friendly: 90, train: 75, groom: 90 },
@@ -494,7 +494,7 @@ const BREEDS: Breed[] = [
     diagnosticNoteJp: "膝蓋骨脱臼の傾向を継続モニタリング。早期検知で予後を改善。",
     diagnosticNoteEn: "Continuous monitoring for patellar luxation supports early detection and better outcomes.",
     image: "https://images.unsplash.com/photo-1568572933382-74d440642117?w=400&q=80&auto=format&fit=crop",
-    bannerBg: "linear-gradient(135deg, #FFD3E0, #E8829A)", rankBg: "#C44A6A", sizeBg: "#FFE4EC", sizeText: "#C44A6A",
+    bannerBg: "linear-gradient(135deg, #FFD3E0, var(--accent-sakura))", rankBg: "#C44A6A", sizeBg: "var(--bg-card-sakura)", sizeText: "#C44A6A",
     kanji: "猿", kanjiSize: 60, kanjiColor: "rgba(255,255,255,0.25)",
     Icon: Crown, iconColor: "rgba(255,255,255,0.65)",
     stats: { energy: 70, friendly: 65, train: 65, groom: 70 },
@@ -509,7 +509,7 @@ const BREEDS: Breed[] = [
     diagnosticNoteJp: "短頭種症候群の傾向を継続モニタリング。早期検知で予後を改善。",
     diagnosticNoteEn: "Continuous monitoring for brachycephalic syndrome supports early detection and better outcomes.",
     image: "https://images.unsplash.com/photo-1574158622682-e40e69881006?w=400&q=80&auto=format&fit=crop",
-    bannerBg: "linear-gradient(135deg, #FFD3E0, #E8829A)", rankBg: "#C44A6A", sizeBg: "#FFE4EC", sizeText: "#C44A6A",
+    bannerBg: "linear-gradient(135deg, #FFD3E0, var(--accent-sakura))", rankBg: "#C44A6A", sizeBg: "var(--bg-card-sakura)", sizeText: "#C44A6A",
     kanji: "白", kanjiSize: 60, kanjiColor: "rgba(255,255,255,0.25)",
     Icon: Crown, iconColor: "rgba(255,255,255,0.65)",
     stats: { energy: 65, friendly: 75, train: 75, groom: 70 },
@@ -1064,7 +1064,7 @@ const BREEDS: Breed[] = [
     diagnosticNoteJp: "椎間板ヘルニアの傾向を継続モニタリング。早期検知で予後を改善。",
     diagnosticNoteEn: "Continuous monitoring for ivdd supports early detection and better outcomes.",
     image: "https://images.unsplash.com/photo-1612195583950-b8fd34c87093?w=400&q=80&auto=format&fit=crop",
-    bannerBg: "linear-gradient(135deg, #FFD3E0, #E8829A)", rankBg: "#C44A6A", sizeBg: "#FFE4EC", sizeText: "#C44A6A",
+    bannerBg: "linear-gradient(135deg, #FFD3E0, var(--accent-sakura))", rankBg: "#C44A6A", sizeBg: "var(--bg-card-sakura)", sizeText: "#C44A6A",
     kanji: "兎", kanjiSize: 60, kanjiColor: "rgba(255,255,255,0.25)",
     Icon: Wind, iconColor: "rgba(255,255,255,0.65)",
     stats: { energy: 70, friendly: 75, train: 60, groom: 50 },
@@ -1124,7 +1124,7 @@ const BREEDS: Breed[] = [
     diagnosticNoteJp: "進行性網膜萎縮の傾向を継続モニタリング。早期検知で予後を改善。",
     diagnosticNoteEn: "Continuous monitoring for progressive retinal atrophy supports early detection and better outcomes.",
     image: "https://images.unsplash.com/photo-1583337426008-2fef51aa841a?w=400&q=80&auto=format&fit=crop",
-    bannerBg: "linear-gradient(135deg, #FFD3E0, #E8829A)", rankBg: "#C44A6A", sizeBg: "#FFE4EC", sizeText: "#C44A6A",
+    bannerBg: "linear-gradient(135deg, #FFD3E0, var(--accent-sakura))", rankBg: "#C44A6A", sizeBg: "var(--bg-card-sakura)", sizeText: "#C44A6A",
     kanji: "米", kanjiSize: 60, kanjiColor: "rgba(255,255,255,0.25)",
     Icon: Crown, iconColor: "rgba(255,255,255,0.65)",
     stats: { energy: 65, friendly: 90, train: 80, groom: 80 },
@@ -1319,7 +1319,7 @@ const BREEDS: Breed[] = [
     diagnosticNoteJp: "皮膚疾患の傾向を継続モニタリング。早期検知で予後を改善。",
     diagnosticNoteEn: "Continuous monitoring for skin issues supports early detection and better outcomes.",
     image: "https://images.unsplash.com/photo-1583511655826-05700d52f4d9?w=400&q=80&auto=format&fit=crop",
-    bannerBg: "linear-gradient(135deg, #FFD3E0, #E8829A)", rankBg: "#C44A6A", sizeBg: "#FFE4EC", sizeText: "#C44A6A",
+    bannerBg: "linear-gradient(135deg, #FFD3E0, var(--accent-sakura))", rankBg: "#C44A6A", sizeBg: "var(--bg-card-sakura)", sizeText: "#C44A6A",
     kanji: "華", kanjiSize: 60, kanjiColor: "rgba(255,255,255,0.25)",
     Icon: Crown, iconColor: "rgba(255,255,255,0.65)",
     stats: { energy: 60, friendly: 80, train: 70, groom: 40 },
@@ -1794,25 +1794,25 @@ function Breeds() {
       {/* HERO BANNER */}
       <div style={{
         position: "relative", height: 110, overflow: "hidden",
-        background: "linear-gradient(135deg, #FFF0F5 0%, #F5F0FF 50%, #FFF8DC 100%)",
+        background: "linear-gradient(135deg, var(--accent-sakura-soft) 0%, #F5F0FF 50%, #FFF8DC 100%)",
         borderRadius: "0 0 24px 24px",
       }}>
         <div style={{ position: "absolute", left: 20, top: 24 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 6, color: "#E8829A", fontSize: 13, letterSpacing: "0.1em", fontWeight: 600 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 6, color: "var(--accent-sakura)", fontSize: 13, letterSpacing: "0.1em", fontWeight: 600 }}>
             <BookOpen size={14} strokeWidth={2} />
             <span>BREED GUIDE</span>
           </div>
-          <div style={{ fontSize: 22, fontWeight: 800, color: "#2C2C2C", marginTop: 2, letterSpacing: "-0.01em" }}>
+          <div style={{ fontSize: 22, fontWeight: 800, color: "var(--text-primary)", marginTop: 2, letterSpacing: "-0.01em" }}>
             {t("犬種図鑑", "Breed Encyclopedia")}
           </div>
-          <div style={{ fontSize: 12, color: "#8A8A8A", marginTop: 2 }}>
+          <div style={{ fontSize: 12, color: "var(--text-secondary)", marginTop: 2 }}>
             {t("200以上の犬種", "200+ breeds")}
           </div>
         </div>
 
         {/* Right: stacked size pills (small/medium/large suggestion) */}
         <div style={{ position: "absolute", right: 22, top: 32, display: "flex", flexDirection: "column", gap: 6, opacity: 0.5 }}>
-          <div style={{ width: 20, height: 8, borderRadius: 4, background: "#FFB7C5", alignSelf: "flex-end" }} />
+          <div style={{ width: 20, height: 8, borderRadius: 4, background: "var(--accent-sakura)", alignSelf: "flex-end" }} />
           <div style={{ width: 28, height: 8, borderRadius: 4, background: "#C8C0F0", alignSelf: "flex-end" }} />
           <div style={{ width: 36, height: 8, borderRadius: 4, background: "#A8D0E8", alignSelf: "flex-end" }} />
         </div>
@@ -1823,11 +1823,11 @@ function Breeds() {
         <div style={{
           display: "flex", alignItems: "center", gap: 10, height: 52,
           background: "#FFFFFF", borderRadius: 16, padding: "0 12px 0 16px",
-          border: `1.5px solid ${focused ? "#E8829A" : "#EDE8E4"}`,
-          boxShadow: focused ? "0 4px 20px rgba(232,130,154,0.18)" : "0 4px 16px rgba(0,0,0,0.06)",
+          border: `1.5px solid ${focused ? "var(--accent-sakura)" : "var(--border-card)"}`,
+          boxShadow: focused ? "0 4px 20px color-mix(in srgb, var(--accent-sakura) calc(0.18 * 100%), transparent)" : "0 4px 16px rgba(0,0,0,0.06)",
           transition: "all 200ms",
         }}>
-          <Search size={18} color="#E8829A" strokeWidth={2} />
+          <Search size={18} color="var(--accent-sakura)" strokeWidth={2} />
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
@@ -1835,26 +1835,26 @@ function Breeds() {
             onBlur={() => setFocused(false)}
             placeholder={t("どんな犬種でも検索", "Search any breed")}
             className="flex-1 bg-transparent outline-none text-sm"
-            style={{ color: "#2C2C2C" }}
+            style={{ color: "var(--text-primary)" }}
           />
           {hasQuery ? (
             <button
               onClick={() => setQuery("")}
               aria-label="Clear search"
               style={{
-                width: 28, height: 28, borderRadius: "50%", background: "#FFE4EC",
+                width: 28, height: 28, borderRadius: "50%", background: "var(--bg-card-sakura)",
                 display: "flex", alignItems: "center", justifyContent: "center",
                 border: "none", cursor: "pointer",
               }}
             >
-              <X size={14} color="#E8829A" strokeWidth={2.5} />
+              <X size={14} color="var(--accent-sakura)" strokeWidth={2.5} />
             </button>
           ) : (
             <div style={{
               width: 34, height: 34, borderRadius: "50%", background: "#F0ECFF",
               display: "flex", alignItems: "center", justifyContent: "center",
             }}>
-              <SlidersHorizontal size={16} color="#7B68C8" strokeWidth={2} />
+              <SlidersHorizontal size={16} color="var(--accent-fuji)" strokeWidth={2} />
             </div>
           )}
         </div>
@@ -1871,10 +1871,10 @@ function Breeds() {
               style={{
                 flexShrink: 0,
                 height: 34, padding: "0 16px", borderRadius: 20, fontSize: 12, fontWeight: 600,
-                background: sel ? "linear-gradient(135deg, #E8829A, #C86882)" : "#FFFFFF",
-                border: sel ? "1.5px solid transparent" : "1.5px solid #EDE8E4",
-                color: sel ? "#FFFFFF" : "#8A8A8A",
-                boxShadow: sel ? "0 4px 12px rgba(232,130,154,0.28)" : "0 2px 6px rgba(0,0,0,0.04)",
+                background: sel ? "linear-gradient(135deg, var(--accent-sakura), var(--accent-sakura-dark))" : "#FFFFFF",
+                border: sel ? "1.5px solid transparent" : "1.5px solid var(--border-card)",
+                color: sel ? "#FFFFFF" : "var(--text-secondary)",
+                boxShadow: sel ? "0 4px 12px color-mix(in srgb, var(--accent-sakura) calc(0.28 * 100%), transparent)" : "0 2px 6px rgba(0,0,0,0.04)",
                 transition: "all 180ms",
                 whiteSpace: "nowrap",
               }}
@@ -1888,7 +1888,7 @@ function Breeds() {
 
       {/* RESULT COUNT */}
       {hasQuery && filtered.length > 0 && (
-        <div style={{ padding: "10px 20px 0", fontSize: 12, fontWeight: 700, color: "#8A8A8A" }}>
+        <div style={{ padding: "10px 20px 0", fontSize: 12, fontWeight: 700, color: "var(--text-secondary)" }}>
           {language === "english"
             ? `${filtered.length} ${filtered.length === 1 ? "breed" : "breeds"} found`
             : language === "japanese"
@@ -1912,19 +1912,19 @@ function Breeds() {
         {filtered.length === 0 && (
           <div style={{ gridColumn: "1 / -1", display: "flex", flexDirection: "column", alignItems: "center", padding: "40px 20px", gap: 12 }}>
             <SadDog />
-            <div style={{ fontSize: 15, fontWeight: 800, color: "#2C2C2C", textAlign: "center" }}>
+            <div style={{ fontSize: 15, fontWeight: 800, color: "var(--text-primary)", textAlign: "center" }}>
               {t("見つかりませんでした", "No breeds found")}
             </div>
-            <div style={{ fontSize: 12, color: "#8A8A8A", textAlign: "center" }}>
+            <div style={{ fontSize: 12, color: "var(--text-secondary)", textAlign: "center" }}>
               {t("別のキーワードで試してください", "Try a different keyword")}
             </div>
             <button
               onClick={() => { setQuery(""); setFilter("all"); }}
               style={{
                 marginTop: 4, height: 38, padding: "0 22px", borderRadius: 20,
-                background: "linear-gradient(135deg, #E8829A, #C86882)",
+                background: "linear-gradient(135deg, var(--accent-sakura), var(--accent-sakura-dark))",
                 color: "white", fontSize: 12, fontWeight: 700, border: "none",
-                boxShadow: "0 4px 12px rgba(232,130,154,0.32)", cursor: "pointer",
+                boxShadow: "0 4px 12px color-mix(in srgb, var(--accent-sakura) calc(0.32 * 100%), transparent)", cursor: "pointer",
               }}
             >
               {t("すべて表示", "Show All")}
@@ -1952,7 +1952,7 @@ function Highlight({
   ranges.forEach(([start, end], i) => {
     if (start > cursor) out.push(<span key={`p${i}`}>{text.slice(cursor, start)}</span>);
     out.push(
-      <span key={`h${i}`} style={{ color: "#E8829A", background: "rgba(232,130,154,0.14)", borderRadius: 3, padding: "0 1px" }}>
+      <span key={`h${i}`} style={{ color: "var(--accent-sakura)", background: "color-mix(in srgb, var(--accent-sakura) calc(0.14 * 100%), transparent)", borderRadius: 3, padding: "0 1px" }}>
         {text.slice(start, end + 1)}
       </span>
     );
@@ -1970,12 +1970,12 @@ function SadDog() {
       <path d="M64 38 L70 22 L56 30 Z" fill="#C99280" />
       <ellipse cx="42" cy="46" rx="26" ry="22" fill="#E8B8A0" />
       <ellipse cx="42" cy="56" rx="18" ry="14" fill="#F5D4C0" />
-      <circle cx="33" cy="44" r="2.5" fill="#2C2C2C" />
-      <circle cx="51" cy="44" r="2.5" fill="#2C2C2C" />
+      <circle cx="33" cy="44" r="2.5" fill="var(--text-primary)" />
+      <circle cx="51" cy="44" r="2.5" fill="var(--text-primary)" />
       <path d="M30 50 Q33 52 36 50" stroke="#7A4A3A" strokeWidth="1.2" strokeLinecap="round" fill="none" />
       <path d="M48 50 Q51 52 54 50" stroke="#7A4A3A" strokeWidth="1.2" strokeLinecap="round" fill="none" />
-      <ellipse cx="42" cy="55" rx="3" ry="2" fill="#2C2C2C" />
-      <path d="M37 62 Q42 58 47 62" stroke="#2C2C2C" strokeWidth="1.6" strokeLinecap="round" fill="none" />
+      <ellipse cx="42" cy="55" rx="3" ry="2" fill="var(--text-primary)" />
+      <path d="M37 62 Q42 58 47 62" stroke="var(--text-primary)" strokeWidth="1.6" strokeLinecap="round" fill="none" />
       <circle cx="58" cy="36" r="1.2" fill="#7BB3E0" opacity="0.8" />
       <circle cx="61" cy="40" r="0.8" fill="#7BB3E0" opacity="0.6" />
     </svg>
@@ -2068,7 +2068,7 @@ function BreedCard({ breed, onOpen, language, t, matches }: { breed: Breed; onOp
             >
               <RefreshCw
                 size={14}
-                color="#E8829A"
+                color="var(--accent-sakura)"
                 strokeWidth={2.5}
                 style={{ animation: imgLoading ? "breedSpin 0.9s linear infinite" : undefined }}
               />
@@ -2087,7 +2087,7 @@ function BreedCard({ breed, onOpen, language, t, matches }: { breed: Breed; onOp
             }}>
               {t(r.jp, r.en)}
             </div>
-            <div style={{ fontSize: 12.5, color: "#2C2C2C", fontWeight: 600, lineHeight: 1.35 }}>
+            <div style={{ fontSize: 12.5, color: "var(--text-primary)", fontWeight: 600, lineHeight: 1.35 }}>
               {language === "japanese" ? (
                 <Highlight text={r.valueJp} matches={matches} keyName={r.keyJp ?? ""} />
               ) : (
@@ -2104,10 +2104,10 @@ function BreedCard({ breed, onOpen, language, t, matches }: { breed: Breed; onOp
           border: "1px solid #F5D9D2", borderRadius: 12,
           display: "flex", gap: 10, alignItems: "flex-start",
         }}>
-          <AlertTriangle size={14} color="#E8829A" strokeWidth={2.4} style={{ marginTop: 2, flexShrink: 0 }} />
+          <AlertTriangle size={14} color="var(--accent-sakura)" strokeWidth={2.4} style={{ marginTop: 2, flexShrink: 0 }} />
           <div style={{ minWidth: 0 }}>
             <div style={{
-              fontSize: 9, fontWeight: 800, color: "#C86882",
+              fontSize: 9, fontWeight: 800, color: "var(--accent-sakura-dark)",
               letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 2,
             }}>
               {t("診断ノート", "Diagnostic Note")}
@@ -2155,10 +2155,10 @@ function BreedDetail({ breed, onClose }: { breed: Breed; onClose: () => void }) 
   }, [breed.en]);
 
   const bars = [
-    { jp: "エネルギー", en: "Energy", v: breed.stats.energy, color: "#E8829A" },
-    { jp: "友好性", en: "Friendliness", v: breed.stats.friendly, color: "#6BAF92" },
-    { jp: "訓練性", en: "Trainability", v: breed.stats.train, color: "#7B68C8" },
-    { jp: "手入れ", en: "Grooming", v: breed.stats.groom, color: "#D4A843" },
+    { jp: "エネルギー", en: "Energy", v: breed.stats.energy, color: "var(--accent-sakura)" },
+    { jp: "友好性", en: "Friendliness", v: breed.stats.friendly, color: "var(--accent-matcha)" },
+    { jp: "訓練性", en: "Trainability", v: breed.stats.train, color: "var(--accent-fuji)" },
+    { jp: "手入れ", en: "Grooming", v: breed.stats.groom, color: "var(--accent-yuzu)" },
   ];
 
   const relatedPosts = POSTS.slice(0, 3);
@@ -2170,7 +2170,7 @@ function BreedDetail({ breed, onClose }: { breed: Breed; onClose: () => void }) 
     >
       <div
         className="w-full max-h-[92dvh] overflow-y-auto"
-        style={{ background: "#FAFAF8", borderRadius: "24px 24px 0 0", maxWidth: 430 }}
+        style={{ background: "var(--bg-page)", borderRadius: "24px 24px 0 0", maxWidth: 430 }}
         onClick={(e) => e.stopPropagation()}
       >
         {/* HERO BANNER */}
@@ -2191,7 +2191,7 @@ function BreedDetail({ breed, onClose }: { breed: Breed; onClose: () => void }) 
             display: "flex", alignItems: "center", justifyContent: "center",
             boxShadow: "0 2px 8px rgba(0,0,0,0.1)", zIndex: 2,
           }}>
-            <ArrowLeft size={18} color="#2C2C2C" />
+            <ArrowLeft size={18} color="var(--text-primary)" />
           </button>
 
           {breed.rank !== null && (
@@ -2224,7 +2224,7 @@ function BreedDetail({ breed, onClose }: { breed: Breed; onClose: () => void }) 
                     key={i}
                     style={{
                       flexShrink: 0, width: 132, height: 96, borderRadius: 14,
-                      background: "linear-gradient(110deg, #FFE4EC 25%, #FFF5F8 50%, #FFE4EC 75%)",
+                      background: "linear-gradient(110deg, var(--bg-card-sakura) 25%, var(--accent-sakura-soft) 50%, var(--bg-card-sakura) 75%)",
                       backgroundSize: "200% 100%",
                       animation: "breedSkeletonShimmer 1.4s ease-in-out infinite",
                     }}
@@ -2249,17 +2249,17 @@ function BreedDetail({ breed, onClose }: { breed: Breed; onClose: () => void }) 
 
         {/* NAME */}
         <div style={{ padding: "20px 20px 8px" }}>
-          <div style={{ fontSize: 24, fontWeight: 800, color: "#2C2C2C", letterSpacing: "-0.01em" }}>
+          <div style={{ fontSize: 24, fontWeight: 800, color: "var(--text-primary)", letterSpacing: "-0.01em" }}>
             {language === "english" ? breed.en : breed.jp}
           </div>
           {language !== "japanese" && (
-            <div style={{ fontSize: 14, color: "#8A8A8A", marginTop: 2 }}>{breed.en}</div>
+            <div style={{ fontSize: 14, color: "var(--text-secondary)", marginTop: 2 }}>{breed.en}</div>
           )}
           <div style={{ display: "flex", gap: 8, marginTop: 12, flexWrap: "wrap" }}>
             <span style={{ background: breed.sizeBg, color: breed.sizeText, fontSize: 11, fontWeight: 700, padding: "5px 12px", borderRadius: 12 }}>
               {t(breed.sizeJp, breed.sizeEn)}
             </span>
-            <span style={{ background: "#FFFFFF", border: "1px solid #EDE8E4", fontSize: 11, fontWeight: 600, color: "#2C2C2C", padding: "5px 10px", borderRadius: 12 }}>
+            <span style={{ background: "#FFFFFF", border: "1px solid var(--border-card)", fontSize: 11, fontWeight: 600, color: "var(--text-primary)", padding: "5px 10px", borderRadius: 12 }}>
               {breed.flag} {t(breed.originJp, breed.originEn)}
             </span>
           </div>
@@ -2267,17 +2267,17 @@ function BreedDetail({ breed, onClose }: { breed: Breed; onClose: () => void }) 
 
         {/* STATS */}
         <div style={{ padding: "20px", margin: "12px 16px 0", background: "#FFFFFF", borderRadius: 20, boxShadow: "0 4px 16px rgba(0,0,0,0.05)" }}>
-          <div style={{ fontSize: 14, fontWeight: 800, color: "#2C2C2C", marginBottom: 14 }}>
+          <div style={{ fontSize: 14, fontWeight: 800, color: "var(--text-primary)", marginBottom: 14 }}>
             {t("犬種特性", "Breed Traits")}
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
             {bars.map((b) => (
               <div key={b.en}>
                 <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12, marginBottom: 4 }}>
-                  <span style={{ color: "#2C2C2C", fontWeight: 600 }}>{t(b.jp, b.en)}</span>
+                  <span style={{ color: "var(--text-primary)", fontWeight: 600 }}>{t(b.jp, b.en)}</span>
                   <span style={{ color: b.color, fontWeight: 700 }}>{b.v}%</span>
                 </div>
-                <div style={{ height: 8, background: "#F0ECE8", borderRadius: 4, overflow: "hidden" }}>
+                <div style={{ height: 8, background: "var(--border-subtle)", borderRadius: 4, overflow: "hidden" }}>
                   <div style={{
                     height: "100%", width: animated ? `${b.v}%` : "0%",
                     background: `linear-gradient(90deg, ${b.color}, ${b.color}CC)`,
@@ -2291,7 +2291,7 @@ function BreedDetail({ breed, onClose }: { breed: Breed; onClose: () => void }) 
 
         {/* HEALTH */}
         <div style={{ padding: "20px", margin: "12px 16px 0", background: "#FFFFFF", borderRadius: 20, boxShadow: "0 4px 16px rgba(0,0,0,0.05)" }}>
-          <div style={{ fontSize: 14, fontWeight: 800, color: "#2C2C2C", marginBottom: 12 }}>
+          <div style={{ fontSize: 14, fontWeight: 800, color: "var(--text-primary)", marginBottom: 12 }}>
             {t("健康注意事項", "Health Notes")}
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
@@ -2304,8 +2304,8 @@ function BreedDetail({ breed, onClose }: { breed: Breed; onClose: () => void }) 
                   background: isConcern ? "#FFEEEC" : "#FFF8E0",
                   border: `1px solid ${isConcern ? "#F5C0BC" : "#F0DCA0"}`,
                 }}>
-                  <AlertTriangle size={16} color={isConcern ? "#E53935" : "#D4A843"} strokeWidth={2} />
-                  <div style={{ fontSize: 12, color: "#2C2C2C", fontWeight: 600 }}>
+                  <AlertTriangle size={16} color={isConcern ? "#E53935" : "var(--accent-yuzu)"} strokeWidth={2} />
+                  <div style={{ fontSize: 12, color: "var(--text-primary)", fontWeight: 600 }}>
                     {t(h.jp, h.en)}
                   </div>
                 </div>
@@ -2317,16 +2317,16 @@ function BreedDetail({ breed, onClose }: { breed: Breed; onClose: () => void }) 
         {/* COMMUNITY */}
         <div style={{ padding: "20px", margin: "12px 16px 24px", background: "#FFFFFF", borderRadius: 20, boxShadow: "0 4px 16px rgba(0,0,0,0.05)" }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
-            <div style={{ fontSize: 14, fontWeight: 800, color: "#2C2C2C" }}>
+            <div style={{ fontSize: 14, fontWeight: 800, color: "var(--text-primary)" }}>
               {t("コミュニティ投稿", "Community Posts")}
             </div>
-            <a href="/community" style={{ fontSize: 11, color: "#E8829A", fontWeight: 700 }}>
+            <a href="/community" style={{ fontSize: 11, color: "var(--accent-sakura)", fontWeight: 700 }}>
               {t("もっと見る →", "See More →")}
             </a>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             {relatedPosts.map((p) => (
-              <div key={p.id} style={{ padding: "10px 12px", background: "#FAFAF8", borderRadius: 12, display: "flex", alignItems: "center", gap: 10 }}>
+              <div key={p.id} style={{ padding: "10px 12px", background: "var(--bg-page)", borderRadius: 12, display: "flex", alignItems: "center", gap: 10 }}>
                 <div style={{
                   width: 32, height: 32, borderRadius: "50%",
                   background: breed.bannerBg,
@@ -2337,10 +2337,10 @@ function BreedDetail({ breed, onClose }: { breed: Breed; onClose: () => void }) 
                   {breed.kanji.slice(0, 1)}
                 </div>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ fontSize: 12, fontWeight: 700, color: "#2C2C2C", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                  <div style={{ fontSize: 12, fontWeight: 700, color: "var(--text-primary)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                     <T jp={p.titleJp} en={p.titleEn} />
                   </div>
-                  <div style={{ fontSize: 10, color: "#8A8A8A", marginTop: 2, display: "flex", gap: 8 }}>
+                  <div style={{ fontSize: 10, color: "var(--text-secondary)", marginTop: 2, display: "flex", gap: 8 }}>
                     <span>{p.user}</span>
                     <span style={{ display: "inline-flex", alignItems: "center", gap: 3 }}>
                       <MessageCircle size={10} /> {p.com}

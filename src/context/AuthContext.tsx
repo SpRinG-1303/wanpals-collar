@@ -51,6 +51,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setHydrated(true);
   }, []);
 
+  // Drive the role-based color theme (owner = pastel purple, vet = pastel blue)
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    document.documentElement.dataset.role = session?.role ?? "owner";
+  }, [session]);
+
   const persistSession = (s: Session | null) => {
     setSession(s);
     try {

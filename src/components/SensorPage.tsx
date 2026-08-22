@@ -20,7 +20,7 @@ export const SP = {
   // Rose / sakura accent
   rose: "#F43F72",
   roseSoft: "#FF6B8A",
-  roseTint: "#FFF0F3",
+  roseTint: "var(--accent-sakura-soft)",
   roseFaint: "rgba(244,63,114,0.08)",
   // Status
   ok: "#16A34A", okDot: "#22C55E", okBg: "#F0FDF4",
@@ -28,11 +28,11 @@ export const SP = {
   danger: "#E11D48", dangerDot: "#F43F72", dangerBg: "#FFF1F2",
   // Legacy alias (kept so existing components compile without changes)
   sakura: "#F43F72",
-  matcha: "#6BAF92",
-  yuzu: "#D4A843",
-  fuji: "#7B68C8",
+  matcha: "var(--accent-matcha)",
+  yuzu: "var(--accent-yuzu)",
+  fuji: "var(--accent-fuji)",
   momiji: "#D4714E",
-  sora: "#5B9BD5",
+  sora: "var(--accent-sora)",
 };
 
 export const CARD_SHADOW = "0 2px 20px rgba(0,0,0,0.055)";
