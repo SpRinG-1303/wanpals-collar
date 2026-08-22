@@ -336,9 +336,7 @@ function Community() {
           const active = sub === i;
           const isAll = i === 0;
           const style: React.CSSProperties = active
-            ? isAll
-              ? { background: c.soft, color: "#fff", border: "1.5px solid transparent", boxShadow: "0 4px 12px color-mix(in srgb, var(--accent-sakura) calc(0.35 * 100%), transparent)" }
-              : { background: c.soft, color: c.accent, border: `1.5px solid ${c.accent}`, boxShadow: `0 2px 8px ${c.accent}22` }
+            ? { background: "linear-gradient(135deg, var(--accent-sakura), var(--accent-sakura-dark))", color: "#fff", border: "1.5px solid transparent", boxShadow: "0 4px 12px color-mix(in srgb, var(--accent-sakura) calc(0.35 * 100%), transparent)" }
             : { background: "#FFFFFF", color: "var(--text-secondary)", border: "1.5px solid var(--border-card)", boxShadow: "0 2px 6px rgba(0,0,0,0.05)" };
           return (
             <button
@@ -464,7 +462,6 @@ function Community() {
                           height: 44,
                           borderRadius: "50%",
                           background: pal.bg,
-                          border: `2px solid ${th.accent}`,
                           color: pal.fg,
                           fontSize: 16,
                           fontWeight: 800,
