@@ -179,58 +179,6 @@ function Clinics() {
       </div>
 
 
-      {/* ── Map preview ────────────────────────────────────── */}
-      <div
-        className="relative overflow-hidden"
-        style={{
-          margin: "16px 20px 0",
-          aspectRatio: "16 / 9",
-          borderRadius: 20,
-          border: "1px solid var(--border-card)",
-          background:
-            "linear-gradient(180deg,var(--acc-pale),var(--acc2-pale)), repeating-linear-gradient(0deg,transparent,transparent 22px,color-mix(in oklab, var(--acc-strong) 7.0%, transparent) 23px), repeating-linear-gradient(90deg,transparent,transparent 22px,color-mix(in oklab, var(--acc-strong) 7.0%, transparent) 23px)",
-        }}
-      >
-        {/* Faux roads */}
-        <div style={{ position: "absolute", top: "34%", left: 0, right: 0, height: 4, background: "rgba(255,255,255,0.75)" }} />
-        <div style={{ position: "absolute", top: 0, bottom: 0, left: "58%", width: 4, background: "rgba(255,255,255,0.75)" }} />
-        <div style={{ position: "absolute", top: 0, bottom: 0, left: "24%", width: 3, background: "rgba(255,255,255,0.55)" }} />
-        {/* Pins */}
-        {[
-          { l: "16%", t: "18%", c: "var(--accent-matcha)" },
-          { l: "44%", t: "14%", c: "var(--accent-sakura)" },
-          { l: "72%", t: "22%", c: "var(--acc-strong)" },
-          { l: "34%", t: "52%", c: "var(--accent-yuzu)" },
-          { l: "80%", t: "56%", c: "var(--accent-sakura)" },
-        ].map((p, i) => (
-          <div
-            key={i}
-            style={{
-              position: "absolute", left: p.l, top: p.t,
-              width: 14, height: 14, borderRadius: "50%",
-              background: p.c, border: "2px solid #fff",
-              boxShadow: "0 2px 6px rgba(0,0,0,0.18)",
-            }}
-          />
-        ))}
-        <button
-          onClick={() => navigate({ to: "/map" })}
-          className="absolute"
-          style={{
-            left: "50%", bottom: 12, transform: "translateX(-50%)",
-            background: "#fff", color: "var(--acc-strong)",
-            borderRadius: 999, padding: "8px 18px",
-            fontSize: 12, fontWeight: 700,
-            border: "1px solid var(--acc2-soft)",
-            boxShadow: "0 4px 12px rgba(0,0,0,0.12)",
-            display: "flex", alignItems: "center", gap: 6,
-            whiteSpace: "nowrap",
-          }}
-        >
-          <MapPin size={14} /> {t("地図で見る", "View on Map")}
-        </button>
-      </div>
-
       {/* ── Category tabs ──────────────────────────────────── */}
       <div className="flex overflow-x-auto scrollbar-hide" style={{ padding: "16px 20px 0", gap: 8 }}>
         {CATS.map((c, i) => {
