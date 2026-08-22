@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as VetRxRouteImport } from './routes/vet-rx'
+import { Route as VetPatientsRouteImport } from './routes/vet-patients'
 import { Route as VetConsultRouteImport } from './routes/vet-consult'
 import { Route as TempSenseRouteImport } from './routes/temp-sense'
 import { Route as SkinSenseRouteImport } from './routes/skin-sense'
@@ -38,6 +39,11 @@ import { Route as OnboardingAvatarRouteImport } from './routes/onboarding.avatar
 const VetRxRoute = VetRxRouteImport.update({
   id: '/vet-rx',
   path: '/vet-rx',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VetPatientsRoute = VetPatientsRouteImport.update({
+  id: '/vet-patients',
+  path: '/vet-patients',
   getParentRoute: () => rootRouteImport,
 } as any)
 const VetConsultRoute = VetConsultRouteImport.update({
@@ -181,6 +187,7 @@ export interface FileRoutesByFullPath {
   '/skin-sense': typeof SkinSenseRoute
   '/temp-sense': typeof TempSenseRoute
   '/vet-consult': typeof VetConsultRoute
+  '/vet-patients': typeof VetPatientsRoute
   '/vet-rx': typeof VetRxRoute
   '/onboarding/avatar': typeof OnboardingAvatarRoute
   '/onboarding/details': typeof OnboardingDetailsRoute
@@ -208,6 +215,7 @@ export interface FileRoutesByTo {
   '/skin-sense': typeof SkinSenseRoute
   '/temp-sense': typeof TempSenseRoute
   '/vet-consult': typeof VetConsultRoute
+  '/vet-patients': typeof VetPatientsRoute
   '/vet-rx': typeof VetRxRoute
   '/onboarding/avatar': typeof OnboardingAvatarRoute
   '/onboarding/details': typeof OnboardingDetailsRoute
@@ -236,6 +244,7 @@ export interface FileRoutesById {
   '/skin-sense': typeof SkinSenseRoute
   '/temp-sense': typeof TempSenseRoute
   '/vet-consult': typeof VetConsultRoute
+  '/vet-patients': typeof VetPatientsRoute
   '/vet-rx': typeof VetRxRoute
   '/onboarding/avatar': typeof OnboardingAvatarRoute
   '/onboarding/details': typeof OnboardingDetailsRoute
@@ -265,6 +274,7 @@ export interface FileRouteTypes {
     | '/skin-sense'
     | '/temp-sense'
     | '/vet-consult'
+    | '/vet-patients'
     | '/vet-rx'
     | '/onboarding/avatar'
     | '/onboarding/details'
@@ -292,6 +302,7 @@ export interface FileRouteTypes {
     | '/skin-sense'
     | '/temp-sense'
     | '/vet-consult'
+    | '/vet-patients'
     | '/vet-rx'
     | '/onboarding/avatar'
     | '/onboarding/details'
@@ -319,6 +330,7 @@ export interface FileRouteTypes {
     | '/skin-sense'
     | '/temp-sense'
     | '/vet-consult'
+    | '/vet-patients'
     | '/vet-rx'
     | '/onboarding/avatar'
     | '/onboarding/details'
@@ -347,6 +359,7 @@ export interface RootRouteChildren {
   SkinSenseRoute: typeof SkinSenseRoute
   TempSenseRoute: typeof TempSenseRoute
   VetConsultRoute: typeof VetConsultRoute
+  VetPatientsRoute: typeof VetPatientsRoute
   VetRxRoute: typeof VetRxRoute
   OnboardingAvatarRoute: typeof OnboardingAvatarRoute
   OnboardingDetailsRoute: typeof OnboardingDetailsRoute
@@ -362,6 +375,13 @@ declare module '@tanstack/react-router' {
       path: '/vet-rx'
       fullPath: '/vet-rx'
       preLoaderRoute: typeof VetRxRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/vet-patients': {
+      id: '/vet-patients'
+      path: '/vet-patients'
+      fullPath: '/vet-patients'
+      preLoaderRoute: typeof VetPatientsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/vet-consult': {
@@ -555,6 +575,7 @@ const rootRouteChildren: RootRouteChildren = {
   SkinSenseRoute: SkinSenseRoute,
   TempSenseRoute: TempSenseRoute,
   VetConsultRoute: VetConsultRoute,
+  VetPatientsRoute: VetPatientsRoute,
   VetRxRoute: VetRxRoute,
   OnboardingAvatarRoute: OnboardingAvatarRoute,
   OnboardingDetailsRoute: OnboardingDetailsRoute,
