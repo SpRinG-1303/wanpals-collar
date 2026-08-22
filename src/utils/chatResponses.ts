@@ -16,9 +16,9 @@ export function detectIntent(message: string): Intent {
 }
 
 export const NEARBY_CLINICS = [
-  { jp: "渋谷動物病院", en: "Shibuya Animal Hospital", km: 0.8, rating: 4.6, em: true, phone: "+81-3-1234-5678" },
-  { jp: "原宿ペットクリニック", en: "Harajuku Pet Clinic", km: 1.2, rating: 4.4, em: false, phone: "+81-3-2345-6789" },
-  { jp: "新宿24時間動物医療", en: "Shinjuku 24H Animal Medical", km: 2.1, rating: 4.8, em: true, phone: "+81-3-3456-7890" },
+  { jp: "Bandra Pet Hospital", en: "Bandra Pet Hospital", km: 0.8, rating: 4.6, em: true, phone: "+91-22-4890-1234" },
+  { jp: "Juhu Veterinary Clinic", en: "Juhu Veterinary Clinic", km: 1.2, rating: 4.4, em: false, phone: "+91-22-4890-5678" },
+  { jp: "Andheri 24x7 Animal Medical", en: "Andheri 24x7 Animal Medical", km: 2.1, rating: 4.8, em: true, phone: "+91-22-4890-9012" },
 ];
 
 export const VACCINE_RECORDS = [

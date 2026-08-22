@@ -25,7 +25,7 @@ function MapScreen() {
   const [mapType, setMapType] = useState<"map" | "satellite">("map");
 
   const openDirections = () => {
-    const addr = encodeURIComponent("1-2-3 Jinnan, Shibuya, Tokyo");
+    const addr = encodeURIComponent("Bandra West, Mumbai, Maharashtra");
     window.open(`https://www.google.com/maps/dir/?api=1&destination=${addr}`, "_blank");
   };
 
@@ -83,10 +83,10 @@ function MapScreen() {
         <div className="absolute" style={{ right: 30, top: 130, width: 60, height: 40, background: "#D4E8D4", borderRadius: 12 }} />
         <div className="absolute" style={{ left: 25, bottom: 30, width: 45, height: 45, background: "#D4E8D4", borderRadius: 14 }} />
         {/* Map labels */}
-        <span className="absolute" style={{ left: 30, top: 80, fontSize: 9, color: "#8A9AAA", opacity: 0.4 }}>Downtown</span>
-        <span className="absolute" style={{ left: 150, top: 110, fontSize: 9, color: "#8A9AAA", opacity: 0.4 }}>Park</span>
-        <span className="absolute" style={{ right: 40, top: 200, fontSize: 9, color: "#8A9AAA", opacity: 0.4 }}>Station</span>
-        <span className="absolute" style={{ left: 200, bottom: 60, fontSize: 9, color: "#8A9AAA", opacity: 0.4 }}>Riverside</span>
+        <span className="absolute" style={{ left: 30, top: 80, fontSize: 9, color: "#8A9AAA", opacity: 0.4 }}>Linking Road</span>
+        <span className="absolute" style={{ left: 150, top: 110, fontSize: 9, color: "#8A9AAA", opacity: 0.4 }}>Joggers Park</span>
+        <span className="absolute" style={{ right: 40, top: 200, fontSize: 9, color: "#8A9AAA", opacity: 0.4 }}>Bandra Stn</span>
+        <span className="absolute" style={{ left: 200, bottom: 60, fontSize: 9, color: "#8A9AAA", opacity: 0.4 }}>Carter Road</span>
 
         {/* Collar GPS badge top-left */}
         <div className="absolute" style={{ top: 12, left: 12, background: "#FFFFFF", padding: "5px 10px", borderRadius: 12, fontSize: 11, color: "#6BAF92", fontWeight: 700, boxShadow: "0 2px 8px rgba(0,0,0,0.08)" }}>

@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import AppShell from "@/components/AppShell";
-import { useEffect, useState, type ReactNode, type CSSProperties } from "react";
+import { memo, useEffect, useState, type ReactNode, type CSSProperties } from "react";
 import { DAILY_FACTS, BREEDS } from "@/lib/mock";
 import {
   Brain, Microscope, Activity, Thermometer, MapPin, Wind, Sun, GitMerge,
@@ -113,7 +113,7 @@ const sensors: Sensor[] = [
   { Icon: Thermometer, accent: JP.momiji, iconBg: "#FFE8DC", strip: JP.momijiStrip, to: "/temp-sense",
     jp: "体温センサー", en: "TempSense AI", subJp: "体温", subEn: "Body Temp", valJp: "38.5°C", valEn: "38.5°C", noteJp: "正常範囲", noteEn: "Normal Range" },
   { Icon: MapPin, accent: JP.matcha, iconBg: "#E8F5EE", strip: JP.matchaStrip, to: "/map",
-    jp: "位置センサー", en: "LocationSense", subJp: "GPS + 地図", subEn: "GPS + Map", valJp: "渋谷区, 東京", valEn: "Shibuya, Tokyo" },
+    jp: "位置センサー", en: "LocationSense", subJp: "GPS + 地図", subEn: "GPS + Map", valJp: "Bandra, Mumbai", valEn: "Bandra, Mumbai" },
   { Icon: Wind, accent: JP.yuzu, iconBg: "#FFF8DC", strip: JP.yuzuStrip, to: "/pressure-sense",
     jp: "圧力センサー", en: "PressureSense", subJp: "圧力データ", subEn: "Pressure Data", valJp: "正常範囲", valEn: "Normal Range" },
   { Icon: Sun, accent: "#C4920A", iconBg: "#FFFBCC", strip: "linear-gradient(90deg,#FFF8DC,#FFFEF0)", to: "/light-sense",
@@ -474,9 +474,11 @@ function PostcardScene({
   );
 }
 
-function HeroPostcard({ score, name, mood, celebrate, breedKey, energy, ownerPhotoUrl }: { score: number; name: string; mood: string; celebrate?: boolean; breedKey: BreedKey; energy: Energy; ownerPhotoUrl: string | null }) {
+const HeroPostcard = memo(function HeroPostcard({ score, name, mood, celebrate, breedKey, energy, ownerPhotoUrl }: { score: number; name: string; mood: string; celebrate?: boolean; breedKey: BreedKey; energy: Energy; ownerPhotoUrl: string | null }) {
   const t = useT();
-  const band = getTimeBand();
+  // Time band is client-only (server & client timezones differ) to avoid hydration mismatches.
+  const [band, setBand] = useState<TimeBand>("morning");
+  useEffect(() => { setBand(getTimeBand()); }, []);
   const labelJp = band === "morning" ? "おはよう" : band === "afternoon" ? "こんにちは" : band === "evening" ? "こんばんは" : "おやすみ";
   const labelEn = band === "morning" ? "Good Morning" : band === "afternoon" ? "Good Afternoon" : band === "evening" ? "Good Evening" : "Good Night";
 
@@ -555,7 +557,7 @@ function HeroPostcard({ score, name, mood, celebrate, breedKey, energy, ownerPho
       `}</style>
     </div>
   );
-}
+});
 
 /* ---------- Page ---------- */
 function Home() {
