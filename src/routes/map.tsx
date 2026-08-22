@@ -100,6 +100,7 @@ function MapScreen() {
         <span className="absolute" style={{ left: 150, top: 110, fontSize: 9, color: "var(--acc-strong)", opacity: 0.4 }}>Joggers Park</span>
         <span className="absolute" style={{ right: 40, top: 200, fontSize: 9, color: "var(--acc-strong)", opacity: 0.4 }}>Bandra Stn</span>
         <span className="absolute" style={{ left: 200, bottom: 60, fontSize: 9, color: "var(--acc-strong)", opacity: 0.4 }}>Carter Road</span>
+        </div>
 
         {/* Collar GPS badge top-left */}
         <div className="absolute" style={{ top: 12, left: 12, background: "#FFFFFF", padding: "5px 10px", borderRadius: 12, fontSize: 11, color: "var(--accent-matcha)", fontWeight: 700, boxShadow: "0 2px 8px rgba(0,0,0,0.08)" }}>
@@ -131,6 +132,8 @@ function MapScreen() {
           <Crosshair size={20} style={{ color: "var(--accent-sora)" }} />
         </button>
 
+        {/* Zoomable marker layer */}
+        <div className="absolute inset-0" style={{ transform: `scale(${zoom})`, transformOrigin: "center center", transition: "transform 0.25s ease", pointerEvents: "none" }}>
         {/* Safe zone circle */}
         {safeZone && (
           <div className="absolute" style={{
