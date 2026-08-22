@@ -636,11 +636,21 @@ function QRCard() {
 
 function PDFCard() {
   const t = useT();
+  const [generating, setGenerating] = useState(false);
   const items: [string, string][] = [
     ["ワクチン履歴", "Vaccination history"],
     ["最終診察", "Last checkup details"],
     ["年間データ", "Annual data"],
   ];
+  const exportPdf = () => {
+    if (generating) return;
+    setGenerating(true);
+    toast.success(t("レポートを準備中…", "Preparing report…"));
+    setTimeout(() => {
+      setGenerating(false);
+      window.print();
+    }, 900);
+  };
   return (
     <div style={{
       ...glass,
@@ -649,7 +659,7 @@ function PDFCard() {
       display: "flex", flexDirection: "column", alignItems: "center", gap: 8,
     }}>
       <div style={{
-        width: 56, height: 56, borderRadius: "50%", background: "color-mix(in oklab, var(--acc-deep) 20.0%, transparent)",
+        width: 56, height: 56, borderRadius: "50%", background: "color-mix(in oklab, #628B85 18%, #FFFFFF)",
         display: "flex", alignItems: "center", justifyContent: "center",
       }}>
         <FileDown size={28} color={C.moss} />
@@ -666,20 +676,30 @@ function PDFCard() {
         ))}
       </div>
       <button
-        onClick={() => {
-          toast.success(t("レポートを準備中…", "Preparing report…"));
-          setTimeout(() => window.print(), 700);
-        }}
+        onClick={exportPdf}
+        disabled={generating}
+        className="active:scale-[0.97] transition-transform"
         style={{
-          width: "100%", height: 40, marginTop: "auto",
-          background: C.moss,
-          color: C.bone, fontWeight: 700, fontSize: 12, borderRadius: 12,
-          border: "none",
-          boxShadow: "0 4px 16px color-mix(in oklab, var(--acc-deep) 30.0%, transparent)",
-          display: "flex", alignItems: "center", justifyContent: "center", gap: 4,
+          width: "100%", height: 42, marginTop: "auto",
+          background: generating
+            ? `linear-gradient(135deg, ${C.moss}, ${C.kombu})`
+            : `linear-gradient(135deg, ${C.kombu}, ${C.moss})`,
+          color: "#FFFFFF", fontWeight: 700, fontSize: 12, borderRadius: 12,
+          border: "none", cursor: generating ? "default" : "pointer",
+          boxShadow: `0 6px 16px color-mix(in oklab, ${C.kombu} 35%, transparent)`,
+          display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
         }}
       >
-        {t("PDF出力", "PDF Export")}
+        {generating && (
+          <span
+            className="animate-spin"
+            style={{
+              width: 14, height: 14, borderRadius: "50%", display: "inline-block",
+              border: "2px solid rgba(255,255,255,0.4)", borderTopColor: "#FFFFFF",
+            }}
+          />
+        )}
+        {generating ? t("生成中…", "Generating…") : t("PDF出力", "Export PDF Report")}
       </button>
     </div>
   );

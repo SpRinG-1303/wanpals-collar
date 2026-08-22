@@ -1271,17 +1271,17 @@ function ComposeSheet({
             <input ref={fileRef} type="file" accept="image/*" multiple hidden onChange={(e) => handleFiles(e.target.files)} />
 
             <button onClick={() => cameraRef.current?.click()} className="flex flex-col items-center gap-1">
-              <span className="flex items-center justify-center" style={{ width: 36, height: 36, borderRadius: "50%", background: "var(--bg-elevated)", color: "var(--text-secondary)" }}>
+              <span className="flex items-center justify-center" style={{ width: 36, height: 36, borderRadius: "50%", background: "var(--bg-card-sakura)", color: "var(--accent-sakura)" }}>
                 <Camera size={16} />
               </span>
-              <span style={{ fontSize: 10, color: "var(--text-secondary)" }}>{t("カメラ", "Camera")}</span>
+              <span style={{ fontSize: 10, color: "var(--text-secondary)", fontWeight: 600 }}>{t("カメラ", "Camera")}</span>
             </button>
 
             <button onClick={() => fileRef.current?.click()} className="flex flex-col items-center gap-1">
-              <span className="flex items-center justify-center" style={{ width: 36, height: 36, borderRadius: "50%", background: "var(--bg-elevated)", color: "var(--text-secondary)" }}>
+              <span className="flex items-center justify-center" style={{ width: 36, height: 36, borderRadius: "50%", background: "var(--bg-card-lavender)", color: "var(--accent-fuji)" }}>
                 <ImageIcon size={16} />
               </span>
-              <span style={{ fontSize: 10, color: "var(--text-secondary)" }}>{t("画像", "Image")}</span>
+              <span style={{ fontSize: 10, color: "var(--text-secondary)", fontWeight: 600 }}>{t("画像", "Image")}</span>
             </button>
 
             <button
