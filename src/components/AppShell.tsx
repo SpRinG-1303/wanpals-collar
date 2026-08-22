@@ -71,11 +71,13 @@ export function TopBar({
           )}
           <div className="flex items-center" style={{ gap: 0 }}>
             <button
-              className="flex items-center justify-center"
-              style={{ width: 36, height: 36, margin: "0 4px 0 8px", color: "var(--text-secondary)" }}
+              onClick={() => setBellOpen((o) => !o)}
+              className="flex items-center justify-center relative"
+              style={{ width: 36, height: 36, margin: "0 4px 0 8px", color: bellOpen ? "var(--acc-strong)" : "var(--text-secondary)" }}
               aria-label={t("通知", "Notifications")}
             >
               <Bell size={22} strokeWidth={1.75} />
+              <span style={{ position: "absolute", top: 6, right: 6, width: 8, height: 8, borderRadius: "50%", background: "#E53935", border: "2px solid var(--bg-topbar)" }} />
             </button>
             <button
               onClick={() => setSosOpen(true)}
