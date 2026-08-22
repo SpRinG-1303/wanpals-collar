@@ -122,13 +122,17 @@ function MapScreen() {
 
         {/* Zoom controls top-right */}
         <div className="absolute" style={{ top: 12, right: 12, background: "rgba(255,255,255,0.9)", backdropFilter: "blur(8px)", borderRadius: 12, boxShadow: "0 2px 8px rgba(0,0,0,0.1)" }}>
-          <button className="flex items-center justify-center" style={{ width: 36, height: 36, color: "var(--text-primary)" }}><Plus size={16} /></button>
+          <button onClick={() => setZoom((z) => Math.min(2, +(z + 0.25).toFixed(2)))} aria-label="Zoom in" className="flex items-center justify-center" style={{ width: 36, height: 36, color: "var(--text-primary)" }}><Plus size={16} /></button>
           <div style={{ height: 1, background: "var(--border-card)" }} />
-          <button className="flex items-center justify-center" style={{ width: 36, height: 36, color: "var(--text-primary)" }}><Minus size={16} /></button>
+          <button onClick={() => setZoom((z) => Math.max(1, +(z - 0.25).toFixed(2)))} aria-label="Zoom out" className="flex items-center justify-center" style={{ width: 36, height: 36, color: "var(--text-primary)" }}><Minus size={16} /></button>
         </div>
 
         {/* My location button bottom-right */}
-        <button className="absolute flex items-center justify-center" style={{ bottom: 14, right: 12, width: 40, height: 40, borderRadius: "50%", background: "rgba(255,255,255,0.9)", backdropFilter: "blur(8px)", boxShadow: "0 2px 8px rgba(0,0,0,0.1)" }}>
+        <button
+          onClick={() => { setZoom(1); toast.success(t("ペットの位置に移動しました", "Centered on your pet")); }}
+          aria-label="Center on pet"
+          className="absolute flex items-center justify-center active:scale-90 transition-transform" style={{ bottom: 14, right: 12, width: 40, height: 40, borderRadius: "50%", background: "rgba(255,255,255,0.9)", backdropFilter: "blur(8px)", boxShadow: "0 2px 8px rgba(0,0,0,0.1)" }}
+        >
           <Crosshair size={20} style={{ color: "var(--accent-sora)" }} />
         </button>
 
@@ -292,8 +296,17 @@ function MapScreen() {
             <a href="tel:+81000000000" className="w-full flex items-center justify-center gap-2" style={{ height: 44, borderRadius: 12, background: "linear-gradient(135deg, #E53935, #C62828)", color: "#fff", fontWeight: 700, fontSize: 13 }}>
               <Phone size={14} /> {t("獣医に通知", "Notify Vet")}
             </a>
-            <button className="w-full flex items-center justify-center gap-2" style={{ height: 44, borderRadius: 12, background: "linear-gradient(135deg, #E53935, #C62828)", color: "#fff", fontWeight: 700, fontSize: 13 }}>
-               {t("SOS起動", "Activate SOS")}
+            <button
+              onClick={() => {
+                if (sosActive) return;
+                setSosActive(true);
+                toast.error(t("SOS起動 — 近隣の獣医と警察に通報しました", "SOS activated — nearby vets and your emergency contact alerted"));
+                setTimeout(() => setSosActive(false), 8000);
+              }}
+              className="w-full flex items-center justify-center gap-2"
+              style={{ height: 44, borderRadius: 12, background: "linear-gradient(135deg, #E53935, #C62828)", color: "#fff", fontWeight: 700, fontSize: 13, opacity: sosActive ? 0.75 : 1 }}
+            >
+               {sosActive ? t("SOS発信中…", "SOS Broadcasting…") : t("SOS起動", "Activate SOS")}
             </button>
           </div>
         )}
