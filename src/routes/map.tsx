@@ -306,7 +306,7 @@ function MapScreen() {
         </div>
 
         {[
-          { time: "14:30", jp: "代々木公園", en: "Yoyogi Park", dist: "+1.2km", color: "var(--accent-yuzu)" },
+          { time: "14:30", jp: "ジョガーズパーク", en: "Joggers Park", dist: "+1.2km", color: "var(--accent-yuzu)" },
           { time: "12:15", jp: "", en: "Near Bandra Stn", dist: "+0.5km", color: "var(--accent-sora)" },
           { time: "09:00", jp: "自宅", en: "Home", dist: t("出発地", "Start"), color: "var(--accent-matcha)" },
         ].map((h, i) => (
