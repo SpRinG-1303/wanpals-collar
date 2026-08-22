@@ -126,9 +126,6 @@ function Clinics() {
   }
 
   const emergencyClinic = CLINICS.find((c) => c.em && c.open) ?? CLINICS[0];
-  const openCount = CLINICS.filter((c) => c.open).length;
-  const emCount = CLINICS.filter((c) => c.em).length;
-  const avgRating = (CLINICS.reduce((a, c) => a + c.rating, 0) / CLINICS.length).toFixed(1);
 
   const openMaps = (name: string) => {
     if (typeof window !== "undefined") {
