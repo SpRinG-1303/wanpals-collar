@@ -52,7 +52,7 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
   const navigate = useNavigate();
   const t = useT();
   const { pet } = usePet();
-  const { session, signOut } = useAuth();
+  const { session, signOut, hydrated } = useAuth();
   // Time-of-day greeting is client-only to avoid hydration mismatch.
   const [greet, setGreet] = useState("Hello!");
   useEffect(() => { setGreet(greeting()); }, []);
