@@ -9,7 +9,7 @@ import {
   Video,
   Phone,
   MapPin,
-  Heart,
+  
   Plus,
   HeartPulse,
   ThumbsUp,
@@ -400,7 +400,6 @@ function Clinics() {
       <div style={{ paddingBottom: 24 }}>
         {filtered.map((c, i) => {
           const th = CLINIC_THEMES[i % CLINIC_THEMES.length];
-          const closed = !c.open;
           const isNew = i === 1;
           return (
             <div
