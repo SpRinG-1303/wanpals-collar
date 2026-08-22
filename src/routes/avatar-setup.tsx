@@ -92,7 +92,7 @@ function AvatarSetupFlow() {
         justifyContent: "center",
       }}
     >
-      <div style={{ width: "100%", maxWidth: 430, position: "relative", background: CREAM, minHeight: "100dvh", boxShadow: "0 0 40px color-mix(in oklab, var(--acc-deep) 10.0%, transparent)" }}>
+      <div style={{ width: "100%", maxWidth: 430, position: "relative", background: CREAM, minHeight: "100dvh" }}>
         <div key={String(screen)} style={{ animation: "fadeSlide .35s ease both" }}>
           {screen === "welcome" && <Welcome onStart={() => setScreen(1)} avatar={avatar} />}
           {screen === 1 && (
