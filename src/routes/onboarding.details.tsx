@@ -124,10 +124,10 @@ function Step4() {
             />
           </div>
 
-          <h1 className="text-[22px] font-extrabold text-center mt-3" style={{ color: "#3B2A23" }}>
+          <h1 className="text-[22px] font-extrabold text-center mt-3" style={{ color: "var(--text-primary)" }}>
             {t("ワンちゃんのこと教えて ", "Tell Us About Your Dog ")}
           </h1>
-          <p className="text-center text-[13px] mt-2 leading-relaxed" style={{ color: "#8A766C" }}>
+          <p className="text-center text-[13px] mt-2 leading-relaxed" style={{ color: "var(--text-secondary)" }}>
             {t(
               "あなたの体験をパーソナライズし、ワンちゃんをより良く見守るために",
               "Help us personalise your experience and monitor your dog better."
@@ -151,13 +151,13 @@ function Step4() {
               style={{
                 fontFamily: "var(--font-sans)",
                 fontSize: 16,
-                color: "#3B2A23",
+                color: "var(--text-primary)",
                 padding: "10px 2px",
-                borderBottom: nameError ? "2px solid #E53935" : "2px solid #F4C0D1",
+                borderBottom: nameError ? "2px solid #E53935" : "2px solid var(--acc-pale)",
                 animation: shake ? "dgShake 0.4s ease-in-out" : "none",
               }}
-              onFocus={(e) => { if (!nameError) e.currentTarget.style.borderBottom = "2px solid #E8678A"; }}
-              onBlur={(e) => { if (!nameError) e.currentTarget.style.borderBottom = "2px solid #F4C0D1"; }}
+              onFocus={(e) => { if (!nameError) e.currentTarget.style.borderBottom = "2px solid var(--accent-sakura)"; }}
+              onBlur={(e) => { if (!nameError) e.currentTarget.style.borderBottom = "2px solid var(--acc-pale)"; }}
             />
             {nameError && (
               <div className="text-[11px] mt-1" style={{ color: "#E53935" }}>
@@ -175,9 +175,9 @@ function Step4() {
                 style={{
                   fontFamily: "var(--font-sans)",
                   fontSize: 15,
-                  color: "#3B2A23",
+                  color: "var(--text-primary)",
                   padding: "10px 2px",
-                  borderBottom: "2px solid #F4C0D1",
+                  borderBottom: "2px solid var(--acc-pale)",
                 }}
               >
                 {TOP5.map((b) => (
@@ -196,9 +196,9 @@ function Step4() {
                   style={{
                     fontFamily: "var(--font-sans)",
                     fontSize: 15,
-                    color: "#3B2A23",
+                    color: "var(--text-primary)",
                     padding: "8px 2px",
-                    borderBottom: "1.5px solid #F4C0D1",
+                    borderBottom: "1.5px solid var(--acc-pale)",
                   }}
                 />
               )}
@@ -247,9 +247,9 @@ function Step4() {
                   style={{
                     fontFamily: "var(--font-sans)",
                     fontSize: 15,
-                    color: "#3B2A23",
+                    color: "var(--text-primary)",
                     padding: "10px 2px",
-                    borderBottom: "2px solid #F4C0D1",
+                    borderBottom: "2px solid var(--acc-pale)",
                   }}
                 />
                 <div className="flex gap-1">
@@ -288,13 +288,13 @@ function Step4() {
                 style={{
                   fontFamily: "var(--font-sans)",
                   fontSize: 14,
-                  color: "#3B2A23",
+                  color: "var(--text-primary)",
                   minHeight: 80,
-                  border: "1.5px solid #F4C0D1",
+                  border: "1.5px solid var(--acc-pale)",
                   resize: "vertical",
                 }}
-                onFocus={(e) => e.currentTarget.style.border = "1.5px solid #E8678A"}
-                onBlur={(e) => e.currentTarget.style.border = "1.5px solid #F4C0D1"}
+                onFocus={(e) => e.currentTarget.style.border = "1.5px solid var(--accent-sakura)"}
+                onBlur={(e) => e.currentTarget.style.border = "1.5px solid var(--acc-pale)"}
               />
             </div>
 
@@ -308,9 +308,9 @@ function Step4() {
                 style={{
                   fontFamily: "var(--font-sans)",
                   fontSize: 15,
-                  color: "#3B2A23",
+                  color: "var(--text-primary)",
                   padding: "10px 2px",
-                  borderBottom: "2px solid #F4C0D1",
+                  borderBottom: "2px solid var(--acc-pale)",
                 }}
               />
             </div>
@@ -327,12 +327,12 @@ function Step4() {
               style={{
                 fontFamily: "var(--font-sans)",
                 fontSize: 15,
-                color: "#3B2A23",
+                color: "var(--text-primary)",
                 padding: "10px 2px",
-                borderBottom: "2px solid #F4C0D1",
+                borderBottom: "2px solid var(--acc-pale)",
               }}
             />
-            <div className="text-[11px] mt-1.5" style={{ color: "#A38B82" }}>
+            <div className="text-[11px] mt-1.5" style={{ color: "var(--text-secondary)" }}>
               {t(
                 "Pawsitive 首輪の裏面に記載されています",
                 "Find this on the back of your Pawsitive collar"
@@ -341,13 +341,13 @@ function Step4() {
 
             <div
               className="mt-5 flex items-start gap-3 p-3 rounded-2xl"
-              style={{ background: "#FFF8FB", border: "1px solid #FCE4EC" }}
+              style={{ background: "var(--bg-page)", border: "1px solid var(--acc-pale)" }}
             >
               <div className="flex-1">
-                <div className="text-[13px] font-bold" style={{ color: "#3B2A23" }}>
+                <div className="text-[13px] font-bold" style={{ color: "var(--text-primary)" }}>
                   {t("行政の見守りプログラム", "Government monitoring program")}
                 </div>
-                <div className="text-[11px] mt-1 leading-snug" style={{ color: "#A38B82" }}>
+                <div className="text-[11px] mt-1 leading-snug" style={{ color: "var(--text-secondary)" }}>
                   {t(
                     "ゾーン追跡と行政ダッシュボード報告を有効化",
                     "Enable zone-based tracking and government dashboard reporting"
@@ -364,16 +364,16 @@ function Step4() {
           className="fixed bottom-0 inset-x-0 mx-auto p-4"
           style={{
             maxWidth: 430,
-            background: "linear-gradient(to top, var(--bg-page), rgba(245,237,232,0.95) 70%, transparent)",
+            background: "linear-gradient(to top, var(--bg-page), color-mix(in oklab, var(--acc-soft) 95.0%, transparent) 70%, transparent)",
           }}
         >
           <button
             onClick={onDone}
             className="w-full h-14 rounded-full text-[15px] font-bold transition-all"
             style={{
-              background: "linear-gradient(135deg,#E8678A 0%,#F48BA9 100%)",
+              background: "linear-gradient(135deg,var(--accent-sakura) 0%,var(--acc-soft) 100%)",
               color: "#FFFFFF",
-              boxShadow: "0 8px 24px rgba(232,103,138,0.35)",
+              boxShadow: "0 8px 24px color-mix(in oklab, var(--acc-strong) 35.0%, transparent)",
             }}
           >
              {t("完了！ダッシュボードへ", "All Done! Meet Your Dashboard")} →
@@ -381,7 +381,7 @@ function Step4() {
           <button
             onClick={onSkip}
             className="w-full text-center mt-2 py-2 text-[13px] font-medium"
-            style={{ color: "#A38B82" }}
+            style={{ color: "var(--text-secondary)" }}
           >
             {t("スキップ", "Skip for now")} →
           </button>
@@ -411,7 +411,7 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
     <div
       className="mt-6 mb-3 text-[11px] font-bold"
-      style={{ color: "#E8678A", letterSpacing: "0.15em", textTransform: "uppercase" }}
+      style={{ color: "var(--accent-sakura)", letterSpacing: "0.15em", textTransform: "uppercase" }}
     >
       {children}
     </div>
@@ -422,10 +422,10 @@ function FieldLabel({
   children, required, optional,
 }: { children: React.ReactNode; required?: boolean; optional?: boolean }) {
   return (
-    <label className="text-[12px] font-bold flex items-center gap-1" style={{ color: "#3B2A23" }}>
+    <label className="text-[12px] font-bold flex items-center gap-1" style={{ color: "var(--text-primary)" }}>
       {children}
       {required && <span style={{ color: "#E53935" }}>*</span>}
-      {optional && <span className="font-normal" style={{ color: "#A38B82" }}>(optional)</span>}
+      {optional && <span className="font-normal" style={{ color: "var(--text-secondary)" }}>(optional)</span>}
     </label>
   );
 }
@@ -434,7 +434,7 @@ function NumberField({
   value, onChange, min, max, placeholder, suffix,
 }: { value: string; onChange: (v: string) => void; min: number; max: number; placeholder: string; suffix: string }) {
   return (
-    <div className="flex items-center gap-2" style={{ borderBottom: "2px solid #F4C0D1", padding: "8px 2px" }}>
+    <div className="flex items-center gap-2" style={{ borderBottom: "2px solid var(--acc-pale)", padding: "8px 2px" }}>
       <input
         type="number"
         min={min}
@@ -443,9 +443,9 @@ function NumberField({
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
         className="flex-1 bg-transparent outline-none"
-        style={{ fontFamily: "var(--font-sans)", fontSize: 15, color: "#3B2A23" }}
+        style={{ fontFamily: "var(--font-sans)", fontSize: 15, color: "var(--text-primary)" }}
       />
-      <span className="text-[11px] font-bold" style={{ color: "#A38B82" }}>{suffix}</span>
+      <span className="text-[11px] font-bold" style={{ color: "var(--text-secondary)" }}>{suffix}</span>
     </div>
   );
 }
@@ -460,10 +460,10 @@ function PillButton({
       style={{
         padding: small ? "10px 8px" : "12px 14px",
         fontSize: small ? 12 : 14,
-        background: selected ? "linear-gradient(135deg,#E8678A,#F48BA9)" : "#FFFFFF",
-        color: selected ? "#FFFFFF" : "#8A766C",
-        border: selected ? "1.5px solid transparent" : "1.5px solid #E5D5CC",
-        boxShadow: selected ? "0 4px 12px rgba(232,103,138,0.25)" : "none",
+        background: selected ? "linear-gradient(135deg,var(--accent-sakura),var(--acc-soft))" : "#FFFFFF",
+        color: selected ? "#FFFFFF" : "var(--text-secondary)",
+        border: selected ? "1.5px solid transparent" : "1.5px solid var(--acc-pale)",
+        boxShadow: selected ? "0 4px 12px color-mix(in oklab, var(--acc-strong) 25.0%, transparent)" : "none",
       }}
     >
       {children}
@@ -481,8 +481,8 @@ function UnitToggle({
       style={{
         padding: "8px 12px",
         background: selected ? "var(--accent-sakura-soft)" : "#FFFFFF",
-        color: selected ? "#E8678A" : "#A38B82",
-        border: selected ? "1.5px solid #E8678A" : "1.5px solid #E5D5CC",
+        color: selected ? "var(--accent-sakura)" : "var(--text-secondary)",
+        border: selected ? "1.5px solid var(--accent-sakura)" : "1.5px solid var(--acc-pale)",
       }}
     >
       {children}
@@ -499,7 +499,7 @@ function ToggleSwitch({ on, onClick }: { on: boolean; onClick: () => void }) {
         width: 44,
         height: 26,
         borderRadius: 999,
-        background: on ? "linear-gradient(135deg,#E8678A,#F48BA9)" : "#E5D5CC",
+        background: on ? "linear-gradient(135deg,var(--accent-sakura),var(--acc-soft))" : "var(--acc-pale)",
         position: "relative",
         transition: "background 0.2s ease",
         flexShrink: 0,

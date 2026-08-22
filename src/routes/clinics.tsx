@@ -29,11 +29,11 @@ export const Route = createFileRoute("/clinics")({ component: Clinics });
 // ── Per-clinic themes ─────────────────────────────────────────
 type Theme = { from: string; to: string; accent: string; soft: string };
 const CLINIC_THEMES: Theme[] = [
-  { from: "#E8F5EE", to: "#D4F0E4", accent: "var(--accent-matcha)", soft: "#E8F5EE" }, // Shibuya mint
+  { from: "var(--acc-pale)", to: "var(--acc2-soft)", accent: "var(--accent-matcha)", soft: "var(--acc-pale)" }, // Shibuya mint
   { from: "var(--accent-sakura-soft)", to: "var(--bg-card-sakura)", accent: "var(--accent-sakura)", soft: "var(--accent-sakura-soft)" }, // Harajuku sakura
-  { from: "#EEF5FF", to: "#E0EEFF", accent: "var(--accent-sora)", soft: "#E8F2FF" }, // Shinjuku blue
-  { from: "#FFF8DC", to: "#FFF3CC", accent: "var(--accent-yuzu)", soft: "#FFF8DC" }, // Yoyogi yuzu
-  { from: "#F0ECFF", to: "#E8E0FF", accent: "var(--accent-fuji)", soft: "#F0ECFF" }, // Meguro fuji
+  { from: "var(--acc2-pale)", to: "var(--acc-pale)", accent: "var(--accent-sora)", soft: "var(--acc2-pale)" }, // Shinjuku blue
+  { from: "var(--acc-pale)", to: "var(--acc-pale)", accent: "var(--accent-yuzu)", soft: "var(--acc-pale)" }, // Yoyogi yuzu
+  { from: "var(--acc-pale)", to: "var(--acc-pale)", accent: "var(--accent-fuji)", soft: "var(--acc-pale)" }, // Meguro fuji
 ];
 
 const SPECIALTIES = [
@@ -48,11 +48,11 @@ const TYPE_LABEL = ["General", "Specialist", "General", "General", "Specialist"]
 // ── Category tabs ─────────────────────────────────────────────
 type Cat = { jp: string; en: string; Icon: typeof Star; accent: string; from: string; to: string };
 const CATS: Cat[] = [
-  { jp: "高評価", en: "Top Rated", Icon: Star, accent: "var(--accent-yuzu)", from: "#FFF3CC", to: "#FFF8E8" },
-  { jp: "近く", en: "Nearby", Icon: MapPin, accent: "var(--accent-sora)", from: "#E8F2FF", to: "#F0F7FF" },
-  { jp: "おすすめ", en: "Recommended", Icon: ThumbsUp, accent: "var(--accent-matcha)", from: "#E8F5EE", to: "#F2FAF5" },
-  { jp: "専門", en: "Specialized", Icon: Microscope, accent: "var(--accent-fuji)", from: "#F0ECFF", to: "#F8F5FF" },
-  { jp: "公立/私立", en: "Public/Private", Icon: Building2, accent: "var(--accent-sakura)", from: "var(--accent-sakura-soft)", to: "#FFF8FA" },
+  { jp: "高評価", en: "Top Rated", Icon: Star, accent: "var(--accent-yuzu)", from: "var(--acc-pale)", to: "var(--acc-pale)" },
+  { jp: "近く", en: "Nearby", Icon: MapPin, accent: "var(--accent-sora)", from: "var(--acc2-pale)", to: "#F0F7FF" },
+  { jp: "おすすめ", en: "Recommended", Icon: ThumbsUp, accent: "var(--accent-matcha)", from: "var(--acc-pale)", to: "var(--acc2-pale)" },
+  { jp: "専門", en: "Specialized", Icon: Microscope, accent: "var(--accent-fuji)", from: "var(--acc-pale)", to: "#F8F5FF" },
+  { jp: "公立/私立", en: "Public/Private", Icon: Building2, accent: "var(--accent-sakura)", from: "var(--accent-sakura-soft)", to: "var(--bg-card)" },
 ];
 
 function Stars({ rating }: { rating: number }) {
@@ -124,7 +124,7 @@ function Clinics() {
           className="relative overflow-hidden"
           style={{
             height: 130,
-            background: "linear-gradient(135deg,#EEF5FF 0%,#E8F5EE 50%,#F0F5FF 100%)",
+            background: "linear-gradient(135deg,var(--acc2-pale) 0%,var(--acc-pale) 50%,#F0F5FF 100%)",
             borderRadius: "0 0 28px 28px",
           }}
         >
@@ -164,7 +164,7 @@ function Clinics() {
               style={{
                 marginTop: 8,
                 background: "rgba(255,255,255,0.7)",
-                border: "1px solid #C8E0F8",
+                border: "1px solid var(--acc2-soft)",
                 borderRadius: 20,
                 padding: "4px 12px",
                 fontSize: 11,
@@ -209,7 +209,7 @@ function Clinics() {
         <button
           onClick={() => setFilter(true)}
           className="flex items-center justify-center"
-          style={{ marginLeft: 12, width: 36, height: 36, borderRadius: "50%", background: "#E8F2FF" }}
+          style={{ marginLeft: 12, width: 36, height: 36, borderRadius: "50%", background: "var(--acc2-pale)" }}
           aria-label={t("絞り込み", "Filters")}
         >
           <SlidersHorizontal size={18} style={{ color: "var(--accent-sora)" }} />
@@ -252,7 +252,7 @@ function Clinics() {
           height: 120,
           borderRadius: 20,
           background:
-            "linear-gradient(180deg,#E8EEF5,#DCE6EF), repeating-linear-gradient(0deg,transparent,transparent 18px,rgba(91,155,213,0.08) 19px), repeating-linear-gradient(90deg,transparent,transparent 18px,rgba(91,155,213,0.08) 19px)",
+            "linear-gradient(180deg,var(--acc-pale),var(--acc-pale)), repeating-linear-gradient(0deg,transparent,transparent 18px,color-mix(in oklab, var(--acc-strong) 8.0%, transparent) 19px), repeating-linear-gradient(90deg,transparent,transparent 18px,color-mix(in oklab, var(--acc-strong) 8.0%, transparent) 19px)",
         }}
       >
         {/* Faux roads */}
@@ -370,20 +370,20 @@ function Clinics() {
         style={{
           margin: "0 16px 12px",
           width: "calc(100% - 32px)",
-          background: "linear-gradient(135deg,#F0ECFF,#E8E0FF)",
-          border: "1.5px solid #C8C0F0",
+          background: "linear-gradient(135deg,var(--acc-pale),var(--acc-pale))",
+          border: "1.5px solid var(--acc2-soft)",
           borderRadius: 20,
           padding: "14px 16px",
         }}
       >
         <div
           className="shrink-0 flex items-center justify-center"
-          style={{ width: 56, height: 56, borderRadius: "50%", background: "#fff", boxShadow: "0 4px 12px rgba(123,104,200,0.2)" }}
+          style={{ width: 56, height: 56, borderRadius: "50%", background: "#fff", boxShadow: "0 4px 12px color-mix(in oklab, var(--acc-strong) 20.0%, transparent)" }}
         >
           <Video size={26} style={{ color: "var(--accent-fuji)" }} />
         </div>
         <div className="flex-1 min-w-0">
-          <div style={{ fontSize: 15, fontWeight: 800, color: "#4A3A8A" }}>
+          <div style={{ fontSize: 15, fontWeight: 800, color: "var(--acc-deep)" }}>
             {t("ビデオ診察", "Video Consultation")}
           </div>
           <div style={{ fontSize: 12, color: "var(--accent-fuji)", marginTop: 2 }}>
@@ -392,7 +392,7 @@ function Clinics() {
           <span
             className="inline-block"
             style={{
-              marginTop: 6, background: "#E8F5EE", color: "var(--accent-matcha)",
+              marginTop: 6, background: "var(--acc-pale)", color: "var(--accent-matcha)",
               fontSize: 10, fontWeight: 700,
               padding: "2px 8px", borderRadius: 20,
             }}
@@ -533,9 +533,9 @@ function Clinics() {
                     style={{
                       fontSize: 10, fontWeight: 700,
                       padding: "3px 10px", borderRadius: 20,
-                      background: c.open ? "#E8F5EE" : "#F5F5F5",
+                      background: c.open ? "var(--acc-pale)" : "var(--bg-elevated)",
                       color: c.open ? "var(--accent-matcha)" : "var(--text-secondary)",
-                      border: `1px solid ${c.open ? "#B8D4C0" : "var(--border-card)"}`,
+                      border: `1px solid ${c.open ? "var(--acc2-soft)" : "var(--border-card)"}`,
                     }}
                   >
                     {c.open ? t("営業中", "Open") : t("閉院中", "Closed")}
@@ -559,7 +559,7 @@ function Clinics() {
                     style={{
                       fontSize: 10, fontWeight: 700,
                       padding: "2px 8px", borderRadius: 20,
-                      background: "#F5F0FF", color: "var(--accent-fuji)",
+                      background: "var(--acc-pale)", color: "var(--accent-fuji)",
                     }}
                   >
                     {t(TYPE_LABEL[i % TYPE_LABEL.length].split(" / ")[0], TYPE_LABEL[i % TYPE_LABEL.length].split(" / ")[1])}
@@ -585,7 +585,7 @@ function Clinics() {
                   ))}
                   <span
                     style={{
-                      background: "#E8F5EE",
+                      background: "var(--acc-pale)",
                       color: "var(--accent-matcha)",
                       borderRadius: 20,
                       padding: "2px 8px",
@@ -610,9 +610,9 @@ function Clinics() {
                     className="flex items-center justify-center gap-1.5"
                     style={{
                       flex: "0 0 60%", height: 40, borderRadius: 12,
-                      background: "linear-gradient(135deg,var(--accent-sora),#4A8AC4)",
+                      background: "linear-gradient(135deg,var(--accent-sora),var(--acc-strong))",
                       color: "#fff", fontSize: 13, fontWeight: 700,
-                      boxShadow: "0 4px 12px rgba(91,155,213,0.3)",
+                      boxShadow: "0 4px 12px color-mix(in oklab, var(--acc-strong) 30.0%, transparent)",
                     }}
                   >
                     <Navigation size={14} /> {t("道案内", "Directions")}
@@ -622,7 +622,7 @@ function Clinics() {
                     className="flex items-center justify-center gap-1.5 flex-1"
                     style={{
                       height: 40, borderRadius: 12,
-                      background: "#E8F5EE", border: "1px solid #B8D4C0",
+                      background: "var(--acc-pale)", border: "1px solid var(--acc2-soft)",
                       color: "var(--accent-matcha)", fontSize: 13, fontWeight: 700,
                     }}
                   >
@@ -705,7 +705,7 @@ function Clinics() {
                       onClick={() => setMinStars(n)}
                       className="flex items-center gap-1 flex-1 justify-center"
                       style={{
-                        background: sel ? "#FFF8DC" : "#fff",
+                        background: sel ? "var(--acc-pale)" : "#fff",
                         border: `1.5px solid ${sel ? "var(--accent-yuzu)" : "var(--border-card)"}`,
                         borderRadius: 12, padding: "10px 0",
                         fontSize: 12, fontWeight: 700,

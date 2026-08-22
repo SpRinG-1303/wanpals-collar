@@ -12,7 +12,7 @@ export default function BreedFullBody({ breed, height = 160 }: Props) {
   return (
     <svg viewBox="0 0 200 200" height={height} width={height} style={{ display: "block", overflow: "visible" }}>
       {/* soft ground shadow */}
-      <ellipse cx="100" cy="184" rx="58" ry="6" fill="#000" opacity="0.08" />
+      <ellipse cx="100" cy="184" rx="58" ry="6" fill="var(--text-primary)" opacity="0.08" />
       {renderBreed(breed, C)}
     </svg>
   );
@@ -29,23 +29,23 @@ type Palette = {
 
 function getColors(breed: BreedKey): Palette {
   const base: Record<BreedKey, Partial<Palette>> = {
-    golden:     { fur: "#E8B96A", furDeep: "#C89A4E", belly: "#F5DDA6", ear: "#B8843C" },
-    shiba:      { fur: "#D69354", furDeep: "#A86A2E", belly: "#F5E1C8", ear: "#8E5320" },
-    poodle:     { fur: "#F5E2C8", furDeep: "#D9C09E", belly: "#FFF1DC", ear: "#C8A878" },
-    chihuahua:  { fur: "#D9B084", furDeep: "#B0875A", belly: "#F2DCBE", ear: "#8E6238" },
-    pomeranian: { fur: "#F2C878", furDeep: "#D6A248", belly: "#FFE6B0", ear: "#B88030" },
-    frenchie:   { fur: "#B8A89E", furDeep: "#857168", belly: "#EDE2DC", ear: "#6E5A50" },
-    yorkie:     { fur: "#7A5238", furDeep: "#4E3220", belly: "#C49A6A", ear: "#3A2418" },
-    dachshund:  { fur: "#8A4E22", furDeep: "#5E3210", belly: "#D69A60", ear: "#4A2810" },
-    mixed:      { fur: "#D69354", furDeep: "#A86A2E", belly: "#F5E1C8", ear: "#8E5320" },
+    golden:     { fur: "var(--acc-strong)", furDeep: "var(--acc-strong)", belly: "var(--acc-soft)", ear: "var(--acc-deep)" },
+    shiba:      { fur: "var(--acc-strong)", furDeep: "var(--acc-deep)", belly: "var(--acc-soft)", ear: "var(--acc-deep)" },
+    poodle:     { fur: "var(--acc-soft)", furDeep: "var(--acc-strong)", belly: "var(--acc-pale)", ear: "var(--acc-strong)" },
+    chihuahua:  { fur: "var(--acc-strong)", furDeep: "var(--acc-strong)", belly: "var(--acc-soft)", ear: "var(--acc-deep)" },
+    pomeranian: { fur: "var(--acc-strong)", furDeep: "var(--acc-strong)", belly: "var(--acc-soft)", ear: "var(--acc-deep)" },
+    frenchie:   { fur: "var(--acc-strong)", furDeep: "var(--acc-deep)", belly: "var(--acc-soft)", ear: "var(--acc-deep)" },
+    yorkie:     { fur: "var(--acc-deep)", furDeep: "var(--acc-deep)", belly: "var(--acc-strong)", ear: "var(--acc-deep)" },
+    dachshund:  { fur: "var(--acc-deep)", furDeep: "var(--acc-deep)", belly: "var(--acc-strong)", ear: "var(--acc-deep)" },
+    mixed:      { fur: "var(--acc-strong)", furDeep: "var(--acc-deep)", belly: "var(--acc-soft)", ear: "var(--acc-deep)" },
   };
   return {
-    nose: "#2A1E18",
+    nose: "var(--acc-deep)",
     collar: "var(--accent-sakura)",
-    fur: "#D69354",
-    furDeep: "#A86A2E",
-    belly: "#F5E1C8",
-    ear: "#8E5320",
+    fur: "var(--acc-strong)",
+    furDeep: "var(--acc-deep)",
+    belly: "var(--acc-soft)",
+    ear: "var(--acc-deep)",
     ...base[breed],
   };
 }
@@ -80,8 +80,8 @@ function Face({ cx, cy, C, scale = 1 }: { cx: number; cy: number; C: Palette; sc
   return (
     <g transform={`translate(${cx} ${cy}) scale(${s})`}>
       {/* eyes */}
-      <circle cx={-10} cy={-2} r="2.6" fill="#1A1410" />
-      <circle cx={10} cy={-2} r="2.6" fill="#1A1410" />
+      <circle cx={-10} cy={-2} r="2.6" fill="var(--text-primary)" />
+      <circle cx={10} cy={-2} r="2.6" fill="var(--text-primary)" />
       <circle cx={-9} cy={-3} r="0.9" fill="#fff" />
       <circle cx={11} cy={-3} r="0.9" fill="#fff" />
       {/* blush */}
@@ -94,7 +94,7 @@ function Face({ cx, cy, C, scale = 1 }: { cx: number; cy: number; C: Palette; sc
       {/* mouth */}
       <path d="M0 8 L0 12 M-4 14 Q0 17 4 14" stroke={C.nose} strokeWidth="1.3" fill="none" strokeLinecap="round" />
       {/* tongue */}
-      <path d="M-2 15 Q0 19 2 15 Z" fill="#FF6F87" />
+      <path d="M-2 15 Q0 19 2 15 Z" fill="var(--acc2-strong)" />
     </g>
   );
 }
@@ -103,7 +103,7 @@ function Collar({ cx, cy, w, C }: { cx: number; cy: number; w: number; C: Palett
   return (
     <g>
       <rect x={cx - w / 2} y={cy} width={w} height="6" rx="3" fill={C.collar} />
-      <circle cx={cx} cy={cy + 7} r="3" fill="#FFD24C" stroke={C.collar} strokeWidth="1" />
+      <circle cx={cx} cy={cy + 7} r="3" fill="var(--acc-strong)" stroke={C.collar} strokeWidth="1" />
     </g>
   );
 }
@@ -275,8 +275,8 @@ function Chihuahua({ C }: { C: Palette }) {
       <path d="M85 70 L100 50 L96 74 Z" fill="var(--accent-sakura)" opacity="0.7" />
       {/* big eyes — override face */}
       <g transform="translate(72 100)">
-        <circle cx={-12} cy={-4} r="4" fill="#1A1410" />
-        <circle cx={12} cy={-4} r="4" fill="#1A1410" />
+        <circle cx={-12} cy={-4} r="4" fill="var(--text-primary)" />
+        <circle cx={12} cy={-4} r="4" fill="var(--text-primary)" />
         <circle cx={-11} cy={-5} r="1.4" fill="#fff" />
         <circle cx={13} cy={-5} r="1.4" fill="#fff" />
         <circle cx={-16} cy={6} r="3.5" fill="var(--accent-sakura)" opacity="0.55" />
@@ -375,7 +375,7 @@ function Dachshund({ C }: { C: Palette }) {
       {/* long floppy ear */}
       <ellipse cx="50" cy="102" rx="10" ry="20" fill={C.ear} transform="rotate(-20 50 102)" />
       {/* eye */}
-      <circle cx="44" cy="106" r="2.6" fill="#1A1410" />
+      <circle cx="44" cy="106" r="2.6" fill="var(--text-primary)" />
       <circle cx="45" cy="105" r="0.9" fill="#fff" />
       <circle cx="34" cy="116" r="3" fill="var(--accent-sakura)" opacity="0.55" />
       <path d="M14 121 L14 124 M11 126 Q14 128 17 126" stroke={C.nose} strokeWidth="1.1" fill="none" strokeLinecap="round" />

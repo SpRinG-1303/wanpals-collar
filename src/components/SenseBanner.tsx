@@ -57,7 +57,7 @@ export function SenseBanner({
               style={{
                 fontSize: 26,
                 fontWeight: 700,
-                color: "#1A1A2E",
+                color: "var(--text-primary)",
                 lineHeight: 1.15,
                 marginTop: 4,
                 letterSpacing: "-0.01em",
@@ -69,7 +69,7 @@ export function SenseBanner({
               style={{
                 fontSize: 13,
                 fontWeight: 400,
-                color: "#6B7280",
+                color: "var(--text-secondary)",
                 marginTop: 6,
                 lineHeight: 1.3,
               }}
@@ -82,7 +82,7 @@ export function SenseBanner({
             style={{
               flexShrink: 0,
               background: "#FFFFFF",
-              color: "#1A1A2E",
+              color: "var(--text-primary)",
               borderRadius: 50,
               padding: "5px 11px 5px 9px",
               fontSize: 11,

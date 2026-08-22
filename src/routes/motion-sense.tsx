@@ -11,27 +11,27 @@ export const Route = createFileRoute("/motion-sense")({ component: MotionSensePa
 
 // ---------- Tokens ----------
 const C = {
-  page: "#F0F7FC",
+  page: "var(--acc-pale)",
   card: "#FFFFFF",
-  sumi: "#1A1A2E",
-  ink: "#374151",
-  ink2: "#4B5563",
-  muted: "#9CA3AF",
-  faint: "#B6C8D4",
-  divider: "#E8F4FD",
+  sumi: "var(--text-primary)",
+  ink: "var(--text-primary)",
+  ink2: "var(--text-secondary)",
+  muted: "var(--text-secondary)",
+  faint: "var(--acc-soft)",
+  divider: "var(--acc-pale)",
   // Pastel blue identity (token names kept as `rose*` for minimal diff)
-  rose: "#7BB3D4",       // primary soft sky blue
-  roseDeep: "#5B9FBF",   // medium ocean blue
-  roseSoft: "#93C4E0",   // pastel cornflower
-  rosePale: "#BDD8ED",   // soft blue
-  roseTint: "#E8F4FD",   // very light blue tint
-  roseFill: "#D6EAF5",   // barely blue
-  roseMid: "#93C4E0",    // medium pastel blue
-  roseTrack: "#D6EAF5",  // progress track
-  indigo: "#6366F1",
-  orange: "#F97316",
-  green: "#16A34A",
-  greenBg: "#F0FDF4",
+  rose: "var(--acc-strong)",       // primary soft sky blue
+  roseDeep: "var(--acc2-strong)",   // medium ocean blue
+  roseSoft: "var(--acc-strong)",   // pastel cornflower
+  rosePale: "var(--acc-soft)",   // soft blue
+  roseTint: "var(--acc-pale)",   // very light blue tint
+  roseFill: "var(--acc-pale)",   // barely blue
+  roseMid: "var(--acc-strong)",    // medium pastel blue
+  roseTrack: "var(--acc-pale)",  // progress track
+  indigo: "var(--acc-strong)",
+  orange: "var(--acc-strong)",
+  green: "var(--acc-strong)",
+  greenBg: "var(--acc-pale)",
 };
 
 // ---------- Data ----------
@@ -129,7 +129,7 @@ function MotionSensePage() {
       <style>{`
         @keyframes msLive { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.35);opacity:.55} }
         @keyframes msCardIn { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
-        @keyframes msPulse { 0%,100%{box-shadow:0 0 0 0 rgba(123,179,212,.6)} 50%{box-shadow:0 0 12px 2px rgba(123,179,212,.5)} }
+        @keyframes msPulse { 0%,100%{box-shadow:0 0 0 0 color-mix(in oklab, var(--acc-strong) 60.0%, transparent)} 50%{box-shadow:0 0 12px 2px color-mix(in oklab, var(--acc-strong) 50.0%, transparent)} }
         @keyframes msFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-3px)} }
         .ms-stack > * { opacity:0; animation: msCardIn 350ms cubic-bezier(.2,.7,.2,1) forwards; }
         .ms-stack > *:nth-child(1){animation-delay:80ms}
@@ -146,14 +146,14 @@ function MotionSensePage() {
           subtitleEn="MotionSense"
           titleEn="MotionSense"
           descriptorEn="Activity tracking"
-          bgGradient="linear-gradient(135deg,#F0F7FC 0%,#E1F0FA 100%)"
-          subtitleColor="#7BB3D4"
+          bgGradient="linear-gradient(135deg,var(--acc-pale) 0%,var(--acc-pale) 100%)"
+          subtitleColor="var(--acc-strong)"
         />
 
 
         {/* TIME TABS */}
         <div style={{ padding: "0 16px", marginTop: -36, position: "relative", zIndex: 2 }}>
-          <div className="flex" style={{ background: "#F3F4F6", borderRadius: 50, padding: 3, gap: 2 }}>
+          <div className="flex" style={{ background: "var(--bg-elevated)", borderRadius: 50, padding: 3, gap: 2 }}>
             {(["1d", "1w", "1m"] as const).map((v) => {
               const active = tab === v;
               return (
@@ -207,12 +207,12 @@ function HeroStepCard({ mounted }: { mounted: boolean }) {
       background: C.card,
       borderRadius: 24,
       padding: 24,
-      boxShadow: "0 12px 36px rgba(61,122,158,0.15)",
+      boxShadow: "0 12px 36px color-mix(in oklab, var(--acc-deep) 15.0%, transparent)",
       overflow: "hidden",
     }}>
       <div style={{
         position: "absolute", top: 0, left: 0, right: 0, height: "60%",
-        background: "linear-gradient(180deg,rgba(123,179,212,0.06) 0%,rgba(255,255,255,0) 100%)",
+        background: "linear-gradient(180deg,color-mix(in oklab, var(--acc-strong) 6.0%, transparent) 0%,rgba(255,255,255,0) 100%)",
         pointerEvents: "none",
       }} />
       <div className="flex" style={{ gap: 18, position: "relative", alignItems: "center" }}>
@@ -225,7 +225,7 @@ function HeroStepCard({ mounted }: { mounted: boolean }) {
                 <stop offset="100%" stopColor={C.rosePale} />
               </linearGradient>
             </defs>
-            <circle cx={cx} cy={cy} r={R + sw / 2 + 3} stroke="rgba(123,179,212,0.18)" strokeWidth={1} fill="none" />
+            <circle cx={cx} cy={cy} r={R + sw / 2 + 3} stroke="color-mix(in oklab, var(--acc-strong) 18.0%, transparent)" strokeWidth={1} fill="none" />
             <circle cx={cx} cy={cy} r={R} stroke={C.roseTrack} strokeWidth={sw} fill="none" />
             <circle
               cx={cx} cy={cy} r={R}
@@ -237,7 +237,7 @@ function HeroStepCard({ mounted }: { mounted: boolean }) {
             />
             {mounted && (
               <circle cx={endX} cy={endY} r={5} fill={C.rose}
-                style={{ filter: "drop-shadow(0 0 6px rgba(123,179,212,0.7))", animation: "msPulse 1.8s ease-in-out infinite", transformOrigin: `${endX}px ${endY}px` }}
+                style={{ filter: "drop-shadow(0 0 6px color-mix(in oklab, var(--acc-strong) 70.0%, transparent))", animation: "msPulse 1.8s ease-in-out infinite", transformOrigin: `${endX}px ${endY}px` }}
               />
             )}
           </svg>
@@ -288,7 +288,7 @@ function HeroStepCard({ mounted }: { mounted: boolean }) {
 function Pill({ icon, label, value, valueColor }: { icon: string; label: string; value: string; valueColor: string }) {
   return (
     <div className="flex items-center" style={{
-      background: "#F9F9F9", borderRadius: 50, padding: "6px 12px", gap: 6, fontSize: 11,
+      background: "var(--bg-elevated)", borderRadius: 50, padding: "6px 12px", gap: 6, fontSize: 11,
     }}>
       <span style={{ fontSize: 12 }}>{icon}</span>
       {label && <span style={{ color: C.muted }}>{label}</span>}
@@ -385,15 +385,15 @@ function MetricCards() {
   return (
     <div className="grid grid-cols-3" style={{ gap: 10 }}>
       <MetricCard
-        icon={<Activity size={20} />} color={C.rose} bg="rgba(123,179,212,0.12)"
+        icon={<Activity size={20} />} color={C.rose} bg="color-mix(in oklab, var(--acc-strong) 12.0%, transparent)"
         value="2h 15m" jp="活動時間" en="Active Time" arcPct={0.09}
       />
       <MetricCard
-        icon={<Moon size={20} />} color={C.indigo} bg="rgba(99,102,241,0.1)"
+        icon={<Moon size={20} />} color={C.indigo} bg="color-mix(in oklab, var(--acc-strong) 10.0%, transparent)"
         value="13h 45m" jp="休息時間" en="Rest Time" arcPct={0.57}
       />
       <MetricCard
-        icon={<Flame size={20} />} color={C.orange} bg="rgba(249,115,22,0.1)"
+        icon={<Flame size={20} />} color={C.orange} bg="color-mix(in oklab, var(--acc-strong) 10.0%, transparent)"
         value="285" unit="kcal" jp="消費カロリー" en="Calories Burned" arcPct={0.42}
       />
     </div>
@@ -503,7 +503,7 @@ function TrendCard({ mounted }: { mounted: boolean }) {
 // ---------- Card 5: Timeline ----------
 function TimelineCard() {
   const t = useT();
-  const colors = ["#F0F7FC", C.roseFill, C.roseMid, C.rose];
+  const colors = ["var(--acc-pale)", C.roseFill, C.roseMid, C.rose];
   return (
     <CardBox>
       <SectionHeader jp="本日のタイムライン" en="Today's Timeline" />
@@ -546,7 +546,7 @@ function TimelineCard() {
         ].map((x) => (
           <div key={x.en} className="flex items-center" style={{ gap: 4 }}>
             <span style={{ width: 10, height: 10, borderRadius: 2, background: x.c }} />
-            <span style={{ fontSize: 9, color: "#6B7280" }}>{t(x.jp, x.en)}</span>
+            <span style={{ fontSize: 9, color: "var(--text-secondary)" }}>{t(x.jp, x.en)}</span>
           </div>
         ))}
       </div>
@@ -562,16 +562,16 @@ function AIInsightBlock({ name }: { name: string }) {
   const en = `${name} is 12% more active than last week. Thursday was the most active day with 5,200 steps!`;
   return (
     <div style={{
-      background: "linear-gradient(135deg,#3D7A9E 0%,#5B9FBF 100%)",
+      background: "linear-gradient(135deg,var(--acc-deep) 0%,var(--acc2-strong) 100%)",
       borderRadius: 22,
       padding: 20,
-      boxShadow: "0 2px 16px rgba(61,122,158,0.18)",
-      borderLeft: "4px solid #7BB3D4",
+      boxShadow: "0 2px 16px color-mix(in oklab, var(--acc-deep) 18.0%, transparent)",
+      borderLeft: "4px solid var(--acc-strong)",
       color: "#FFFFFF",
     }}>
       <div className="flex items-center" style={{ gap: 6 }}>
-        <Sparkles size={16} color="#BDD8ED" />
-        <span style={{ fontSize: 11, color: "#BDD8ED", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase" }}>
+        <Sparkles size={16} color="var(--acc-soft)" />
+        <span style={{ fontSize: 11, color: "var(--acc-soft)", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase" }}>
           {t("AIインサイト", "AI Insight")}
         </span>
       </div>
@@ -594,7 +594,7 @@ function AIInsightBlock({ name }: { name: string }) {
         borderRadius: 50, padding: "4px 12px",
         fontSize: 11, fontWeight: 500, width: "fit-content",
       }}>
-        <ArrowUp size={12} color="#86EFAC" />
+        <ArrowUp size={12} color="var(--acc2-strong)" />
         {t("先週比 +12% 改善", "12% improvement from last week")}
       </div>
       <div className="flex items-center justify-end" style={{ gap: 4, marginTop: 12 }}>

@@ -26,7 +26,7 @@ export const Route = createFileRoute("/avatar-setup")({
  *       shared social health-report cards.
  * ──────────────────────────────────────────────────────────────────────── */
 
-const ROSE = "#e8678a";
+const ROSE = "var(--accent-sakura)";
 const ROSE_SOFT = "var(--accent-sakura)";
 const CREAM = "var(--bg-page)";
 const PINK_BG = "var(--accent-sakura-soft)";
@@ -51,15 +51,15 @@ type AvatarState = {
 };
 
 const BREEDS: { name: string; emoji: string; fur: string }[] = [
-  { name: "Shiba Inu", emoji: "", fur: "#c17d4a" },
-  { name: "Toy Poodle", emoji: "", fur: "#d4b896" },
-  { name: "Chihuahua", emoji: "", fur: "#c8a070" },
-  { name: "Pomeranian", emoji: "", fur: "#d4934e" },
-  { name: "Golden Retriever", emoji: "", fur: "#d4a248" },
+  { name: "Shiba Inu", emoji: "", fur: "var(--acc-strong)" },
+  { name: "Toy Poodle", emoji: "", fur: "var(--acc-strong)" },
+  { name: "Chihuahua", emoji: "", fur: "var(--acc-strong)" },
+  { name: "Pomeranian", emoji: "", fur: "var(--acc-strong)" },
+  { name: "Golden Retriever", emoji: "", fur: "var(--acc-strong)" },
 ];
 
-const FUR_COLORS = ["#c17d4a", "#e8c88a", "#f0ede8", "#2a2018", "#9a968e", "#c8941a"];
-const COLLAR_COLORS = ["#e8678a", "#7b6fd4", "#2db894", "#4a9fd4", "#c8941a", "#d44a4a"];
+const FUR_COLORS = ["var(--acc-strong)", "var(--acc-strong)", "var(--acc-pale)", "var(--acc-deep)", "var(--text-placeholder)", "var(--acc-deep)"];
+const COLLAR_COLORS = ["var(--accent-sakura)", "var(--acc-strong)", "var(--acc2-deep)", "var(--acc-strong)", "var(--acc-deep)", "#D44A4A"];
 const EARS: EarType[] = ["upright", "floppy", "round"];
 const EAR_LABELS: Record<EarType, string> = { upright: "Upright", floppy: "Floppy", round: "Round" };
 const EYE_GLYPHS = ["oo", "uu", "**", "©©"];
@@ -68,10 +68,10 @@ function AvatarSetupFlow() {
   const [screen, setScreen] = useState<Screen>("welcome");
   const [avatar, setAvatar] = useState<AvatarState>({
     breed: "Shiba Inu",
-    furColor: "#c17d4a",
+    furColor: "var(--acc-strong)",
     earType: "upright",
     eyeStyle: 0,
-    collarColor: "#e8678a",
+    collarColor: "var(--accent-sakura)",
     dogPhotoUploaded: false,
     ownerPhotoUploaded: false,
     ghibliSvgUrl: null,
@@ -92,7 +92,7 @@ function AvatarSetupFlow() {
         justifyContent: "center",
       }}
     >
-      <div style={{ width: "100%", maxWidth: 430, position: "relative", background: CREAM, minHeight: "100dvh", boxShadow: "0 0 40px rgba(30,25,45,0.10)" }}>
+      <div style={{ width: "100%", maxWidth: 430, position: "relative", background: CREAM, minHeight: "100dvh", boxShadow: "0 0 40px color-mix(in oklab, var(--acc-deep) 10.0%, transparent)" }}>
         <div key={String(screen)} style={{ animation: "fadeSlide .35s ease both" }}>
           {screen === "welcome" && <Welcome onStart={() => setScreen(1)} avatar={avatar} />}
           {screen === 1 && (
@@ -149,7 +149,7 @@ function Welcome({ onStart, avatar }: { onStart: () => void; avatar: AvatarState
             width: 220, height: 220, borderRadius: "50%",
             background: "#fff",
             border: `4px solid ${PINK_BG}`,
-            boxShadow: "0 12px 40px rgba(232,103,138,0.18)",
+            boxShadow: "0 12px 40px color-mix(in oklab, var(--acc-strong) 18.0%, transparent)",
             display: "flex", alignItems: "center", justifyContent: "center",
             overflow: "hidden",
           }}
@@ -166,9 +166,9 @@ function Welcome({ onStart, avatar }: { onStart: () => void; avatar: AvatarState
           style={{
             position: "absolute", bottom: 8, right: 4,
             width: 48, height: 48, borderRadius: "50%",
-            background: "linear-gradient(135deg,#ffd966,#ffb74a)",
+            background: "linear-gradient(135deg,var(--acc-strong),var(--acc-strong))",
             display: "flex", alignItems: "center", justifyContent: "center",
-            boxShadow: "0 4px 12px rgba(255,183,74,0.5)",
+            boxShadow: "0 4px 12px color-mix(in oklab, var(--acc-strong) 50.0%, transparent)",
             fontSize: 22,
           }}
         >
@@ -239,8 +239,8 @@ function StepNav({ step, label, onBack }: { step: 1 | 2 | 3; label: string; onBa
           {[1, 2, 3].map((n, i) => {
             const completed = n < step;
             const active = n === step;
-            const bg = completed ? ROSE_SOFT : active ? ROSE : "#e8e0db";
-            const color = completed || active ? "#fff" : "#a89c95";
+            const bg = completed ? ROSE_SOFT : active ? ROSE : "var(--acc-soft)";
+            const color = completed || active ? "#fff" : "var(--text-placeholder)";
             return (
               <div key={n} style={{ display: "flex", alignItems: "center" }}>
                 <div
@@ -258,7 +258,7 @@ function StepNav({ step, label, onBack }: { step: 1 | 2 | 3; label: string; onBa
                   <div
                     style={{
                       width: 26, height: 3, borderRadius: 2,
-                      background: n < step ? ROSE_SOFT : "#e8e0db",
+                      background: n < step ? ROSE_SOFT : "var(--acc-soft)",
                       margin: "0 4px",
                     }}
                   />
@@ -303,7 +303,7 @@ function Step1({
             width: 160, height: 160, borderRadius: "50%",
             background: "#fff",
             border: `4px solid ${ROSE}`,
-            boxShadow: "0 10px 30px rgba(232,103,138,0.2)",
+            boxShadow: "0 10px 30px color-mix(in oklab, var(--acc-strong) 20.0%, transparent)",
             cursor: "pointer", padding: 0, overflow: "hidden",
             display: "flex", alignItems: "center", justifyContent: "center",
           }}
@@ -340,7 +340,7 @@ function Step1({
                 borderRadius: 18,
                 background: sel ? PINK_BG : "#fff",
                 border: sel ? `2px solid ${ROSE}` : "2px solid transparent",
-                boxShadow: sel ? "0 4px 14px rgba(232,103,138,0.2)" : "0 2px 8px rgba(0,0,0,0.05)",
+                boxShadow: sel ? "0 4px 14px color-mix(in oklab, var(--acc-strong) 20.0%, transparent)" : "0 2px 8px rgba(0,0,0,0.05)",
                 cursor: "pointer", fontFamily: FONT,
                 animation: sel ? "pop .35s ease" : undefined,
               }}
@@ -382,8 +382,8 @@ function Step1({
                 onClick={() => update({ earType: e })}
                 style={{
                   height: 44, borderRadius: 999,
-                  background: sel ? PINK_BG : "#faf5f2",
-                  border: sel ? `2px solid ${ROSE}` : "2px solid #f0e6e0",
+                  background: sel ? PINK_BG : "var(--acc-pale)",
+                  border: sel ? `2px solid ${ROSE}` : "2px solid var(--acc-pale)",
                   color: sel ? ROSE : TEXT,
                   fontWeight: 700, fontSize: 14, fontFamily: FONT,
                   cursor: "pointer",
@@ -405,8 +405,8 @@ function Step1({
                 onClick={() => update({ eyeStyle: i as EyeStyle })}
                 style={{
                   height: 48, borderRadius: 14,
-                  background: sel ? PINK_BG : "#faf5f2",
-                  border: sel ? `2px solid ${ROSE}` : "2px solid #f0e6e0",
+                  background: sel ? PINK_BG : "var(--acc-pale)",
+                  border: sel ? `2px solid ${ROSE}` : "2px solid var(--acc-pale)",
                   color: sel ? ROSE : TEXT,
                   fontWeight: 800, fontSize: 16, fontFamily: FONT,
                   cursor: "pointer",
@@ -485,12 +485,12 @@ function Step2({
       <div
         style={{
           margin: "12px 20px 0",
-          background: "#fff5e8",
-          border: "1.5px dashed #e8a96a",
+          background: "var(--acc-pale)",
+          border: "1.5px dashed var(--acc-strong)",
           borderRadius: 14,
           padding: 12,
           fontSize: 11.5,
-          color: "#7a4f24",
+          color: "var(--acc-deep)",
           lineHeight: 1.55,
           fontFamily: "var(--font-sans)",
         }}
@@ -558,7 +558,7 @@ function UploadCard({ label, emoji, uploaded, onUpload }: {
       style={{
         aspectRatio: "1 / 1",
         background: uploaded ? PINK_BG : "#fff",
-        border: uploaded ? `2px solid ${ROSE}` : "2px dashed #e8c5cf",
+        border: uploaded ? `2px solid ${ROSE}` : "2px dashed var(--acc2-soft)",
         borderRadius: 20,
         cursor: "pointer", fontFamily: FONT,
         display: "flex", flexDirection: "column",
@@ -570,7 +570,7 @@ function UploadCard({ label, emoji, uploaded, onUpload }: {
         <div
           style={{
             width: "80%", height: "80%", borderRadius: 14,
-            background: "linear-gradient(90deg, #f7e3eb 0%, #fff 50%, #f7e3eb 100%)",
+            background: "linear-gradient(90deg, var(--acc-pale) 0%, #fff 50%, var(--acc-pale) 100%)",
             backgroundSize: "200% 100%",
             animation: "shimmer 1.2s linear infinite",
           }}
@@ -580,7 +580,7 @@ function UploadCard({ label, emoji, uploaded, onUpload }: {
           <div
             style={{
               width: "80%", height: "70%", borderRadius: 14,
-              background: `linear-gradient(135deg, #ffd1dc, #c8e6f0)`,
+              background: `linear-gradient(135deg, var(--acc2-pale), var(--acc2-soft))`,
               display: "flex", alignItems: "center", justifyContent: "center",
               fontSize: 44,
             }}
@@ -614,12 +614,12 @@ type Pose = {
 };
 
 const POSES: Pose[] = [
-  { id: 0, name: "Pure joy!", emoji: "", bg: "#fdedf2", tag: "Solo", featured: true },
-  { id: 1, name: "Ball time", emoji: "", bg: "#fff5d6", tag: "Solo" },
-  { id: 2, name: "Nap mode", emoji: "", bg: "#e3f0fa", tag: "Solo" },
-  { id: 3, name: "Walk together", emoji: "", bg: "#e3f5e6", tag: "Duo" },
-  { id: 4, name: "Cuddle time", emoji: "", bg: "#fdedf2", tag: "Duo" },
-  { id: 5, name: "Adventure!", emoji: "", bg: "#fff5d6", tag: "Duo" },
+  { id: 0, name: "Pure joy!", emoji: "", bg: "var(--acc-pale)", tag: "Solo", featured: true },
+  { id: 1, name: "Ball time", emoji: "", bg: "var(--acc-pale)", tag: "Solo" },
+  { id: 2, name: "Nap mode", emoji: "", bg: "var(--acc-pale)", tag: "Solo" },
+  { id: 3, name: "Walk together", emoji: "", bg: "var(--acc2-pale)", tag: "Duo" },
+  { id: 4, name: "Cuddle time", emoji: "", bg: "var(--acc-pale)", tag: "Duo" },
+  { id: 5, name: "Adventure!", emoji: "", bg: "var(--acc-pale)", tag: "Duo" },
 ];
 
 function Step3({
@@ -719,7 +719,7 @@ function PoseCard({
 }: {
   pose: Pose; selected: boolean; onSelect: () => void; variant?: "grid" | "featured";
 }) {
-  const tagBg = pose.tag === "Solo" ? "#ffb74a" : ROSE;
+  const tagBg = pose.tag === "Solo" ? "var(--acc-strong)" : ROSE;
   return (
     <button
       onClick={onSelect}
@@ -734,7 +734,7 @@ function PoseCard({
         style={{
           borderRadius: 20, overflow: "hidden", background: "#fff",
           boxShadow: selected
-            ? `0 0 0 3px ${ROSE}, 0 8px 24px rgba(232,103,138,0.25)`
+            ? `0 0 0 3px ${ROSE}, 0 8px 24px color-mix(in oklab, var(--acc-strong) 25.0%, transparent)`
             : "0 4px 14px rgba(0,0,0,0.06)",
           transition: "box-shadow .25s",
         }}
@@ -821,12 +821,12 @@ function PrimaryButton({ children, onClick }: { children: React.ReactNode; onCli
       onClick={onClick}
       style={{
         width: "100%", padding: "16px 20px",
-        background: `linear-gradient(135deg, ${ROSE} 0%, #f08aa8 100%)`,
+        background: `linear-gradient(135deg, ${ROSE} 0%, var(--acc2-soft) 100%)`,
         color: "#fff", border: "none", borderRadius: 999,
         fontWeight: 800, fontSize: 16, fontFamily: FONT,
         cursor: "pointer", display: "flex",
         alignItems: "center", justifyContent: "center",
-        boxShadow: "0 8px 20px rgba(232,103,138,0.35)",
+        boxShadow: "0 8px 20px color-mix(in oklab, var(--acc-strong) 35.0%, transparent)",
         transition: "transform .15s, box-shadow .2s",
       }}
       onMouseDown={(e) => (e.currentTarget.style.transform = "scale(0.97)")}

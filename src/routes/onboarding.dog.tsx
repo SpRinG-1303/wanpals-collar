@@ -155,10 +155,10 @@ function Step2() {
           <TopBar to="/onboarding/welcome" />
           <Stepper current={1} path={pet.path} />
 
-          <h1 className="text-[22px] font-extrabold text-center mt-2" style={{ color: "#3B2A23" }}>
+          <h1 className="text-[22px] font-extrabold text-center mt-2" style={{ color: "var(--text-primary)" }}>
             {t("写真を追加", "Add Your Photos")}
           </h1>
-          <p className="text-center text-[13px] mt-2 leading-relaxed" style={{ color: "#8A766C" }}>
+          <p className="text-center text-[13px] mt-2 leading-relaxed" style={{ color: "var(--text-secondary)" }}>
             {t(
               "ワンちゃんとあなたの写真をアップロード。美しいイラストのアートコンビに変身させます ",
               "Upload photos of your dog and yourself. We'll transform them into a beautiful illustrated art duo "
@@ -218,10 +218,10 @@ function Step2() {
               ring={false}
             />
             <div className="flex-1">
-              <div className="text-[12px] font-bold" style={{ color: "#3B2A23" }}>
+              <div className="text-[12px] font-bold" style={{ color: "var(--text-primary)" }}>
                  {t("自分で作りたい？", "Prefer to build it yourself?")}
               </div>
-              <div className="text-[10px] mt-0.5 leading-snug" style={{ color: "#A38B82" }}>
+              <div className="text-[10px] mt-0.5 leading-snug" style={{ color: "var(--text-secondary)" }}>
                 {t(
                   "写真をスキップしてアバターをカスタマイズ。",
                   "Skip photos and customise your avatar"
@@ -231,7 +231,7 @@ function Step2() {
             <button
               onClick={onBuildOwn}
               className="text-[11px] font-bold px-3 py-1.5 rounded-full"
-              style={{ background: "var(--accent-sakura-soft)", color: "#E8678A", border: "1.5px solid #E8678A" }}
+              style={{ background: "var(--accent-sakura-soft)", color: "var(--accent-sakura)", border: "1.5px solid var(--accent-sakura)" }}
             >
               {t("自分で作る", "Build My Own")} →
             </button>
@@ -243,7 +243,7 @@ function Step2() {
           className="fixed bottom-0 inset-x-0 mx-auto p-4"
           style={{
             maxWidth: 430,
-            background: "linear-gradient(to top, var(--bg-page), rgba(245,237,232,0.9) 70%, transparent)",
+            background: "linear-gradient(to top, var(--bg-page), color-mix(in oklab, var(--acc-soft) 90.0%, transparent) 70%, transparent)",
           }}
         >
           <button
@@ -252,11 +252,11 @@ function Step2() {
             className="w-full h-14 rounded-full text-[15px] font-bold transition-all flex items-center justify-center gap-2"
             style={{
               background: canGenerate
-                ? "linear-gradient(135deg,#E8678A 0%,#F48BA9 100%)"
-                : "#E5D5CC",
+                ? "linear-gradient(135deg,var(--accent-sakura) 0%,var(--acc-soft) 100%)"
+                : "var(--acc-pale)",
               color: "#FFFFFF",
               boxShadow: canGenerate
-                ? "0 8px 24px rgba(232,103,138,0.35)"
+                ? "0 8px 24px color-mix(in oklab, var(--acc-strong) 35.0%, transparent)"
                 : "none",
               animation: canGenerate && !generating ? "pulseGlow 1.8s ease-in-out infinite" : "none",
               opacity: !dogRawFile ? 0.55 : 1,
@@ -277,8 +277,8 @@ function Step2() {
 
         <style>{`
           @keyframes pulseGlow {
-            0%,100% { box-shadow: 0 8px 24px rgba(232,103,138,0.35); }
-            50% { box-shadow: 0 8px 32px rgba(232,103,138,0.6), 0 0 0 6px rgba(232,103,138,0.08); }
+            0%,100% { box-shadow: 0 8px 24px color-mix(in oklab, var(--acc-strong) 35.0%, transparent); }
+            50% { box-shadow: 0 8px 32px color-mix(in oklab, var(--acc-strong) 60.0%, transparent), 0 0 0 6px color-mix(in oklab, var(--acc-strong) 8.0%, transparent); }
           }
           @keyframes shimmer {
             0% { background-position: -200% 0; }
@@ -312,9 +312,9 @@ function Step2() {
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex justify-center pt-3 pb-2">
-              <span style={{ width: 40, height: 4, borderRadius: 2, background: "#E5D5CC" }} />
+              <span style={{ width: 40, height: 4, borderRadius: 2, background: "var(--acc-pale)" }} />
             </div>
-            <div className="px-5 pt-2 pb-2 text-[12px] font-bold" style={{ color: "#A38B82" }}>
+            <div className="px-5 pt-2 pb-2 text-[12px] font-bold" style={{ color: "var(--text-secondary)" }}>
               {sheet === "dog"
                 ? t("ワンちゃんの写真を選ぶ", "Choose dog photo")
                 : t("あなたの写真を選ぶ", "Choose your photo")}
@@ -336,7 +336,7 @@ function Step2() {
             <button
               onClick={closeSheet}
               className="w-full text-center py-4 text-[14px] font-medium"
-              style={{ color: "#A38B82" }}
+              style={{ color: "var(--text-secondary)" }}
             >
               {t("キャンセル", "Cancel")}
             </button>
@@ -354,13 +354,13 @@ function SheetRow({
     <button
       onClick={onClick}
       className="w-full flex items-center gap-4 px-6 py-4 text-left transition-colors"
-      style={{ color: "#3B2A23" }}
+      style={{ color: "var(--text-primary)" }}
     >
       <span
         className="flex items-center justify-center"
         style={{
           width: 40, height: 40, borderRadius: 999,
-          background: "var(--accent-sakura-soft)", color: "#E8678A",
+          background: "var(--accent-sakura-soft)", color: "var(--accent-sakura)",
         }}
       >
         {icon}
@@ -389,12 +389,12 @@ function UploadCard({
         onClick={onTap}
         className="w-full aspect-square rounded-3xl overflow-hidden flex items-center justify-center transition-all relative"
         style={{
-          background: hasImage ? "#FFFFFF" : "#FFFAF7",
+          background: hasImage ? "#FFFFFF" : "var(--acc-pale)",
           border: hasImage
-            ? "2px solid #E8678A"
-            : "2px dashed #E5C8B8",
+            ? "2px solid var(--accent-sakura)"
+            : "2px dashed var(--acc-soft)",
           boxShadow: hasImage
-            ? "0 8px 20px rgba(232,103,138,0.18)"
+            ? "0 8px 20px color-mix(in oklab, var(--acc-strong) 18.0%, transparent)"
             : "0 2px 10px rgba(0,0,0,0.04)",
         }}
       >
@@ -411,7 +411,7 @@ function UploadCard({
             className="absolute inset-0"
             style={{
               background:
-                "linear-gradient(90deg, rgba(245,237,232,0.6) 0%, rgba(255,240,245,0.85) 50%, rgba(245,237,232,0.6) 100%)",
+                "linear-gradient(90deg, color-mix(in oklab, var(--acc-soft) 60.0%, transparent) 0%, color-mix(in oklab, var(--acc-soft) 85.0%, transparent) 50%, color-mix(in oklab, var(--acc-soft) 60.0%, transparent) 100%)",
               backgroundSize: "200% 100%",
               animation: "shimmer 1.4s linear infinite",
             }}
@@ -422,21 +422,21 @@ function UploadCard({
             <div className="text-[44px] leading-none">{placeholderEmoji}</div>
             <div
               className="text-[11px] font-medium mt-2 px-2 text-center"
-              style={{ color: "#A38B82" }}
+              style={{ color: "var(--text-secondary)" }}
             >
               {t("タップして写真をアップロード", "Tap to upload photo")}
             </div>
           </div>
         )}
       </button>
-      <div className="text-[12px] font-bold mt-2" style={{ color: "#3B2A23" }}>
+      <div className="text-[12px] font-bold mt-2" style={{ color: "var(--text-primary)" }}>
         {label}
       </div>
       {hasImage && (
         <button
           onClick={onRetake}
           className="mt-1 flex items-center gap-1 text-[10px] font-medium"
-          style={{ color: "#E8678A" }}
+          style={{ color: "var(--accent-sakura)" }}
         >
           <RotateCcw className="w-3 h-3" />
           {t("撮り直し", "Retake")}
@@ -475,8 +475,8 @@ function AvatarPreview({
     >
       {generating && (
         <div className="flex flex-col items-center gap-3">
-          <Loader2 className="w-8 h-8 animate-spin" style={{ color: "#E8678A" }} />
-          <div className="text-[13px] font-bold" style={{ color: "#3B2A23" }}>
+          <Loader2 className="w-8 h-8 animate-spin" style={{ color: "var(--accent-sakura)" }} />
+          <div className="text-[13px] font-bold" style={{ color: "var(--text-primary)" }}>
             {t("アバターを作成中...", "Creating your avatar...")}
           </div>
         </div>
@@ -559,8 +559,8 @@ function AnimationField({
           minHeight: 240,
           borderRadius: 24,
           background: "#FFFFFF",
-          border: "1px solid #F4C0D1",
-          boxShadow: "0 4px 18px rgba(232,103,138,0.06)",
+          border: "1px solid var(--acc-pale)",
+          boxShadow: "0 4px 18px color-mix(in oklab, var(--acc-strong) 6.0%, transparent)",
         }}
       >
         {state.kind === "idle" && <PawBot />}
@@ -573,7 +573,7 @@ function AnimationField({
               style={{
                 width: 168, height: 168, objectFit: "cover",
                 borderRadius: 20,
-                boxShadow: "0 0 0 4px var(--accent-sakura-soft), 0 10px 28px rgba(232,103,138,0.18)",
+                boxShadow: "0 0 0 4px var(--accent-sakura-soft), 0 10px 28px color-mix(in oklab, var(--acc-strong) 18.0%, transparent)",
               }}
             />
             <div
@@ -598,7 +598,7 @@ function AnimationField({
               style={{
                 width: 200, height: 200, objectFit: "cover",
                 borderRadius: 24,
-                boxShadow: "0 0 0 4px var(--accent-sakura-soft), 0 12px 30px rgba(232,103,138,0.22)",
+                boxShadow: "0 0 0 4px var(--accent-sakura-soft), 0 12px 30px color-mix(in oklab, var(--acc-strong) 22.0%, transparent)",
                 animation: "afBreathe 3.6s ease-in-out infinite",
               }}
             />
@@ -607,7 +607,7 @@ function AnimationField({
               className="absolute z-10"
               style={{
                 bottom: 12, left: "50%", transform: "translateX(-50%)",
-                fontSize: 11, color: "#E8678A", fontWeight: 600,
+                fontSize: 11, color: "var(--accent-sakura)", fontWeight: 600,
               }}
             >
               ↺ {t("撮り直し", "Retake")}
@@ -618,17 +618,17 @@ function AnimationField({
         {state.kind === "error" && (
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 px-6 text-center">
             <div style={{ fontSize: 36 }}></div>
-            <div className="text-[13px] font-bold" style={{ color: "#3B2A23" }}>
+            <div className="text-[13px] font-bold" style={{ color: "var(--text-primary)" }}>
               {t("変換に失敗しました。再試行しますか？", "Conversion failed. Try again?")}
             </div>
-            <div className="text-[10px]" style={{ color: "#A38B82" }}>{state.message}</div>
+            <div className="text-[10px]" style={{ color: "var(--text-secondary)" }}>{state.message}</div>
             <button
               onClick={onRetry}
               className="mt-1 px-4 py-2 rounded-full text-[12px] font-bold"
               style={{
-                background: "linear-gradient(135deg,#E8678A 0%,#F48BA9 100%)",
+                background: "linear-gradient(135deg,var(--accent-sakura) 0%,var(--acc-soft) 100%)",
                 color: "#fff",
-                boxShadow: "0 6px 14px rgba(232,103,138,0.3)",
+                boxShadow: "0 6px 14px color-mix(in oklab, var(--acc-strong) 30.0%, transparent)",
               }}
             >
               ↺ {t("再試行", "Retry")}
@@ -656,24 +656,24 @@ function AnimationField({
       {state.kind === "converting" && (
         <div className="mt-3">
           <div className="flex items-center justify-between mb-1.5">
-            <span className="text-[11px] font-bold" style={{ color: "#E8678A" }}>
+            <span className="text-[11px] font-bold" style={{ color: "var(--accent-sakura)" }}>
               {t(" アート風に変換中...", " Applying art magic...")}
             </span>
-            <span className="text-[10px] font-bold" style={{ color: "#A38B82" }}>
+            <span className="text-[10px] font-bold" style={{ color: "var(--text-secondary)" }}>
               {Math.round(state.progress)}%
             </span>
           </div>
           <div
             style={{
               height: 6, borderRadius: 999,
-              background: "#FCE4EC", overflow: "hidden",
+              background: "var(--acc-pale)", overflow: "hidden",
             }}
           >
             <div
               style={{
                 width: `${state.progress}%`,
                 height: "100%",
-                background: "linear-gradient(90deg,#E8678A,#F48BA9)",
+                background: "linear-gradient(90deg,var(--accent-sakura),var(--acc-soft))",
                 borderRadius: 999,
                 transition: "width 0.4s ease",
               }}
@@ -686,10 +686,10 @@ function AnimationField({
           <span
             style={{
               width: 8, height: 8, borderRadius: "50%",
-              background: "#22C55E", boxShadow: "0 0 0 4px rgba(34,197,94,0.15)",
+              background: "var(--acc2-deep)", boxShadow: "0 0 0 4px color-mix(in oklab, var(--acc-deep) 15.0%, transparent)",
             }}
           />
-          <span className="text-[12px] font-bold" style={{ color: "#16A34A" }}>
+          <span className="text-[12px] font-bold" style={{ color: "var(--acc-strong)" }}>
              {t("アートアバターができました！", "Your art avatar is ready!")}
           </span>
         </div>
@@ -709,7 +709,7 @@ function PawBot({ palette }: { palette?: DogPalette }) {
       <div
         style={{
           position: "absolute", bottom: 40, left: 30, right: 30, height: 1,
-          background: "linear-gradient(90deg,transparent,#F4C0D1,transparent)",
+          background: "linear-gradient(90deg,transparent,var(--acc-pale),transparent)",
         }}
       />
 
@@ -722,7 +722,7 @@ function PawBot({ palette }: { palette?: DogPalette }) {
           opacity: 0,
         }}
       >
-        <path d="M7 12 C2 8 0 5 2 3 C4 1 6 3 7 4 C8 3 10 1 12 3 C14 5 12 8 7 12 Z" fill="#F48BA9" />
+        <path d="M7 12 C2 8 0 5 2 3 C4 1 6 3 7 4 C8 3 10 1 12 3 C14 5 12 8 7 12 Z" fill="var(--acc-soft)" />
       </svg>
 
       {/* Speed lines (run phase) */}
@@ -737,7 +737,7 @@ function PawBot({ palette }: { palette?: DogPalette }) {
         {[0, 8, 16].map((y) => (
           <span key={y} style={{
             position: "absolute", top: y, left: 0,
-            width: 22, height: 2, borderRadius: 2, background: "#F4C0D1",
+            width: 22, height: 2, borderRadius: 2, background: "var(--acc-pale)",
           }} />
         ))}
       </div>
@@ -755,7 +755,7 @@ function PawBot({ palette }: { palette?: DogPalette }) {
           }}
         >
           <svg width="10" height="10" viewBox="0 0 10 10">
-            <path d="M5 0 L6 4 L10 5 L6 6 L5 10 L4 6 L0 5 L4 4 Z" fill="#FFCC4D" />
+            <path d="M5 0 L6 4 L10 5 L6 6 L5 10 L4 6 L0 5 L4 4 Z" fill="var(--acc-strong)" />
           </svg>
         </span>
       ))}
@@ -767,7 +767,7 @@ function PawBot({ palette }: { palette?: DogPalette }) {
             position: "absolute", bottom: 34, left: "50%",
             marginLeft: dir * 18 - 4,
             width: 8, height: 8, borderRadius: "50%",
-            background: "#EFE6E0",
+            background: "var(--acc-pale)",
             animation: "pbDust 4s ease-out infinite",
             opacity: 0,
           }}
@@ -909,15 +909,15 @@ function PawBot({ palette }: { palette?: DogPalette }) {
 }
 
 function PawBotSVG({ palette }: { palette?: DogPalette }) {
-  const FUR = palette?.fur ?? "#C17D4A";
-  const FUR_DEEP = palette?.furDeep ?? "#A66838";
-  const EAR_INNER = palette?.earInner ?? "#E8A878";
-  const CHEST = palette?.chest ?? "#F5E6C8";
-  const BLUSH = "#F4A8B8";
-  const COLLAR = "#E8678A";
-  const COLLAR_DEEP = "#C84A6E";
-  const OUTLINE = "#2B1810";
-  const IRIS = "#5A3010";
+  const FUR = palette?.fur ?? "var(--acc-strong)";
+  const FUR_DEEP = palette?.furDeep ?? "var(--acc-deep)";
+  const EAR_INNER = palette?.earInner ?? "var(--acc-strong)";
+  const CHEST = palette?.chest ?? "var(--acc-soft)";
+  const BLUSH = "var(--acc2-soft)";
+  const COLLAR = "var(--accent-sakura)";
+  const COLLAR_DEEP = "var(--acc2-strong)";
+  const OUTLINE = "var(--acc-deep)";
+  const IRIS = "var(--acc-deep)";
   return (
     <svg viewBox="0 0 100 100" width="100%" height="100%" style={{ overflow: "visible" }}>
       {/* ===== BODY (small, chubby) ===== */}

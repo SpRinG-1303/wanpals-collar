@@ -20,7 +20,7 @@ function Welcome() {
         {/* Logo */}
         <div className="flex flex-col items-center gap-2">
           <PawLogo size={56} color="var(--accent-sakura)" />
-          <div className="text-[22px] font-extrabold tracking-tight" style={{ color: "#3B2A23" }}>
+          <div className="text-[22px] font-extrabold tracking-tight" style={{ color: "var(--text-primary)" }}>
             Pawsit<span style={{ position: "relative" }}>
               i
               <span
@@ -28,7 +28,7 @@ function Welcome() {
                   position: "absolute",
                   top: -2, left: 2,
                   width: 6, height: 6,
-                  background: "#E8678A",
+                  background: "var(--accent-sakura)",
                   borderRadius: 999,
                 }}
               />
@@ -43,8 +43,8 @@ function Welcome() {
               className="rounded-full flex items-center justify-center"
               style={{
                 width: 200, height: 200,
-                background: "linear-gradient(135deg,#FFF1F4 0%,#FFE3E8 100%)",
-                boxShadow: "0 10px 30px rgba(232,103,138,0.18), inset 0 0 0 3px rgba(255,255,255,0.7)",
+                background: "linear-gradient(135deg,var(--bg-card) 0%,var(--acc2-pale) 100%)",
+                boxShadow: "0 10px 30px color-mix(in oklab, var(--acc-strong) 18.0%, transparent), inset 0 0 0 3px rgba(255,255,255,0.7)",
               }}
             >
               <DogAvatar breed="shiba" size={170} ring={false} />
@@ -53,13 +53,13 @@ function Welcome() {
 
           <h1
             className="text-center mt-8 text-[26px] font-extrabold leading-tight"
-            style={{ color: "#3B2A23" }}
+            style={{ color: "var(--text-primary)" }}
           >
             {t("Pawsitiveへようこそ！", "Welcome to Pawsitive!")}
           </h1>
           <p
             className="text-center mt-3 text-[14px] leading-relaxed max-w-[300px]"
-            style={{ color: "#8A766C" }}
+            style={{ color: "var(--text-secondary)" }}
           >
             {t(
               "ワンちゃんのアバターを作って、スマート健康モニタリングを始めましょう。",
@@ -77,7 +77,7 @@ function Welcome() {
             <Link
               to="/onboarding/dog"
               className="text-[13px] underline"
-              style={{ color: "#A38B82" }}
+              style={{ color: "var(--text-secondary)" }}
             >
               {t("今はスキップ", "Skip for now")}
             </Link>

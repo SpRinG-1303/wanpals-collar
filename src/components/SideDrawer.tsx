@@ -19,18 +19,18 @@ type Item = {
 
 const MAIN_ITEMS: Item[] = [
   { route: "/home", Icon: Home, iconBg: "var(--bg-card-sakura)", iconColor: "var(--accent-sakura)", labelJp: "ホーム", labelEn: "Home", subJp: "ダッシュボード", subEn: "Dashboard" },
-  { route: "/map", Icon: MapPin, iconBg: "#E8F2FF", iconColor: "var(--accent-sora)", labelJp: "地図", labelEn: "Map", subJp: "位置トラッカー", subEn: "Location Tracker" },
-  { route: "/ai", Icon: Bot, iconBg: "#F0ECFF", iconColor: "var(--accent-fuji)", labelJp: "AIアシスタント", labelEn: "AI Assistant", subJp: "AIチャット", subEn: "Pawsitive AI" },
-  { route: "/clinics", Icon: HeartPulse, iconBg: "#D6EEFF", iconColor: "var(--accent-sora)", labelJp: "クリニック", labelEn: "Clinics", subJp: "獣医を探す", subEn: "Find Vets" },
-  { route: "/community", Icon: Users, iconBg: "#FFF3CC", iconColor: "var(--accent-yuzu)", labelJp: "コミュニティ", labelEn: "Community", subJp: "犬の家族", subEn: "Dog Families" },
+  { route: "/map", Icon: MapPin, iconBg: "var(--acc2-pale)", iconColor: "var(--accent-sora)", labelJp: "地図", labelEn: "Map", subJp: "位置トラッカー", subEn: "Location Tracker" },
+  { route: "/ai", Icon: Bot, iconBg: "var(--acc-pale)", iconColor: "var(--accent-fuji)", labelJp: "AIアシスタント", labelEn: "AI Assistant", subJp: "AIチャット", subEn: "Pawsitive AI" },
+  { route: "/clinics", Icon: HeartPulse, iconBg: "var(--acc-pale)", iconColor: "var(--accent-sora)", labelJp: "クリニック", labelEn: "Clinics", subJp: "獣医を探す", subEn: "Find Vets" },
+  { route: "/community", Icon: Users, iconBg: "var(--acc-pale)", iconColor: "var(--accent-yuzu)", labelJp: "コミュニティ", labelEn: "Community", subJp: "犬の家族", subEn: "Dog Families" },
 ];
 
 const SECONDARY_ITEMS: Item[] = [
-  { route: "/report", Icon: FileHeart, iconBg: "#E8F5EE", iconColor: "var(--accent-matcha)", labelJp: "健康レポート", labelEn: "Health Report", subJp: "詳細レポート", subEn: "Detailed Report" },
+  { route: "/report", Icon: FileHeart, iconBg: "var(--acc-pale)", iconColor: "var(--accent-matcha)", labelJp: "健康レポート", labelEn: "Health Report", subJp: "詳細レポート", subEn: "Detailed Report" },
   { route: "/breeds", Icon: BookOpen, iconBg: "var(--accent-sakura-soft)", iconColor: "var(--accent-sakura)", labelJp: "犬種図鑑", labelEn: "Breed Guide", subJp: "犬種百科", subEn: "Encyclopedia" },
 ];
 
-const SETTINGS_ITEM: Item = { route: "/settings", Icon: Settings, iconBg: "#F5F5F5", iconColor: "var(--text-secondary)", labelJp: "設定", labelEn: "Settings", subJp: "設定", subEn: "Preferences" };
+const SETTINGS_ITEM: Item = { route: "/settings", Icon: Settings, iconBg: "var(--bg-elevated)", iconColor: "var(--text-secondary)", labelJp: "設定", labelEn: "Settings", subJp: "設定", subEn: "Preferences" };
 
 function greeting() {
   const h = new Date().getHours();
@@ -203,7 +203,7 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
           <span style={{ position: "absolute", top: 18, right: 60, width: 10, height: 14, borderRadius: "50% 50% 50% 50% / 60% 60% 40% 40%", background: "var(--accent-sakura)", opacity: 0.3, transform: "rotate(20deg)" }} />
           <span style={{ position: "absolute", top: 70, right: 30, width: 8, height: 12, borderRadius: "50%", background: "var(--accent-sakura)", opacity: 0.3, transform: "rotate(-30deg)" }} />
           <span style={{ position: "absolute", top: 120, left: 50, width: 9, height: 13, borderRadius: "50%", background: "var(--accent-sakura)", opacity: 0.3, transform: "rotate(45deg)" }} />
-          <span style={{ position: "absolute", top: -20, right: -20, width: 100, height: 100, borderRadius: "50%", background: "#FFD4E8", opacity: 0.2, filter: "blur(20px)" }} />
+          <span style={{ position: "absolute", top: -20, right: -20, width: 100, height: 100, borderRadius: "50%", background: "var(--acc-pale)", opacity: 0.2, filter: "blur(20px)" }} />
 
           <div className="flex items-center gap-3 relative">
             <div

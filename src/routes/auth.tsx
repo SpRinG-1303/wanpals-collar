@@ -23,15 +23,15 @@ export const Route = createFileRoute("/auth")({
 });
 
 /* Minimal role palettes — pastel purple (owner) / pastel blue (vet), on white */
-const OWNER = { accent: "#A78BDB", dark: "#8B6FC7", soft: "#F4F0FC" };
-const VET = { accent: "#7CA3CF", dark: "#5C86B8", soft: "#EFF4FB" };
+const OWNER = { accent: "var(--acc-strong)", dark: "var(--acc-strong)", soft: "var(--acc-pale)" };
+const VET = { accent: "var(--acc-strong)", dark: "var(--acc-strong)", soft: "var(--acc-pale)" };
 
-const INK = "#2A2730";
-const SUB = "#8B8794";
-const LINE = "#EFEDF4";
+const INK = "var(--acc-deep)";
+const SUB = "var(--text-placeholder)";
+const LINE = "var(--acc-pale)";
 const INPUT_BG = "#FBFAFD";
 const DANGER = "#D9534F";
-const CARD_SHADOW = "0 1px 2px rgba(30,25,45,0.04), 0 8px 24px rgba(30,25,45,0.05)";
+const CARD_SHADOW = "0 1px 2px color-mix(in oklab, var(--acc-deep) 4.0%, transparent), 0 8px 24px color-mix(in oklab, var(--acc-deep) 5.0%, transparent)";
 
 type Step = "role" | "auth" | "profile";
 type Mode = "login" | "signup";
@@ -141,7 +141,7 @@ function AuthPage() {
         style={{
           width: "100%", maxWidth: 430, minHeight: "100dvh",
           background: "var(--bg-page)",
-          boxShadow: "0 0 40px rgba(30,25,45,0.10)",
+          boxShadow: "0 0 40px color-mix(in oklab, var(--acc-deep) 10.0%, transparent)",
           padding: "32px 22px 48px",
           fontFamily: "var(--font-sans)",
           display: "flex", flexDirection: "column",
@@ -247,7 +247,7 @@ function AuthPage() {
                     flex: 1, height: 40, borderRadius: 9, fontSize: 14, fontWeight: 600,
                     background: mode === m ? "#FFFFFF" : "transparent",
                     color: mode === m ? rc.dark : SUB,
-                    boxShadow: mode === m ? "0 1px 4px rgba(30,25,45,0.08)" : "none",
+                    boxShadow: mode === m ? "0 1px 4px color-mix(in oklab, var(--acc-deep) 8.0%, transparent)" : "none",
                     transition: "all 0.18s ease",
                   }}
                 >
@@ -291,7 +291,7 @@ function AuthPage() {
             </Field>
 
             {error && (
-              <div style={{ fontSize: 12.5, fontWeight: 500, color: DANGER, background: "#FBEEED", borderRadius: 10, padding: "10px 12px", marginBottom: 12 }}>
+              <div style={{ fontSize: 12.5, fontWeight: 500, color: DANGER, background: "var(--acc-pale)", borderRadius: 10, padding: "10px 12px", marginBottom: 12 }}>
                 {error}
               </div>
             )}
@@ -359,14 +359,14 @@ function AuthPage() {
             <Label>Vaccination Status</Label>
             <div className="flex flex-wrap" style={{ gap: 8, marginBottom: 16 }}>
               {([["yes", "Up to date"], ["partial", "Partially"], ["unsure", "Not sure"]] as const).map(([k, label]) => (
-                <Chip key={k} active={vax === k} accent="#7FB89E" soft="#EBF5F0" onClick={() => setVax(vax === k ? null : k)}>
+                <Chip key={k} active={vax === k} accent="var(--acc2-strong)" soft="var(--acc2-pale)" onClick={() => setVax(vax === k ? null : k)}>
                   {label}
                 </Chip>
               ))}
             </div>
 
             {error && (
-              <div style={{ fontSize: 12.5, fontWeight: 500, color: DANGER, background: "#FBEEED", borderRadius: 10, padding: "10px 12px", marginBottom: 12 }}>
+              <div style={{ fontSize: 12.5, fontWeight: 500, color: DANGER, background: "var(--acc-pale)", borderRadius: 10, padding: "10px 12px", marginBottom: 12 }}>
                 {error}
               </div>
             )}

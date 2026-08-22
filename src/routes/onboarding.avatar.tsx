@@ -11,11 +11,11 @@ import PhoneFrame from "@/components/PhoneFrame";
 export const Route = createFileRoute("/onboarding/avatar")({ component: Step1 });
 
 const FUR: { c: string; jp: string; en: string }[] = [
-  { c: "#C4813A", jp: "茶色", en: "Brown" },
-  { c: "#F5D5A0", jp: "クリーム", en: "Cream" },
-  { c: "#F5F5F0", jp: "白", en: "White" },
-  { c: "#2C1810", jp: "黒", en: "Black" },
-  { c: "#9A8A80", jp: "グレー", en: "Gray" },
+  { c: "var(--acc-deep)", jp: "茶色", en: "Brown" },
+  { c: "var(--acc-soft)", jp: "クリーム", en: "Cream" },
+  { c: "var(--acc2-pale)", jp: "白", en: "White" },
+  { c: "var(--acc-deep)", jp: "黒", en: "Black" },
+  { c: "var(--acc-strong)", jp: "グレー", en: "Gray" },
   { c: "var(--accent-yuzu)", jp: "ゴールド", en: "Gold" },
 ];
 const COLLAR = ["var(--accent-sakura)", "var(--accent-fuji)", "var(--accent-matcha)", "var(--accent-sora)", "var(--accent-yuzu)", "#E53935"];
@@ -103,7 +103,7 @@ function Step1() {
                 style={{
                   width: 80, height: 110,
                   borderRadius: 18,
-                  background: sel ? "linear-gradient(135deg, var(--accent-sakura-soft), #FFFAFB)" : "#FFFFFF",
+                  background: sel ? "linear-gradient(135deg, var(--accent-sakura-soft), var(--bg-card))" : "#FFFFFF",
                   border: sel ? "2px solid var(--accent-sakura)" : "2px solid transparent",
                   boxShadow: sel ? "0 4px 16px color-mix(in srgb, var(--accent-sakura) calc(0.2 * 100%), transparent)" : "0 2px 8px rgba(0,0,0,0.06)",
                 }}
@@ -199,7 +199,7 @@ function Step1() {
       </div>
 
       {/* Bottom CTA */}
-      <div className="fixed bottom-0 inset-x-0 mx-auto p-4" style={{ maxWidth: 430, background: "linear-gradient(to top, var(--bg-page), rgba(250,250,248,0.9) 70%, transparent)" }}>
+      <div className="fixed bottom-0 inset-x-0 mx-auto p-4" style={{ maxWidth: 430, background: "linear-gradient(to top, var(--bg-page), color-mix(in oklab, var(--acc-soft) 90.0%, transparent) 70%, transparent)" }}>
         <p className="text-center text-[11px] mb-2" style={{ color: "var(--text-placeholder)" }}>
           {t("あとで変更できます", "You can change this later")}
         </p>
@@ -222,8 +222,8 @@ export function TopBar({ to = "/onboarding/welcome" }: { to?: string } = {}) {
         className="flex items-center justify-center"
         style={{
           width: 36, height: 36, borderRadius: 999,
-          background: "var(--accent-sakura-soft)", color: "#E8678A",
-          boxShadow: "0 1px 4px rgba(232,103,138,0.15)",
+          background: "var(--accent-sakura-soft)", color: "var(--accent-sakura)",
+          boxShadow: "0 1px 4px color-mix(in oklab, var(--acc-strong) 15.0%, transparent)",
         }}
         aria-label="Back"
       >
@@ -248,7 +248,7 @@ export function Stepper({ current, path }: { current: 1 | 2 | 3 | 4; path?: "A" 
         {[1, 2, 3, 4].map((n, i) => {
           const completed = n < current;
           const active = n === current;
-          const bg = completed ? "#F4A3B8" : active ? "#E8678A" : "var(--border-card)";
+          const bg = completed ? "var(--acc2-soft)" : active ? "var(--accent-sakura)" : "var(--border-card)";
           const color = completed || active ? "#FFFFFF" : "var(--text-placeholder)";
           return (
             <div key={n} className="flex items-center">
@@ -258,7 +258,7 @@ export function Stepper({ current, path }: { current: 1 | 2 | 3 | 4; path?: "A" 
                   background: bg,
                   color,
                   border: "none",
-                  boxShadow: active ? "0 0 0 4px rgba(232,103,138,0.18)" : "none",
+                  boxShadow: active ? "0 0 0 4px color-mix(in oklab, var(--acc-strong) 18.0%, transparent)" : "none",
                 }}
               >
                 {completed ? <Check className="w-4 h-4" strokeWidth={3} /> : n}
@@ -267,7 +267,7 @@ export function Stepper({ current, path }: { current: 1 | 2 | 3 | 4; path?: "A" 
                 <div
                   className="w-7 h-[2px]"
                   style={{
-                    background: n < current ? "#F4A3B8" : "var(--border-card)",
+                    background: n < current ? "var(--acc2-soft)" : "var(--border-card)",
                   }}
                 />
               )}

@@ -59,34 +59,34 @@ function MapScreen() {
       </div>
 
       {/* MAP CARD */}
-      <div style={{ margin: "12px 16px", borderRadius: 24, overflow: "hidden", height: 320, position: "relative", boxShadow: "0 8px 32px rgba(0,0,0,0.1)", background: "#E8EEF4" }}>
+      <div style={{ margin: "12px 16px", borderRadius: 24, overflow: "hidden", height: 320, position: "relative", boxShadow: "0 8px 32px rgba(0,0,0,0.1)", background: "var(--acc-pale)" }}>
         {/* Base watercolor map */}
         <div className="absolute inset-0" style={{
           background: `
-            linear-gradient(135deg, rgba(200,220,234,0.6) 0%, transparent 30%),
-            linear-gradient(135deg, transparent 60%, rgba(200,220,234,0.5) 60%, rgba(200,220,234,0.5) 68%, transparent 68%),
+            linear-gradient(135deg, color-mix(in oklab, var(--acc-soft) 60.0%, transparent) 0%, transparent 30%),
+            linear-gradient(135deg, transparent 60%, color-mix(in oklab, var(--acc-soft) 50.0%, transparent) 60%, color-mix(in oklab, var(--acc-soft) 50.0%, transparent) 68%, transparent 68%),
             repeating-linear-gradient(90deg, transparent 0 58px, rgba(255,255,255,0.85) 58px 60px, transparent 60px 140px, rgba(255,255,255,0.9) 140px 144px),
             repeating-linear-gradient(0deg, transparent 0 50px, rgba(255,255,255,0.8) 50px 52px, transparent 52px 110px, rgba(255,255,255,0.9) 110px 114px),
             repeating-linear-gradient(45deg, transparent 0 100px, rgba(255,255,255,0.4) 100px 102px),
-            #E8EEF4
+            var(--acc-pale)
           `,
         }} />
         {/* City blocks */}
-        <div className="absolute" style={{ left: 20, top: 30, width: 60, height: 40, background: "#EEF3F8", borderRadius: 3 }} />
-        <div className="absolute" style={{ left: 90, top: 25, width: 80, height: 50, background: "#E8EDF2", borderRadius: 3 }} />
-        <div className="absolute" style={{ left: 200, top: 40, width: 70, height: 60, background: "#EEF3F8", borderRadius: 3 }} />
-        <div className="absolute" style={{ left: 30, top: 120, width: 90, height: 50, background: "#E8EDF2", borderRadius: 3 }} />
-        <div className="absolute" style={{ left: 180, top: 180, width: 100, height: 60, background: "#EEF3F8", borderRadius: 3 }} />
-        <div className="absolute" style={{ left: 50, top: 240, width: 70, height: 50, background: "#E8EDF2", borderRadius: 3 }} />
+        <div className="absolute" style={{ left: 20, top: 30, width: 60, height: 40, background: "var(--acc-pale)", borderRadius: 3 }} />
+        <div className="absolute" style={{ left: 90, top: 25, width: 80, height: 50, background: "var(--acc-pale)", borderRadius: 3 }} />
+        <div className="absolute" style={{ left: 200, top: 40, width: 70, height: 60, background: "var(--acc-pale)", borderRadius: 3 }} />
+        <div className="absolute" style={{ left: 30, top: 120, width: 90, height: 50, background: "var(--acc-pale)", borderRadius: 3 }} />
+        <div className="absolute" style={{ left: 180, top: 180, width: 100, height: 60, background: "var(--acc-pale)", borderRadius: 3 }} />
+        <div className="absolute" style={{ left: 50, top: 240, width: 70, height: 50, background: "var(--acc-pale)", borderRadius: 3 }} />
         {/* Parks */}
-        <div className="absolute" style={{ left: 140, top: 90, width: 50, height: 50, background: "#D4E8D4", borderRadius: 12 }} />
-        <div className="absolute" style={{ right: 30, top: 130, width: 60, height: 40, background: "#D4E8D4", borderRadius: 12 }} />
-        <div className="absolute" style={{ left: 25, bottom: 30, width: 45, height: 45, background: "#D4E8D4", borderRadius: 14 }} />
+        <div className="absolute" style={{ left: 140, top: 90, width: 50, height: 50, background: "var(--acc2-soft)", borderRadius: 12 }} />
+        <div className="absolute" style={{ right: 30, top: 130, width: 60, height: 40, background: "var(--acc2-soft)", borderRadius: 12 }} />
+        <div className="absolute" style={{ left: 25, bottom: 30, width: 45, height: 45, background: "var(--acc2-soft)", borderRadius: 14 }} />
         {/* Map labels */}
-        <span className="absolute" style={{ left: 30, top: 80, fontSize: 9, color: "#8A9AAA", opacity: 0.4 }}>Linking Road</span>
-        <span className="absolute" style={{ left: 150, top: 110, fontSize: 9, color: "#8A9AAA", opacity: 0.4 }}>Joggers Park</span>
-        <span className="absolute" style={{ right: 40, top: 200, fontSize: 9, color: "#8A9AAA", opacity: 0.4 }}>Bandra Stn</span>
-        <span className="absolute" style={{ left: 200, bottom: 60, fontSize: 9, color: "#8A9AAA", opacity: 0.4 }}>Carter Road</span>
+        <span className="absolute" style={{ left: 30, top: 80, fontSize: 9, color: "var(--acc-strong)", opacity: 0.4 }}>Linking Road</span>
+        <span className="absolute" style={{ left: 150, top: 110, fontSize: 9, color: "var(--acc-strong)", opacity: 0.4 }}>Joggers Park</span>
+        <span className="absolute" style={{ right: 40, top: 200, fontSize: 9, color: "var(--acc-strong)", opacity: 0.4 }}>Bandra Stn</span>
+        <span className="absolute" style={{ left: 200, bottom: 60, fontSize: 9, color: "var(--acc-strong)", opacity: 0.4 }}>Carter Road</span>
 
         {/* Collar GPS badge top-left */}
         <div className="absolute" style={{ top: 12, left: 12, background: "#FFFFFF", padding: "5px 10px", borderRadius: 12, fontSize: 11, color: "var(--accent-matcha)", fontWeight: 700, boxShadow: "0 2px 8px rgba(0,0,0,0.08)" }}>
@@ -124,7 +124,7 @@ function MapScreen() {
             left: "50%", top: "50%", width: 180, height: 180,
             transform: "translate(-50%,-50%)",
             borderRadius: "50%",
-            background: "rgba(107,175,146,0.06)",
+            background: "color-mix(in oklab, var(--acc-strong) 6.0%, transparent)",
           }}>
             <div className="absolute inset-0 safe-rotate" style={{
               borderRadius: "50%",
@@ -143,11 +143,11 @@ function MapScreen() {
 
         {/* Owner marker */}
         <div className="absolute" style={{ left: "33%", top: "66%", transform: "translate(-50%,-50%)" }}>
-          <div className="absolute" style={{ left: "50%", top: "50%", transform: "translate(-50%,-50%)", width: 40, height: 40, borderRadius: "50%", background: "rgba(91,155,213,0.15)", border: "1px dashed rgba(91,155,213,0.4)" }} />
-          <div className="relative flex items-center justify-center" style={{ width: 16, height: 16, borderRadius: "50%", background: "var(--accent-sora)", border: "3px solid white", boxShadow: "0 2px 8px rgba(91,155,213,0.4)" }}>
+          <div className="absolute" style={{ left: "50%", top: "50%", transform: "translate(-50%,-50%)", width: 40, height: 40, borderRadius: "50%", background: "color-mix(in oklab, var(--acc-strong) 15.0%, transparent)", border: "1px dashed color-mix(in oklab, var(--acc-strong) 40.0%, transparent)" }} />
+          <div className="relative flex items-center justify-center" style={{ width: 16, height: 16, borderRadius: "50%", background: "var(--accent-sora)", border: "3px solid white", boxShadow: "0 2px 8px color-mix(in oklab, var(--acc-strong) 40.0%, transparent)" }}>
             <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#fff" }} />
           </div>
-          <div className="absolute" style={{ left: "50%", top: -22, transform: "translateX(-50%)", background: "#E8F2FF", border: "1px solid var(--accent-sora)", color: "var(--accent-sora)", fontSize: 10, fontWeight: 700, padding: "2px 8px", borderRadius: 20, whiteSpace: "nowrap" }}>
+          <div className="absolute" style={{ left: "50%", top: -22, transform: "translateX(-50%)", background: "var(--acc2-pale)", border: "1px solid var(--accent-sora)", color: "var(--accent-sora)", fontSize: 10, fontWeight: 700, padding: "2px 8px", borderRadius: 20, whiteSpace: "nowrap" }}>
             {t("あなた", "You")}
           </div>
           <div className="absolute" style={{ left: "50%", top: 18, transform: "translateX(-50%)", fontSize: 9, color: "var(--text-secondary)", whiteSpace: "nowrap" }}>
@@ -168,14 +168,14 @@ function MapScreen() {
           {/* Pin tip */}
           <div className="absolute" style={{ left: "50%", top: 20, transform: "translateX(-50%)", width: 0, height: 0, borderLeft: "4px solid transparent", borderRight: "4px solid transparent", borderTop: "6px solid var(--accent-sakura-dark)" }} />
           {/* Name tag */}
-          <div className="absolute" style={{ left: "50%", top: -26, transform: "translateX(-50%)", background: "#FFFFFF", border: "1px solid #FFD0DC", color: "var(--accent-sakura)", fontSize: 11, fontWeight: 700, padding: "3px 8px", borderRadius: 20, whiteSpace: "nowrap", boxShadow: "0 2px 8px rgba(0,0,0,0.1)" }}>
+          <div className="absolute" style={{ left: "50%", top: -26, transform: "translateX(-50%)", background: "#FFFFFF", border: "1px solid var(--acc-pale)", color: "var(--accent-sakura)", fontSize: 11, fontWeight: 700, padding: "3px 8px", borderRadius: 20, whiteSpace: "nowrap", boxShadow: "0 2px 8px rgba(0,0,0,0.1)" }}>
             {dogName} 
           </div>
         </div>
 
         {/* Attribution */}
         <div className="absolute" style={{ bottom: 4, right: 8, fontSize: 8, color: "var(--text-secondary)" }}>
-          © OpenStreetMap / 地図データ
+          © OpenStreetMap contributors
         </div>
       </div>
 
@@ -189,7 +189,7 @@ function MapScreen() {
               <div className="min-w-0">
                 <div style={{ fontSize: 17, fontWeight: 700, color: "var(--text-primary)" }}>{dogName}</div>
                 <div style={{ fontSize: 12, color: "var(--text-secondary)", marginTop: 1 }}>
-                  {t("東京都渋谷区神南1-2-3", "1-2-3 Jinnan, Shibuya, Tokyo")}
+                  {"Linking Road, Bandra West, Mumbai"}
                 </div>
                 <div className="flex items-center gap-1.5 mt-1">
                   <span style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--accent-matcha)" }} />
@@ -197,20 +197,20 @@ function MapScreen() {
                 </div>
               </div>
             </div>
-            <span style={{ background: "var(--accent-sakura-soft)", border: "1px solid #FFD0DC", color: "var(--accent-sakura)", fontSize: 13, fontWeight: 700, padding: "4px 12px", borderRadius: 20 }}>0.3km</span>
+            <span style={{ background: "var(--accent-sakura-soft)", border: "1px solid var(--acc-pale)", color: "var(--accent-sakura)", fontSize: 13, fontWeight: 700, padding: "4px 12px", borderRadius: 20 }}>0.3km</span>
           </div>
 
           <div className="flex items-center gap-2 mt-3" style={{ fontSize: 11, color: "var(--text-secondary)" }}>
             <span> {t("移動中", "Moving")}</span>
             <span>·</span>
-            <span> {t("渋谷区", "Shibuya")}</span>
+            <span> {"Bandra West"}</span>
             <span>·</span>
             <span> {t("たった今", "Just now")}</span>
             <span>·</span>
             <span> {t("4分", "4 min")}</span>
           </div>
 
-          <button onClick={openDirections} className="w-full flex items-center justify-center gap-2 mt-3" style={{ height: 48, borderRadius: 14, background: "linear-gradient(135deg, var(--accent-sora), #4A8AC4)", color: "#fff", fontWeight: 700, fontSize: 14, boxShadow: "0 6px 16px rgba(91,155,213,0.3)" }}>
+          <button onClick={openDirections} className="w-full flex items-center justify-center gap-2 mt-3" style={{ height: 48, borderRadius: 14, background: "linear-gradient(135deg, var(--accent-sora), var(--acc-strong))", color: "#fff", fontWeight: 700, fontSize: 14, boxShadow: "0 6px 16px color-mix(in oklab, var(--acc-strong) 30.0%, transparent)" }}>
             <Navigation size={16} />
             {t("道案内", "Get Directions")}
           </button>
@@ -219,7 +219,7 @@ function MapScreen() {
 
       {/* SAFE ZONE CARD */}
       <div style={{ margin: "0 16px 12px", background: "#FFFFFF", borderRadius: 20, boxShadow: "0 4px 16px rgba(0,0,0,0.07)", borderLeft: "4px solid var(--accent-matcha)", overflow: "hidden" }}>
-        <div style={{ height: 6, background: "linear-gradient(90deg, #E8F5EE, #F2FAF5)" }} />
+        <div style={{ height: 6, background: "linear-gradient(90deg, var(--acc-pale), var(--acc2-pale))" }} />
         <div style={{ padding: 14 }}>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -237,7 +237,7 @@ function MapScreen() {
                 {([100,200,500,1000] as const).map(r => (
                   <button key={r} onClick={() => setRadius(r)} style={{
                     padding: "5px 12px", borderRadius: 20, fontSize: 11, fontWeight: 600,
-                    background: radius === r ? "var(--accent-matcha)" : "#F5F5F5",
+                    background: radius === r ? "var(--accent-matcha)" : "var(--bg-elevated)",
                     color: radius === r ? "#fff" : "var(--text-secondary)",
                   }}>{r < 1000 ? `${r}m` : "1km"}</button>
                 ))}
@@ -250,7 +250,7 @@ function MapScreen() {
       {/* LOST MODE CARD */}
       <div style={{
         margin: "0 16px 12px",
-        background: lost ? "linear-gradient(135deg, #FFF0F0, #FFE8E8)" : "#FFFFFF",
+        background: lost ? "linear-gradient(135deg, var(--acc-pale), var(--acc-pale))" : "#FFFFFF",
         borderRadius: 20,
         boxShadow: "0 4px 16px rgba(0,0,0,0.07)",
         border: lost ? "2px solid #E53935" : "none",
@@ -291,15 +291,15 @@ function MapScreen() {
             <History size={18} style={{ color: "var(--accent-fuji)" }} />
             <span style={{ fontSize: 14, fontWeight: 700, color: "var(--text-primary)" }}>{t("移動履歴", "Location History")}</span>
           </div>
-          <span style={{ fontSize: 11, fontWeight: 600, color: "var(--accent-fuji)", background: "#F0ECFF", padding: "3px 10px", borderRadius: 20 }}>{t("今日", "Today")}</span>
+          <span style={{ fontSize: 11, fontWeight: 600, color: "var(--accent-fuji)", background: "var(--acc-pale)", padding: "3px 10px", borderRadius: 20 }}>{t("今日", "Today")}</span>
         </div>
 
         {[
           { time: "14:30", jp: "代々木公園", en: "Yoyogi Park", dist: "+1.2km", color: "var(--accent-yuzu)" },
-          { time: "12:15", jp: "渋谷駅周辺", en: "Near Shibuya Stn", dist: "+0.5km", color: "var(--accent-sora)" },
+          { time: "12:15", jp: "", en: "Near Bandra Stn", dist: "+0.5km", color: "var(--accent-sora)" },
           { time: "09:00", jp: "自宅", en: "Home", dist: t("出発地", "Start"), color: "var(--accent-matcha)" },
         ].map((h, i) => (
-          <div key={i} className="flex items-center gap-3" style={{ padding: "8px 0", borderTop: i === 0 ? "none" : "1px solid #F5F0EC" }}>
+          <div key={i} className="flex items-center gap-3" style={{ padding: "8px 0", borderTop: i === 0 ? "none" : "1px solid var(--bg-elevated)" }}>
             <span style={{ width: 8, height: 8, borderRadius: "50%", background: h.color, flexShrink: 0 }} />
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2">
@@ -317,16 +317,16 @@ function MapScreen() {
       </div>
 
       {/* NEARBY CLINIC */}
-      <button onClick={() => navigate({ to: "/clinics" })} className="w-full flex items-center gap-3" style={{ margin: "0 16px 24px", width: "calc(100% - 32px)", background: "linear-gradient(135deg, #EEF5FF, #E8F2FF)", border: "1px solid #C8E0F8", borderRadius: 20, padding: 14, textAlign: "left" }}>
+      <button onClick={() => navigate({ to: "/clinics" })} className="w-full flex items-center gap-3" style={{ margin: "0 16px 24px", width: "calc(100% - 32px)", background: "linear-gradient(135deg, var(--acc2-pale), var(--acc2-pale))", border: "1px solid var(--acc2-soft)", borderRadius: 20, padding: 14, textAlign: "left" }}>
         <div className="flex items-center justify-center" style={{ width: 40, height: 40, borderRadius: "50%", background: "#FFFFFF" }}>
           <Stethoscope size={20} style={{ color: "var(--accent-sora)" }} />
         </div>
         <div className="flex-1 min-w-0">
-          <div style={{ fontSize: 14, fontWeight: 700, color: "#1A3C5E" }}>
+          <div style={{ fontSize: 14, fontWeight: 700, color: "var(--acc-deep)" }}>
             {t("最寄りの動物病院", "Nearest Animal Hospital")}
           </div>
           <div style={{ fontSize: 12, color: "var(--accent-sora)", marginTop: 2 }}>
-             {t("渋谷動物病院", "Shibuya Animal Hosp.")} · 0.8km · 4.6 · 24H
+             {"Bandra Pet Hosp."} · 0.8km · 4.6 · 24H
           </div>
         </div>
         <div className="flex items-center justify-center" style={{ width: 36, height: 36, borderRadius: "50%", background: "var(--accent-sora)", color: "#fff", flexShrink: 0 }}>

@@ -5,15 +5,15 @@ export type EarStyle = "upright" | "floppy" | "round";
 export type EyeStyle = "round" | "happy" | "sparkle" | "soft";
 
 export const BREED_DEFAULTS: Record<BreedKey, { fur: string; ear: EarStyle }> = {
-  shiba: { fur: "#C4813A", ear: "upright" },
-  poodle: { fur: "#F5D5A0", ear: "floppy" },
-  chihuahua: { fur: "#D4A87A", ear: "round" },
-  pomeranian: { fur: "#F2C878", ear: "round" },
+  shiba: { fur: "var(--acc-deep)", ear: "upright" },
+  poodle: { fur: "var(--acc-soft)", ear: "floppy" },
+  chihuahua: { fur: "var(--acc-strong)", ear: "round" },
+  pomeranian: { fur: "var(--acc-strong)", ear: "round" },
   golden: { fur: "var(--accent-yuzu)", ear: "floppy" },
-  dachshund: { fur: "#7A4A2A", ear: "floppy" },
-  frenchie: { fur: "#9A8A80", ear: "round" },
-  yorkie: { fur: "#5A4030", ear: "floppy" },
-  mixed: { fur: "#C4813A", ear: "upright" },
+  dachshund: { fur: "var(--acc-deep)", ear: "floppy" },
+  frenchie: { fur: "var(--acc-strong)", ear: "round" },
+  yorkie: { fur: "var(--acc-deep)", ear: "floppy" },
+  mixed: { fur: "var(--acc-deep)", ear: "upright" },
 };
 
 export const BREED_KEY_BY_JP: Record<string, BreedKey> = {
@@ -59,11 +59,11 @@ export default function DogAvatar({
 }: Props) {
   const fur = furColor ?? BREED_DEFAULTS[breed].fur;
   const ear = earStyle ?? BREED_DEFAULTS[breed].ear;
-  const innerEar = "#E8A8A0";
+  const innerEar = "var(--acc-soft)";
   const noseDark = "var(--text-primary)";
-  const mouthBrown = "#8B5C2A";
+  const mouthBrown = "var(--acc-deep)";
   const isDark = isDarkColor(fur);
-  const eyeColor = isDark ? "#1A1A1A" : "var(--text-primary)";
+  const eyeColor = isDark ? "var(--text-primary)" : "var(--text-primary)";
 
   const wrapRef = useRef<HTMLDivElement>(null);
   const prevBreed = useRef(breed);
@@ -107,7 +107,7 @@ export default function DogAvatar({
         height: size,
         borderRadius: "50%",
         background: "#FFFFFF",
-        border: ring ? "3px solid #FFD4E8" : "none",
+        border: ring ? "3px solid var(--acc-pale)" : "none",
         boxShadow: ring ? "0 8px 32px color-mix(in srgb, var(--accent-sakura) calc(0.25 * 100%), transparent)" : "none",
         overflow: "hidden",
         cursor: onTap ? "pointer" : "default",
@@ -117,7 +117,7 @@ export default function DogAvatar({
       <svg viewBox="0 0 100 100" width="100%" height="100%" style={{ display: "block" }}>
         <defs>
           <radialGradient id={`bg-${size}`} cx="50%" cy="40%" r="60%">
-            <stop offset="0%" stopColor="#FFFAFB" />
+            <stop offset="0%" stopColor="#FFFFFF" />
             <stop offset="100%" stopColor="var(--accent-sakura-soft)" />
           </radialGradient>
         </defs>
@@ -174,7 +174,7 @@ export default function DogAvatar({
 
         {/* Shiba cream patch */}
         {breed === "shiba" && (
-          <ellipse cx="50" cy="74" rx="22" ry="11" fill="#F5E6D0" />
+          <ellipse cx="50" cy="74" rx="22" ry="11" fill="var(--acc-soft)" />
         )}
         {/* Golden lighter muzzle */}
         {(breed === "golden" || breed === "poodle") && (
@@ -190,8 +190,8 @@ export default function DogAvatar({
         )}
 
         {/* Eyebrows */}
-        <path d="M33 44 Q38 41 43 44" stroke="#8B5C2A" strokeWidth="1.2" fill="none" strokeLinecap="round" opacity="0.5" />
-        <path d="M57 44 Q62 41 67 44" stroke="#8B5C2A" strokeWidth="1.2" fill="none" strokeLinecap="round" opacity="0.5" />
+        <path d="M33 44 Q38 41 43 44" stroke="var(--acc-deep)" strokeWidth="1.2" fill="none" strokeLinecap="round" opacity="0.5" />
+        <path d="M57 44 Q62 41 67 44" stroke="var(--acc-deep)" strokeWidth="1.2" fill="none" strokeLinecap="round" opacity="0.5" />
 
         {/* Eyes */}
         {eyeStyle === "happy" ? (

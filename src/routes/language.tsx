@@ -22,7 +22,7 @@ function LanguagePicker() {
           <div
             className="w-full h-16 rounded-2xl flex items-center justify-between px-5"
             style={{
-              background: "#FFFAFB",
+              background: "var(--bg-card)",
               border: "2px solid var(--accent-sakura)",
               borderLeft: "4px solid var(--accent-sakura)",
               boxShadow: "0 2px 12px rgba(0,0,0,0.06)",
@@ -69,15 +69,15 @@ export function HeroIllustration({ compact = false }: { compact?: boolean }) {
       className="relative w-full overflow-hidden"
       style={{
         height: H,
-        background: "linear-gradient(160deg, var(--accent-sakura-soft) 0%, #F5F0FF 50%, #F0F5FF 100%)",
+        background: "linear-gradient(160deg, var(--accent-sakura-soft) 0%, var(--acc-pale) 50%, #F0F5FF 100%)",
       }}
     >
       <div
         className="absolute -top-16 -right-16 rounded-full"
-        style={{ width: 200, height: 200, background: "#FFD4E8", opacity: 0.5, filter: "blur(40px)" }}
+        style={{ width: 200, height: 200, background: "var(--acc-pale)", opacity: 0.5, filter: "blur(40px)" }}
       />
       <svg className="absolute top-3 left-3" width="90" height="60" viewBox="0 0 90 60" style={{ opacity: 0.25 }}>
-        <path d="M2 8 Q 30 18, 60 12 T 88 22" stroke="#9A6B6B" strokeWidth="1.2" fill="none" />
+        <path d="M2 8 Q 30 18, 60 12 T 88 22" stroke="var(--acc-deep)" strokeWidth="1.2" fill="none" />
         <circle cx="20" cy="14" r="4" fill="var(--accent-sakura)" />
         <circle cx="38" cy="16" r="3" fill="var(--accent-sakura)" />
         <circle cx="55" cy="12" r="3.5" fill="var(--accent-sakura)" />
@@ -85,9 +85,9 @@ export function HeroIllustration({ compact = false }: { compact?: boolean }) {
       </svg>
       {[
         { l: "20%", t: "30%", s: 8, c: "var(--accent-sakura)", d: 0 },
-        { l: "70%", t: "20%", s: 10, c: "#FFD4DC", d: 1 },
+        { l: "70%", t: "20%", s: 10, c: "var(--acc2-pale)", d: 1 },
         { l: "85%", t: "55%", s: 6, c: "var(--accent-sakura)", d: 2 },
-        { l: "15%", t: "65%", s: 9, c: "#FFD4DC", d: 3 },
+        { l: "15%", t: "65%", s: 9, c: "var(--acc2-pale)", d: 3 },
         { l: "55%", t: "75%", s: 7, c: "var(--accent-sakura)", d: 1.5 },
       ].map((p, i) => (
         <div
