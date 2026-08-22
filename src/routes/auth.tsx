@@ -135,7 +135,6 @@ function AuthPage() {
         style={{
           width: "100%", maxWidth: 430, minHeight: "100dvh",
           background: "var(--bg-page)",
-          background: "var(--bg-page)",
           padding: "32px 22px 48px",
           fontFamily: "var(--font-sans)",
           display: "flex", flexDirection: "column",
