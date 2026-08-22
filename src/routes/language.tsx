@@ -7,7 +7,7 @@ export const Route = createFileRoute("/language")({ component: LanguagePicker })
 
 function LanguagePicker() {
   const nav = useNavigate();
-  const choose = () => nav({ to: "/auth" });
+  const choose = () => nav({ to: "/home" });
 
   return (
     <PhoneFrame>
