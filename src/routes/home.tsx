@@ -293,6 +293,35 @@ function Home() {
           <JCard style={{ padding: 20, textAlign: "center" }}>
             <div style={{ fontSize: 13, color: JP.usuzumi }}>No sensors match “{query}”.</div>
           </JCard>
+        ) : viewMode === "list" ? (
+          <JCard style={{ padding: 6 }}>
+            {filtered.map((s, i) => {
+              const Icon = s.Icon;
+              return (
+                <Link
+                  key={s.en}
+                  to={s.to}
+                  className="flex items-center"
+                  style={{
+                    gap: 12, padding: "12px 10px",
+                    borderTop: i === 0 ? "none" : "1px solid var(--border-subtle)",
+                  }}
+                >
+                  <div
+                    className="flex items-center justify-center"
+                    style={{ width: 44, height: 44, borderRadius: "50%", background: s.iconBg, flexShrink: 0 }}
+                  >
+                    <Icon size={20} strokeWidth={1.8} style={{ color: s.accent }} />
+                  </div>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ fontSize: 14, fontWeight: 700, color: JP.sumi }}>{s.en}</div>
+                    <div style={{ fontSize: 11, color: JP.usuzumi, marginTop: 1 }}>{s.subEn}</div>
+                  </div>
+                  <span style={{ fontSize: 12, fontWeight: 700, color: s.accent, flexShrink: 0 }}>{s.valEn}</span>
+                </Link>
+              );
+            })}
+          </JCard>
         ) : (
           <div
             style={{
