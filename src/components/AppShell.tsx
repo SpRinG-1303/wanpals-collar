@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "@tanstack/react-router";
+import { Link, useLocation, useNavigate } from "@tanstack/react-router";
 import { Bell, ArrowLeft, AlertTriangle, Heart, Syringe } from "lucide-react";
 import { toast } from "sonner";
 import pawLogoAsset from "@/assets/paw-logo.png.asset.json";
@@ -7,6 +7,15 @@ import { useState, useEffect, type ReactNode } from "react";
 import { T, useT } from "@/context/LanguageContext";
 import SideDrawer, { HamburgerButton } from "@/components/SideDrawer";
 import BottomNav from "@/components/BottomNav";
+import { useAuth } from "@/context/AuthContext";
+
+/* Pet-owner routes that veterinarians must never see — vets only get the
+   clinical console (/home), body map, e-Rx and their profile. */
+const VET_BLOCKED_PREFIXES = [
+  "/map", "/clinics", "/community", "/ai", "/breeds", "/report",
+  "/bark-sense", "/skin-sense", "/motion-sense", "/temp-sense",
+  "/pressure-sense", "/light-sense", "/avatar-setup", "/onboarding",
+];
 
 export function TopBar({
   titleJp,
@@ -180,6 +189,17 @@ export default function AppShell({
   renderTopBar?: (ctx: { menuOpen: boolean; onMenuClick: () => void }) => ReactNode;
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const { session } = useAuth();
+  const loc = useLocation();
+  const navigate = useNavigate();
+
+  // Vet role guard — bounce vets away from pet-owner features
+  const vetBlocked =
+    session?.role === "vet" &&
+    VET_BLOCKED_PREFIXES.some((p) => loc.pathname === p || loc.pathname.startsWith(p + "/"));
+  useEffect(() => {
+    if (vetBlocked) navigate({ to: "/home", replace: true });
+  }, [vetBlocked, navigate]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -270,7 +290,7 @@ export default function AppShell({
                 }
           }
         >
-          {children}
+          {vetBlocked ? null : children}
         </main>
         <SideDrawer isOpen={menuOpen} onClose={() => setMenuOpen(false)} />
         {!hideBottomNav && <BottomNav />}

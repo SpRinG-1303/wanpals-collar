@@ -1,6 +1,7 @@
 import { useLocation, useNavigate } from "@tanstack/react-router";
-import { Home, MapPin, HeartPulse, Users, User, type LucideIcon } from "lucide-react";
+import { Home, MapPin, HeartPulse, Users, User, ScanSearch, Pill, type LucideIcon } from "lucide-react";
 import { useState } from "react";
+import { useAuth } from "@/context/AuthContext";
 
 type Tab = {
   Icon: LucideIcon;
@@ -8,11 +9,19 @@ type Tab = {
   route: string;
 };
 
-const TABS: Tab[] = [
+const OWNER_TABS: Tab[] = [
   { Icon: Home, label: "Home", route: "/home" },
   { Icon: MapPin, label: "Map", route: "/map" },
   { Icon: HeartPulse, label: "Clinics", route: "/clinics" },
   { Icon: Users, label: "Community", route: "/community" },
+  { Icon: User, label: "Profile", route: "/settings" },
+];
+
+/* Vets only get the clinical console features — nothing else */
+const VET_TABS: Tab[] = [
+  { Icon: Home, label: "Console", route: "/home" },
+  { Icon: ScanSearch, label: "Body Map", route: "/vet-consult" },
+  { Icon: Pill, label: "e-Rx", route: "/vet-rx" },
   { Icon: User, label: "Profile", route: "/settings" },
 ];
 
@@ -22,7 +31,9 @@ const INACTIVE = "var(--text-placeholder)";
 export default function BottomNav() {
   const loc = useLocation();
   const navigate = useNavigate();
+  const { session } = useAuth();
   const [bouncing, setBouncing] = useState<string | null>(null);
+  const TABS = session?.role === "vet" ? VET_TABS : OWNER_TABS;
 
   const isActive = (route: string) =>
     loc.pathname === route || loc.pathname.startsWith(route + "/");
