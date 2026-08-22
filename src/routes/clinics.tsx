@@ -63,9 +63,9 @@ function Stars({ rating }: { rating: number }) {
   return (
     <div className="flex items-center" style={{ gap: 1 }}>
       {[1, 2, 3, 4, 5].map((i) => (
-        <Star
+          <Star
           key={i}
-          size={12}
+          size={11}
           style={{ color: i <= Math.round(rating) ? "var(--accent-yuzu)" : "var(--border-card)" }}
           fill={i <= Math.round(rating) ? "var(--accent-yuzu)" : "var(--border-card)"}
         />
@@ -427,7 +427,7 @@ function Clinics() {
 
                 {/* Hours */}
                 <div className="flex items-center gap-1" style={{ marginTop: 8, fontSize: 11, color: "var(--text-secondary)" }}>
-                  <Clock size={11} />
+                  <Clock size={10} />
                   {t("月-金 9:00-18:00", "Mon–Fri 9–6pm")}
                 </div>
 
@@ -437,24 +437,24 @@ function Clinics() {
                     onClick={() => setDirFor(c)}
                     className="flex items-center justify-center gap-1.5"
                     style={{
-                      flex: "1 1 auto", height: 46, borderRadius: 14,
+                      flex: "1 1 auto", height: 42, borderRadius: 13,
                       background: "linear-gradient(135deg, var(--accent-sakura), var(--accent-sakura-dark))",
-                      color: "#fff", fontSize: 14, fontWeight: 700,
+                      color: "#fff", fontSize: 13, fontWeight: 700,
                       boxShadow: "0 6px 16px color-mix(in oklab, var(--accent-sakura) 35%, transparent)",
                     }}
                   >
-                    <Navigation size={15} /> {t("道案内", "Get Directions")}
+                    <Navigation size={13} /> {t("道案内", "Get Directions")}
                   </button>
                   <a
-                    href="tel:+81000000000"
+                    href="tel:+919820001234"
                     className="flex items-center justify-center gap-1.5"
                     style={{
-                      flex: "0 0 96px", height: 46, borderRadius: 14,
+                      flex: "0 0 92px", height: 42, borderRadius: 13,
                       background: "#FFFFFF", border: "1.5px solid var(--accent-sakura)",
-                      color: "var(--accent-sakura)", fontSize: 14, fontWeight: 700,
+                      color: "var(--accent-sakura)", fontSize: 13, fontWeight: 700,
                     }}
                   >
-                    <Phone size={15} /> {t("電話", "Call")}
+                    <Phone size={13} /> {t("電話", "Call")}
                   </a>
                 </div>
               </div>
