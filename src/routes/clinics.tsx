@@ -21,7 +21,7 @@ import {
   X,
 } from "lucide-react";
 import { useMemo, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
 import { useT, useLanguage } from "@/context/LanguageContext";
 
@@ -102,6 +102,7 @@ function Clinics() {
   const [applied, setApplied] = useState({ minStars: 0, distance: 50, openOnly: false, emOnly: false });
   const [visible, setVisible] = useState(3);
   const [videoBooking, setVideoBooking] = useState(false);
+  const [dirFor, setDirFor] = useState<(typeof CLINICS)[number] | null>(null);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -433,7 +434,7 @@ function Clinics() {
                 {/* Actions — big solid CTA + outlined secondary */}
                 <div className="flex gap-2" style={{ marginTop: 14 }}>
                   <button
-                    onClick={() => openMaps(c.en)}
+                    onClick={() => setDirFor(c)}
                     className="flex items-center justify-center gap-1.5"
                     style={{
                       flex: "1 1 auto", height: 46, borderRadius: 14,
