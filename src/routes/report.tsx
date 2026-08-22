@@ -1,4 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { toast } from "sonner";
 import AppShell, { TopBar } from "@/components/AppShell";
 import {
   AreaChart, Area, BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Tooltip,
@@ -540,6 +541,7 @@ function VaccineRow({ jp, en, date, status, isLast }: {
 /* ─────────── Last Visit Card ─────────── */
 function LastVisitCard() {
   const t = useT();
+  const nav = useNavigate();
   return (
     <div style={{
       ...glass,
