@@ -537,30 +537,30 @@ function Clinics() {
                   {t("月-金 9:00-18:00", "Mon–Fri 9–6pm")}
                 </div>
 
-                {/* Actions */}
-                <div className="flex gap-2" style={{ marginTop: 12 }}>
+                {/* Actions — big solid CTA + outlined secondary */}
+                <div className="flex gap-2" style={{ marginTop: 14 }}>
                   <button
                     onClick={() => openMaps(c.en)}
                     className="flex items-center justify-center gap-1.5"
                     style={{
-                      flex: "0 0 60%", height: 40, borderRadius: 12,
+                      flex: "1 1 auto", height: 46, borderRadius: 14,
                       background: "linear-gradient(135deg, var(--accent-sakura), var(--accent-sakura-dark))",
-                      color: "#fff", fontSize: 13, fontWeight: 700,
-                      boxShadow: "0 4px 12px color-mix(in oklab, var(--accent-sakura) 35%, transparent)",
+                      color: "#fff", fontSize: 14, fontWeight: 700,
+                      boxShadow: "0 6px 16px color-mix(in oklab, var(--accent-sakura) 35%, transparent)",
                     }}
                   >
-                    <Navigation size={14} /> {t("道案内", "Directions")}
+                    <Navigation size={15} /> {t("道案内", "Get Directions")}
                   </button>
                   <a
                     href="tel:+81000000000"
-                    className="flex items-center justify-center gap-1.5 flex-1"
+                    className="flex items-center justify-center gap-1.5"
                     style={{
-                      height: 40, borderRadius: 12,
-                      background: "var(--accent-sakura-soft)", border: "1px solid var(--acc-pale)",
-                      color: "var(--accent-sakura)", fontSize: 13, fontWeight: 700,
+                      flex: "0 0 96px", height: 46, borderRadius: 14,
+                      background: "#FFFFFF", border: "1.5px solid var(--accent-sakura)",
+                      color: "var(--accent-sakura)", fontSize: 14, fontWeight: 700,
                     }}
                   >
-                    <Phone size={14} /> {t("電話", "Call")}
+                    <Phone size={15} /> {t("電話", "Call")}
                   </a>
                 </div>
               </div>
