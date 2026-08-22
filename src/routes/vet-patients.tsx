@@ -143,17 +143,17 @@ function VetPatients() {
                   {p.breed} · {p.gender === "female" ? "Female" : "Male"} · {p.age}{p.weightKg > 0 ? ` · ${p.weightKg} kg` : ""}
                 </span>
               </span>
-              <span className="hidden md:block" style={{ width: 190, flexShrink: 0 }}>
+              <span className="hidden" style={{ width: 190, flexShrink: 0 }}>
                 <span style={{ display: "block", fontSize: 12.5, fontWeight: 600, color: E.ink }}>{p.owner}</span>
                 <span className="flex items-center" style={{ gap: 4, fontSize: 11.5, color: E.sub, marginTop: 2 }}>
                   <Phone size={11} /> {p.ownerPhone}
                 </span>
               </span>
-              <span className="hidden lg:block" style={{ width: 170, flexShrink: 0 }}>
+              <span className="hidden" style={{ width: 170, flexShrink: 0 }}>
                 <span style={{ display: "block", fontSize: 12, color: E.sub }}>ID {p.patientCode}</span>
                 <span style={{ display: "block", fontSize: 11, color: E.faint, marginTop: 2 }}>Chip {p.microchip}</span>
               </span>
-              <span className="hidden sm:block" style={{ width: 110, flexShrink: 0 }}>
+              <span className="hidden" style={{ width: 110, flexShrink: 0 }}>
                 <span style={{ display: "block", fontSize: 10.5, fontWeight: 600, color: E.faint, letterSpacing: "0.04em", textTransform: "uppercase" }}>Last visit</span>
                 <span style={{ display: "block", fontSize: 12.5, fontWeight: 600, color: E.ink, marginTop: 2 }}>{p.lastVisit}</span>
               </span>
