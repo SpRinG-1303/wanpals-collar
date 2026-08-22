@@ -56,9 +56,9 @@ function nowTime() {
 
 const QUICK: { jp: string; en: string; icon: typeof Heart; color: string; bg: string; intent: Intent; pulse?: boolean }[] = [
   { jp: "健康確認", en: "Health Check", icon: Heart, color: "var(--accent-sakura)", bg: "var(--accent-sakura-soft)", intent: "healthCheck" },
-  { jp: "ワクチン", en: "Vaccines", icon: Syringe, color: "var(--accent-matcha)", bg: "#E8F5EE", intent: "vaccines" },
-  { jp: "近くの獣医", en: "Find Vet", icon: MapPin, color: "var(--accent-sora)", bg: "#E8F2FF", intent: "findVet" },
-  { jp: "緊急", en: "Emergency", icon: AlertTriangle, color: "#E53935", bg: "#FFF0F0", intent: "emergency", pulse: true },
+  { jp: "ワクチン", en: "Vaccines", icon: Syringe, color: "var(--accent-matcha)", bg: "var(--acc-pale)", intent: "vaccines" },
+  { jp: "近くの獣医", en: "Find Vet", icon: MapPin, color: "var(--accent-sora)", bg: "var(--acc2-pale)", intent: "findVet" },
+  { jp: "緊急", en: "Emergency", icon: AlertTriangle, color: "#E53935", bg: "var(--acc-pale)", intent: "emergency", pulse: true },
 ];
 
 const SUGGESTIONS = [
@@ -308,9 +308,9 @@ function AI() {
                 width: 40,
                 height: 40,
                 borderRadius: "50%",
-                background: "linear-gradient(135deg, #F0ECFF, #E8E0FF)",
-                border: "2px solid #C8C0F0",
-                boxShadow: "0 4px 10px rgba(123,104,200,0.2)",
+                background: "linear-gradient(135deg, var(--acc-pale), var(--acc-pale))",
+                border: "2px solid var(--acc2-soft)",
+                boxShadow: "0 4px 10px color-mix(in oklab, var(--acc-strong) 20.0%, transparent)",
               }}
             >
               <DogAvatar breed="shiba" size={36} ring={false} showCollar={false} eyeStyle="sparkle" />
@@ -400,8 +400,8 @@ function AI() {
                         width: 28,
                         height: 28,
                         borderRadius: "50%",
-                        background: "linear-gradient(135deg, #F0ECFF, #E8E0FF)",
-                        border: "1.5px solid #C8C0F0",
+                        background: "linear-gradient(135deg, var(--acc-pale), var(--acc-pale))",
+                        border: "1.5px solid var(--acc2-soft)",
                       }}
                     >
                       <DogAvatar breed="shiba" size={26} ring={false} showCollar={false} />
@@ -479,8 +479,8 @@ function AI() {
                   width: 28,
                   height: 28,
                   borderRadius: "50%",
-                  background: "linear-gradient(135deg, #F0ECFF, #E8E0FF)",
-                  border: "1.5px solid #C8C0F0",
+                  background: "linear-gradient(135deg, var(--acc-pale), var(--acc-pale))",
+                  border: "1.5px solid var(--acc2-soft)",
                 }}
               >
                 <DogAvatar breed="shiba" size={26} ring={false} showCollar={false} />
@@ -562,14 +562,14 @@ function AI() {
           <div className="flex items-center gap-2">
             <button
               className="shrink-0 flex items-center justify-center"
-              style={{ width: 40, height: 40, borderRadius: "50%", background: "#F5F0FF", boxShadow: "0 2px 8px rgba(123,104,200,0.15)" }}
+              style={{ width: 40, height: 40, borderRadius: "50%", background: "var(--acc-pale)", boxShadow: "0 2px 8px color-mix(in oklab, var(--acc-strong) 15.0%, transparent)" }}
               aria-label="Camera"
             >
               <Camera size={18} color="var(--accent-fuji)" />
             </button>
             <button
               className="shrink-0 flex items-center justify-center"
-              style={{ width: 40, height: 40, borderRadius: "50%", background: "#E8F5EE", boxShadow: "0 2px 8px rgba(107,175,146,0.15)" }}
+              style={{ width: 40, height: 40, borderRadius: "50%", background: "var(--acc-pale)", boxShadow: "0 2px 8px color-mix(in oklab, var(--acc-strong) 15.0%, transparent)" }}
               aria-label="Mic"
             >
               <Mic size={18} color="var(--accent-matcha)" />
@@ -590,7 +590,7 @@ function AI() {
                 padding: "0 16px",
                 fontSize: 14,
                 color: "var(--text-primary)",
-                boxShadow: focused ? "0 0 0 3px rgba(123,104,200,0.1)" : "none",
+                boxShadow: focused ? "0 0 0 3px color-mix(in oklab, var(--acc-strong) 10.0%, transparent)" : "none",
                 transition: "all 0.2s",
               }}
               placeholder={t("メッセージを入力...", "Type a message...")}
@@ -603,9 +603,9 @@ function AI() {
                 width: 44,
                 height: 44,
                 borderRadius: "50%",
-                background: input.trim() ? "linear-gradient(135deg, var(--accent-fuji), #9B88D8)" : "var(--text-placeholder)",
+                background: input.trim() ? "linear-gradient(135deg, var(--accent-fuji), var(--acc-strong))" : "var(--text-placeholder)",
                 color: "#FFFFFF",
-                boxShadow: input.trim() ? "0 4px 12px rgba(123,104,200,0.3)" : "none",
+                boxShadow: input.trim() ? "0 4px 12px color-mix(in oklab, var(--acc-strong) 30.0%, transparent)" : "none",
               }}
               aria-label="Send"
             >
@@ -637,8 +637,8 @@ function AI() {
         }
         .overdue-pulse { animation: overduePulse 1.6s infinite; }
         @keyframes overduePulse {
-          0%, 100% { background: #FFF0F0; }
-          50% { background: #FFE0E0; }
+          0%, 100% { background: var(--acc-pale); }
+          50% { background: var(--acc-pale); }
         }
         .scrollbar-hide::-webkit-scrollbar { display: none; }
         .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
@@ -700,7 +700,7 @@ function EmergencyConfirmCard({
     <div
       className="w-full em-glow"
       style={{
-        background: "linear-gradient(135deg, #FFF0F0, #FFE8E8)",
+        background: "linear-gradient(135deg, var(--acc-pale), var(--acc-pale))",
         border: "2px solid #E53935",
         borderLeft: "4px solid #E53935",
         borderRadius: 20,
@@ -740,7 +740,7 @@ function EmergencyConfirmCard({
           style={{
             flex: 1,
             height: 44,
-            background: "#F5F5F5",
+            background: "var(--bg-elevated)",
             color: "var(--text-secondary)",
             borderRadius: 12,
             fontSize: 14,
@@ -780,15 +780,15 @@ function EmergencyActionCard({ t }: { t: (jp: string, en: string) => string }) {
       </div>
       <div
         style={{
-          background: "#FFF8F8",
+          background: "var(--bg-page)",
           borderRadius: 12,
           padding: 10,
           marginBottom: 10,
-          border: "1px solid #FFE0E0",
+          border: "1px solid var(--acc-pale)",
         }}
       >
         <div style={{ fontSize: 14, fontWeight: 700, color: "var(--text-primary)" }}>{t(c.jp, c.en)}</div>
-        <div className="flex items-center gap-2 mt-1" style={{ fontSize: 11, color: "#6A6A6A" }}>
+        <div className="flex items-center gap-2 mt-1" style={{ fontSize: 11, color: "var(--text-secondary)" }}>
           <span className="flex items-center gap-0.5">
             <Star size={10} fill="var(--accent-yuzu)" color="var(--accent-yuzu)" />
             {c.rating}
@@ -825,7 +825,7 @@ function EmergencyActionCard({ t }: { t: (jp: string, en: string) => string }) {
           style={{
             flex: 1,
             height: 44,
-            background: "#FFF0F0",
+            background: "var(--acc-pale)",
             color: "#E53935",
             border: "1.5px solid #E53935",
             borderRadius: 12,
@@ -846,8 +846,8 @@ function FindVetCard({ t, onAll }: { t: (jp: string, en: string) => string; onAl
     <div
       className="w-full"
       style={{
-        background: "linear-gradient(135deg, #EEF5FF, #E8F2FF)",
-        border: "1.5px solid #C8E0F8",
+        background: "linear-gradient(135deg, var(--acc2-pale), var(--acc2-pale))",
+        border: "1.5px solid var(--acc2-soft)",
         borderLeft: "4px solid var(--accent-sora)",
         borderRadius: 20,
         padding: 14,
@@ -859,7 +859,7 @@ function FindVetCard({ t, onAll }: { t: (jp: string, en: string) => string; onAl
           {t("近くのクリニック", "NEARBY CLINICS")}
         </span>
       </div>
-      <div style={{ fontSize: 11, color: "#6A6A6A", marginBottom: 10 }}>
+      <div style={{ fontSize: 11, color: "var(--text-secondary)", marginBottom: 10 }}>
         {t("あなたの近くに 24 件のクリニックがあります", "24 clinics found near you")}
       </div>
       <div className="space-y-1.5 mb-3">
@@ -876,7 +876,7 @@ function FindVetCard({ t, onAll }: { t: (jp: string, en: string) => string; onAl
                 background: "#FFFFFF",
                 borderRadius: 10,
                 padding: "8px 10px",
-                border: "1px solid #E0EEF8",
+                border: "1px solid var(--acc-pale)",
               }}
             >
               <Star size={11} fill="var(--accent-yuzu)" color="var(--accent-yuzu)" />
@@ -892,12 +892,12 @@ function FindVetCard({ t, onAll }: { t: (jp: string, en: string) => string; onAl
         className="w-full flex items-center justify-center gap-1.5 active:scale-[0.98] transition-transform"
         style={{
           height: 44,
-          background: "linear-gradient(135deg, var(--accent-sora), #4A8AC4)",
+          background: "linear-gradient(135deg, var(--accent-sora), var(--acc-strong))",
           color: "#FFFFFF",
           borderRadius: 12,
           fontSize: 13,
           fontWeight: 700,
-          boxShadow: "0 4px 12px rgba(91,155,213,0.3)",
+          boxShadow: "0 4px 12px color-mix(in oklab, var(--acc-strong) 30.0%, transparent)",
         }}
       >
         <MapPin size={14} />
@@ -921,13 +921,13 @@ function VaccinesCard({
       className="w-full"
       style={{
         background: "#FFFFFF",
-        border: "1.5px solid #B8D4C0",
+        border: "1.5px solid var(--acc2-soft)",
         borderLeft: "4px solid var(--accent-matcha)",
         borderRadius: 20,
         overflow: "hidden",
       }}
     >
-      <div style={{ height: 6, background: "linear-gradient(90deg, #E8F5EE, #F2FAF5)" }} />
+      <div style={{ height: 6, background: "linear-gradient(90deg, var(--acc-pale), var(--acc2-pale))" }} />
       <div className="p-3.5">
         <div className="flex items-center gap-2 mb-2">
           <Syringe size={16} color="var(--accent-matcha)" strokeWidth={2.5} />
@@ -945,8 +945,8 @@ function VaccinesCard({
                 style={{
                   borderRadius: 10,
                   padding: "8px 10px",
-                  background: overdue ? "#FFF0F0" : "#F4FAF6",
-                  border: `1px solid ${overdue ? "#FFD0D0" : "#D8E8DC"}`,
+                  background: overdue ? "var(--acc-pale)" : "#F4FAF6",
+                  border: `1px solid ${overdue ? "var(--acc-pale)" : "var(--acc2-soft)"}`,
                 }}
               >
                 <div className="flex items-center justify-between gap-2">
@@ -985,7 +985,7 @@ function VaccinesCard({
               borderRadius: 12,
               fontSize: 12,
               fontWeight: 700,
-              boxShadow: "0 4px 10px rgba(107,175,146,0.3)",
+              boxShadow: "0 4px 10px color-mix(in oklab, var(--acc-strong) 30.0%, transparent)",
             }}
           >
             <Calendar size={13} />
@@ -997,7 +997,7 @@ function VaccinesCard({
             style={{
               flex: 1,
               height: 42,
-              background: "#F0F9F4",
+              background: "var(--acc2-pale)",
               color: "var(--accent-matcha)",
               border: "1px solid var(--accent-matcha)",
               borderRadius: 12,
@@ -1026,8 +1026,8 @@ function FollowupChips({
   onAsk: () => void;
 }) {
   const chips = [
-    { jp: " 詳細レポート", en: " Full Report", color: "var(--accent-fuji)", bg: "#F0ECFF", onClick: onReport },
-    { jp: " クリニック", en: " Find Clinic", color: "var(--accent-sora)", bg: "#E8F2FF", onClick: onClinic },
+    { jp: " 詳細レポート", en: " Full Report", color: "var(--accent-fuji)", bg: "var(--acc-pale)", onClick: onReport },
+    { jp: " クリニック", en: " Find Clinic", color: "var(--accent-sora)", bg: "var(--acc2-pale)", onClick: onClinic },
     { jp: " 質問する", en: " Ask Question", color: "var(--accent-sakura)", bg: "var(--accent-sakura-soft)", onClick: onAsk },
   ];
   return (
@@ -1056,10 +1056,10 @@ function FollowupChips({
 
 function HealthCard({ t }: { t: (jp: string, en: string) => string }) {
   const metrics = [
-    { jp: "体温", en: "Temp", value: "38.5°C", pct: 80, color: "#D4714E", bg: "#FFF0EC", Icon: Thermometer },
-    { jp: "運動", en: "Activity", value: "2,340歩", pct: 90, color: "var(--accent-sora)", bg: "#E8F2FF", Icon: Activity },
-    { jp: "睡眠", en: "Sleep", value: "7.5h", pct: 75, color: "var(--accent-fuji)", bg: "#F0ECFF", Icon: Moon },
-    { jp: "食事", en: "Diet", value: t("良好", "Good"), pct: 85, color: "var(--accent-yuzu)", bg: "#FFF8DC", Icon: UtensilsCrossed },
+    { jp: "体温", en: "Temp", value: "38.5°C", pct: 80, color: "var(--acc-strong)", bg: "var(--acc-pale)", Icon: Thermometer },
+    { jp: "運動", en: "Activity", value: "2,340歩", pct: 90, color: "var(--accent-sora)", bg: "var(--acc2-pale)", Icon: Activity },
+    { jp: "睡眠", en: "Sleep", value: "7.5h", pct: 75, color: "var(--accent-fuji)", bg: "var(--acc-pale)", Icon: Moon },
+    { jp: "食事", en: "Diet", value: t("良好", "Good"), pct: 85, color: "var(--accent-yuzu)", bg: "var(--acc-pale)", Icon: UtensilsCrossed },
   ];
 
   const points = [22, 18, 20, 14, 16, 10, 8];
@@ -1086,8 +1086,8 @@ function HealthCard({ t }: { t: (jp: string, en: string) => string }) {
         </div>
         <span
           style={{
-            background: "#E8F5EE",
-            border: "1px solid #B8D4C0",
+            background: "var(--acc-pale)",
+            border: "1px solid var(--acc2-soft)",
             color: "var(--accent-matcha)",
             fontSize: 11,
             fontWeight: 700,
@@ -1113,7 +1113,7 @@ function HealthCard({ t }: { t: (jp: string, en: string) => string }) {
           <circle cx="60" cy="8" r="2.5" fill="var(--accent-matcha)" />
         </svg>
       </div>
-      <div style={{ height: 1, background: "#F5F0EC" }} />
+      <div style={{ height: 1, background: "var(--bg-elevated)" }} />
       <div className="grid grid-cols-2 gap-2 p-3">
         {metrics.map((m, i) => {
           const Icon = m.Icon;
@@ -1132,7 +1132,7 @@ function HealthCard({ t }: { t: (jp: string, en: string) => string }) {
             >
               <div className="flex items-center gap-1.5">
                 <Icon size={14} color={m.color} strokeWidth={2.5} />
-                <span style={{ fontSize: 10, color: "#6A6A6A", fontWeight: 600 }}>{t(m.jp, m.en)}</span>
+                <span style={{ fontSize: 10, color: "var(--text-secondary)", fontWeight: 600 }}>{t(m.jp, m.en)}</span>
               </div>
               <div>
                 <div style={{ fontSize: 14, fontWeight: 700, color: "var(--text-primary)" }}>{m.value}</div>
@@ -1151,7 +1151,7 @@ function HealthCard({ t }: { t: (jp: string, en: string) => string }) {
         to="/report"
         className="flex items-center justify-center gap-1.5 w-full transition-opacity active:opacity-90"
         style={{
-          background: "linear-gradient(135deg, var(--accent-fuji), #9B88D8)",
+          background: "linear-gradient(135deg, var(--accent-fuji), var(--acc-strong))",
           color: "#FFFFFF",
           height: 40,
           fontSize: 13,

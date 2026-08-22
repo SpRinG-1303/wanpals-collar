@@ -49,16 +49,16 @@
   --bg-card: #FFFFFF;
   --bg-card-sakura: #F1EBFB;
   --bg-card-lavender: #EDE8F9;
-  --bg-card-mint: #E6F3EC;
-  --bg-card-yellow: #FBF4DF;
-  --bg-card-blue: #E7F0FA;
-  --bg-card-peach: #FAEEDF;
+  --bg-card-mint: #F0EAFB;
+  --bg-card-yellow: #F4EFFB;
+  --bg-card-blue: #ECE7FA;
+  --bg-card-peach: #F2EDFB;
   --bg-surface: #FFFFFF;
   --bg-elevated: #FCFBFE;
   --bg-topbar: #FCFBFE;
   --bg-bottomnav: #FFFFFF;
   --bg-drawer: #FFFFFF;
-  --bg-drawer-hero: linear-gradient(160deg, #F4F0FC 0%, #FCFBFE 60%, #F0F4FB 100%);
+  --bg-drawer-hero: linear-gradient(160deg, #F4F0FC 0%, #FCFBFE 60%, #EFEAFB 100%);
   --text-primary: #2A2730;
   --text-secondary: #8B8794;
   --text-placeholder: #C6C1CE;
@@ -69,11 +69,21 @@
   --accent-sakura: #A78BDB;
   --accent-sakura-dark: #8B6FC7;
   --accent-sakura-soft: #F4F0FC;
-  --accent-matcha: #7FB89E;
+  --accent-matcha: #8B6FC7;
   --accent-fuji: #8B6FC7;
-  --accent-yuzu: #C9A85C;
-  --accent-sora: #7CA3CF;
+  --accent-yuzu: #B79CE8;
+  --accent-sora: #9A82D8;
   --accent-red: #D9534F;
+  /* Accent family A — violet */
+  --acc-deep: #5F43A8;
+  --acc-strong: #8B6FC7;
+  --acc-soft: #C9B6EC;
+  --acc-pale: #F3EEFC;
+  /* Accent family B — lighter mauve */
+  --acc2-deep: #7A5FB8;
+  --acc2-strong: #A78BDB;
+  --acc2-soft: #DDD1F4;
+  --acc2-pale: #F8F5FE;
 
   --background: oklch(0.987 0.004 300);
   --foreground: oklch(0.28 0.015 300);
@@ -110,10 +120,10 @@
   --bg-outside: #E3E9F3;
   --bg-card-sakura: #E8F0F9;
   --bg-card-lavender: #E5EDF8;
-  --bg-card-mint: #E6F3EC;
-  --bg-card-yellow: #FBF4DF;
+  --bg-card-mint: #E7EFF8;
+  --bg-card-yellow: #EBF1FA;
   --bg-card-blue: #E4EDF8;
-  --bg-card-peach: #FAEEDF;
+  --bg-card-peach: #ECF2FA;
   --bg-topbar: #F9FBFD;
   --bg-bottomnav: #FFFFFF;
   --bg-drawer: #FFFFFF;
@@ -128,8 +138,20 @@
   --accent-sakura: #7CA3CF;
   --accent-sakura-dark: #5C86B8;
   --accent-sakura-soft: #EFF4FB;
+  --accent-matcha: #5C86B8;
   --accent-fuji: #4E6E9E;
+  --accent-yuzu: #8FB4DC;
   --accent-sora: #7CA3CF;
+  /* Accent family A — steel blue */
+  --acc-deep: #2E5A8A;
+  --acc-strong: #4A7AAF;
+  --acc-soft: #A8C8E8;
+  --acc-pale: #E9F1F9;
+  /* Accent family B — lighter blue */
+  --acc2-deep: #3E6B97;
+  --acc2-strong: #7CA3CF;
+  --acc2-soft: #C2D8EE;
+  --acc2-pale: #F2F7FC;
 
   --background: oklch(0.985 0.004 245);
   --foreground: oklch(0.27 0.02 255);
@@ -180,6 +202,14 @@
   --shadow-nav: 0 -4px 20px rgba(0,0,0,0.4);
   --accent-fuji: #9B88D8;
   --accent-sora: #7AB4DC;
+  --acc-deep: #CBB9F0;
+  --acc-strong: #A78BDB;
+  --acc-soft: #6E5A9E;
+  --acc-pale: #2A2140;
+  --acc2-deep: #B7A5E4;
+  --acc2-strong: #9B88D8;
+  --acc2-soft: #5D4E86;
+  --acc2-pale: #251D38;
 
   /* shadcn tokens mapped to the warm dark palette */
   --background: oklch(0.18 0.025 340);

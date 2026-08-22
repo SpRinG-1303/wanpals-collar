@@ -58,10 +58,10 @@ export function extractDogColors(imageUrl: string): Promise<DogPalette> {
         if (buckets.size === 0) {
           // Fallback to defaults if nothing usable
           return resolve({
-            fur: "#C17D4A",
-            furDeep: "#A66838",
-            earInner: "#E8A878",
-            chest: "#F5E6C8",
+            fur: "var(--acc-strong)",
+            furDeep: "var(--acc-deep)",
+            earInner: "var(--acc-strong)",
+            chest: "var(--acc-soft)",
           });
         }
 

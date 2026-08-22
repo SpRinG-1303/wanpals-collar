@@ -39,11 +39,11 @@ type Theme = {
 };
 
 const FLAIR_THEMES: Record<string, Theme> = {
-  健康: { key: "健康", jp: "健康", en: "Health", accent: "var(--accent-matcha)", soft: "#E8F5EE", ring: "#C8E5D7", gradFrom: "var(--accent-matcha)", gradTo: "#A8D4BE", emoji: "" },
-  "獣医Q&A": { key: "獣医Q&A", jp: "獣医Q&A", en: "Vet Q&A", accent: "var(--accent-sora)", soft: "#E8F2FF", ring: "#C8E0F8", gradFrom: "var(--accent-sora)", gradTo: "#8BBDE8", emoji: "" },
-  迷子: { key: "迷子", jp: "迷子", en: "Lost", accent: "var(--accent-yuzu)", soft: "#FFF8DC", ring: "#F0E4A0", gradFrom: "var(--accent-yuzu)", gradTo: "#E8C470", emoji: "" },
-  日常: { key: "日常", jp: "日常", en: "Daily", accent: "var(--accent-sakura)", soft: "var(--accent-sakura-soft)", ring: "#FFD0DC", gradFrom: "var(--accent-sakura)", gradTo: "#F0A8B8", emoji: "" },
-  しつけ: { key: "しつけ", jp: "しつけ", en: "Training", accent: "var(--accent-fuji)", soft: "#F0ECFF", ring: "#DDD4F8", gradFrom: "var(--accent-fuji)", gradTo: "#9B88D8", emoji: "" },
+  健康: { key: "健康", jp: "健康", en: "Health", accent: "var(--accent-matcha)", soft: "var(--acc-pale)", ring: "var(--acc2-soft)", gradFrom: "var(--accent-matcha)", gradTo: "var(--acc2-soft)", emoji: "" },
+  "獣医Q&A": { key: "獣医Q&A", jp: "獣医Q&A", en: "Vet Q&A", accent: "var(--accent-sora)", soft: "var(--acc2-pale)", ring: "var(--acc2-soft)", gradFrom: "var(--accent-sora)", gradTo: "var(--acc-strong)", emoji: "" },
+  迷子: { key: "迷子", jp: "迷子", en: "Lost", accent: "var(--accent-yuzu)", soft: "var(--acc-pale)", ring: "var(--acc-soft)", gradFrom: "var(--accent-yuzu)", gradTo: "var(--acc-strong)", emoji: "" },
+  日常: { key: "日常", jp: "日常", en: "Daily", accent: "var(--accent-sakura)", soft: "var(--accent-sakura-soft)", ring: "var(--acc-pale)", gradFrom: "var(--accent-sakura)", gradTo: "var(--acc2-soft)", emoji: "" },
+  しつけ: { key: "しつけ", jp: "しつけ", en: "Training", accent: "var(--accent-fuji)", soft: "var(--acc-pale)", ring: "var(--acc-pale)", gradFrom: "var(--accent-fuji)", gradTo: "var(--acc-strong)", emoji: "" },
 };
 
 function themeFor(flair: string): Theme {
@@ -55,10 +55,10 @@ type Cat = { jp: string; en: string; emoji: string; accent: string; soft: string
 const CATS: Cat[] = [
   { jp: "すべて", en: "All", emoji: "", accent: "#FFFFFF", soft: "linear-gradient(135deg,var(--accent-sakura),var(--accent-sakura-dark))", gradFrom: "var(--accent-sakura)", gradTo: "var(--accent-sakura-dark)" },
   { jp: "Indie Club", en: "Indie Club", emoji: "", accent: "var(--accent-sakura)", soft: "var(--accent-sakura-soft)" },
-  { jp: "Labrador Club", en: "Labrador Club", emoji: "", accent: "var(--accent-fuji)", soft: "#F5F0FF" },
-  { jp: "迷子情報", en: "Lost Pets", emoji: "", accent: "var(--accent-yuzu)", soft: "#FFF3CC" },
-  { jp: "獣医Q&A", en: "Vet Q&A", emoji: "", accent: "var(--accent-matcha)", soft: "#E8F5EE" },
-  { jp: "Mumbai", en: "Mumbai", emoji: "", accent: "var(--accent-sora)", soft: "#E8F2FF" },
+  { jp: "Labrador Club", en: "Labrador Club", emoji: "", accent: "var(--accent-fuji)", soft: "var(--acc-pale)" },
+  { jp: "迷子情報", en: "Lost Pets", emoji: "", accent: "var(--accent-yuzu)", soft: "var(--acc-pale)" },
+  { jp: "獣医Q&A", en: "Vet Q&A", emoji: "", accent: "var(--accent-matcha)", soft: "var(--acc-pale)" },
+  { jp: "Mumbai", en: "Mumbai", emoji: "", accent: "var(--accent-sora)", soft: "var(--acc2-pale)" },
   { jp: "Delhi", en: "Delhi", emoji: "", accent: "var(--accent-sakura)", soft: "var(--accent-sakura-soft)" },
 ];
 
@@ -79,19 +79,19 @@ function matchesCat(p: PostT, idx: number): boolean {
 // ── Username → avatar colour ──────────────────────────────────
 function avatarPalette(name: string) {
   const c = (name?.trim()?.[0] ?? "A").toUpperCase().charCodeAt(0);
-  if (c >= 65 && c <= 68) return { bg: "var(--bg-card-sakura)", fg: "#C45478" };
-  if (c >= 69 && c <= 72) return { bg: "var(--bg-card-lavender)", fg: "#6B57B8" };
-  if (c >= 73 && c <= 76) return { bg: "#D6EEFF", fg: "#3F7BB8" };
-  if (c >= 77 && c <= 80) return { bg: "#FFF3CC", fg: "#A88128" };
-  if (c >= 81 && c <= 84) return { bg: "#D4F0E8", fg: "#3F8C72" };
-  if (c >= 85 && c <= 90) return { bg: "#FFE8D6", fg: "#B8784A" };
+  if (c >= 65 && c <= 68) return { bg: "var(--bg-card-sakura)", fg: "var(--acc2-strong)" };
+  if (c >= 69 && c <= 72) return { bg: "var(--bg-card-lavender)", fg: "var(--acc-strong)" };
+  if (c >= 73 && c <= 76) return { bg: "var(--acc-pale)", fg: "var(--acc-deep)" };
+  if (c >= 77 && c <= 80) return { bg: "var(--acc-pale)", fg: "var(--acc-deep)" };
+  if (c >= 81 && c <= 84) return { bg: "var(--acc2-soft)", fg: "var(--acc2-deep)" };
+  if (c >= 85 && c <= 90) return { bg: "var(--acc-pale)", fg: "var(--acc-deep)" };
   const palettes = [
-    { bg: "var(--bg-card-sakura)", fg: "#C45478" },
-    { bg: "var(--bg-card-lavender)", fg: "#6B57B8" },
-    { bg: "#D6EEFF", fg: "#3F7BB8" },
-    { bg: "#FFF3CC", fg: "#A88128" },
-    { bg: "#D4F0E8", fg: "#3F8C72" },
-    { bg: "#FFE8D6", fg: "#B8784A" },
+    { bg: "var(--bg-card-sakura)", fg: "var(--acc2-strong)" },
+    { bg: "var(--bg-card-lavender)", fg: "var(--acc-strong)" },
+    { bg: "var(--acc-pale)", fg: "var(--acc-deep)" },
+    { bg: "var(--acc-pale)", fg: "var(--acc-deep)" },
+    { bg: "var(--acc2-soft)", fg: "var(--acc2-deep)" },
+    { bg: "var(--acc-pale)", fg: "var(--acc-deep)" },
   ];
   return palettes[c % palettes.length];
 }
@@ -212,7 +212,7 @@ function Community() {
     setComposeOpen(false);
     toast(t("投稿しました！", "Post published!"), {
       duration: 2500,
-      style: { background: "#1A1A2E", color: "#fff", border: "none" },
+      style: { background: "var(--text-primary)", color: "#fff", border: "none" },
     });
   }
 
@@ -230,16 +230,16 @@ function Community() {
           className="relative overflow-hidden"
           style={{
             height: 120,
-            background: "linear-gradient(135deg,var(--accent-sakura-soft) 0%,#F5F0FF 50%,#EEF5FF 100%)",
+            background: "linear-gradient(135deg,var(--accent-sakura-soft) 0%,var(--acc-pale) 50%,var(--acc2-pale) 100%)",
             borderRadius: "0 0 28px 28px",
           }}
         >
           <div style={{ position: "absolute", right: -20, top: -10, width: 120, height: 120, borderRadius: "50%", background: "var(--bg-card-sakura)", opacity: 0.35, filter: "blur(20px)" }} />
           <svg width="64" height="56" viewBox="0 0 64 56" style={{ position: "absolute", right: 24, top: 22, opacity: 0.35 }}>
-            <rect x="4" y="12" width="56" height="6" rx="2" fill="#FFD4E8" />
-            <rect x="2" y="6" width="60" height="5" rx="2" fill="#FFD4E8" />
-            <rect x="12" y="18" width="6" height="34" rx="2" fill="#FFD4E8" />
-            <rect x="46" y="18" width="6" height="34" rx="2" fill="#FFD4E8" />
+            <rect x="4" y="12" width="56" height="6" rx="2" fill="var(--acc-pale)" />
+            <rect x="2" y="6" width="60" height="5" rx="2" fill="var(--acc-pale)" />
+            <rect x="12" y="18" width="6" height="34" rx="2" fill="var(--acc-pale)" />
+            <rect x="46" y="18" width="6" height="34" rx="2" fill="var(--acc-pale)" />
           </svg>
           {[
             { l: 60, t: 40, d: 0 },
@@ -422,7 +422,7 @@ function Community() {
           >
             {filtered.length === 0 && (
               <div style={{ padding: "48px 16px", textAlign: "center" }}>
-                <PawPrint size={32} style={{ color: "#D6CFCB", margin: "0 auto" }} />
+                <PawPrint size={32} style={{ color: "var(--acc-soft)", margin: "0 auto" }} />
                 <div style={{ fontSize: 13, color: "var(--text-secondary)", marginTop: 10 }}>
                   {t("まだ投稿がありません", "No posts yet")}
                 </div>
@@ -568,7 +568,7 @@ function Community() {
 
                   {/* Action bar */}
                   <div style={{ padding: "0 16px 14px" }}>
-                    <div style={{ height: 1, background: "#F5F0EC", marginBottom: 12 }} />
+                    <div style={{ height: 1, background: "var(--bg-elevated)", marginBottom: 12 }} />
                     <div className="flex items-center gap-2">
                       <motion.button
                         whileTap={{ scale: 1.08 }}
@@ -576,7 +576,7 @@ function Community() {
                         className="relative flex items-center gap-1.5"
                         style={{
                           background: upvoted[p.id] ? "var(--accent-sakura)" : "var(--accent-sakura-soft)",
-                          border: `1px solid ${upvoted[p.id] ? "var(--accent-sakura)" : "#FFD0DC"}`,
+                          border: `1px solid ${upvoted[p.id] ? "var(--accent-sakura)" : "var(--acc-pale)"}`,
                           borderRadius: 20,
                           padding: "6px 12px",
                           height: 32,
@@ -614,8 +614,8 @@ function Community() {
                         onClick={(e) => { e.stopPropagation(); setOpen(p.id); }}
                         className="flex items-center gap-1.5"
                         style={{
-                          background: "#EEF5FF",
-                          border: "1px solid #C8E0F8",
+                          background: "var(--acc2-pale)",
+                          border: "1px solid var(--acc2-soft)",
                           borderRadius: 20,
                           padding: "6px 12px",
                           height: 32,
@@ -631,7 +631,7 @@ function Community() {
                         aria-label="share"
                         className="flex items-center justify-center"
                         style={{
-                          background: "#F5F5F5",
+                          background: "var(--bg-elevated)",
                           border: "1px solid var(--border-card)",
                           borderRadius: "50%",
                           width: 32,
@@ -650,15 +650,15 @@ function Community() {
                         aria-label="bookmark"
                         className="flex items-center justify-center"
                         style={{
-                          background: bookmarked[p.id] ? "#FEF3C7" : "#FFFBCC",
-                          border: `1px solid ${bookmarked[p.id] ? "#F59E0B" : "#F0E4A0"}`,
+                          background: bookmarked[p.id] ? "var(--acc-soft)" : "var(--acc-pale)",
+                          border: `1px solid ${bookmarked[p.id] ? "var(--acc-deep)" : "var(--acc-soft)"}`,
                           borderRadius: "50%",
                           width: 32,
                           height: 32,
-                          color: bookmarked[p.id] ? "#F59E0B" : "var(--accent-yuzu)",
+                          color: bookmarked[p.id] ? "var(--acc-deep)" : "var(--accent-yuzu)",
                         }}
                       >
-                        <Bookmark size={14} fill={bookmarked[p.id] ? "#F59E0B" : "none"} />
+                        <Bookmark size={14} fill={bookmarked[p.id] ? "var(--acc-deep)" : "none"} />
                       </motion.button>
                     </div>
                   </div>
@@ -827,7 +827,7 @@ function PostDetailSheet({
                 {post.breed} · {post.time} · #{language === "english" ? th.en : th.jp}
               </div>
             </div>
-            <button onClick={onClose} aria-label="close" style={{ width: 32, height: 32, borderRadius: "50%", background: "#F5F0EC", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--text-secondary)" }}>
+            <button onClick={onClose} aria-label="close" style={{ width: 32, height: 32, borderRadius: "50%", background: "var(--bg-elevated)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--text-secondary)" }}>
               <X size={16} />
             </button>
           </div>
@@ -838,7 +838,7 @@ function PostDetailSheet({
           {language === "mixed" && <p style={{ fontSize: 12, color: "var(--text-secondary)", marginTop: 4 }}>{post.titleEn}</p>}
 
           {post.body && (
-            <p style={{ fontSize: 14, color: "#3a3a3a", marginTop: 14, lineHeight: 1.6, whiteSpace: "pre-wrap" }}>{post.body}</p>
+            <p style={{ fontSize: 14, color: "var(--text-primary)", marginTop: 14, lineHeight: 1.6, whiteSpace: "pre-wrap" }}>{post.body}</p>
           )}
 
           {post.images && post.images.length > 0 && (
@@ -850,7 +850,7 @@ function PostDetailSheet({
           )}
 
           {post.location && (
-            <div className="inline-flex items-center gap-1" style={{ marginTop: 12, background: "#EEF5FF", color: "var(--accent-sora)", border: "1px solid #C8E0F8", borderRadius: 20, padding: "4px 10px", fontSize: 11, fontWeight: 600 }}>
+            <div className="inline-flex items-center gap-1" style={{ marginTop: 12, background: "var(--acc2-pale)", color: "var(--accent-sora)", border: "1px solid var(--acc2-soft)", borderRadius: 20, padding: "4px 10px", fontSize: 11, fontWeight: 600 }}>
               <MapPin size={12} />
               {post.location}
             </div>
@@ -863,7 +863,7 @@ function PostDetailSheet({
               className="flex items-center gap-1.5"
               style={{
                 background: upvoted ? "var(--accent-sakura)" : "var(--accent-sakura-soft)",
-                border: `1px solid ${upvoted ? "var(--accent-sakura)" : "#FFD0DC"}`,
+                border: `1px solid ${upvoted ? "var(--accent-sakura)" : "var(--acc-pale)"}`,
                 color: upvoted ? "#fff" : "var(--accent-sakura)",
                 borderRadius: 20,
                 padding: "6px 12px",
@@ -877,7 +877,7 @@ function PostDetailSheet({
               onClick={onShare}
               aria-label="share"
               className="flex items-center justify-center"
-              style={{ background: "#F5F5F5", border: "1px solid var(--border-card)", borderRadius: "50%", width: 32, height: 32, color: "var(--text-secondary)" }}
+              style={{ background: "var(--bg-elevated)", border: "1px solid var(--border-card)", borderRadius: "50%", width: 32, height: 32, color: "var(--text-secondary)" }}
             >
               <Share2 size={14} />
             </button>
@@ -887,15 +887,15 @@ function PostDetailSheet({
               aria-label="bookmark"
               className="flex items-center justify-center"
               style={{
-                background: bookmarked ? "#FEF3C7" : "#FFFBCC",
-                border: `1px solid ${bookmarked ? "#F59E0B" : "#F0E4A0"}`,
+                background: bookmarked ? "var(--acc-soft)" : "var(--acc-pale)",
+                border: `1px solid ${bookmarked ? "var(--acc-deep)" : "var(--acc-soft)"}`,
                 borderRadius: "50%",
                 width: 32,
                 height: 32,
-                color: bookmarked ? "#F59E0B" : "var(--accent-yuzu)",
+                color: bookmarked ? "var(--acc-deep)" : "var(--accent-yuzu)",
               }}
             >
-              <Bookmark size={14} fill={bookmarked ? "#F59E0B" : "none"} />
+              <Bookmark size={14} fill={bookmarked ? "var(--acc-deep)" : "none"} />
             </button>
           </div>
 
@@ -922,7 +922,7 @@ function PostDetailSheet({
                         <div style={{ fontSize: 12, fontWeight: 700, color: "var(--text-primary)" }}>{c.user}</div>
                         <span style={{ fontSize: 11, color: "var(--text-placeholder)" }}>· {c.time}</span>
                       </div>
-                      <div style={{ fontSize: 13, color: "#374151", marginTop: 4, lineHeight: 1.5 }}>{c.text}</div>
+                      <div style={{ fontSize: 13, color: "var(--text-primary)", marginTop: 4, lineHeight: 1.5 }}>{c.text}</div>
                       <button className="flex items-center gap-1" style={{ marginTop: 6, color: "var(--text-secondary)", fontSize: 11, fontWeight: 600 }}>
                         <ArrowUp size={12} />
                         {c.up}
@@ -941,10 +941,10 @@ function PostDetailSheet({
           style={{
             padding: "10px 14px",
             background: "#fff",
-            borderTop: "1px solid #F3F4F6",
+            borderTop: "1px solid var(--bg-elevated)",
           }}
         >
-          <div className="flex items-center justify-center shrink-0" style={{ width: 32, height: 32, borderRadius: "50%", background: "var(--bg-card-sakura)", color: "#C45478", fontSize: 13, fontWeight: 800 }}>
+          <div className="flex items-center justify-center shrink-0" style={{ width: 32, height: 32, borderRadius: "50%", background: "var(--bg-card-sakura)", color: "var(--acc2-strong)", fontSize: 13, fontWeight: 800 }}>
             {ME.user[0]}
           </div>
           <input
@@ -954,7 +954,7 @@ function PostDetailSheet({
             placeholder={t("コメントを入力", "Write a comment...")}
             style={{
               flex: 1,
-              background: "#F9F9F9",
+              background: "var(--bg-elevated)",
               borderRadius: 50,
               padding: "8px 14px",
               fontSize: 13,
@@ -972,7 +972,7 @@ function PostDetailSheet({
               width: 36,
               height: 36,
               borderRadius: "50%",
-              background: text.trim() ? "linear-gradient(135deg,var(--accent-sakura),var(--accent-sakura-dark))" : "#F3F4F6",
+              background: text.trim() ? "linear-gradient(135deg,var(--accent-sakura),var(--accent-sakura-dark))" : "var(--bg-elevated)",
               color: text.trim() ? "#fff" : "var(--text-placeholder)",
               border: "none",
             }}
@@ -1047,18 +1047,18 @@ function ComposeSheet({
         onClick={(e) => e.stopPropagation()}
       >
         {/* drag handle */}
-        <div style={{ width: 40, height: 4, borderRadius: 999, background: "#E5E7EB", margin: "10px auto 6px" }} />
+        <div style={{ width: 40, height: 4, borderRadius: 999, background: "var(--border-card)", margin: "10px auto 6px" }} />
 
         {/* top bar */}
-        <div className="flex items-center justify-between" style={{ padding: "8px 16px", borderBottom: "1px solid #F3F4F6" }}>
+        <div className="flex items-center justify-between" style={{ padding: "8px 16px", borderBottom: "1px solid var(--bg-elevated)" }}>
           <button onClick={onClose} style={{ fontSize: 14, color: "var(--text-secondary)" }}>{t("キャンセル", "Cancel")}</button>
-          <div style={{ fontSize: 15, fontWeight: 600, color: "#1A1A2E" }}>{t("投稿を作成", "Create Post")}</div>
+          <div style={{ fontSize: 15, fontWeight: 600, color: "var(--text-primary)" }}>{t("投稿を作成", "Create Post")}</div>
           <button
             onClick={submit}
             style={{
               fontSize: 14,
               fontWeight: 700,
-              color: canPost ? "#F43F72" : "var(--text-placeholder)",
+              color: canPost ? "var(--acc-deep)" : "var(--text-placeholder)",
               transition: "color 0.2s",
             }}
           >
@@ -1069,11 +1069,11 @@ function ComposeSheet({
         <div style={{ flex: 1, overflowY: "auto", padding: "14px 16px 24px" }}>
           {/* user info */}
           <div className="flex items-center gap-3" style={{ marginBottom: 14 }}>
-            <div className="flex items-center justify-center" style={{ width: 40, height: 40, borderRadius: "50%", background: "var(--bg-card-sakura)", color: "#C45478", fontSize: 16, fontWeight: 800 }}>
+            <div className="flex items-center justify-center" style={{ width: 40, height: 40, borderRadius: "50%", background: "var(--bg-card-sakura)", color: "var(--acc2-strong)", fontSize: 16, fontWeight: 800 }}>
               {ME.user[0]}
             </div>
             <div>
-              <div style={{ fontSize: 14, fontWeight: 700, color: "#1A1A2E" }}>{ME.user}</div>
+              <div style={{ fontSize: 14, fontWeight: 700, color: "var(--text-primary)" }}>{ME.user}</div>
               <div style={{ fontSize: 11, color: "var(--text-secondary)" }}>{ME.breed}</div>
             </div>
           </div>
@@ -1089,9 +1089,9 @@ function ComposeSheet({
                   onClick={() => setCatIdx(i)}
                   className="shrink-0"
                   style={{
-                    background: active ? "#F43F72" : "#F9F9F9",
-                    color: active ? "#fff" : "#374151",
-                    border: `1px solid ${active ? "#F43F72" : "var(--border-card)"}`,
+                    background: active ? "var(--acc-deep)" : "var(--bg-elevated)",
+                    color: active ? "#fff" : "var(--text-primary)",
+                    border: `1px solid ${active ? "var(--acc-deep)" : "var(--border-card)"}`,
                     borderRadius: 20,
                     padding: "6px 12px",
                     fontSize: 12,
@@ -1115,9 +1115,9 @@ function ComposeSheet({
                   key={tag.key}
                   onClick={() => setTagKey(active ? null : tag.key)}
                   style={{
-                    background: active ? "#F43F72" : "var(--accent-sakura-soft)",
+                    background: active ? "var(--acc-deep)" : "var(--accent-sakura-soft)",
                     color: active ? "#fff" : "var(--accent-sakura)",
-                    border: `1px solid ${active ? "#F43F72" : "#FFD0DC"}`,
+                    border: `1px solid ${active ? "var(--acc-deep)" : "var(--acc-pale)"}`,
                     borderRadius: 20,
                     padding: "5px 12px",
                     fontSize: 12,
@@ -1144,7 +1144,7 @@ function ComposeSheet({
                 width: "100%",
                 fontSize: 18,
                 fontWeight: 600,
-                color: "#1A1A2E",
+                color: "var(--text-primary)",
                 border: "none",
                 outline: "none",
                 background: "transparent",
@@ -1165,7 +1165,7 @@ function ComposeSheet({
               width: "100%",
               minHeight: 120,
               fontSize: 14,
-              color: "#374151",
+              color: "var(--text-primary)",
               border: "none",
               outline: "none",
               background: "transparent",
@@ -1191,7 +1191,7 @@ function ComposeSheet({
                       width: 22,
                       height: 22,
                       borderRadius: "50%",
-                      background: "#1A1A2E",
+                      background: "var(--text-primary)",
                       color: "#fff",
                       display: "flex",
                       alignItems: "center",
@@ -1207,7 +1207,7 @@ function ComposeSheet({
 
           {/* location pill */}
           {location && (
-            <div className="inline-flex items-center gap-1" style={{ marginTop: 12, background: "#EEF5FF", color: "var(--accent-sora)", border: "1px solid #C8E0F8", borderRadius: 20, padding: "4px 10px", fontSize: 11, fontWeight: 600 }}>
+            <div className="inline-flex items-center gap-1" style={{ marginTop: 12, background: "var(--acc2-pale)", color: "var(--accent-sora)", border: "1px solid var(--acc2-soft)", borderRadius: 20, padding: "4px 10px", fontSize: 11, fontWeight: 600 }}>
               <MapPin size={12} />
               {location}
               <button onClick={() => setLocation("")} style={{ marginLeft: 4, color: "var(--accent-sora)" }}>
@@ -1218,33 +1218,33 @@ function ComposeSheet({
         </div>
 
         {/* media attachment row */}
-        <div style={{ borderTop: "1px solid #F3F4F6", padding: "10px 16px 14px", background: "#fff" }}>
+        <div style={{ borderTop: "1px solid var(--bg-elevated)", padding: "10px 16px 14px", background: "#fff" }}>
           <div className="flex items-start justify-around">
             <input ref={cameraRef} type="file" accept="image/*" capture="environment" hidden onChange={(e) => handleFiles(e.target.files)} />
             <input ref={fileRef} type="file" accept="image/*" multiple hidden onChange={(e) => handleFiles(e.target.files)} />
 
             <button onClick={() => cameraRef.current?.click()} className="flex flex-col items-center gap-1">
-              <span className="flex items-center justify-center" style={{ width: 36, height: 36, borderRadius: "50%", background: "#F9F9F9", color: "var(--text-secondary)" }}>
+              <span className="flex items-center justify-center" style={{ width: 36, height: 36, borderRadius: "50%", background: "var(--bg-elevated)", color: "var(--text-secondary)" }}>
                 <Camera size={16} />
               </span>
-              <span style={{ fontSize: 10, color: "#9CA3AF" }}>{t("カメラ", "Camera")}</span>
+              <span style={{ fontSize: 10, color: "var(--text-secondary)" }}>{t("カメラ", "Camera")}</span>
             </button>
 
             <button onClick={() => fileRef.current?.click()} className="flex flex-col items-center gap-1">
-              <span className="flex items-center justify-center" style={{ width: 36, height: 36, borderRadius: "50%", background: "#F9F9F9", color: "var(--text-secondary)" }}>
+              <span className="flex items-center justify-center" style={{ width: 36, height: 36, borderRadius: "50%", background: "var(--bg-elevated)", color: "var(--text-secondary)" }}>
                 <ImageIcon size={16} />
               </span>
-              <span style={{ fontSize: 10, color: "#9CA3AF" }}>{t("画像", "Image")}</span>
+              <span style={{ fontSize: 10, color: "var(--text-secondary)" }}>{t("画像", "Image")}</span>
             </button>
 
             <button
               onClick={() => setLocation(location ? "" : t("Bandra, Mumbai", "Bandra, Mumbai"))}
               className="flex flex-col items-center gap-1"
             >
-              <span className="flex items-center justify-center" style={{ width: 36, height: 36, borderRadius: "50%", background: location ? "#EEF5FF" : "#F9F9F9", color: location ? "var(--accent-sora)" : "var(--text-secondary)" }}>
+              <span className="flex items-center justify-center" style={{ width: 36, height: 36, borderRadius: "50%", background: location ? "var(--acc2-pale)" : "var(--bg-elevated)", color: location ? "var(--accent-sora)" : "var(--text-secondary)" }}>
                 <MapPin size={16} />
               </span>
-              <span style={{ fontSize: 10, color: "#9CA3AF" }}>{t("場所", "Location")}</span>
+              <span style={{ fontSize: 10, color: "var(--text-secondary)" }}>{t("場所", "Location")}</span>
             </button>
           </div>
         </div>
@@ -1269,29 +1269,29 @@ function ShareSheet({ onClose, onCopy, onLine }: { onClose: () => void; onCopy: 
         style={{ background: "#fff", borderRadius: "24px 24px 0 0", padding: "12px 16px 24px" }}
         onClick={(e) => e.stopPropagation()}
       >
-        <div style={{ width: 40, height: 4, borderRadius: 999, background: "#E5E7EB", margin: "0 auto 12px" }} />
-        <div style={{ fontSize: 14, fontWeight: 700, color: "#1A1A2E", textAlign: "center", marginBottom: 12 }}>
+        <div style={{ width: 40, height: 4, borderRadius: 999, background: "var(--border-card)", margin: "0 auto 12px" }} />
+        <div style={{ fontSize: 14, fontWeight: 700, color: "var(--text-primary)", textAlign: "center", marginBottom: 12 }}>
           {t("共有", "Share")}
         </div>
         <button
           onClick={onCopy}
           className="w-full flex items-center gap-3"
-          style={{ padding: "12px 14px", borderRadius: 14, background: "#F9F9F9", marginBottom: 8 }}
+          style={{ padding: "12px 14px", borderRadius: 14, background: "var(--bg-elevated)", marginBottom: 8 }}
         >
           <span className="flex items-center justify-center" style={{ width: 36, height: 36, borderRadius: "50%", background: "var(--accent-sakura-soft)", color: "var(--accent-sakura)" }}>
             <LinkIcon size={16} />
           </span>
-          <span style={{ fontSize: 14, fontWeight: 600, color: "#1A1A2E" }}>{t("リンクをコピー", "Copy link")}</span>
+          <span style={{ fontSize: 14, fontWeight: 600, color: "var(--text-primary)" }}>{t("リンクをコピー", "Copy link")}</span>
         </button>
         <button
           onClick={onLine}
           className="w-full flex items-center gap-3"
-          style={{ padding: "12px 14px", borderRadius: 14, background: "#F9F9F9" }}
+          style={{ padding: "12px 14px", borderRadius: 14, background: "var(--bg-elevated)" }}
         >
-          <span className="flex items-center justify-center" style={{ width: 36, height: 36, borderRadius: "50%", background: "#E8F5E8", color: "#06C755", fontWeight: 800, fontSize: 12 }}>
+          <span className="flex items-center justify-center" style={{ width: 36, height: 36, borderRadius: "50%", background: "var(--acc2-pale)", color: "var(--acc2-deep)", fontWeight: 800, fontSize: 12 }}>
             LINE
           </span>
-          <span style={{ fontSize: 14, fontWeight: 600, color: "#1A1A2E" }}>{t("LINEで共有", "Share on LINE")}</span>
+          <span style={{ fontSize: 14, fontWeight: 600, color: "var(--text-primary)" }}>{t("LINEで共有", "Share on LINE")}</span>
         </button>
       </motion.div>
     </div>

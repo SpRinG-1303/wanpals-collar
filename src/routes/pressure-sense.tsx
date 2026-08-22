@@ -9,22 +9,22 @@ export const Route = createFileRoute("/pressure-sense")({ component: PressureSen
 // ───────── Palette ─────────
 const G = {
   primary: "var(--accent-yuzu)",
-  medium: "#C49A30",
-  deep: "#9E7A1A",
-  soft: "#FEF8E1",
+  medium: "var(--acc-deep)",
+  deep: "var(--acc-deep)",
+  soft: "var(--acc-pale)",
   pale: "#FFFCF0",
-  accent: "#ECC95A",
-  muted: "#F5DFA0",
-  light: "#FCF0C0",
+  accent: "var(--acc-strong)",
+  muted: "var(--acc-soft)",
+  light: "var(--acc-soft)",
   white: "#FFFFFF",
-  text: "#1A1A2E",
-  text2: "#6B7280",
-  text3: "#9CA3AF",
-  ink: "#4B5563",
-  ok: "#16A34A", okBg: "#F0FDF4",
-  warn: "#D97706", warnBg: "#FFFBEB",
+  text: "var(--text-primary)",
+  text2: "var(--text-secondary)",
+  text3: "var(--text-secondary)",
+  ink: "var(--text-secondary)",
+  ok: "var(--acc-strong)", okBg: "var(--acc-pale)",
+  warn: "var(--acc-deep)", warnBg: "var(--acc-pale)",
   danger: "#DC2626", dangerBg: "#FEF2F2",
-  info: "#1D4ED8", infoBg: "#EFF8FF",
+  info: "var(--acc-deep)", infoBg: "#EFF8FF",
 };
 
 const TIME_TABS = ["1d", "1w", "1m"] as const;
@@ -42,8 +42,8 @@ function PressureSensePage() {
       titleEn="PressureSense AI"
       subtitleEn="PressureSense AI"
       descriptorEn="Swallowing pressure analysis"
-      bannerGradient="linear-gradient(135deg,#FFFCF0 0%,#FEF8E1 100%)"
-      bannerSubtitleColor="#C4A030"
+      bannerGradient="linear-gradient(135deg,#FFFCF0 0%,var(--acc-pale) 100%)"
+      bannerSubtitleColor="var(--acc-deep)"
     >
       <style>{`
         @keyframes psWaveSlide { from{transform:translateX(0)} to{transform:translateX(-50%)} }
@@ -171,7 +171,7 @@ function PressureGaugeCard() {
   const value = 62;
   const max = 100;
   return (
-    <CardG borderColor={G.primary} shadow="0 4px 24px rgba(212,168,67,0.12)">
+    <CardG borderColor={G.primary} shadow="0 4px 24px color-mix(in oklab, var(--acc-strong) 12.0%, transparent)">
       <SectionLabel jp="現在の嚥下圧力" en="CURRENT PRESSURE" />
 
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, alignItems: "center" }}>
@@ -232,7 +232,7 @@ function PressureDial({ value, max }: { value: number; max: number }) {
       {/* Diamond marker */}
       <g transform={`translate(${mx} ${my}) rotate(${(angle * -180 / Math.PI) - 45})`}>
         <rect x="-6" y="-6" width="12" height="12" rx="2" fill={G.primary}
-          stroke="#fff" strokeWidth="2" style={{ filter: "drop-shadow(0 2px 4px rgba(212,168,67,.4))" }} />
+          stroke="#fff" strokeWidth="2" style={{ filter: "drop-shadow(0 2px 4px color-mix(in oklab, var(--acc-strong) 40.0%, transparent))" }} />
       </g>
       {/* Ticks */}
       {[0, 0.25, 0.5, 0.75, 1].map((p, i) => {
@@ -439,7 +439,7 @@ function ThroatHealthCard() {
     { icon: "⚡", jp: "嚥下困難", en: "Dysphagia Risk", status: t("低リスク", "Low risk"), conf: 98 },
   ];
   return (
-    <CardG borderColor={G.accent} shadow="0 4px 20px rgba(212,168,67,0.10)">
+    <CardG borderColor={G.accent} shadow="0 4px 20px color-mix(in oklab, var(--acc-strong) 10.0%, transparent)">
       <SectionLabel jp="咽頭健康ダッシュボード" en="THROAT HEALTH" />
 
       <ThroatDiagram />
@@ -787,10 +787,10 @@ function AIInsightCard({ petName }: { petName: string }) {
   const t = useT();
   return (
     <div style={{
-      background: "linear-gradient(135deg,#9E7A1A 0%,#C49A30 100%)",
+      background: "linear-gradient(135deg,var(--acc-deep) 0%,var(--acc-deep) 100%)",
       borderRadius: 26, padding: 22, marginBottom: 14, overflow: "hidden",
       position: "relative", boxSizing: "border-box",
-      boxShadow: "0 8px 28px rgba(158,122,26,0.25)",
+      boxShadow: "0 8px 28px color-mix(in oklab, var(--acc-deep) 25.0%, transparent)",
     }}>
       {/* wave watermark */}
       <svg aria-hidden viewBox="0 0 400 80" preserveAspectRatio="none"
@@ -803,7 +803,7 @@ function AIInsightCard({ petName }: { petName: string }) {
 
       <div style={{ position: "relative" }}>
         <div style={{
-          fontSize: 11, color: "#F5DFA0", letterSpacing: "0.12em",
+          fontSize: 11, color: "var(--acc-soft)", letterSpacing: "0.12em",
           fontWeight: 700, textTransform: "uppercase",
         }}>
           ✦ {t("AIインサイト", "AI INSIGHT")}
@@ -818,9 +818,9 @@ function AIInsightCard({ petName }: { petName: string }) {
         </div>
 
         <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginTop: 14 }}>
-          <InsightBadge bg="rgba(22,163,74,0.25)">● {t("嚥下: 正常", "Swallow: Normal")}</InsightBadge>
+          <InsightBadge bg="color-mix(in oklab, var(--acc-deep) 25.0%, transparent)">● {t("嚥下: 正常", "Swallow: Normal")}</InsightBadge>
           <InsightBadge bg="rgba(255,255,255,0.15)">💧 {t("水分: 良好", "Hydration: Good")}</InsightBadge>
-          <InsightBadge bg="rgba(217,119,6,0.35)">⚠️ {t("木曜: 要観察", "Thu: Observe")}</InsightBadge>
+          <InsightBadge bg="color-mix(in oklab, var(--acc-deep) 35.0%, transparent)">⚠️ {t("木曜: 要観察", "Thu: Observe")}</InsightBadge>
         </div>
 
         <div style={{

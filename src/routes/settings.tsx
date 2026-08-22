@@ -1,8 +1,9 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import AppShell from "@/components/AppShell";
 import { useEffect, useState } from "react";
-import { ChevronRight, Sun, Moon, Crown } from "lucide-react";
+import { ChevronRight, Sun, Moon, Crown, User } from "lucide-react";
 import { useT, useLanguage, type Language } from "@/context/LanguageContext";
+import { useAuth } from "@/context/AuthContext";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 export const Route = createFileRoute("/settings")({ component: Settings });
@@ -11,6 +12,7 @@ function Settings() {
   const nav = useNavigate();
   const t = useT();
   const { language, setLanguage } = useLanguage();
+  const { session } = useAuth();
   const [dark, setDark] = useState(false);
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -34,12 +36,13 @@ function Settings() {
     <AppShell titleJp=" 設定" titleEn=" Settings">
       <div className="bg-card rounded-2xl p-4 shadow-card flex items-center gap-3">
         <div className="relative">
-          <div className="w-16 h-16 rounded-full bg-gradient-to-br from-sakura to-secondary flex items-center justify-center text-3xl"></div>
-          <button className="absolute -bottom-1 -right-1 w-6 h-6 bg-primary text-primary-foreground rounded-full text-xs"></button>
+          <div className="w-16 h-16 rounded-full flex items-center justify-center" style={{ background: "var(--accent-sakura-soft)", border: "1.5px solid var(--acc-soft)" }}>
+            <User size={26} style={{ color: "var(--accent-sakura)" }} />
+          </div>
         </div>
         <div>
-          <div className="font-bold">{t("田中花子", "Hanako Tanaka")}</div>
-          <div className="text-xs text-muted-foreground">tanaka@example.jp</div>
+          <div className="font-bold">{session?.name || "Pet Parent"}</div>
+          <div className="text-xs text-muted-foreground">{session?.email || "Signed in"}</div>
         </div>
       </div>
 
@@ -53,7 +56,7 @@ function Settings() {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2 text-sm font-bold">
             {dark
-              ? <Moon className="w-5 h-5" style={{ color: "#9B88D8" }} />
+              ? <Moon className="w-5 h-5" style={{ color: "var(--acc-strong)" }} />
               : <Sun className="w-5 h-5" style={{ color: "var(--accent-yuzu)" }} />}
             <span>{dark ? t("ダークモード", "Dark Mode") : t("ライトモード", "Light Mode")}</span>
           </div>
@@ -132,7 +135,7 @@ function NotifRow({ label, sub, locked }: { label: string; sub?: string; locked?
   return (
     <div className="flex items-center justify-between">
       <div><div className="text-sm font-medium">{label}</div>{sub && <div className="text-[10px] text-muted-foreground">{sub}</div>}</div>
-      <button disabled={locked} onClick={() => setOn(!on)} className={`w-12 h-7 rounded-full relative ${on ? "bg-success" : "bg-muted"} ${locked ? "opacity-60" : ""}`}>
+      <button disabled={locked} onClick={() => setOn(!on)} className={`w-12 h-7 rounded-full relative ${on ? "" : "bg-muted"} ${locked ? "opacity-60" : ""}`} style={on ? { background: "var(--acc-strong)" } : undefined}>
         <span className={`absolute top-1 w-5 h-5 bg-white rounded-full transition-all ${on ? "left-6" : "left-1"}`}/>
       </button>
     </div>

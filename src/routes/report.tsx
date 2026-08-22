@@ -16,22 +16,22 @@ export const Route = createFileRoute("/report")({ component: Report });
 
 const TABS = ["1d", "1w", "1m", "3m", "6m", "4y"] as const;
 
-/* ─────────── Earthy Palette ─────────── */
+/* ─────────── Theme-driven palette (pastel purple owner / steel blue vet) ─────────── */
 const C = {
-  cafe: "#4C3D19",     // darkest — headings / strong text
-  kombu: "#354024",    // deep green — body / active / accents
-  moss: "#889063",     // mid — icons / muted accents / borders
-  tan: "#CFBB99",      // warm neutral — soft fills
-  bone: "#E5D7C4",     // lightest — surfaces / page bg
+  cafe: "var(--acc-deep)",      // headings / strong data values
+  kombu: "var(--acc-strong)",   // active accents / banner gradient start
+  moss: "var(--acc-soft)",      // icons / muted accents / borders
+  tan: "var(--acc2-soft)",      // soft fills
+  bone: "var(--bg-page)",       // surfaces / page bg
 };
 
 const glass: CSSProperties = {
   background: "#FFFFFF",
   backdropFilter: "blur(8px)",
   WebkitBackdropFilter: "blur(8px)",
-  border: "1.5px solid rgba(136, 144, 99, 0.25)",
+  border: "1.5px solid color-mix(in oklab, var(--acc-strong) 22.0%, transparent)",
   borderRadius: 20,
-  boxShadow: "0 4px 24px rgba(76, 61, 25, 0.08)",
+  boxShadow: "0 4px 24px color-mix(in oklab, var(--acc-deep) 8.0%, transparent)",
 };
 
 function Report() {
@@ -94,12 +94,12 @@ function Report() {
           <div
             style={{
               background: "#FFFFFF",
-              border: "1px solid rgba(136,144,99,0.2)",
+              border: "1px solid color-mix(in oklab, var(--acc-deep) 20.0%, transparent)",
               borderRadius: 16,
               padding: 4,
               margin: "0 0 12px",
               display: "flex",
-              boxShadow: "0 2px 12px rgba(76,61,25,0.05)",
+              boxShadow: "0 2px 12px color-mix(in oklab, var(--acc-deep) 5.0%, transparent)",
             }}
           >
             {TABS.map((tb) => {
@@ -118,7 +118,7 @@ function Report() {
                     background: active ? C.kombu : "transparent",
                     border: "none",
                     margin: 2,
-                    boxShadow: active ? "0 4px 12px rgba(53,64,36,0.3)" : "none",
+                    boxShadow: active ? "0 4px 12px color-mix(in oklab, var(--acc-deep) 30.0%, transparent)" : "none",
                     transition: "all 0.2s",
                   }}
                 >
@@ -137,8 +137,8 @@ function Report() {
             titleJp="健康スコア推移"
             titleEn="Health Score"
             chipText="87 / 100"
-            chipBg="rgba(53,64,36,0.1)"
-            chipBorder="rgba(53,64,36,0.2)"
+            chipBg="color-mix(in oklab, var(--acc-deep) 10.0%, transparent)"
+            chipBorder="color-mix(in oklab, var(--acc-deep) 20.0%, transparent)"
             chipColor={C.kombu}
           >
             <ResponsiveContainer width="100%" height={160}>
@@ -149,7 +149,7 @@ function Report() {
                     <stop offset="100%" stopColor={C.kombu} stopOpacity={0} />
                   </linearGradient>
                 </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(136,144,99,0.1)" vertical={false} />
+                <CartesianGrid strokeDasharray="3 3" stroke="color-mix(in oklab, var(--acc-deep) 10.0%, transparent)" vertical={false} />
                 <XAxis dataKey="d" tick={{ fill: C.moss, fontSize: 10 }} axisLine={false} tickLine={false} />
                 <YAxis domain={[60, 100]} tick={{ fill: C.moss, fontSize: 10 }} axisLine={false} tickLine={false} />
                 <Tooltip content={<NiceTooltip suffix="" />} />
@@ -166,8 +166,8 @@ function Report() {
             titleJp="体温履歴"
             titleEn="Temperature History"
             chipText="Avg 38.5°C"
-            chipBg="rgba(136,144,99,0.15)"
-            chipBorder="rgba(136,144,99,0.3)"
+            chipBg="color-mix(in oklab, var(--acc-deep) 15.0%, transparent)"
+            chipBorder="color-mix(in oklab, var(--acc-deep) 30.0%, transparent)"
             chipColor={C.moss}
           >
             <ResponsiveContainer width="100%" height={160}>
@@ -178,7 +178,7 @@ function Report() {
                     <stop offset="100%" stopColor={C.moss} stopOpacity={0} />
                   </linearGradient>
                 </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(136,144,99,0.1)" vertical={false} />
+                <CartesianGrid strokeDasharray="3 3" stroke="color-mix(in oklab, var(--acc-deep) 10.0%, transparent)" vertical={false} />
                 <XAxis dataKey="d" tick={{ fill: C.moss, fontSize: 10 }} axisLine={false} tickLine={false} />
                 <YAxis domain={[37.5, 39.5]} tick={{ fill: C.moss, fontSize: 10 }} axisLine={false} tickLine={false} />
                 <ReferenceArea y1={38.0} y2={39.2} fill={C.moss} fillOpacity={0.08} />
@@ -198,8 +198,8 @@ function Report() {
             titleJp="運動・歩数"
             titleEn="Activity Steps"
             chipText="Avg 2,340"
-            chipBg="rgba(207,187,153,0.3)"
-            chipBorder="rgba(207,187,153,0.6)"
+            chipBg="color-mix(in oklab, var(--acc-strong) 30.0%, transparent)"
+            chipBorder="color-mix(in oklab, var(--acc-strong) 60.0%, transparent)"
             chipColor={C.cafe}
           >
             <ResponsiveContainer width="100%" height={160}>
@@ -210,7 +210,7 @@ function Report() {
                     <stop offset="100%" stopColor={C.moss} stopOpacity={1} />
                   </linearGradient>
                 </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(136,144,99,0.1)" vertical={false} />
+                <CartesianGrid strokeDasharray="3 3" stroke="color-mix(in oklab, var(--acc-deep) 10.0%, transparent)" vertical={false} />
                 <XAxis dataKey="d" tick={{ fill: C.moss, fontSize: 10 }} axisLine={false} tickLine={false} />
                 <YAxis tick={{ fill: C.moss, fontSize: 10 }} axisLine={false} tickLine={false} />
                 <ReferenceLine y={3000} stroke={C.kombu} strokeDasharray="4 4" strokeOpacity={0.4}
@@ -228,8 +228,8 @@ function Report() {
             titleJp="睡眠パターン"
             titleEn="Sleep Pattern"
             chipText="Avg 7.5h"
-            chipBg="rgba(76,61,25,0.12)"
-            chipBorder="rgba(76,61,25,0.25)"
+            chipBg="color-mix(in oklab, var(--acc-deep) 12.0%, transparent)"
+            chipBorder="color-mix(in oklab, var(--acc-deep) 25.0%, transparent)"
             chipColor={C.cafe}
           >
             <ResponsiveContainer width="100%" height={160}>
@@ -240,7 +240,7 @@ function Report() {
                     <stop offset="100%" stopColor={C.moss} stopOpacity={1} />
                   </linearGradient>
                 </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(136,144,99,0.1)" vertical={false} />
+                <CartesianGrid strokeDasharray="3 3" stroke="color-mix(in oklab, var(--acc-deep) 10.0%, transparent)" vertical={false} />
                 <XAxis dataKey="d" tick={{ fill: C.moss, fontSize: 10 }} axisLine={false} tickLine={false} />
                 <YAxis domain={[0, 12]} tick={{ fill: C.moss, fontSize: 10 }} axisLine={false} tickLine={false} />
                 <ReferenceArea y1={8} y2={10} fill={C.moss} fillOpacity={0.08} />
@@ -288,7 +288,7 @@ function HeroCard({ pet: _pet, dogName: _dogName }: { pet: PetProfile; dogName: 
         <div style={{ display: "grid", gridTemplateColumns: "auto 1fr", gap: 20, alignItems: "center" }}>
           <div style={{ position: "relative", width: 100, height: 100 }}>
             <svg width={100} height={100} viewBox="0 0 100 100">
-              <circle cx={50} cy={50} r={r} stroke="rgba(136,144,99,0.25)" strokeWidth={10} fill="none" />
+              <circle cx={50} cy={50} r={r} stroke="color-mix(in oklab, var(--acc-deep) 25.0%, transparent)" strokeWidth={10} fill="none" />
               <circle
                 cx={50} cy={50} r={r} stroke={C.kombu} strokeWidth={10} fill="none"
                 strokeLinecap="round" strokeDasharray={circ} strokeDashoffset={offset}
@@ -313,16 +313,16 @@ function HeroCard({ pet: _pet, dogName: _dogName }: { pet: PetProfile; dogName: 
           <div style={{ display: "flex", flexDirection: "column" }}>
             <StatRow icon={<Thermometer size={16} color={C.kombu} />}
               labelJp="体温" labelEn="Avg Temp" value="38.5°C" />
-            <div style={{ height: 1, background: "rgba(136,144,99,0.2)" }} />
+            <div style={{ height: 1, background: "color-mix(in oklab, var(--acc-deep) 20.0%, transparent)" }} />
             <StatRow icon={<Footprints size={16} color={C.kombu} />}
               labelJp="歩数" labelEn="Avg Steps" value="2,340" />
-            <div style={{ height: 1, background: "rgba(136,144,99,0.2)" }} />
+            <div style={{ height: 1, background: "color-mix(in oklab, var(--acc-deep) 20.0%, transparent)" }} />
             <StatRow icon={<Moon size={16} color={C.kombu} />}
               labelJp="睡眠" labelEn="Sleep" value="7.5h" />
           </div>
         </div>
 
-        <div style={{ height: 1, background: "rgba(136,144,99,0.2)", margin: "14px 0" }} />
+        <div style={{ height: 1, background: "color-mix(in oklab, var(--acc-deep) 20.0%, transparent)", margin: "14px 0" }} />
 
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
@@ -350,7 +350,7 @@ function StatRow({ icon, labelJp, labelEn, value }: {
     <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "8px 0" }}>
       <div style={{
         width: 32, height: 32, borderRadius: 999,
-        background: "rgba(136, 144, 99, 0.2)",
+        background: "color-mix(in oklab, var(--acc-deep) 20.0%, transparent)",
         display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
       }}>{icon}</div>
       <span style={{ flex: 1, fontSize: 11, color: C.moss }}>
@@ -366,14 +366,14 @@ function SectionDivider({ jp, en }: { jp: string; en: string }) {
   const t = useT();
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 10, margin: "4px 0 10px" }}>
-      <div style={{ flex: 1, height: 1, background: "rgba(136,144,99,0.3)" }} />
+      <div style={{ flex: 1, height: 1, background: "color-mix(in oklab, var(--acc-deep) 30.0%, transparent)" }} />
       <span style={{
         fontSize: 11, color: C.moss, letterSpacing: "0.15em",
         fontWeight: 700, textTransform: "uppercase",
       }}>
         {t(jp, en)}
       </span>
-      <div style={{ flex: 1, height: 1, background: "rgba(136,144,99,0.3)" }} />
+      <div style={{ flex: 1, height: 1, background: "color-mix(in oklab, var(--acc-deep) 30.0%, transparent)" }} />
     </div>
   );
 }
@@ -439,11 +439,11 @@ function NiceTooltip({ active, payload, label, suffix }: any) {
   if (!active || !payload?.length) return null;
   return (
     <div style={{
-      background: "rgba(229, 215, 196, 0.95)",
+      background: "color-mix(in oklab, var(--acc-soft) 95.0%, transparent)",
       backdropFilter: "blur(8px)",
       border: `1px solid ${C.tan}`, borderRadius: 12,
       padding: "6px 10px", fontSize: 11, color: C.cafe,
-      boxShadow: "0 4px 12px rgba(76,61,25,0.15)",
+      boxShadow: "0 4px 12px color-mix(in oklab, var(--acc-deep) 15.0%, transparent)",
     }}>
       <div style={{ color: C.moss }}>{label}</div>
       <div style={{ fontWeight: 700, color: C.cafe }}>{payload[0].value}{suffix}</div>
@@ -479,7 +479,7 @@ function VaccinationCard() {
           </span>
         </div>
         <span style={{
-          background: "rgba(136,144,99,0.15)", color: C.kombu, fontSize: 11, fontWeight: 700,
+          background: "color-mix(in oklab, var(--acc-deep) 15.0%, transparent)", color: C.kombu, fontSize: 11, fontWeight: 700,
           padding: "3px 10px", borderRadius: 20, border: `1px solid ${C.moss}`,
         }}>{t("4件", "4 records")}</span>
       </div>
@@ -497,7 +497,7 @@ function VaccineRow({ jp, en, date, status, isLast }: {
   const cfg = status === "current"
     ? {
         icon: <Check size={16} color={C.kombu} />,
-        bg: "rgba(53,64,36,0.1)",
+        bg: "color-mix(in oklab, var(--acc-deep) 10.0%, transparent)",
         chipBg: C.kombu,
         chipBorder: C.kombu,
         chipColor: C.bone,
@@ -505,7 +505,7 @@ function VaccineRow({ jp, en, date, status, isLast }: {
       }
     : {
         icon: <Clock size={16} color={C.cafe} />,
-        bg: "rgba(207,187,153,0.3)",
+        bg: "color-mix(in oklab, var(--acc-strong) 30.0%, transparent)",
         chipBg: C.tan,
         chipBorder: C.tan,
         chipColor: C.cafe,
@@ -515,7 +515,7 @@ function VaccineRow({ jp, en, date, status, isLast }: {
     <div style={{
       display: "flex", alignItems: "center", gap: 12,
       padding: "0 16px", height: 56,
-      borderBottom: isLast ? "none" : "1px solid rgba(136,144,99,0.15)",
+      borderBottom: isLast ? "none" : "1px solid color-mix(in oklab, var(--acc-deep) 15.0%, transparent)",
     }}>
       <div style={{
         width: 32, height: 32, borderRadius: "50%", background: cfg.bg,
@@ -555,7 +555,7 @@ function LastVisitCard() {
       </div>
       <div style={{ padding: "8px 16px 12px", display: "flex", gap: 12, alignItems: "center" }}>
         <div style={{
-          width: 48, height: 48, borderRadius: "50%", background: "rgba(53,64,36,0.12)",
+          width: 48, height: 48, borderRadius: "50%", background: "color-mix(in oklab, var(--acc-deep) 12.0%, transparent)",
           display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
         }}>
           <Cross size={22} color={C.kombu} />
@@ -569,14 +569,14 @@ function LastVisitCard() {
           </div>
           <span style={{
             display: "inline-block", marginTop: 6, fontSize: 11, fontWeight: 700,
-            background: "rgba(53,64,36,0.1)", color: C.kombu,
-            border: "1px solid rgba(53,64,36,0.25)",
+            background: "color-mix(in oklab, var(--acc-deep) 10.0%, transparent)", color: C.kombu,
+            border: "1px solid color-mix(in oklab, var(--acc-deep) 25.0%, transparent)",
             padding: "3px 10px", borderRadius: 20,
           }}>{t("健康診断: 異常なし ✓", "Health check: All clear ✓")}</span>
         </div>
       </div>
       <div style={{
-        padding: "10px 16px", borderTop: "1px solid rgba(136,144,99,0.2)",
+        padding: "10px 16px", borderTop: "1px solid color-mix(in oklab, var(--acc-deep) 20.0%, transparent)",
         display: "flex", justifyContent: "space-between", alignItems: "center",
       }}>
         <div>
@@ -587,12 +587,12 @@ function LastVisitCard() {
         </div>
         <button
           style={{
-            background: "rgba(53,64,36,0.08)", color: C.kombu, fontSize: 12, fontWeight: 700,
+            background: "color-mix(in oklab, var(--acc-deep) 8.0%, transparent)", color: C.kombu, fontSize: 12, fontWeight: 700,
             border: `1px solid ${C.kombu}`, borderRadius: 12, padding: "6px 16px",
             transition: "background 0.2s",
           }}
-          onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(53,64,36,0.16)")}
-          onMouseLeave={(e) => (e.currentTarget.style.background = "rgba(53,64,36,0.08)")}
+          onMouseEnter={(e) => (e.currentTarget.style.background = "color-mix(in oklab, var(--acc-deep) 16.0%, transparent)")}
+          onMouseLeave={(e) => (e.currentTarget.style.background = "color-mix(in oklab, var(--acc-deep) 8.0%, transparent)")}
         >
           {t("予約する →", "Book Now →")}
         </button>
@@ -612,7 +612,7 @@ function QRCard() {
       display: "flex", flexDirection: "column", alignItems: "center", gap: 8,
     }}>
       <div style={{
-        width: 56, height: 56, borderRadius: "50%", background: "rgba(53,64,36,0.12)",
+        width: 56, height: 56, borderRadius: "50%", background: "color-mix(in oklab, var(--acc-deep) 12.0%, transparent)",
         display: "flex", alignItems: "center", justifyContent: "center",
       }}>
         <QrCode size={28} color={C.kombu} />
@@ -625,7 +625,7 @@ function QRCard() {
       </div>
       <div style={{
         width: 80, height: 80, background: C.bone, borderRadius: 8,
-        border: "1px solid rgba(207,187,153,0.6)", padding: 6,
+        border: "1px solid color-mix(in oklab, var(--acc-strong) 60.0%, transparent)", padding: 6,
         display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: 1,
       }}>
         {Array.from({ length: 49 }).map((_, i) => (
@@ -640,7 +640,7 @@ function QRCard() {
         background: C.kombu,
         color: C.bone, fontWeight: 700, fontSize: 13, borderRadius: 12,
         border: "none",
-        boxShadow: "0 4px 16px rgba(53,64,36,0.3)",
+        boxShadow: "0 4px 16px color-mix(in oklab, var(--acc-deep) 30.0%, transparent)",
       }}>
         {t("生成", "Generate")}
       </button>
@@ -663,7 +663,7 @@ function PDFCard() {
       display: "flex", flexDirection: "column", alignItems: "center", gap: 8,
     }}>
       <div style={{
-        width: 56, height: 56, borderRadius: "50%", background: "rgba(136,144,99,0.2)",
+        width: 56, height: 56, borderRadius: "50%", background: "color-mix(in oklab, var(--acc-deep) 20.0%, transparent)",
         display: "flex", alignItems: "center", justifyContent: "center",
       }}>
         <FileDown size={28} color={C.moss} />
@@ -684,7 +684,7 @@ function PDFCard() {
         background: C.moss,
         color: C.bone, fontWeight: 700, fontSize: 12, borderRadius: 12,
         border: "none",
-        boxShadow: "0 4px 16px rgba(136,144,99,0.3)",
+        boxShadow: "0 4px 16px color-mix(in oklab, var(--acc-deep) 30.0%, transparent)",
         display: "flex", alignItems: "center", justifyContent: "center", gap: 4,
       }}>
         {t("PDF出力", "PDF Export")}
@@ -711,20 +711,20 @@ function HeroBanner({ pet }: { pet: PetProfile }) {
         borderRadius: "0 0 32px 32px",
         overflow: "hidden",
         background: `linear-gradient(90deg, ${C.kombu} 0%, ${C.moss} 100%)`,
-        boxShadow: "0 10px 30px rgba(53,64,36,0.25)",
+        boxShadow: "0 10px 30px color-mix(in oklab, var(--acc-deep) 25.0%, transparent)",
       }}
     >
       {/* Large leaf-like blob top-right */}
       <div style={{
         position: "absolute", top: -70, right: -60, width: 220, height: 220,
         borderRadius: "60% 40% 55% 45% / 50% 60% 40% 50%",
-        background: "rgba(207, 187, 153, 0.2)",
+        background: "color-mix(in oklab, var(--acc-strong) 20.0%, transparent)",
         filter: "blur(1px)",
       }} />
       {/* Smaller bottom-left blob */}
       <div style={{
         position: "absolute", bottom: -40, left: -30, width: 140, height: 140,
-        borderRadius: "50%", background: "rgba(207, 187, 153, 0.2)",
+        borderRadius: "50%", background: "color-mix(in oklab, var(--acc-strong) 20.0%, transparent)",
       }} />
 
       {/* Faint paw print watermark right side */}
@@ -736,7 +736,7 @@ function HeroBanner({ pet }: { pet: PetProfile }) {
         }}
         aria-hidden
       >
-        <g fill="rgba(229,215,196,0.15)">
+        <g fill="color-mix(in oklab, var(--acc-soft) 15.0%, transparent)">
           <ellipse cx="12" cy="16" rx="4" ry="3.2" />
           <ellipse cx="6" cy="10" rx="1.8" ry="2.4" />
           <ellipse cx="10" cy="7" rx="1.8" ry="2.4" />
@@ -755,7 +755,7 @@ function HeroBanner({ pet }: { pet: PetProfile }) {
         <div>
           <div style={{
             fontSize: 11,
-            color: "rgba(229, 215, 196, 0.85)",
+            color: "color-mix(in oklab, var(--acc-soft) 85.0%, transparent)",
             letterSpacing: "0.12em",
             fontWeight: 600,
             textTransform: "uppercase",
@@ -770,7 +770,7 @@ function HeroBanner({ pet }: { pet: PetProfile }) {
             Health Report
           </div>
           <div style={{
-            fontSize: 13, color: "rgba(229, 215, 196, 0.75)",
+            fontSize: 13, color: "color-mix(in oklab, var(--acc-soft) 75.0%, transparent)",
             marginTop: 6, display: "flex", alignItems: "center", gap: 6,
           }}>
             <span aria-hidden>🐾</span>

@@ -9,25 +9,25 @@ export const Route = createFileRoute("/temp-sense")({ component: TempSensePage }
 
 // ---------- Pastel orange identity ----------
 const O = {
-  primary: "#F4A56A",
-  medium: "#E8895A",
-  deep: "#C96B3A",
-  soft: "#FEF0E6",
-  pale: "#FEF5EF",
-  accent: "#F7BC8E",
-  muted: "#FAD4B4",
-  light: "#FDECD8",
-  cream: "#FFF8F3",
-  sumi: "#1A1A2E",
-  ink: "#4B5563",
-  ink2: "#6B7280",
-  textMuted: "#9CA3AF",
-  divider: "#FEF0E6",
-  ok: "#16A34A",
-  okBg: "#F0FDF4",
-  warn: "#D97706",
+  primary: "var(--acc-strong)",
+  medium: "var(--acc-strong)",
+  deep: "var(--acc-deep)",
+  soft: "var(--acc-pale)",
+  pale: "var(--bg-page)",
+  accent: "var(--acc-soft)",
+  muted: "var(--acc-soft)",
+  light: "var(--acc-pale)",
+  cream: "var(--acc-pale)",
+  sumi: "var(--text-primary)",
+  ink: "var(--text-secondary)",
+  ink2: "var(--text-secondary)",
+  textMuted: "var(--text-secondary)",
+  divider: "var(--acc-pale)",
+  ok: "var(--acc-strong)",
+  okBg: "var(--acc-pale)",
+  warn: "var(--acc-deep)",
   danger: "#DC2626",
-  coldBlue: "#93C4E0",
+  coldBlue: "var(--acc-strong)",
 };
 
 const HISTORY = [38.2, 38.4, 38.3, 38.6, 38.5, 38.7, 38.5];
@@ -101,8 +101,8 @@ function TempSensePage() {
       titleEn="TempSense AI"
       subtitleEn="TempSense AI"
       descriptorEn="Body temperature monitoring"
-      bannerGradient="linear-gradient(135deg,#FFF8F3 0%,#FEF0E6 100%)"
-      bannerSubtitleColor="#D4956A"
+      bannerGradient="linear-gradient(135deg,var(--bg-card) 0%,var(--acc-pale) 100%)"
+      bannerSubtitleColor="var(--acc-strong)"
     >
       {/* full-bleed pastel orange page wash, sits behind all cards */}
       <div style={{
@@ -110,6 +110,8 @@ function TempSensePage() {
         padding: "16px 16px 110px",
         background: O.pale,
         minHeight: "100%",
+        position: "relative",
+        zIndex: 2,
       }}>
         <div style={{ marginTop: -52, position: "relative", zIndex: 2 }}>
           <OrangeTimeTabs value={tab} onChange={setTab} />
@@ -121,20 +123,20 @@ function TempSensePage() {
           borderRadius: 20,
           padding: "16px 20px",
           marginBottom: 12,
-          boxShadow: "0 4px 16px rgba(244,165,106,0.1)",
+          boxShadow: "0 4px 16px color-mix(in oklab, var(--acc-strong) 10.0%, transparent)",
           display: "flex",
           alignItems: "center",
           overflow: "hidden",
         }}>
           {[
             { lbl: t("平均", "Avg"), val: `${avg}°C`, color: O.primary },
-            { lbl: t("最低 / Min", "Min"), val: `${min}°C`, color: "#38BDF8" },
-            { lbl: t("最高 / Max", "Max"), val: `${max}°C`, color: "#F97316" },
-            { lbl: t("状態 / Status", "Status"), val: t("正常 / Normal", "Normal"), color: "#16A34A", isStatus: true },
+            { lbl: t("最低 / Min", "Min"), val: `${min}°C`, color: "var(--acc2-strong)" },
+            { lbl: t("最高 / Max", "Max"), val: `${max}°C`, color: "var(--acc-strong)" },
+            { lbl: t("状態 / Status", "Status"), val: t("正常 / Normal", "Normal"), color: "var(--acc-strong)", isStatus: true },
           ].map((s, i, arr) => (
             <span key={i} style={{ display: "contents" }}>
               <div style={{ flex: 1, textAlign: "center", minWidth: 0 }}>
-                <div style={{ fontSize: 10, color: "#9CA3AF" }}>{s.lbl}</div>
+                <div style={{ fontSize: 10, color: "var(--text-secondary)" }}>{s.lbl}</div>
                 <div style={{
                   fontSize: s.isStatus ? 12 : 15,
                   fontWeight: s.isStatus ? 600 : 700,
@@ -146,7 +148,7 @@ function TempSensePage() {
                   textOverflow: "ellipsis",
                 }}>{s.val}</div>
               </div>
-              {i < arr.length - 1 && <div style={{ width: 1, height: 28, background: "#FEF0E6" }} />}
+              {i < arr.length - 1 && <div style={{ width: 1, height: 28, background: "var(--acc-pale)" }} />}
             </span>
           ))}
         </div>
@@ -163,17 +165,18 @@ function TempSensePage() {
           padding: 20,
           marginBottom: 14,
           borderLeft: `4px solid ${O.primary}`,
-          boxShadow: "0 4px 20px rgba(244,165,106,0.12)",
+          boxShadow: "0 4px 20px color-mix(in oklab, var(--acc-strong) 12.0%, transparent)",
         }}>
           <OrangeSectionLabel jp="現在の体温" en="Current Temperature" />
           <div style={{ position: "relative", width: 180, height: 180, margin: "8px auto" }}>
             <svg width={180} height={180} viewBox="0 0 180 180" style={{ position: "absolute", inset: 0 }}>
-              <circle cx={cx} cy={cy} r={84} fill="none" stroke="rgba(244,165,106,0.2)" strokeWidth={1} />
+              <circle cx={cx} cy={cy} r={84} fill="none" stroke="color-mix(in oklab, var(--acc-strong) 20.0%, transparent)" strokeWidth={1} />
               {Array.from({ length: 12 }).map((_, i) => {
                 const a = (i * 30) * Math.PI / 180;
-                const x1 = cx + Math.cos(a) * 80, y1 = cy + Math.sin(a) * 80;
-                const x2 = cx + Math.cos(a) * 84, y2 = cy + Math.sin(a) * 84;
-                return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="rgba(244,165,106,0.35)" strokeWidth={1} />;
+                const r2 = (n: number) => Math.round(n * 100) / 100; // stable SSR/client values
+                const x1 = r2(cx + Math.cos(a) * 80), y1 = r2(cy + Math.sin(a) * 80);
+                const x2 = r2(cx + Math.cos(a) * 84), y2 = r2(cy + Math.sin(a) * 84);
+                return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="color-mix(in oklab, var(--acc-strong) 35.0%, transparent)" strokeWidth={1} />;
               })}
               <defs>
                 <linearGradient id="tGrad" x1="0" y1="0" x2="1" y2="1">
@@ -187,7 +190,7 @@ function TempSensePage() {
                 strokeDasharray={C}
                 strokeDashoffset={drawn ? C * (1 - pct) : C}
                 transform={`rotate(-90 ${cx} ${cy})`}
-                style={{ transition: "stroke-dashoffset 1.2s cubic-bezier(.2,.7,.2,1)", filter: "drop-shadow(0 0 6px rgba(244,165,106,0.5))" }}
+                style={{ transition: "stroke-dashoffset 1.2s cubic-bezier(.2,.7,.2,1)", filter: "drop-shadow(0 0 6px color-mix(in oklab, var(--acc-strong) 50.0%, transparent))" }}
               />
             </svg>
             <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
@@ -227,7 +230,7 @@ function TempSensePage() {
           padding: 20,
           marginBottom: 14,
           borderLeft: `4px solid ${O.accent}`,
-          boxShadow: "0 4px 20px rgba(244,165,106,0.1)",
+          boxShadow: "0 4px 20px color-mix(in oklab, var(--acc-strong) 10.0%, transparent)",
         }}>
           <OrangeSectionLabel jp="体温の推移・7日間" en="Temperature Trend · 7 Days" />
           <svg viewBox="0 0 280 140" width="100%" height={140}>
@@ -242,14 +245,14 @@ function TempSensePage() {
               const yBot = 95 - ((38.0 - 37.5) / 2) * 70;
               return (
                 <>
-                  <rect x={28} y={yTop} width={250} height={yBot - yTop} fill="#22C55E" opacity={0.08} rx={4} />
+                  <rect x={28} y={yTop} width={250} height={yBot - yTop} fill="var(--acc2-deep)" opacity={0.08} rx={4} />
                   <text x={32} y={yTop - 3} fontSize="9" fill={O.ok}>{t("正常範囲", "Normal range")}</text>
                 </>
               );
             })()}
             {[37.5, 38.5, 39.5].map((v, i) => (
               <g key={i}>
-                <line x1={28} x2={278} y1={20 + i * 35} y2={20 + i * 35} stroke="rgba(244,165,106,0.08)" strokeWidth={1} />
+                <line x1={28} x2={278} y1={20 + i * 35} y2={20 + i * 35} stroke="color-mix(in oklab, var(--acc-strong) 8.0%, transparent)" strokeWidth={1} />
                 <text x={24} y={23 + i * 35} fontSize="9" fill={O.textMuted} textAnchor="end">{v}</text>
               </g>
             ))}
@@ -296,13 +299,13 @@ function TempSensePage() {
           padding: 20,
           marginBottom: 14,
           borderLeft: `4px solid ${O.accent}`,
-          boxShadow: "0 4px 20px rgba(244,165,106,0.1)",
+          boxShadow: "0 4px 20px color-mix(in oklab, var(--acc-strong) 10.0%, transparent)",
         }}>
           <OrangeSectionLabel jp="体温アラート" en="Temperature Alerts" />
           <div style={{ position: "relative", height: 28, marginTop: 16, marginBottom: 30 }}>
             <div style={{
               position: "absolute", inset: 0, borderRadius: 50,
-              background: "linear-gradient(90deg,#93C5FD 0%,#86EFAC 30%,#FDE68A 60%,#FB923C 85%,#EF4444 100%)",
+              background: "linear-gradient(90deg,var(--acc-soft) 0%,var(--acc2-strong) 30%,var(--acc-soft) 60%,var(--acc-strong) 85%,#EF4444 100%)",
             }} />
             <div style={{
               position: "absolute", top: -6, left: `${markerPct * 100}%`, transform: "translateX(-50%)",
@@ -352,13 +355,13 @@ function HourlyPatternCard({ avg, min, max, drawn }: { avg: string; min: number;
       padding: 20,
       marginBottom: 14,
       borderLeft: `4px solid ${O.accent}`,
-      boxShadow: "0 4px 20px rgba(244,165,106,0.1)",
+      boxShadow: "0 4px 20px color-mix(in oklab, var(--acc-strong) 10.0%, transparent)",
     }}>
       <OrangeSectionLabel jp="体温の推移パターン" en="Temperature Pattern" />
       <svg viewBox={`0 0 ${W} ${H}`} width="100%" height={H}>
         {/* normal range band */}
         <rect x={PX} y={yNormalHi} width={innerW} height={yNormalLo - yNormalHi}
-          fill="#22C55E" opacity={0.06} rx={3} />
+          fill="var(--acc2-deep)" opacity={0.06} rx={3} />
         {/* reference lines */}
         <line x1={PX} x2={W - PX} y1={yNormalHi} y2={yNormalHi} stroke="rgba(0,0,0,0.05)" strokeDasharray="2 3" />
         <line x1={PX} x2={W - PX} y1={yNormalLo} y2={yNormalLo} stroke="rgba(0,0,0,0.05)" strokeDasharray="2 3" />
@@ -383,9 +386,9 @@ function HourlyPatternCard({ avg, min, max, drawn }: { avg: string; min: number;
         })}
       </svg>
       <div className="flex" style={{ gap: 8, marginTop: 12, flexWrap: "wrap" }}>
-        <StatPill bg="rgba(244,165,106,0.15)" color={O.deep} label={t("平均", "Avg")} value={`${avg}°C`} />
-        <StatPill bg="rgba(147,196,224,0.2)" color="#3D7A9E" label={t("最低", "Min")} value={`${min}°C`} />
-        <StatPill bg="rgba(247,188,142,0.25)" color={O.deep} label={t("最高", "Max")} value={`${max}°C`} />
+        <StatPill bg="color-mix(in oklab, var(--acc-strong) 15.0%, transparent)" color={O.deep} label={t("平均", "Avg")} value={`${avg}°C`} />
+        <StatPill bg="color-mix(in oklab, var(--acc-strong) 20.0%, transparent)" color="var(--acc-deep)" label={t("最低", "Min")} value={`${min}°C`} />
+        <StatPill bg="color-mix(in oklab, var(--acc-soft) 25.0%, transparent)" color={O.deep} label={t("最高", "Max")} value={`${max}°C`} />
       </div>
     </div>
   );
@@ -412,11 +415,11 @@ function OrangeAIInsightCard({ name }: { name: string }) {
     <div style={{
       position: "relative",
       overflow: "hidden",
-      background: "linear-gradient(135deg,#C96B3A 0%,#E8895A 100%)",
+      background: "linear-gradient(135deg,var(--acc-deep) 0%,var(--acc-strong) 100%)",
       borderRadius: 26,
       padding: 22,
       color: "#FFFFFF",
-      boxShadow: "0 6px 24px rgba(201,107,58,0.2)",
+      boxShadow: "0 6px 24px color-mix(in oklab, var(--acc-strong) 20.0%, transparent)",
     }}>
       <div className="flex items-center" style={{ gap: 6, position: "relative" }}>
         <Sparkles size={14} color={O.muted} />
@@ -446,7 +449,7 @@ function OrangeAIInsightCard({ name }: { name: string }) {
         borderRadius: 50, padding: "6px 14px",
         fontSize: 12, fontWeight: 500, position: "relative",
       }}>
-        <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#86EFAC" }} />
+        <span style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--acc2-strong)" }} />
         {t("正常範囲内", "Within normal range")}
       </div>
       <div className="flex items-center justify-end" style={{ gap: 4, marginTop: 14, position: "relative" }}>
@@ -488,7 +491,9 @@ function OrangeTimeTabs({ value, onChange }: { value: string; onChange: (v: stri
   return (
     <div
       style={{
-        background: "#FEF8F3",
+        background: "var(--bg-card)",
+        border: "1px solid var(--acc-pale)",
+        boxShadow: "0 8px 20px rgba(74,55,40,0.08)",
         borderRadius: 50,
         padding: 3,
         display: "flex",
@@ -508,14 +513,13 @@ function OrangeTimeTabs({ value, onChange }: { value: string; onChange: (v: stri
               padding: "8px 0",
               borderRadius: 50,
               background: active ? O.primary : "transparent",
-              color: active ? "#FFFFFF" : "#9CA3AF",
+              color: active ? "#FFFFFF" : "var(--text-secondary)",
               transition: "all 200ms ease",
               touchAction: "manipulation",
               lineHeight: 1.15,
             }}
           >
             <div style={{ fontSize: 13, fontWeight: 600 }}>{tb.en}</div>
-            <div style={{ fontSize: 9, color: active ? "rgba(255,255,255,0.85)" : "#9CA3AF", marginTop: 1 }}>{tb.jp}</div>
           </button>
         );
       })}
@@ -537,8 +541,8 @@ function TrendStripCard({ tab }: { tab: string }) {
       borderRadius: 22,
       padding: 20,
       marginBottom: 12,
-      borderLeft: "4px solid #F7BC8E",
-      boxShadow: "0 4px 20px rgba(244,165,106,0.1)",
+      borderLeft: "4px solid var(--acc-soft)",
+      boxShadow: "0 4px 20px color-mix(in oklab, var(--acc-strong) 10.0%, transparent)",
       overflow: "hidden",
     }}>
       <div className="flex items-center justify-between" style={{ marginBottom: 14 }}>
@@ -548,7 +552,7 @@ function TrendStripCard({ tab }: { tab: string }) {
             {t("体温の推移", "Temperature Trend")}
           </span>
         </div>
-        <span style={{ fontSize: 11, color: "#9CA3AF" }}>{contextLabel}</span>
+        <span style={{ fontSize: 11, color: "var(--text-secondary)" }}>{contextLabel}</span>
       </div>
 
       {tab === "1d" && <HourlyStrip />}
@@ -575,10 +579,10 @@ function HourlyStrip() {
   const HOUR_Y = 84;
 
   const dotColor = (v: number | null) => {
-    if (v == null) return "#E5E7EB";
+    if (v == null) return "var(--border-card)";
     if (v > 40) return "#DC2626";
-    if (v > 39.2) return "#D97706";
-    return "#16A34A";
+    if (v > 39.2) return "var(--acc-deep)";
+    return "var(--acc-strong)";
   };
 
   // sparkline path through filled values
@@ -596,27 +600,27 @@ function HourlyStrip() {
         {HOURS.map((d, i) =>
           d.h === 14 ? (
             <rect key={`bg${i}`} x={i * COL_W + 4} y={6} width={COL_W - 8} height={88}
-              rx={12} fill="#FEF0E6" />
+              rx={12} fill="var(--acc-pale)" />
           ) : null
         )}
-        <path d={sparkPath} stroke="#F4A56A" strokeWidth={1.5} fill="none" strokeLinecap="round" />
+        <path d={sparkPath} stroke="var(--acc-strong)" strokeWidth={1.5} fill="none" strokeLinecap="round" />
         {HOURS.map((d, i) => {
           const cx = i * COL_W + COL_W / 2;
           const isNow = d.h === 14;
           return (
             <g key={i} opacity={d.v == null ? 0.45 : 1}>
               {isNow && (
-                <text x={cx} y={18} fontSize="9" fill="#F4A56A" fontWeight={700} textAnchor="middle">
+                <text x={cx} y={18} fontSize="9" fill="var(--acc-strong)" fontWeight={700} textAnchor="middle">
                   {t("今", "Now")}
                 </text>
               )}
               {d.v != null && (
-                <text x={cx} y={TEMP_Y} fontSize="11" fontWeight={600} fill="#1A1A2E" textAnchor="middle">
+                <text x={cx} y={TEMP_Y} fontSize="11" fontWeight={600} fill="var(--text-primary)" textAnchor="middle">
                   {d.v.toFixed(1)}
                 </text>
               )}
               <circle cx={cx} cy={DOT_Y} r={5} fill={dotColor(d.v)} />
-              <text x={cx} y={HOUR_Y} fontSize="10" fill="#9CA3AF" textAnchor="middle">{d.h}{t("時", "h")}</text>
+              <text x={cx} y={HOUR_Y} fontSize="10" fill="var(--text-secondary)" textAnchor="middle">{d.h}{t("時", "h")}</text>
             </g>
           );
         })}
@@ -637,8 +641,8 @@ function WeeklyStrip() {
     { jp: "土", en: "Sat", v: 38.4 },
     { jp: "日", en: "Sun", v: 38.5, today: true },
   ];
-  const ringColor = (v: number) => (v > 40 ? "#DC2626" : v > 39.2 ? "#D97706" : "#F4A56A");
-  const dot = (v: number) => (v > 40 ? "#DC2626" : v > 39.2 ? "#D97706" : "#16A34A");
+  const ringColor = (v: number) => (v > 40 ? "#DC2626" : v > 39.2 ? "var(--acc-deep)" : "var(--acc-strong)");
+  const dot = (v: number) => (v > 40 ? "#DC2626" : v > 39.2 ? "var(--acc-deep)" : "var(--acc-strong)");
 
   return (
     <>
@@ -651,25 +655,25 @@ function WeeklyStrip() {
               background: "#FFFFFF",
               borderRadius: 14,
               padding: "10px 8px",
-              boxShadow: "0 2px 8px rgba(244,165,106,0.1)",
-              border: d.today ? "1.5px solid #F4A56A" : "1px solid #FEF0E6",
+              boxShadow: "0 2px 8px color-mix(in oklab, var(--acc-strong) 10.0%, transparent)",
+              border: d.today ? "1.5px solid var(--acc-strong)" : "1px solid var(--acc-pale)",
               textAlign: "center",
               position: "relative",
             }}>
               {d.today && (
-                <div style={{ fontSize: 9, color: "#F4A56A", fontWeight: 700, marginBottom: 2 }}>
+                <div style={{ fontSize: 9, color: "var(--acc-strong)", fontWeight: 700, marginBottom: 2 }}>
                   {t("今日", "Today")}
                 </div>
               )}
-              <div style={{ fontSize: 11, color: "#9CA3AF" }}>{t(d.jp, d.en)}</div>
+              <div style={{ fontSize: 11, color: "var(--text-secondary)" }}>{t(d.jp, d.en)}</div>
               <div style={{
                 width: 40, height: 40, borderRadius: "50%",
                 border: `2.5px solid ${ringColor(d.v)}`,
                 margin: "6px auto 4px",
                 display: "flex", alignItems: "center", justifyContent: "center",
-                background: "#FFF8F3",
+                background: "var(--bg-page)",
               }}>
-                <div style={{ fontSize: 10, fontWeight: 700, color: "#1A1A2E", fontVariantNumeric: "tabular-nums" }}>
+                <div style={{ fontSize: 10, fontWeight: 700, color: "var(--text-primary)", fontVariantNumeric: "tabular-nums" }}>
                   {d.v.toFixed(1)}
                 </div>
               </div>
@@ -678,7 +682,7 @@ function WeeklyStrip() {
           ))}
         </div>
       </div>
-      <div style={{ fontSize: 12, color: "#9CA3AF", marginTop: 12 }}>
+      <div style={{ fontSize: 12, color: "var(--text-secondary)", marginTop: 12 }}>
         {t("週間平均 38.5°C · 先週比 +0.1°C ↑", "Weekly avg 38.5°C · vs last week +0.1°C ↑")}
       </div>
     </>
@@ -714,9 +718,9 @@ function MonthlyCalendar() {
 
   const cellStyle = (n: number | null) => {
     const s = status(n);
-    if (s === "normal") return { bg: "#FEF0E6", dot: "#F4A56A" };
-    if (s === "elevated") return { bg: "#FFF3CD", dot: "#D97706" };
-    return { bg: "#F9F9F9", dot: null as string | null };
+    if (s === "normal") return { bg: "var(--acc-pale)", dot: "var(--acc-strong)" };
+    if (s === "elevated") return { bg: "var(--acc-pale)", dot: "var(--acc-deep)" };
+    return { bg: "var(--bg-elevated)", dot: null as string | null };
   };
 
   const wk = [
@@ -727,16 +731,16 @@ function MonthlyCalendar() {
   return (
     <>
       <div className="flex items-center justify-center" style={{ gap: 12, marginBottom: 10 }}>
-        <button onClick={() => setMonthOffset((o) => o - 1)} style={{ color: "#1A1A2E", fontSize: 14 }}>←</button>
-        <div style={{ fontSize: 13, fontWeight: 600, color: "#1A1A2E" }}>
+        <button onClick={() => setMonthOffset((o) => o - 1)} style={{ color: "var(--text-primary)", fontSize: 14 }}>←</button>
+        <div style={{ fontSize: 13, fontWeight: 600, color: "var(--text-primary)" }}>
           {year}{t("年", "/")}{month + 1}{t("月", "")}
         </div>
-        <button onClick={() => setMonthOffset((o) => o + 1)} style={{ color: "#1A1A2E", fontSize: 14 }}>→</button>
+        <button onClick={() => setMonthOffset((o) => o + 1)} style={{ color: "var(--text-primary)", fontSize: 14 }}>→</button>
       </div>
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(7,1fr)", gap: 6, marginBottom: 6 }}>
         {wk.map((w, i) => (
-          <div key={i} style={{ fontSize: 10, color: "#9CA3AF", textAlign: "center" }}>{t(w.jp, w.en)}</div>
+          <div key={i} style={{ fontSize: 10, color: "var(--text-secondary)", textAlign: "center" }}>{t(w.jp, w.en)}</div>
         ))}
       </div>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(7,1fr)", gap: 6 }}>
@@ -748,12 +752,12 @@ function MonthlyCalendar() {
               <div style={{
                 width: 30, height: 30, borderRadius: "50%",
                 background: n == null ? "transparent" : s.bg,
-                border: isToday ? "2px solid #F4A56A" : "none",
+                border: isToday ? "2px solid var(--acc-strong)" : "none",
                 display: "flex", alignItems: "center", justifyContent: "center",
                 position: "relative",
               }}>
                 {n != null && (
-                  <span style={{ fontSize: 10, color: "#6B7280" }}>{n}</span>
+                  <span style={{ fontSize: 10, color: "var(--text-secondary)" }}>{n}</span>
                 )}
                 {n != null && s.dot && (
                   <span style={{
@@ -775,8 +779,8 @@ function MonthlyCalendar() {
           { jp: "アラート", en: "Alerts", v: "2" + t("回", "x") },
         ].map((s, i) => (
           <div key={i} style={{ textAlign: "center" }}>
-            <div style={{ fontSize: 14, fontWeight: 700, color: "#1A1A2E", fontVariantNumeric: "tabular-nums" }}>{s.v}</div>
-            <div style={{ fontSize: 10, color: "#9CA3AF", marginTop: 2 }}>{t(s.jp, s.en)}</div>
+            <div style={{ fontSize: 14, fontWeight: 700, color: "var(--text-primary)", fontVariantNumeric: "tabular-nums" }}>{s.v}</div>
+            <div style={{ fontSize: 10, color: "var(--text-secondary)", marginTop: 2 }}>{t(s.jp, s.en)}</div>
           </div>
         ))}
       </div>

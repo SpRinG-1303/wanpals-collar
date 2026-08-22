@@ -32,7 +32,7 @@ export default function LanguageSwitcher({ variant = "pill" }: { variant?: "pill
     setOpen(false);
     toast(opt.toast, {
       position: "bottom-center",
-      style: { background: "#1A2F5A", color: "#fff", border: "none" },
+      style: { background: "var(--acc-deep)", color: "#fff", border: "none" },
       duration: 2000,
     });
   };
@@ -72,7 +72,7 @@ export default function LanguageSwitcher({ variant = "pill" }: { variant?: "pill
           height: 28,
           padding: "6px 14px",
           borderRadius: 20,
-          background: "#F0EEF8",
+          background: "var(--acc-pale)",
           color: "var(--accent-fuji)",
           fontSize: 12,
           fontWeight: 700,

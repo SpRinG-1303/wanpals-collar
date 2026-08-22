@@ -57,7 +57,7 @@ export const DEFAULT_PET: PetProfile = {
   vaccinated: false,
   photoUrl: null,
   avatar: {
-    furColor: "#C4813A",
+    furColor: "var(--acc-deep)",
     earStyle: "upright",
     eyeStyle: "round",
     collarColor: "var(--accent-sakura)",

@@ -9,21 +9,21 @@ export const Route = createFileRoute("/skin-sense")({ component: SkinSensePage }
 
 /* ---------- Pink palette ---------- */
 const C = {
-  primary: "#F5BDD4",
-  deep: "#E8A0BF",
-  mid: "#F0A8C4",
-  soft: "#FEF0F6",
-  pale: "#FEF6FA",
-  accent: "#FAD0E4",
-  muted: "#FCE4EF",
-  sakura: "#FFF0F7",
+  primary: "var(--acc-pale)",
+  deep: "var(--acc-soft)",
+  mid: "var(--acc-soft)",
+  soft: "var(--acc-pale)",
+  pale: "var(--bg-page)",
+  accent: "var(--acc-soft)",
+  muted: "var(--acc-pale)",
+  sakura: "var(--acc-pale)",
   white: "#FFFFFF",
-  text: "#1A1A2E",
-  text2: "#6B7280",
-  text3: "#9CA3AF",
-  ok: "#16A34A",
-  mild: "#D97706",
-  mod: "#EA580C",
+  text: "var(--text-primary)",
+  text2: "var(--text-secondary)",
+  text3: "var(--text-secondary)",
+  ok: "var(--acc-strong)",
+  mild: "var(--acc-deep)",
+  mod: "var(--acc-deep)",
   sev: "#DC2626",
 };
 
@@ -43,8 +43,8 @@ function PinkCard({ children, style }: { children: ReactNode; style?: CSSPropert
     <div style={{
       background: C.white,
       borderRadius: 24,
-      boxShadow: "0 4px 20px rgba(245,189,212,0.1)",
-      borderLeft: "4px solid #E8B4CC",
+      boxShadow: "0 4px 20px color-mix(in oklab, var(--acc-soft) 10.0%, transparent)",
+      borderLeft: "4px solid var(--acc-soft)",
       padding: 20,
       marginBottom: 14,
       overflow: "hidden",
@@ -59,8 +59,8 @@ function Label({ jp, en }: { jp: string; en: string }) {
   const t = useT();
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 10 }}>
-      <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#C98BA8" }} />
-      <span style={{ fontSize: 11, color: "#C98BA8", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase" }}>
+      <span style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--acc-soft)" }} />
+      <span style={{ fontSize: 11, color: "var(--acc-soft)", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase" }}>
         {t(jp, en)}
       </span>
     </div>
@@ -70,10 +70,10 @@ function Label({ jp, en }: { jp: string; en: string }) {
 /* ---------- Severity helpers ---------- */
 type Severity = "normal" | "mild" | "moderate" | "severe";
 const SEV: Record<Severity, { color: string; bg: string; jp: string; en: string }> = {
-  normal:   { color: C.ok,  bg: "#DCFCE7", jp: "正常",   en: "Normal" },
-  mild:     { color: C.mild,bg: "#FEF3C7", jp: "軽度",   en: "Mild" },
-  moderate: { color: C.mod, bg: "#FFEDD5", jp: "中度",   en: "Moderate" },
-  severe:   { color: C.sev, bg: "#FEE2E2", jp: "重度",   en: "Severe" },
+  normal:   { color: C.ok,  bg: "var(--acc2-pale)", jp: "正常",   en: "Normal" },
+  mild:     { color: C.mild,bg: "var(--acc-soft)", jp: "軽度",   en: "Mild" },
+  moderate: { color: C.mod, bg: "var(--acc-pale)", jp: "中度",   en: "Moderate" },
+  severe:   { color: C.sev, bg: "var(--acc-pale)", jp: "重度",   en: "Severe" },
 };
 
 /* ---------- History ---------- */
@@ -129,19 +129,19 @@ function SkinSensePage() {
         @keyframes ssPetal { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
         @keyframes ssScan { 0%{top:0} 50%{top:calc(100% - 2px)} 100%{top:0} }
         @keyframes ssIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
-        @keyframes ssPulse { 0%,100%{box-shadow:0 6px 20px rgba(232,160,191,.4)} 50%{box-shadow:0 6px 28px rgba(232,160,191,.65)} }
+        @keyframes ssPulse { 0%,100%{box-shadow:0 6px 20px color-mix(in oklab, var(--acc-soft) 40.0%, transparent)} 50%{box-shadow:0 6px 28px color-mix(in oklab, var(--acc-soft) 65.0%, transparent)} }
         @keyframes ssDot { 0%,80%,100%{transform:translateY(0);opacity:.4} 40%{transform:translateY(-6px);opacity:1} }
         .ss-in { animation: ssIn 380ms cubic-bezier(.2,.7,.2,1) both; }
       `}</style>
 
-      <div style={{ background: "#FEF6FA", minHeight: "100%", paddingBottom: 110 }}>
+      <div style={{ background: "var(--bg-page)", minHeight: "100%", paddingBottom: 110 }}>
         {/* ---- HERO ---- */}
         <SenseBanner
           subtitleEn="SkinSense AI"
           titleEn="SkinSense AI"
           descriptorEn="Skin health analysis"
-          bgGradient="linear-gradient(135deg,#FFF5F7 0%,#FCE7F3 100%)"
-          subtitleColor="#C98BA8"
+          bgGradient="linear-gradient(135deg,var(--bg-card) 0%,var(--acc-pale) 100%)"
+          subtitleColor="var(--acc-soft)"
         />
 
         {/* ---- Stats card below banner ---- */}
@@ -155,7 +155,7 @@ function SkinSensePage() {
             gridTemplateColumns: "1fr 1fr 1fr",
           }}>
             {[
-              { label: t("皮膚スコア", "SKIN SCORE"), value: "94", color: "#C98BA8" },
+              { label: t("皮膚スコア", "SKIN SCORE"), value: "94", color: "var(--acc-soft)" },
               { label: t("最終スキャン", "LAST SCAN"), value: t("5月12日", "May 12"), color: C.text },
               { label: t("状態", "CONDITION"), value: t("正常", "Normal"), color: C.ok },
             ].map((s, i) => (
@@ -183,7 +183,7 @@ function SkinSensePage() {
             {!photo ? (
               <div style={{
                 position: "relative",
-                background: "linear-gradient(135deg, #FEF6FA, #FEF0F6)",
+                background: "linear-gradient(135deg, var(--bg-page), var(--acc-pale))",
                 border: `1.5px dashed ${C.accent}`,
                 borderRadius: 20,
                 height: 180,
@@ -193,26 +193,26 @@ function SkinSensePage() {
                 {/* scanning line */}
                 <div style={{
                   position: "absolute", left: 0, right: 0, height: 1.5,
-                  background: "linear-gradient(90deg, transparent, rgba(245,189,212,0.55), transparent)",
+                  background: "linear-gradient(90deg, transparent, color-mix(in oklab, var(--acc-soft) 55.0%, transparent), transparent)",
                   animation: "ssScan 2.5s ease-in-out infinite",
                 }} />
                 {/* Viewfinder */}
                 <div style={{
                   width: 80, height: 80, borderRadius: "50%",
-                  border: "1px solid rgba(245,189,212,0.3)",
+                  border: "1px solid color-mix(in oklab, var(--acc-soft) 30.0%, transparent)",
                   display: "flex", alignItems: "center", justifyContent: "center",
                   position: "relative",
                 }}>
                   <div style={{
                     position: "absolute", width: 65, height: 65, borderRadius: "50%",
-                    border: "1px solid rgba(245,189,212,0.15)",
+                    border: "1px solid color-mix(in oklab, var(--acc-soft) 15.0%, transparent)",
                   }} />
-                  <Camera size={28} color="#C98BA8" strokeWidth={1.6} />
+                  <Camera size={28} color="var(--acc-soft)" strokeWidth={1.6} />
                 </div>
                 <Bi
                   jp="愛犬の皮膚を撮影してください"
                   en="Capture your dog's skin"
-                  jpStyle={{ fontSize: 13, color: "#374151", fontWeight: 500, marginTop: 12, textAlign: "center" }}
+                  jpStyle={{ fontSize: 13, color: "var(--text-primary)", fontWeight: 500, marginTop: 12, textAlign: "center" }}
                   enStyle={{ fontSize: 11, color: C.text3, marginTop: 4, textAlign: "center" }}
                 />
                 <Bi
@@ -229,7 +229,7 @@ function SkinSensePage() {
                   onClick={() => { setPhoto(null); setDone(false); }}
                   style={{
                     position: "absolute", top: 10, right: 10,
-                    background: "rgba(255,255,255,0.95)", color: "#6B3A52",
+                    background: "rgba(255,255,255,0.95)", color: "var(--acc-deep)",
                     border: "none", borderRadius: 50, padding: "6px 12px",
                     fontSize: 11, fontWeight: 700, display: "flex", alignItems: "center", gap: 4,
                     boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
@@ -252,7 +252,7 @@ function SkinSensePage() {
                   onClick={() => cameraRef.current?.click()}
                   style={{
                     flex: 1, padding: "10px 0", borderRadius: 50,
-                    border: `1.5px solid #C98BA8`, color: "#C98BA8", background: "#fff",
+                    border: `1.5px solid var(--acc-soft)`, color: "var(--acc-soft)", background: "#fff",
                     fontSize: 13, fontWeight: 500, display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
                   }}
                 >
@@ -262,9 +262,9 @@ function SkinSensePage() {
                   onClick={() => galleryRef.current?.click()}
                   style={{
                     flex: 1, padding: "10px 0", borderRadius: 50,
-                    background: "linear-gradient(135deg, #E8A0BF, #F5BDD4)", color: "#6B3A52",
+                    background: "linear-gradient(135deg, var(--acc-soft), var(--acc-pale))", color: "var(--acc-deep)",
                     border: "none", fontSize: 13, fontWeight: 600,
-                    boxShadow: "0 4px 14px rgba(232,160,191,0.3)",
+                    boxShadow: "0 4px 14px color-mix(in oklab, var(--acc-soft) 30.0%, transparent)",
                     display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
                   }}
                 >
@@ -277,7 +277,7 @@ function SkinSensePage() {
                 disabled={analyzing}
                 style={{
                   marginTop: 14, width: "100%", padding: "14px 0", borderRadius: 50,
-                  background: "linear-gradient(135deg, #E8A0BF, #F5BDD4)", color: "#6B3A52",
+                  background: "linear-gradient(135deg, var(--acc-soft), var(--acc-pale))", color: "var(--acc-deep)",
                   border: "none", fontSize: 15, fontWeight: 600,
                   display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
                   animation: analyzing ? "none" : "ssPulse 2s ease-in-out infinite",
@@ -304,7 +304,7 @@ function SkinSensePage() {
                     jpStyle={{ fontSize: 16, fontWeight: 700, color: C.text }}
                     enStyle={{ fontSize: 13, fontWeight: 600, color: C.text2 }}
                   />
-                  <div style={{ fontSize: 12, color: "#C98BA8", marginTop: 2, fontWeight: 600 }}>
+                  <div style={{ fontSize: 12, color: "var(--acc-soft)", marginTop: 2, fontWeight: 600 }}>
                     {t("信頼度 96%", "Confidence 96%")}
                   </div>
                 </div>
@@ -312,13 +312,13 @@ function SkinSensePage() {
               </div>
 
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginTop: 14 }}>
-                <Metric icon={<Droplet size={16} />} iconBg="#DBEAFE" iconColor="#2563EB"
+                <Metric icon={<Droplet size={16} />} iconBg="var(--acc-pale)" iconColor="var(--acc-strong)"
                   jp="水分量" en="Hydration" value="82%" />
-                <Metric icon={<Layers size={16} />} iconBg="#DCFCE7" iconColor={C.ok}
+                <Metric icon={<Layers size={16} />} iconBg="var(--acc2-pale)" iconColor={C.ok}
                   jp="質感" en="Texture" value={t("正常", "Normal")} />
-                <Metric icon={<Palette size={16} />} iconBg="#FEF3C7" iconColor={C.mild}
+                <Metric icon={<Palette size={16} />} iconBg="var(--acc-soft)" iconColor={C.mild}
                   jp="色素" en="Pigmentation" value={t("健康", "Healthy")} />
-                <Metric icon={<Flame size={16} />} iconBg="#FEE2E2" iconColor={C.sev}
+                <Metric icon={<Flame size={16} />} iconBg="var(--acc-pale)" iconColor={C.sev}
                   jp="炎症" en="Inflammation" value={t("なし", "None")} />
               </div>
 
@@ -343,10 +343,10 @@ function SkinSensePage() {
                   }}>
                     <div style={{
                       width: 48, height: 48, borderRadius: "50%", flexShrink: 0,
-                      background: "linear-gradient(135deg, #FEF0F6, #FEF6FA)",
+                      background: "linear-gradient(135deg, var(--acc-pale), var(--bg-page))",
                       display: "flex", alignItems: "center", justifyContent: "center",
                     }}>
-                      <PawIcon color="#E8B4CC" size={22} />
+                      <PawIcon color="var(--acc-soft)" size={22} />
                     </div>
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <Bi jp={h.jp} en={h.en}
@@ -357,7 +357,7 @@ function SkinSensePage() {
                       <div style={{ display: "flex", gap: 4, marginTop: 5, flexWrap: "wrap" }}>
                         {h.tags.map((tag, ti) => (
                           <span key={ti} style={{
-                            background: C.soft, color: "#6B3A52",
+                            background: C.soft, color: "var(--acc-deep)",
                             fontSize: 9, fontWeight: 600, borderRadius: 50,
                             padding: "2px 8px",
                           }}>{t(tag.jp, tag.en)}</span>
@@ -365,7 +365,7 @@ function SkinSensePage() {
                       </div>
                     </div>
                     <div style={{ textAlign: "right", flexShrink: 0 }}>
-                      <div style={{ fontSize: 22, fontWeight: 800, color: "#C98BA8", lineHeight: 1 }}>{h.score}</div>
+                      <div style={{ fontSize: 22, fontWeight: 800, color: "var(--acc-soft)", lineHeight: 1 }}>{h.score}</div>
                       <span style={{
                         display: "inline-block", marginTop: 4, padding: "3px 8px",
                         borderRadius: 50, background: s.bg, color: s.color,
@@ -378,7 +378,7 @@ function SkinSensePage() {
             </div>
             <button style={{
               width: "100%", marginTop: 10, padding: "8px 0", border: "none", background: "transparent",
-              color: "#C98BA8", fontSize: 13, fontWeight: 600,
+              color: "var(--acc-soft)", fontSize: 13, fontWeight: 600,
             }}>
               {t("履歴をすべて見る ›", "View Full History ›")}
             </button>
@@ -401,15 +401,15 @@ function ScoreRing({ value }: { value: number }) {
     <svg width={52} height={52} viewBox="0 0 52 52">
       <defs>
         <linearGradient id="ssRing" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#F0A8C4" />
-          <stop offset="100%" stopColor="#F5BDD4" />
+          <stop offset="0%" stopColor="var(--acc-soft)" />
+          <stop offset="100%" stopColor="var(--acc-pale)" />
         </linearGradient>
       </defs>
       <circle cx={26} cy={26} r={r} fill="none" stroke={C.soft} strokeWidth={5} />
       <circle cx={26} cy={26} r={r} fill="none" stroke="url(#ssRing)" strokeWidth={5}
         strokeDasharray={c} strokeDashoffset={off} strokeLinecap="round"
         transform="rotate(-90 26 26)" />
-      <text x={26} y={30} textAnchor="middle" fontSize={14} fontWeight={800} fill="#C98BA8">{value}</text>
+      <text x={26} y={30} textAnchor="middle" fontSize={14} fontWeight={800} fill="var(--acc-soft)">{value}</text>
     </svg>
   );
 }
@@ -444,7 +444,7 @@ function DetailedGuide() {
           width: "100%", padding: "12px 14px", borderRadius: 14,
           background: C.pale, border: `1px solid ${C.soft}`,
           display: "flex", alignItems: "center", justifyContent: "space-between",
-          color: "#6B3A52", fontSize: 12, fontWeight: 700, letterSpacing: "0.06em",
+          color: "var(--acc-deep)", fontSize: 12, fontWeight: 700, letterSpacing: "0.06em",
         }}
       >
         <span>● {t("詳細ガイド", "DETAILED GUIDE")}</span>
@@ -474,11 +474,11 @@ function GuideRow({ titleJp, titleEn, jp, en }: { titleJp: string; titleEn: stri
   return (
     <div>
       <Bi jp={titleJp} en={titleEn}
-        jpStyle={{ fontSize: 12, fontWeight: 700, color: "#6B3A52" }}
+        jpStyle={{ fontSize: 12, fontWeight: 700, color: "var(--acc-deep)" }}
         enStyle={{ fontSize: 10, color: C.text3, marginTop: 1 }}
       />
       <Bi jp={jp} en={en}
-        jpStyle={{ fontSize: 12, color: "#374151", lineHeight: 1.6, marginTop: 4 }}
+        jpStyle={{ fontSize: 12, color: "var(--text-primary)", lineHeight: 1.6, marginTop: 4 }}
         enStyle={{ fontSize: 11, color: C.text2, lineHeight: 1.55, marginTop: 4 }}
       />
     </div>
@@ -534,8 +534,8 @@ function AIChat() {
           <button key={i}
             onClick={() => sendText(q.jp, q.en)}
             style={{
-              flexShrink: 0, background: "#FEF0F6", border: "1px solid #F5BDD4",
-              color: "#9B5B76", borderRadius: 50, padding: "6px 14px",
+              flexShrink: 0, background: "var(--acc-pale)", border: "1px solid var(--acc-pale)",
+              color: "var(--acc-deep)", borderRadius: 50, padding: "6px 14px",
               fontSize: 12, fontWeight: 500, whiteSpace: "nowrap",
             }}
           >{t(q.jp, q.en)}</button>
@@ -556,17 +556,17 @@ function AIChat() {
                 boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
               }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 4, marginBottom: 4 }}>
-                  <PawIcon color="#E8B4CC" size={12} />
-                  <span style={{ fontSize: 10, color: "#E8B4CC", fontWeight: 700 }}>AI</span>
+                  <PawIcon color="var(--acc-soft)" size={12} />
+                  <span style={{ fontSize: 10, color: "var(--acc-soft)", fontWeight: 700 }}>AI</span>
                 </div>
                 <Bi jp={m.jp} en={m.en}
-                  jpStyle={{ fontSize: 13, color: "#374151", lineHeight: 1.6 }}
+                  jpStyle={{ fontSize: 13, color: "var(--text-primary)", lineHeight: 1.6 }}
                   enStyle={{ fontSize: 12, color: C.text2, lineHeight: 1.55, marginTop: 2 }}
                 />
               </div>
             ) : (
               <div style={{
-                background: "linear-gradient(135deg, #E8A0BF, #F5BDD4)", color: "#6B3A52",
+                background: "linear-gradient(135deg, var(--acc-soft), var(--acc-pale))", color: "var(--acc-deep)",
                 padding: "10px 14px", maxWidth: "82%",
                 borderRadius: "16px 16px 4px 16px",
                 fontSize: 13, lineHeight: 1.5,
@@ -582,7 +582,7 @@ function AIChat() {
             }}>
               {[0, 1, 2].map((i) => (
                 <span key={i} style={{
-                  width: 6, height: 6, borderRadius: "50%", background: "#E8B4CC",
+                  width: 6, height: 6, borderRadius: "50%", background: "var(--acc-soft)",
                   animation: `ssDot 1.2s ease-in-out ${i * 0.15}s infinite`,
                 }} />
               ))}
@@ -604,14 +604,14 @@ function AIChat() {
           placeholder={t("質問を入力...", "Type your question...")}
           style={{
             flex: 1, border: "none", outline: "none", background: "transparent",
-            fontSize: 13, color: "#374151", minWidth: 0,
+            fontSize: 13, color: "var(--text-primary)", minWidth: 0,
           }}
         />
         <button onClick={handleSend} aria-label="Send" style={{
           width: 36, height: 36, borderRadius: "50%", border: "none",
-          background: "linear-gradient(135deg, #E8A0BF, #F5BDD4)", color: "#6B3A52",
+          background: "linear-gradient(135deg, var(--acc-soft), var(--acc-pale))", color: "var(--acc-deep)",
           display: "flex", alignItems: "center", justifyContent: "center",
-          boxShadow: "0 2px 8px rgba(232,160,191,0.3)", flexShrink: 0,
+          boxShadow: "0 2px 8px color-mix(in oklab, var(--acc-soft) 30.0%, transparent)", flexShrink: 0,
         }}><Send size={16} /></button>
       </div>
     </PinkCard>
@@ -624,9 +624,9 @@ function AIInsight() {
   return (
     <div style={{
       position: "relative",
-      background: "linear-gradient(135deg, #C98BA8 0%, #DFA0BE 100%)",
+      background: "linear-gradient(135deg, var(--acc-soft) 0%, var(--acc-soft) 100%)",
       borderRadius: 26, padding: 22, overflow: "hidden",
-      boxShadow: "0 8px 28px rgba(180,120,150,0.18)",
+      boxShadow: "0 8px 28px color-mix(in oklab, var(--acc-strong) 18.0%, transparent)",
     }}>
       {/* sakura watermarks */}
       {[
@@ -644,7 +644,7 @@ function AIInsight() {
 
       <div style={{ position: "relative" }}>
         <div style={{
-          fontSize: 11, color: "#FCE4EF", fontWeight: 700, letterSpacing: "0.1em",
+          fontSize: 11, color: "var(--acc-pale)", fontWeight: 700, letterSpacing: "0.1em",
         }}>AI INSIGHT</div>
         <div style={{ height: 1, background: "rgba(255,255,255,0.15)", margin: "10px 0 14px" }} />
 
@@ -668,11 +668,11 @@ function AIInsight() {
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 16 }}>
           <span style={{
             display: "inline-flex", alignItems: "center", gap: 5,
-            background: "rgba(34,197,94,0.25)", color: "#BBF7D0",
+            background: "color-mix(in oklab, var(--acc-deep) 25.0%, transparent)", color: "var(--acc2-soft)",
             borderRadius: 50, padding: "4px 10px",
             fontSize: 11, fontWeight: 700,
           }}>
-            <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#4ADE80" }} />
+            <span style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--acc2-strong)" }} />
             {t("健康な皮膚 ✓", "Healthy skin ✓")}
           </span>
           <span style={{ fontSize: 11, color: "rgba(255,255,255,0.5)" }}>

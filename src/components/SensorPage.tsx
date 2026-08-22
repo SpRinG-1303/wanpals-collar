@@ -12,31 +12,31 @@ export const SP = {
   page: "#FAFAF9",
   card: "#FFFFFF",
   // Text
-  sumi: "#1A1A2E",          // primary deep navy
-  ink: "#4B5563",           // Japanese body
-  usuzumi: "#6B7280",       // secondary
-  muted: "#9CA3AF",          // tertiary
-  divider: "#F3F4F6",
+  sumi: "var(--text-primary)",          // primary deep navy
+  ink: "var(--text-secondary)",           // Japanese body
+  usuzumi: "var(--text-secondary)",       // secondary
+  muted: "var(--text-secondary)",          // tertiary
+  divider: "var(--bg-elevated)",
   // Rose / sakura accent
-  rose: "#F43F72",
-  roseSoft: "#FF6B8A",
+  rose: "var(--acc-deep)",
+  roseSoft: "var(--acc2-strong)",
   roseTint: "var(--accent-sakura-soft)",
-  roseFaint: "rgba(244,63,114,0.08)",
+  roseFaint: "color-mix(in oklab, var(--acc-strong) 8.0%, transparent)",
   // Status
-  ok: "#16A34A", okDot: "#22C55E", okBg: "#F0FDF4",
-  warn: "#D97706", warnDot: "#F59E0B", warnBg: "#FFFBEB",
-  danger: "#E11D48", dangerDot: "#F43F72", dangerBg: "#FFF1F2",
+  ok: "var(--acc-strong)", okDot: "var(--acc2-deep)", okBg: "var(--acc-pale)",
+  warn: "var(--acc-deep)", warnDot: "var(--acc-deep)", warnBg: "var(--acc-pale)",
+  danger: "#E11D48", dangerDot: "var(--acc-deep)", dangerBg: "#FFF1F2",
   // Legacy alias (kept so existing components compile without changes)
-  sakura: "#F43F72",
+  sakura: "var(--acc-deep)",
   matcha: "var(--accent-matcha)",
   yuzu: "var(--accent-yuzu)",
   fuji: "var(--accent-fuji)",
-  momiji: "#D4714E",
+  momiji: "var(--acc-strong)",
   sora: "var(--accent-sora)",
 };
 
 export const CARD_SHADOW = "0 2px 20px rgba(0,0,0,0.055)";
-export const SAKURA_HEADER = "linear-gradient(180deg,#FFF5F7 0%,#FFE8EF 100%)";
+export const SAKURA_HEADER = "linear-gradient(180deg,var(--bg-card) 0%,var(--acc2-pale) 100%)";
 
 export function SensorPage({
   titleEn,
@@ -82,12 +82,12 @@ export function SensorPage({
           subtitleEn={subtitleEn ?? titleEn}
           titleEn={titleEn}
           descriptorEn={descriptorEn ?? ""}
-          bgGradient={bannerGradient ?? "linear-gradient(135deg,#FFF5F7 0%,#FCE7F3 100%)"}
-          subtitleColor={bannerSubtitleColor ?? "#C98BA8"}
+          bgGradient={bannerGradient ?? "linear-gradient(135deg,var(--bg-card) 0%,var(--acc-pale) 100%)"}
+          subtitleColor={bannerSubtitleColor ?? "var(--acc-soft)"}
         />
 
         {/* Content */}
-        <div className="sp-stack" style={{ padding: "16px" }}>
+        <div className="sp-stack" style={{ padding: "16px", position: "relative", zIndex: 2 }}>
           {children}
         </div>
       </div>
@@ -232,7 +232,7 @@ export function AIInsightCard({
         padding: 20,
         marginBottom: 14,
         boxShadow: CARD_SHADOW,
-        borderLeft: "3px solid rgba(244,63,114,0.3)",
+        borderLeft: "3px solid color-mix(in oklab, var(--acc-strong) 30.0%, transparent)",
       }}
     >
       <div className="flex items-center" style={{ gap: 6 }}>

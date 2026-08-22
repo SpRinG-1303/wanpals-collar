@@ -9,20 +9,20 @@ export const Route = createFileRoute("/light-sense")({ component: LightSensePage
 
 // ───────────── Pastel pink palette ─────────────
 const P = {
-  primary: "#F4A0BC",
-  medium: "#E8849A",
-  deep: "#C96B82",
-  soft: "#FEF0F5",
+  primary: "var(--acc-soft)",
+  medium: "var(--acc2-strong)",
+  deep: "var(--acc2-strong)",
+  soft: "var(--acc-pale)",
   pale: "var(--accent-sakura-soft)",
-  accent: "#F7B8CC",
-  muted: "#FAD0DF",
-  light: "#FDE8EF",
-  divider: "#FEE8F0",
+  accent: "var(--acc2-soft)",
+  muted: "var(--acc-soft)",
+  light: "var(--acc-pale)",
+  divider: "var(--acc-pale)",
   white: "#FFFFFF",
-  text: "#1A1A2E",
-  text2: "#6B7280",
-  text3: "#9CA3AF",
-  ink: "#4B5563",
+  text: "var(--text-primary)",
+  text2: "var(--text-secondary)",
+  text3: "var(--text-secondary)",
+  ink: "var(--text-secondary)",
 };
 
 // ───────────── Color utils ─────────────
@@ -59,17 +59,17 @@ function hexToHsl(hex: string) {
 type NamedColor = { hex: string; jp: string; en: string };
 const JAPANESE_PALETTE: NamedColor[] = [
   { hex: "var(--accent-sakura)", jp: "桜", en: "Sakura" },
-  { hex: "#F19BAB", jp: "撫子", en: "Nadeshiko" },
-  { hex: "#E8B4BD", jp: "梅", en: "Ume" },
-  { hex: "#DB7093", jp: "牡丹", en: "Botan" },
-  { hex: "#9B8EC4", jp: "藤", en: "Fuji" },
-  { hex: "#8DC47C", jp: "若草", en: "Wakakusa" },
-  { hex: "#F6AD3B", jp: "山吹", en: "Yamabuki" },
-  { hex: "#4169E1", jp: "瑠璃", en: "Ruri" },
+  { hex: "var(--acc2-soft)", jp: "撫子", en: "Nadeshiko" },
+  { hex: "var(--acc2-soft)", jp: "梅", en: "Ume" },
+  { hex: "var(--acc2-strong)", jp: "牡丹", en: "Botan" },
+  { hex: "var(--acc-soft)", jp: "藤", en: "Fuji" },
+  { hex: "var(--acc2-strong)", jp: "若草", en: "Wakakusa" },
+  { hex: "var(--acc-strong)", jp: "山吹", en: "Yamabuki" },
+  { hex: "var(--acc-strong)", jp: "瑠璃", en: "Ruri" },
   { hex: "#FFFFFF", jp: "白", en: "Shiro" },
-  { hex: "#C8C8C8", jp: "銀", en: "Gin" },
+  { hex: "var(--text-placeholder)", jp: "銀", en: "Gin" },
   { hex: "#C0392B", jp: "紅", en: "Kurenai" },
-  { hex: "#1A1A2E", jp: "漆", en: "Urushi" },
+  { hex: "var(--text-primary)", jp: "漆", en: "Urushi" },
 ];
 function findName(hex: string): NamedColor | undefined {
   const u = hex.toUpperCase();
@@ -128,9 +128,9 @@ function ColorWheel({
       }}
       style={{
         position: "relative", width: size, height: size, borderRadius: "50%",
-        background: `conic-gradient(from 0deg, #ff0000, #ffaa00, #ffff00, #aaff00, #00ff00, #00ffaa, #00ffff, #00aaff, #0000ff, #aa00ff, #ff00ff, #ff00aa, #ff0000)`,
+        background: `conic-gradient(from 0deg, #FF0000, var(--acc-deep), var(--acc2-deep), var(--acc2-deep), var(--acc2-deep), var(--acc2-deep), var(--acc2-deep), var(--acc2-deep), var(--acc-deep), var(--acc-deep), var(--acc-deep), var(--acc-deep), #FF0000)`,
         cursor: dragging ? "grabbing" : "grab", touchAction: "none",
-        boxShadow: `inset 0 0 0 1px ${P.muted}, 0 4px 20px rgba(244,160,188,0.15)`,
+        boxShadow: `inset 0 0 0 1px ${P.muted}, 0 4px 20px color-mix(in oklab, var(--acc-soft) 15.0%, transparent)`,
         boxSizing: "border-box",
       }}
     >
@@ -170,14 +170,14 @@ function ColorWheel({
 }
 
 // ───────────── Inline SVG icons (no emojis) ─────────────
-function IconMoon({ size = 16, color = "#9CA3AF" }) {
+function IconMoon({ size = 16, color = "var(--text-secondary)" }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
       <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z" />
     </svg>
   );
 }
-function IconPaw({ size = 16, color = "#9CA3AF" }) {
+function IconPaw({ size = 16, color = "var(--text-secondary)" }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill={color}>
       <circle cx="6" cy="9" r="2" /><circle cx="10" cy="5" r="2" />
@@ -186,14 +186,14 @@ function IconPaw({ size = 16, color = "#9CA3AF" }) {
     </svg>
   );
 }
-function IconZz({ size = 16, color = "#9CA3AF" }) {
+function IconZz({ size = 16, color = "var(--text-secondary)" }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round">
       <path d="M5 7h6L5 17h6" /><path d="M13 11h5l-5 6h5" />
     </svg>
   );
 }
-function IconWarning({ size = 16, color = "#C0C0C0" }) {
+function IconWarning({ size = 16, color = "var(--text-placeholder)" }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round">
       <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z" />
@@ -201,7 +201,7 @@ function IconWarning({ size = 16, color = "#C0C0C0" }) {
     </svg>
   );
 }
-function IconBattery({ size = 16, color = "#C0C0C0" }) {
+function IconBattery({ size = 16, color = "var(--text-placeholder)" }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round">
       <rect x="2" y="7" width="17" height="10" rx="2" />
@@ -218,7 +218,7 @@ function Toggle({ on, onChange }: { on: boolean; onChange: () => void }) {
       onClick={(e) => { e.stopPropagation(); onChange(); }}
       style={{
         position: "relative", width: 40, height: 22, borderRadius: 50,
-        background: on ? P.primary : "#E5E7EB",
+        background: on ? P.primary : "var(--border-card)",
         border: "none", cursor: "pointer", padding: 0, flexShrink: 0,
         transition: "background 200ms ease",
       }}
@@ -257,7 +257,7 @@ function LightSensePage() {
 
   const cardBase: React.CSSProperties = {
     background: P.white, borderRadius: 22, padding: 20, overflow: "hidden",
-    boxShadow: "0 4px 20px rgba(244,160,188,0.10)",
+    boxShadow: "0 4px 20px color-mix(in oklab, var(--acc-soft) 10.0%, transparent)",
     borderLeft: `4px solid ${P.accent}`, boxSizing: "border-box",
   };
   const labelStyle: React.CSSProperties = {
@@ -292,8 +292,8 @@ function LightSensePage() {
           subtitleEn="LightSense AI"
           titleEn="LightSense AI"
           descriptorEn="Collar light control"
-          bgGradient="linear-gradient(135deg, var(--accent-sakura-soft) 0%, #FEE8F0 100%)"
-          subtitleColor="#D4849E"
+          bgGradient="linear-gradient(135deg, var(--accent-sakura-soft) 0%, var(--acc-pale) 100%)"
+          subtitleColor="var(--acc2-strong)"
         />
 
         {/* Stats card below banner */}
@@ -341,7 +341,7 @@ function LightSensePage() {
             {/* Saturation slider */}
             <SliderRow
               labelJp="彩度" labelEn="Saturation" value={saturation}
-              track={`linear-gradient(to right, #E5E7EB, ${hslToHex(hexToHsl(color).h, 100, 55)})`}
+              track={`linear-gradient(to right, var(--border-card), ${hslToHex(hexToHsl(color).h, 100, 55)})`}
               onChange={(v) => {
                 setSaturation(v);
                 const { h } = hexToHsl(color);
@@ -522,7 +522,7 @@ function LightSensePage() {
               {t("安全ガイド", "SAFETY GUIDE")}
             </div>
             <SafetyRow
-              icon={<IconMoon color="#C0C0C0" />}
+              icon={<IconMoon color="var(--text-placeholder)" />}
               titleJp="夜間散歩" titleEn="Night walks"
               jp="明るさ80%以上を推奨します"
               en="80% brightness or higher recommended"
@@ -551,7 +551,7 @@ function LightSensePage() {
               width: "100%", height: 52, borderRadius: 50, border: "none",
               background: `linear-gradient(135deg, ${P.medium}, ${P.primary})`,
               color: "#fff", fontSize: 16, fontWeight: 600, cursor: "pointer",
-              boxShadow: "0 6px 20px rgba(244,160,188,0.4)",
+              boxShadow: "0 6px 20px color-mix(in oklab, var(--acc-soft) 40.0%, transparent)",
               letterSpacing: "0.02em",
             }}>
             {t("カラーを設定", "Set Color")}

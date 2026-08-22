@@ -176,6 +176,10 @@ export default function AppShell({
           boxShadow: "0 0 40px rgba(0,0,0,0.15)",
           display: "flex",
           flexDirection: "column",
+          // Containing block for position:fixed descendants — keeps modals,
+          // drawers and bottom sheets inside phone coordinates on desktop.
+          transform: "translateZ(0)",
+          clipPath: "inset(0)",
         }}
       >
         {renderTopBar

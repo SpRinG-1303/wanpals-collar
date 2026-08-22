@@ -20,25 +20,25 @@ const JP = {
   card: "#FFFFFF",
   sumi: "var(--text-primary)",
   usuzumi: "var(--text-secondary)",
-  divider: "#F5F0EC",
+  divider: "var(--bg-elevated)",
   sakura: "var(--accent-sakura)",
   sakuraSoft: "var(--accent-sakura-soft)",
   sakuraStrip: "linear-gradient(90deg,var(--bg-card-sakura),var(--accent-sakura-soft))",
   fuji: "var(--accent-fuji)",
-  fujiSoft: "#F0EEF8",
-  fujiStrip: "linear-gradient(90deg,var(--bg-card-lavender),#F5F0FF)",
+  fujiSoft: "var(--acc-pale)",
+  fujiStrip: "linear-gradient(90deg,var(--bg-card-lavender),var(--acc-pale))",
   matcha: "var(--accent-matcha)",
-  matchaSoft: "#E8F5EE",
-  matchaStrip: "linear-gradient(90deg,#E8F5EE,#F5FBF8)",
+  matchaSoft: "var(--acc-pale)",
+  matchaStrip: "linear-gradient(90deg,var(--acc-pale),var(--acc-pale))",
   yuzu: "var(--accent-yuzu)",
-  yuzuSoft: "#FFF8DC",
-  yuzuStrip: "linear-gradient(90deg,#FFF8DC,#FFFEF5)",
+  yuzuSoft: "var(--acc-pale)",
+  yuzuStrip: "linear-gradient(90deg,var(--acc-pale),#FFFEF5)",
   sora: "var(--accent-sora)",
-  soraSoft: "#E8F2FF",
-  soraStrip: "linear-gradient(90deg,#E8F2FF,#F5F9FF)",
-  momiji: "#D4714E",
-  momijiSoft: "#FFE8DC",
-  momijiStrip: "linear-gradient(90deg,#FFE8DC,#FFF2EC)",
+  soraSoft: "var(--acc2-pale)",
+  soraStrip: "linear-gradient(90deg,var(--acc2-pale),var(--acc-pale))",
+  momiji: "var(--acc-strong)",
+  momijiSoft: "var(--acc-pale)",
+  momijiStrip: "linear-gradient(90deg,var(--acc-pale),var(--acc-pale))",
 };
 
 const CARD_SHADOW = "0 2px 20px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.04)";
@@ -81,11 +81,11 @@ function SectionLabel({ jp, en }: { jp: string; en: string }) {
   const t = useT();
   return (
     <div className="flex items-center" style={{ gap: 12, margin: "20px 0 10px" }}>
-      <div style={{ flex: 1, height: 1, background: "#E0DAD4" }} />
+      <div style={{ flex: 1, height: 1, background: "var(--acc-soft)" }} />
       <div style={{ fontSize: 11, color: JP.usuzumi, letterSpacing: "0.15em", textTransform: "uppercase", fontWeight: 600 }}>
         {t(jp, en)}
       </div>
-      <div style={{ flex: 1, height: 1, background: "#E0DAD4" }} />
+      <div style={{ flex: 1, height: 1, background: "var(--acc-soft)" }} />
     </div>
   );
 }
@@ -108,15 +108,15 @@ const sensors: Sensor[] = [
     jp: "吠え分析", en: "BarkSense AI", subJp: "鳴き声解析", subEn: "Bark Analysis", valJp: "穏やか", valEn: "Calm", ml: true },
   { Icon: Microscope, accent: JP.sakura, iconBg: "var(--bg-card-sakura)", strip: JP.sakuraStrip, to: "/skin-sense",
     jp: "皮膚センサー", en: "SkinSense AI", subJp: "皮膚の健康", subEn: "Skin Health", valJp: "正常", valEn: "Normal", ml: true },
-  { Icon: Activity, accent: JP.sora, iconBg: "#E8F2FF", strip: JP.soraStrip, to: "/motion-sense",
+  { Icon: Activity, accent: JP.sora, iconBg: "var(--acc2-pale)", strip: JP.soraStrip, to: "/motion-sense",
     jp: "運動センサー", en: "MotionSense", subJp: "活動量", subEn: "Activity Track", valJp: "2,340 歩", valEn: "2,340 steps", progress: 65 },
-  { Icon: Thermometer, accent: JP.momiji, iconBg: "#FFE8DC", strip: JP.momijiStrip, to: "/temp-sense",
+  { Icon: Thermometer, accent: JP.momiji, iconBg: "var(--acc-pale)", strip: JP.momijiStrip, to: "/temp-sense",
     jp: "体温センサー", en: "TempSense AI", subJp: "体温", subEn: "Body Temp", valJp: "38.5°C", valEn: "38.5°C", noteJp: "正常範囲", noteEn: "Normal Range" },
-  { Icon: MapPin, accent: JP.matcha, iconBg: "#E8F5EE", strip: JP.matchaStrip, to: "/map",
+  { Icon: MapPin, accent: JP.matcha, iconBg: "var(--acc-pale)", strip: JP.matchaStrip, to: "/map",
     jp: "位置センサー", en: "LocationSense", subJp: "GPS + 地図", subEn: "GPS + Map", valJp: "Bandra, Mumbai", valEn: "Bandra, Mumbai" },
-  { Icon: Wind, accent: JP.yuzu, iconBg: "#FFF8DC", strip: JP.yuzuStrip, to: "/pressure-sense",
+  { Icon: Wind, accent: JP.yuzu, iconBg: "var(--acc-pale)", strip: JP.yuzuStrip, to: "/pressure-sense",
     jp: "圧力センサー", en: "PressureSense", subJp: "圧力データ", subEn: "Pressure Data", valJp: "正常範囲", valEn: "Normal Range" },
-  { Icon: Sun, accent: "#C4920A", iconBg: "#FFFBCC", strip: "linear-gradient(90deg,#FFF8DC,#FFFEF0)", to: "/light-sense",
+  { Icon: Sun, accent: "var(--acc-deep)", iconBg: "var(--acc-pale)", strip: "linear-gradient(90deg,var(--acc-pale),#FFFEF0)", to: "/light-sense",
     jp: "光センサー", en: "LightSense AI", subJp: "RGB光データ", subEn: "RGB Light Data", valJp: "室内", valEn: "Indoor" },
   { Icon: GitMerge, accent: "var(--accent-fuji)", iconBg: "var(--bg-card-lavender)", strip: "linear-gradient(90deg,var(--bg-card-lavender),#F8F5FF)", to: "/report",
     jp: "総合分析", en: "CombineSense", subJp: "総合解析", subEn: "Combined Analysis", valJp: "87/100", valEn: "87/100" },
@@ -133,10 +133,10 @@ function getTimeBand(): TimeBand {
 }
 
 const SCENE: Record<TimeBand, { bg: string; sun: string; fuji: string; blossom: string }> = {
-  morning:   { bg: "linear-gradient(135deg,#FFF8F0 0%,#FFE8EE 100%)", sun: "#FFD4A8", fuji: "#C5D8E8", blossom: "var(--accent-sakura)" },
-  afternoon: { bg: "linear-gradient(135deg,#E8F4FF 0%,#D4EEFF 100%)", sun: "#F2C96E", fuji: "#8FB5C8", blossom: "#FFC8D0" },
-  evening:   { bg: "linear-gradient(135deg,#FFE8D0 0%,#FFD0B0 100%)", sun: "#F4A56B", fuji: "#7B6480", blossom: "var(--accent-sakura)" },
-  night:     { bg: "linear-gradient(135deg,#E8EEF8 0%,#D4DCF0 100%)", sun: "#FFF4D8", fuji: "#9AA0B8", blossom: "#E8D8E4" },
+  morning:   { bg: "linear-gradient(135deg,var(--bg-card) 0%,var(--acc2-pale) 100%)", sun: "var(--acc-soft)", fuji: "var(--acc-soft)", blossom: "var(--accent-sakura)" },
+  afternoon: { bg: "linear-gradient(135deg,var(--acc-pale) 0%,var(--acc-pale) 100%)", sun: "var(--acc-strong)", fuji: "var(--acc2-strong)", blossom: "var(--acc2-soft)" },
+  evening:   { bg: "linear-gradient(135deg,var(--acc-pale) 0%,var(--acc-soft) 100%)", sun: "var(--acc-strong)", fuji: "var(--acc-deep)", blossom: "var(--accent-sakura)" },
+  night:     { bg: "linear-gradient(135deg,var(--acc-pale) 0%,var(--acc-soft) 100%)", sun: "var(--acc-pale)", fuji: "var(--acc-strong)", blossom: "var(--acc-soft)" },
 };
 
 type Energy = "low" | "medium" | "high";
@@ -151,7 +151,7 @@ function getEnergyLevel(steps = 2340): Energy {
 /* Sample average hair (top band) & skin (face band) colors from a profile photo.
    Falls back to friendly defaults when no photo / load fails / CORS blocks. */
 function useOwnerColors(photoUrl: string | null) {
-  const defaults = { hair: "#4A2E22", skin: "#F2C6A0" };
+  const defaults = { hair: "var(--acc-deep)", skin: "var(--acc-soft)" };
   const [colors, setColors] = useState(defaults);
   useEffect(() => {
     if (!photoUrl) { setColors(defaults); return; }
@@ -197,11 +197,11 @@ function OwnerFigure({ photoUrl }: { photoUrl: string | null }) {
       {/* Smile + eye (facing right) */}
       <circle cx="33" cy="22" r="1.1" fill="var(--text-primary)" />
       <path d="M31 26 Q34 28 36 26" stroke="var(--text-primary)" strokeWidth="0.9" strokeLinecap="round" fill="none" />
-      <circle cx="35" cy="25" r="1.6" fill="#F2A0A8" opacity="0.55" />
+      <circle cx="35" cy="25" r="1.6" fill="var(--acc2-soft)" opacity="0.55" />
       {/* T-shirt */}
-      <path d="M14 34 Q28 30 42 34 L44 58 L36 58 L36 62 L20 62 L20 58 L12 58 Z" fill="#7FB8E0" />
+      <path d="M14 34 Q28 30 42 34 L44 58 L36 58 L36 62 L20 62 L20 58 L12 58 Z" fill="var(--acc-strong)" />
       {/* T-shirt collar */}
-      <path d="M24 33 Q28 36 32 33" stroke="#5A9BC8" strokeWidth="1.2" fill="none" />
+      <path d="M24 33 Q28 36 32 33" stroke="var(--acc-strong)" strokeWidth="1.2" fill="none" />
       {/* Arms */}
       <path d="M14 38 L10 60 L12 62 L16 42 Z" fill={skin} />
       <path d="M42 38 L48 62 L46 64 L40 42 Z" fill={skin} />
@@ -209,14 +209,14 @@ function OwnerFigure({ photoUrl }: { photoUrl: string | null }) {
       <circle cx="47" cy="63" r="2.4" fill={skin} />
       <circle cx="11" cy="61" r="2.2" fill={skin} />
       {/* Jeans / shorts top */}
-      <rect x="18" y="60" width="20" height="14" rx="3" fill="#4A6FA5" />
+      <rect x="18" y="60" width="20" height="14" rx="3" fill="var(--acc-deep)" />
       {/* Legs (walk cycle) */}
       <g style={{ transformOrigin: "50% 60%", animation: "ownerLegL 1.6s ease-in-out infinite" }}>
-        <path d="M20 70 L18 110 L24 110 L26 72 Z" fill="#3D5A8A" />
+        <path d="M20 70 L18 110 L24 110 L26 72 Z" fill="var(--acc-deep)" />
         <ellipse cx="21" cy="114" rx="5" ry="2.6" fill="var(--text-primary)" />
       </g>
       <g style={{ transformOrigin: "50% 60%", animation: "ownerLegR 1.6s ease-in-out infinite" }}>
-        <path d="M30 70 L30 110 L36 110 L36 72 Z" fill="#3D5A8A" />
+        <path d="M30 70 L30 110 L36 110 L36 72 Z" fill="var(--acc-deep)" />
         <ellipse cx="33" cy="114" rx="5" ry="2.6" fill="var(--text-primary)" />
       </g>
     </svg>
@@ -320,7 +320,7 @@ function DogTimeScene({
           >
             <path
               d="M8 6 Q40 38 100 30"
-              stroke="#C97A5A"
+              stroke="var(--acc-strong)"
               strokeWidth="1.8"
               strokeLinecap="round"
               opacity="0.85"
@@ -381,11 +381,11 @@ function DogTimeScene({
           }}
         >
           <svg viewBox="0 0 38 22" width="100%" height="100%">
-            <ellipse cx="19" cy="6" rx="15" ry="4" fill="#D4714E" />
-            <path d="M4 6 Q19 22 34 6 L31 6 Q19 18 7 6 Z" fill="#9B4E33" />
-            <circle cx="14" cy="5" r="2.2" fill="#FFE4B5" />
-            <circle cx="20" cy="4" r="2.4" fill="#FFD089" />
-            <circle cx="25" cy="5" r="2" fill="#FFE4B5" />
+            <ellipse cx="19" cy="6" rx="15" ry="4" fill="var(--acc-strong)" />
+            <path d="M4 6 Q19 22 34 6 L31 6 Q19 18 7 6 Z" fill="var(--acc-deep)" />
+            <circle cx="14" cy="5" r="2.2" fill="var(--acc-soft)" />
+            <circle cx="20" cy="4" r="2.4" fill="var(--acc-soft)" />
+            <circle cx="25" cy="5" r="2" fill="var(--acc-soft)" />
           </svg>
         </div>
       )}
@@ -410,7 +410,7 @@ function PostcardScene({
       className="absolute inset-y-0 right-0"
       style={{
         width: "55%",
-        background: "linear-gradient(90deg,#FFF1F4 0%,#F3ECFF 60%,#E8F0FF 100%)",
+        background: "linear-gradient(90deg,var(--acc-pale) 0%,var(--acc-pale) 60%,var(--acc-pale) 100%)",
         overflow: "hidden",
       }}
     >
@@ -420,7 +420,7 @@ function PostcardScene({
         viewBox="0 0 130 70"
         fill="none"
       >
-        <path d="M2 60 Q40 30 124 6" stroke="#C4A882" strokeWidth="1.5" strokeLinecap="round" />
+        <path d="M2 60 Q40 30 124 6" stroke="var(--acc-strong)" strokeWidth="1.5" strokeLinecap="round" />
       </svg>
       {/* Blossom dots along branch (mirrored to top-right) */}
       {[[18,52,8],[34,42,6],[52,32,9],[72,22,7],[92,14,10],[110,8,6],[40,58,5,0.5],[80,40,4,0.55]].map((p,i)=>{
@@ -631,7 +631,7 @@ function Home() {
                   </span>
                 </div>
               </div>
-              <div style={{ marginTop: 10, fontSize: 15, lineHeight: 1.5, color: "#3C3020", fontWeight: 500 }}>
+              <div style={{ marginTop: 10, fontSize: 15, lineHeight: 1.5, color: "var(--acc-deep)", fontWeight: 500 }}>
                 {language === "english" ? fact.en : fact.jp}
               </div>
               {language === "mixed" && (
@@ -673,7 +673,7 @@ function Home() {
               </div>
 
               <div className="flex items-center" style={{ gap: 12 }}>
-                <div className="flex items-center justify-center" style={{ width: 40, height: 40, borderRadius: "50%", background: "#EBF4FF" }}>
+                <div className="flex items-center justify-center" style={{ width: 40, height: 40, borderRadius: "50%", background: "var(--acc-pale)" }}>
                   <Check size={20} strokeWidth={2.5} style={{ color: JP.sora }} />
                 </div>
                 <div className="flex-1">
@@ -690,7 +690,7 @@ function Home() {
                   <span style={{ fontSize: 13, color: JP.sumi, fontWeight: 500 }}>{t("バッテリー", "Battery")}</span>
                 </div>
                 <div className="flex items-center">
-                  <div style={{ width: 110, height: 6, background: "#EBF4FF", borderRadius: 4, overflow: "hidden" }}>
+                  <div style={{ width: 110, height: 6, background: "var(--acc-pale)", borderRadius: 4, overflow: "hidden" }}>
                     <div style={{ width: "87%", height: "100%", background: JP.sora, borderRadius: 4 }}/>
                   </div>
                   <span style={{ marginLeft: 8, fontSize: 13, fontWeight: 700, color: JP.sora, fontVariantNumeric: "tabular-nums" }}>87%</span>
@@ -717,7 +717,7 @@ function Home() {
                 style={{
                   background: "#F0F6FF",
                   color: JP.sora,
-                  border: "1px solid #C8E0F8",
+                  border: "1px solid var(--acc2-soft)",
                   borderRadius: 12,
                   height: 44,
                   fontSize: 14,
@@ -805,17 +805,17 @@ function Home() {
             style={{
               height: 90,
               borderRadius: 20,
-              background: "linear-gradient(135deg, #667EEA 0%, var(--accent-fuji) 100%)",
-              boxShadow: "0 8px 24px rgba(102,126,234,0.35)",
+              background: "linear-gradient(135deg, var(--acc-strong) 0%, var(--accent-fuji) 100%)",
+              boxShadow: "0 8px 24px color-mix(in oklab, var(--acc-strong) 35.0%, transparent)",
               transition: "transform 0.2s ease, box-shadow 0.2s ease",
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.transform = "scale(1.02)";
-              e.currentTarget.style.boxShadow = "0 12px 32px rgba(102,126,234,0.45)";
+              e.currentTarget.style.boxShadow = "0 12px 32px color-mix(in oklab, var(--acc-strong) 45.0%, transparent)";
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.transform = "scale(1)";
-              e.currentTarget.style.boxShadow = "0 8px 24px rgba(102,126,234,0.35)";
+              e.currentTarget.style.boxShadow = "0 8px 24px color-mix(in oklab, var(--acc-strong) 35.0%, transparent)";
             }}
           >
             {/* Inner highlight */}
@@ -969,7 +969,7 @@ function EditProfileSheet({ onClose }: { onClose: () => void }) {
         className="w-full max-w-md flex flex-col"
         style={{ background: "#FFFFFF", borderRadius: "32px 32px 0 0", boxShadow: "0 -8px 32px rgba(0,0,0,0.1)", maxHeight: "85vh" }}
       >
-        <div className="mx-auto mt-3 mb-2 rounded-full" style={{ width: 32, height: 4, background: "#E8E0DC" }} />
+        <div className="mx-auto mt-3 mb-2 rounded-full" style={{ width: 32, height: 4, background: "var(--acc-soft)" }} />
         <div className="px-5 pb-3 flex items-center justify-between">
           <h3 className="text-[15px] font-semibold" style={{ color: "var(--text-primary)" }}>{t("プロフィール編集", "Edit Profile")}</h3>
           <button onClick={onClose}><X className="w-5 h-5" style={{ color: "var(--text-secondary)" }} /></button>
@@ -1013,7 +1013,7 @@ function EditProfileSheet({ onClose }: { onClose: () => void }) {
             </Field>
           </div>
         </div>
-        <div className="px-5 pb-5 pt-2 space-y-2" style={{ borderTop: "1px solid #F5F0EC" }}>
+        <div className="px-5 pb-5 pt-2 space-y-2" style={{ borderTop: "1px solid var(--bg-elevated)" }}>
           <button
             onClick={save}
             className="w-full h-12 rounded-2xl text-white text-[15px] font-bold"
@@ -1056,7 +1056,7 @@ function ScoreRing({ value }: { value: number }) {
   return (
     <div className="relative" style={{ width: 80, height: 80 }}>
       <svg className="-rotate-90" width="80" height="80" viewBox="0 0 80 80">
-        <circle cx="40" cy="40" r={r} stroke="#E0F0E8" strokeWidth="6" fill="none"/>
+        <circle cx="40" cy="40" r={r} stroke="var(--acc2-pale)" strokeWidth="6" fill="none"/>
         <circle cx="40" cy="40" r={r} stroke={JP.matcha} strokeWidth="6" fill="none" strokeLinecap="round"
           strokeDasharray={c} strokeDashoffset={off} style={{ transition: "stroke-dashoffset 1.2s ease" }}/>
       </svg>

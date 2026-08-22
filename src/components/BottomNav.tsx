@@ -86,8 +86,8 @@ export default function BottomNav() {
                   background: `linear-gradient(135deg, var(--accent-fuji), var(--accent-fuji))`,
                   border: "3px solid var(--bg-bottomnav)",
                   boxShadow: active
-                    ? "0 6px 20px rgba(123,104,200,0.5)"
-                    : "0 4px 16px rgba(123,104,200,0.4)",
+                    ? "0 6px 20px color-mix(in oklab, var(--acc-strong) 50.0%, transparent)"
+                    : "0 4px 16px color-mix(in oklab, var(--acc-strong) 40.0%, transparent)",
                   marginTop: -20,
                   display: "flex",
                   alignItems: "center",
@@ -161,8 +161,8 @@ export default function BottomNav() {
 
       <style>{`
         @keyframes ai-center-pulse {
-          0%, 100% { box-shadow: 0 4px 16px rgba(123,104,200,0.4); }
-          50% { box-shadow: 0 4px 22px rgba(123,104,200,0.55); }
+          0%, 100% { box-shadow: 0 4px 16px color-mix(in oklab, var(--acc-strong) 40.0%, transparent); }
+          50% { box-shadow: 0 4px 22px color-mix(in oklab, var(--acc-strong) 55.0%, transparent); }
         }
         .ai-center-pulse {
           animation: ai-center-pulse 3s ease-in-out infinite;

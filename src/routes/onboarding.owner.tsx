@@ -23,12 +23,12 @@ type Pose = {
 };
 
 const POSES: Pose[] = [
-  { id: 0, jp: "純粋な喜び！", en: "Pure joy!",       bg: "#FDEDF2", tag: "solo", emoji: "", featured: true },
-  { id: 1, jp: "ボールタイム", en: "Ball time",       bg: "#FFF7D6", tag: "solo", emoji: "" },
-  { id: 2, jp: "おやすみモード", en: "Nap mode",      bg: "#E0EEFB", tag: "solo", emoji: "" },
-  { id: 3, jp: "一緒にお散歩", en: "Walk together",   bg: "#E2F4E4", tag: "duo",  emoji: "" },
-  { id: 4, jp: "ぎゅーっと",   en: "Cuddle time",     bg: "#FDEDF2", tag: "duo",  emoji: "" },
-  { id: 5, jp: "冒険だ！",     en: "Adventure!",      bg: "#FFF7D6", tag: "duo",  emoji: "" },
+  { id: 0, jp: "純粋な喜び！", en: "Pure joy!",       bg: "var(--acc-pale)", tag: "solo", emoji: "", featured: true },
+  { id: 1, jp: "ボールタイム", en: "Ball time",       bg: "var(--acc-pale)", tag: "solo", emoji: "" },
+  { id: 2, jp: "おやすみモード", en: "Nap mode",      bg: "var(--acc-pale)", tag: "solo", emoji: "" },
+  { id: 3, jp: "一緒にお散歩", en: "Walk together",   bg: "var(--acc2-pale)", tag: "duo",  emoji: "" },
+  { id: 4, jp: "ぎゅーっと",   en: "Cuddle time",     bg: "var(--acc-pale)", tag: "duo",  emoji: "" },
+  { id: 5, jp: "冒険だ！",     en: "Adventure!",      bg: "var(--acc-pale)", tag: "duo",  emoji: "" },
 ];
 
 function Step3() {
@@ -54,10 +54,10 @@ function Step3() {
           <TopBar to={pet.path === "B" ? "/onboarding/avatar" : "/onboarding/dog"} />
           <Stepper current={3} path={pet.path} />
 
-          <h1 className="text-[22px] font-extrabold text-center mt-2" style={{ color: "#3B2A23" }}>
+          <h1 className="text-[22px] font-extrabold text-center mt-2" style={{ color: "var(--text-primary)" }}>
             {t("アバターステッカーパック", "Your Avatar Sticker Pack")}
           </h1>
-          <p className="text-center text-[13px] mt-2 leading-relaxed" style={{ color: "#8A766C" }}>
+          <p className="text-center text-[13px] mt-2 leading-relaxed" style={{ color: "var(--text-secondary)" }}>
             {t(
               "色々な気分と瞬間のアバターコンビ ",
               "Your avatar duo across different moods and moments "
@@ -74,25 +74,25 @@ function Step3() {
               style={{
                 width: 52, height: 52,
                 background: sel.bg,
-                border: "2px solid #E8678A",
+                border: "2px solid var(--accent-sakura)",
               }}
             >
               {sel.emoji}
             </div>
             <div className="flex-1">
-              <div className="text-[13px] font-bold" style={{ color: "#3B2A23" }}>
+              <div className="text-[13px] font-bold" style={{ color: "var(--text-primary)" }}>
                 {t("プロフィール写真に設定", "Set as profile picture")}
               </div>
-              <div className="text-[10px] mt-0.5" style={{ color: "#A38B82" }}>
+              <div className="text-[10px] mt-0.5" style={{ color: "var(--text-secondary)" }}>
                 {t("下のポーズをタップ", "Tap any pose below")}
               </div>
             </div>
             <button
               className="flex items-center gap-1 px-4 py-2 rounded-full text-[12px] font-bold"
               style={{
-                background: "linear-gradient(135deg,#E8678A 0%,#F48BA9 100%)",
+                background: "linear-gradient(135deg,var(--accent-sakura) 0%,var(--acc-soft) 100%)",
                 color: "#FFF",
-                boxShadow: "0 4px 12px rgba(232,103,138,0.3)",
+                boxShadow: "0 4px 12px color-mix(in oklab, var(--acc-strong) 30.0%, transparent)",
               }}
             >
               {t("設定", "Set")} <Check className="w-3.5 h-3.5" strokeWidth={3} />
@@ -129,7 +129,7 @@ function Step3() {
           className="fixed bottom-0 inset-x-0 mx-auto p-4"
           style={{
             maxWidth: 430,
-            background: "linear-gradient(to top, var(--bg-page), rgba(245,237,232,0.9) 70%, transparent)",
+            background: "linear-gradient(to top, var(--bg-page), color-mix(in oklab, var(--acc-soft) 90.0%, transparent) 70%, transparent)",
           }}
         >
           <PrimaryButton onClick={() => nav({ to: "/onboarding/details" })}>
@@ -153,7 +153,7 @@ function PoseFeatured({
         background: pose.bg,
         aspectRatio: "16/9",
         boxShadow: selected
-          ? "0 0 0 3px #E8678A, 0 10px 24px rgba(232,103,138,0.25)"
+          ? "0 0 0 3px var(--accent-sakura), 0 10px 24px color-mix(in oklab, var(--acc-strong) 25.0%, transparent)"
           : "0 4px 14px rgba(0,0,0,0.06)",
       }}
     >
@@ -170,7 +170,7 @@ function PoseFeatured({
       </div>
       <span
         className="absolute top-3 left-3 text-[10px] font-bold px-2.5 py-1 rounded-full"
-        style={{ background: "rgba(255,255,255,0.9)", color: "#D67A35" }}
+        style={{ background: "rgba(255,255,255,0.9)", color: "var(--acc-strong)" }}
       >
          {t("ソロ", "Solo")}
       </span>
@@ -181,7 +181,7 @@ function PoseFeatured({
           background: "linear-gradient(to top, rgba(255,255,255,0.95), rgba(255,255,255,0))",
         }}
       >
-        <div className="text-[15px] font-extrabold" style={{ color: "#3B2A23" }}>
+        <div className="text-[15px] font-extrabold" style={{ color: "var(--text-primary)" }}>
           {t(pose.jp, pose.en)}
         </div>
       </div>
@@ -195,8 +195,8 @@ function PoseCard({
   const t = useT();
   const tagColors =
     pose.tag === "solo"
-      ? { bg: "#FFE9D6", fg: "#D67A35" }
-      : { bg: "#FFE0EA", fg: "#E8678A" };
+      ? { bg: "var(--acc-pale)", fg: "var(--acc-strong)" }
+      : { bg: "var(--acc2-pale)", fg: "var(--accent-sakura)" };
   return (
     <button
       onClick={onSelect}
@@ -205,7 +205,7 @@ function PoseCard({
         background: pose.bg,
         aspectRatio: "1 / 1",
         boxShadow: selected
-          ? "0 0 0 3px #E8678A, 0 6px 18px rgba(232,103,138,0.25)"
+          ? "0 0 0 3px var(--accent-sakura), 0 6px 18px color-mix(in oklab, var(--acc-strong) 25.0%, transparent)"
           : "0 2px 10px rgba(0,0,0,0.05)",
       }}
     >
@@ -238,7 +238,7 @@ function PoseCard({
         className="absolute bottom-0 inset-x-0 px-3 py-2 flex items-center justify-between"
         style={{ background: "linear-gradient(to top, rgba(255,255,255,0.95), rgba(255,255,255,0))" }}
       >
-        <span className="text-[11px] font-extrabold" style={{ color: "#3B2A23" }}>
+        <span className="text-[11px] font-extrabold" style={{ color: "var(--text-primary)" }}>
           {t(pose.jp, pose.en)}
         </span>
         <span
@@ -262,7 +262,7 @@ function DownloadBtn() {
         boxShadow: "0 1px 4px rgba(0,0,0,0.1)",
       }}
     >
-      <Download className="w-3.5 h-3.5" color="#3B2A23" />
+      <Download className="w-3.5 h-3.5" color="var(--text-primary)" />
     </span>
   );
 }

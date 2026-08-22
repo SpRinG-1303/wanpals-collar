@@ -9,7 +9,7 @@ export function PrimaryButton({
   onClick?: () => void;
   accent?: string;
 }) {
-  const darker = accent === "#7BB5B0" ? "#5C9590" : "var(--accent-sakura-dark)";
+  const darker = accent === "var(--acc2-strong)" ? "var(--acc2-deep)" : "var(--accent-sakura-dark)";
   return (
     <button
       onClick={onClick}

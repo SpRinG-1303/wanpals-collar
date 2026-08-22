@@ -17,24 +17,24 @@ type Props = {
 };
 
 export default function KawaiiDog({
-  furColor = "#c17d4a",
+  furColor = "var(--acc-strong)",
   earType = "upright",
   eyeStyle = 0,
-  collarColor = "#e8678a",
+  collarColor = "var(--accent-sakura)",
   size = 160,
   showCollar = true,
   showBlush = true,
 }: Props) {
   const innerEar = shade(furColor, -20);
   const muzzle = tint(furColor, 35);
-  const eyeDark = "#1a1410";
+  const eyeDark = "var(--text-primary)";
 
   return (
     <svg viewBox="0 0 200 200" width={size} height={size} style={{ display: "block" }}>
       <defs>
         <radialGradient id="kd-bg" cx="50%" cy="42%" r="62%">
           <stop offset="0%" stopColor="#fffaf7" />
-          <stop offset="100%" stopColor="#fdedf2" />
+          <stop offset="100%" stopColor="var(--acc-pale)" />
         </radialGradient>
       </defs>
 
@@ -73,8 +73,8 @@ export default function KawaiiDog({
       {/* Blush */}
       {showBlush && (
         <>
-          <ellipse cx="56" cy="130" rx="11" ry="7" fill="#ff9fb5" opacity="0.55" />
-          <ellipse cx="144" cy="130" rx="11" ry="7" fill="#ff9fb5" opacity="0.55" />
+          <ellipse cx="56" cy="130" rx="11" ry="7" fill="var(--acc2-soft)" opacity="0.55" />
+          <ellipse cx="144" cy="130" rx="11" ry="7" fill="var(--acc2-soft)" opacity="0.55" />
         </>
       )}
 
@@ -82,14 +82,14 @@ export default function KawaiiDog({
       <Eyes style={eyeStyle} color={eyeDark} />
 
       {/* Nose */}
-      <ellipse cx="100" cy="128" rx="7" ry="5.5" fill="#1a1410" />
+      <ellipse cx="100" cy="128" rx="7" ry="5.5" fill="var(--text-primary)" />
       <ellipse cx="98" cy="126" rx="2" ry="1.3" fill="#fff" opacity="0.7" />
 
       {/* Mouth */}
-      <path d="M100 134 L100 142" stroke="#1a1410" strokeWidth="1.6" strokeLinecap="round" />
-      <path d="M92 144 Q100 152 108 144" stroke="#1a1410" strokeWidth="1.8" fill="none" strokeLinecap="round" />
+      <path d="M100 134 L100 142" stroke="var(--text-primary)" strokeWidth="1.6" strokeLinecap="round" />
+      <path d="M92 144 Q100 152 108 144" stroke="var(--text-primary)" strokeWidth="1.8" fill="none" strokeLinecap="round" />
       {/* Tongue */}
-      <path d="M97 148 Q100 154 103 148 Z" fill="#ff6f87" />
+      <path d="M97 148 Q100 154 103 148 Z" fill="var(--acc2-strong)" />
 
       {/* Collar */}
       {showCollar && (
@@ -136,7 +136,7 @@ function Eyes({ style, color }: { style: EyeStyle; color: string }) {
           <g key={cx}>
             <circle cx={cx} cy={y} r="9" fill={color} />
             <path d={`M${cx} ${y - 7} L${cx + 2} ${y - 2} L${cx + 7} ${y} L${cx + 2} ${y + 2} L${cx} ${y + 7} L${cx - 2} ${y + 2} L${cx - 7} ${y} L${cx - 2} ${y - 2} Z`} fill="#fff" />
-            <circle cx={cx} cy={y} r="1.6" fill="#ffd966" />
+            <circle cx={cx} cy={y} r="1.6" fill="var(--acc-strong)" />
           </g>
         ))}
       </g>
