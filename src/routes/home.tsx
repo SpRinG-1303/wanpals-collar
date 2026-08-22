@@ -177,7 +177,7 @@ function Home() {
             <input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search sensors…"
+              placeholder="Search Senses…"
               className="flex-1 outline-none"
               style={{
                 border: "none", background: "transparent", height: "100%",
