@@ -12,6 +12,17 @@ import { BREED_KEY_BY_JP, type BreedKey } from "@/components/DogAvatar";
 
 export const Route = createFileRoute("/map")({ component: MapScreen });
 
+/* Home-page card spec */
+const CARD_SHADOW = "0 2px 20px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.04)";
+
+function SectionHeader({ title }: { title: string }) {
+  return (
+    <div style={{ margin: "20px 20px 10px", fontSize: 16, fontWeight: 700, color: "var(--text-primary)", letterSpacing: "-0.01em" }}>
+      {title}
+    </div>
+  );
+}
+
 function MapScreen() {
   const t = useT();
   const navigate = useNavigate();
