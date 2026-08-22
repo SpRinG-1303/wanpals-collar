@@ -278,28 +278,7 @@ function Community() {
           </div>
         </div>
 
-        {/* Overlapping create button */}
-        <button
-          onClick={() => setComposeOpen(true)}
-          className="flex items-center gap-2"
-          style={{
-            position: "absolute",
-            left: "50%",
-            bottom: -20,
-            transform: "translateX(-50%)",
-            background: "linear-gradient(135deg,var(--accent-sakura),var(--accent-sakura-dark))",
-            color: "#fff",
-            fontSize: 14,
-            fontWeight: 700,
-            borderRadius: 20,
-            padding: "10px 24px",
-            boxShadow: "0 6px 16px color-mix(in srgb, var(--accent-sakura) calc(0.35 * 100%), transparent)",
-            whiteSpace: "nowrap",
-          }}
-        >
-          <PenLine size={16} />
-          {t("投稿する", "Create Post")}
-        </button>
+        {/* Create post moved to the feed for a cleaner header */}
       </div>
 
       {/* ── Pet Match (signature feature) ────────────────────── */}
