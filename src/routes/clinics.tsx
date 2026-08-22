@@ -342,49 +342,45 @@ function Clinics() {
         })}
       </div>
 
-      {/* ── Emergency banner ───────────────────────────────── */}
+      {/* ── Emergency card ─────────────────────────────────── */}
       <SectionLabel jp="緊急対応" en="Emergency" />
-      <motion.div
-        animate={{ boxShadow: ["0 8px 24px rgba(229,57,53,0.3)", "0 8px 32px rgba(229,57,53,0.5)", "0 8px 24px rgba(229,57,53,0.3)"] }}
-        transition={{ duration: 2, repeat: Infinity }}
+      <div
+        className="flex items-center justify-between"
         style={{
-          margin: "0 16px 12px",
-          background: "linear-gradient(135deg,#FF4444,#E53935)",
+          margin: "0 20px",
+          background: "linear-gradient(135deg,#F25449,#E53935)",
           borderRadius: 20,
           padding: "16px 20px",
           color: "#fff",
+          boxShadow: "0 6px 18px rgba(229,57,53,0.25)",
+          gap: 12,
         }}
       >
-        <div className="flex items-start justify-between gap-3">
-          <div className="flex items-start gap-3 flex-1 min-w-0">
-
-            <div className="min-w-0">
-              <div style={{ fontSize: 11, color: "rgba(255,255,255,0.85)" }}>
-                {t("緊急の場合", "In Emergency")}
-              </div>
-              <div style={{ fontSize: 16, fontWeight: 800, lineHeight: 1.25 }}>
-                {t("最寄りの24時間病院", "Nearest 24H Hospital")}
-              </div>
-              <div style={{ fontSize: 12, color: "rgba(255,255,255,0.9)", marginTop: 4 }}>
-                {language === "english" ? emergencyClinic.en : emergencyClinic.jp} · {emergencyClinic.km}km · {emergencyClinic.rating}
-              </div>
-            </div>
+        <div className="min-w-0">
+          <div style={{ fontSize: 10, fontWeight: 800, color: "rgba(255,255,255,0.85)", letterSpacing: "0.12em", textTransform: "uppercase" }}>
+            {t("緊急の場合", "In Emergency")}
           </div>
-          <a
-            href="tel:+81000000000"
-            className="flex items-center gap-1.5 shrink-0"
-            style={{
-              background: "#fff", color: "#E53935",
-              borderRadius: 20, padding: "8px 14px",
-              fontSize: 13, fontWeight: 800,
-              boxShadow: "0 4px 8px rgba(0,0,0,0.15)",
-            }}
-          >
-            <Phone size={14} />
-            {t("電話", "Call")}
-          </a>
+          <div style={{ fontSize: 17, fontWeight: 800, lineHeight: 1.25, marginTop: 2 }}>
+            {t("最寄りの24時間病院", "Nearest 24H Hospital")}
+          </div>
+          <div style={{ fontSize: 12, color: "rgba(255,255,255,0.9)", marginTop: 4 }}>
+            {language === "english" ? emergencyClinic.en : emergencyClinic.jp} · {emergencyClinic.km}km · ★ {emergencyClinic.rating}
+          </div>
         </div>
-      </motion.div>
+        <a
+          href="tel:+919820001234"
+          className="flex items-center gap-1.5 shrink-0"
+          style={{
+            background: "#fff", color: "#E53935",
+            borderRadius: 999, padding: "10px 18px",
+            fontSize: 13, fontWeight: 800,
+            boxShadow: "0 4px 10px rgba(0,0,0,0.18)",
+          }}
+        >
+          <Phone size={14} />
+          {t("電話", "Call")}
+        </a>
+      </div>
 
       {/* ── Video consultation ─────────────────────────────── */}
       <button
