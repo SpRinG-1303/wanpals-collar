@@ -50,16 +50,6 @@ function Report() {
   const stepsData = [1800, 2600, 2400, 2200, 2000, 2800, 3100].map((v, i) => ({ d: dayLabels[i], v }));
   const sleepData = [7.2, 8.1, 7.5, 6.8, 7.9, 8.4, 7.5].map((v, i) => ({ d: dayLabels[i], v }));
 
-  // Faint paper-grain noise overlay
-  const noiseSvg =
-    "data:image/svg+xml;utf8," +
-    encodeURIComponent(
-      `<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'>
-        <filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter>
-        <rect width='100%' height='100%' filter='url(#n)' opacity='0.6'/>
-      </svg>`
-    );
-
   return (
     <AppShell
       titleJp="健康レポート"
@@ -75,17 +65,6 @@ function Report() {
           background: C.bone,
         }}
       >
-        {/* Paper-grain texture overlay */}
-        <div
-          aria-hidden
-          style={{
-            position: "absolute", inset: 0,
-            backgroundImage: `url("${noiseSvg}")`,
-            opacity: 0.03,
-            pointerEvents: "none",
-            mixBlendMode: "multiply",
-          }}
-        />
 
         <div style={{ position: "relative", zIndex: 1 }}>
           <HeroBanner pet={pet} />
@@ -154,7 +133,7 @@ function Report() {
                 <XAxis dataKey="d" tick={{ fill: C.moss, fontSize: 10 }} axisLine={false} tickLine={false} />
                 <YAxis domain={[60, 100]} tick={{ fill: C.moss, fontSize: 10 }} axisLine={false} tickLine={false} />
                 <Tooltip content={<NiceTooltip suffix="" />} />
-                <Area type="monotone" dataKey="v" stroke={C.kombu} strokeWidth={2.5} fill="url(#scoreFill)"
+                <Area type="monotone" dataKey="v" stroke={C.kombu} strokeWidth={2.5} fill="url(#scoreFill)" isAnimationActive={false}
                   dot={{ r: 3, fill: C.kombu, stroke: C.bone, strokeWidth: 1.5 }} animationDuration={1000} />
               </AreaChart>
             </ResponsiveContainer>
@@ -186,7 +165,7 @@ function Report() {
                 <ReferenceLine y={38.5} stroke={C.moss} strokeDasharray="4 4" strokeOpacity={0.4}
                   label={{ value: t("正常", "Normal"), position: "right", fill: C.moss, fontSize: 10 }} />
                 <Tooltip content={<NiceTooltip suffix="°C" />} />
-                <Area type="monotone" dataKey="v" stroke={C.moss} strokeWidth={2.5} fill="url(#tempFill)"
+                <Area type="monotone" dataKey="v" stroke={C.moss} strokeWidth={2.5} fill="url(#tempFill)" isAnimationActive={false}
                   dot={{ r: 3, fill: C.moss, stroke: C.bone, strokeWidth: 1.5 }} animationDuration={1000} />
               </AreaChart>
             </ResponsiveContainer>
@@ -217,7 +196,7 @@ function Report() {
                 <ReferenceLine y={3000} stroke={C.kombu} strokeDasharray="4 4" strokeOpacity={0.4}
                   label={{ value: t("目標", "Goal"), position: "right", fill: C.kombu, fontSize: 10 }} />
                 <Tooltip content={<NiceTooltip suffix="" />} />
-                <Bar dataKey="v" fill="url(#stepsFill)" radius={[6, 6, 0, 0]} animationDuration={1000} />
+                <Bar dataKey="v" fill="url(#stepsFill)" radius={[6, 6, 0, 0]} isAnimationActive={false} />
               </BarChart>
             </ResponsiveContainer>
           </ChartCard>
@@ -246,7 +225,7 @@ function Report() {
                 <YAxis domain={[0, 12]} tick={{ fill: C.moss, fontSize: 10 }} axisLine={false} tickLine={false} />
                 <ReferenceArea y1={8} y2={10} fill={C.moss} fillOpacity={0.08} />
                 <Tooltip content={<NiceTooltip suffix="h" />} />
-                <Bar dataKey="v" fill="url(#sleepFill)" radius={[6, 6, 0, 0]} animationDuration={1000} />
+                <Bar dataKey="v" fill="url(#sleepFill)" radius={[6, 6, 0, 0]} isAnimationActive={false} />
               </BarChart>
             </ResponsiveContainer>
           </ChartCard>
