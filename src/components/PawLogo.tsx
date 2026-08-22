@@ -1,4 +1,4 @@
-export function PawLogo({ size = 32, color = "var(--accent-sakura)" }: { size?: number; color?: string }) {
+export function PawLogo({ size = 32, color = "#1A1A1A" }: { size?: number; color?: string }) {
   return (
     <svg
       width={size}
@@ -6,23 +6,20 @@ export function PawLogo({ size = 32, color = "var(--accent-sakura)" }: { size?: 
       viewBox="0 0 100 100"
       fill="none"
       aria-hidden
-      style={{ display: "block", transform: "rotate(-15deg)" }}
+      style={{ display: "block" }}
     >
       {/* Toe pads */}
-      <ellipse cx="22" cy="38" rx="11" ry="14" fill={color} />
-      <ellipse cx="42" cy="22" rx="11" ry="15" fill={color} />
-      <ellipse cx="64" cy="22" rx="11" ry="15" fill={color} />
-      <ellipse cx="82" cy="38" rx="11" ry="14" fill={color} />
+      <ellipse cx="19" cy="38" rx="9.5" ry="12.5" fill={color} transform="rotate(-16 19 38)" />
+      <ellipse cx="39" cy="20" rx="10" ry="13" fill={color} transform="rotate(-6 39 20)" />
+      <ellipse cx="63" cy="19" rx="10" ry="13" fill={color} transform="rotate(6 63 19)" />
+      <ellipse cx="83" cy="36" rx="9.5" ry="12.5" fill={color} transform="rotate(16 83 36)" />
       {/* Main pad */}
-      <path
-        d="M30 70 C30 55 40 47 52 47 C64 47 74 55 74 70 C74 84 64 92 52 92 C40 92 30 84 30 70 Z"
-        fill={color}
-      />
+      <circle cx="52" cy="67" r="26" fill={color} />
       {/* Heartbeat / ECG line across pad */}
       <path
-        d="M36 70 L44 70 L48 60 L52 80 L56 64 L60 74 L68 70"
+        d="M29 71 L38 71 L44 63 L50 77 L56 51 L62 79 L66 66 L75 59"
         stroke="#FFFFFF"
-        strokeWidth="2.6"
+        strokeWidth="4.2"
         strokeLinecap="round"
         strokeLinejoin="round"
         fill="none"
