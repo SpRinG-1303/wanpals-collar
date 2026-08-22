@@ -2,7 +2,7 @@ import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import DogAvatar from "@/components/DogAvatar";
 import PhoneFrame from "@/components/PhoneFrame";
 import { PrimaryButton } from "@/components/PrimaryButton";
-import pawLogoAsset from "@/assets/pawsitive-paw-logo.png.asset.json";
+import pawLogoAsset from "@/assets/paw-logo.png.asset.json";
 import { useT } from "@/context/LanguageContext";
 
 export const Route = createFileRoute("/onboarding/welcome")({ component: Welcome });

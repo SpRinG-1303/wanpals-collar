@@ -4,7 +4,7 @@ import { Home, MapPin, Bot, HeartPulse, Users, FileHeart, BookOpen, Settings, Ch
 import { useT } from "@/context/LanguageContext";
 import { usePet, displayName } from "@/context/PetContext";
 import { useAuth } from "@/context/AuthContext";
-import pawLogoAsset from "@/assets/pawsitive-paw-logo.png.asset.json";
+import pawLogoAsset from "@/assets/paw-logo.png.asset.json";
 
 type Item = {
   route: string;
