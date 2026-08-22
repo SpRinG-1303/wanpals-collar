@@ -72,6 +72,7 @@ function MapScreen() {
 
       {/* MAP CARD */}
       <div style={{ margin: "12px 16px", borderRadius: 20, overflow: "hidden", height: 320, position: "relative", boxShadow: CARD_SHADOW, background: "var(--acc-pale)" }}>
+        <div className="absolute inset-0" style={{ transform: `scale(${zoom})`, transformOrigin: "center center", transition: "transform 0.25s ease" }}>
         {/* Base watercolor map */}
         <div className="absolute inset-0" style={{
           background: `
