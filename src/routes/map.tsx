@@ -1,6 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import AppShell from "@/components/AppShell";
-import DogAvatar from "@/components/DogAvatar";
 import { useState } from "react";
 import {
   Navigation, AlertTriangle, Phone, Shield, History, Crosshair,
@@ -8,7 +7,6 @@ import {
 } from "lucide-react";
 import { useT } from "@/context/LanguageContext";
 import { usePet, displayName } from "@/context/PetContext";
-import { BREED_KEY_BY_JP, type BreedKey } from "@/components/DogAvatar";
 
 export const Route = createFileRoute("/map")({ component: MapScreen });
 
@@ -28,7 +26,6 @@ function MapScreen() {
   const navigate = useNavigate();
   const { pet } = usePet();
   const dogName = displayName(pet, t("ワンちゃん", "My Dog"));
-  const breedKey: BreedKey = (BREED_KEY_BY_JP[pet.breedJp] ?? (pet.breed as BreedKey)) || "shiba";
 
   const [lost, setLost] = useState(false);
   const [safeZone, setSafeZone] = useState(true);
@@ -196,7 +193,6 @@ function MapScreen() {
         <div style={{ padding: 14 }}>
           <div className="flex items-start justify-between">
             <div className="flex items-start gap-3 flex-1 min-w-0">
-              <DogAvatar breed={breedKey} furColor={pet.avatar.furColor} collarColor={pet.avatar.collarColor} size={44} ring />
               <div className="min-w-0">
                 <div style={{ fontSize: 17, fontWeight: 700, color: "var(--text-primary)" }}>{dogName}</div>
                 <div style={{ fontSize: 12, color: "var(--text-secondary)", marginTop: 1 }}>
