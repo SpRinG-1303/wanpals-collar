@@ -28,8 +28,8 @@ export function TopBar({
   return (
     <>
       <header className="sticky top-0 z-40" style={{ background: "var(--bg-topbar)" }}>
-        <div className="flex items-center justify-between" style={{ padding: "0 18px", height: 58, gap: 10 }}>
-          <div className="flex items-center" style={{ gap: 4 }}>
+        <div className="flex items-center justify-between" style={{ padding: "0 16px", height: 60, gap: 10 }}>
+          <div className="flex items-center" style={{ gap: 8 }}>
             {onMenuClick && <HamburgerButton isOpen={menuOpen} onClick={onMenuClick} />}
             {showBack && (
               <Link
@@ -38,16 +38,16 @@ export function TopBar({
                 className="flex items-center justify-center"
                 style={{ width: 36, height: 36, borderRadius: "50%", color: "var(--text-secondary)" }}
               >
-                <ArrowLeft size={21} strokeWidth={2} />
+                <ArrowLeft size={22} strokeWidth={2} />
               </Link>
             )}
             <Link
               to="/settings"
               className="flex items-center justify-center"
-              style={{ width: 40, height: 40, background: "transparent" }}
+              style={{ width: 42, height: 42, background: "transparent" }}
               aria-label="Profile"
             >
-              <PawLogo size={29} color="var(--accent-sakura)" />
+              <PawLogo size={32} color="var(--accent-sakura)" />
             </Link>
           </div>
           {showTitle ? (
@@ -57,26 +57,24 @@ export function TopBar({
           ) : (
             <div className="flex-1" />
           )}
-          <div className="flex items-center" style={{ gap: 8 }}>
+          <div className="flex items-center" style={{ gap: 0 }}>
             <button
               className="flex items-center justify-center"
-              style={{ width: 34, height: 34, color: "var(--text-secondary)" }}
+              style={{ width: 36, height: 36, margin: "0 4px 0 8px", color: "var(--text-secondary)" }}
               aria-label={t("通知", "Notifications")}
             >
-              <Bell size={20} strokeWidth={1.7} />
+              <Bell size={22} strokeWidth={1.75} />
             </button>
             <button
               onClick={() => setSosOpen(true)}
-              className="font-bold flex items-center justify-center"
+              className="pulse-red font-bold flex items-center"
               style={{
                 background: "#E53935",
                 color: "#fff",
-                borderRadius: 10,
-                height: 32,
-                padding: "0 13px",
-                fontSize: 12,
-                letterSpacing: "0.06em",
-                boxShadow: "0 2px 8px rgba(229,57,53,0.32)",
+                borderRadius: 20,
+                padding: "8px 14px",
+                fontSize: 13,
+                boxShadow: "0 4px 12px rgba(229,57,53,0.4)",
               }}
             >
               SOS
