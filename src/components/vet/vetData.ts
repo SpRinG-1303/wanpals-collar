@@ -3,84 +3,100 @@ import type { BreedKey } from "@/components/DogAvatar";
 /* ================= Patients ================= */
 
 export type SizeClass = "toy" | "small" | "medium" | "large" | "giant";
-
+export type Species = "dog" | "cat" | "other";
 export type RiskTone = "red" | "amber" | "blue";
 
 export type VetPatient = {
   id: string;
   name: string;
+  species: Species;
   breed: string;
   breedKey: BreedKey;
   size: SizeClass;
   age: string;
   weightKg: number;
-  owner: string;
   gender: "male" | "female";
+  owner: string;
+  ownerPhone: string;
+  patientCode: string; // medical record number, e.g. PT-10284
+  microchip: string;
+  status: "Active Patient" | "Inactive";
   conditions: string[];
+  allergies: string[];
+  currentMeds: string[];
+  vaccinationStatus: "Up to date" | "Due soon" | "Overdue";
+  lastVisit: string;
+  nextFollowUp: string;
+  tempC: number;
 };
 
 export const VET_PATIENTS: VetPatient[] = [
   {
-    id: "p1",
-    name: "Bruno",
-    breed: "Indian Pariah Dog",
-    breedKey: "mixed",
-    size: "medium",
-    age: "3y 4m",
-    weightKg: 24,
-    owner: "Priya Sharma",
-    gender: "male",
+    id: "p1", name: "Bruno", species: "dog", breed: "Indian Pariah Dog", breedKey: "mixed",
+    size: "medium", age: "3y 4m", weightKg: 24, gender: "male",
+    owner: "Rahul Shah", ownerPhone: "+91 98200 11223",
+    patientCode: "PT-10231", microchip: "982000123450001",
+    status: "Active Patient",
     conditions: ["Flea allergy dermatitis (2025)"],
+    allergies: [], currentMeds: [],
+    vaccinationStatus: "Overdue", lastVisit: "10 Aug 2026", nextFollowUp: "18 Aug 2026", tempC: 38.5,
   },
   {
-    id: "p2",
-    name: "Coco",
-    breed: "Pug",
-    breedKey: "frenchie",
-    size: "small",
-    age: "5y 1m",
-    weightKg: 8,
-    owner: "Rahul Mehta",
-    gender: "female",
+    id: "p2", name: "Coco", species: "dog", breed: "Pug", breedKey: "frenchie",
+    size: "small", age: "4y 0m", weightKg: 8.2, gender: "female",
+    owner: "Sarah Mehta", ownerPhone: "+91 99301 44556",
+    patientCode: "PT-10284", microchip: "982000123456789",
+    status: "Active Patient",
     conditions: ["BOAS grade II", "Corneal ulcer (2024)"],
+    allergies: ["Penicillin"], currentMeds: ["Prednisolone 5 mg"],
+    vaccinationStatus: "Up to date", lastVisit: "12 Aug 2026", nextFollowUp: "26 Aug 2026", tempC: 38.4,
   },
   {
-    id: "p3",
-    name: "Simba",
-    breed: "Golden Retriever",
-    breedKey: "golden",
-    size: "large",
-    age: "7y 8m",
-    weightKg: 30,
-    owner: "Ananya Iyer",
-    gender: "male",
+    id: "p3", name: "Simba", species: "dog", breed: "Golden Retriever", breedKey: "golden",
+    size: "large", age: "7y 8m", weightKg: 30, gender: "male",
+    owner: "Ananya Rao", ownerPhone: "+91 98111 77889",
+    patientCode: "PT-10115", microchip: "982000123450115",
+    status: "Active Patient",
     conditions: ["Early hip dysplasia", "Hypothyroidism"],
+    allergies: [], currentMeds: ["Levothyroxine 0.4 mg"],
+    vaccinationStatus: "Up to date", lastVisit: "05 Aug 2026", nextFollowUp: "02 Sep 2026", tempC: 38.4,
   },
   {
-    id: "p4",
-    name: "Sheru",
-    breed: "German Shepherd",
-    breedKey: "shiba",
-    size: "large",
-    age: "4y 0m",
-    weightKg: 34,
-    owner: "Vikram Singh",
-    gender: "male",
-    conditions: [],
+    id: "p4", name: "Sheru", species: "dog", breed: "German Shepherd", breedKey: "shiba",
+    size: "large", age: "4y 0m", weightKg: 34, gender: "male",
+    owner: "Vikram Singh", ownerPhone: "+91 98922 33445",
+    patientCode: "PT-10302", microchip: "982000123450302",
+    status: "Active Patient",
+    conditions: [], allergies: [], currentMeds: [],
+    vaccinationStatus: "Up to date", lastVisit: "22 Jul 2026", nextFollowUp: "—", tempC: 38.6,
   },
   {
-    id: "p5",
-    name: "Milo",
-    breed: "Chihuahua",
-    breedKey: "chihuahua",
-    size: "toy",
-    age: "2y 2m",
-    weightKg: 2.4,
-    owner: "Sana Qureshi",
-    gender: "male",
+    id: "p5", name: "Milo", species: "dog", breed: "Chihuahua", breedKey: "chihuahua",
+    size: "toy", age: "2y 2m", weightKg: 2.4, gender: "male",
+    owner: "Arjun Patel", ownerPhone: "+91 97690 22110",
+    patientCode: "PT-10340", microchip: "982000123450340",
+    status: "Active Patient",
     conditions: ["Patellar luxation grade I"],
+    allergies: [], currentMeds: ["Carprofen 6.25 mg"],
+    vaccinationStatus: "Up to date", lastVisit: "15 Aug 2026", nextFollowUp: "26 Aug 2026", tempC: 38.7,
+  },
+  {
+    id: "p6", name: "Mili", species: "cat", breed: "Domestic Shorthair", breedKey: "mixed",
+    size: "small", age: "2y 0m", weightKg: 3.8, gender: "female",
+    owner: "Nisha Verma", ownerPhone: "+91 98100 98765",
+    patientCode: "PT-10355", microchip: "982000123450355",
+    status: "Active Patient",
+    conditions: ["Gingivitis (mild)"],
+    allergies: [], currentMeds: [],
+    vaccinationStatus: "Due soon", lastVisit: "01 Aug 2026", nextFollowUp: "29 Aug 2026", tempC: 38.6,
   },
 ];
+
+export function patientById(id: string | undefined): VetPatient | undefined {
+  return VET_PATIENTS.find((p) => p.id === id);
+}
+
+export const CLINIC_BRANCHES = ["Bandra West Clinic", "Andheri East Branch", "Powai Pet Hospital"];
 
 /* ================= Breed-specific risk tags ================= */
 
@@ -115,6 +131,7 @@ const BREED_RISKS: Record<string, RiskTag[]> = {
   ],
   Dachshund: [{ label: "IVDD / Back Risk", tone: "red" }],
   "Indian Pariah Dog": [{ label: "Tick-Borne Disease", tone: "amber" }],
+  "Domestic Shorthair": [{ label: "Dental Disease", tone: "amber" }],
 };
 
 export function riskTagsFor(patient: VetPatient): RiskTag[] {
@@ -137,6 +154,12 @@ export const VITAL_BASELINES: Record<SizeClass, VitalBaseline> = {
   giant: { hr: [60, 90], temp: [38.0, 39.0], rr: [12, 24] },
 };
 
+export const CAT_BASELINE: VitalBaseline = { hr: [140, 220], temp: [38.1, 39.2], rr: [20, 30] };
+
+export function baselineFor(patient: VetPatient): VitalBaseline {
+  return patient.species === "cat" ? CAT_BASELINE : VITAL_BASELINES[patient.size];
+}
+
 export const SIZE_LABEL: Record<SizeClass, string> = {
   toy: "Toy breed",
   small: "Small breed",
@@ -145,13 +168,14 @@ export const SIZE_LABEL: Record<SizeClass, string> = {
   giant: "Giant breed",
 };
 
-/* Current collar vitals (mock live feed) — keyed by patient id */
+/** Current collar vitals (mock live feed) — keyed by patient id */
 export const CURRENT_VITALS: Record<string, { hr: number; temp: number; rr: number }> = {
   p1: { hr: 96, temp: 38.5, rr: 22 },
   p2: { hr: 118, temp: 39.1, rr: 36 },
   p3: { hr: 72, temp: 38.4, rr: 18 },
   p4: { hr: 78, temp: 38.6, rr: 20 },
   p5: { hr: 122, temp: 38.7, rr: 28 },
+  p6: { hr: 168, temp: 38.6, rr: 26 },
 };
 
 /* ================= Collar behaviour telemetry ================= */
@@ -237,7 +261,7 @@ export function gaitAsymmetry(readings: GaitReading[]): { flag: boolean; worst: 
   return { flag: deficit >= 12, worst, deficit };
 }
 
-/* ================= Body map ================= */
+/* ================= Body map (clinical examination tool) ================= */
 
 export type BodyZone = {
   id: string;
@@ -253,11 +277,11 @@ export const BODY_ZONES: BodyZone[] = [
   { id: "eye", label: "Eye", cx: 30, cy: 34, r: 7, issues: ["Conjunctivitis", "Corneal ulcer", "Cherry eye"] },
   { id: "mouth", label: "Mouth", cx: 14, cy: 46, r: 8, issues: ["Gingivitis", "Broken tooth", "Oral foreign body"] },
   { id: "neck", label: "Neck", cx: 62, cy: 52, r: 11, issues: ["Collar dermatitis", "Lymph node swelling", "Hot spot"] },
-  { id: "chest", label: "Chest", cx: 86, cy: 78, r: 13, issues: ["Bronchitis / cough", "Cardiac murmur", "Kennel cough"] },
+  { id: "chest", label: "Thorax", cx: 86, cy: 78, r: 13, issues: ["Bronchitis / cough", "Cardiac murmur", "Kennel cough"] },
   { id: "abdomen", label: "Abdomen", cx: 122, cy: 82, r: 13, issues: ["Gastritis", "Bloat (GDV) watch", "Diarrhea", "Foreign body"] },
-  { id: "flank", label: "Flank", cx: 148, cy: 62, r: 12, issues: ["Hot spot", "Flea allergy dermatitis", "Skin mass"] },
-  { id: "frontpaw", label: "Front Paw", cx: 76, cy: 126, r: 9, issues: ["Pad tear", "Interdigital cyst", "Torn dewclaw"] },
-  { id: "hindpaw", label: "Hind Paw", cx: 152, cy: 126, r: 9, issues: ["Pad tear", "Interdigital cyst", "ACL tear watch"] },
+  { id: "flank", label: "Skin / Flank", cx: 148, cy: 62, r: 12, issues: ["Hot spot", "Flea allergy dermatitis", "Skin mass"] },
+  { id: "frontpaw", label: "Forelimb / Paw", cx: 76, cy: 126, r: 9, issues: ["Pad tear", "Interdigital cyst", "Torn dewclaw"] },
+  { id: "hindpaw", label: "Hindlimb / Paw", cx: 152, cy: 126, r: 9, issues: ["Pad tear", "Interdigital cyst", "ACL tear watch"] },
   { id: "tail", label: "Tail", cx: 186, cy: 40, r: 10, issues: ["Tail tip injury", "Anal gland impaction"] },
 ];
 
@@ -300,10 +324,17 @@ export const MEDICATIONS: Medication[] = [
   { id: "m7", name: "Prednisolone", category: "Corticosteroid", mdr1Risk: false, notes: "Do not combine with NSAIDs." },
 ];
 
+export const RX_ROUTES = ["Oral", "Topical", "Subcutaneous", "Intramuscular", "Intravenous", "Otic", "Ophthalmic"];
+export const RX_FREQUENCIES = ["Once daily", "Twice daily", "Three times daily", "Every 8 hours", "Every 12 hours", "Once weekly", "As needed"];
+export const RX_DURATIONS = ["3 days", "5 days", "7 days", "10 days", "14 days", "30 days"];
+
 export type SafetyFlag = { level: "danger" | "caution" | "ok"; text: string };
 
 export function checkMedication(med: Medication, patient: VetPatient): SafetyFlag[] {
   const flags: SafetyFlag[] = [];
+  if (patient.allergies.some((a) => med.name.toLowerCase().includes(a.toLowerCase()))) {
+    flags.push({ level: "danger", text: `${patient.name} has a recorded ${patient.allergies.find((a) => med.name.toLowerCase().includes(a.toLowerCase()))} allergy — do not prescribe ${med.name}.` });
+  }
   if (med.mdr1Risk && isMdr1Sensitive(patient.breed)) {
     flags.push({
       level: "danger",
@@ -318,8 +349,11 @@ export function checkMedication(med: Medication, patient: VetPatient): SafetyFla
   if (med.id === "m5" && patient.age.startsWith("0")) {
     flags.push({ level: "caution", text: "Apoquel is not licensed for dogs under 12 months." });
   }
+  if (med.id === "m7" && patient.currentMeds.some((m) => /carprofen|nsaid/i.test(m))) {
+    flags.push({ level: "danger", text: `${patient.name} is on an NSAID — corticosteroids must not be combined.` });
+  }
   if (flags.length === 0) {
-    flags.push({ level: "ok", text: `No breed or drug-interaction conflicts for ${patient.name}. Safe to prescribe.` });
+    flags.push({ level: "ok", text: `No breed, allergy or drug-interaction conflicts for ${patient.name}. Safe to prescribe.` });
   }
   return flags;
 }
@@ -331,8 +365,8 @@ export type Toxin = {
   name: string;
   unit: "g" | "pieces";
   unitLabel: string;
-  mgPerUnit: number; // active toxin mg per gram (or per piece)
-  thresholds: { mild: number; moderate: number; severe: number }; // mg/kg
+  mgPerUnit: number;
+  thresholds: { mild: number; moderate: number; severe: number };
   hint: string;
 };
 
@@ -369,12 +403,282 @@ export function calcToxicity(toxin: Toxin, amount: number, weightKg: number): To
   return { doseMgKg: Math.round(doseMgKg * 10) / 10, level, advice };
 }
 
-/* ================= Today's consult queue ================= */
+/* ================= Appointments / consultation queue ================= */
 
-export type Appointment = { patientId: string; time: string; reason: string; type: "Video" | "Clinic" };
+export type ApptStatus = "scheduled" | "checked-in" | "waiting" | "in-consultation" | "completed";
+
+export type Appointment = {
+  id: string;
+  patientId: string;
+  time: string;
+  reason: string;
+  type: "Clinic" | "Video";
+  status: ApptStatus;
+  followUp?: boolean;
+};
 
 export const APPOINTMENTS: Appointment[] = [
-  { patientId: "p2", time: "10:30", reason: "Breathing difficulty follow-up", type: "Video" },
-  { patientId: "p1", time: "12:00", reason: "Scratching & ear odour", type: "Clinic" },
-  { patientId: "p3", time: "15:30", reason: "Limping — hind left leg", type: "Video" },
+  { id: "a1", patientId: "p2", time: "09:00", reason: "Annual vaccination", type: "Clinic", status: "completed" },
+  { id: "a2", patientId: "p1", time: "09:30", reason: "Vomiting / lethargy", type: "Clinic", status: "waiting" },
+  { id: "a3", patientId: "p3", time: "10:00", reason: "Skin condition", type: "Clinic", status: "in-consultation" },
+  { id: "a4", patientId: "p5", time: "10:30", reason: "Post-surgery follow-up", type: "Clinic", status: "scheduled", followUp: true },
+  { id: "a5", patientId: "p4", time: "11:00", reason: "Annual health check", type: "Clinic", status: "checked-in" },
+  { id: "a6", patientId: "p6", time: "11:30", reason: "Vaccination (FVRCP)", type: "Clinic", status: "scheduled" },
+  { id: "a7", patientId: "p2", time: "12:00", reason: "Respiratory symptoms recheck", type: "Video", status: "waiting", followUp: true },
+  { id: "a8", patientId: "p1", time: "13:30", reason: "Scratching & ear odour", type: "Video", status: "in-consultation" },
+  { id: "a9", patientId: "p3", time: "14:00", reason: "Hypothyroidism review", type: "Video", status: "scheduled", followUp: true },
+  { id: "a10", patientId: "p5", time: "15:00", reason: "Suture removal", type: "Clinic", status: "scheduled", followUp: true },
+  { id: "a11", patientId: "p4", time: "16:00", reason: "GDV risk consult", type: "Video", status: "scheduled" },
+  { id: "a12", patientId: "p6", time: "17:30", reason: "Dental check", type: "Clinic", status: "scheduled", followUp: true },
+];
+
+export const APPT_STATUS_META: Record<ApptStatus, { label: string; tone: "green" | "amber" | "blue" | "grey" }> = {
+  scheduled: { label: "Scheduled", tone: "grey" },
+  "checked-in": { label: "Checked In", tone: "green" },
+  waiting: { label: "Waiting", tone: "amber" },
+  "in-consultation": { label: "In Consultation", tone: "blue" },
+  completed: { label: "Completed", tone: "grey" },
+};
+
+/* ================= Follow-ups & clinical alerts ================= */
+
+export type FollowUp = {
+  id: string;
+  patientId: string;
+  date: string;
+  reason: string;
+  status: "Scheduled" | "Overdue";
+  remindOwner: boolean;
+};
+
+export const FOLLOW_UPS: FollowUp[] = [
+  { id: "f1", patientId: "p5", date: "26 Aug 2026", reason: "Post-surgery recheck", status: "Scheduled", remindOwner: true },
+  { id: "f2", patientId: "p2", date: "26 Aug 2026", reason: "Recheck respiratory symptoms", status: "Scheduled", remindOwner: true },
+  { id: "f3", patientId: "p3", date: "02 Sep 2026", reason: "Thyroid panel review", status: "Scheduled", remindOwner: false },
+  { id: "f4", patientId: "p1", date: "18 Aug 2026", reason: "GI upset recheck", status: "Overdue", remindOwner: true },
+  { id: "f5", patientId: "p6", date: "29 Aug 2026", reason: "Dental follow-up", status: "Scheduled", remindOwner: false },
+];
+
+export type ClinicalAlert = { level: "red" | "amber"; text: string; patientId?: string };
+
+export const CLINICAL_ALERTS: ClinicalAlert[] = [
+  { level: "red", text: "Allergy — Penicillin (Coco, PT-10284)", patientId: "p2" },
+  { level: "amber", text: "Follow-up overdue — Bruno, GI recheck (8 days)", patientId: "p1" },
+  { level: "amber", text: "Lab result requires review — Simba, thyroid panel", patientId: "p3" },
+];
+
+/* ================= Medical records ================= */
+
+export type VisitRecord = { date: string; reason: string; vet: string; summary: string };
+export type DiagnosisRecord = { date: string; name: string; status: "Active" | "Resolved"; notes?: string };
+export type MedRecord = { name: string; dose: string; route: string; frequency: string; duration: string; prescribed: string; status: "Active" | "Completed" };
+export type VaccineRecord = { name: string; date: string; nextDue: string; status: "Administered" | "Due" | "Overdue" };
+export type LabValue = { name: string; value: string; unit: string; ref: string; flag: "normal" | "high" | "low" };
+export type LabResult = { id: string; name: string; date: string; status: "available" | "pending"; values: LabValue[] };
+export type DocRecord = { name: string; type: string; date: string };
+
+export type PatientRecord = {
+  visits: VisitRecord[];
+  diagnoses: DiagnosisRecord[];
+  medications: MedRecord[];
+  vaccinations: VaccineRecord[];
+  labs: LabResult[];
+  documents: DocRecord[];
+};
+
+const VET_NAME = "Dr. Sharma";
+
+export const PATIENT_RECORDS: Record<string, PatientRecord> = {
+  p1: {
+    visits: [
+      { date: "10 Aug 2026", reason: "Vomiting / lethargy", vet: VET_NAME, summary: "Acute gastroenteritis. Prescribed bland diet + antiemetic. Hydration adequate." },
+      { date: "02 May 2026", reason: "Scratching & ear odour", vet: VET_NAME, summary: "Flea allergy dermatitis on flank. Started ectoparasite control." },
+      { date: "11 Jan 2026", reason: "Annual wellness exam", vet: VET_NAME, summary: "Healthy. Weight stable at 24 kg. Dental score 1/4." },
+    ],
+    diagnoses: [
+      { date: "10 Aug 2026", name: "Acute gastroenteritis", status: "Active", notes: "Dietary indiscretion suspected." },
+      { date: "02 May 2026", name: "Flea allergy dermatitis", status: "Resolved" },
+    ],
+    medications: [
+      { name: "Maropitant", dose: "2 mg/kg", route: "Oral", frequency: "Once daily", duration: "5 days", prescribed: "10 Aug 2026", status: "Completed" },
+    ],
+    vaccinations: [
+      { name: "Rabies", date: "05 Aug 2025", nextDue: "05 Aug 2026", status: "Overdue" },
+      { name: "DHPP", date: "05 Aug 2025", nextDue: "05 Aug 2027", status: "Administered" },
+    ],
+    labs: [
+      {
+        id: "l1", name: "CBC", date: "10 Aug 2026", status: "available",
+        values: [
+          { name: "Hemoglobin", value: "14.2", unit: "g/dL", ref: "12.0–18.0", flag: "normal" },
+          { name: "WBC", value: "11.2", unit: "×10⁹/L", ref: "5.5–16.9", flag: "normal" },
+          { name: "Platelets", value: "248", unit: "×10⁹/L", ref: "175–500", flag: "normal" },
+        ],
+      },
+      { id: "l2", name: "Urinalysis", date: "10 Aug 2026", status: "pending", values: [] },
+    ],
+    documents: [
+      { name: "Vaccination certificate 2025", type: "PDF", date: "05 Aug 2025" },
+    ],
+  },
+  p2: {
+    visits: [
+      { date: "12 Aug 2026", reason: "Annual vaccination + wellness", vet: VET_NAME, summary: "Rabies & DHPP administered. Mild stertor consistent with BOAS grade II. Prednisolone continued for airway inflammation." },
+      { date: "28 Jun 2026", reason: "Eye recheck", vet: VET_NAME, summary: "Corneal ulcer fully healed. Fluorescein stain negative." },
+      { date: "14 Mar 2026", reason: "BOAS assessment", vet: VET_NAME, summary: "Grade II BOAS. Advised weight control; surgical consult optional." },
+    ],
+    diagnoses: [
+      { date: "14 Mar 2026", name: "BOAS grade II", status: "Active", notes: "Brachycephalic obstructive airway syndrome." },
+      { date: "09 Oct 2024", name: "Corneal ulcer (left eye)", status: "Resolved" },
+    ],
+    medications: [
+      { name: "Prednisolone", dose: "5 mg", route: "Oral", frequency: "Once daily", duration: "14 days", prescribed: "12 Aug 2026", status: "Active" },
+    ],
+    vaccinations: [
+      { name: "Rabies", date: "12 Aug 2026", nextDue: "12 Aug 2027", status: "Administered" },
+      { name: "DHPP", date: "12 Aug 2026", nextDue: "12 Aug 2027", status: "Administered" },
+    ],
+    labs: [
+      {
+        id: "l3", name: "CBC", date: "12 Aug 2026", status: "available",
+        values: [
+          { name: "Hemoglobin", value: "12.1", unit: "g/dL", ref: "12.0–18.0", flag: "normal" },
+          { name: "WBC", value: "18.4", unit: "×10⁹/L", ref: "5.5–16.9", flag: "high" },
+          { name: "Platelets", value: "310", unit: "×10⁹/L", ref: "175–500", flag: "normal" },
+        ],
+      },
+      {
+        id: "l4", name: "Blood Chemistry", date: "12 Aug 2026", status: "available",
+        values: [
+          { name: "ALT", value: "42", unit: "U/L", ref: "10–125", flag: "normal" },
+          { name: "Creatinine", value: "0.9", unit: "mg/dL", ref: "0.5–1.8", flag: "normal" },
+          { name: "Glucose", value: "108", unit: "mg/dL", ref: "74–143", flag: "normal" },
+        ],
+      },
+      { id: "l5", name: "Urinalysis", date: "12 Aug 2026", status: "pending", values: [] },
+      {
+        id: "l6", name: "Thoracic Imaging", date: "14 Mar 2026", status: "available",
+        values: [
+          { name: "Tracheal diameter", value: "Narrowed", unit: "", ref: "", flag: "high" },
+          { name: "Cardiac silhouette", value: "Normal", unit: "", ref: "", flag: "normal" },
+        ],
+      },
+    ],
+    documents: [
+      { name: "Vaccination certificate 2026", type: "PDF", date: "12 Aug 2026" },
+      { name: "Thoracic X-ray report", type: "PDF", date: "14 Mar 2026" },
+      { name: "Left ear — SkinSense photo", type: "Image", date: "15 Aug 2026" },
+    ],
+  },
+  p3: {
+    visits: [
+      { date: "05 Aug 2026", reason: "Skin condition", vet: VET_NAME, summary: "Bilateral flank alopecia, non-pruritic — consistent with hypothyroidism. Continue levothyroxine, recheck TT4 in 4 weeks." },
+      { date: "18 Jun 2026", reason: "Limping — hind left", vet: VET_NAME, summary: "Mild hip laxity. Weight management + joint supplement advised." },
+      { date: "02 Feb 2026", reason: "Annual wellness exam", vet: VET_NAME, summary: "TT4 low-normal at the time; started monitoring." },
+    ],
+    diagnoses: [
+      { date: "05 Aug 2026", name: "Hypothyroidism", status: "Active", notes: "On levothyroxine 0.4 mg BID." },
+      { date: "18 Jun 2026", name: "Hip dysplasia (early)", status: "Active" },
+    ],
+    medications: [
+      { name: "Levothyroxine", dose: "0.4 mg", route: "Oral", frequency: "Twice daily", duration: "30 days", prescribed: "05 Aug 2026", status: "Active" },
+    ],
+    vaccinations: [
+      { name: "Rabies", date: "02 Feb 2026", nextDue: "02 Feb 2027", status: "Administered" },
+      { name: "DHPP", date: "02 Feb 2026", nextDue: "02 Feb 2027", status: "Administered" },
+    ],
+    labs: [
+      {
+        id: "l7", name: "Thyroid Panel", date: "05 Aug 2026", status: "available",
+        values: [
+          { name: "TT4", value: "1.1", unit: "µg/dL", ref: "1.5–4.5", flag: "low" },
+          { name: "TSH", value: "0.62", unit: "ng/mL", ref: "0.05–0.50", flag: "high" },
+        ],
+      },
+      {
+        id: "l8", name: "CBC", date: "05 Aug 2026", status: "available",
+        values: [
+          { name: "Hemoglobin", value: "13.8", unit: "g/dL", ref: "12.0–18.0", flag: "normal" },
+          { name: "WBC", value: "9.4", unit: "×10⁹/L", ref: "5.5–16.9", flag: "normal" },
+        ],
+      },
+    ],
+    documents: [
+      { name: "Thyroid panel report", type: "PDF", date: "05 Aug 2026" },
+    ],
+  },
+};
+
+function defaultRecord(p: VetPatient): PatientRecord {
+  return {
+    visits: [
+      { date: p.lastVisit, reason: p.species === "cat" ? "Wellness exam" : "General consultation", vet: VET_NAME, summary: "Examined. No acute findings on physical exam." },
+    ],
+    diagnoses: p.conditions.map((c) => ({ date: p.lastVisit, name: c, status: "Active" as const })),
+    medications: p.currentMeds.map((m) => ({ name: m, dose: "As directed", route: "Oral", frequency: "Twice daily", duration: "7 days", prescribed: p.lastVisit, status: "Active" as const })),
+    vaccinations: [
+      p.species === "cat"
+        ? { name: "FVRCP", date: "01 Aug 2025", nextDue: "01 Sep 2026", status: p.vaccinationStatus === "Up to date" ? "Administered" as const : "Due" as const }
+        : { name: "Rabies", date: "15 Mar 2026", nextDue: "15 Mar 2027", status: "Administered" as const },
+    ],
+    labs: [
+      { id: `l-${p.id}-cbc`, name: "CBC", date: p.lastVisit, status: "pending", values: [] },
+    ],
+    documents: [],
+  };
+}
+
+export function recordFor(patientId: string): PatientRecord {
+  const rec = PATIENT_RECORDS[patientId];
+  if (rec) return rec;
+  const p = patientById(patientId);
+  if (!p) return { visits: [], diagnoses: [], medications: [], vaccinations: [], labs: [], documents: [] };
+  return defaultRecord(p);
+}
+
+/* ================= Common diagnoses (terminology picklist) ================= */
+
+export const COMMON_DIAGNOSES = [
+  "Otitis externa",
+  "Acute gastroenteritis",
+  "Kennel cough (CIRDC)",
+  "Flea allergy dermatitis",
+  "Pyoderma",
+  "Conjunctivitis",
+  "Patellar luxation",
+  "Hip dysplasia",
+  "BOAS",
+  "Hypothyroidism",
+  "Diabetes mellitus",
+  "Chronic kidney disease",
+  "Lower urinary tract infection",
+  "Dental disease",
+  "Pancreatitis",
+];
+
+/* ================= Inventory & billing ================= */
+
+export type StockLevel = "ok" | "low" | "critical";
+export type InventoryItem = { id: string; item: string; category: string; stock: number; unit: string; level: StockLevel };
+
+export const INVENTORY: InventoryItem[] = [
+  { id: "i1", item: "Amoxicillin-Clavulanate 250mg", category: "Antibiotic", stock: 60, unit: "tabs", level: "ok" },
+  { id: "i2", item: "Carprofen 25mg", category: "NSAID", stock: 25, unit: "tabs", level: "low" },
+  { id: "i3", item: "Ivermectin 1% injection", category: "Antiparasitic", stock: 8, unit: "vials", level: "critical" },
+  { id: "i4", item: "Rabies vaccine", category: "Vaccine", stock: 42, unit: "doses", level: "ok" },
+  { id: "i5", item: "Prednisolone 5mg", category: "Corticosteroid", stock: 15, unit: "tabs", level: "low" },
+  { id: "i6", item: "IV fluids (LRS 500ml)", category: "Fluids", stock: 30, unit: "bags", level: "ok" },
+  { id: "i7", item: "Syringes 3ml", category: "Consumables", stock: 480, unit: "pcs", level: "ok" },
+  { id: "i8", item: "Apoquel 16mg", category: "Antipruritic", stock: 12, unit: "tabs", level: "low" },
+];
+
+export type Invoice = { id: string; owner: string; patientId: string; date: string; amount: number; status: "Paid" | "Pending" | "Overdue" };
+
+export const INVOICES: Invoice[] = [
+  { id: "INV-2081", owner: "Sarah Mehta", patientId: "p2", date: "12 Aug 2026", amount: 1800, status: "Paid" },
+  { id: "INV-2080", owner: "Rahul Shah", patientId: "p1", date: "10 Aug 2026", amount: 2400, status: "Pending" },
+  { id: "INV-2079", owner: "Ananya Rao", patientId: "p3", date: "05 Aug 2026", amount: 3150, status: "Pending" },
+  { id: "INV-2078", owner: "Vikram Singh", patientId: "p4", date: "22 Jul 2026", amount: 1200, status: "Paid" },
+  { id: "INV-2077", owner: "Arjun Patel", patientId: "p5", date: "15 Aug 2026", amount: 4500, status: "Overdue" },
+  { id: "INV-2076", owner: "Nisha Verma", patientId: "p6", date: "01 Aug 2026", amount: 900, status: "Paid" },
 ];
