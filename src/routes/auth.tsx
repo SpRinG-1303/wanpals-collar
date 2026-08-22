@@ -2,7 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { Eye, EyeOff, Mail, Lock, User, PawPrint, Check, ArrowLeft, ChevronRight, Heart, Plus, Stethoscope } from "lucide-react";
 import { useT } from "@/context/LanguageContext";
-import { HeroIllustration } from "@/routes/language";
+import { HeroIllustration } from "@/components/HeroIllustration";
 import PhoneFrame from "@/components/PhoneFrame";
 import { PawLogo } from "@/components/PawLogo";
 
@@ -49,10 +49,6 @@ function Auth() {
               t={t}
             />
           )}
-
-          <Link to="/language" className="block text-center text-[11px] mt-5" style={{ color: "#C4B8B4" }}>
-            ← {t("言語選択へ戻る", "Back to language")}
-          </Link>
         </div>
       </div>
     </PhoneFrame>
@@ -153,13 +149,10 @@ function RoleCard({
       </div>
       <div className="flex-1 min-w-0">
         <div style={{ fontSize: 18, fontWeight: 700, color: "#1A1A2E", lineHeight: 1.2 }}>
-          {titleJp}
-        </div>
-        <div style={{ fontSize: 14, fontWeight: 500, color: accent, marginTop: 2 }}>
           {titleEn}
         </div>
         <div style={{ fontSize: 12, color: "#9CA3AF", marginTop: 6 }}>
-          {subEn} · {subJp}
+          {subEn}
         </div>
       </div>
       <ChevronRight size={16} style={{ color: "#D1D5DB" }} />
@@ -264,7 +257,6 @@ function LoginForm({
   const isOwner = role === "owner";
   const accent = isOwner ? "#E8829A" : "#7BB5B0";
   const accentBg = isOwner ? "#FFE4EC" : "#E4F2F0";
-  const roleJp = isOwner ? "いぬの家族" : "どうぶつ病院";
   const roleEn = isOwner ? "Pet Family" : "Animal Clinic";
 
   return (
@@ -296,8 +288,7 @@ function LoginForm({
             </div>
           </div>
           <div className="leading-tight">
-            <div className="font-bold" style={{ fontSize: 13, color: "#2C2C2C" }}>{roleJp}</div>
-            <div className="font-semibold" style={{ fontSize: 11, color: accent }}>{roleEn}</div>
+            <div className="font-bold" style={{ fontSize: 13, color: "#2C2C2C" }}>{roleEn}</div>
           </div>
         </div>
       </div>
