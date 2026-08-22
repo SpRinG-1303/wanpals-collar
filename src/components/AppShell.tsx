@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import { Bell, ArrowLeft, AlertTriangle, Heart, Syringe } from "lucide-react";
 import { toast } from "sonner";
-import pawLogoAsset from "@/assets/pawsitive-paw-logo.png.asset.json";
+import pawLogoAsset from "@/assets/paw-logo.png.asset.json";
 import { motion } from "framer-motion";
 import { useState, useEffect, type ReactNode } from "react";
 import { T, useT } from "@/context/LanguageContext";

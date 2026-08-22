@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
-import pawLogoAsset from "@/assets/pawsitive-paw-logo.png.asset.json";
+import pawLogoAsset from "@/assets/paw-logo.png.asset.json";
 import { useAuth } from "@/context/AuthContext";
 
 export const Route = createFileRoute("/")({

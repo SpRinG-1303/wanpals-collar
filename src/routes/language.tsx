@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { PawPrint } from "lucide-react";
-import pawLogoAsset from "@/assets/pawsitive-paw-logo.png.asset.json";
+import pawLogoAsset from "@/assets/paw-logo.png.asset.json";
 import PhoneFrame from "@/components/PhoneFrame";
 
 export const Route = createFileRoute("/language")({ component: LanguagePicker });
