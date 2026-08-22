@@ -276,9 +276,9 @@ export default function VetHome() {
             <div style={{ fontSize: 13.5, fontWeight: 700, color: E.ink, marginBottom: 12 }}>Quick Actions</div>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               {[
-                { Icon: CalendarPlus, label: "New Appointment", run: () => navigate({ to: "/vet-appointments" }) },
+                { Icon: CalendarPlus, label: "New Consultation", run: () => navigate({ to: "/vet-consult" }) },
                 { Icon: Pill, label: "New Prescription", run: () => navigate({ to: "/vet-rx" }) },
-                { Icon: FlaskConical, label: "Find Patient", run: () => navigate({ to: "/vet-lab" }) },
+                { Icon: FlaskConical, label: "Find Patient", run: () => navigate({ to: "/vet-patients" }) },
               ].map(({ Icon, label, run }) => (
                 <button
                   key={label}
