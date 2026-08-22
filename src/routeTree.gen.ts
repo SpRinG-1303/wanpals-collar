@@ -30,6 +30,7 @@ import { Route as AvatarSetupRouteImport } from './routes/avatar-setup'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AiRouteImport } from './routes/ai'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as VetPatientIdRouteImport } from './routes/vet-patient.$id'
 import { Route as OnboardingWelcomeRouteImport } from './routes/onboarding.welcome'
 import { Route as OnboardingOwnerRouteImport } from './routes/onboarding.owner'
 import { Route as OnboardingDogRouteImport } from './routes/onboarding.dog'
@@ -141,6 +142,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const VetPatientIdRoute = VetPatientIdRouteImport.update({
+  id: '/vet-patient/$id',
+  path: '/vet-patient/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const OnboardingWelcomeRoute = OnboardingWelcomeRouteImport.update({
   id: '/onboarding/welcome',
   path: '/onboarding/welcome',
@@ -194,6 +200,7 @@ export interface FileRoutesByFullPath {
   '/onboarding/dog': typeof OnboardingDogRoute
   '/onboarding/owner': typeof OnboardingOwnerRoute
   '/onboarding/welcome': typeof OnboardingWelcomeRoute
+  '/vet-patient/$id': typeof VetPatientIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -222,6 +229,7 @@ export interface FileRoutesByTo {
   '/onboarding/dog': typeof OnboardingDogRoute
   '/onboarding/owner': typeof OnboardingOwnerRoute
   '/onboarding/welcome': typeof OnboardingWelcomeRoute
+  '/vet-patient/$id': typeof VetPatientIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -251,6 +259,7 @@ export interface FileRoutesById {
   '/onboarding/dog': typeof OnboardingDogRoute
   '/onboarding/owner': typeof OnboardingOwnerRoute
   '/onboarding/welcome': typeof OnboardingWelcomeRoute
+  '/vet-patient/$id': typeof VetPatientIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -281,6 +290,7 @@ export interface FileRouteTypes {
     | '/onboarding/dog'
     | '/onboarding/owner'
     | '/onboarding/welcome'
+    | '/vet-patient/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -309,6 +319,7 @@ export interface FileRouteTypes {
     | '/onboarding/dog'
     | '/onboarding/owner'
     | '/onboarding/welcome'
+    | '/vet-patient/$id'
   id:
     | '__root__'
     | '/'
@@ -337,6 +348,7 @@ export interface FileRouteTypes {
     | '/onboarding/dog'
     | '/onboarding/owner'
     | '/onboarding/welcome'
+    | '/vet-patient/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -366,6 +378,7 @@ export interface RootRouteChildren {
   OnboardingDogRoute: typeof OnboardingDogRoute
   OnboardingOwnerRoute: typeof OnboardingOwnerRoute
   OnboardingWelcomeRoute: typeof OnboardingWelcomeRoute
+  VetPatientIdRoute: typeof VetPatientIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -517,6 +530,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/vet-patient/$id': {
+      id: '/vet-patient/$id'
+      path: '/vet-patient/$id'
+      fullPath: '/vet-patient/$id'
+      preLoaderRoute: typeof VetPatientIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/onboarding/welcome': {
       id: '/onboarding/welcome'
       path: '/onboarding/welcome'
@@ -582,6 +602,7 @@ const rootRouteChildren: RootRouteChildren = {
   OnboardingDogRoute: OnboardingDogRoute,
   OnboardingOwnerRoute: OnboardingOwnerRoute,
   OnboardingWelcomeRoute: OnboardingWelcomeRoute,
+  VetPatientIdRoute: VetPatientIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
