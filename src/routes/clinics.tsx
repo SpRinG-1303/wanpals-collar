@@ -17,7 +17,10 @@ import {
   Building2,
   Bookmark,
   ChevronRight,
+  ChevronLeft,
   Clock,
+  CornerUpRight,
+  Flag,
   X,
 } from "lucide-react";
 import { useMemo, useState } from "react";
@@ -642,6 +645,173 @@ function Clinics() {
           </motion.div>
         </div>
       )}
+
+      {/* ── In-app directions with animated route ──────────── */}
+      <AnimatePresence>
+        {dirFor && <DirectionsView clinic={dirFor} onClose={() => setDirFor(null)} />}
+      </AnimatePresence>
     </AppShell>
+  );
+}
+
+/* ── Directions view — plays the route out to the clinic ────── */
+function DirectionsView({ clinic, onClose }: { clinic: (typeof CLINICS)[number]; onClose: () => void }) {
+  const [playKey, setPlayKey] = useState(0);
+  const mins = Math.max(4, Math.round(clinic.km * 12));
+  const routeD = "M 46 252 C 110 246, 128 196, 176 176 S 268 116, 336 58";
+
+  const steps = [
+    { icon: <Navigation size={13} />, text: "Head north on Linking Rd", dist: "400 m" },
+    { icon: <CornerUpRight size={13} />, text: "Turn right onto Waterfield Rd", dist: `${(clinic.km * 0.6).toFixed(1)} km` },
+    { icon: <Flag size={13} />, text: `Arrive at ${clinic.en}`, dist: `${(clinic.km * 0.3).toFixed(1)} km` },
+  ];
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 40 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 40 }}
+      transition={{ duration: 0.22 }}
+      className="fixed inset-0 z-[130] flex justify-center"
+      style={{ background: "var(--bg-page)" }}
+    >
+      <div className="w-full max-w-md flex flex-col" style={{ height: "100%" }}>
+        {/* Header */}
+        <div className="flex items-center gap-3" style={{ padding: "14px 16px 10px" }}>
+          <button
+            onClick={onClose}
+            aria-label="Back"
+            className="flex items-center justify-center shrink-0"
+            style={{ width: 34, height: 34, borderRadius: "50%", background: "#FFFFFF", boxShadow: CARD_SHADOW }}
+          >
+            <ChevronLeft size={17} style={{ color: "var(--text-primary)" }} />
+          </button>
+          <div className="min-w-0">
+            <div style={{ fontSize: 15, fontWeight: 800, color: "var(--text-primary)", fontFamily: "Fraunces, serif" }}>Directions</div>
+            <div style={{ fontSize: 11, color: "var(--text-secondary)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+              to {clinic.en}
+            </div>
+          </div>
+          <span
+            className="shrink-0"
+            style={{ marginLeft: "auto", background: "var(--accent-sakura-soft)", color: "var(--accent-sakura-dark)", fontSize: 11, fontWeight: 800, padding: "4px 12px", borderRadius: 999 }}
+          >
+            {mins} min
+          </span>
+        </div>
+
+        {/* Map with animated route */}
+        <div style={{ margin: "4px 16px 0", borderRadius: 22, overflow: "hidden", boxShadow: CARD_SHADOW, position: "relative", background: "#F3F0FA" }}>
+          <svg key={playKey} viewBox="0 0 390 280" style={{ width: "100%", display: "block" }}>
+            {/* streets */}
+            <g stroke="#FFFFFF" strokeWidth="10" strokeLinecap="round">
+              <path d="M -10 90 H 400" />
+              <path d="M -10 190 H 400" />
+              <path d="M 90 -10 V 290" />
+              <path d="M 230 -10 V 290" />
+              <path d="M 320 -10 V 290" />
+              <path d="M -10 140 C 120 130, 260 160, 400 120" />
+            </g>
+            <g stroke="#E7E1F4" strokeWidth="2">
+              <path d="M -10 40 H 400" />
+              <path d="M -10 240 H 400" />
+              <path d="M 160 -10 V 290" />
+              <path d="M 280 -10 V 290" />
+            </g>
+            {/* park blocks */}
+            <rect x="108" y="106" width="52" height="30" rx="8" fill="#DFF0E4" />
+            <rect x="248" y="206" width="56" height="34" rx="8" fill="#DFF0E4" />
+
+            {/* route glow + draw-on animation */}
+            <path d={routeD} fill="none" stroke="var(--accent-sakura)" strokeWidth="10" strokeLinecap="round" opacity="0.18" />
+            <motion.path
+              d={routeD}
+              fill="none"
+              stroke="var(--accent-sakura)"
+              strokeWidth="5"
+              strokeLinecap="round"
+              strokeDasharray="1 0"
+              initial={{ pathLength: 0 }}
+              animate={{ pathLength: 1 }}
+              transition={{ duration: 2.2, ease: "easeInOut" }}
+            />
+            {/* moving dot along the route */}
+            <circle r="7" fill="#FFFFFF" stroke="var(--accent-sakura-dark)" strokeWidth="4">
+              <animateMotion dur="4.5s" repeatCount="indefinite" path={routeD} />
+            </circle>
+
+            {/* origin pin (you) */}
+            <circle cx="46" cy="252" r="9" fill="var(--accent-sora)" stroke="#fff" strokeWidth="3" />
+            {/* destination pin (clinic) */}
+            <g>
+              <circle cx="336" cy="58" r="12" fill="var(--accent-sakura)" stroke="#fff" strokeWidth="3" />
+              <circle cx="336" cy="58" r="4" fill="#fff" />
+            </g>
+          </svg>
+
+          {/* ETA card */}
+          <div
+            className="flex items-center justify-between"
+            style={{
+              position: "absolute", left: 12, right: 12, bottom: 12,
+              background: "rgba(255,255,255,0.94)", backdropFilter: "blur(8px)",
+              borderRadius: 16, padding: "10px 14px",
+              boxShadow: "0 6px 18px rgba(0,0,0,0.10)",
+            }}
+          >
+            <div>
+              <div style={{ fontSize: 15, fontWeight: 800, color: "var(--text-primary)" }}>{mins} min · {clinic.km} km</div>
+              <div style={{ fontSize: 10, color: "var(--text-secondary)", marginTop: 1 }}>Fastest route · light traffic</div>
+            </div>
+            <span className="flex items-center gap-1" style={{ fontSize: 10, fontWeight: 700, color: clinic.open ? "var(--accent-matcha)" : "#E53935" }}>
+              <span style={{ width: 6, height: 6, borderRadius: "50%", background: "currentColor" }} />
+              {clinic.open ? "Open now" : "Closed"}
+            </span>
+          </div>
+        </div>
+
+        {/* Turn-by-turn steps */}
+        <div style={{ margin: "14px 16px 0", background: "#FFFFFF", borderRadius: 20, boxShadow: CARD_SHADOW, padding: "6px 14px" }}>
+          {steps.map((s, i) => (
+            <div key={i} className="flex items-center gap-3" style={{ padding: "11px 0", borderBottom: i < steps.length - 1 ? "1px solid var(--bg-elevated)" : "none" }}>
+              <span className="flex items-center justify-center shrink-0" style={{ width: 30, height: 30, borderRadius: "50%", background: i === steps.length - 1 ? "var(--accent-sakura-soft)" : "var(--bg-page)", color: i === steps.length - 1 ? "var(--accent-sakura-dark)" : "var(--text-secondary)" }}>
+                {s.icon}
+              </span>
+              <span className="flex-1 min-w-0" style={{ fontSize: 12.5, fontWeight: 600, color: "var(--text-primary)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{s.text}</span>
+              <span style={{ fontSize: 11, color: "var(--text-placeholder)", flexShrink: 0 }}>{s.dist}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* Actions */}
+        <div className="flex gap-2" style={{ margin: "14px 16px 20px" }}>
+          <button
+            onClick={() => {
+              setPlayKey((k) => k + 1);
+              toast.success("Navigation started", { description: `Guiding you to ${clinic.en} · ${mins} min away`, duration: 2500 });
+            }}
+            className="flex items-center justify-center gap-1.5 active:scale-[0.97] transition-transform"
+            style={{
+              flex: 1, height: 44, borderRadius: 14,
+              background: "linear-gradient(135deg, var(--accent-sakura), var(--accent-sakura-dark))",
+              color: "#fff", fontSize: 13, fontWeight: 700,
+              boxShadow: "0 6px 16px color-mix(in oklab, var(--accent-sakura) 35%, transparent)",
+            }}
+          >
+            <Navigation size={13} /> Start Navigation
+          </button>
+          <button
+            onClick={() => {
+              if (typeof window !== "undefined") {
+                window.open(`https://maps.google.com/?q=${encodeURIComponent(clinic.en)}`, "_blank");
+              }
+            }}
+            style={{ height: 44, padding: "0 16px", borderRadius: 14, background: "#FFFFFF", border: "1.5px solid var(--border-card)", color: "var(--text-secondary)", fontSize: 12, fontWeight: 700 }}
+          >
+            Google Maps
+          </button>
+        </div>
+      </div>
+    </motion.div>
   );
 }
