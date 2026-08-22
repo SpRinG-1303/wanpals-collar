@@ -666,22 +666,30 @@ function Community() {
           </motion.div>
         </AnimatePresence>
 
-        <div className="flex justify-center" style={{ padding: "8px 16px 16px" }}>
-          <button
-            className="flex items-center gap-2"
-            style={{
-              background: "#FFFFFF",
-              border: "1.5px solid var(--accent-sakura)",
-              color: "var(--accent-sakura)",
-              borderRadius: 20,
-              padding: "10px 24px",
-              fontSize: 13,
-              fontWeight: 700,
-            }}
-          >
-            {t("もっと見る", "See More")}
-          </button>
-        </div>
+        {filtered.length > visibleCount && (
+          <div className="flex justify-center" style={{ padding: "8px 16px 16px" }}>
+            <button
+              onClick={() => setVisibleCount((v) => v + 5)}
+              className="flex items-center gap-2 active:scale-95 transition-transform"
+              style={{
+                background: "#FFFFFF",
+                border: "1.5px solid var(--accent-sakura)",
+                color: "var(--accent-sakura)",
+                borderRadius: 20,
+                padding: "10px 24px",
+                fontSize: 13,
+                fontWeight: 700,
+              }}
+            >
+              {t("もっと見る", "See More")} · {filtered.length - visibleCount}
+            </button>
+          </div>
+        )}
+        {filtered.length > 0 && visibleCount >= filtered.length && filtered.length > 5 && (
+          <div style={{ textAlign: "center", padding: "4px 16px 16px", fontSize: 11, color: "var(--text-placeholder)" }}>
+            {t("すべて表示しました", "You're all caught up")}
+          </div>
+        )}
       </div>
 
       {/* Floating compose button */}
