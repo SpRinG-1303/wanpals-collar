@@ -18,6 +18,8 @@ import {
   MapPin,
   Send,
   Link as LinkIcon,
+  ShieldCheck,
+  Syringe,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useT, useLanguage } from "@/context/LanguageContext";
@@ -655,6 +657,31 @@ function Community() {
             {t("すべて表示しました", "You're all caught up")}
           </div>
         )}
+      </div>
+
+      {/* Short disclaimer */}
+      <div
+        style={{
+          margin: "8px 16px 80px",
+          background: "#FFFFFF",
+          borderRadius: 18,
+          boxShadow: "0 2px 20px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.04)",
+          padding: "12px 14px",
+          display: "flex",
+          gap: 10,
+          alignItems: "flex-start",
+          border: "1px solid var(--border-subtle)",
+        }}
+      >
+        <span className="flex items-center justify-center shrink-0" style={{ width: 32, height: 32, borderRadius: "50%", background: "var(--acc-pale)" }}>
+          <ShieldCheck size={15} style={{ color: "var(--accent-matcha)" }} />
+        </span>
+        <div className="min-w-0">
+          <div style={{ fontSize: 12, fontWeight: 800, color: "var(--text-primary)" }}>Responsible Breeding</div>
+          <div style={{ fontSize: 11, color: "var(--text-secondary)", lineHeight: 1.5, marginTop: 2 }}>
+            Compatibility scores are guidance, not a guarantee. Always consult a vet before breeding.
+          </div>
+        </div>
       </div>
 
       {/* Floating compose button */}
