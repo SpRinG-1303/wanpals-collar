@@ -4,10 +4,9 @@ import { useEffect, useState, type ReactNode } from "react";
 import { DAILY_FACTS } from "@/lib/mock";
 import {
   Brain, Microscope, Activity, Thermometer, MapPin, Wind, Sun, GitMerge,
-  Check, BatteryMedium, Signal, Bluetooth, PawPrint, Search, SlidersHorizontal,
+  Bluetooth, BatteryMedium, PawPrint, Search, SlidersHorizontal,
   ChevronDown, ArrowUpRight, type LucideIcon,
 } from "lucide-react";
-import { motion } from "framer-motion";
 import { toast } from "sonner";
 import { useLanguage } from "@/context/LanguageContext";
 import { usePet, displayName } from "@/context/PetContext";
