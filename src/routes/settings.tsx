@@ -272,18 +272,28 @@ function Settings() {
       </div>
 
       <div className="mt-6 border-t border-border pt-4">
-        {confirmDelete ? (
-          <div className="rounded-2xl p-4" style={{ background: "var(--acc-pale)" }}>
-            <div className="text-sm font-bold text-destructive mb-1">{t("本当に削除しますか？", "Delete your account?")}</div>
-            <div className="text-xs text-muted-foreground mb-3">{t("この操作は取り消せません。", "This permanently removes your account and local data. This cannot be undone.")}</div>
-            <div className="flex gap-2">
-              <button onClick={() => setConfirmDelete(false)} className="flex-1 bg-muted rounded-xl py-2.5 text-sm font-medium">{t("キャンセル", "Cancel")}</button>
-              <button onClick={deleteAccount} className="flex-1 bg-destructive text-destructive-foreground rounded-xl py-2.5 text-sm font-bold">{t("削除する", "Yes, Delete")}</button>
+        <button
+          onClick={handleSignOut}
+          className="w-full flex items-center justify-center gap-2 rounded-xl py-3 text-sm font-bold active:scale-[0.98] transition-transform"
+          style={{ background: "var(--acc-pale)", color: "var(--acc-strong)" }}
+        >
+          <LogOut className="w-4 h-4" /> Sign Out
+        </button>
+
+        <div className="mt-4">
+          {confirmDelete ? (
+            <div className="rounded-2xl p-4" style={{ background: "var(--acc-pale)" }}>
+              <div className="text-sm font-bold text-destructive mb-1">Delete your account?</div>
+              <div className="text-xs text-muted-foreground mb-3">This permanently removes your account and local data. This cannot be undone.</div>
+              <div className="flex gap-2">
+                <button onClick={() => setConfirmDelete(false)} className="flex-1 bg-muted rounded-xl py-2.5 text-sm font-medium">Cancel</button>
+                <button onClick={deleteAccount} className="flex-1 bg-destructive text-destructive-foreground rounded-xl py-2.5 text-sm font-bold">Yes, Delete</button>
+              </div>
             </div>
-          </div>
-        ) : (
-          <button onClick={() => setConfirmDelete(true)} className="w-full text-destructive font-bold text-sm py-3">{t("アカウントを削除", "Delete Account")}</button>
-        )}
+          ) : (
+            <button onClick={() => setConfirmDelete(true)} className="w-full text-destructive font-bold text-sm py-3">Delete Account</button>
+          )}
+        </div>
       </div>
 
       {/* Edit profile modal */}
