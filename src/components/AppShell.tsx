@@ -1,5 +1,6 @@
-import { Link } from "@tanstack/react-router";
-import { Bell, ArrowLeft } from "lucide-react";
+import { Link, useNavigate } from "@tanstack/react-router";
+import { Bell, ArrowLeft, AlertTriangle, Heart, Syringe } from "lucide-react";
+import { toast } from "sonner";
 import pawLogoAsset from "@/assets/pawsitive-paw-logo.png.asset.json";
 import { motion } from "framer-motion";
 import { useState, useEffect, type ReactNode } from "react";
@@ -23,8 +24,15 @@ export function TopBar({
   backTo?: string;
 }) {
   const [sosOpen, setSosOpen] = useState(false);
+  const [bellOpen, setBellOpen] = useState(false);
+  const navigate = useNavigate();
   const t = useT();
   const showTitle = Boolean(titleJp || titleEn);
+  const notifications = [
+    { Icon: Heart, color: "var(--accent-sakura)", text: t("健康スコアが更新されました", "Health score updated: 87/100"), time: "2m" },
+    { Icon: Syringe, color: "var(--accent-matcha)", text: t("ワクチン接種のリマインダー", "Vaccination reminder: rabies booster due"), time: "1h" },
+    { Icon: AlertTriangle, color: "var(--accent-yuzu)", text: t("活動量がいつもより少なめです", "Activity is lower than usual today"), time: "3h" },
+  ];
   return (
     <>
       <header className="sticky top-0 z-40" style={{ background: "var(--bg-topbar)" }}>
