@@ -153,7 +153,7 @@ function Clinics() {
             transition: "border 0.18s ease",
           }}
         >
-          <Search size={19} strokeWidth={2} style={{ color: "var(--text-placeholder)", flexShrink: 0 }} />
+          <Search size={17} strokeWidth={2} style={{ color: "var(--text-placeholder)", flexShrink: 0 }} />
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
@@ -168,14 +168,14 @@ function Clinics() {
           onClick={() => setFilter(true)}
           className="flex items-center justify-center"
           style={{
-            width: 56, height: 56, borderRadius: 16, flexShrink: 0,
+            width: 52, height: 52, borderRadius: 15, flexShrink: 0,
             background: "var(--accent-sakura)",
             boxShadow: "0 4px 12px color-mix(in oklab, var(--accent-sakura) 30%, transparent)",
             color: "#FFFFFF",
           }}
           aria-label={t("絞り込み", "Filters")}
         >
-          <SlidersHorizontal size={20} strokeWidth={2.2} />
+          <SlidersHorizontal size={18} strokeWidth={2.2} />
         </button>
       </div>
 
@@ -197,14 +197,14 @@ function Clinics() {
                 fontWeight: sel ? 700 : 500,
                 fontSize: 12,
                 borderRadius: 999,
-                padding: "0 16px",
-                height: 40,
+                padding: "0 14px",
+                height: 38,
                 gap: 6,
                 boxShadow: sel ? "0 4px 12px color-mix(in oklab, var(--accent-sakura) 28%, transparent)" : "none",
                 transition: "all 0.18s ease",
               }}
             >
-              <Icon size={14} style={{ color: sel ? "#FFFFFF" : "var(--text-placeholder)" }} fill={sel && c.en === "Top Rated" ? "#FFFFFF" : "none"} />
+              <Icon size={12} style={{ color: sel ? "#FFFFFF" : "var(--text-placeholder)" }} fill={sel && c.en === "Top Rated" ? "#FFFFFF" : "none"} />
               {t(c.jp, c.en)}
             </button>
           );
@@ -246,7 +246,7 @@ function Clinics() {
             boxShadow: "0 4px 10px rgba(0,0,0,0.18)",
           }}
         >
-          <Phone size={14} />
+          <Phone size={12} />
           {t("電話", "Call")}
         </a>
       </div>
@@ -266,9 +266,9 @@ function Clinics() {
       >
         <div
           className="shrink-0 flex items-center justify-center"
-          style={{ width: 56, height: 56, borderRadius: "50%", background: "var(--bg-card-lavender)" }}
+          style={{ width: 50, height: 50, borderRadius: "50%", background: "var(--bg-card-lavender)" }}
         >
-          <Video size={26} style={{ color: "var(--accent-fuji)" }} />
+          <Video size={22} style={{ color: "var(--accent-fuji)" }} />
         </div>
         <div className="flex-1 min-w-0">
           <div style={{ fontSize: 15, fontWeight: 700, color: "var(--text-primary)" }}>
@@ -290,9 +290,9 @@ function Clinics() {
         </div>
         <div
           className="shrink-0 flex items-center justify-center"
-          style={{ width: 36, height: 36, borderRadius: "50%", background: "var(--accent-sakura)", color: "#fff" }}
+          style={{ width: 32, height: 32, borderRadius: "50%", background: "var(--accent-sakura)", color: "#fff" }}
         >
-          <ChevronRight size={18} />
+          <ChevronRight size={16} />
         </div>
       </button>
 
@@ -315,12 +315,12 @@ function Clinics() {
             >
               {/* Header — profile row: icon + name + bookmark */}
               <div className="flex items-start" style={{ padding: "16px 16px 0", gap: 12 }}>
-                <div
-                  className="flex items-center justify-center"
-                  style={{ width: 52, height: 52, borderRadius: "50%", background: th.soft, flexShrink: 0 }}
-                >
-                  <HeartPulse size={24} style={{ color: th.accent }} />
-                </div>
+                  <div
+                    className="flex items-center justify-center"
+                    style={{ width: 46, height: 46, borderRadius: "50%", background: th.soft, flexShrink: 0 }}
+                  >
+                    <HeartPulse size={20} style={{ color: th.accent }} />
+                  </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-1.5" style={{ flexWrap: "wrap" }}>
                     <span style={{ fontSize: 16, fontWeight: 800, color: "var(--text-primary)", lineHeight: 1.25 }}>
@@ -357,10 +357,10 @@ function Clinics() {
                   onClick={() => setSaved((s) => ({ ...s, [i]: !s[i] }))}
                   aria-label="save"
                   className="flex items-center justify-center"
-                  style={{ width: 34, height: 34, borderRadius: "50%", background: "var(--bg-page)", flexShrink: 0 }}
+                  style={{ width: 30, height: 30, borderRadius: "50%", background: "var(--bg-page)", flexShrink: 0 }}
                 >
                   <Bookmark
-                    size={14}
+                    size={12}
                     style={{ color: saved[i] ? "var(--accent-sakura)" : "var(--text-placeholder)" }}
                     fill={saved[i] ? "var(--accent-sakura)" : "none"}
                   />
