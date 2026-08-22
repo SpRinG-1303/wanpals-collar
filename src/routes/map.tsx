@@ -229,15 +229,15 @@ function MapScreen() {
       </div>
 
       {/* SAFE ZONE CARD */}
-      <div style={{ margin: "0 16px 12px", background: "#FFFFFF", borderRadius: 20, boxShadow: "0 4px 16px rgba(0,0,0,0.07)", borderLeft: "4px solid var(--accent-matcha)", overflow: "hidden" }}>
-        <div style={{ height: 6, background: "linear-gradient(90deg, var(--acc-pale), var(--acc2-pale))" }} />
+      <SectionHeader title={t("安全", "Safety")} />
+      <div style={{ margin: "0 16px 12px", background: "#FFFFFF", borderRadius: 20, boxShadow: CARD_SHADOW }}>
         <div style={{ padding: 14 }}>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Shield size={20} style={{ color: "var(--accent-matcha)" }} />
+              <Shield size={20} style={{ color: "var(--accent-sakura)" }} />
               <span style={{ fontSize: 15, fontWeight: 700, color: "var(--text-primary)" }}>{t("安全ゾーン", "Safe Zone")}</span>
             </div>
-            <Toggle on={safeZone} onChange={setSafeZone} activeColor="var(--accent-matcha)" />
+            <Toggle on={safeZone} onChange={setSafeZone} activeColor="var(--accent-sakura)" />
           </div>
           {safeZone && (
             <div className="mt-2">
@@ -245,10 +245,10 @@ function MapScreen() {
                 {t(`${radius < 1000 ? radius + "m" : "1km"} 半径で通知`, `Notify within ${radius < 1000 ? radius + "m" : "1km"} radius`)}
               </div>
               <div className="flex gap-2 mt-2">
-                {([100,200,500,1000] as const).map(r => (
+                 {([100,200,500,1000] as const).map(r => (
                   <button key={r} onClick={() => setRadius(r)} style={{
                     padding: "5px 12px", borderRadius: 20, fontSize: 11, fontWeight: 600,
-                    background: radius === r ? "var(--accent-matcha)" : "var(--bg-elevated)",
+                    background: radius === r ? "var(--accent-sakura)" : "var(--bg-elevated)",
                     color: radius === r ? "#fff" : "var(--text-secondary)",
                   }}>{r < 1000 ? `${r}m` : "1km"}</button>
                 ))}
@@ -261,11 +261,10 @@ function MapScreen() {
       {/* LOST MODE CARD */}
       <div style={{
         margin: "0 16px 12px",
-        background: lost ? "linear-gradient(135deg, var(--acc-pale), var(--acc-pale))" : "#FFFFFF",
+        background: "#FFFFFF",
         borderRadius: 20,
-        boxShadow: "0 4px 16px rgba(0,0,0,0.07)",
+        boxShadow: CARD_SHADOW,
         border: lost ? "2px solid #E53935" : "none",
-        borderLeft: `4px solid ${lost ? "#E53935" : "var(--text-placeholder)"}`,
         animation: lost ? "borderPulse 1.6s infinite" : undefined,
         padding: 14,
       }}>
@@ -296,13 +295,14 @@ function MapScreen() {
       </div>
 
       {/* LOCATION HISTORY */}
-      <div style={{ margin: "0 16px 12px", background: "#FFFFFF", borderRadius: 20, boxShadow: "0 4px 16px rgba(0,0,0,0.07)", borderLeft: "4px solid var(--accent-fuji)", padding: 14 }}>
+      <SectionHeader title={t("アクティビティ", "Activity")} />
+      <div style={{ margin: "0 16px 12px", background: "#FFFFFF", borderRadius: 20, boxShadow: CARD_SHADOW, padding: 14 }}>
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-2">
-            <History size={18} style={{ color: "var(--accent-fuji)" }} />
+            <History size={18} style={{ color: "var(--accent-sakura)" }} />
             <span style={{ fontSize: 14, fontWeight: 700, color: "var(--text-primary)" }}>{t("移動履歴", "Location History")}</span>
           </div>
-          <span style={{ fontSize: 11, fontWeight: 600, color: "var(--accent-fuji)", background: "var(--acc-pale)", padding: "3px 10px", borderRadius: 20 }}>{t("今日", "Today")}</span>
+          <span style={{ fontSize: 11, fontWeight: 600, color: "var(--accent-sakura)", background: "var(--accent-sakura-soft)", padding: "3px 10px", borderRadius: 20 }}>{t("今日", "Today")}</span>
         </div>
 
         {[
@@ -322,25 +322,25 @@ function MapScreen() {
           </div>
         ))}
 
-        <button className="flex items-center gap-1 mt-2" style={{ fontSize: 12, color: "var(--accent-fuji)", fontWeight: 600 }}>
+        <button className="flex items-center gap-1 mt-2" style={{ fontSize: 12, color: "var(--accent-sakura)", fontWeight: 600 }}>
           {t("全履歴を見る", "View Full History")} <ChevronRight size={14} />
         </button>
       </div>
 
       {/* NEARBY CLINIC */}
-      <button onClick={() => navigate({ to: "/clinics" })} className="w-full flex items-center gap-3" style={{ margin: "0 16px 24px", width: "calc(100% - 32px)", background: "linear-gradient(135deg, var(--acc2-pale), var(--acc2-pale))", border: "1px solid var(--acc2-soft)", borderRadius: 20, padding: 14, textAlign: "left" }}>
-        <div className="flex items-center justify-center" style={{ width: 40, height: 40, borderRadius: "50%", background: "#FFFFFF" }}>
-          <Stethoscope size={20} style={{ color: "var(--accent-sora)" }} />
+      <button onClick={() => navigate({ to: "/clinics" })} className="w-full flex items-center gap-3" style={{ margin: "0 16px 24px", width: "calc(100% - 32px)", background: "#FFFFFF", boxShadow: CARD_SHADOW, borderRadius: 20, padding: 14, textAlign: "left" }}>
+        <div className="flex items-center justify-center" style={{ width: 44, height: 44, borderRadius: "50%", background: "var(--accent-sakura-soft)" }}>
+          <Stethoscope size={20} style={{ color: "var(--accent-sakura)" }} />
         </div>
         <div className="flex-1 min-w-0">
-          <div style={{ fontSize: 14, fontWeight: 700, color: "var(--acc-deep)" }}>
+          <div style={{ fontSize: 14, fontWeight: 700, color: "var(--text-primary)" }}>
             {t("最寄りの動物病院", "Nearest Animal Hospital")}
           </div>
-          <div style={{ fontSize: 12, color: "var(--accent-sora)", marginTop: 2 }}>
+          <div style={{ fontSize: 12, color: "var(--text-secondary)", marginTop: 2 }}>
              {"Bandra Pet Hosp."} · 0.8km · 4.6 · 24H
           </div>
         </div>
-        <div className="flex items-center justify-center" style={{ width: 36, height: 36, borderRadius: "50%", background: "var(--accent-sora)", color: "#fff", flexShrink: 0 }}>
+        <div className="flex items-center justify-center" style={{ width: 36, height: 36, borderRadius: "50%", background: "var(--accent-sakura)", color: "#fff", flexShrink: 0 }}>
           <ChevronRight size={18} />
         </div>
       </button>
