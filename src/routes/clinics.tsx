@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import AppShell from "@/components/AppShell";
 import { CLINICS } from "@/lib/mock";
 import {
@@ -9,8 +9,6 @@ import {
   Video,
   Phone,
   MapPin,
-  
-  Plus,
   HeartPulse,
   ThumbsUp,
   Microscope,
@@ -32,55 +30,40 @@ export const Route = createFileRoute("/clinics")({ component: Clinics });
 
 /* Home-page card spec */
 const CARD_SHADOW = "0 2px 20px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.04)";
+/* 8px grid · 16px side margins everywhere */
+const MX = 16;
 
-// ── Per-clinic themes ─────────────────────────────────────────
-type Theme = { from: string; to: string; accent: string; soft: string };
+// ── Per-clinic avatar themes ──────────────────────────────────
+type Theme = { accent: string; soft: string };
 const CLINIC_THEMES: Theme[] = [
-  { from: "var(--acc-pale)", to: "var(--acc2-soft)", accent: "var(--accent-matcha)", soft: "var(--acc-pale)" }, // Shibuya mint
-  { from: "var(--accent-sakura-soft)", to: "var(--bg-card-sakura)", accent: "var(--accent-sakura)", soft: "var(--accent-sakura-soft)" }, // Harajuku sakura
-  { from: "var(--acc2-pale)", to: "var(--acc-pale)", accent: "var(--accent-sora)", soft: "var(--acc2-pale)" }, // Shinjuku blue
-  { from: "var(--acc-pale)", to: "var(--acc-pale)", accent: "var(--accent-yuzu)", soft: "var(--acc-pale)" }, // Yoyogi yuzu
-  { from: "var(--acc-pale)", to: "var(--acc-pale)", accent: "var(--accent-fuji)", soft: "var(--acc-pale)" }, // Meguro fuji
+  { accent: "var(--accent-matcha)", soft: "var(--acc-pale)" },
+  { accent: "var(--accent-sakura)", soft: "var(--accent-sakura-soft)" },
+  { accent: "var(--accent-sora)", soft: "var(--acc2-pale)" },
+  { accent: "var(--accent-yuzu)", soft: "var(--acc-pale)" },
+  { accent: "var(--accent-fuji)", soft: "var(--acc-pale)" },
 ];
 
 const SPECIALTIES = [
-  { jp: "歯科", en: "Dental" },
-  { jp: "外科", en: "Surgery" },
-  { jp: "皮膚科", en: "Derm" },
-  { jp: "内科", en: "Internal" },
+  { jp: "Dental", en: "Dental" },
+  { jp: "Surgery", en: "Surgery" },
+  { jp: "Derm", en: "Derm" },
+  { jp: "Internal", en: "Internal" },
 ];
 
-const TYPE_LABEL = ["General", "Specialist", "General", "General", "Specialist"];
-
-// ── Category tabs ─────────────────────────────────────────────
-type Cat = { jp: string; en: string; Icon: typeof Star; accent: string; from: string; to: string };
+// ── Filter chips ──────────────────────────────────────────────
+type Cat = { jp: string; en: string; Icon: typeof Star };
 const CATS: Cat[] = [
-  { jp: "高評価", en: "Top Rated", Icon: Star, accent: "var(--accent-yuzu)", from: "var(--acc-pale)", to: "var(--acc-pale)" },
-  { jp: "近く", en: "Nearby", Icon: MapPin, accent: "var(--accent-sora)", from: "var(--acc2-pale)", to: "#F0F7FF" },
-  { jp: "おすすめ", en: "Recommended", Icon: ThumbsUp, accent: "var(--accent-matcha)", from: "var(--acc-pale)", to: "var(--acc2-pale)" },
-  { jp: "専門", en: "Specialized", Icon: Microscope, accent: "var(--accent-fuji)", from: "var(--acc-pale)", to: "#F8F5FF" },
-  { jp: "公立/私立", en: "Public/Private", Icon: Building2, accent: "var(--accent-sakura)", from: "var(--accent-sakura-soft)", to: "var(--bg-card)" },
+  { jp: "Top Rated", en: "Top Rated", Icon: Star },
+  { jp: "Nearby", en: "Nearby", Icon: MapPin },
+  { jp: "Recommended", en: "Recommended", Icon: ThumbsUp },
+  { jp: "Specialized", en: "Specialized", Icon: Microscope },
+  { jp: "24H Open", en: "24H Open", Icon: Building2 },
 ];
-
-function Stars({ rating }: { rating: number }) {
-  return (
-    <div className="flex items-center" style={{ gap: 1 }}>
-      {[1, 2, 3, 4, 5].map((i) => (
-          <Star
-          key={i}
-          size={11}
-          style={{ color: i <= Math.round(rating) ? "var(--accent-yuzu)" : "var(--border-card)" }}
-          fill={i <= Math.round(rating) ? "var(--accent-yuzu)" : "var(--border-card)"}
-        />
-      ))}
-    </div>
-  );
-}
 
 function SectionLabel({ jp, en }: { jp: string; en: string }) {
   const t = useT();
   return (
-    <div className="flex items-center justify-between" style={{ margin: "24px 20px 12px" }}>
+    <div style={{ margin: `20px ${MX}px 8px` }}>
       <div style={{ fontSize: 11, fontWeight: 800, color: "var(--text-secondary)", letterSpacing: "0.14em", textTransform: "uppercase" }}>
         {t(jp, en)}
       </div>
@@ -90,7 +73,6 @@ function SectionLabel({ jp, en }: { jp: string; en: string }) {
 
 function Clinics() {
   const t = useT();
-  const navigate = useNavigate();
   const { language } = useLanguage();
   const [filter, setFilter] = useState(false);
   const [active, setActive] = useState(1);
@@ -103,13 +85,13 @@ function Clinics() {
   const [emOnly, setEmOnly] = useState(false);
   const [specSel, setSpecSel] = useState<Record<string, boolean>>({});
   const [applied, setApplied] = useState({ minStars: 0, distance: 50, openOnly: false, emOnly: false });
-  const [visible, setVisible] = useState(3);
+  const [visible, setVisible] = useState(5);
   const [videoBooking, setVideoBooking] = useState(false);
   const [dirFor, setDirFor] = useState<(typeof CLINICS)[number] | null>(null);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return CLINICS.filter((c) => {
+    let list = CLINICS.filter((c) => {
       if (q && !c.en.toLowerCase().includes(q) && !c.jp.includes(query.trim())) return false;
       if (c.rating < applied.minStars) return false;
       if (c.km > applied.distance) return false;
@@ -117,7 +99,13 @@ function Clinics() {
       if (applied.emOnly && !c.em) return false;
       return true;
     });
-  }, [query, applied]);
+    // Chip behaviour
+    if (active === 0) list = [...list].sort((a, b) => b.rating - a.rating); // Top Rated
+    else if (active === 1) list = [...list].sort((a, b) => a.km - b.km); // Nearby
+    else if (active === 3) list = list.filter((_, i) => i % 4 === 1 || i % 4 === 4); // Specialized
+    else if (active === 4) list = list.filter((c) => c.em); // 24H Open
+    return list;
+  }, [query, applied, active]);
 
   function bookVideoConsult() {
     if (videoBooking) return;
@@ -134,8 +122,8 @@ function Clinics() {
   return (
     <AppShell noPadding>
 
-      {/* ── Search bar ─────────────────────────────────────── */}
-      <div className="flex items-center" style={{ margin: "16px 20px 0", gap: 12 }}>
+      {/* ── Search bar + filter (aligned baseline) ─────────── */}
+      <div className="flex items-center" style={{ margin: `16px ${MX}px 0`, gap: 10, height: 56 }}>
         <div
           className="flex items-center flex-1"
           style={{
@@ -158,27 +146,26 @@ function Clinics() {
             onBlur={() => setFocused(false)}
             className="flex-1 bg-transparent outline-none"
             style={{ fontSize: 14, color: "var(--text-primary)", minWidth: 0, height: "100%", border: "none" }}
-            placeholder={t("クリニックを検索", "Search clinics")}
+            placeholder={t("Search clinics", "Search clinics")}
           />
         </div>
         <button
           onClick={() => setFilter(true)}
-          className="flex items-center justify-center"
+          className="flex items-center justify-center active:scale-95 transition-transform"
           style={{
-            width: 52, height: 52, borderRadius: 15, flexShrink: 0,
+            width: 44, height: 44, borderRadius: 14, flexShrink: 0,
             background: "var(--accent-sakura)",
-            boxShadow: "0 4px 12px color-mix(in oklab, var(--accent-sakura) 30%, transparent)",
+            boxShadow: "0 4px 10px color-mix(in oklab, var(--accent-sakura) 26%, transparent)",
             color: "#FFFFFF",
           }}
-          aria-label={t("絞り込み", "Filters")}
+          aria-label={t("Filters", "Filters")}
         >
-          <SlidersHorizontal size={18} strokeWidth={2.2} />
+          <SlidersHorizontal size={17} strokeWidth={2.2} />
         </button>
       </div>
 
-
-      {/* ── Category tabs ──────────────────────────────────── */}
-      <div className="flex overflow-x-auto scrollbar-hide" style={{ padding: "16px 20px 0", gap: 8 }}>
+      {/* ── Filter chips ───────────────────────────────────── */}
+      <div className="flex overflow-x-auto scrollbar-hide" style={{ padding: `12px ${MX}px 0`, gap: 8 }}>
         {CATS.map((c, i) => {
           const sel = active === i;
           const Icon = c.Icon;
@@ -186,7 +173,7 @@ function Clinics() {
             <button
               key={c.en}
               onClick={() => setActive(i)}
-              className="shrink-0 flex items-center"
+              className="shrink-0 flex items-center active:scale-95"
               style={{
                 background: sel ? "var(--accent-sakura)" : "#FFFFFF",
                 border: `1.5px solid ${sel ? "var(--accent-sakura)" : "var(--border-card)"}`,
@@ -194,266 +181,246 @@ function Clinics() {
                 fontWeight: sel ? 700 : 500,
                 fontSize: 12,
                 borderRadius: 999,
-                padding: "0 14px",
-                height: 38,
-                gap: 6,
-                boxShadow: sel ? "0 4px 12px color-mix(in oklab, var(--accent-sakura) 28%, transparent)" : "none",
+                padding: "0 13px",
+                height: 34,
+                gap: 5,
                 transition: "all 0.18s ease",
               }}
             >
-              <Icon size={12} style={{ color: sel ? "#FFFFFF" : "var(--text-placeholder)" }} fill={sel && c.en === "Top Rated" ? "#FFFFFF" : "none"} />
+              <Icon size={11} style={{ color: sel ? "#FFFFFF" : "var(--text-placeholder)" }} fill={sel && c.en === "Top Rated" ? "#FFFFFF" : "none"} />
               {t(c.jp, c.en)}
             </button>
           );
         })}
       </div>
 
-      {/* ── Emergency card ─────────────────────────────────── */}
-      <SectionLabel jp="緊急対応" en="Emergency" />
+      {/* ── Emergency card (compact) ───────────────────────── */}
       <div
         className="flex items-center justify-between"
         style={{
-          margin: "0 20px",
+          margin: `16px ${MX}px 0`,
           background: "linear-gradient(135deg,#F25449,#E53935)",
           borderRadius: 20,
           padding: "16px 20px",
           color: "#fff",
-          boxShadow: "0 6px 18px rgba(229,57,53,0.25)",
+          boxShadow: "0 4px 12px rgba(229,57,53,0.18)",
           gap: 12,
         }}
       >
         <div className="min-w-0">
           <div style={{ fontSize: 10, fontWeight: 800, color: "rgba(255,255,255,0.85)", letterSpacing: "0.12em", textTransform: "uppercase" }}>
-            {t("緊急の場合", "In Emergency")}
+            {t("In Emergency", "In Emergency")}
           </div>
-          <div style={{ fontSize: 17, fontWeight: 800, lineHeight: 1.25, marginTop: 2 }}>
-            {t("最寄りの24時間病院", "Nearest 24H Hospital")}
+          <div style={{ fontSize: 16, fontWeight: 800, lineHeight: 1.25, marginTop: 2 }}>
+            {t("Nearest 24H Hospital", "Nearest 24H Hospital")}
           </div>
-          <div style={{ fontSize: 12, color: "rgba(255,255,255,0.9)", marginTop: 4 }}>
+          <div style={{ fontSize: 12, color: "rgba(255,255,255,0.9)", marginTop: 3, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
             {language === "english" ? emergencyClinic.en : emergencyClinic.jp} · {emergencyClinic.km}km · ★ {emergencyClinic.rating}
           </div>
         </div>
         <a
           href="tel:+919820001234"
-          className="flex items-center gap-1.5 shrink-0"
+          className="flex items-center gap-1.5 shrink-0 active:scale-95 transition-transform"
           style={{
             background: "#fff", color: "#E53935",
-            borderRadius: 999, padding: "10px 18px",
-            fontSize: 13, fontWeight: 800,
-            boxShadow: "0 4px 10px rgba(0,0,0,0.18)",
+            borderRadius: 999, padding: "8px 16px",
+            fontSize: 12, fontWeight: 800,
           }}
         >
           <Phone size={12} />
-          {t("電話", "Call")}
+          {t("Call", "Call")}
         </a>
       </div>
 
-      {/* ── Video consultation ─────────────────────────────── */}
+      {/* ── Video consultation (compact action card) ───────── */}
       <button
         onClick={bookVideoConsult}
-        className="w-full text-left flex items-center gap-3 active:scale-[0.98] transition-transform"
+        className="text-left flex items-center active:scale-[0.98] transition-transform"
         style={{
-          margin: "16px 20px 0",
-          width: "calc(100% - 32px)",
+          margin: `12px ${MX}px 0`,
+          width: `calc(100% - ${MX * 2}px)`,
           background: "#FFFFFF",
           boxShadow: CARD_SHADOW,
           borderRadius: 20,
           padding: "14px 16px",
+          gap: 12,
         }}
       >
         <div
           className="shrink-0 flex items-center justify-center"
-          style={{ width: 50, height: 50, borderRadius: "50%", background: "var(--bg-card-lavender)" }}
+          style={{ width: 44, height: 44, borderRadius: "50%", background: "var(--bg-card-lavender)" }}
         >
-          <Video size={22} style={{ color: "var(--accent-fuji)" }} />
+          <Video size={19} style={{ color: "var(--accent-fuji)" }} />
         </div>
         <div className="flex-1 min-w-0">
-          <div style={{ fontSize: 15, fontWeight: 700, color: "var(--text-primary)" }}>
-            {t("ビデオ診察", "Video Consultation")}
+          <div className="flex items-center" style={{ gap: 8 }}>
+            <span style={{ fontSize: 15, fontWeight: 700, color: "var(--text-primary)" }}>
+              {t("Video Consultation", "Video Consultation")}
+            </span>
+            <span
+              style={{
+                background: "var(--accent-sakura-soft)", color: "var(--accent-sakura)",
+                fontSize: 9, fontWeight: 700, padding: "2px 7px", borderRadius: 20, flexShrink: 0,
+              }}
+            >
+              ● 24/7
+            </span>
           </div>
           <div style={{ fontSize: 12, color: "var(--text-secondary)", marginTop: 2 }}>
-            {t("今すぐ獣医と相談", "Consult a vet now")}
+            {t("Consult a vet now", "Consult a vet now")}
           </div>
-          <span
-            className="inline-block"
-            style={{
-              marginTop: 6, background: "var(--accent-sakura-soft)", color: "var(--accent-sakura)",
-              fontSize: 10, fontWeight: 700,
-              padding: "2px 8px", borderRadius: 20,
-            }}
-          >
-            ● 24/7 Available
-          </span>
         </div>
         <div
           className="shrink-0 flex items-center justify-center"
-          style={{ width: 32, height: 32, borderRadius: "50%", background: "var(--accent-sakura)", color: "#fff" }}
+          style={{ width: 30, height: 30, borderRadius: "50%", background: "var(--accent-sakura)", color: "#fff" }}
         >
-          <ChevronRight size={16} />
+          <ChevronRight size={15} />
         </div>
       </button>
 
-      {/* ── Clinics list ───────────────────────────────────── */}
-      <SectionLabel jp="近くのクリニック" en="Nearby" />
-      <div style={{ paddingBottom: 24 }}>
+      {/* ── Nearby clinics list ────────────────────────────── */}
+      <SectionLabel jp="Nearby" en="Nearby" />
+      <div style={{ paddingBottom: 12 }}>
         {filtered.slice(0, visible).map((c, i) => {
           const th = CLINIC_THEMES[i % CLINIC_THEMES.length];
-          const isNew = i === 1;
           return (
             <div
               key={i}
+              role="button"
+              tabIndex={0}
+              onClick={() => setDirFor(c)}
+              className="active:scale-[0.99] transition-transform"
               style={{
                 background: "#FFFFFF",
                 borderRadius: 20,
-                margin: "0 20px 12px",
+                margin: `0 ${MX}px 12px`,
                 boxShadow: CARD_SHADOW,
-                overflow: "hidden",
+                padding: "14px 16px",
+                cursor: "pointer",
               }}
             >
-              {/* Header — profile row: icon + name + bookmark */}
-              <div className="flex items-start" style={{ padding: "16px 16px 0", gap: 12 }}>
-                  <div
-                    className="flex items-center justify-center"
-                    style={{ width: 46, height: 46, borderRadius: "50%", background: th.soft, flexShrink: 0 }}
-                  >
-                    <HeartPulse size={20} style={{ color: th.accent }} />
-                  </div>
+              {/* Header row: avatar + name + bookmark */}
+              <div className="flex items-center" style={{ gap: 12 }}>
+                <div
+                  className="flex items-center justify-center shrink-0"
+                  style={{ width: 42, height: 42, borderRadius: "50%", background: th.soft }}
+                >
+                  <HeartPulse size={18} style={{ color: th.accent }} />
+                </div>
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-1.5" style={{ flexWrap: "wrap" }}>
-                    <span style={{ fontSize: 16, fontWeight: 800, color: "var(--text-primary)", lineHeight: 1.25 }}>
+                  <div className="flex items-center" style={{ gap: 6 }}>
+                    <span className="truncate" style={{ fontSize: 15, fontWeight: 700, color: "var(--text-primary)", lineHeight: 1.25 }}>
                       {language === "english" ? c.en : c.jp}
                     </span>
-                    {isNew && (
-                      <span style={{ background: "var(--accent-sakura)", color: "#fff", fontSize: 9, fontWeight: 800, padding: "3px 8px", borderRadius: 10, letterSpacing: "0.1em" }}>
-                        NEW
-                      </span>
-                    )}
                     {c.em && (
-                      <span className="pulse-red" style={{ background: "#E53935", color: "#fff", fontSize: 10, fontWeight: 800, padding: "3px 8px", borderRadius: 10, letterSpacing: "0.05em" }}>
+                      <span
+                        className="shrink-0"
+                        style={{ background: "#FDECEA", color: "#E53935", fontSize: 9, fontWeight: 800, padding: "2px 7px", borderRadius: 8, letterSpacing: "0.05em" }}
+                      >
                         24H
                       </span>
                     )}
                   </div>
-                  {language === "mixed" && (
-                    <div style={{ fontSize: 11, color: "var(--text-secondary)", marginTop: 2 }}>{c.en}</div>
-                  )}
-                  <div className="flex items-center gap-1.5" style={{ marginTop: 5 }}>
+                  <div className="flex items-center" style={{ marginTop: 3, gap: 5 }}>
                     <span
                       style={{
-                        width: 7, height: 7, borderRadius: "50%",
+                        width: 6, height: 6, borderRadius: "50%",
                         background: c.open ? "var(--accent-matcha)" : "var(--text-placeholder)",
                         flexShrink: 0,
                       }}
                     />
                     <span style={{ fontSize: 11, fontWeight: 600, color: c.open ? "var(--accent-matcha)" : "var(--text-secondary)" }}>
-                      {c.open ? t("営業中", "Open Now") : t("閉院中", "Closed")}
+                      {c.open ? t("Open Now", "Open Now") : t("Closed", "Closed")}
                     </span>
                   </div>
                 </div>
                 <button
-                  onClick={() => setSaved((s) => ({ ...s, [i]: !s[i] }))}
+                  onClick={(e) => { e.stopPropagation(); setSaved((s) => ({ ...s, [i]: !s[i] })); }}
                   aria-label="save"
-                  className="flex items-center justify-center"
-                  style={{ width: 30, height: 30, borderRadius: "50%", background: "var(--bg-page)", flexShrink: 0 }}
+                  className="flex items-center justify-center shrink-0 active:scale-90 transition-transform"
+                  style={{ width: 30, height: 30, borderRadius: "50%", background: "var(--bg-page)" }}
                 >
                   <Bookmark
-                    size={12}
+                    size={13}
                     style={{ color: saved[i] ? "var(--accent-sakura)" : "var(--text-placeholder)" }}
                     fill={saved[i] ? "var(--accent-sakura)" : "none"}
                   />
                 </button>
               </div>
 
-               {/* Body */}
-              <div style={{ padding: "10px 16px 16px" }}>
-
-                {/* Rating row */}
-                <div className="flex items-center gap-2" style={{ marginTop: 8, flexWrap: "wrap" }}>
-                  <Stars rating={c.rating} />
-                  <span style={{ fontSize: 13, fontWeight: 700, color: "var(--accent-yuzu)" }}>{c.rating}</span>
+              {/* Meta row: rating · distance · time */}
+              <div className="flex items-center" style={{ marginTop: 10, gap: 10, flexWrap: "wrap" }}>
+                <span className="flex items-center" style={{ gap: 4 }}>
+                  <Star size={11} style={{ color: "var(--accent-yuzu)" }} fill="var(--accent-yuzu)" />
+                  <span style={{ fontSize: 12, fontWeight: 700, color: "var(--text-primary)" }}>{c.rating}</span>
                   <span style={{ fontSize: 11, color: "var(--text-placeholder)" }}>(47)</span>
-                  <span style={{ color: "var(--border-card)" }}>·</span>
-                  <span className="flex items-center gap-1" style={{ fontSize: 12, color: "var(--text-secondary)" }}>
-                    <MapPin size={10} style={{ color: "var(--accent-sakura)" }} /> {c.km}km
-                  </span>
-                  <span style={{ color: "var(--border-card)" }}>·</span>
-                  <span className="flex items-center gap-1" style={{ fontSize: 11, color: "var(--text-secondary)" }}>
-                     {Math.round(c.km * 12)}{t("分", " min")}
-                  </span>
-                  <span
-                    style={{
-                      fontSize: 10, fontWeight: 700,
-                      padding: "2px 8px", borderRadius: 20,
-                      background: "var(--acc-pale)", color: "var(--accent-fuji)",
-                    }}
-                  >
-                    {t(TYPE_LABEL[i % TYPE_LABEL.length].split(" / ")[0], TYPE_LABEL[i % TYPE_LABEL.length].split(" / ")[1])}
-                  </span>
-                </div>
+                </span>
+                <span className="flex items-center" style={{ gap: 4, fontSize: 12, color: "var(--text-secondary)" }}>
+                  <MapPin size={11} style={{ color: "var(--accent-sakura)" }} /> {c.km} km
+                </span>
+                <span className="flex items-center" style={{ gap: 4, fontSize: 12, color: "var(--text-secondary)" }}>
+                  <Clock size={11} style={{ color: "var(--text-placeholder)" }} /> {Math.round(c.km * 12)} min
+                </span>
+              </div>
 
-                {/* Specialty tags */}
-                <div className="flex flex-wrap gap-1.5" style={{ marginTop: 8 }}>
-                  {SPECIALTIES.slice(0, 3 + (i % 2)).map((s) => (
-                    <span
-                      key={s.en}
-                      style={{
-                        background: "var(--bg-page)",
-                        border: "1px solid var(--border-card)",
-                        color: "var(--text-secondary)",
-                        borderRadius: 20,
-                        padding: "2px 8px",
-                        fontSize: 10,
-                      }}
-                    >
-                      {t(s.jp, s.en)}
-                    </span>
-                  ))}
+              {/* Service tags */}
+              <div className="flex" style={{ marginTop: 10, gap: 6, flexWrap: "wrap" }}>
+                {SPECIALTIES.slice(0, 3).map((s) => (
                   <span
+                    key={s.en}
                     style={{
-                      background: "var(--acc-pale)",
-                      color: "var(--accent-matcha)",
+                      background: "var(--bg-page)",
+                      border: "1px solid var(--border-card)",
+                      color: "var(--text-secondary)",
                       borderRadius: 20,
-                      padding: "2px 8px",
+                      padding: "3px 9px",
                       fontSize: 10,
-                      fontWeight: 700,
+                      fontWeight: 600,
                     }}
                   >
-                    {t("保険対応", "Insurance OK")}
+                    {t(s.jp, s.en)}
                   </span>
-                </div>
+                ))}
+                <span
+                  style={{
+                    background: "var(--acc-pale)",
+                    color: "var(--accent-matcha)",
+                    borderRadius: 20,
+                    padding: "3px 9px",
+                    fontSize: 10,
+                    fontWeight: 700,
+                  }}
+                >
+                  {t("Insurance OK", "Insurance OK")}
+                </span>
+              </div>
 
-                {/* Hours */}
-                <div className="flex items-center gap-1" style={{ marginTop: 8, fontSize: 11, color: "var(--text-secondary)" }}>
-                  <Clock size={10} />
-                  {t("月-金 9:00-18:00", "Mon–Fri 9–6pm")}
-                </div>
-
-                {/* Actions — big solid CTA + outlined secondary */}
-                <div className="flex gap-2" style={{ marginTop: 14 }}>
-                  <button
-                    onClick={() => setDirFor(c)}
-                    className="flex items-center justify-center gap-1.5"
-                    style={{
-                      flex: "1 1 auto", height: 42, borderRadius: 13,
-                      background: "linear-gradient(135deg, var(--accent-sakura), var(--accent-sakura-dark))",
-                      color: "#fff", fontSize: 13, fontWeight: 700,
-                      boxShadow: "0 6px 16px color-mix(in oklab, var(--accent-sakura) 35%, transparent)",
-                    }}
-                  >
-                    <Navigation size={13} /> {t("道案内", "Get Directions")}
-                  </button>
-                  <a
-                    href="tel:+919820001234"
-                    className="flex items-center justify-center gap-1.5"
-                    style={{
-                      flex: "0 0 92px", height: 42, borderRadius: 13,
-                      background: "#FFFFFF", border: "1.5px solid var(--accent-sakura)",
-                      color: "var(--accent-sakura)", fontSize: 13, fontWeight: 700,
-                    }}
-                  >
-                    <Phone size={13} /> {t("電話", "Call")}
-                  </a>
-                </div>
+              {/* Actions */}
+              <div className="flex" style={{ marginTop: 12, gap: 8 }}>
+                <button
+                  onClick={(e) => { e.stopPropagation(); setDirFor(c); }}
+                  className="flex items-center justify-center active:scale-[0.97] transition-transform"
+                  style={{
+                    flex: 1, height: 36, borderRadius: 12, gap: 6,
+                    background: "var(--accent-sakura)",
+                    color: "#fff", fontSize: 12, fontWeight: 700,
+                  }}
+                >
+                  <Navigation size={12} /> {t("Directions", "Directions")}
+                </button>
+                <a
+                  href="tel:+919820001234"
+                  onClick={(e) => e.stopPropagation()}
+                  aria-label="Call clinic"
+                  className="flex items-center justify-center shrink-0 active:scale-95 transition-transform"
+                  style={{
+                    width: 36, height: 36, borderRadius: 12,
+                    background: "#FFFFFF", border: "1.5px solid var(--accent-sakura)",
+                    color: "var(--accent-sakura)",
+                  }}
+                >
+                  <Phone size={14} />
+                </a>
               </div>
             </div>
           );
@@ -465,7 +432,7 @@ function Clinics() {
           </div>
         )}
         {visible < filtered.length && (
-          <div className="flex justify-center" style={{ padding: "8px 16px 16px" }}>
+          <div className="flex justify-center" style={{ padding: "4px 16px 12px" }}>
             <button
               onClick={() => setVisible((v) => v + 3)}
               className="flex items-center gap-2 active:scale-95 transition-transform"
@@ -474,12 +441,12 @@ function Clinics() {
                 border: "1.5px solid var(--accent-sakura)",
                 color: "var(--accent-sakura)",
                 borderRadius: 20,
-                padding: "10px 24px",
-                fontSize: 13,
+                padding: "9px 22px",
+                fontSize: 12,
                 fontWeight: 700,
               }}
             >
-               {t("もっと見る", "Load More")} · {filtered.length - visible}
+              {t("Load More", "Load More")} · {filtered.length - visible}
             </button>
           </div>
         )}
@@ -498,20 +465,20 @@ function Clinics() {
             <div style={{ width: 48, height: 5, borderRadius: 999, background: "var(--border-card)", margin: "0 auto 16px" }} />
             <div className="flex items-center justify-between">
               <div style={{ fontSize: 20, fontWeight: 800, color: "var(--text-primary)" }}>
-                {t("絞り込み", "Filter")}
+                {t("Filter", "Filter")}
               </div>
               <button
                 onClick={() => { setMinStars(0); setDistance(5); setOpenOnly(false); setEmOnly(false); setSpecSel({}); }}
                 style={{ fontSize: 13, fontWeight: 700, color: "var(--accent-sakura)" }}
               >
-                {t("リセット", "Reset")}
+                {t("Reset", "Reset")}
               </button>
             </div>
 
             {/* Distance */}
             <div style={{ marginTop: 20 }}>
               <div className="flex items-center justify-between" style={{ marginBottom: 8 }}>
-                <span style={{ fontSize: 13, fontWeight: 700, color: "var(--text-primary)" }}>{t("距離", "Distance")}</span>
+                <span style={{ fontSize: 13, fontWeight: 700, color: "var(--text-primary)" }}>{t("Distance", "Distance")}</span>
                 <span style={{ fontSize: 12, fontWeight: 700, color: "var(--accent-sakura)", background: "var(--accent-sakura-soft)", padding: "2px 10px", borderRadius: 20 }}>{distance}km</span>
               </div>
               <input
@@ -528,7 +495,7 @@ function Clinics() {
 
             {/* Rating */}
             <div style={{ marginTop: 20 }}>
-              <div style={{ fontSize: 13, fontWeight: 700, color: "var(--text-primary)", marginBottom: 8 }}>{t("評価", "Rating")}</div>
+              <div style={{ fontSize: 13, fontWeight: 700, color: "var(--text-primary)", marginBottom: 8 }}>{t("Rating", "Rating")}</div>
               <div className="flex gap-2">
                 {[5, 4, 3].map((n) => {
                   const sel = minStars === n;
@@ -555,8 +522,8 @@ function Clinics() {
             {/* Toggles */}
             <div style={{ marginTop: 20 }} className="space-y-3">
               {[
-                { label: t("営業中のみ", "Open Now Only"), val: openOnly, set: setOpenOnly, color: "var(--accent-sakura)" },
-                { label: t("24時間対応", "24H Emergency Only"), val: emOnly, set: setEmOnly, color: "#E53935" },
+                { label: t("Open Now Only", "Open Now Only"), val: openOnly, set: setOpenOnly, color: "var(--accent-sakura)" },
+                { label: t("24H Emergency Only", "24H Emergency Only"), val: emOnly, set: setEmOnly, color: "#E53935" },
               ].map((tg) => (
                 <label key={tg.label} className="flex items-center justify-between" style={{ background: "#fff", borderRadius: 14, padding: "12px 14px", border: "1px solid var(--border-card)" }}>
                   <span style={{ fontSize: 13, fontWeight: 600, color: "var(--text-primary)" }}>{tg.label}</span>
@@ -585,15 +552,15 @@ function Clinics() {
 
             {/* Specialization */}
             <div style={{ marginTop: 20 }}>
-              <div style={{ fontSize: 13, fontWeight: 700, color: "var(--text-primary)", marginBottom: 8 }}>{t("専門分野", "Specialization")}</div>
+              <div style={{ fontSize: 13, fontWeight: 700, color: "var(--text-primary)", marginBottom: 8 }}>{t("Specialization", "Specialization")}</div>
               <div className="grid grid-cols-2 gap-2">
                 {[
-                  { jp: "歯科", en: "Dental" },
-                  { jp: "外科", en: "Surgery" },
-                  { jp: "皮膚科", en: "Derm" },
-                  { jp: "内科", en: "Internal" },
-                  { jp: "眼科", en: "Eye" },
-                  { jp: "整形", en: "Ortho" },
+                  { jp: "Dental", en: "Dental" },
+                  { jp: "Surgery", en: "Surgery" },
+                  { jp: "Derm", en: "Derm" },
+                  { jp: "Internal", en: "Internal" },
+                  { jp: "Eye", en: "Eye" },
+                  { jp: "Ortho", en: "Ortho" },
                 ].map((s) => {
                   const sel = specSel[s.en];
                   return (
@@ -618,9 +585,9 @@ function Clinics() {
             <button
               onClick={() => {
                 setApplied({ minStars, distance, openOnly, emOnly });
-                setVisible(3);
+                setVisible(5);
                 setFilter(false);
-                toast.success(t("フィルターを適用しました", "Filters applied"));
+                toast.success(t("Filters applied", "Filters applied"));
               }}
               className="w-full flex items-center justify-center gap-2"
               style={{
@@ -631,10 +598,10 @@ function Clinics() {
                 boxShadow: "0 6px 16px color-mix(in srgb, var(--accent-sakura) calc(0.35 * 100%), transparent)",
               }}
             >
-              {t("適用する", "Apply Filters")} · {CLINICS.filter((c) => c.rating >= minStars && c.km <= distance && (!openOnly || c.open) && (!emOnly || c.em)).length}{t("件", " results")}
+              {t("Apply Filters", "Apply Filters")} · {CLINICS.filter((c) => c.rating >= minStars && c.km <= distance && (!openOnly || c.open) && (!emOnly || c.em)).length}{t(" results", " results")}
             </button>
             <button onClick={() => setFilter(false)} className="w-full flex items-center justify-center gap-1" style={{ fontSize: 12, color: "var(--text-secondary)", padding: "8px 0" }}>
-              <X size={12} /> {t("キャンセル", "Cancel")}
+              <X size={12} /> {t("Cancel", "Cancel")}
             </button>
           </motion.div>
         </div>
