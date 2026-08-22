@@ -138,53 +138,6 @@ function Clinics() {
 
   return (
     <AppShell noPadding>
-      {/* ── Hero card ──────────────────────────────────────── */}
-      <div
-        className="relative overflow-hidden"
-        style={{
-          margin: "16px 20px 0",
-          borderRadius: 24,
-          background: "linear-gradient(135deg, var(--acc-pale) 0%, var(--accent-sakura-soft) 55%, var(--acc2-pale) 100%)",
-          border: "1px solid var(--acc2-soft)",
-          padding: "20px 20px 18px",
-        }}
-      >
-        {/* Faint medical-cross pattern */}
-        <div style={{ position: "absolute", right: 18, top: 16, width: 56, height: 56, opacity: 0.08, pointerEvents: "none" }}>
-          <div style={{ position: "absolute", left: 21, top: 0, width: 14, height: 56, borderRadius: 6, background: "var(--acc-strong)" }} />
-          <div style={{ position: "absolute", left: 0, top: 21, width: 56, height: 14, borderRadius: 6, background: "var(--acc-strong)" }} />
-        </div>
-        <div style={{ position: "absolute", right: 76, bottom: 14, width: 30, height: 30, opacity: 0.06, pointerEvents: "none" }}>
-          <div style={{ position: "absolute", left: 11, top: 0, width: 8, height: 30, borderRadius: 4, background: "var(--acc-strong)" }} />
-          <div style={{ position: "absolute", left: 0, top: 11, width: 30, height: 8, borderRadius: 4, background: "var(--acc-strong)" }} />
-        </div>
-
-        <div style={{ fontSize: 10, color: "var(--acc-strong)", letterSpacing: "0.16em", fontWeight: 800 }}>
-          {t("動物病院", "ANIMAL CLINICS")}
-        </div>
-        <div style={{ fontSize: 28, fontWeight: 800, color: "var(--text-primary)", lineHeight: 1.15, marginTop: 6, fontFamily: "var(--font-display, inherit)" }}>
-          {t("クリニックを探す", "Find Care")}
-        </div>
-        <div style={{ fontSize: 14, color: "var(--text-secondary)", marginTop: 2, fontWeight: 500 }}>
-          {t("近くの動物病院", "Near You")}
-        </div>
-        <div
-          className="inline-flex items-center gap-1"
-          style={{
-            marginTop: 12,
-            background: "rgba(255,255,255,0.85)",
-            border: "1px solid var(--acc2-soft)",
-            borderRadius: 999,
-            padding: "5px 12px",
-            fontSize: 11,
-            color: "var(--acc-strong)",
-            fontWeight: 700,
-          }}
-        >
-          <MapPin size={11} />
-          {t("Bandra West, Mumbai", "Bandra West, Mumbai")}
-        </div>
-      </div>
 
       {/* ── Search bar ─────────────────────────────────────── */}
       <div className="flex items-center" style={{ margin: "16px 20px 0", gap: 12 }}>
