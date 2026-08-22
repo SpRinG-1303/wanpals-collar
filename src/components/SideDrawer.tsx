@@ -4,7 +4,7 @@ import { Home, MapPin, Bot, HeartPulse, Users, FileHeart, BookOpen, Settings, Ch
 import { useT } from "@/context/LanguageContext";
 import { usePet, displayName } from "@/context/PetContext";
 import { useAuth } from "@/context/AuthContext";
-import logoUrl from "@/assets/logo.png";
+import pawLogoAsset from "@/assets/pawsitive-paw-logo.png.asset.json";
 
 type Item = {
   route: string;
@@ -214,7 +214,7 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
                 boxShadow: "0 4px 16px color-mix(in srgb, var(--accent-sakura) calc(0.2 * 100%), transparent)",
               }}
             >
-              <img src={logoUrl} alt="Pawsitive logo" style={{ width: 32, height: 32, objectFit: "contain" }} />
+              <img src={pawLogoAsset.url} alt="Pawsitive logo" style={{ width: 44, height: 44, objectFit: "contain" }} />
             </div>
             <div>
               <div style={{ fontSize: 20, fontWeight: 700, color: "var(--text-primary)", lineHeight: 1 }}>Pawsitive</div>
