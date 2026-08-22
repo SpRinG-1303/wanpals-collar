@@ -424,7 +424,6 @@ function AI() {
                             ? "0 4px 12px color-mix(in srgb, var(--accent-sakura) calc(0.3 * 100%), transparent)"
                             : "0 2px 12px rgba(0,0,0,0.07)",
                           border: isUser ? "none" : "1px solid var(--border-subtle)",
-                          borderLeft: isUser ? "none" : "3px solid var(--accent-fuji)",
                           marginBottom: hasCard ? 8 : 0,
                         }}
                       >
@@ -492,7 +491,6 @@ function AI() {
                   borderRadius: "4px 20px 20px 20px",
                   background: "#FFFFFF",
                   border: "1px solid var(--border-subtle)",
-                  borderLeft: "3px solid var(--accent-fuji)",
                   boxShadow: "0 2px 12px rgba(0,0,0,0.07)",
                 }}
               >
@@ -669,11 +667,11 @@ function WelcomeState({
             className="w-full text-left transition-transform active:scale-[0.98]"
             style={{
               background: "#FFFFFF",
-              borderRadius: 16,
+              borderRadius: 20,
               padding: "12px 16px",
-              boxShadow: "0 2px 12px rgba(0,0,0,0.06)",
-              borderLeft: `3px solid ${s.color}`,
+              boxShadow: "0 2px 20px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.04)",
               fontSize: 13,
+              fontWeight: 500,
               color: "var(--text-primary)",
             }}
           >
@@ -700,11 +698,11 @@ function EmergencyConfirmCard({
     <div
       className="w-full em-glow"
       style={{
-        background: "linear-gradient(135deg, var(--acc-pale), var(--acc-pale))",
-        border: "2px solid #E53935",
-        borderLeft: "4px solid #E53935",
+        background: "#FFFFFF",
+        border: "1.5px solid #E53935",
         borderRadius: 20,
         padding: 16,
+        boxShadow: "0 2px 20px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.04)",
       }}
     >
       <div className="flex items-center gap-2 mb-2">
@@ -763,7 +761,6 @@ function EmergencyActionCard({ t }: { t: (jp: string, en: string) => string }) {
       style={{
         background: "#FFFFFF",
         border: "1.5px solid #E53935",
-        borderLeft: "4px solid #E53935",
         borderRadius: 20,
         padding: 14,
         boxShadow: "0 4px 16px rgba(229,57,53,0.15)",
@@ -846,9 +843,8 @@ function FindVetCard({ t, onAll }: { t: (jp: string, en: string) => string; onAl
     <div
       className="w-full"
       style={{
-        background: "linear-gradient(135deg, var(--acc2-pale), var(--acc2-pale))",
-        border: "1.5px solid var(--acc2-soft)",
-        borderLeft: "4px solid var(--accent-sora)",
+        background: "#FFFFFF",
+        boxShadow: "0 2px 20px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.04)",
         borderRadius: 20,
         padding: 14,
       }}
@@ -892,12 +888,12 @@ function FindVetCard({ t, onAll }: { t: (jp: string, en: string) => string; onAl
         className="w-full flex items-center justify-center gap-1.5 active:scale-[0.98] transition-transform"
         style={{
           height: 44,
-          background: "linear-gradient(135deg, var(--accent-sora), var(--acc-strong))",
+          background: "linear-gradient(135deg, var(--accent-sakura), var(--accent-sakura-dark))",
           color: "#FFFFFF",
           borderRadius: 12,
           fontSize: 13,
           fontWeight: 700,
-          boxShadow: "0 4px 12px color-mix(in oklab, var(--acc-strong) 30.0%, transparent)",
+          boxShadow: "0 4px 12px color-mix(in oklab, var(--accent-sakura) 35%, transparent)",
         }}
       >
         <MapPin size={14} />
@@ -921,17 +917,15 @@ function VaccinesCard({
       className="w-full"
       style={{
         background: "#FFFFFF",
-        border: "1.5px solid var(--acc2-soft)",
-        borderLeft: "4px solid var(--accent-matcha)",
+        boxShadow: "0 2px 20px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.04)",
         borderRadius: 20,
         overflow: "hidden",
       }}
     >
-      <div style={{ height: 6, background: "linear-gradient(90deg, var(--acc-pale), var(--acc2-pale))" }} />
       <div className="p-3.5">
         <div className="flex items-center gap-2 mb-2">
-          <Syringe size={16} color="var(--accent-matcha)" strokeWidth={2.5} />
-          <span style={{ fontSize: 12, fontWeight: 800, color: "var(--accent-matcha)", letterSpacing: "0.05em" }}>
+          <Syringe size={16} color="var(--accent-sakura)" strokeWidth={2.5} />
+          <span style={{ fontSize: 12, fontWeight: 800, color: "var(--accent-sakura)", letterSpacing: "0.05em" }}>
             {t("ワクチン記録", "VACCINE RECORDS")}
           </span>
         </div>
@@ -945,8 +939,8 @@ function VaccinesCard({
                 style={{
                   borderRadius: 10,
                   padding: "8px 10px",
-                  background: overdue ? "var(--acc-pale)" : "#F4FAF6",
-                  border: `1px solid ${overdue ? "var(--acc-pale)" : "var(--acc2-soft)"}`,
+                  background: overdue ? "var(--acc-pale)" : "var(--bg-elevated)",
+                  border: `1px solid ${overdue ? "var(--acc-pale)" : "var(--border-subtle)"}`,
                 }}
               >
                 <div className="flex items-center justify-between gap-2">
@@ -980,12 +974,12 @@ function VaccinesCard({
             style={{
               flex: 1,
               height: 42,
-              background: "var(--accent-matcha)",
+              background: "linear-gradient(135deg, var(--accent-sakura), var(--accent-sakura-dark))",
               color: "#FFFFFF",
               borderRadius: 12,
               fontSize: 12,
               fontWeight: 700,
-              boxShadow: "0 4px 10px color-mix(in oklab, var(--acc-strong) 30.0%, transparent)",
+              boxShadow: "0 4px 10px color-mix(in oklab, var(--accent-sakura) 35%, transparent)",
             }}
           >
             <Calendar size={13} />
@@ -997,9 +991,9 @@ function VaccinesCard({
             style={{
               flex: 1,
               height: 42,
-              background: "var(--acc2-pale)",
-              color: "var(--accent-matcha)",
-              border: "1px solid var(--accent-matcha)",
+              background: "var(--accent-sakura-soft)",
+              color: "var(--accent-sakura)",
+              border: "1px solid var(--acc-pale)",
               borderRadius: 12,
               fontSize: 12,
               fontWeight: 700,
@@ -1076,7 +1070,6 @@ function HealthCard({ t }: { t: (jp: string, en: string) => string }) {
         overflow: "hidden",
       }}
     >
-      <div style={{ height: 6, background: "linear-gradient(90deg, var(--accent-sakura), var(--accent-fuji), var(--accent-matcha))" }} />
       <div className="flex items-center justify-between px-4 pt-3 pb-2">
         <div className="flex items-center gap-1.5">
           <Activity size={16} color="var(--accent-fuji)" strokeWidth={2.5} />
