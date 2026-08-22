@@ -177,7 +177,7 @@ function Home() {
             <input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search sensors…"
+              placeholder="Search Senses…"
               className="flex-1 outline-none"
               style={{
                 border: "none", background: "transparent", height: "100%",
@@ -281,7 +281,7 @@ function Home() {
         </motion.div>
 
         {/* Sensor quick icons — all 8 visible in one line, no scrolling */}
-        <SectionHeader en="Sensors" />
+        <SectionHeader en="Sense AI" />
         {filtered.length === 0 ? (
           <JCard style={{ padding: 20, textAlign: "center" }}>
             <div style={{ fontSize: 13, color: JP.usuzumi }}>No sensors match “{query}”.</div>
