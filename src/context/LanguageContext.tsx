@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, type ReactNode } from "react";
 
-export type Language = "english";
+/** @deprecated Kept for type compatibility with existing call sites. App is English-only. */
+export type Language = "english" | "japanese" | "mixed";
 
 type Ctx = {
   language: Language;
