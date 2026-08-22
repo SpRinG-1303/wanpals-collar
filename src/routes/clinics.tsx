@@ -744,7 +744,12 @@ function Clinics() {
             </div>
 
             <button
-              onClick={() => setFilter(false)}
+              onClick={() => {
+                setApplied({ minStars, distance, openOnly, emOnly });
+                setVisible(3);
+                setFilter(false);
+                toast.success(t("フィルターを適用しました", "Filters applied"));
+              }}
               className="w-full flex items-center justify-center gap-2"
               style={{
                 marginTop: 24, marginBottom: 8,
@@ -754,7 +759,7 @@ function Clinics() {
                 boxShadow: "0 6px 16px color-mix(in srgb, var(--accent-sakura) calc(0.35 * 100%), transparent)",
               }}
             >
-              {t("適用する", "Apply Filters")} · {filtered.length}{t("件", " results")}
+              {t("適用する", "Apply Filters")} · {CLINICS.filter((c) => c.rating >= minStars && c.km <= distance && (!openOnly || c.open) && (!emOnly || c.em)).length}{t("件", " results")}
             </button>
             <button onClick={() => setFilter(false)} className="w-full flex items-center justify-center gap-1" style={{ fontSize: 12, color: "var(--text-secondary)", padding: "8px 0" }}>
               <X size={12} /> {t("キャンセル", "Cancel")}
