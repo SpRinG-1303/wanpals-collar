@@ -378,7 +378,8 @@ function Clinics() {
 
       {/* ── Video consultation ─────────────────────────────── */}
       <button
-        className="w-full text-left flex items-center gap-3"
+        onClick={bookVideoConsult}
+        className="w-full text-left flex items-center gap-3 active:scale-[0.98] transition-transform"
         style={{
           margin: "0 16px 12px",
           width: "calc(100% - 32px)",
@@ -423,7 +424,7 @@ function Clinics() {
       {/* ── Clinics list ───────────────────────────────────── */}
       <SectionLabel jp="近くのクリニック" en="Nearby" />
       <div style={{ paddingBottom: 24 }}>
-        {filtered.map((c, i) => {
+        {filtered.slice(0, visible).map((c, i) => {
           const th = CLINIC_THEMES[i % CLINIC_THEMES.length];
           const isNew = i === 1;
           return (
