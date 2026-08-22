@@ -111,7 +111,6 @@ const sensors: Sensor[] = [
 function Home() {
   const [factIdx, setFactIdx] = useState(0);
   const [query, setQuery] = useState("");
-  const t = useT();
   const { language } = useLanguage();
   const { pet } = usePet();
   useEffect(() => {
