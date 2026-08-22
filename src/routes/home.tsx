@@ -112,7 +112,7 @@ const sensors: Sensor[] = [
 
 /* ---------- Page ---------- */
 function Home() {
-  const { session } = useAuth();
+  const { session, hydrated } = useAuth();
   const [factIdx, setFactIdx] = useState(0);
   const [query, setQuery] = useState("");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
@@ -124,6 +124,9 @@ function Home() {
     const tm = setInterval(() => setFactIdx((i) => (i + 1) % DAILY_FACTS.length), 10000);
     return () => clearInterval(tm);
   }, []);
+  // Wait for the session to load from storage so vets never see a flash
+  // of the pet-owner home (or vice versa) on reload.
+  if (!hydrated) return null;
   // Veterinarians get a dedicated clinical console instead of the owner home
   if (session?.role === "vet") return <VetHome />;
 
