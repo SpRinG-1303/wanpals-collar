@@ -11,6 +11,8 @@ import { toast } from "sonner";
 import { useLanguage } from "@/context/LanguageContext";
 import { usePet, displayName } from "@/context/PetContext";
 import { useGeoLocation } from "@/lib/useGeoLocation";
+import { useAuth } from "@/context/AuthContext";
+import VetHome from "@/components/vet/VetHome";
 
 export const Route = createFileRoute("/home")({ component: Home });
 
@@ -110,6 +112,7 @@ const sensors: Sensor[] = [
 
 /* ---------- Page ---------- */
 function Home() {
+  const { session } = useAuth();
   const [factIdx, setFactIdx] = useState(0);
   const [query, setQuery] = useState("");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
@@ -121,6 +124,9 @@ function Home() {
     const tm = setInterval(() => setFactIdx((i) => (i + 1) % DAILY_FACTS.length), 10000);
     return () => clearInterval(tm);
   }, []);
+  // Veterinarians get a dedicated clinical console instead of the owner home
+  if (session?.role === "vet") return <VetHome />;
+
   const fact = DAILY_FACTS[factIdx];
   const score = 87;
 

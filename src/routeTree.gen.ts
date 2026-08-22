@@ -9,6 +9,8 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as VetRxRouteImport } from './routes/vet-rx'
+import { Route as VetConsultRouteImport } from './routes/vet-consult'
 import { Route as TempSenseRouteImport } from './routes/temp-sense'
 import { Route as SkinSenseRouteImport } from './routes/skin-sense'
 import { Route as SettingsRouteImport } from './routes/settings'
@@ -33,6 +35,16 @@ import { Route as OnboardingDogRouteImport } from './routes/onboarding.dog'
 import { Route as OnboardingDetailsRouteImport } from './routes/onboarding.details'
 import { Route as OnboardingAvatarRouteImport } from './routes/onboarding.avatar'
 
+const VetRxRoute = VetRxRouteImport.update({
+  id: '/vet-rx',
+  path: '/vet-rx',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VetConsultRoute = VetConsultRouteImport.update({
+  id: '/vet-consult',
+  path: '/vet-consult',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TempSenseRoute = TempSenseRouteImport.update({
   id: '/temp-sense',
   path: '/temp-sense',
@@ -168,6 +180,8 @@ export interface FileRoutesByFullPath {
   '/settings': typeof SettingsRoute
   '/skin-sense': typeof SkinSenseRoute
   '/temp-sense': typeof TempSenseRoute
+  '/vet-consult': typeof VetConsultRoute
+  '/vet-rx': typeof VetRxRoute
   '/onboarding/avatar': typeof OnboardingAvatarRoute
   '/onboarding/details': typeof OnboardingDetailsRoute
   '/onboarding/dog': typeof OnboardingDogRoute
@@ -193,6 +207,8 @@ export interface FileRoutesByTo {
   '/settings': typeof SettingsRoute
   '/skin-sense': typeof SkinSenseRoute
   '/temp-sense': typeof TempSenseRoute
+  '/vet-consult': typeof VetConsultRoute
+  '/vet-rx': typeof VetRxRoute
   '/onboarding/avatar': typeof OnboardingAvatarRoute
   '/onboarding/details': typeof OnboardingDetailsRoute
   '/onboarding/dog': typeof OnboardingDogRoute
@@ -219,6 +235,8 @@ export interface FileRoutesById {
   '/settings': typeof SettingsRoute
   '/skin-sense': typeof SkinSenseRoute
   '/temp-sense': typeof TempSenseRoute
+  '/vet-consult': typeof VetConsultRoute
+  '/vet-rx': typeof VetRxRoute
   '/onboarding/avatar': typeof OnboardingAvatarRoute
   '/onboarding/details': typeof OnboardingDetailsRoute
   '/onboarding/dog': typeof OnboardingDogRoute
@@ -246,6 +264,8 @@ export interface FileRouteTypes {
     | '/settings'
     | '/skin-sense'
     | '/temp-sense'
+    | '/vet-consult'
+    | '/vet-rx'
     | '/onboarding/avatar'
     | '/onboarding/details'
     | '/onboarding/dog'
@@ -271,6 +291,8 @@ export interface FileRouteTypes {
     | '/settings'
     | '/skin-sense'
     | '/temp-sense'
+    | '/vet-consult'
+    | '/vet-rx'
     | '/onboarding/avatar'
     | '/onboarding/details'
     | '/onboarding/dog'
@@ -296,6 +318,8 @@ export interface FileRouteTypes {
     | '/settings'
     | '/skin-sense'
     | '/temp-sense'
+    | '/vet-consult'
+    | '/vet-rx'
     | '/onboarding/avatar'
     | '/onboarding/details'
     | '/onboarding/dog'
@@ -322,6 +346,8 @@ export interface RootRouteChildren {
   SettingsRoute: typeof SettingsRoute
   SkinSenseRoute: typeof SkinSenseRoute
   TempSenseRoute: typeof TempSenseRoute
+  VetConsultRoute: typeof VetConsultRoute
+  VetRxRoute: typeof VetRxRoute
   OnboardingAvatarRoute: typeof OnboardingAvatarRoute
   OnboardingDetailsRoute: typeof OnboardingDetailsRoute
   OnboardingDogRoute: typeof OnboardingDogRoute
@@ -331,6 +357,20 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/vet-rx': {
+      id: '/vet-rx'
+      path: '/vet-rx'
+      fullPath: '/vet-rx'
+      preLoaderRoute: typeof VetRxRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/vet-consult': {
+      id: '/vet-consult'
+      path: '/vet-consult'
+      fullPath: '/vet-consult'
+      preLoaderRoute: typeof VetConsultRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/temp-sense': {
       id: '/temp-sense'
       path: '/temp-sense'
@@ -514,6 +554,8 @@ const rootRouteChildren: RootRouteChildren = {
   SettingsRoute: SettingsRoute,
   SkinSenseRoute: SkinSenseRoute,
   TempSenseRoute: TempSenseRoute,
+  VetConsultRoute: VetConsultRoute,
+  VetRxRoute: VetRxRoute,
   OnboardingAvatarRoute: OnboardingAvatarRoute,
   OnboardingDetailsRoute: OnboardingDetailsRoute,
   OnboardingDogRoute: OnboardingDogRoute,
