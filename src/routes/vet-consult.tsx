@@ -179,7 +179,7 @@ function VetConsult() {
 
   return (
     <VetShell>
-      <div className="grid xl:grid-cols-[1fr_320px]" style={{ gap: 16, alignItems: "start" }}>
+      <div className="grid grid-cols-1" style={{ gap: 16, alignItems: "start" }}>
         {/* ============ Main consultation column ============ */}
         <div style={{ display: "flex", flexDirection: "column", gap: 14, minWidth: 0 }}>
           {/* Current consultation header */}
@@ -200,7 +200,7 @@ function VetConsult() {
           {/* Vitals */}
           <Card style={{ padding: 16 }}>
             <div style={{ fontSize: 13.5, fontWeight: 700, color: E.ink, marginBottom: 12 }}>Vitals</div>
-            <div className="grid grid-cols-2 md:grid-cols-5" style={{ gap: 10 }}>
+            <div className="grid grid-cols-2" style={{ gap: 10 }}>
               {vitalFields.map((f) => {
                 const v = parseFloat(vitals[f.key]);
                 let outOfRange = false;
@@ -320,7 +320,7 @@ function VetConsult() {
                       <div style={{ fontSize: 13, fontWeight: 700, color: E.ink }}>{zone.label}</div>
                       <button onClick={() => setActiveZone(null)} aria-label="Close region" style={{ background: "none", border: "none", color: E.sub, padding: 2 }}><X size={15} /></button>
                     </div>
-                    <div className="grid md:grid-cols-2" style={{ gap: 10 }}>
+                    <div className="grid grid-cols-1" style={{ gap: 10 }}>
                       <div>
                         <FieldLabel>Finding</FieldLabel>
                         <input
@@ -459,7 +459,7 @@ function VetConsult() {
               <div style={{ fontSize: 13.5, fontWeight: 700, color: E.ink }}>Prescription</div>
               <span style={{ fontSize: 11, color: E.sub }}>Breed-aware safety check active</span>
             </div>
-            <div className="grid md:grid-cols-2" style={{ gap: 10 }}>
+            <div className="grid grid-cols-1" style={{ gap: 10 }}>
               <div>
                 <FieldLabel>Medication</FieldLabel>
                 <select value={medId} onChange={(e) => setMedId(e.target.value)} style={{ ...inputStyle, appearance: "none" }}>
@@ -532,7 +532,7 @@ function VetConsult() {
           {/* Follow-up */}
           <Card style={{ padding: 16 }}>
             <div style={{ fontSize: 13.5, fontWeight: 700, color: E.ink, marginBottom: 12 }}>Follow-up</div>
-            <div className="grid md:grid-cols-2" style={{ gap: 10 }}>
+            <div className="grid grid-cols-1" style={{ gap: 10 }}>
               <div>
                 <FieldLabel>Next visit</FieldLabel>
                 <input type="date" value={fuDate} onChange={(e) => setFuDate(e.target.value)} style={inputStyle} />

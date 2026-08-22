@@ -235,7 +235,7 @@ function VetPatientProfile() {
       {/* Clinical summary */}
       <Card style={{ padding: 16, marginBottom: 14 }}>
         <div style={{ fontSize: 13, fontWeight: 700, color: E.ink, marginBottom: 12 }}>Clinical Summary</div>
-        <div className="grid grid-cols-2 md:grid-cols-4" style={{ gap: 10 }}>
+        <div className="grid grid-cols-2" style={{ gap: 10 }}>
           {summaryItems.map((s) => (
             <div key={s.label} style={{ background: s.warn ? E.redSoft : E.bg, borderRadius: 10, padding: "10px 12px" }}>
               <div style={{ fontSize: 10, fontWeight: 700, color: s.warn ? E.red : E.sub, letterSpacing: "0.04em", textTransform: "uppercase" }}>{s.label}</div>
@@ -366,7 +366,7 @@ function VetPatientProfile() {
                         <span style={{ fontSize: 13, fontWeight: 800, color: v.flag === "normal" ? E.ink : E.red, fontVariantNumeric: "tabular-nums" }}>
                           {v.value} <span style={{ fontSize: 10.5, fontWeight: 500, color: E.sub }}>{v.unit}</span>
                         </span>
-                        {v.ref && <span className="hidden sm:block" style={{ fontSize: 10.5, color: E.faint, width: 90, textAlign: "right" }}>Ref {v.ref}</span>}
+                        {v.ref && <span className="hidden" style={{ fontSize: 10.5, color: E.faint, width: 90, textAlign: "right" }}>Ref {v.ref}</span>}
                         <Chip tone={v.flag === "normal" ? "green" : "red"}>
                           {v.flag === "normal" ? "Normal" : v.flag === "high" ? "↑ High" : "↓ Low"}
                         </Chip>

@@ -77,22 +77,22 @@ export default function VetHome() {
       </div>
 
       {/* Summary cards */}
-      <div className="grid grid-cols-2 xl:grid-cols-4" style={{ gap: 12, marginBottom: 20 }}>
+      <div className="grid grid-cols-2" style={{ gap: 12, marginBottom: 20 }}>
         <SummaryCard Icon={CalendarDays} label="Today's Appointments" value={APPOINTMENTS.length} tone="blue" />
         <SummaryCard Icon={Hourglass} label="Waiting" value={waiting} tone="amber" />
         <SummaryCard Icon={Stethoscope} label="In Consultation" value={inConsult} tone="green" />
         <SummaryCard Icon={RotateCcw} label="Follow-ups" value={FOLLOW_UPS.length} tone="grey" />
       </div>
 
-      <div className="grid xl:grid-cols-[1fr_320px]" style={{ gap: 16, alignItems: "start" }}>
+      <div className="grid grid-cols-1" style={{ gap: 16, alignItems: "start" }}>
         {/* ===== Center column ===== */}
         <div style={{ display: "flex", flexDirection: "column", gap: 16, minWidth: 0 }}>
           {/* Today's appointments */}
           <Card style={{ overflow: "hidden" }}>
             <div className="flex items-center justify-between" style={{ padding: "14px 16px", borderBottom: `1px solid ${E.borderSubtle}` }}>
               <div style={{ fontSize: 15, fontWeight: 700, color: E.ink }}>Today's Appointments</div>
-              <Link to="/vet-appointments" style={{ fontSize: 12, fontWeight: 700, color: E.accent, textDecoration: "none" }}>
-                View schedule →
+              <Link to="/vet-patients" style={{ fontSize: 12, fontWeight: 700, color: E.accent, textDecoration: "none" }}>
+                View patients →
               </Link>
             </div>
             <div style={{ overflowX: "auto" }}>
@@ -278,7 +278,7 @@ export default function VetHome() {
               {[
                 { Icon: CalendarPlus, label: "New Appointment", run: () => navigate({ to: "/vet-appointments" }) },
                 { Icon: Pill, label: "New Prescription", run: () => navigate({ to: "/vet-rx" }) },
-                { Icon: FlaskConical, label: "Order Lab Test", run: () => navigate({ to: "/vet-lab" }) },
+                { Icon: FlaskConical, label: "Find Patient", run: () => navigate({ to: "/vet-lab" }) },
               ].map(({ Icon, label, run }) => (
                 <button
                   key={label}
