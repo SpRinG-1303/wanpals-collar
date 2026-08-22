@@ -5,6 +5,7 @@ import {
   Navigation, AlertTriangle, Phone, Shield, History, Crosshair,
   Plus, Minus, Satellite, ChevronRight, Stethoscope,
 } from "lucide-react";
+import { toast } from "sonner";
 import { useT } from "@/context/LanguageContext";
 import { usePet, displayName } from "@/context/PetContext";
 
@@ -31,6 +32,9 @@ function MapScreen() {
   const [safeZone, setSafeZone] = useState(true);
   const [radius, setRadius] = useState<100 | 200 | 500 | 1000>(200);
   const [mapType, setMapType] = useState<"map" | "satellite">("map");
+  const [zoom, setZoom] = useState(1);
+  const [showAllHistory, setShowAllHistory] = useState(false);
+  const [sosActive, setSosActive] = useState(false);
 
   const openDirections = () => {
     const addr = encodeURIComponent("Bandra West, Mumbai, Maharashtra");
