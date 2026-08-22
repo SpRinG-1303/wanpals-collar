@@ -588,6 +588,7 @@ function LastVisitCard() {
           </div>
         </div>
         <button
+          onClick={() => nav({ to: "/clinics" })}
           style={{
             background: "color-mix(in oklab, var(--acc-deep) 8.0%, transparent)", color: C.kombu, fontSize: 12, fontWeight: 700,
             border: `1px solid ${C.kombu}`, borderRadius: 12, padding: "6px 16px",
