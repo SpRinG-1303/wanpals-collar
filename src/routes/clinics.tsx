@@ -26,6 +26,9 @@ import { useT, useLanguage } from "@/context/LanguageContext";
 
 export const Route = createFileRoute("/clinics")({ component: Clinics });
 
+/* Home-page card spec */
+const CARD_SHADOW = "0 2px 20px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.04)";
+
 // ── Per-clinic themes ─────────────────────────────────────────
 type Theme = { from: string; to: string; accent: string; soft: string };
 const CLINIC_THEMES: Theme[] = [
@@ -73,12 +76,10 @@ function Stars({ rating }: { rating: number }) {
 function SectionLabel({ jp, en }: { jp: string; en: string }) {
   const t = useT();
   return (
-    <div className="flex items-center gap-3" style={{ margin: "16px 16px 8px" }}>
-      <div style={{ flex: 1, height: 1, background: "var(--border-card)" }} />
-      <div style={{ fontSize: 11, color: "var(--text-placeholder)", letterSpacing: "0.08em", fontWeight: 600 }}>
+    <div className="flex items-center justify-between" style={{ margin: "22px 20px 12px" }}>
+      <div style={{ fontSize: 16, fontWeight: 700, color: "var(--text-primary)", letterSpacing: "-0.01em" }}>
         {t(jp, en)}
       </div>
-      <div style={{ flex: 1, height: 1, background: "var(--border-card)" }} />
     </div>
   );
 }
@@ -133,21 +134,6 @@ function Clinics() {
             <div style={{ position: "absolute", left: 30, top: 0, width: 20, height: 80, borderRadius: 8, background: "var(--accent-sora)" }} />
             <div style={{ position: "absolute", left: 0, top: 30, width: 80, height: 20, borderRadius: 8, background: "var(--accent-sora)" }} />
           </div>
-          <Heart size={12} style={{ position: "absolute", right: 110, top: 28, color: "var(--accent-sakura)", opacity: 0.45 }} fill="var(--accent-sakura)" />
-          <Heart size={8} style={{ position: "absolute", right: 28, top: 78, color: "var(--accent-matcha)", opacity: 0.45 }} fill="var(--accent-matcha)" />
-          <Heart size={10} style={{ position: "absolute", right: 80, top: 96, color: "var(--accent-sora)", opacity: 0.45 }} fill="var(--accent-sora)" />
-          {/* Petals */}
-          {[{ l: 200, t: 14 }, { l: 240, t: 70 }, { l: 170, t: 90 }].map((p, i) => (
-            <div
-              key={i}
-              style={{
-                position: "absolute", left: p.l, top: p.t,
-                width: 8, height: 12, background: "var(--accent-sakura)", opacity: 0.35,
-                borderRadius: "50% 50% 50% 50% / 60% 60% 40% 40%",
-                animation: `petalFall 7s ${i * 1.3}s ease-in-out infinite`,
-              }}
-            />
-          ))}
 
           <div style={{ position: "absolute", left: 20, top: 20, right: 130 }}>
             <div style={{ fontSize: 11, color: "var(--accent-sora)", letterSpacing: "0.1em", fontWeight: 600 }}>
@@ -180,63 +166,64 @@ function Clinics() {
       </div>
 
       {/* ── Search bar ─────────────────────────────────────── */}
-      <div
-        className="flex items-center"
-        style={{
-          margin: "12px 16px",
-          background: "#FFFFFF",
-          borderRadius: 16,
-          height: 52,
-          padding: "0 16px",
-          border: `1.5px solid ${focused ? "var(--accent-sakura)" : "var(--border-card)"}`,
-          boxShadow: focused
-            ? "0 4px 16px rgba(0,0,0,0.08), 0 0 0 3px color-mix(in srgb, var(--accent-sakura) calc(0.1 * 100%), transparent)"
-            : "0 4px 16px rgba(0,0,0,0.08)",
-          transition: "all 0.18s ease",
-        }}
-      >
-        <Search size={18} style={{ color: "var(--accent-sakura)", marginRight: 10 }} />
-        <input
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          onFocus={() => setFocused(true)}
-          onBlur={() => setFocused(false)}
-          className="flex-1 bg-transparent outline-none"
-          style={{ fontSize: 14, color: "var(--text-primary)" }}
-          placeholder={t("クリニックを検索", "Search clinics")}
-        />
-        <div style={{ width: 1, height: 24, background: "var(--border-card)", marginLeft: 8 }} />
+      <div className="flex items-center" style={{ margin: "14px 16px 4px", gap: 10 }}>
+        <div
+          className="flex items-center flex-1"
+          style={{
+            background: "#FFFFFF",
+            borderRadius: 14,
+            height: 48,
+            padding: "0 14px",
+            gap: 10,
+            minWidth: 0,
+            border: `1.5px solid ${focused ? "var(--accent-sakura)" : "transparent"}`,
+            boxShadow: CARD_SHADOW,
+            transition: "border 0.18s ease",
+          }}
+        >
+          <Search size={18} strokeWidth={2} style={{ color: "var(--text-placeholder)", flexShrink: 0 }} />
+          <input
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            onFocus={() => setFocused(true)}
+            onBlur={() => setFocused(false)}
+            className="flex-1 bg-transparent outline-none"
+            style={{ fontSize: 14, color: "var(--text-primary)", minWidth: 0, height: "100%", border: "none" }}
+            placeholder={t("クリニックを検索", "Search clinics")}
+          />
+        </div>
         <button
           onClick={() => setFilter(true)}
           className="flex items-center justify-center"
-          style={{ marginLeft: 12, width: 36, height: 36, borderRadius: "50%", background: "var(--acc2-pale)" }}
+          style={{
+            width: 48, height: 48, borderRadius: 14, flexShrink: 0,
+            background: "linear-gradient(135deg, var(--accent-sakura), var(--accent-sakura-dark))",
+            boxShadow: "0 6px 16px color-mix(in oklab, var(--accent-sakura) 35%, transparent)",
+            color: "#FFFFFF",
+          }}
           aria-label={t("絞り込み", "Filters")}
         >
-          <SlidersHorizontal size={18} style={{ color: "var(--accent-sora)" }} />
+          <SlidersHorizontal size={19} strokeWidth={2.2} />
         </button>
       </div>
 
       {/* ── Quick stats ─────────────────────────────────────── */}
-      <div className="grid grid-cols-3 gap-2" style={{ padding: "0 16px" }}>
+      <div className="grid grid-cols-3 gap-2" style={{ padding: "8px 16px 0" }}>
         {[
-          { n: String(CLINICS.length), jp: "近隣クリニック", en: "Clinics Nearby", color: "var(--accent-sora)", emoji: "" },
-          { n: avgRating, jp: "平均評価", en: "Avg Rating", color: "var(--accent-yuzu)", emoji: "" },
-          { n: String(emCount), jp: "24時間対応", en: "24h Open", color: "#E53935", emoji: "" },
+          { n: String(CLINICS.length), jp: "近隣クリニック", en: "Clinics Nearby", color: "var(--accent-sakura)" },
+          { n: avgRating, jp: "平均評価", en: "Avg Rating", color: "var(--accent-yuzu)" },
+          { n: String(emCount), jp: "24時間対応", en: "24h Open", color: "#E53935" },
         ].map((s) => (
           <div
             key={s.en}
             style={{
               background: "#FFFFFF",
-              borderRadius: 14,
-              padding: "10px 12px",
-              boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
-              borderTop: `3px solid ${s.color}`,
+              borderRadius: 20,
+              padding: "12px 14px",
+              boxShadow: CARD_SHADOW,
             }}
           >
-            <div className="flex items-center gap-1.5">
-              <span style={{ fontSize: 14 }}>{s.emoji}</span>
-              <span className="tabular-nums" style={{ fontSize: 20, fontWeight: 800, color: "var(--text-primary)" }}>{s.n}</span>
-            </div>
+            <span className="tabular-nums" style={{ fontSize: 20, fontWeight: 800, color: s.color }}>{s.n}</span>
             <div style={{ fontSize: 10, color: "var(--text-secondary)", marginTop: 2, lineHeight: 1.2 }}>
               {t(s.jp, s.en)}
             </div>
