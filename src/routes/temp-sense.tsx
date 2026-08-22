@@ -520,7 +520,6 @@ function OrangeTimeTabs({ value, onChange }: { value: string; onChange: (v: stri
             }}
           >
             <div style={{ fontSize: 13, fontWeight: 600 }}>{tb.en}</div>
-            <div style={{ fontSize: 9, color: active ? "rgba(255,255,255,0.85)" : "var(--text-secondary)", marginTop: 1 }}>{tb.jp}</div>
           </button>
         );
       })}
