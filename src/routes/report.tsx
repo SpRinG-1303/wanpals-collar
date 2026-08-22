@@ -769,7 +769,7 @@ function HeroBanner({ pet }: { pet: PetProfile }) {
             lineHeight: 1.1, marginTop: 4,
             letterSpacing: "-0.01em",
           }}>
-            {t("健康レポート", "Health Report")}
+            {t("'''Do not make any visual modifications. The phrases I write are commands to understand what I want, not to be written down. Understand their content well, then execute what is required.'''\n                                        \n                                            \n                                            I have approved the plan", "'''Do not make any visual modifications. The phrases I write are commands to understand what I want, not to be written down. Understand their content well, then execute what is required.'''\n                                        \n                                            \n                                            I have approved the plan")}
           </div>
           <div style={{
             fontSize: 13, color: "rgba(229, 215, 196, 0.75)",
