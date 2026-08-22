@@ -31,9 +31,9 @@ const INACTIVE = "var(--text-placeholder)";
 export default function BottomNav() {
   const loc = useLocation();
   const navigate = useNavigate();
-  const { session } = useAuth();
+  const { session, hydrated } = useAuth();
   const [bouncing, setBouncing] = useState<string | null>(null);
-  const TABS = session?.role === "vet" ? VET_TABS : OWNER_TABS;
+  const TABS = hydrated && session?.role === "vet" ? VET_TABS : OWNER_TABS;
 
   const isActive = (route: string) =>
     loc.pathname === route || loc.pathname.startsWith(route + "/");

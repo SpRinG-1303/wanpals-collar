@@ -16,7 +16,7 @@ const USERS_KEY = "pawsitive_users";
 type Ctx = {
   session: Session | null;
   hydrated: boolean;
-  signIn: (email: string, password: string) => string | null;
+  signIn: (email: string, password: string, expectedRole?: UserRole) => string | null;
   signUp: (u: StoredUser) => string | null;
   signOut: () => void;
   updateProfile: (patch: { name?: string; email?: string; password?: string }) => string | null;
@@ -80,11 +80,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return null;
   };
 
-  const signIn = (email: string, password: string): string | null => {
+  const signIn = (email: string, password: string, expectedRole?: UserRole): string | null => {
     const users = readUsers();
     const found = users.find((x) => x.email.toLowerCase() === email.toLowerCase());
     if (!found) return "No account found for this email. Please sign up first.";
     if (found.password !== password) return "Incorrect password. Please try again.";
+    // Portal lock: the login portal you chose decides the UI — a mismatched
+    // account must sign in through its own portal so the two experiences
+    // (pet parent vs veterinarian) never cross over.
+    if (expectedRole && found.role !== expectedRole) {
+      return found.role === "vet"
+        ? "This email is registered as a Veterinarian account. Go back and sign in through the Veterinarian portal."
+        : "This email is registered as a Pet Parent account. Go back and sign in through the Pet Parent portal.";
+    }
     persistSession({ role: found.role, name: found.name, email: found.email });
     return null;
   };

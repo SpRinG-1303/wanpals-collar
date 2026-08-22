@@ -52,7 +52,7 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
   const navigate = useNavigate();
   const t = useT();
   const { pet } = usePet();
-  const { session, signOut } = useAuth();
+  const { session, signOut, hydrated } = useAuth();
   // Time-of-day greeting is client-only to avoid hydration mismatch.
   const [greet, setGreet] = useState("Hello!");
   useEffect(() => { setGreet(greeting()); }, []);
@@ -75,7 +75,7 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
     setTimeout(() => navigate({ to: route }), 150);
   };
 
-  const isVet = session?.role === "vet";
+  const isVet = hydrated && session?.role === "vet";
   const mainItems = isVet ? VET_ITEMS : MAIN_ITEMS;
   const secondaryItems = isVet ? [] : SECONDARY_ITEMS;
   const BOTTOM_NAV_ROUTES = new Set(

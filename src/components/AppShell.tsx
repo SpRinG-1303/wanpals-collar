@@ -189,12 +189,13 @@ export default function AppShell({
   renderTopBar?: (ctx: { menuOpen: boolean; onMenuClick: () => void }) => ReactNode;
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
-  const { session } = useAuth();
+  const { session, hydrated } = useAuth();
   const loc = useLocation();
   const navigate = useNavigate();
 
   // Vet role guard — bounce vets away from pet-owner features
   const vetBlocked =
+    hydrated &&
     session?.role === "vet" &&
     VET_BLOCKED_PREFIXES.some((p) => loc.pathname === p || loc.pathname.startsWith(p + "/"));
   useEffect(() => {
