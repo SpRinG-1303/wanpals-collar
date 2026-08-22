@@ -135,8 +135,14 @@ export function TopBar({
             <h3 className="text-lg font-bold text-destructive"> <T jp="緊急" en="Emergency"/></h3>
             <p className="text-sm text-muted-foreground mt-1">{t("最寄りの24時間獣医に連絡します", "Contact the nearest 24h vet")}</p>
             <div className="mt-4 space-y-2">
-              <button className="w-full bg-destructive text-destructive-foreground rounded-xl py-3 font-bold"> {t("今すぐ電話", "Call Now")}</button>
-              <button className="w-full bg-muted rounded-xl py-3 font-medium"> {t("迷子モードを起動", "Activate Lost Mode")}</button>
+              <button
+                onClick={() => { window.location.href = "tel:+919820001234"; toast.info(t("24時間獣医に発信中…", "Calling 24h vet helpline…")); }}
+                className="w-full bg-destructive text-destructive-foreground rounded-xl py-3 font-bold"
+              > {t("今すぐ電話", "Call Now")}</button>
+              <button
+                onClick={() => { setSosOpen(false); navigate({ to: "/map" }); toast.error(t("迷子モードを有効化 — 地図で確認", "Lost Mode — activate it on the map")); }}
+                className="w-full bg-muted rounded-xl py-3 font-medium"
+              > {t("迷子モードを起動", "Activate Lost Mode")}</button>
               <button onClick={() => setSosOpen(false)} className="w-full text-sm text-muted-foreground py-2">{t("キャンセル", "Cancel")}</button>
             </div>
           </motion.div>
