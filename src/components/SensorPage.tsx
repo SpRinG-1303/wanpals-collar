@@ -35,7 +35,7 @@ export const SP = {
   sora: "var(--accent-sora)",
 };
 
-export const CARD_SHADOW = "0 2px 20px rgba(0,0,0,0.055)";
+export const CARD_SHADOW = "0 2px 20px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.04)";
 export const SAKURA_HEADER = "linear-gradient(180deg,var(--bg-card) 0%,var(--acc2-pale) 100%)";
 
 export function SensorPage({
@@ -113,7 +113,7 @@ export function Card({
     <div
       style={{
         background: SP.card,
-        borderRadius: 22,
+        borderRadius: 20,
         boxShadow: CARD_SHADOW,
         padding: 20,
         marginBottom: 14,
@@ -228,7 +228,7 @@ export function AIInsightCard({
     <div
       style={{
         background: SP.card,
-        borderRadius: 22,
+        borderRadius: 20,
         padding: 20,
         marginBottom: 14,
         boxShadow: CARD_SHADOW,
