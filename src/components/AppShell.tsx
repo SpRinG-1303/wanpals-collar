@@ -51,8 +51,8 @@ export function TopBar({
             )}
             <Link
               to="/home"
-              className="flex items-center justify-center"
-              style={{ width: 42, height: 42, background: "transparent" }}
+              className="flex items-center"
+              style={{ gap: 10, background: "transparent" }}
               aria-label="Home"
             >
               <img
@@ -60,6 +60,14 @@ export function TopBar({
                 alt="Pawsitive logo"
                 style={{ width: 40, height: 40, objectFit: "contain", display: "block" }}
               />
+              <div style={{ display: "flex", flexDirection: "column", lineHeight: 1.1 }}>
+                <span style={{ fontSize: 15, fontWeight: 800, color: "var(--text-primary)", letterSpacing: "-0.01em" }}>
+                  Pawsitive
+                </span>
+                <span style={{ fontSize: 12, fontWeight: 600, color: "var(--text-secondary)" }}>
+                  Diagnostics
+                </span>
+              </div>
             </Link>
           </div>
           {showTitle ? (
