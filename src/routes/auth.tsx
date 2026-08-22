@@ -128,12 +128,6 @@ function AuthPage() {
     outline: "none", fontFamily: "var(--font-sans)",
   };
 
-  const Field = ({ icon: Icon, children }: { icon: typeof Mail; children: React.ReactNode }) => (
-    <div className="relative" style={{ marginBottom: 12 }}>
-      <Icon size={17} style={{ position: "absolute", left: 14, top: "50%", transform: "translateY(-50%)", color: SUB, pointerEvents: "none" }} />
-      {children}
-    </div>
-  );
 
   return (
     <div style={{ background: "var(--bg-outside)", minHeight: "100dvh", display: "flex", justifyContent: "center" }}>
@@ -391,6 +385,15 @@ function AuthPage() {
           </div>
         )}
       </div>
+    </div>
+  );
+}
+
+function Field({ icon: Icon, children }: { icon: typeof Mail; children: React.ReactNode }) {
+  return (
+    <div className="relative" style={{ marginBottom: 12 }}>
+      <Icon size={17} style={{ position: "absolute", left: 14, top: "50%", transform: "translateY(-50%)", color: SUB, pointerEvents: "none" }} />
+      {children}
     </div>
   );
 }
