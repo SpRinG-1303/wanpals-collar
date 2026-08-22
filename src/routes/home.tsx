@@ -262,9 +262,10 @@ function Home() {
           </div>
         </Link>
 
-        {/* Daily fact — clean white card, above sensors */}
+        {/* Daily fact — clean white card, above sensors (lightweight CSS fade, no animation lib) */}
+        <style>{`@keyframes factFade { from { opacity: 0; } to { opacity: 1; } }`}</style>
         <SectionHeader en="Daily Dog Fact" />
-        <motion.div key={factIdx} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}>
+        <div key={factIdx} style={{ animation: "factFade 0.3s ease" }}>
           <JCard style={{ padding: 16 }}>
             <div className="flex items-center" style={{ gap: 10 }}>
               <div
@@ -284,83 +285,69 @@ function Home() {
               <div style={{ marginTop: 6, fontSize: 11, color: JP.usuzumi, lineHeight: 1.5 }}>{fact.en}</div>
             )}
           </JCard>
-        </motion.div>
+        </div>
 
-        {/* Collar status — white card + solid accent CTA */}
+        {/* Collar status — compact box: connection state + battery + connect */}
         <SectionHeader en="Collar Status" />
-        <JCard style={{ padding: 16 }}>
-          <div className="flex items-center" style={{ gap: 12 }}>
+        <JCard style={{ padding: "12px 14px" }}>
+          <div className="flex items-center" style={{ gap: 10 }}>
             <div
               className="flex items-center justify-center"
-              style={{ width: 44, height: 44, borderRadius: 14, background: "var(--acc-pale)", flexShrink: 0 }}
+              style={{ width: 38, height: 38, borderRadius: 12, background: "var(--acc-pale)", flexShrink: 0 }}
             >
-              <Check size={22} strokeWidth={2.5} style={{ color: JP.sora }} />
+              <Bluetooth
+                size={18}
+                strokeWidth={2}
+                className={collarState === "connecting" ? "animate-pulse" : ""}
+                style={{ color: collarState === "connected" ? JP.matcha : JP.sakura }}
+              />
             </div>
-            <div className="flex-1" style={{ minWidth: 0 }}>
-              <div style={{ fontSize: 14, fontWeight: 700, color: JP.sumi }}>Connected</div>
-              <div style={{ fontSize: 12, color: JP.usuzumi, marginTop: 1 }}>Last sync: 2 minutes ago</div>
-            </div>
-          </div>
-
-          <div style={{ height: 1, background: "var(--border-subtle)", margin: "14px 0" }} />
-
-          <div className="flex items-center justify-between" style={{ marginBottom: 12 }}>
-            <div className="flex items-center" style={{ gap: 8 }}>
-              <BatteryMedium size={18} strokeWidth={1.6} style={{ color: JP.sora }} />
-              <span style={{ fontSize: 13, color: JP.sumi, fontWeight: 500 }}>Battery</span>
-            </div>
-            <div className="flex items-center">
-              <div style={{ width: 110, height: 6, background: "var(--acc-pale)", borderRadius: 4, overflow: "hidden" }}>
-                <div style={{ width: "87%", height: "100%", background: JP.sora, borderRadius: 4 }} />
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ fontSize: 13, fontWeight: 700, color: JP.sumi, lineHeight: 1.2 }}>
+                {collarState === "connected"
+                  ? "Collar Connected"
+                  : collarState === "connecting"
+                    ? "Pairing…"
+                    : "Collar Not Connected"}
               </div>
-              <span style={{ marginLeft: 8, fontSize: 13, fontWeight: 700, color: JP.sora, fontVariantNumeric: "tabular-nums" }}>87%</span>
-            </div>
-          </div>
-
-          <div className="flex items-center justify-between" style={{ marginBottom: 16 }}>
-            <div className="flex items-center" style={{ gap: 8 }}>
-              <Signal size={18} strokeWidth={1.6} style={{ color: JP.sora }} />
-              <span style={{ fontSize: 13, color: JP.sumi, fontWeight: 500 }}>Signal Strength</span>
-            </div>
-            <div className="flex items-center">
-              <div className="flex items-end" style={{ gap: 3 }}>
-                {[6, 10, 14, 18].map((h) => (
-                  <div key={h} style={{ width: 4, height: h, background: JP.sora, borderRadius: 2 }} />
-                ))}
+              <div style={{ fontSize: 11, color: JP.usuzumi, marginTop: 1 }}>
+                {collarState === "connected" ? "Synced just now" : "Tap connect to sync"}
               </div>
-              <span style={{ marginLeft: 8, fontSize: 13, fontWeight: 600, color: JP.sora }}>Excellent</span>
             </div>
+            <div
+              className="flex items-center"
+              style={{ gap: 4, flexShrink: 0, background: "var(--acc-pale)", borderRadius: 20, padding: "5px 10px" }}
+              aria-label="Collar battery 87 percent"
+            >
+              <BatteryMedium size={14} strokeWidth={2} style={{ color: JP.sora }} />
+              <span style={{ fontSize: 12, fontWeight: 700, color: JP.sora, fontVariantNumeric: "tabular-nums" }}>87%</span>
+            </div>
+            <button
+              disabled={collarState === "connecting"}
+              onClick={() => {
+                if (collarState === "connected") {
+                  setCollarState("idle");
+                  toast.info("Collar disconnected");
+                  return;
+                }
+                setCollarState("connecting");
+                setTimeout(() => {
+                  setCollarState("connected");
+                  toast.success("Collar connected — data synced just now");
+                }, 1400);
+              }}
+              className="flex items-center justify-center active:scale-95 transition-transform"
+              style={{
+                height: 34, padding: "0 14px", borderRadius: 17, border: "none", flexShrink: 0,
+                fontSize: 12, fontWeight: 700,
+                background: collarState === "connected" ? "var(--accent-matcha)" : JP.sakura,
+                color: "#FFFFFF",
+                opacity: collarState === "connecting" ? 0.8 : 1,
+              }}
+            >
+              {collarState === "connecting" ? "Pairing…" : collarState === "connected" ? "On" : "Connect"}
+            </button>
           </div>
-
-          <button
-            disabled={collarState !== "idle"}
-            onClick={() => {
-              setCollarState("connecting");
-              setTimeout(() => {
-                setCollarState("connected");
-                toast.success("Collar connected — data synced just now");
-                setTimeout(() => setCollarState("idle"), 3000);
-              }, 1600);
-            }}
-            className="w-full flex items-center justify-center active:scale-[0.98] transition-transform"
-            style={{
-              background: collarState === "connected"
-                ? "linear-gradient(135deg, var(--accent-matcha), var(--accent-matcha))"
-                : `linear-gradient(135deg, ${JP.sakura}, var(--accent-sakura-dark))`,
-              color: "#FFFFFF",
-              border: "none",
-              borderRadius: 14,
-              height: 52,
-              fontSize: 15,
-              fontWeight: 700,
-              gap: 8,
-              opacity: collarState === "connecting" ? 0.85 : 1,
-              boxShadow: "0 8px 20px color-mix(in oklab, var(--accent-sakura) 35%, transparent)",
-            }}
-          >
-            <Bluetooth size={17} strokeWidth={2} className={collarState === "connecting" ? "animate-pulse" : ""} />
-            {collarState === "connecting" ? "Connecting…" : collarState === "connected" ? "Connected ✓" : "Connect Collar"}
-          </button>
         </JCard>
 
         {/* Sensor quick icons — all 8 visible in one line, no scrolling */}
