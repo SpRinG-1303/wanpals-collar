@@ -686,14 +686,20 @@ function PDFCard() {
           </div>
         ))}
       </div>
-      <button style={{
-        width: "100%", height: 40, marginTop: "auto",
-        background: C.moss,
-        color: C.bone, fontWeight: 700, fontSize: 12, borderRadius: 12,
-        border: "none",
-        boxShadow: "0 4px 16px color-mix(in oklab, var(--acc-deep) 30.0%, transparent)",
-        display: "flex", alignItems: "center", justifyContent: "center", gap: 4,
-      }}>
+      <button
+        onClick={() => {
+          toast.success(t("レポートを準備中…", "Preparing report…"));
+          setTimeout(() => window.print(), 700);
+        }}
+        style={{
+          width: "100%", height: 40, marginTop: "auto",
+          background: C.moss,
+          color: C.bone, fontWeight: 700, fontSize: 12, borderRadius: 12,
+          border: "none",
+          boxShadow: "0 4px 16px color-mix(in oklab, var(--acc-deep) 30.0%, transparent)",
+          display: "flex", alignItems: "center", justifyContent: "center", gap: 4,
+        }}
+      >
         {t("PDF出力", "PDF Export")}
       </button>
     </div>
