@@ -162,6 +162,8 @@ function Community() {
   const post = posts.find((p) => p.id === open) ?? null;
   const trending = useMemo(() => posts.slice().sort((a, b) => b.up - a.up).slice(0, 4), [posts]);
   const filtered = useMemo(() => posts.filter((p) => matchesCat(p, sub)), [posts, sub]);
+  const [visibleCount, setVisibleCount] = useState(5);
+  const [trendingAll, setTrendingAll] = useState(false);
 
   function toggleUpvote(id: string) {
     setUpvoted((u) => ({ ...u, [id]: !u[id] }));
