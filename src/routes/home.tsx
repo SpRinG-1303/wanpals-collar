@@ -8,6 +8,7 @@ import {
   ChevronDown, ArrowUpRight, type LucideIcon,
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { toast } from "sonner";
 import { useLanguage } from "@/context/LanguageContext";
 import { usePet, displayName } from "@/context/PetContext";
 
@@ -111,6 +112,8 @@ const sensors: Sensor[] = [
 function Home() {
   const [factIdx, setFactIdx] = useState(0);
   const [query, setQuery] = useState("");
+  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+  const [collarState, setCollarState] = useState<"idle" | "connecting" | "connected">("idle");
   const { language } = useLanguage();
   const { pet } = usePet();
   useEffect(() => {
