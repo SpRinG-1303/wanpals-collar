@@ -256,41 +256,7 @@ function Home() {
           </div>
         </Link>
 
-        {/* Sensor quick icons — reference "speciality" icon row */}
-        <SectionHeader en="Sensors" />
-        <div
-          className="scrollbar-hide flex"
-          style={{ gap: 14, overflowX: "auto", margin: "0 -16px", padding: "2px 16px 4px" }}
-        >
-          {sensors.map((s) => {
-            const Icon = s.Icon;
-            return (
-              <Link
-                key={s.en}
-                to={s.to}
-                className="flex flex-col items-center"
-                style={{ flexShrink: 0, width: 60, gap: 7 }}
-                aria-label={s.en}
-              >
-                <div
-                  className="flex items-center justify-center"
-                  style={{
-                    width: 56, height: 56, borderRadius: "50%",
-                    background: s.iconBg,
-                    boxShadow: "0 2px 10px rgba(0,0,0,0.04)",
-                  }}
-                >
-                  <Icon size={24} strokeWidth={1.8} style={{ color: s.accent }} />
-                </div>
-                <span style={{ fontSize: 10, fontWeight: 600, color: JP.usuzumi, textAlign: "center", lineHeight: 1.2, maxWidth: 60, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                  {s.en.replace(" AI", "").replace("Sense", "")}
-                </span>
-              </Link>
-            );
-          })}
-        </div>
-
-        {/* Daily fact — clean white card */}
+        {/* Daily fact — clean white card, above sensors */}
         <SectionHeader en="Daily Dog Fact" />
         <motion.div key={factIdx} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}>
           <JCard style={{ padding: 16 }}>
@@ -314,66 +280,44 @@ function Home() {
           </JCard>
         </motion.div>
 
-        {/* AI Sensors grid — clean white cards, reference layout */}
-        <SectionHeader en="AI Sensors" to="/report" />
+        {/* Sensor quick icons — all 8 visible in one line, no scrolling */}
+        <SectionHeader en="Sensors" />
         {filtered.length === 0 ? (
           <JCard style={{ padding: 20, textAlign: "center" }}>
             <div style={{ fontSize: 13, color: JP.usuzumi }}>No sensors match “{query}”.</div>
           </JCard>
         ) : (
-          <div className="grid grid-cols-2" style={{ gap: 10 }}>
+          <div
+            className="flex"
+            style={
+              query.trim()
+                ? { gap: 14 }
+                : { justifyContent: "space-between" }
+            }
+          >
             {filtered.map((s) => {
               const Icon = s.Icon;
               return (
                 <Link
                   key={s.en}
                   to={s.to}
-                  style={{
-                    position: "relative",
-                    background: JP.card,
-                    borderRadius: 20,
-                    boxShadow: CARD_SHADOW,
-                    transition: "transform 0.2s ease",
-                  }}
-                  className="flex flex-col"
+                  className="flex flex-col items-center"
+                  style={{ flexShrink: 0, width: 44, gap: 6 }}
+                  aria-label={s.en}
                 >
-                  <div style={{ padding: 14, display: "flex", flexDirection: "column", flex: 1 }}>
-                    <div className="flex items-start justify-between">
-                      <div
-                        className="flex items-center justify-center"
-                        style={{ width: 44, height: 44, borderRadius: 14, background: s.iconBg }}
-                      >
-                        <Icon size={22} strokeWidth={1.7} style={{ color: s.accent }} />
-                      </div>
-                      <ChevronRight size={16} strokeWidth={2.2} style={{ color: "var(--text-placeholder)", marginTop: 2 }} />
-                    </div>
-
-                    <div style={{ marginTop: 12, fontSize: 14, fontWeight: 700, color: JP.sumi, letterSpacing: "-0.01em", lineHeight: 1.2 }}>
-                      {s.en}
-                    </div>
-                    <div style={{ fontSize: 11, color: JP.usuzumi, marginTop: 2, lineHeight: 1.3 }}>
-                      {s.subEn}
-                    </div>
-
-                    <div className="flex items-center justify-between" style={{ marginTop: 10, gap: 6 }}>
-                      <div style={{ fontSize: 15, fontWeight: 700, color: s.accent, fontVariantNumeric: "tabular-nums", lineHeight: 1.1 }}>
-                        {s.valEn}
-                      </div>
-                      <span className="animate-pulse" style={{ width: 6, height: 6, borderRadius: "50%", background: s.accent, flexShrink: 0 }} />
-                    </div>
-
-                    {s.noteEn && (
-                      <div style={{ fontSize: 11, color: JP.usuzumi, marginTop: 4 }}>
-                        {s.noteEn}
-                      </div>
-                    )}
-
-                    {s.progress !== undefined && (
-                      <div style={{ marginTop: 10, height: 4, borderRadius: 4, overflow: "hidden", background: "var(--border-subtle)" }}>
-                        <div style={{ width: `${s.progress}%`, height: "100%", background: s.accent, borderRadius: 4 }} />
-                      </div>
-                    )}
+                  <div
+                    className="flex items-center justify-center"
+                    style={{
+                      width: 42, height: 42, borderRadius: "50%",
+                      background: s.iconBg,
+                      boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
+                    }}
+                  >
+                    <Icon size={19} strokeWidth={1.8} style={{ color: s.accent }} />
                   </div>
+                  <span style={{ fontSize: 9, fontWeight: 600, color: JP.usuzumi, textAlign: "center", lineHeight: 1.15, maxWidth: 46, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                    {s.en.replace(" AI", "").replace("Sense", "")}
+                  </span>
                 </Link>
               );
             })}
