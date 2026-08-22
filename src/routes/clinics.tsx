@@ -312,7 +312,7 @@ function Clinics() {
       </div>
 
       {/* ── Category tabs ──────────────────────────────────── */}
-      <div className="flex gap-2 overflow-x-auto scrollbar-hide" style={{ padding: "12px 16px 4px" }}>
+      <div className="flex overflow-x-auto scrollbar-hide" style={{ padding: "16px 20px 0", gap: 8 }}>
         {CATS.map((c, i) => {
           const sel = active === i;
           const Icon = c.Icon;
@@ -320,21 +320,22 @@ function Clinics() {
             <button
               key={c.en}
               onClick={() => setActive(i)}
-              className="shrink-0 flex items-center gap-1.5"
+              className="shrink-0 flex items-center"
               style={{
-                background: sel ? "linear-gradient(135deg, var(--accent-sakura), var(--accent-sakura-dark))" : "#FFFFFF",
-                border: `1.5px solid ${sel ? "transparent" : "var(--border-card)"}`,
+                background: sel ? "var(--accent-sakura)" : "#FFFFFF",
+                border: `1.5px solid ${sel ? "var(--accent-sakura)" : "var(--border-card)"}`,
                 color: sel ? "#FFFFFF" : "var(--text-secondary)",
                 fontWeight: sel ? 700 : 500,
                 fontSize: 12,
-                borderRadius: 20,
-                padding: "8px 14px",
-                height: 36,
-                boxShadow: sel ? "0 4px 12px color-mix(in oklab, var(--accent-sakura) 30%, transparent)" : "0 2px 6px rgba(0,0,0,0.04)",
+                borderRadius: 999,
+                padding: "0 16px",
+                height: 40,
+                gap: 6,
+                boxShadow: sel ? "0 4px 12px color-mix(in oklab, var(--accent-sakura) 28%, transparent)" : "none",
                 transition: "all 0.18s ease",
               }}
             >
-              <Icon size={14} style={{ color: sel ? "#FFFFFF" : "var(--text-secondary)" }} fill={sel && c.en === "Top Rated" ? "#FFFFFF" : "none"} />
+              <Icon size={14} style={{ color: sel ? "#FFFFFF" : "var(--text-placeholder)" }} fill={sel && c.en === "Top Rated" ? "#FFFFFF" : "none"} />
               {t(c.jp, c.en)}
             </button>
           );
