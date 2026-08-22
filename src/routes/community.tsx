@@ -227,60 +227,6 @@ function Community() {
 
   return (
     <AppShell noPadding>
-      {/* ── Header Banner ─────────────────────────────────────── */}
-      <div className="relative">
-        <div
-          className="relative overflow-hidden"
-          style={{
-            height: 120,
-            background: "linear-gradient(135deg,var(--accent-sakura-soft) 0%,var(--acc-pale) 50%,var(--acc2-pale) 100%)",
-            borderRadius: "0 0 28px 28px",
-          }}
-        >
-          <div style={{ position: "absolute", right: -20, top: -10, width: 120, height: 120, borderRadius: "50%", background: "var(--bg-card-sakura)", opacity: 0.35, filter: "blur(20px)" }} />
-          <svg width="64" height="56" viewBox="0 0 64 56" style={{ position: "absolute", right: 24, top: 22, opacity: 0.35 }}>
-            <rect x="4" y="12" width="56" height="6" rx="2" fill="var(--acc-pale)" />
-            <rect x="2" y="6" width="60" height="5" rx="2" fill="var(--acc-pale)" />
-            <rect x="12" y="18" width="6" height="34" rx="2" fill="var(--acc-pale)" />
-            <rect x="46" y="18" width="6" height="34" rx="2" fill="var(--acc-pale)" />
-          </svg>
-          {[
-            { l: 60, t: 40, d: 0 },
-            { l: 130, t: 18, d: 1.2 },
-            { l: 200, t: 70, d: 2.4 },
-            { l: 30, t: 80, d: 0.6 },
-          ].map((p, i) => (
-            <div
-              key={i}
-              style={{
-                position: "absolute",
-                left: p.l,
-                top: p.t,
-                width: 8,
-                height: 12,
-                background: "var(--accent-sakura)",
-                opacity: 0.5,
-                borderRadius: "50% 50% 50% 50% / 60% 60% 40% 40%",
-                animation: `petalFall 6s ${p.d}s ease-in-out infinite`,
-              }}
-            />
-          ))}
-
-          <div style={{ position: "absolute", left: 20, top: 20, right: 96 }}>
-            <div style={{ fontSize: 13, color: "var(--accent-sakura)", letterSpacing: "0.1em", fontWeight: 600 }}>COMMUNITY</div>
-            <div style={{ fontSize: 24, fontWeight: 800, color: "var(--text-primary)", lineHeight: 1.1, marginTop: 2, fontFamily: "Fraunces, serif" }}>
-              {t("ペットコミュニティ", "Pet Community")}
-            </div>
-            <div style={{ fontSize: 12, color: "var(--text-secondary)", marginTop: 6, display: "flex", alignItems: "center", gap: 4 }}>
-              <PawPrint size={12} style={{ color: "var(--accent-sakura)" }} />
-              <span>{t("つながる・マッチ・シェア", "Connect. Match. Share.")}</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Create post moved to the feed for a cleaner header */}
-      </div>
-
       {/* ── Pet Match (signature feature) ────────────────────── */}
       <PetMatchSection />
 
