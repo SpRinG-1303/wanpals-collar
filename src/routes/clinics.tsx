@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import AppShell from "@/components/AppShell";
 import { CLINICS } from "@/lib/mock";
 import {
@@ -87,6 +87,7 @@ function SectionLabel({ jp, en }: { jp: string; en: string }) {
 
 function Clinics() {
   const t = useT();
+  const navigate = useNavigate();
   const { language } = useLanguage();
   const [filter, setFilter] = useState(false);
   const [active, setActive] = useState(1);
