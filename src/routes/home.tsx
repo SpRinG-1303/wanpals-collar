@@ -389,72 +389,36 @@ function Home() {
           </button>
         </JCard>
 
-        {/* Quick Access */}
+        {/* Quick Access — circular icons matching the sensor row style */}
         <SectionHeader en="Quick Access" />
-        <div className="grid grid-cols-2" style={{ gap: 10, marginBottom: 20 }}>
-          {/* Health Report Card */}
-          <Link
-            to="/report"
-            className="relative overflow-hidden"
-            style={{
-              height: 96,
-              borderRadius: 20,
-              background: "linear-gradient(135deg, var(--acc-strong) 0%, var(--accent-fuji) 100%)",
-              boxShadow: "0 8px 24px color-mix(in oklab, var(--acc-strong) 35%, transparent)",
-              transition: "transform 0.2s ease",
-            }}
-          >
-            <div style={{ position: "absolute", top: -20, right: 20, width: 60, height: 60, borderRadius: "50%", background: "rgba(255,255,255,0.08)", pointerEvents: "none" }} />
-            <div style={{ position: "absolute", bottom: 10, left: -10, width: 40, height: 40, borderRadius: "50%", background: "rgba(255,255,255,0.08)", pointerEvents: "none" }} />
-            <div style={{ position: "relative", zIndex: 1, padding: "14px", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+        <div className="flex" style={{ gap: 24, marginBottom: 20 }}>
+          {[
+            { to: "/report", Icon: Activity, label: "Health Report", sub: "87/100", bg: "var(--bg-card-lavender)", accent: "var(--accent-fuji)" },
+            { to: "/breeds", Icon: PawPrint, label: "Breed Guide", sub: "200+ breeds", bg: JP.sakuraSoft, accent: JP.sakura },
+          ].map((q) => (
+            <Link
+              key={q.label}
+              to={q.to}
+              className="flex flex-col items-center"
+              style={{ width: 76, gap: 7 }}
+              aria-label={q.label}
+            >
               <div
                 className="flex items-center justify-center"
-                style={{ width: 34, height: 34, borderRadius: 10, background: "rgba(255,255,255,0.22)" }}
+                style={{
+                  width: 56, height: 56, borderRadius: "50%",
+                  background: q.bg,
+                  boxShadow: "0 2px 10px rgba(0,0,0,0.04)",
+                }}
               >
-                <Activity size={17} strokeWidth={2} style={{ color: "#FFFFFF" }} />
+                <q.Icon size={24} strokeWidth={1.8} style={{ color: q.accent }} />
               </div>
-              <div>
-                <div style={{ fontSize: 15, fontWeight: 700, color: "#FFFFFF", lineHeight: 1.2 }}>
-                  Health Report
-                </div>
-                <div style={{ fontSize: 11, color: "rgba(255,255,255,0.8)", marginTop: 2, fontWeight: 600 }}>
-                  87/100 · View →
-                </div>
+              <div style={{ textAlign: "center" }}>
+                <div style={{ fontSize: 10, fontWeight: 700, color: JP.sumi, lineHeight: 1.2 }}>{q.label}</div>
+                <div style={{ fontSize: 9, fontWeight: 600, color: JP.usuzumi, marginTop: 1 }}>{q.sub}</div>
               </div>
-            </div>
-          </Link>
-
-          {/* Breeds Card */}
-          <Link
-            to="/breeds"
-            className="relative overflow-hidden"
-            style={{
-              height: 96,
-              borderRadius: 20,
-              background: "linear-gradient(135deg, var(--accent-sakura) 0%, var(--accent-sakura-dark) 100%)",
-              boxShadow: "0 8px 24px color-mix(in oklab, var(--accent-sakura) 35%, transparent)",
-              transition: "transform 0.2s ease",
-            }}
-          >
-            <div style={{ position: "absolute", top: -15, right: 25, width: 55, height: 55, borderRadius: "50%", background: "rgba(255,255,255,0.08)", pointerEvents: "none" }} />
-            <div style={{ position: "absolute", bottom: 5, left: -5, width: 45, height: 45, borderRadius: "50%", background: "rgba(255,255,255,0.08)", pointerEvents: "none" }} />
-            <div style={{ position: "relative", zIndex: 1, padding: "14px", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
-              <div
-                className="flex items-center justify-center"
-                style={{ width: 34, height: 34, borderRadius: 10, background: "rgba(255,255,255,0.22)" }}
-              >
-                <PawPrint size={17} strokeWidth={2} style={{ color: "#FFFFFF" }} />
-              </div>
-              <div>
-                <div style={{ fontSize: 15, fontWeight: 700, color: "#FFFFFF", lineHeight: 1.2 }}>
-                  Breed Guide
-                </div>
-                <div style={{ fontSize: 11, color: "rgba(255,255,255,0.8)", marginTop: 2, fontWeight: 600 }}>
-                  200+ breeds · View →
-                </div>
-              </div>
-            </div>
-          </Link>
+            </Link>
+          ))}
         </div>
       </div>
     </AppShell>
