@@ -115,6 +115,7 @@ function Home() {
   const [collarState, setCollarState] = useState<"idle" | "connecting" | "connected">("idle");
   const { language } = useLanguage();
   const { pet } = usePet();
+  const geo = useGeoLocation();
   useEffect(() => {
     const tm = setInterval(() => setFactIdx((i) => (i + 1) % DAILY_FACTS.length), 10000);
     return () => clearInterval(tm);
@@ -125,11 +126,12 @@ function Home() {
   const dogName = displayName(pet);
   const mood = pet.name?.trim() ? `${dogName} is feeling great` : "Feeling great";
 
-  const filtered = query.trim()
+  const filtered = (query.trim()
     ? sensors.filter((s) =>
         (s.en + " " + s.subEn).toLowerCase().includes(query.trim().toLowerCase())
       )
-    : sensors;
+    : sensors
+  ).map((s) => (s.en === "LocationSense" ? { ...s, valEn: geo.loading ? "Locating…" : geo.short } : s));
 
   return (
     <AppShell titleJp="" titleEn="" noPadding>
@@ -143,7 +145,9 @@ function Home() {
             </div>
             <div className="flex items-center" style={{ gap: 5, marginTop: 2 }}>
               <MapPin size={16} strokeWidth={2.2} style={{ color: JP.sakura, flexShrink: 0 }} />
-              <span style={{ fontSize: 15, fontWeight: 700, color: JP.sumi }}>Bandra, Mumbai</span>
+              <span style={{ fontSize: 15, fontWeight: 700, color: JP.sumi }}>
+                {geo.loading && !geo.coords ? "Locating…" : geo.label}
+              </span>
               <ChevronDown size={15} strokeWidth={2.2} style={{ color: JP.sumi }} />
             </div>
           </div>

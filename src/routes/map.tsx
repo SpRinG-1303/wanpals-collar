@@ -8,6 +8,7 @@ import {
 import { toast } from "sonner";
 import { useT } from "@/context/LanguageContext";
 import { usePet, displayName } from "@/context/PetContext";
+import { useGeoLocation } from "@/lib/useGeoLocation";
 
 export const Route = createFileRoute("/map")({ component: MapScreen });
 
@@ -35,10 +36,13 @@ function MapScreen() {
   const [zoom, setZoom] = useState(1);
   const [showAllHistory, setShowAllHistory] = useState(false);
   const [sosActive, setSosActive] = useState(false);
+  const geo = useGeoLocation();
 
   const openDirections = () => {
-    const addr = encodeURIComponent("Bandra West, Mumbai, Maharashtra");
-    window.open(`https://www.google.com/maps/dir/?api=1&destination=${addr}`, "_blank");
+    const dest = geo.coords
+      ? `${geo.coords.lat},${geo.coords.lon}`
+      : encodeURIComponent(geo.label);
+    window.open(`https://www.google.com/maps/dir/?api=1&destination=${dest}`, "_blank");
   };
 
   return (
@@ -209,7 +213,7 @@ function MapScreen() {
               <div className="min-w-0">
                 <div style={{ fontSize: 17, fontWeight: 700, color: "var(--text-primary)" }}>{dogName}</div>
                 <div style={{ fontSize: 12, color: "var(--text-secondary)", marginTop: 1 }}>
-                  {"Linking Road, Bandra West, Mumbai"}
+                  {geo.loading && !geo.coords ? t("位置を取得中…", "Locating…") : geo.label}
                 </div>
                 <div className="flex items-center gap-1.5 mt-1">
                   <span style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--accent-sakura)" }} />
@@ -223,7 +227,7 @@ function MapScreen() {
           <div className="flex items-center gap-2 mt-3" style={{ fontSize: 11, color: "var(--text-secondary)" }}>
             <span> {t("移動中", "Moving")}</span>
             <span>·</span>
-            <span> {"Bandra West"}</span>
+            <span> {geo.short}</span>
             <span>·</span>
             <span> {t("たった今", "Just now")}</span>
             <span>·</span>
