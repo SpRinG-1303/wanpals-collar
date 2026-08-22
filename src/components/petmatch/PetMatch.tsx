@@ -45,7 +45,7 @@ export type MatchProfile = {
 
 export const MATCH_PROFILES: MatchProfile[] = [
   {
-    id: "pm-1", pet: "Bruno", breed: "Golden Retriever", slug: "retriever-golden",
+    id: "pm-1", pet: "Bruno", breed: "Golden Retriever", slug: "retriever/golden",
     age: 3, gender: "Male", km: 2.8, vaccinated: true, health: 96, verified: true, eligible: true,
     owner: "Arjun Mehta", ownerPets: 2, area: "Bandra West, Mumbai", since: "2023", posts: 34,
     compat: 94, summary: "Similar breed • Compatible age • Nearby",
@@ -53,7 +53,7 @@ export const MATCH_PROFILES: MatchProfile[] = [
     mutual: true,
   },
   {
-    id: "pm-2", pet: "Luna", breed: "Labrador Retriever", slug: "retriever-labrador",
+    id: "pm-2", pet: "Luna", breed: "Labrador Retriever", slug: "labrador",
     age: 2, gender: "Female", km: 1.2, vaccinated: true, health: 92, verified: true, eligible: true,
     owner: "Priya Sharma", ownerPets: 1, area: "Juhu, Mumbai", since: "2024", posts: 18,
     compat: 91, summary: "Friendly temperament • Very close • Vaccinated",
@@ -69,7 +69,7 @@ export const MATCH_PROFILES: MatchProfile[] = [
     mutual: false,
   },
   {
-    id: "pm-4", pet: "Zara", breed: "German Shepherd", slug: "germanshepherd",
+    id: "pm-4", pet: "Zara", breed: "German Shepherd", slug: "german/shepherd",
     age: 2, gender: "Female", km: 4.1, vaccinated: true, health: 90, verified: false, eligible: true,
     owner: "Sneha Kulkarni", ownerPets: 1, area: "Powai, Mumbai", since: "2024", posts: 9,
     compat: 84, summary: "Hip-score screened • Active lifestyle match",
@@ -435,7 +435,7 @@ export function PetMatchDiscovery({ startId, onClose }: { startId: string; onClo
         </div>
 
         {/* Card area */}
-        <div className="flex-1 flex flex-col" style={{ padding: "4px 16px 16px", minHeight: 0 }}>
+        <div className="flex-1 flex flex-col justify-center" style={{ padding: "4px 16px 16px", minHeight: 0 }}>
           <AnimatePresence mode="wait" custom={dir}>
             {current ? (
               <motion.div
@@ -451,12 +451,12 @@ export function PetMatchDiscovery({ startId, onClose }: { startId: string; onClo
                   if (info.offset.x > 90) interested();
                   else if (info.offset.x < -90) pass();
                 }}
-                className="flex-1 flex flex-col"
+                className="flex flex-col"
                 style={{ background: "#FFFFFF", borderRadius: 24, boxShadow: "0 10px 30px rgba(0,0,0,0.10)", overflow: "hidden", minHeight: 0 }}
               >
                 {/* Photo */}
                 <div style={{ position: "relative", flexShrink: 0 }}>
-                  <PetPhoto p={current} style={{ height: 260 }} />
+                  <PetPhoto p={current} style={{ height: 300 }} />
                   <div style={{ position: "absolute", top: 12, left: 12 }}>
                     <CompatPill value={current.compat} light />
                   </div>
@@ -488,7 +488,7 @@ export function PetMatchDiscovery({ startId, onClose }: { startId: string; onClo
                 </div>
 
                 {/* Details */}
-                <div className="flex-1" style={{ padding: "12px 16px", overflowY: "auto", minHeight: 0 }}>
+                <div style={{ padding: "12px 16px 16px" }}>
                   <div className="flex gap-2" style={{ flexWrap: "wrap" }}>
                     <span className="flex items-center gap-1" style={{ fontSize: 10, fontWeight: 700, padding: "4px 10px", borderRadius: 999, background: current.vaccinated ? "var(--acc-pale)" : "#FFF3F0", color: current.vaccinated ? "var(--accent-matcha)" : "#E53935" }}>
                       <Syringe size={10} /> {current.vaccinated ? "Vaccinated" : "Vaccination due"}
