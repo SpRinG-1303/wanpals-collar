@@ -327,6 +327,11 @@ function MapScreen() {
           { time: "14:30", jp: "ジョガーズパーク", en: "Joggers Park", dist: "+1.2km", color: "var(--accent-yuzu)" },
           { time: "12:15", jp: "", en: "Near Bandra Stn", dist: "+0.5km", color: "var(--accent-sora)" },
           { time: "09:00", jp: "自宅", en: "Home", dist: t("出発地", "Start"), color: "var(--accent-matcha)" },
+          ...(showAllHistory ? [
+            { time: "昨日 18:10", jp: "", en: "Carter Road Promenade", dist: "+2.1km", color: "var(--accent-yuzu)" },
+            { time: "昨日 07:45", jp: "", en: "Joggers Park", dist: "+1.4km", color: "var(--accent-sora)" },
+            { time: "月曜 17:20", jp: "", en: "Bandra Fort", dist: "+3.0km", color: "var(--accent-matcha)" },
+          ] : []),
         ].map((h, i) => (
           <div key={i} className="flex items-center gap-3" style={{ padding: "8px 0", borderTop: i === 0 ? "none" : "1px solid var(--bg-elevated)" }}>
             <span style={{ width: 8, height: 8, borderRadius: "50%", background: h.color, flexShrink: 0 }} />
@@ -340,8 +345,8 @@ function MapScreen() {
           </div>
         ))}
 
-        <button className="flex items-center gap-1 mt-2" style={{ fontSize: 12, color: "var(--accent-sakura)", fontWeight: 600 }}>
-          {t("全履歴を見る", "View Full History")} <ChevronRight size={14} />
+        <button onClick={() => setShowAllHistory((s) => !s)} className="flex items-center gap-1 mt-2" style={{ fontSize: 12, color: "var(--accent-sakura)", fontWeight: 600 }}>
+          {showAllHistory ? t("履歴を閉じる", "Show Less") : t("全履歴を見る", "View Full History")} <ChevronRight size={14} style={{ transform: showAllHistory ? "rotate(90deg)" : "none", transition: "transform 0.2s" }} />
         </button>
       </div>
 
