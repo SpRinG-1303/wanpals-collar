@@ -389,6 +389,15 @@ function AuthPage() {
   );
 }
 
+function Field({ icon: Icon, children }: { icon: typeof Mail; children: React.ReactNode }) {
+  return (
+    <div className="relative" style={{ marginBottom: 12 }}>
+      <Icon size={17} style={{ position: "absolute", left: 14, top: "50%", transform: "translateY(-50%)", color: SUB, pointerEvents: "none" }} />
+      {children}
+    </div>
+  );
+}
+
 function Label({ children, required }: { children: React.ReactNode; required?: boolean }) {
   return (
     <div style={{ fontSize: 12, fontWeight: 600, color: INK, marginBottom: 6, letterSpacing: "0.02em" }}>
