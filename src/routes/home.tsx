@@ -439,10 +439,12 @@ function Home() {
 
         {/* Quick Access — circular icons matching the sensor row style */}
         <SectionHeader en="Quick Access" />
-        <div className="flex" style={{ gap: 24, marginBottom: 20 }}>
+        <div className="flex" style={{ gap: 14, marginBottom: 20, justifyContent: "space-between" }}>
           {[
             { to: "/report", Icon: Activity, label: "Health Report", sub: "87/100", bg: "var(--bg-card-lavender)", accent: "var(--accent-fuji)" },
             { to: "/breeds", Icon: PawPrint, label: "Breed Guide", sub: "200+ breeds", bg: JP.sakuraSoft, accent: JP.sakura },
+            { to: "/community", Icon: HeartHandshake, label: "Pet Match", sub: "Find a match", bg: "var(--acc2-pale)", accent: "var(--accent-sora)" },
+            { to: "/clinics", Icon: Stethoscope, label: "Clinics", sub: "Vets near you", bg: "var(--acc-pale)", accent: "var(--accent-matcha)" },
           ].map((q) => (
             <Link
               key={q.label}
