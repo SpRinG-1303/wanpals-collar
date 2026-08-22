@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { PawPrint } from "lucide-react";
-import { PawLogo } from "@/components/PawLogo";
+import pawLogoAsset from "@/assets/pawsitive-paw-logo.png.asset.json";
 import PhoneFrame from "@/components/PhoneFrame";
 
 export const Route = createFileRoute("/language")({ component: LanguagePicker });
@@ -101,12 +101,11 @@ export function HeroIllustration({ compact = false }: { compact?: boolean }) {
         />
       ))}
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <div
-          className="rounded-full bg-white flex items-center justify-center"
-          style={{ width: logo, height: logo, border: "2px solid var(--bg-card-sakura)", boxShadow: "0 8px 24px color-mix(in srgb, var(--accent-sakura) calc(0.2 * 100%), transparent)" }}
-        >
-          <PawLogo size={logo * 0.55} color="var(--accent-sakura)" />
-        </div>
+        <img
+          src={pawLogoAsset.url}
+          alt="Pawsitive logo"
+          style={{ width: logo, height: logo, objectFit: "contain", filter: "drop-shadow(0 8px 24px rgba(167,139,219,0.25))" }}
+        />
         <div className="mt-2 font-bold leading-none" style={{ color: "var(--text-primary)", fontSize: titleSize, letterSpacing: "0.05em" }}>
           Pawsitive
         </div>
