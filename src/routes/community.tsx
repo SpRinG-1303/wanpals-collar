@@ -334,7 +334,6 @@ function Community() {
       <div className="flex gap-2 overflow-x-auto scrollbar-hide" style={{ padding: "12px 16px", scrollSnapType: "x mandatory" }}>
         {CATS.map((c, i) => {
           const active = sub === i;
-          const isAll = i === 0;
           const style: React.CSSProperties = active
             ? { background: "linear-gradient(135deg, var(--accent-sakura), var(--accent-sakura-dark))", color: "#fff", border: "1.5px solid transparent", boxShadow: "0 4px 12px color-mix(in srgb, var(--accent-sakura) calc(0.35 * 100%), transparent)" }
             : { background: "#FFFFFF", color: "var(--text-secondary)", border: "1.5px solid var(--border-card)", boxShadow: "0 2px 6px rgba(0,0,0,0.05)" };
