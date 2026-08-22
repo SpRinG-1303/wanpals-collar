@@ -10,6 +10,7 @@ import {
 import { toast } from "sonner";
 import { useLanguage } from "@/context/LanguageContext";
 import { usePet, displayName } from "@/context/PetContext";
+import { useGeoLocation } from "@/lib/useGeoLocation";
 
 export const Route = createFileRoute("/home")({ component: Home });
 
