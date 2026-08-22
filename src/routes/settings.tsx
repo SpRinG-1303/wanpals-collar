@@ -157,12 +157,73 @@ function Settings() {
           <li>✓ {t("詳細レポート", "Detailed reports")}</li>
           <li>✓ {t("複数ペット対応", "Multiple pets")}</li>
         </ul>
-        <button className="mt-3 w-full bg-primary text-primary-foreground rounded-xl py-3 font-bold text-sm">{t("月額 ¥980", "¥980 / month")} →</button>
+        <button onClick={() => toast.success(t("Proプランは近日公開 — 先行アクセスに登録しました", "Pawsitive Pro launches soon — you're on the early-access list"))} className="mt-3 w-full bg-primary text-primary-foreground rounded-xl py-3 font-bold text-sm">{t("月額 ¥980", "¥980 / month")} →</button>
       </div>
 
       <div className="mt-6 border-t border-border pt-4">
-        <button className="w-full text-destructive font-bold text-sm py-3">{t("アカウントを削除", "Delete Account")}</button>
+        {confirmDelete ? (
+          <div className="rounded-2xl p-4" style={{ background: "var(--acc-pale)" }}>
+            <div className="text-sm font-bold text-destructive mb-1">{t("本当に削除しますか？", "Delete your account?")}</div>
+            <div className="text-xs text-muted-foreground mb-3">{t("この操作は取り消せません。", "This permanently removes your account and local data. This cannot be undone.")}</div>
+            <div className="flex gap-2">
+              <button onClick={() => setConfirmDelete(false)} className="flex-1 bg-muted rounded-xl py-2.5 text-sm font-medium">{t("キャンセル", "Cancel")}</button>
+              <button onClick={deleteAccount} className="flex-1 bg-destructive text-destructive-foreground rounded-xl py-2.5 text-sm font-bold">{t("削除する", "Yes, Delete")}</button>
+            </div>
+          </div>
+        ) : (
+          <button onClick={() => setConfirmDelete(true)} className="w-full text-destructive font-bold text-sm py-3">{t("アカウントを削除", "Delete Account")}</button>
+        )}
       </div>
+
+      {/* Edit profile modal */}
+      {editField && (
+        <div className="fixed inset-0 z-[90] flex items-end justify-center" style={{ maxWidth: 430, margin: "0 auto" }}>
+          <div className="absolute inset-0 bg-black/40" onClick={() => setEditField(null)} />
+          <div className="relative w-full rounded-t-3xl p-5 pb-8" style={{ background: "var(--bg-card)" }}>
+            <div className="flex items-center justify-between mb-4">
+              <div className="font-bold">
+                {editField === "name" ? "Change Name" : editField === "email" ? "Change Email" : "Change Password"}
+              </div>
+              <button onClick={() => setEditField(null)} aria-label="Close"><X className="w-5 h-5 text-muted-foreground" /></button>
+            </div>
+            <input
+              autoFocus
+              type={editField === "password" ? "password" : editField === "email" ? "email" : "text"}
+              value={editValue}
+              onChange={(e) => setEditValue(e.target.value)}
+              onKeyDown={(e) => { if (e.key === "Enter") saveEdit(); }}
+              placeholder={editField === "name" ? "Your name" : editField === "email" ? "you@example.com" : "New password (min 6 chars)"}
+              className="w-full rounded-xl px-4 py-3 text-sm outline-none"
+              style={{ background: "var(--acc-pale)", color: "var(--text-primary)" }}
+            />
+            <button onClick={saveEdit} className="mt-3 w-full rounded-xl py-3 font-bold text-sm text-white" style={{ background: "var(--acc-strong)" }}>Save</button>
+          </div>
+        </div>
+      )}
+
+      {/* Privacy sheet */}
+      {privacyOpen && (
+        <div className="fixed inset-0 z-[90] flex items-end justify-center" style={{ maxWidth: 430, margin: "0 auto" }}>
+          <div className="absolute inset-0 bg-black/40" onClick={() => setPrivacyOpen(false)} />
+          <div className="relative w-full rounded-t-3xl p-5 pb-8" style={{ background: "var(--bg-card)" }}>
+            <div className="flex items-center justify-between mb-4">
+              <div className="font-bold">Privacy Settings</div>
+              <button onClick={() => setPrivacyOpen(false)} aria-label="Close"><X className="w-5 h-5 text-muted-foreground" /></button>
+            </div>
+            {[
+              { label: "Share anonymized health data", sub: "Helps improve AI diagnosis", on: shareData, set: setShareData },
+              { label: "Public community profile", sub: "Others can see your posts", on: publicProfile, set: setPublicProfile },
+            ].map((p) => (
+              <div key={p.label} className="flex items-center justify-between py-2">
+                <div><div className="text-sm font-medium">{p.label}</div><div className="text-[10px] text-muted-foreground">{p.sub}</div></div>
+                <button onClick={() => { p.set(!p.on); toast.success("Privacy preference saved."); }} className={`w-12 h-7 rounded-full relative ${p.on ? "" : "bg-muted"}`} style={p.on ? { background: "var(--acc-strong)" } : undefined}>
+                  <span className={`absolute top-1 w-5 h-5 bg-white rounded-full transition-all ${p.on ? "left-6" : "left-1"}`}/>
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </AppShell>
   );
 }
@@ -175,8 +236,8 @@ function Section({ title, children }: { title: string; children: React.ReactNode
     </div>
   );
 }
-function Row({ label }: { label: string }) {
-  return <button className="w-full text-left text-sm flex items-center justify-between"><span>{label}</span><ChevronRight className="w-4 h-4 text-muted-foreground"/></button>;
+function Row({ label, onClick }: { label: string; onClick?: () => void }) {
+  return <button onClick={onClick} className="w-full text-left text-sm flex items-center justify-between"><span>{label}</span><ChevronRight className="w-4 h-4 text-muted-foreground"/></button>;
 }
 function NotifRow({ label, sub, locked }: { label: string; sub?: string; locked?: boolean }) {
   const [on, setOn] = useState(true);
