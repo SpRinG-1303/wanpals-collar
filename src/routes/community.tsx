@@ -741,7 +741,7 @@ function Community() {
       {/* Trending — see all sheet */}
       <AnimatePresence>
         {trendingAll && (
-          <div className="fixed inset-0 z-50 flex items-end" style={{ background: "rgba(0,0,0,0.5)" }} onClick={() => setTrendingAll(false)}>
+          <div className="fixed inset-0 z-[120] flex items-end" style={{ background: "rgba(0,0,0,0.5)" }} onClick={() => setTrendingAll(false)}>
             <motion.div
               initial={{ y: 200 }}
               animate={{ y: 0 }}
@@ -849,7 +849,7 @@ function PostDetailSheet({
   const up = post.up + (upvoted ? 1 : 0);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end" style={{ background: "rgba(0,0,0,0.5)" }} onClick={onClose}>
+    <div className="fixed inset-0 z-[120] flex items-end" style={{ background: "rgba(0,0,0,0.5)" }} onClick={onClose}>
       <motion.div
         initial={{ y: "100%" }}
         animate={{ y: 0 }}
@@ -1083,7 +1083,7 @@ function ComposeSheet({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end" style={{ background: "rgba(0,0,0,0.5)" }} onClick={onClose}>
+    <div className="fixed inset-0 z-[120] flex items-end" style={{ background: "rgba(0,0,0,0.5)" }} onClick={onClose}>
       <motion.div
         initial={{ y: "100%" }}
         animate={{ y: 0 }}
@@ -1306,7 +1306,7 @@ function ComposeSheet({
 function ShareSheet({ onClose, onCopy, onLine }: { onClose: () => void; onCopy: () => void; onLine: () => void }) {
   const t = useT();
   return (
-    <div className="fixed inset-0 z-50 flex items-end" style={{ background: "rgba(0,0,0,0.5)" }} onClick={onClose}>
+    <div className="fixed inset-0 z-[120] flex items-end" style={{ background: "rgba(0,0,0,0.5)" }} onClick={onClose}>
       <motion.div
         initial={{ y: "100%" }}
         animate={{ y: 0 }}

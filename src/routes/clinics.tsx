@@ -615,7 +615,7 @@ function Clinics() {
 
       {/* ── Filter bottom sheet ────────────────────────────── */}
       {filter && (
-        <div className="fixed inset-0 z-50 flex items-end" style={{ background: "rgba(0,0,0,0.5)" }} onClick={() => setFilter(false)}>
+        <div className="fixed inset-0 z-[120] flex items-end" style={{ background: "rgba(0,0,0,0.5)" }} onClick={() => setFilter(false)}>
           <motion.div
             initial={{ y: 100 }}
             animate={{ y: 0 }}

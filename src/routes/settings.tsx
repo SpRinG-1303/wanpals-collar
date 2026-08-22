@@ -177,7 +177,7 @@ function Settings() {
 
       {/* Edit profile modal */}
       {editField && (
-        <div className="fixed inset-0 z-[90] flex items-end justify-center" style={{ maxWidth: 430, margin: "0 auto" }}>
+        <div className="fixed inset-0 z-[120] flex items-end justify-center" style={{ maxWidth: 430, margin: "0 auto" }}>
           <div className="absolute inset-0 bg-black/40" onClick={() => setEditField(null)} />
           <div className="relative w-full rounded-t-3xl p-5 pb-8" style={{ background: "var(--bg-card)" }}>
             <div className="flex items-center justify-between mb-4">
@@ -203,7 +203,7 @@ function Settings() {
 
       {/* Privacy sheet */}
       {privacyOpen && (
-        <div className="fixed inset-0 z-[90] flex items-end justify-center" style={{ maxWidth: 430, margin: "0 auto" }}>
+        <div className="fixed inset-0 z-[120] flex items-end justify-center" style={{ maxWidth: 430, margin: "0 auto" }}>
           <div className="absolute inset-0 bg-black/40" onClick={() => setPrivacyOpen(false)} />
           <div className="relative w-full rounded-t-3xl p-5 pb-8" style={{ background: "var(--bg-card)" }}>
             <div className="flex items-center justify-between mb-4">

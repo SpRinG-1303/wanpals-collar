@@ -126,7 +126,7 @@ export function TopBar({
         )}
       </header>
       {sosOpen && (
-        <div className="fixed inset-0 z-50 bg-black/50 flex items-end sm:items-center justify-center p-4" onClick={() => setSosOpen(false)}>
+        <div className="fixed inset-0 z-[120] bg-black/50 flex items-end sm:items-center justify-center p-4" onClick={() => setSosOpen(false)}>
           <motion.div
             initial={{ y: 100, opacity: 0 }} animate={{ y: 0, opacity: 1 }}
             className="bg-card rounded-2xl p-6 w-full max-w-sm shadow-card"
