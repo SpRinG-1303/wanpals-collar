@@ -188,17 +188,21 @@ function Home() {
               }}
             />
           </div>
-          <div
-            className="flex items-center justify-center"
+          <button
+            onClick={() => setViewMode((m) => (m === "grid" ? "list" : "grid"))}
+            aria-label="Toggle sensor view"
+            className="flex items-center justify-center active:scale-95 transition-transform"
             style={{
               width: 48, height: 48, borderRadius: 14, flexShrink: 0,
-              background: `linear-gradient(135deg, ${JP.sakura}, var(--accent-sakura-dark))`,
+              background: viewMode === "list"
+                ? "var(--acc-pale)"
+                : `linear-gradient(135deg, ${JP.sakura}, var(--accent-sakura-dark))`,
               boxShadow: "0 6px 16px color-mix(in oklab, var(--accent-sakura) 35%, transparent)",
-              color: "#FFFFFF",
+              color: viewMode === "list" ? JP.sakura : "#FFFFFF",
             }}
           >
             <SlidersHorizontal size={19} strokeWidth={2.2} />
-          </div>
+          </button>
         </div>
 
         {/* Health overview — solid accent card, reference "upcoming schedule" style */}
