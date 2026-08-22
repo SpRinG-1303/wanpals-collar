@@ -91,8 +91,25 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signOut = () => persistSession(null);
 
+  const updateProfile = (patch: { name?: string; email?: string; password?: string }): string | null => {
+    if (!session) return "Not signed in.";
+    const users = readUsers();
+    const idx = users.findIndex((x) => x.email.toLowerCase() === session.email.toLowerCase());
+    if (idx === -1) return "Account not found.";
+    if (patch.email && users.some((x, i) => i !== idx && x.email.toLowerCase() === patch.email!.toLowerCase())) {
+      return "That email is already used by another account.";
+    }
+    const updated = { ...users[idx], ...patch };
+    users[idx] = updated;
+    try {
+      localStorage.setItem(USERS_KEY, JSON.stringify(users));
+    } catch {}
+    persistSession({ role: updated.role, name: updated.name, email: updated.email });
+    return null;
+  };
+
   return (
-    <AuthContext.Provider value={{ session, hydrated, signIn, signUp, signOut }}>
+    <AuthContext.Provider value={{ session, hydrated, signIn, signUp, signOut, updateProfile }}>
       {children}
     </AuthContext.Provider>
   );
