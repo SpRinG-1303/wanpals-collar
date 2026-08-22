@@ -2,7 +2,8 @@ import { Link, useLocation, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import {
   LayoutDashboard, PawPrint, Stethoscope, Pill, Settings, Search, Bell,
-  Menu, X, ChevronDown, Siren, Phone, type LucideIcon,
+  Menu, X, ChevronDown, Siren, Phone, CalendarDays, FlaskConical, Syringe,
+  BarChart3, Package, Receipt, type LucideIcon,
 } from "lucide-react";
 import { toast } from "sonner";
 import pawLogoAsset from "@/assets/paw-logo.png.asset.json";
@@ -12,13 +13,34 @@ import { CLINIC_BRANCHES, VET_PATIENTS } from "./vetData";
 
 type NavItem = { to: string; label: string; Icon: LucideIcon };
 
-/* Only routes that actually exist — vets get the clinical console modules. */
-const NAV: NavItem[] = [
-  { to: "/home", label: "Dashboard", Icon: LayoutDashboard },
-  { to: "/vet-patients", label: "Patients", Icon: PawPrint },
-  { to: "/vet-consult", label: "Consultations", Icon: Stethoscope },
-  { to: "/vet-rx", label: "Prescriptions", Icon: Pill },
-  { to: "/settings", label: "Settings", Icon: Settings },
+/* Full clinic module set — every entry maps to a real route. */
+const NAV_SECTIONS: { label: string; items: NavItem[] }[] = [
+  {
+    label: "Clinical",
+    items: [
+      { to: "/home", label: "Dashboard", Icon: LayoutDashboard },
+      { to: "/vet-appointments", label: "Appointments", Icon: CalendarDays },
+      { to: "/vet-patients", label: "Patients & Records", Icon: PawPrint },
+      { to: "/vet-consult", label: "Consultations", Icon: Stethoscope },
+      { to: "/vet-rx", label: "Prescriptions", Icon: Pill },
+    ],
+  },
+  {
+    label: "Diagnostics & Care",
+    items: [
+      { to: "/vet-lab", label: "Laboratory", Icon: FlaskConical },
+      { to: "/vet-vaccinations", label: "Vaccinations", Icon: Syringe },
+      { to: "/vet-reports", label: "Reports", Icon: BarChart3 },
+    ],
+  },
+  {
+    label: "Practice",
+    items: [
+      { to: "/vet-inventory", label: "Inventory", Icon: Package },
+      { to: "/vet-billing", label: "Billing", Icon: Receipt },
+      { to: "/settings", label: "Settings", Icon: Settings },
+    ],
+  },
 ];
 
 const NOTIFS = [
