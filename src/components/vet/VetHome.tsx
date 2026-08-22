@@ -2,7 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { useState, type ReactNode } from "react";
 import {
   Video, ScanSearch, Pill, Activity, Thermometer, Wind, HeartPulse,
-  ChevronRight, AlertTriangle, Flame, ClipboardList, Stethoscope,
+  ChevronRight, AlertTriangle, Flame, Stethoscope,
 } from "lucide-react";
 import AppShell from "@/components/AppShell";
 import DogAvatar from "@/components/DogAvatar";
@@ -432,7 +432,6 @@ export default function VetHome() {
           {[
             { to: "/vet-consult", Icon: ScanSearch, label: "Body Map", sub: "Tap-to-log exam", bg: T.pale, fg: T.accent },
             { to: "/vet-rx", Icon: Pill, label: "e-Rx & Toxins", sub: "Safety engine", bg: T.blueSoft, fg: T.deep },
-            { to: "/report", Icon: ClipboardList, label: "Health Report", sub: "87/100", bg: T.soft, fg: T.strong },
           ].map((q) => (
             <Link key={q.label} to={q.to} className="flex flex-col items-center active:scale-95 transition-transform" style={{ width: 76, gap: 7 }} aria-label={q.label}>
               <div className="flex items-center justify-center" style={{ width: 56, height: 56, borderRadius: "50%", background: q.bg, boxShadow: "0 2px 10px rgba(0,0,0,0.04)" }}>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "@tanstack/react-router";
-import { Home, MapPin, Bot, HeartPulse, Users, FileHeart, BookOpen, Settings, ChevronRight, LogIn, LogOut } from "lucide-react";
+import { Home, MapPin, Bot, HeartPulse, Users, FileHeart, BookOpen, Settings, ChevronRight, LogIn, LogOut, ScanSearch, Pill } from "lucide-react";
 import { useT } from "@/context/LanguageContext";
 import { usePet, displayName } from "@/context/PetContext";
 import { useAuth } from "@/context/AuthContext";
@@ -31,6 +31,13 @@ const SECONDARY_ITEMS: Item[] = [
 ];
 
 const SETTINGS_ITEM: Item = { route: "/settings", Icon: Settings, iconBg: "var(--bg-elevated)", iconColor: "var(--text-secondary)", labelJp: "設定", labelEn: "Settings", subJp: "設定", subEn: "Preferences" };
+
+/* Vet role: clinical features only */
+const VET_ITEMS: Item[] = [
+  { route: "/home", Icon: Home, iconBg: "var(--acc-pale)", iconColor: "var(--accent-sakura)", labelJp: "コンソール", labelEn: "Console", subJp: "患者ダッシュボード", subEn: "Patient Dashboard" },
+  { route: "/vet-consult", Icon: ScanSearch, iconBg: "var(--acc-pale)", iconColor: "var(--accent-sakura)", labelJp: "ボディマップ", labelEn: "Body Map", subJp: "タップで記録", subEn: "Tap-to-log Exam" },
+  { route: "/vet-rx", Icon: Pill, iconBg: "var(--acc2-pale)", iconColor: "var(--accent-sora)", labelJp: "処方せん", labelEn: "e-Rx & Toxins", subJp: "安全性エンジン", subEn: "Safety Engine" },
+];
 
 function greeting() {
   const h = new Date().getHours();
@@ -68,7 +75,12 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
     setTimeout(() => navigate({ to: route }), 150);
   };
 
-  const BOTTOM_NAV_ROUTES = new Set(["/home", "/map", "/ai", "/clinics", "/community"]);
+  const isVet = session?.role === "vet";
+  const mainItems = isVet ? VET_ITEMS : MAIN_ITEMS;
+  const secondaryItems = isVet ? [] : SECONDARY_ITEMS;
+  const BOTTOM_NAV_ROUTES = new Set(
+    isVet ? ["/home", "/vet-consult", "/vet-rx"] : ["/home", "/map", "/ai", "/clinics", "/community"]
+  );
 
   const renderItem = (it: Item, idx: number) => {
     const active = isActive(it.route);
@@ -232,9 +244,11 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
               </div>
               <div>
                 <div style={{ fontSize: 12, fontWeight: 600, color: "var(--accent-sakura)" }}>
-                  {t(`${name}のせかい`, `${name}'s World`)} 
+                  {isVet ? "Veterinary Console" : t(`${name}のせかい`, `${name}'s World`)}
                 </div>
-                <div style={{ fontSize: 11, color: "var(--text-secondary)", marginTop: 1 }}>{greet}</div>
+                <div style={{ fontSize: 11, color: "var(--text-secondary)", marginTop: 1 }}>
+                  {isVet && session ? `Dr. ${session.name}` : greet}
+                </div>
               </div>
             </div>
           </div>
@@ -244,16 +258,17 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
 
         {/* Nav items (scrollable) */}
         <div className="flex-1 overflow-y-auto" style={{ padding: "12px 0" }}>
-          <SectionLabel jp="メインメニュー" en="Main" />
-          {MAIN_ITEMS.map((it, i) => renderItem(it, i))}
+          <SectionLabel jp="メインメニュー" en={isVet ? "Clinical Tools" : "Main"} />
+          {mainItems.map((it, i) => renderItem(it, i))}
           <Divider />
-          <SectionLabel jp="その他" en="More" />
-          {SECONDARY_ITEMS.map((it, i) => renderItem(it, MAIN_ITEMS.length + i))}
-          {renderItem(SETTINGS_ITEM, MAIN_ITEMS.length + SECONDARY_ITEMS.length)}
+          {!isVet && <SectionLabel jp="その他" en="More" />}
+          {secondaryItems.map((it, i) => renderItem(it, mainItems.length + i))}
+          {renderItem(SETTINGS_ITEM, mainItems.length + secondaryItems.length)}
         </div>
 
         {/* Bottom */}
         <div style={{ marginTop: "auto" }}>
+          {!isVet && (
           <div style={{ margin: 12, padding: 12, background: "var(--bg-elevated)", borderRadius: 16 }}>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
@@ -274,6 +289,7 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
               <div style={{ fontSize: 11, color: "var(--accent-sakura)", fontWeight: 600 }}>87/100 ✦</div>
             </div>
           </div>
+          )}
 
           <button
             className="pulse-red"
