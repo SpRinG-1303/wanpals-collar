@@ -198,6 +198,71 @@ function Home() {
           </div>
         </div>
 
+        {/* Collar status — white card + solid accent CTA */}
+        <SectionHeader en="Collar Status" />
+        <JCard style={{ padding: 16 }}>
+          <div className="flex items-center" style={{ gap: 12 }}>
+            <div
+              className="flex items-center justify-center"
+              style={{ width: 44, height: 44, borderRadius: 14, background: "var(--acc-pale)", flexShrink: 0 }}
+            >
+              <Check size={22} strokeWidth={2.5} style={{ color: JP.sora }} />
+            </div>
+            <div className="flex-1" style={{ minWidth: 0 }}>
+              <div style={{ fontSize: 14, fontWeight: 700, color: JP.sumi }}>Connected</div>
+              <div style={{ fontSize: 12, color: JP.usuzumi, marginTop: 1 }}>Last sync: 2 minutes ago</div>
+            </div>
+          </div>
+
+          <div style={{ height: 1, background: "var(--border-subtle)", margin: "14px 0" }} />
+
+          <div className="flex items-center justify-between" style={{ marginBottom: 12 }}>
+            <div className="flex items-center" style={{ gap: 8 }}>
+              <BatteryMedium size={18} strokeWidth={1.6} style={{ color: JP.sora }} />
+              <span style={{ fontSize: 13, color: JP.sumi, fontWeight: 500 }}>Battery</span>
+            </div>
+            <div className="flex items-center">
+              <div style={{ width: 110, height: 6, background: "var(--acc-pale)", borderRadius: 4, overflow: "hidden" }}>
+                <div style={{ width: "87%", height: "100%", background: JP.sora, borderRadius: 4 }} />
+              </div>
+              <span style={{ marginLeft: 8, fontSize: 13, fontWeight: 700, color: JP.sora, fontVariantNumeric: "tabular-nums" }}>87%</span>
+            </div>
+          </div>
+
+          <div className="flex items-center justify-between" style={{ marginBottom: 16 }}>
+            <div className="flex items-center" style={{ gap: 8 }}>
+              <Signal size={18} strokeWidth={1.6} style={{ color: JP.sora }} />
+              <span style={{ fontSize: 13, color: JP.sumi, fontWeight: 500 }}>Signal Strength</span>
+            </div>
+            <div className="flex items-center">
+              <div className="flex items-end" style={{ gap: 3 }}>
+                {[6, 10, 14, 18].map((h) => (
+                  <div key={h} style={{ width: 4, height: h, background: JP.sora, borderRadius: 2 }} />
+                ))}
+              </div>
+              <span style={{ marginLeft: 8, fontSize: 13, fontWeight: 600, color: JP.sora }}>Excellent</span>
+            </div>
+          </div>
+
+          <button
+            className="w-full flex items-center justify-center active:scale-[0.98] transition-transform"
+            style={{
+              background: `linear-gradient(135deg, ${JP.sakura}, var(--accent-sakura-dark))`,
+              color: "#FFFFFF",
+              border: "none",
+              borderRadius: 14,
+              height: 52,
+              fontSize: 15,
+              fontWeight: 700,
+              gap: 8,
+              boxShadow: "0 8px 20px color-mix(in oklab, var(--accent-sakura) 35%, transparent)",
+            }}
+          >
+            <Bluetooth size={17} strokeWidth={2} />
+            Connect Collar
+          </button>
+        </JCard>
+
         {/* Health overview — solid accent card, reference "upcoming schedule" style */}
         <Link
           to="/report"
@@ -324,70 +389,6 @@ function Home() {
           </div>
         )}
 
-        {/* Collar status — white card + solid accent CTA */}
-        <SectionHeader en="Collar Status" />
-        <JCard style={{ padding: 16 }}>
-          <div className="flex items-center" style={{ gap: 12 }}>
-            <div
-              className="flex items-center justify-center"
-              style={{ width: 44, height: 44, borderRadius: 14, background: "var(--acc-pale)", flexShrink: 0 }}
-            >
-              <Check size={22} strokeWidth={2.5} style={{ color: JP.sora }} />
-            </div>
-            <div className="flex-1" style={{ minWidth: 0 }}>
-              <div style={{ fontSize: 14, fontWeight: 700, color: JP.sumi }}>Connected</div>
-              <div style={{ fontSize: 12, color: JP.usuzumi, marginTop: 1 }}>Last sync: 2 minutes ago</div>
-            </div>
-          </div>
-
-          <div style={{ height: 1, background: "var(--border-subtle)", margin: "14px 0" }} />
-
-          <div className="flex items-center justify-between" style={{ marginBottom: 12 }}>
-            <div className="flex items-center" style={{ gap: 8 }}>
-              <BatteryMedium size={18} strokeWidth={1.6} style={{ color: JP.sora }} />
-              <span style={{ fontSize: 13, color: JP.sumi, fontWeight: 500 }}>Battery</span>
-            </div>
-            <div className="flex items-center">
-              <div style={{ width: 110, height: 6, background: "var(--acc-pale)", borderRadius: 4, overflow: "hidden" }}>
-                <div style={{ width: "87%", height: "100%", background: JP.sora, borderRadius: 4 }} />
-              </div>
-              <span style={{ marginLeft: 8, fontSize: 13, fontWeight: 700, color: JP.sora, fontVariantNumeric: "tabular-nums" }}>87%</span>
-            </div>
-          </div>
-
-          <div className="flex items-center justify-between" style={{ marginBottom: 16 }}>
-            <div className="flex items-center" style={{ gap: 8 }}>
-              <Signal size={18} strokeWidth={1.6} style={{ color: JP.sora }} />
-              <span style={{ fontSize: 13, color: JP.sumi, fontWeight: 500 }}>Signal Strength</span>
-            </div>
-            <div className="flex items-center">
-              <div className="flex items-end" style={{ gap: 3 }}>
-                {[6, 10, 14, 18].map((h) => (
-                  <div key={h} style={{ width: 4, height: h, background: JP.sora, borderRadius: 2 }} />
-                ))}
-              </div>
-              <span style={{ marginLeft: 8, fontSize: 13, fontWeight: 600, color: JP.sora }}>Excellent</span>
-            </div>
-          </div>
-
-          <button
-            className="w-full flex items-center justify-center active:scale-[0.98] transition-transform"
-            style={{
-              background: `linear-gradient(135deg, ${JP.sakura}, var(--accent-sakura-dark))`,
-              color: "#FFFFFF",
-              border: "none",
-              borderRadius: 14,
-              height: 52,
-              fontSize: 15,
-              fontWeight: 700,
-              gap: 8,
-              boxShadow: "0 8px 20px color-mix(in oklab, var(--accent-sakura) 35%, transparent)",
-            }}
-          >
-            <Bluetooth size={17} strokeWidth={2} />
-            Connect Collar
-          </button>
-        </JCard>
 
         {/* Quick Access — circular icons matching the sensor row style */}
         <SectionHeader en="Quick Access" />
