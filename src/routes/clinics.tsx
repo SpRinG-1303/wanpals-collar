@@ -419,25 +419,46 @@ function Clinics() {
                 overflow: "hidden",
               }}
             >
-              {/* Header */}
-              <div className="flex items-center" style={{ padding: "14px 16px 0", gap: 12 }}>
+              {/* Header — profile row: icon + name + bookmark */}
+              <div className="flex items-start" style={{ padding: "16px 16px 0", gap: 12 }}>
                 <div
                   className="flex items-center justify-center"
                   style={{ width: 52, height: 52, borderRadius: "50%", background: th.soft, flexShrink: 0 }}
                 >
                   <HeartPulse size={24} style={{ color: th.accent }} />
                 </div>
-                <div style={{ flex: 1 }} />
-                {isNew && (
-                  <span style={{ background: "var(--accent-sakura)", color: "#fff", fontSize: 9, fontWeight: 800, padding: "3px 8px", borderRadius: 10, letterSpacing: "0.1em" }}>
-                    NEW
-                  </span>
-                )}
-                {c.em && (
-                  <span className="pulse-red" style={{ background: "#E53935", color: "#fff", fontSize: 10, fontWeight: 800, padding: "4px 10px", borderRadius: 12, letterSpacing: "0.05em" }}>
-                    24H
-                  </span>
-                )}
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-1.5" style={{ flexWrap: "wrap" }}>
+                    <span style={{ fontSize: 16, fontWeight: 800, color: "var(--text-primary)", lineHeight: 1.25 }}>
+                      {language === "english" ? c.en : c.jp}
+                    </span>
+                    {isNew && (
+                      <span style={{ background: "var(--accent-sakura)", color: "#fff", fontSize: 9, fontWeight: 800, padding: "3px 8px", borderRadius: 10, letterSpacing: "0.1em" }}>
+                        NEW
+                      </span>
+                    )}
+                    {c.em && (
+                      <span className="pulse-red" style={{ background: "#E53935", color: "#fff", fontSize: 10, fontWeight: 800, padding: "3px 8px", borderRadius: 10, letterSpacing: "0.05em" }}>
+                        24H
+                      </span>
+                    )}
+                  </div>
+                  {language === "mixed" && (
+                    <div style={{ fontSize: 11, color: "var(--text-secondary)", marginTop: 2 }}>{c.en}</div>
+                  )}
+                  <div className="flex items-center gap-1.5" style={{ marginTop: 5 }}>
+                    <span
+                      style={{
+                        width: 7, height: 7, borderRadius: "50%",
+                        background: c.open ? "var(--accent-matcha)" : "var(--text-placeholder)",
+                        flexShrink: 0,
+                      }}
+                    />
+                    <span style={{ fontSize: 11, fontWeight: 600, color: c.open ? "var(--accent-matcha)" : "var(--text-secondary)" }}>
+                      {c.open ? t("営業中", "Open Now") : t("閉院中", "Closed")}
+                    </span>
+                  </div>
+                </div>
                 <button
                   onClick={() => setSaved((s) => ({ ...s, [i]: !s[i] }))}
                   aria-label="save"
@@ -453,29 +474,7 @@ function Clinics() {
               </div>
 
                {/* Body */}
-              <div style={{ padding: "10px 16px 14px" }}>
-                <div className="flex items-start justify-between gap-2">
-                  <div className="min-w-0">
-                    <div style={{ fontSize: 16, fontWeight: 800, color: "var(--text-primary)", lineHeight: 1.25 }}>
-                      {language === "english" ? c.en : c.jp}
-                    </div>
-                    {language === "mixed" && (
-                      <div style={{ fontSize: 11, color: "var(--text-secondary)", marginTop: 2 }}>{c.en}</div>
-                    )}
-                  </div>
-                  <span
-                    className="shrink-0"
-                    style={{
-                      fontSize: 10, fontWeight: 700,
-                      padding: "3px 10px", borderRadius: 20,
-                      background: c.open ? "var(--acc-pale)" : "var(--bg-elevated)",
-                      color: c.open ? "var(--accent-matcha)" : "var(--text-secondary)",
-                      border: `1px solid ${c.open ? "var(--acc2-soft)" : "var(--border-card)"}`,
-                    }}
-                  >
-                    {c.open ? t("営業中", "Open") : t("閉院中", "Closed")}
-                  </span>
-                </div>
+              <div style={{ padding: "10px 16px 16px" }}>
 
                 {/* Rating row */}
                 <div className="flex items-center gap-2" style={{ marginTop: 8, flexWrap: "wrap" }}>
