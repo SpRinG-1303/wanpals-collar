@@ -2,7 +2,8 @@ import { Link, useLocation, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import {
   LayoutDashboard, PawPrint, Stethoscope, Pill, Settings, Search, Bell,
-  Menu, X, ChevronDown, Siren, Phone, type LucideIcon,
+  Menu, X, ChevronDown, Siren, Phone, CalendarDays, FlaskConical, Syringe,
+  BarChart3, Package, Receipt, type LucideIcon,
 } from "lucide-react";
 import { toast } from "sonner";
 import pawLogoAsset from "@/assets/paw-logo.png.asset.json";
@@ -12,13 +13,34 @@ import { CLINIC_BRANCHES, VET_PATIENTS } from "./vetData";
 
 type NavItem = { to: string; label: string; Icon: LucideIcon };
 
-/* Only routes that actually exist — vets get the clinical console modules. */
-const NAV: NavItem[] = [
-  { to: "/home", label: "Dashboard", Icon: LayoutDashboard },
-  { to: "/vet-patients", label: "Patients", Icon: PawPrint },
-  { to: "/vet-consult", label: "Consultations", Icon: Stethoscope },
-  { to: "/vet-rx", label: "Prescriptions", Icon: Pill },
-  { to: "/settings", label: "Settings", Icon: Settings },
+/* Full clinic module set — every entry maps to a real route. */
+const NAV_SECTIONS: { label: string; items: NavItem[] }[] = [
+  {
+    label: "Clinical",
+    items: [
+      { to: "/home", label: "Dashboard", Icon: LayoutDashboard },
+      { to: "/vet-appointments", label: "Appointments", Icon: CalendarDays },
+      { to: "/vet-patients", label: "Patients & Records", Icon: PawPrint },
+      { to: "/vet-consult", label: "Consultations", Icon: Stethoscope },
+      { to: "/vet-rx", label: "Prescriptions", Icon: Pill },
+    ],
+  },
+  {
+    label: "Diagnostics & Care",
+    items: [
+      { to: "/vet-lab", label: "Laboratory", Icon: FlaskConical },
+      { to: "/vet-vaccinations", label: "Vaccinations", Icon: Syringe },
+      { to: "/vet-reports", label: "Reports", Icon: BarChart3 },
+    ],
+  },
+  {
+    label: "Practice",
+    items: [
+      { to: "/vet-inventory", label: "Inventory", Icon: Package },
+      { to: "/vet-billing", label: "Billing", Icon: Receipt },
+      { to: "/settings", label: "Settings", Icon: Settings },
+    ],
+  },
 ];
 
 const NOTIFS = [
@@ -44,32 +66,39 @@ function BrandBlock() {
 function SideNav({ onNavigate }: { onNavigate?: () => void }) {
   const loc = useLocation();
   return (
-    <nav style={{ padding: "10px 12px", display: "flex", flexDirection: "column", gap: 2, flex: 1, overflowY: "auto" }}>
-      {NAV.map(({ to, label, Icon }) => {
-        const active = to === "/home" ? loc.pathname === "/home" : loc.pathname.startsWith(to);
-        return (
-          <Link
-            key={to}
-            to={to}
-            onClick={onNavigate}
-            className="flex items-center"
-            style={{
-              gap: 11,
-              padding: "10px 11px",
-              borderRadius: 10,
-              fontSize: 13.5,
-              fontWeight: active ? 700 : 500,
-              color: active ? E.accentDeep : E.sub,
-              background: active ? E.pale : "transparent",
-              textDecoration: "none",
-              borderLeft: active ? `3px solid ${E.accent}` : "3px solid transparent",
-            }}
-          >
-            <Icon size={18} strokeWidth={active ? 2.2 : 1.8} />
-            {label}
-          </Link>
-        );
-      })}
+    <nav style={{ padding: "8px 12px", display: "flex", flexDirection: "column", flex: 1, overflowY: "auto" }}>
+      {NAV_SECTIONS.map((section) => (
+        <div key={section.label} style={{ marginBottom: 6 }}>
+          <div style={{ fontSize: 10, fontWeight: 700, color: E.faint, letterSpacing: "0.08em", textTransform: "uppercase", padding: "8px 11px 5px" }}>
+            {section.label}
+          </div>
+          {section.items.map(({ to, label, Icon }) => {
+            const active = to === "/home" ? loc.pathname === "/home" : loc.pathname.startsWith(to);
+            return (
+              <Link
+                key={to}
+                to={to}
+                onClick={onNavigate}
+                className="flex items-center"
+                style={{
+                  gap: 11,
+                  padding: "9px 11px",
+                  borderRadius: 10,
+                  fontSize: 13.5,
+                  fontWeight: active ? 700 : 500,
+                  color: active ? E.accentDeep : E.sub,
+                  background: active ? E.pale : "transparent",
+                  textDecoration: "none",
+                  borderLeft: active ? `3px solid ${E.accent}` : "3px solid transparent",
+                }}
+              >
+                <Icon size={17} strokeWidth={active ? 2.2 : 1.8} />
+                {label}
+              </Link>
+            );
+          })}
+        </div>
+      ))}
     </nav>
   );
 }

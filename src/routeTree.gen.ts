@@ -9,9 +9,15 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as VetVaccinationsRouteImport } from './routes/vet-vaccinations'
 import { Route as VetRxRouteImport } from './routes/vet-rx'
+import { Route as VetReportsRouteImport } from './routes/vet-reports'
 import { Route as VetPatientsRouteImport } from './routes/vet-patients'
+import { Route as VetLabRouteImport } from './routes/vet-lab'
+import { Route as VetInventoryRouteImport } from './routes/vet-inventory'
 import { Route as VetConsultRouteImport } from './routes/vet-consult'
+import { Route as VetBillingRouteImport } from './routes/vet-billing'
+import { Route as VetAppointmentsRouteImport } from './routes/vet-appointments'
 import { Route as TempSenseRouteImport } from './routes/temp-sense'
 import { Route as SkinSenseRouteImport } from './routes/skin-sense'
 import { Route as SettingsRouteImport } from './routes/settings'
@@ -37,9 +43,19 @@ import { Route as OnboardingDogRouteImport } from './routes/onboarding.dog'
 import { Route as OnboardingDetailsRouteImport } from './routes/onboarding.details'
 import { Route as OnboardingAvatarRouteImport } from './routes/onboarding.avatar'
 
+const VetVaccinationsRoute = VetVaccinationsRouteImport.update({
+  id: '/vet-vaccinations',
+  path: '/vet-vaccinations',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const VetRxRoute = VetRxRouteImport.update({
   id: '/vet-rx',
   path: '/vet-rx',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VetReportsRoute = VetReportsRouteImport.update({
+  id: '/vet-reports',
+  path: '/vet-reports',
   getParentRoute: () => rootRouteImport,
 } as any)
 const VetPatientsRoute = VetPatientsRouteImport.update({
@@ -47,9 +63,29 @@ const VetPatientsRoute = VetPatientsRouteImport.update({
   path: '/vet-patients',
   getParentRoute: () => rootRouteImport,
 } as any)
+const VetLabRoute = VetLabRouteImport.update({
+  id: '/vet-lab',
+  path: '/vet-lab',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VetInventoryRoute = VetInventoryRouteImport.update({
+  id: '/vet-inventory',
+  path: '/vet-inventory',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const VetConsultRoute = VetConsultRouteImport.update({
   id: '/vet-consult',
   path: '/vet-consult',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VetBillingRoute = VetBillingRouteImport.update({
+  id: '/vet-billing',
+  path: '/vet-billing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VetAppointmentsRoute = VetAppointmentsRouteImport.update({
+  id: '/vet-appointments',
+  path: '/vet-appointments',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TempSenseRoute = TempSenseRouteImport.update({
@@ -192,9 +228,15 @@ export interface FileRoutesByFullPath {
   '/settings': typeof SettingsRoute
   '/skin-sense': typeof SkinSenseRoute
   '/temp-sense': typeof TempSenseRoute
+  '/vet-appointments': typeof VetAppointmentsRoute
+  '/vet-billing': typeof VetBillingRoute
   '/vet-consult': typeof VetConsultRoute
+  '/vet-inventory': typeof VetInventoryRoute
+  '/vet-lab': typeof VetLabRoute
   '/vet-patients': typeof VetPatientsRoute
+  '/vet-reports': typeof VetReportsRoute
   '/vet-rx': typeof VetRxRoute
+  '/vet-vaccinations': typeof VetVaccinationsRoute
   '/onboarding/avatar': typeof OnboardingAvatarRoute
   '/onboarding/details': typeof OnboardingDetailsRoute
   '/onboarding/dog': typeof OnboardingDogRoute
@@ -221,9 +263,15 @@ export interface FileRoutesByTo {
   '/settings': typeof SettingsRoute
   '/skin-sense': typeof SkinSenseRoute
   '/temp-sense': typeof TempSenseRoute
+  '/vet-appointments': typeof VetAppointmentsRoute
+  '/vet-billing': typeof VetBillingRoute
   '/vet-consult': typeof VetConsultRoute
+  '/vet-inventory': typeof VetInventoryRoute
+  '/vet-lab': typeof VetLabRoute
   '/vet-patients': typeof VetPatientsRoute
+  '/vet-reports': typeof VetReportsRoute
   '/vet-rx': typeof VetRxRoute
+  '/vet-vaccinations': typeof VetVaccinationsRoute
   '/onboarding/avatar': typeof OnboardingAvatarRoute
   '/onboarding/details': typeof OnboardingDetailsRoute
   '/onboarding/dog': typeof OnboardingDogRoute
@@ -251,9 +299,15 @@ export interface FileRoutesById {
   '/settings': typeof SettingsRoute
   '/skin-sense': typeof SkinSenseRoute
   '/temp-sense': typeof TempSenseRoute
+  '/vet-appointments': typeof VetAppointmentsRoute
+  '/vet-billing': typeof VetBillingRoute
   '/vet-consult': typeof VetConsultRoute
+  '/vet-inventory': typeof VetInventoryRoute
+  '/vet-lab': typeof VetLabRoute
   '/vet-patients': typeof VetPatientsRoute
+  '/vet-reports': typeof VetReportsRoute
   '/vet-rx': typeof VetRxRoute
+  '/vet-vaccinations': typeof VetVaccinationsRoute
   '/onboarding/avatar': typeof OnboardingAvatarRoute
   '/onboarding/details': typeof OnboardingDetailsRoute
   '/onboarding/dog': typeof OnboardingDogRoute
@@ -282,9 +336,15 @@ export interface FileRouteTypes {
     | '/settings'
     | '/skin-sense'
     | '/temp-sense'
+    | '/vet-appointments'
+    | '/vet-billing'
     | '/vet-consult'
+    | '/vet-inventory'
+    | '/vet-lab'
     | '/vet-patients'
+    | '/vet-reports'
     | '/vet-rx'
+    | '/vet-vaccinations'
     | '/onboarding/avatar'
     | '/onboarding/details'
     | '/onboarding/dog'
@@ -311,9 +371,15 @@ export interface FileRouteTypes {
     | '/settings'
     | '/skin-sense'
     | '/temp-sense'
+    | '/vet-appointments'
+    | '/vet-billing'
     | '/vet-consult'
+    | '/vet-inventory'
+    | '/vet-lab'
     | '/vet-patients'
+    | '/vet-reports'
     | '/vet-rx'
+    | '/vet-vaccinations'
     | '/onboarding/avatar'
     | '/onboarding/details'
     | '/onboarding/dog'
@@ -340,9 +406,15 @@ export interface FileRouteTypes {
     | '/settings'
     | '/skin-sense'
     | '/temp-sense'
+    | '/vet-appointments'
+    | '/vet-billing'
     | '/vet-consult'
+    | '/vet-inventory'
+    | '/vet-lab'
     | '/vet-patients'
+    | '/vet-reports'
     | '/vet-rx'
+    | '/vet-vaccinations'
     | '/onboarding/avatar'
     | '/onboarding/details'
     | '/onboarding/dog'
@@ -370,9 +442,15 @@ export interface RootRouteChildren {
   SettingsRoute: typeof SettingsRoute
   SkinSenseRoute: typeof SkinSenseRoute
   TempSenseRoute: typeof TempSenseRoute
+  VetAppointmentsRoute: typeof VetAppointmentsRoute
+  VetBillingRoute: typeof VetBillingRoute
   VetConsultRoute: typeof VetConsultRoute
+  VetInventoryRoute: typeof VetInventoryRoute
+  VetLabRoute: typeof VetLabRoute
   VetPatientsRoute: typeof VetPatientsRoute
+  VetReportsRoute: typeof VetReportsRoute
   VetRxRoute: typeof VetRxRoute
+  VetVaccinationsRoute: typeof VetVaccinationsRoute
   OnboardingAvatarRoute: typeof OnboardingAvatarRoute
   OnboardingDetailsRoute: typeof OnboardingDetailsRoute
   OnboardingDogRoute: typeof OnboardingDogRoute
@@ -383,11 +461,25 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/vet-vaccinations': {
+      id: '/vet-vaccinations'
+      path: '/vet-vaccinations'
+      fullPath: '/vet-vaccinations'
+      preLoaderRoute: typeof VetVaccinationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/vet-rx': {
       id: '/vet-rx'
       path: '/vet-rx'
       fullPath: '/vet-rx'
       preLoaderRoute: typeof VetRxRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/vet-reports': {
+      id: '/vet-reports'
+      path: '/vet-reports'
+      fullPath: '/vet-reports'
+      preLoaderRoute: typeof VetReportsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/vet-patients': {
@@ -397,11 +489,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof VetPatientsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/vet-lab': {
+      id: '/vet-lab'
+      path: '/vet-lab'
+      fullPath: '/vet-lab'
+      preLoaderRoute: typeof VetLabRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/vet-inventory': {
+      id: '/vet-inventory'
+      path: '/vet-inventory'
+      fullPath: '/vet-inventory'
+      preLoaderRoute: typeof VetInventoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/vet-consult': {
       id: '/vet-consult'
       path: '/vet-consult'
       fullPath: '/vet-consult'
       preLoaderRoute: typeof VetConsultRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/vet-billing': {
+      id: '/vet-billing'
+      path: '/vet-billing'
+      fullPath: '/vet-billing'
+      preLoaderRoute: typeof VetBillingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/vet-appointments': {
+      id: '/vet-appointments'
+      path: '/vet-appointments'
+      fullPath: '/vet-appointments'
+      preLoaderRoute: typeof VetAppointmentsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/temp-sense': {
@@ -594,9 +714,15 @@ const rootRouteChildren: RootRouteChildren = {
   SettingsRoute: SettingsRoute,
   SkinSenseRoute: SkinSenseRoute,
   TempSenseRoute: TempSenseRoute,
+  VetAppointmentsRoute: VetAppointmentsRoute,
+  VetBillingRoute: VetBillingRoute,
   VetConsultRoute: VetConsultRoute,
+  VetInventoryRoute: VetInventoryRoute,
+  VetLabRoute: VetLabRoute,
   VetPatientsRoute: VetPatientsRoute,
+  VetReportsRoute: VetReportsRoute,
   VetRxRoute: VetRxRoute,
+  VetVaccinationsRoute: VetVaccinationsRoute,
   OnboardingAvatarRoute: OnboardingAvatarRoute,
   OnboardingDetailsRoute: OnboardingDetailsRoute,
   OnboardingDogRoute: OnboardingDogRoute,
