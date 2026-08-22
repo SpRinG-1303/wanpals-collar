@@ -124,6 +124,9 @@ function Home() {
     const tm = setInterval(() => setFactIdx((i) => (i + 1) % DAILY_FACTS.length), 10000);
     return () => clearInterval(tm);
   }, []);
+  // Veterinarians get a dedicated clinical console instead of the owner home
+  if (session?.role === "vet") return <VetHome />;
+
   const fact = DAILY_FACTS[factIdx];
   const score = 87;
 
