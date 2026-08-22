@@ -288,12 +288,12 @@ function Home() {
           </JCard>
         ) : (
           <div
-            className="flex"
-            style={
-              query.trim()
-                ? { gap: 14 }
-                : { justifyContent: "space-between" }
-            }
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(4, 1fr)",
+              rowGap: 18,
+              columnGap: 8,
+            }}
           >
             {filtered.map((s) => {
               const Icon = s.Icon;
@@ -302,20 +302,20 @@ function Home() {
                   key={s.en}
                   to={s.to}
                   className="flex flex-col items-center"
-                  style={{ flexShrink: 0, width: 44, gap: 6 }}
+                  style={{ gap: 8 }}
                   aria-label={s.en}
                 >
                   <div
                     className="flex items-center justify-center"
                     style={{
-                      width: 42, height: 42, borderRadius: "50%",
+                      width: 58, height: 58, borderRadius: "50%",
                       background: s.iconBg,
-                      boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
+                      boxShadow: "0 3px 10px rgba(0,0,0,0.06)",
                     }}
                   >
-                    <Icon size={19} strokeWidth={1.8} style={{ color: s.accent }} />
+                    <Icon size={25} strokeWidth={1.8} style={{ color: s.accent }} />
                   </div>
-                  <span style={{ fontSize: 9, fontWeight: 600, color: JP.usuzumi, textAlign: "center", lineHeight: 1.15, maxWidth: 46, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                  <span style={{ fontSize: 11, fontWeight: 600, color: JP.usuzumi, textAlign: "center", lineHeight: 1.15, maxWidth: 74, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                     {s.en.replace(" AI", "").replace("Sense", "")}
                   </span>
                 </Link>
