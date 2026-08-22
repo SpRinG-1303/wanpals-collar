@@ -173,7 +173,7 @@ function Clinics() {
               }}
             >
               <MapPin size={11} />
-              {t("渋谷区, 東京", "Shibuya, Tokyo")}
+              {t("Bandra West, Mumbai", "Bandra West, Mumbai")}
             </div>
           </div>
         </div>

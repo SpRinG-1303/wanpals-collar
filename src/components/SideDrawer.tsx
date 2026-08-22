@@ -1,8 +1,9 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "@tanstack/react-router";
-import { Home, MapPin, Bot, HeartPulse, Users, FileHeart, BookOpen, Settings, ChevronRight } from "lucide-react";
+import { Home, MapPin, Bot, HeartPulse, Users, FileHeart, BookOpen, Settings, ChevronRight, LogIn, LogOut } from "lucide-react";
 import { useT } from "@/context/LanguageContext";
 import { usePet, displayName } from "@/context/PetContext";
+import { useAuth } from "@/context/AuthContext";
 import logoUrl from "@/assets/logo.png";
 
 type Item = {
@@ -31,12 +32,12 @@ const SECONDARY_ITEMS: Item[] = [
 
 const SETTINGS_ITEM: Item = { route: "/settings", Icon: Settings, iconBg: "#F5F5F5", iconColor: "#8A8A8A", labelJp: "設定", labelEn: "Settings", subJp: "設定", subEn: "Preferences" };
 
-function greeting(t: (jp: string, en: string) => string) {
+function greeting() {
   const h = new Date().getHours();
-  if (h < 11) return t("おはようございます！", "Good morning!");
-  if (h < 17) return t("こんにちは！", "Good afternoon!");
-  if (h < 21) return t("こんばんは！", "Good evening!");
-  return t("おやすみなさい！", "Good night!");
+  if (h < 11) return "Good morning!";
+  if (h < 17) return "Good afternoon!";
+  if (h < 21) return "Good evening!";
+  return "Good night!";
 }
 
 export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
@@ -44,6 +45,10 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
   const navigate = useNavigate();
   const t = useT();
   const { pet } = usePet();
+  const { session, signOut } = useAuth();
+  // Time-of-day greeting is client-only to avoid hydration mismatch.
+  const [greet, setGreet] = useState("Hello!");
+  useEffect(() => { setGreet(greeting()); }, []);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -229,7 +234,7 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
                 <div style={{ fontSize: 12, fontWeight: 600, color: "#E8829A" }}>
                   {t(`${name}のせかい`, `${name}'s World`)} 
                 </div>
-                <div style={{ fontSize: 11, color: "var(--text-secondary)", marginTop: 1 }}>{greeting(t)}</div>
+                <div style={{ fontSize: 11, color: "var(--text-secondary)", marginTop: 1 }}>{greet}</div>
               </div>
             </div>
           </div>
@@ -286,6 +291,34 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
             }}
           >
              SOS {t("緊急", "Emergency")}
+          </button>
+
+          <button
+            onClick={() => {
+              onClose();
+              if (session) {
+                signOut();
+                setTimeout(() => navigate({ to: "/auth", replace: true }), 150);
+              } else {
+                setTimeout(() => navigate({ to: "/auth" }), 150);
+              }
+            }}
+            className="flex items-center justify-center"
+            style={{
+              margin: "0 12px 10px",
+              width: "calc(100% - 24px)",
+              height: 42,
+              gap: 8,
+              background: session ? "var(--bg-elevated)" : "linear-gradient(135deg, #E8829A, #C86882)",
+              color: session ? "var(--text-secondary)" : "#fff",
+              fontWeight: 700,
+              fontSize: 13,
+              borderRadius: 12,
+              border: session ? "1.5px solid var(--border-subtle)" : "none",
+            }}
+          >
+            {session ? <LogOut size={15} /> : <LogIn size={15} />}
+            {session ? `Sign Out (${session.name})` : "Sign In"}
           </button>
 
           <div style={{ textAlign: "center", fontSize: 9, color: "var(--text-placeholder)", paddingBottom: 8 }}>

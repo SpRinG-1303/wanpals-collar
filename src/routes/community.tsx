@@ -54,24 +54,24 @@ function themeFor(flair: string): Theme {
 type Cat = { jp: string; en: string; emoji: string; accent: string; soft: string; gradFrom?: string; gradTo?: string };
 const CATS: Cat[] = [
   { jp: "すべて", en: "All", emoji: "", accent: "#FFFFFF", soft: "linear-gradient(135deg,#E8829A,#C86882)", gradFrom: "#E8829A", gradTo: "#C86882" },
-  { jp: "柴犬部", en: "Shiba Club", emoji: "", accent: "#E8829A", soft: "#FFF0F3" },
-  { jp: "プードル部", en: "Poodle Club", emoji: "", accent: "#7B68C8", soft: "#F5F0FF" },
+  { jp: "Indie Club", en: "Indie Club", emoji: "", accent: "#E8829A", soft: "#FFF0F3" },
+  { jp: "Labrador Club", en: "Labrador Club", emoji: "", accent: "#7B68C8", soft: "#F5F0FF" },
   { jp: "迷子情報", en: "Lost Pets", emoji: "", accent: "#D4A843", soft: "#FFF3CC" },
   { jp: "獣医Q&A", en: "Vet Q&A", emoji: "", accent: "#6BAF92", soft: "#E8F5EE" },
-  { jp: "東京", en: "Tokyo", emoji: "", accent: "#5B9BD5", soft: "#E8F2FF" },
-  { jp: "大阪", en: "Osaka", emoji: "", accent: "#E8829A", soft: "#FFF0F3" },
+  { jp: "Mumbai", en: "Mumbai", emoji: "", accent: "#5B9BD5", soft: "#E8F2FF" },
+  { jp: "Delhi", en: "Delhi", emoji: "", accent: "#E8829A", soft: "#FFF0F3" },
 ];
 
 // Predicate for a post given a category index
 function matchesCat(p: PostT, idx: number): boolean {
   switch (idx) {
     case 0: return true;
-    case 1: return p.breed.toLowerCase().includes("shiba");
-    case 2: return p.breed.includes("プードル") || p.breed.toLowerCase().includes("poodle");
+    case 1: return p.breed.toLowerCase().includes("pariah") || p.breed.toLowerCase().includes("indie");
+    case 2: return p.breed.toLowerCase().includes("labrador");
     case 3: return p.flair === "迷子";
     case 4: return p.flair === "獣医Q&A";
-    case 5: return (p.location ?? "").includes("東京") || (p.location ?? "").toLowerCase().includes("tokyo");
-    case 6: return (p.location ?? "").includes("大阪") || (p.location ?? "").toLowerCase().includes("osaka");
+    case 5: return (p.location ?? "").toLowerCase().includes("mumbai");
+    case 6: return (p.location ?? "").toLowerCase().includes("delhi");
     default: return true;
   }
 }
@@ -154,8 +154,8 @@ function Community() {
   // Comments per post id
   const [commentsByPost, setCommentsByPost] = useState<Record<string, CommentT[]>>(() => ({
     "1": [
-      { id: "c1", user: "Hana's Mom", time: "2h ago", text: "Mine had the same thing! The vet said she had a fever.", up: 8 },
-      { id: "c2", user: "Tokyo Dog Lover", time: "1h ago", text: "Please take him to the vet right away!", up: 12 },
+      { id: "c1", user: "Priya & Bruno", time: "2h ago", text: "Mine had the same thing! The vet said she had a fever.", up: 8 },
+      { id: "c2", user: "Mumbai Dog Lover", time: "1h ago", text: "Please take him to the vet right away!", up: 12 },
     ],
   }));
 
@@ -1238,7 +1238,7 @@ function ComposeSheet({
             </button>
 
             <button
-              onClick={() => setLocation(location ? "" : t("渋谷、東京", "Shibuya, Tokyo"))}
+              onClick={() => setLocation(location ? "" : t("Bandra, Mumbai", "Bandra, Mumbai"))}
               className="flex flex-col items-center gap-1"
             >
               <span className="flex items-center justify-center" style={{ width: 36, height: 36, borderRadius: "50%", background: location ? "#EEF5FF" : "#F9F9F9", color: location ? "#5B9BD5" : "#8A8A8A" }}>

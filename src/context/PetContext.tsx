@@ -49,8 +49,8 @@ export type PetProfile = {
 export const DEFAULT_PET: PetProfile = {
   name: "",
   breed: "shiba",
-  breedEn: "Shiba Inu",
-  breedJp: "Shiba Inu",
+  breedEn: "Indian Pariah Dog",
+  breedJp: "Indian Pariah Dog",
   age: null,
   weight: null,
   gender: null,
