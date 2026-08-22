@@ -77,8 +77,8 @@ function Stars({ rating }: { rating: number }) {
 function SectionLabel({ jp, en }: { jp: string; en: string }) {
   const t = useT();
   return (
-    <div className="flex items-center justify-between" style={{ margin: "22px 20px 12px" }}>
-      <div style={{ fontSize: 16, fontWeight: 700, color: "var(--text-primary)", letterSpacing: "-0.01em" }}>
+    <div className="flex items-center justify-between" style={{ margin: "24px 20px 12px" }}>
+      <div style={{ fontSize: 11, fontWeight: 800, color: "var(--text-secondary)", letterSpacing: "0.14em", textTransform: "uppercase" }}>
         {t(jp, en)}
       </div>
     </div>
@@ -137,49 +137,51 @@ function Clinics() {
 
   return (
     <AppShell noPadding>
-      {/* ── Header banner ──────────────────────────────────── */}
-      <div className="relative">
+      {/* ── Hero card ──────────────────────────────────────── */}
+      <div
+        className="relative overflow-hidden"
+        style={{
+          margin: "16px 20px 0",
+          borderRadius: 24,
+          background: "linear-gradient(135deg, var(--acc-pale) 0%, var(--accent-sakura-soft) 55%, var(--acc2-pale) 100%)",
+          border: "1px solid var(--acc2-soft)",
+          padding: "20px 20px 18px",
+        }}
+      >
+        {/* Faint medical-cross pattern */}
+        <div style={{ position: "absolute", right: 18, top: 16, width: 56, height: 56, opacity: 0.08, pointerEvents: "none" }}>
+          <div style={{ position: "absolute", left: 21, top: 0, width: 14, height: 56, borderRadius: 6, background: "var(--acc-strong)" }} />
+          <div style={{ position: "absolute", left: 0, top: 21, width: 56, height: 14, borderRadius: 6, background: "var(--acc-strong)" }} />
+        </div>
+        <div style={{ position: "absolute", right: 76, bottom: 14, width: 30, height: 30, opacity: 0.06, pointerEvents: "none" }}>
+          <div style={{ position: "absolute", left: 11, top: 0, width: 8, height: 30, borderRadius: 4, background: "var(--acc-strong)" }} />
+          <div style={{ position: "absolute", left: 0, top: 11, width: 30, height: 8, borderRadius: 4, background: "var(--acc-strong)" }} />
+        </div>
+
+        <div style={{ fontSize: 10, color: "var(--acc-strong)", letterSpacing: "0.16em", fontWeight: 800 }}>
+          {t("動物病院", "ANIMAL CLINICS")}
+        </div>
+        <div style={{ fontSize: 28, fontWeight: 800, color: "var(--text-primary)", lineHeight: 1.15, marginTop: 6, fontFamily: "var(--font-display, inherit)" }}>
+          {t("クリニックを探す", "Find Care")}
+        </div>
+        <div style={{ fontSize: 14, color: "var(--text-secondary)", marginTop: 2, fontWeight: 500 }}>
+          {t("近くの動物病院", "Near You")}
+        </div>
         <div
-          className="relative overflow-hidden"
+          className="inline-flex items-center gap-1"
           style={{
-            height: 130,
-            background: "linear-gradient(135deg,var(--acc2-pale) 0%,var(--acc-pale) 50%,#F0F5FF 100%)",
-            borderRadius: "0 0 28px 28px",
+            marginTop: 12,
+            background: "rgba(255,255,255,0.85)",
+            border: "1px solid var(--acc2-soft)",
+            borderRadius: 999,
+            padding: "5px 12px",
+            fontSize: 11,
+            color: "var(--acc-strong)",
+            fontWeight: 700,
           }}
         >
-          {/* Soft cross */}
-          <div style={{ position: "absolute", right: 30, top: 30, width: 80, height: 80, opacity: 0.12 }}>
-            <div style={{ position: "absolute", left: 30, top: 0, width: 20, height: 80, borderRadius: 8, background: "var(--accent-sora)" }} />
-            <div style={{ position: "absolute", left: 0, top: 30, width: 80, height: 20, borderRadius: 8, background: "var(--accent-sora)" }} />
-          </div>
-
-          <div style={{ position: "absolute", left: 20, top: 20, right: 130 }}>
-            <div style={{ fontSize: 11, color: "var(--accent-sora)", letterSpacing: "0.1em", fontWeight: 600 }}>
-              {t("動物病院", "Animal Clinics")}
-            </div>
-            <div style={{ fontSize: 26, fontWeight: 800, color: "var(--text-primary)", lineHeight: 1.1, marginTop: 2 }}>
-              {t("クリニックを探す", "Find Care")}
-            </div>
-            <div style={{ fontSize: 13, color: "var(--text-secondary)", marginTop: 4 }}>
-              {t("近くの動物病院", "Near You")}
-            </div>
-            <div
-              className="inline-flex items-center gap-1"
-              style={{
-                marginTop: 8,
-                background: "rgba(255,255,255,0.7)",
-                border: "1px solid var(--acc2-soft)",
-                borderRadius: 20,
-                padding: "4px 12px",
-                fontSize: 11,
-                color: "var(--accent-sora)",
-                fontWeight: 600,
-              }}
-            >
-              <MapPin size={11} />
-              {t("Bandra West, Mumbai", "Bandra West, Mumbai")}
-            </div>
-          </div>
+          <MapPin size={11} />
+          {t("Bandra West, Mumbai", "Bandra West, Mumbai")}
         </div>
       </div>
 
