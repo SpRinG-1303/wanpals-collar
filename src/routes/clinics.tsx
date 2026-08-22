@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
+import { toast } from "sonner";
 import { useT, useLanguage } from "@/context/LanguageContext";
 
 export const Route = createFileRoute("/clinics")({ component: Clinics });
@@ -97,14 +98,31 @@ function Clinics() {
   const [openOnly, setOpenOnly] = useState(true);
   const [emOnly, setEmOnly] = useState(false);
   const [specSel, setSpecSel] = useState<Record<string, boolean>>({});
+  const [applied, setApplied] = useState({ minStars: 0, distance: 50, openOnly: false, emOnly: false });
+  const [visible, setVisible] = useState(3);
+  const [videoBooking, setVideoBooking] = useState(false);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     return CLINICS.filter((c) => {
       if (q && !c.en.toLowerCase().includes(q) && !c.jp.includes(query.trim())) return false;
+      if (c.rating < applied.minStars) return false;
+      if (c.km > applied.distance) return false;
+      if (applied.openOnly && !c.open) return false;
+      if (applied.emOnly && !c.em) return false;
       return true;
     });
-  }, [query]);
+  }, [query, applied]);
+
+  function bookVideoConsult() {
+    if (videoBooking) return;
+    setVideoBooking(true);
+    toast.loading("Connecting you to the next available vet…", { id: "video-consult" });
+    setTimeout(() => {
+      setVideoBooking(false);
+      toast.success("Booked! Dr. Mehta will video call you in ~5 minutes.", { id: "video-consult" });
+    }, 1800);
+  }
 
   const emergencyClinic = CLINICS.find((c) => c.em && c.open) ?? CLINICS[0];
   const openCount = CLINICS.filter((c) => c.open).length;
@@ -360,7 +378,8 @@ function Clinics() {
 
       {/* ── Video consultation ─────────────────────────────── */}
       <button
-        className="w-full text-left flex items-center gap-3"
+        onClick={bookVideoConsult}
+        className="w-full text-left flex items-center gap-3 active:scale-[0.98] transition-transform"
         style={{
           margin: "0 16px 12px",
           width: "calc(100% - 32px)",
@@ -405,7 +424,7 @@ function Clinics() {
       {/* ── Clinics list ───────────────────────────────────── */}
       <SectionLabel jp="近くのクリニック" en="Nearby" />
       <div style={{ paddingBottom: 24 }}>
-        {filtered.map((c, i) => {
+        {filtered.slice(0, visible).map((c, i) => {
           const th = CLINIC_THEMES[i % CLINIC_THEMES.length];
           const isNew = i === 1;
           return (
@@ -568,27 +587,35 @@ function Clinics() {
           );
         })}
 
-        <div className="flex justify-center" style={{ padding: "8px 16px 16px" }}>
-          <button
-            className="flex items-center gap-2"
-            style={{
-              background: "#FFFFFF",
-              border: "1.5px solid var(--accent-sakura)",
-              color: "var(--accent-sakura)",
-              borderRadius: 20,
-              padding: "10px 24px",
-              fontSize: 13,
-              fontWeight: 700,
-            }}
-          >
-             {t("もっと見る", "Load More")}
-          </button>
-        </div>
+        {filtered.length === 0 && (
+          <div style={{ padding: "24px 16px", textAlign: "center", fontSize: 13, color: "var(--text-secondary)" }}>
+            No clinics match these filters.
+          </div>
+        )}
+        {visible < filtered.length && (
+          <div className="flex justify-center" style={{ padding: "8px 16px 16px" }}>
+            <button
+              onClick={() => setVisible((v) => v + 3)}
+              className="flex items-center gap-2 active:scale-95 transition-transform"
+              style={{
+                background: "#FFFFFF",
+                border: "1.5px solid var(--accent-sakura)",
+                color: "var(--accent-sakura)",
+                borderRadius: 20,
+                padding: "10px 24px",
+                fontSize: 13,
+                fontWeight: 700,
+              }}
+            >
+               {t("もっと見る", "Load More")} · {filtered.length - visible}
+            </button>
+          </div>
+        )}
       </div>
 
       {/* ── Filter bottom sheet ────────────────────────────── */}
       {filter && (
-        <div className="fixed inset-0 z-50 flex items-end" style={{ background: "rgba(0,0,0,0.5)" }} onClick={() => setFilter(false)}>
+        <div className="fixed inset-0 z-[120] flex items-end" style={{ background: "rgba(0,0,0,0.5)" }} onClick={() => setFilter(false)}>
           <motion.div
             initial={{ y: 100 }}
             animate={{ y: 0 }}
@@ -717,7 +744,12 @@ function Clinics() {
             </div>
 
             <button
-              onClick={() => setFilter(false)}
+              onClick={() => {
+                setApplied({ minStars, distance, openOnly, emOnly });
+                setVisible(3);
+                setFilter(false);
+                toast.success(t("フィルターを適用しました", "Filters applied"));
+              }}
               className="w-full flex items-center justify-center gap-2"
               style={{
                 marginTop: 24, marginBottom: 8,
@@ -727,7 +759,7 @@ function Clinics() {
                 boxShadow: "0 6px 16px color-mix(in srgb, var(--accent-sakura) calc(0.35 * 100%), transparent)",
               }}
             >
-              {t("適用する", "Apply Filters")} · {filtered.length}{t("件", " results")}
+              {t("適用する", "Apply Filters")} · {CLINICS.filter((c) => c.rating >= minStars && c.km <= distance && (!openOnly || c.open) && (!emOnly || c.em)).length}{t("件", " results")}
             </button>
             <button onClick={() => setFilter(false)} className="w-full flex items-center justify-center gap-1" style={{ fontSize: 12, color: "var(--text-secondary)", padding: "8px 0" }}>
               <X size={12} /> {t("キャンセル", "Cancel")}

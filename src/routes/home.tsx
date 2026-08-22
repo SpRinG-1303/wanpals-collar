@@ -8,6 +8,7 @@ import {
   ChevronDown, ArrowUpRight, type LucideIcon,
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { toast } from "sonner";
 import { useLanguage } from "@/context/LanguageContext";
 import { usePet, displayName } from "@/context/PetContext";
 
@@ -111,6 +112,8 @@ const sensors: Sensor[] = [
 function Home() {
   const [factIdx, setFactIdx] = useState(0);
   const [query, setQuery] = useState("");
+  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+  const [collarState, setCollarState] = useState<"idle" | "connecting" | "connected">("idle");
   const { language } = useLanguage();
   const { pet } = usePet();
   useEffect(() => {
@@ -185,17 +188,21 @@ function Home() {
               }}
             />
           </div>
-          <div
-            className="flex items-center justify-center"
+          <button
+            onClick={() => setViewMode((m) => (m === "grid" ? "list" : "grid"))}
+            aria-label="Toggle sensor view"
+            className="flex items-center justify-center active:scale-95 transition-transform"
             style={{
               width: 48, height: 48, borderRadius: 14, flexShrink: 0,
-              background: `linear-gradient(135deg, ${JP.sakura}, var(--accent-sakura-dark))`,
+              background: viewMode === "list"
+                ? "var(--acc-pale)"
+                : `linear-gradient(135deg, ${JP.sakura}, var(--accent-sakura-dark))`,
               boxShadow: "0 6px 16px color-mix(in oklab, var(--accent-sakura) 35%, transparent)",
-              color: "#FFFFFF",
+              color: viewMode === "list" ? JP.sakura : "#FFFFFF",
             }}
           >
             <SlidersHorizontal size={19} strokeWidth={2.2} />
-          </div>
+          </button>
         </div>
 
         {/* Health overview — solid accent card, reference "upcoming schedule" style */}
@@ -286,6 +293,35 @@ function Home() {
           <JCard style={{ padding: 20, textAlign: "center" }}>
             <div style={{ fontSize: 13, color: JP.usuzumi }}>No sensors match “{query}”.</div>
           </JCard>
+        ) : viewMode === "list" ? (
+          <JCard style={{ padding: 6 }}>
+            {filtered.map((s, i) => {
+              const Icon = s.Icon;
+              return (
+                <Link
+                  key={s.en}
+                  to={s.to}
+                  className="flex items-center"
+                  style={{
+                    gap: 12, padding: "12px 10px",
+                    borderTop: i === 0 ? "none" : "1px solid var(--border-subtle)",
+                  }}
+                >
+                  <div
+                    className="flex items-center justify-center"
+                    style={{ width: 44, height: 44, borderRadius: "50%", background: s.iconBg, flexShrink: 0 }}
+                  >
+                    <Icon size={20} strokeWidth={1.8} style={{ color: s.accent }} />
+                  </div>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ fontSize: 14, fontWeight: 700, color: JP.sumi }}>{s.en}</div>
+                    <div style={{ fontSize: 11, color: JP.usuzumi, marginTop: 1 }}>{s.subEn}</div>
+                  </div>
+                  <span style={{ fontSize: 12, fontWeight: 700, color: s.accent, flexShrink: 0 }}>{s.valEn}</span>
+                </Link>
+              );
+            })}
+          </JCard>
         ) : (
           <div
             style={{
@@ -371,9 +407,20 @@ function Home() {
           </div>
 
           <button
+            disabled={collarState !== "idle"}
+            onClick={() => {
+              setCollarState("connecting");
+              setTimeout(() => {
+                setCollarState("connected");
+                toast.success("Collar connected — data synced just now");
+                setTimeout(() => setCollarState("idle"), 3000);
+              }, 1600);
+            }}
             className="w-full flex items-center justify-center active:scale-[0.98] transition-transform"
             style={{
-              background: `linear-gradient(135deg, ${JP.sakura}, var(--accent-sakura-dark))`,
+              background: collarState === "connected"
+                ? "linear-gradient(135deg, var(--accent-matcha), var(--accent-matcha))"
+                : `linear-gradient(135deg, ${JP.sakura}, var(--accent-sakura-dark))`,
               color: "#FFFFFF",
               border: "none",
               borderRadius: 14,
@@ -381,11 +428,12 @@ function Home() {
               fontSize: 15,
               fontWeight: 700,
               gap: 8,
+              opacity: collarState === "connecting" ? 0.85 : 1,
               boxShadow: "0 8px 20px color-mix(in oklab, var(--accent-sakura) 35%, transparent)",
             }}
           >
-            <Bluetooth size={17} strokeWidth={2} />
-            Connect Collar
+            <Bluetooth size={17} strokeWidth={2} className={collarState === "connecting" ? "animate-pulse" : ""} />
+            {collarState === "connecting" ? "Connecting…" : collarState === "connected" ? "Connected ✓" : "Connect Collar"}
           </button>
         </JCard>
 

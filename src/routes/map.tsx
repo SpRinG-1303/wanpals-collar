@@ -5,6 +5,7 @@ import {
   Navigation, AlertTriangle, Phone, Shield, History, Crosshair,
   Plus, Minus, Satellite, ChevronRight, Stethoscope,
 } from "lucide-react";
+import { toast } from "sonner";
 import { useT } from "@/context/LanguageContext";
 import { usePet, displayName } from "@/context/PetContext";
 
@@ -31,6 +32,9 @@ function MapScreen() {
   const [safeZone, setSafeZone] = useState(true);
   const [radius, setRadius] = useState<100 | 200 | 500 | 1000>(200);
   const [mapType, setMapType] = useState<"map" | "satellite">("map");
+  const [zoom, setZoom] = useState(1);
+  const [showAllHistory, setShowAllHistory] = useState(false);
+  const [sosActive, setSosActive] = useState(false);
 
   const openDirections = () => {
     const addr = encodeURIComponent("Bandra West, Mumbai, Maharashtra");
@@ -68,6 +72,7 @@ function MapScreen() {
 
       {/* MAP CARD */}
       <div style={{ margin: "12px 16px", borderRadius: 20, overflow: "hidden", height: 320, position: "relative", boxShadow: CARD_SHADOW, background: "var(--acc-pale)" }}>
+        <div className="absolute inset-0" style={{ transform: `scale(${zoom})`, transformOrigin: "center center", transition: "transform 0.25s ease" }}>
         {/* Base watercolor map */}
         <div className="absolute inset-0" style={{
           background: `
@@ -95,6 +100,7 @@ function MapScreen() {
         <span className="absolute" style={{ left: 150, top: 110, fontSize: 9, color: "var(--acc-strong)", opacity: 0.4 }}>Joggers Park</span>
         <span className="absolute" style={{ right: 40, top: 200, fontSize: 9, color: "var(--acc-strong)", opacity: 0.4 }}>Bandra Stn</span>
         <span className="absolute" style={{ left: 200, bottom: 60, fontSize: 9, color: "var(--acc-strong)", opacity: 0.4 }}>Carter Road</span>
+        </div>
 
         {/* Collar GPS badge top-left */}
         <div className="absolute" style={{ top: 12, left: 12, background: "#FFFFFF", padding: "5px 10px", borderRadius: 12, fontSize: 11, color: "var(--accent-matcha)", fontWeight: 700, boxShadow: "0 2px 8px rgba(0,0,0,0.08)" }}>
@@ -116,16 +122,22 @@ function MapScreen() {
 
         {/* Zoom controls top-right */}
         <div className="absolute" style={{ top: 12, right: 12, background: "rgba(255,255,255,0.9)", backdropFilter: "blur(8px)", borderRadius: 12, boxShadow: "0 2px 8px rgba(0,0,0,0.1)" }}>
-          <button className="flex items-center justify-center" style={{ width: 36, height: 36, color: "var(--text-primary)" }}><Plus size={16} /></button>
+          <button onClick={() => setZoom((z) => Math.min(2, +(z + 0.25).toFixed(2)))} aria-label="Zoom in" className="flex items-center justify-center" style={{ width: 36, height: 36, color: "var(--text-primary)" }}><Plus size={16} /></button>
           <div style={{ height: 1, background: "var(--border-card)" }} />
-          <button className="flex items-center justify-center" style={{ width: 36, height: 36, color: "var(--text-primary)" }}><Minus size={16} /></button>
+          <button onClick={() => setZoom((z) => Math.max(1, +(z - 0.25).toFixed(2)))} aria-label="Zoom out" className="flex items-center justify-center" style={{ width: 36, height: 36, color: "var(--text-primary)" }}><Minus size={16} /></button>
         </div>
 
         {/* My location button bottom-right */}
-        <button className="absolute flex items-center justify-center" style={{ bottom: 14, right: 12, width: 40, height: 40, borderRadius: "50%", background: "rgba(255,255,255,0.9)", backdropFilter: "blur(8px)", boxShadow: "0 2px 8px rgba(0,0,0,0.1)" }}>
+        <button
+          onClick={() => { setZoom(1); toast.success(t("ペットの位置に移動しました", "Centered on your pet")); }}
+          aria-label="Center on pet"
+          className="absolute flex items-center justify-center active:scale-90 transition-transform" style={{ bottom: 14, right: 12, width: 40, height: 40, borderRadius: "50%", background: "rgba(255,255,255,0.9)", backdropFilter: "blur(8px)", boxShadow: "0 2px 8px rgba(0,0,0,0.1)" }}
+        >
           <Crosshair size={20} style={{ color: "var(--accent-sora)" }} />
         </button>
 
+        {/* Zoomable marker layer */}
+        <div className="absolute inset-0" style={{ transform: `scale(${zoom})`, transformOrigin: "center center", transition: "transform 0.25s ease", pointerEvents: "none" }}>
         {/* Safe zone circle */}
         {safeZone && (
           <div className="absolute" style={{
@@ -181,6 +193,7 @@ function MapScreen() {
           </div>
         </div>
 
+        </div>
         {/* Attribution */}
         <div className="absolute" style={{ bottom: 4, right: 8, fontSize: 8, color: "var(--text-secondary)" }}>
           © OpenStreetMap contributors
@@ -283,8 +296,17 @@ function MapScreen() {
             <a href="tel:+81000000000" className="w-full flex items-center justify-center gap-2" style={{ height: 44, borderRadius: 12, background: "linear-gradient(135deg, #E53935, #C62828)", color: "#fff", fontWeight: 700, fontSize: 13 }}>
               <Phone size={14} /> {t("獣医に通知", "Notify Vet")}
             </a>
-            <button className="w-full flex items-center justify-center gap-2" style={{ height: 44, borderRadius: 12, background: "linear-gradient(135deg, #E53935, #C62828)", color: "#fff", fontWeight: 700, fontSize: 13 }}>
-               {t("SOS起動", "Activate SOS")}
+            <button
+              onClick={() => {
+                if (sosActive) return;
+                setSosActive(true);
+                toast.error(t("SOS起動 — 近隣の獣医と警察に通報しました", "SOS activated — nearby vets and your emergency contact alerted"));
+                setTimeout(() => setSosActive(false), 8000);
+              }}
+              className="w-full flex items-center justify-center gap-2"
+              style={{ height: 44, borderRadius: 12, background: "linear-gradient(135deg, #E53935, #C62828)", color: "#fff", fontWeight: 700, fontSize: 13, opacity: sosActive ? 0.75 : 1 }}
+            >
+               {sosActive ? t("SOS発信中…", "SOS Broadcasting…") : t("SOS起動", "Activate SOS")}
             </button>
           </div>
         )}
@@ -305,6 +327,11 @@ function MapScreen() {
           { time: "14:30", jp: "ジョガーズパーク", en: "Joggers Park", dist: "+1.2km", color: "var(--accent-yuzu)" },
           { time: "12:15", jp: "", en: "Near Bandra Stn", dist: "+0.5km", color: "var(--accent-sora)" },
           { time: "09:00", jp: "自宅", en: "Home", dist: t("出発地", "Start"), color: "var(--accent-matcha)" },
+          ...(showAllHistory ? [
+            { time: "昨日 18:10", jp: "", en: "Carter Road Promenade", dist: "+2.1km", color: "var(--accent-yuzu)" },
+            { time: "昨日 07:45", jp: "", en: "Joggers Park", dist: "+1.4km", color: "var(--accent-sora)" },
+            { time: "月曜 17:20", jp: "", en: "Bandra Fort", dist: "+3.0km", color: "var(--accent-matcha)" },
+          ] : []),
         ].map((h, i) => (
           <div key={i} className="flex items-center gap-3" style={{ padding: "8px 0", borderTop: i === 0 ? "none" : "1px solid var(--bg-elevated)" }}>
             <span style={{ width: 8, height: 8, borderRadius: "50%", background: h.color, flexShrink: 0 }} />
@@ -318,8 +345,8 @@ function MapScreen() {
           </div>
         ))}
 
-        <button className="flex items-center gap-1 mt-2" style={{ fontSize: 12, color: "var(--accent-sakura)", fontWeight: 600 }}>
-          {t("全履歴を見る", "View Full History")} <ChevronRight size={14} />
+        <button onClick={() => setShowAllHistory((s) => !s)} className="flex items-center gap-1 mt-2" style={{ fontSize: 12, color: "var(--accent-sakura)", fontWeight: 600 }}>
+          {showAllHistory ? t("履歴を閉じる", "Show Less") : t("全履歴を見る", "View Full History")} <ChevronRight size={14} style={{ transform: showAllHistory ? "rotate(90deg)" : "none", transition: "transform 0.2s" }} />
         </button>
       </div>
 

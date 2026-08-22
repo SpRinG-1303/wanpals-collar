@@ -19,6 +19,7 @@ type Ctx = {
   signIn: (email: string, password: string) => string | null;
   signUp: (u: StoredUser) => string | null;
   signOut: () => void;
+  updateProfile: (patch: { name?: string; email?: string; password?: string }) => string | null;
 };
 
 const AuthContext = createContext<Ctx>({
@@ -27,6 +28,7 @@ const AuthContext = createContext<Ctx>({
   signIn: () => "Not ready",
   signUp: () => "Not ready",
   signOut: () => {},
+  updateProfile: () => "Not ready",
 });
 
 function readUsers(): StoredUser[] {
@@ -89,8 +91,29 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signOut = () => persistSession(null);
 
+  const updateProfile = (patch: { name?: string; email?: string; password?: string }): string | null => {
+    if (!session) return "Not signed in.";
+    const users = readUsers();
+    const idx = users.findIndex((x) => x.email.toLowerCase() === session.email.toLowerCase());
+    if (idx === -1) {
+      // Session exists without a stored account (legacy/imported session) — update the session only.
+      persistSession({ ...session, ...(patch.name ? { name: patch.name } : {}), ...(patch.email ? { email: patch.email } : {}) });
+      return null;
+    }
+    if (patch.email && users.some((x, i) => i !== idx && x.email.toLowerCase() === patch.email!.toLowerCase())) {
+      return "That email is already used by another account.";
+    }
+    const updated = { ...users[idx], ...patch };
+    users[idx] = updated;
+    try {
+      localStorage.setItem(USERS_KEY, JSON.stringify(users));
+    } catch {}
+    persistSession({ role: updated.role, name: updated.name, email: updated.email });
+    return null;
+  };
+
   return (
-    <AuthContext.Provider value={{ session, hydrated, signIn, signUp, signOut }}>
+    <AuthContext.Provider value={{ session, hydrated, signIn, signUp, signOut, updateProfile }}>
       {children}
     </AuthContext.Provider>
   );

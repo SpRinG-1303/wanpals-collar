@@ -1,5 +1,6 @@
-import { Link } from "@tanstack/react-router";
-import { Bell, ArrowLeft } from "lucide-react";
+import { Link, useNavigate } from "@tanstack/react-router";
+import { Bell, ArrowLeft, AlertTriangle, Heart, Syringe } from "lucide-react";
+import { toast } from "sonner";
 import pawLogoAsset from "@/assets/pawsitive-paw-logo.png.asset.json";
 import { motion } from "framer-motion";
 import { useState, useEffect, type ReactNode } from "react";
@@ -23,8 +24,15 @@ export function TopBar({
   backTo?: string;
 }) {
   const [sosOpen, setSosOpen] = useState(false);
+  const [bellOpen, setBellOpen] = useState(false);
+  const navigate = useNavigate();
   const t = useT();
   const showTitle = Boolean(titleJp || titleEn);
+  const notifications = [
+    { Icon: Heart, color: "var(--accent-sakura)", text: t("健康スコアが更新されました", "Health score updated: 87/100"), time: "2m" },
+    { Icon: Syringe, color: "var(--accent-matcha)", text: t("ワクチン接種のリマインダー", "Vaccination reminder: rabies booster due"), time: "1h" },
+    { Icon: AlertTriangle, color: "var(--accent-yuzu)", text: t("活動量がいつもより少なめです", "Activity is lower than usual today"), time: "3h" },
+  ];
   return (
     <>
       <header className="sticky top-0 z-40" style={{ background: "var(--bg-topbar)" }}>
@@ -63,11 +71,13 @@ export function TopBar({
           )}
           <div className="flex items-center" style={{ gap: 0 }}>
             <button
-              className="flex items-center justify-center"
-              style={{ width: 36, height: 36, margin: "0 4px 0 8px", color: "var(--text-secondary)" }}
+              onClick={() => setBellOpen((o) => !o)}
+              className="flex items-center justify-center relative"
+              style={{ width: 36, height: 36, margin: "0 4px 0 8px", color: bellOpen ? "var(--acc-strong)" : "var(--text-secondary)" }}
               aria-label={t("通知", "Notifications")}
             >
               <Bell size={22} strokeWidth={1.75} />
+              <span style={{ position: "absolute", top: 6, right: 6, width: 8, height: 8, borderRadius: "50%", background: "#E53935", border: "2px solid var(--bg-topbar)" }} />
             </button>
             <button
               onClick={() => setSosOpen(true)}
@@ -85,9 +95,38 @@ export function TopBar({
             </button>
           </div>
         </div>
+        {bellOpen && (
+          <>
+            <div className="fixed inset-0 z-40" onClick={() => setBellOpen(false)} />
+            <motion.div
+              initial={{ opacity: 0, y: -6 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="absolute right-3 z-50"
+              style={{ top: 62, width: 300, background: "#FFFFFF", borderRadius: 16, boxShadow: "0 12px 32px rgba(0,0,0,0.14)", padding: 8 }}
+            >
+              <div style={{ fontSize: 12, fontWeight: 700, color: "var(--text-primary)", padding: "6px 10px 8px" }}>
+                {t("通知", "Notifications")}
+              </div>
+              {notifications.map((n, i) => (
+                <button
+                  key={i}
+                  onClick={() => { setBellOpen(false); navigate({ to: "/ai" }); }}
+                  className="w-full flex items-center gap-3 text-left"
+                  style={{ padding: "8px 10px", borderRadius: 12 }}
+                >
+                  <span className="flex items-center justify-center shrink-0" style={{ width: 34, height: 34, borderRadius: "50%", background: "var(--acc-pale)" }}>
+                    <n.Icon size={16} style={{ color: n.color }} />
+                  </span>
+                  <span className="flex-1 min-w-0" style={{ fontSize: 12, color: "var(--text-primary)", lineHeight: 1.35 }}>{n.text}</span>
+                  <span style={{ fontSize: 10, color: "var(--text-placeholder)", flexShrink: 0 }}>{n.time}</span>
+                </button>
+              ))}
+            </motion.div>
+          </>
+        )}
       </header>
       {sosOpen && (
-        <div className="fixed inset-0 z-50 bg-black/50 flex items-end sm:items-center justify-center p-4" onClick={() => setSosOpen(false)}>
+        <div className="fixed inset-0 z-[120] bg-black/50 flex items-end sm:items-center justify-center p-4" onClick={() => setSosOpen(false)}>
           <motion.div
             initial={{ y: 100, opacity: 0 }} animate={{ y: 0, opacity: 1 }}
             className="bg-card rounded-2xl p-6 w-full max-w-sm shadow-card"
@@ -96,8 +135,14 @@ export function TopBar({
             <h3 className="text-lg font-bold text-destructive"> <T jp="緊急" en="Emergency"/></h3>
             <p className="text-sm text-muted-foreground mt-1">{t("最寄りの24時間獣医に連絡します", "Contact the nearest 24h vet")}</p>
             <div className="mt-4 space-y-2">
-              <button className="w-full bg-destructive text-destructive-foreground rounded-xl py-3 font-bold"> {t("今すぐ電話", "Call Now")}</button>
-              <button className="w-full bg-muted rounded-xl py-3 font-medium"> {t("迷子モードを起動", "Activate Lost Mode")}</button>
+              <button
+                onClick={() => { window.location.href = "tel:+919820001234"; toast.info(t("24時間獣医に発信中…", "Calling 24h vet helpline…")); }}
+                className="w-full bg-destructive text-destructive-foreground rounded-xl py-3 font-bold"
+              > {t("今すぐ電話", "Call Now")}</button>
+              <button
+                onClick={() => { setSosOpen(false); navigate({ to: "/map" }); toast.error(t("迷子モードを有効化 — 地図で確認", "Lost Mode — activate it on the map")); }}
+                className="w-full bg-muted rounded-xl py-3 font-medium"
+              > {t("迷子モードを起動", "Activate Lost Mode")}</button>
               <button onClick={() => setSosOpen(false)} className="w-full text-sm text-muted-foreground py-2">{t("キャンセル", "Cancel")}</button>
             </div>
           </motion.div>
