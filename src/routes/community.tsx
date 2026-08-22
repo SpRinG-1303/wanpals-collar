@@ -738,6 +738,47 @@ function Community() {
         )}
       </AnimatePresence>
 
+      {/* Trending — see all sheet */}
+      <AnimatePresence>
+        {trendingAll && (
+          <div className="fixed inset-0 z-50 flex items-end" style={{ background: "rgba(0,0,0,0.5)" }} onClick={() => setTrendingAll(false)}>
+            <motion.div
+              initial={{ y: 200 }}
+              animate={{ y: 0 }}
+              exit={{ y: 200 }}
+              className="w-full max-w-md mx-auto"
+              style={{ background: "var(--bg-page)", maxHeight: "80vh", overflowY: "auto", borderRadius: "28px 28px 0 0", padding: 20 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div style={{ width: 48, height: 5, borderRadius: 999, background: "var(--border-card)", margin: "0 auto 16px" }} />
+              <div className="flex items-center gap-1.5" style={{ fontSize: 15, fontWeight: 700, color: "var(--text-primary)", marginBottom: 12 }}>
+                <Flame size={16} style={{ color: "var(--accent-sakura)" }} />
+                {t("すべてのトレンド", "All Trending Posts")}
+              </div>
+              {posts.slice().sort((a, b) => b.up - a.up).map((p, i) => {
+                const th = themeFor(p.flair);
+                return (
+                  <button
+                    key={p.id}
+                    onClick={() => { setTrendingAll(false); setOpen(p.id); }}
+                    className="w-full text-left flex items-center"
+                    style={{ gap: 12, padding: "12px 10px", borderRadius: 16, background: "#FFFFFF", marginBottom: 8, boxShadow: "0 2px 20px rgba(0,0,0,0.06)" }}
+                  >
+                    <span className="flex items-center justify-center shrink-0" style={{ width: 28, height: 28, borderRadius: "50%", background: th.soft, fontSize: 13, fontWeight: 800, color: th.accent }}>
+                      {i + 1}
+                    </span>
+                    <span className="flex-1 min-w-0" style={{ fontSize: 13, fontWeight: 600, color: "var(--text-primary)", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
+                      {language === "english" ? p.titleEn : p.titleJp}
+                    </span>
+                    <span style={{ fontSize: 12, fontWeight: 700, color: "var(--accent-sakura)", flexShrink: 0 }}>▲ {p.up}</span>
+                  </button>
+                );
+              })}
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
       {/* Share fallback sheet */}
       <AnimatePresence>
         {shareFor && (
