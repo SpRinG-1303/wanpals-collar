@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import AppShell from "@/components/AppShell";
 import { useEffect, useState } from "react";
-import { ChevronRight, Sun, Moon, Crown, User, X, PawPrint, Plus, Trash2, Check } from "lucide-react";
+import { ChevronRight, Sun, Moon, Crown, User, X, PawPrint, Plus, Trash2, Check, LogOut } from "lucide-react";
 import { toast } from "sonner";
 import { useT, useLanguage, type Language } from "@/context/LanguageContext";
 import { useAuth } from "@/context/AuthContext";
@@ -107,6 +107,12 @@ function Settings() {
     a.click();
     URL.revokeObjectURL(a.href);
     toast.success("Your data has been downloaded.");
+  }
+
+  function handleSignOut() {
+    signOut();
+    toast.success("Signed out. See you soon!");
+    nav({ to: "/auth", replace: true });
   }
 
   function deleteAccount() {
