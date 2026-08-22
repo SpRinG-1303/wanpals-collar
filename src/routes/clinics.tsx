@@ -207,24 +207,31 @@ function Clinics() {
         </button>
       </div>
 
-      {/* ── Quick stats ─────────────────────────────────────── */}
-      <div className="grid grid-cols-3 gap-2" style={{ padding: "8px 16px 0" }}>
+      {/* ── Quick stats (icon-circle columns) ──────────────── */}
+      <div
+        className="grid grid-cols-3"
+        style={{
+          margin: "10px 16px 0",
+          background: "#FFFFFF",
+          borderRadius: 20,
+          boxShadow: CARD_SHADOW,
+          padding: "14px 8px",
+        }}
+      >
         {[
-          { n: String(CLINICS.length), jp: "近隣クリニック", en: "Clinics Nearby", color: "var(--accent-sakura)" },
-          { n: avgRating, jp: "平均評価", en: "Avg Rating", color: "var(--accent-yuzu)" },
-          { n: String(emCount), jp: "24時間対応", en: "24h Open", color: "#E53935" },
+          { n: String(CLINICS.length), jp: "近隣クリニック", en: "Clinics Nearby", color: "var(--accent-sakura)", soft: "var(--accent-sakura-soft)", Icon: Building2 },
+          { n: avgRating, jp: "平均評価", en: "Avg Rating", color: "var(--accent-yuzu)", soft: "var(--acc-pale)", Icon: Star },
+          { n: String(emCount), jp: "24時間対応", en: "24h Open", color: "#E53935", soft: "#FDECEA", Icon: Clock },
         ].map((s) => (
-          <div
-            key={s.en}
-            style={{
-              background: "#FFFFFF",
-              borderRadius: 20,
-              padding: "12px 14px",
-              boxShadow: CARD_SHADOW,
-            }}
-          >
-            <span className="tabular-nums" style={{ fontSize: 20, fontWeight: 800, color: s.color }}>{s.n}</span>
-            <div style={{ fontSize: 10, color: "var(--text-secondary)", marginTop: 2, lineHeight: 1.2 }}>
+          <div key={s.en} className="flex flex-col items-center" style={{ gap: 6 }}>
+            <div
+              className="flex items-center justify-center"
+              style={{ width: 44, height: 44, borderRadius: "50%", background: s.soft }}
+            >
+              <s.Icon size={20} style={{ color: s.color }} />
+            </div>
+            <span className="tabular-nums" style={{ fontSize: 17, fontWeight: 800, color: "var(--text-primary)", lineHeight: 1 }}>{s.n}</span>
+            <div style={{ fontSize: 10, color: "var(--text-secondary)", lineHeight: 1.2, textAlign: "center" }}>
               {t(s.jp, s.en)}
             </div>
           </div>
