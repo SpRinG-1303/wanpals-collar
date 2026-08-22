@@ -607,6 +607,7 @@ function LastVisitCard() {
 /* ─────────── QR & PDF Cards ─────────── */
 function QRCard() {
   const t = useT();
+  const [seed, setSeed] = useState(1);
   return (
     <div style={{
       ...glass,
@@ -632,19 +633,22 @@ function QRCard() {
         display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: 1,
       }}>
         {Array.from({ length: 49 }).map((_, i) => (
-          <div key={i} style={{
-            background: [0, 6, 8, 9, 12, 14, 18, 20, 22, 27, 30, 33, 36, 40, 42, 44, 48].includes(i % 49) || (i * 7) % 13 < 5 ? C.cafe : "transparent",
+          <div key={`${seed}-${i}`} style={{
+            background: [0, 6, 8, 9, 12, 14, 18, 20, 22, 27, 30, 33, 36, 40, 42, 44, 48].includes(i % 49) || ((i * 7 + seed * 31) % 13 < 5) ? C.cafe : "transparent",
             borderRadius: 1,
           }} />
         ))}
       </div>
-      <button style={{
-        width: "100%", height: 40, marginTop: 4,
-        background: C.kombu,
-        color: C.bone, fontWeight: 700, fontSize: 13, borderRadius: 12,
-        border: "none",
-        boxShadow: "0 4px 16px color-mix(in oklab, var(--acc-deep) 30.0%, transparent)",
-      }}>
+      <button
+        onClick={() => { setSeed((s) => s + 1); toast.success(t("新しいQRコードを生成しました", "New vet QR code generated")); }}
+        style={{
+          width: "100%", height: 40, marginTop: 4,
+          background: C.kombu,
+          color: C.bone, fontWeight: 700, fontSize: 13, borderRadius: 12,
+          border: "none",
+          boxShadow: "0 4px 16px color-mix(in oklab, var(--acc-deep) 30.0%, transparent)",
+        }}
+      >
         {t("生成", "Generate")}
       </button>
     </div>
