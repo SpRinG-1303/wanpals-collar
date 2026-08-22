@@ -95,6 +95,35 @@ export function TopBar({
             </button>
           </div>
         </div>
+        {bellOpen && (
+          <>
+            <div className="fixed inset-0 z-40" onClick={() => setBellOpen(false)} />
+            <motion.div
+              initial={{ opacity: 0, y: -6 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="absolute right-3 z-50"
+              style={{ top: 62, width: 300, background: "#FFFFFF", borderRadius: 16, boxShadow: "0 12px 32px rgba(0,0,0,0.14)", padding: 8 }}
+            >
+              <div style={{ fontSize: 12, fontWeight: 700, color: "var(--text-primary)", padding: "6px 10px 8px" }}>
+                {t("通知", "Notifications")}
+              </div>
+              {notifications.map((n, i) => (
+                <button
+                  key={i}
+                  onClick={() => { setBellOpen(false); navigate({ to: "/ai" }); }}
+                  className="w-full flex items-center gap-3 text-left"
+                  style={{ padding: "8px 10px", borderRadius: 12 }}
+                >
+                  <span className="flex items-center justify-center shrink-0" style={{ width: 34, height: 34, borderRadius: "50%", background: "var(--acc-pale)" }}>
+                    <n.Icon size={16} style={{ color: n.color }} />
+                  </span>
+                  <span className="flex-1 min-w-0" style={{ fontSize: 12, color: "var(--text-primary)", lineHeight: 1.35 }}>{n.text}</span>
+                  <span style={{ fontSize: 10, color: "var(--text-placeholder)", flexShrink: 0 }}>{n.time}</span>
+                </button>
+              ))}
+            </motion.div>
+          </>
+        )}
       </header>
       {sosOpen && (
         <div className="fixed inset-0 z-50 bg-black/50 flex items-end sm:items-center justify-center p-4" onClick={() => setSosOpen(false)}>
