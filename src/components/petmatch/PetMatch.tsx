@@ -202,19 +202,106 @@ export function PetMatchSection() {
 
   return (
     <>
-      {/* ── Featured Pet Match card ── */}
-      <div style={{ margin: "36px 16px 4px" }}>
-        <div className="flex items-center justify-between" style={{ margin: "0 4px 10px" }}>
-          <div className="flex items-center gap-1.5" style={{ fontSize: 13, fontWeight: 800, color: "var(--accent-sakura)", letterSpacing: "0.14em" }}>
-            <PawPrint size={14} />
-            PET MATCH
+      {/* ── Header + Featured Pet Match card ── */}
+      <div
+        style={{
+          margin: "8px 16px 4px",
+          position: "relative",
+        }}
+      >
+        {/* Subtle lavender hero header */}
+        <div
+          className="relative overflow-hidden"
+          style={{
+            position: "absolute",
+            inset: "-8px -16px auto -16px",
+            height: 168,
+            background: "linear-gradient(180deg, var(--accent-sakura-soft) 0%, var(--bg-page) 100%)",
+            borderRadius: "0 0 28px 28px",
+            opacity: 0.85,
+            zIndex: 0,
+          }}
+        >
+          {/* Decorative paw trail */}
+          <svg
+            width="120"
+            height="140"
+            viewBox="0 0 120 140"
+            style={{ position: "absolute", right: 12, top: 10, opacity: 0.18 }}
+          >
+            <circle cx="88" cy="22" r="5" fill="var(--accent-sakura)" />
+            <circle cx="74" cy="28" r="4" fill="var(--accent-sakura)" />
+            <circle cx="96" cy="38" r="4" fill="var(--accent-sakura)" />
+            <circle cx="82" cy="44" r="5" fill="var(--accent-sakura)" />
+            <circle cx="64" cy="62" r="4" fill="var(--accent-sakura)" />
+            <circle cx="88" cy="72" r="5" fill="var(--accent-sakura)" />
+            <circle cx="72" cy="86" r="4" fill="var(--accent-sakura)" />
+            <circle cx="56" cy="96" r="4" fill="var(--accent-sakura)" />
+            <circle cx="78" cy="110" r="5" fill="var(--accent-sakura)" />
+          </svg>
+          {/* Very faint organic blob */}
+          <div
+            style={{
+              position: "absolute",
+              left: -40,
+              top: -30,
+              width: 160,
+              height: 160,
+              borderRadius: "50%",
+              background: "var(--accent-sakura-soft)",
+              opacity: 0.4,
+              filter: "blur(40px)",
+            }}
+          />
+        </div>
+
+        {/* Header row */}
+        <div className="relative flex items-end justify-between" style={{ padding: "0 4px 14px", zIndex: 1 }}>
+          <div>
+            <div className="flex items-center gap-2" style={{ marginBottom: 2 }}>
+              <PawPrint size={14} style={{ color: "var(--accent-sakura)" }} />
+              <span style={{ fontSize: 11, fontWeight: 800, color: "var(--accent-sakura)", letterSpacing: "0.16em" }}>
+                PET MATCH
+              </span>
+            </div>
+            <div
+              style={{
+                fontSize: 22,
+                fontWeight: 800,
+                color: "var(--text-primary)",
+                lineHeight: 1.15,
+                fontFamily: "Fraunces, serif",
+              }}
+            >
+              Discover compatible pets
+            </div>
           </div>
-          <span style={{ fontSize: 10, fontWeight: 600, color: "var(--text-placeholder)" }}>
+          <span
+            style={{
+              fontSize: 10,
+              fontWeight: 600,
+              color: "var(--text-placeholder)",
+              textAlign: "right",
+              maxWidth: 110,
+              lineHeight: 1.35,
+            }}
+          >
             Responsible breeding discovery
           </span>
         </div>
 
-        <div style={{ background: "#FFFFFF", borderRadius: 24, boxShadow: "0 8px 28px color-mix(in oklab, var(--accent-sakura) 16%, transparent)", overflow: "hidden", border: "1px solid var(--acc-pale)" }}>
+        {/* Match card */}
+        <div
+          className="relative"
+          style={{
+            background: "#FFFFFF",
+            borderRadius: 24,
+            boxShadow: "0 8px 28px color-mix(in oklab, var(--accent-sakura) 16%, transparent)",
+            overflow: "hidden",
+            border: "1px solid var(--acc-pale)",
+            zIndex: 1,
+          }}
+        >
           <div style={{ position: "relative" }}>
             <PetPhoto p={featured} style={{ height: 190 }} />
             <div style={{ position: "absolute", top: 12, left: 12 }}>
