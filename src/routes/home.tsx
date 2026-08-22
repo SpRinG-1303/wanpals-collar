@@ -407,9 +407,20 @@ function Home() {
           </div>
 
           <button
+            disabled={collarState !== "idle"}
+            onClick={() => {
+              setCollarState("connecting");
+              setTimeout(() => {
+                setCollarState("connected");
+                toast.success("Collar connected — data synced just now");
+                setTimeout(() => setCollarState("idle"), 3000);
+              }, 1600);
+            }}
             className="w-full flex items-center justify-center active:scale-[0.98] transition-transform"
             style={{
-              background: `linear-gradient(135deg, ${JP.sakura}, var(--accent-sakura-dark))`,
+              background: collarState === "connected"
+                ? "linear-gradient(135deg, var(--accent-matcha), var(--accent-matcha))"
+                : `linear-gradient(135deg, ${JP.sakura}, var(--accent-sakura-dark))`,
               color: "#FFFFFF",
               border: "none",
               borderRadius: 14,
@@ -417,11 +428,12 @@ function Home() {
               fontSize: 15,
               fontWeight: 700,
               gap: 8,
+              opacity: collarState === "connecting" ? 0.85 : 1,
               boxShadow: "0 8px 20px color-mix(in oklab, var(--accent-sakura) 35%, transparent)",
             }}
           >
-            <Bluetooth size={17} strokeWidth={2} />
-            Connect Collar
+            <Bluetooth size={17} strokeWidth={2} className={collarState === "connecting" ? "animate-pulse" : ""} />
+            {collarState === "connecting" ? "Connecting…" : collarState === "connected" ? "Connected ✓" : "Connect Collar"}
           </button>
         </JCard>
 
