@@ -244,13 +244,14 @@ export default function AppShell({
       }}
     >
       <div
+        className="jaipur-jaali"
         style={{
           position: "relative",
           overflow: "hidden",
           width: "100%",
           maxWidth: 430,
           height: "100dvh",
-          background: "var(--bg-page)",
+          backgroundColor: "var(--bg-page)",
           display: "flex",
           flexDirection: "column",
           // Containing block for position:fixed descendants — keeps modals,
