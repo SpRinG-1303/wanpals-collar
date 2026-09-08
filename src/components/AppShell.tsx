@@ -112,7 +112,7 @@ export function TopBar({
             </button>
           </div>
         </div>
-        <div className="jaipur-band" aria-hidden />
+        <div className="jaipur-vine" style={{ height: 16 }} aria-hidden />
         {bellOpen && (
           <>
             <div className="fixed inset-0 z-40" onClick={() => setBellOpen(false)} />
@@ -245,7 +245,7 @@ export default function AppShell({
       }}
     >
       <div
-        className="jaipur-jaali"
+        className="jaipur-buti"
         style={{
           position: "relative",
           overflow: "hidden",
