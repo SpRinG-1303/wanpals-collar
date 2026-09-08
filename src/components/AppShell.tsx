@@ -112,6 +112,7 @@ export function TopBar({
             </button>
           </div>
         </div>
+        <div className="jaipur-band" aria-hidden />
         {bellOpen && (
           <>
             <div className="fixed inset-0 z-40" onClick={() => setBellOpen(false)} />
