@@ -238,7 +238,7 @@ function Home() {
           {/* Jaipur fresco watermark — mandala medallion + arabesque corners */}
           <Mandala
             size={210}
-             style={{ position: "absolute", top: -58, right: -52, color: "var(--primary-foreground)", opacity: 0.1, pointerEvents: "none" }}
+             style={{ position: "absolute", top: -58, right: -28, color: "var(--primary-foreground)", opacity: 0.1, pointerEvents: "none" }}
           />
           <CornerScroll
             size={56}

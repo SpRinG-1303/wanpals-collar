@@ -2,6 +2,7 @@ import { useLocation, useNavigate } from "@tanstack/react-router";
 import { Home, MapPin, HeartPulse, Users, User, ScanSearch, Pill, type LucideIcon } from "lucide-react";
 import { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
+import { AnimalFrieze } from "@/components/JaipurMotifs";
 
 type Tab = {
   Icon: LucideIcon;
@@ -52,22 +53,18 @@ export default function BottomNav() {
         left: 0,
         right: 0,
         bottom: 0,
-        height: 76,
+        height: 78,
         background: "color-mix(in oklab, var(--bg-bottomnav) 96%, transparent)",
         borderTop: "1px solid var(--border-subtle)",
         boxShadow: "var(--shadow-nav)",
-        padding: "8px 8px max(8px, env(safe-area-inset-bottom))",
+        padding: "9px 8px max(8px, env(safe-area-inset-bottom))",
         zIndex: 100,
         display: "flex",
         alignItems: "center",
         justifyContent: "space-around",
       }}
     >
-      <div
-        className="animal-frieze"
-        aria-hidden
-        style={{ position: "absolute", top: -18, left: 0, right: 0, height: 18, backgroundColor: "var(--bg-page)", borderTop: "1px solid var(--border-subtle)", opacity: 0.9 }}
-      />
+      <AnimalFrieze style={{ position: "absolute", top: -54, left: 0, width: "100%", height: 56, background: "var(--bg-page)", pointerEvents: "none" }} />
       {TABS.map((tab) => {
         const active = isActive(tab.route);
         const { Icon } = tab;
@@ -85,9 +82,9 @@ export default function BottomNav() {
             <span
               style={{
                 position: "absolute",
-                inset: "3px 10px 17px",
-                borderRadius: 14,
-                background: "var(--acc-pale)",
+                inset: "0 13px 17px",
+                borderRadius: "18px 18px 8px 8px",
+                background: "var(--acc-strong)",
                 transform: active ? "scale(1)" : "scale(0.8)",
                 opacity: active ? 1 : 0,
                 transition: "transform 0.2s ease, opacity 0.2s ease",
@@ -97,7 +94,7 @@ export default function BottomNav() {
               size={20}
               strokeWidth={1.8}
               style={{
-                color: active ? ACCENT : INACTIVE,
+                color: active ? "var(--primary-foreground)" : INACTIVE,
                 transform: bouncingNow ? "scale(1.12)" : "scale(1)",
                 transition: "transform 0.2s ease, color 0.2s ease",
                 zIndex: 1,
