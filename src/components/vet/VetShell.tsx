@@ -153,6 +153,7 @@ export default function VetShell({
   return (
     /* ===== Phone frame — identical geometry to the pet-owner AppShell ===== */
     <div
+      data-role="vet"
       style={{
         background: "var(--bg-outside)",
         minHeight: "100vh",
@@ -174,16 +175,18 @@ export default function VetShell({
           // Containing block for position:fixed descendants (drawer, modals)
           transform: "translateZ(0)",
           clipPath: "inset(0)",
+          borderInline: `1px solid ${E.border}`,
+          boxShadow: "0 24px 70px rgba(22,62,56,0.12)",
         }}
       >
         {/* ===== Header ===== */}
-        <header style={{ background: E.card, borderBottom: `1px solid ${E.border}`, flexShrink: 0, zIndex: 90 }}>
-          <div className="flex items-center" style={{ height: 56, padding: "0 12px", gap: 8 }}>
+        <header style={{ background: "color-mix(in oklab, var(--bg-card) 96%, transparent)", borderBottom: `1px solid ${E.border}`, flexShrink: 0, zIndex: 90, backdropFilter: "blur(16px)" }}>
+          <div className="flex items-center" style={{ height: 64, padding: "0 12px", gap: 8 }}>
             <button
               onClick={() => setDrawerOpen(true)}
               aria-label="Open menu"
               className="flex items-center justify-center"
-              style={{ width: 36, height: 36, borderRadius: 10, border: `1px solid ${E.border}`, background: E.card, color: E.ink, flexShrink: 0 }}
+               style={{ width: 38, height: 38, borderRadius: 14, border: `1px solid ${E.border}`, background: E.card, color: E.ink, flexShrink: 0 }}
             >
               <Menu size={18} />
             </button>
@@ -194,7 +197,7 @@ export default function VetShell({
               onClick={() => setSosOpen(true)}
               aria-label="Emergency"
               className="flex items-center justify-center"
-              style={{ width: 36, height: 36, borderRadius: 10, border: `1.5px solid ${E.red}`, background: E.card, color: E.red, flexShrink: 0 }}
+               style={{ width: 38, height: 38, borderRadius: 14, border: `1px solid ${E.red}`, background: E.redSoft, color: E.red, flexShrink: 0 }}
             >
               <Siren size={16} />
             </button>
@@ -203,7 +206,7 @@ export default function VetShell({
                 onClick={() => setBellOpen((o) => !o)}
                 aria-label="Notifications"
                 className="flex items-center justify-center"
-                style={{ width: 36, height: 36, borderRadius: 10, border: `1px solid ${E.border}`, background: E.card, color: bellOpen ? E.accent : E.sub, position: "relative" }}
+                 style={{ width: 38, height: 38, borderRadius: 14, border: `1px solid ${E.border}`, background: E.card, color: bellOpen ? E.accent : E.sub, position: "relative" }}
               >
                 <Bell size={17} />
                 <span style={{ position: "absolute", top: 7, right: 8, width: 7, height: 7, borderRadius: "50%", background: E.red, border: `2px solid ${E.card}` }} />
@@ -240,7 +243,7 @@ export default function VetShell({
 
           {/* Patient search row */}
           <div ref={searchRef} style={{ position: "relative", padding: "0 12px 10px" }}>
-            <div className="flex items-center" style={{ gap: 8, height: 38, borderRadius: 10, border: `1px solid ${E.border}`, background: E.bg, padding: "0 12px" }}>
+             <div className="flex items-center" style={{ gap: 8, height: 44, borderRadius: 15, border: `1px solid ${E.border}`, background: E.card, padding: "0 12px", boxShadow: "0 3px 14px rgba(22,62,56,0.04)" }}>
               <Search size={15} style={{ color: E.faint, flexShrink: 0 }} />
               <input
                 value={q}
@@ -343,11 +346,11 @@ export default function VetShell({
         )}
 
         {/* ===== Content ===== */}
-        <main style={{ flex: 1, minHeight: 0, overflowY: "auto", overflowX: "hidden", WebkitOverflowScrolling: "touch", padding: "14px 14px 44px" }}>
+         <main className="jaipur-buti" style={{ flex: 1, minHeight: 0, overflowY: "auto", overflowX: "hidden", WebkitOverflowScrolling: "touch", padding: "18px 16px 44px" }}>
           {(title || actions) && (
             <div className="flex items-end justify-between flex-wrap" style={{ gap: 10, marginBottom: 14 }}>
               <div style={{ minWidth: 0 }}>
-                {title && <h1 style={{ fontSize: 19, fontWeight: 800, color: E.ink, letterSpacing: "-0.015em", margin: 0 }}>{title}</h1>}
+                 {title && <h1 style={{ fontSize: 23, fontWeight: 500, color: E.ink, margin: 0 }}>{title}</h1>}
                 {subtitle && <div style={{ fontSize: 12.5, color: E.sub, marginTop: 3 }}>{subtitle}</div>}
               </div>
               {actions}

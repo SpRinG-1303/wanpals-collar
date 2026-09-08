@@ -29,9 +29,9 @@ const VET = { accent: "var(--acc-strong)", dark: "var(--acc-strong)", soft: "var
 const INK = "var(--acc-deep)";
 const SUB = "var(--text-placeholder)";
 const LINE = "var(--acc-pale)";
-const INPUT_BG = "#FBFAFD";
-const DANGER = "#D9534F";
-const CARD_SHADOW = "0 1px 2px color-mix(in oklab, var(--acc-deep) 4.0%, transparent), 0 8px 24px color-mix(in oklab, var(--acc-deep) 5.0%, transparent)";
+const INPUT_BG = "var(--bg-card)";
+const DANGER = "var(--accent-red)";
+const CARD_SHADOW = "var(--shadow-card)";
 
 type Step = "role" | "auth" | "profile";
 type Mode = "login" | "signup";
@@ -123,7 +123,7 @@ function AuthPage() {
   }
 
   const inputStyle: CSSProperties = {
-    width: "100%", height: 52, borderRadius: 12, border: `1px solid ${LINE}`,
+    width: "100%", height: 52, borderRadius: 16, border: `1px solid ${LINE}`,
     background: INPUT_BG, padding: "0 14px 0 42px", fontSize: 15, color: INK,
     outline: "none", fontFamily: "var(--font-sans)",
   };
@@ -132,18 +132,19 @@ function AuthPage() {
   return (
     <div style={{ background: "var(--bg-outside)", minHeight: "100dvh", display: "flex", justifyContent: "center" }}>
       <div
+        className="jaipur-buti"
         style={{
           width: "100%", maxWidth: 430, minHeight: "100dvh",
           background: "var(--bg-page)",
-          padding: "32px 22px 48px",
+          padding: "28px 20px 48px",
           fontFamily: "var(--font-sans)",
           display: "flex", flexDirection: "column",
         }}
       >
         {/* Brand header */}
-        <div className="flex flex-col items-center" style={{ marginBottom: 34, marginTop: 8 }}>
-          <img src={pawLogoAsset.url} alt="Pawsitive logo" style={{ width: 76, height: 76, objectFit: "contain" }} />
-          <div style={{ marginTop: 14, fontSize: 30, fontWeight: 500, color: INK, letterSpacing: "-0.01em", fontFamily: "var(--font-display)" }}>
+        <div className="flex flex-col items-center" style={{ marginBottom: 30, marginTop: 8 }}>
+          <img src={pawLogoAsset.url} alt="Pawsitive logo" style={{ width: 68, height: 68, objectFit: "contain" }} />
+          <div style={{ marginTop: 12, fontSize: 30, fontWeight: 500, color: INK, fontFamily: "var(--font-display)" }}>
             Pawsitive
           </div>
           <div style={{ marginTop: 4, fontSize: 13, fontWeight: 500, color: SUB, letterSpacing: "0.02em" }}>
@@ -220,7 +221,7 @@ function AuthPage() {
 
         {/* STEP 2 — login / signup */}
         {step === "auth" && (
-          <div style={{ background: "#FFFFFF", borderRadius: 18, boxShadow: CARD_SHADOW, border: `1px solid ${LINE}`, padding: "22px 20px" }}>
+            <div style={{ background: "var(--bg-card)", borderRadius: 24, boxShadow: CARD_SHADOW, border: `1px solid ${LINE}`, padding: "22px 20px" }}>
             <div className="flex items-center" style={{ gap: 8, marginBottom: 16 }}>
               <span
                 className="flex items-center justify-center"
@@ -238,7 +239,7 @@ function AuthPage() {
                   onClick={() => { setMode(m); setError(null); }}
                   style={{
                     flex: 1, height: 40, borderRadius: 9, fontSize: 14, fontWeight: 600,
-                    background: mode === m ? "#FFFFFF" : "transparent",
+                     background: mode === m ? "var(--bg-card)" : "transparent",
                     color: mode === m ? rc.dark : SUB,
                     boxShadow: mode === m ? "0 1px 4px color-mix(in oklab, var(--acc-deep) 8.0%, transparent)" : "none",
                     transition: "all 0.18s ease",
@@ -293,7 +294,7 @@ function AuthPage() {
               onClick={handleAuthSubmit}
               className="w-full flex items-center justify-center active:scale-[0.98] transition-transform"
               style={{
-                height: 52, borderRadius: 12, fontSize: 15, fontWeight: 600, color: "#fff", gap: 8,
+                 height: 52, borderRadius: 16, fontSize: 15, fontWeight: 600, color: "var(--primary-foreground)", gap: 8,
                 background: rc.accent,
                 boxShadow: `0 6px 16px ${rc.accent}40`,
               }}
@@ -310,7 +311,7 @@ function AuthPage() {
 
         {/* STEP 3 — owner profile setup */}
         {step === "profile" && (
-          <div style={{ background: "#FFFFFF", borderRadius: 18, boxShadow: CARD_SHADOW, border: `1px solid ${LINE}`, padding: "22px 20px" }}>
+           <div style={{ background: "var(--bg-card)", borderRadius: 24, boxShadow: CARD_SHADOW, border: `1px solid ${LINE}`, padding: "22px 20px" }}>
             <div style={{ fontSize: 20, fontWeight: 500, color: INK, fontFamily: "var(--font-display)" }}>Set up your pet's profile</div>
             <div style={{ fontSize: 12.5, color: SUB, marginTop: 4, marginBottom: 18, lineHeight: 1.5 }}>
               Only the pet name is required — you can fill in the rest anytime.
@@ -368,7 +369,7 @@ function AuthPage() {
               onClick={() => handleProfileSubmit(false)}
               className="w-full flex items-center justify-center active:scale-[0.98] transition-transform"
               style={{
-                height: 52, borderRadius: 12, fontSize: 15, fontWeight: 600, color: "#fff", gap: 8,
+                 height: 52, borderRadius: 16, fontSize: 15, fontWeight: 600, color: "var(--primary-foreground)", gap: 8,
                 background: OWNER.accent,
                 boxShadow: `0 6px 16px ${OWNER.accent}40`,
               }}

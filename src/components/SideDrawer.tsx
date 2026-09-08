@@ -172,7 +172,7 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
           inset: 0,
           width: "100%",
           height: "100%",
-          background: "rgba(0,0,0,0.4)",
+          background: "color-mix(in oklab, var(--text-primary) 42%, transparent)",
           backdropFilter: "blur(4px)",
           WebkitBackdropFilter: "blur(4px)",
           opacity: isOpen ? 1 : 0,
@@ -190,9 +190,9 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
           left: 0,
           top: 0,
           bottom: 0,
-          width: "min(280px, 80%)",
+          width: "min(304px, 84%)",
           background: "var(--bg-drawer)",
-          boxShadow: "8px 0 32px rgba(0,0,0,0.25)",
+          boxShadow: "12px 0 40px rgba(22,62,56,0.16)",
           transform: isOpen ? "translateX(0)" : "translateX(-100%)",
           transition: isOpen
             ? "transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1)"
@@ -206,31 +206,27 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
         <div
           className="relative overflow-hidden"
           style={{
-            height: 180,
+            height: 176,
             background: "var(--bg-drawer-hero)",
             padding: "20px",
           }}
         >
-          {/* decorative petals */}
-          <span style={{ position: "absolute", top: 18, right: 60, width: 10, height: 14, borderRadius: "50% 50% 50% 50% / 60% 60% 40% 40%", background: "var(--accent-sakura)", opacity: 0.3, transform: "rotate(20deg)" }} />
-          <span style={{ position: "absolute", top: 70, right: 30, width: 8, height: 12, borderRadius: "50%", background: "var(--accent-sakura)", opacity: 0.3, transform: "rotate(-30deg)" }} />
-          <span style={{ position: "absolute", top: 120, left: 50, width: 9, height: 13, borderRadius: "50%", background: "var(--accent-sakura)", opacity: 0.3, transform: "rotate(45deg)" }} />
-          <span style={{ position: "absolute", top: -20, right: -20, width: 100, height: 100, borderRadius: "50%", background: "var(--acc-pale)", opacity: 0.2, filter: "blur(20px)" }} />
+          <div className="jaipur-vine" style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: 16, opacity: 0.3 }} aria-hidden />
 
           <div className="flex items-center gap-3 relative">
             <div
               className="flex items-center justify-center overflow-hidden"
               style={{
                 width: 48, height: 48, borderRadius: "50%",
-                background: "#FAF8F5", border: "2px solid var(--accent-sakura)",
+                background: "var(--bg-card)", border: "1px solid var(--border-card)",
                 boxShadow: "0 4px 16px color-mix(in srgb, var(--accent-sakura) calc(0.2 * 100%), transparent)",
               }}
             >
               <img src={pawLogoAsset.url} alt="Pawsitive logo" style={{ width: 44, height: 44, objectFit: "contain" }} />
             </div>
             <div>
-              <div style={{ fontSize: 20, fontWeight: 700, color: "var(--text-primary)", lineHeight: 1 }}>Pawsitive</div>
-              <div style={{ fontSize: 12, color: "var(--text-secondary)", marginTop: 4 }}>Smart Dog Care</div>
+               <div style={{ fontSize: 21, fontWeight: 500, color: "var(--text-primary)", lineHeight: 1, fontFamily: "var(--font-display)" }}>Pawsitive</div>
+               <div style={{ fontSize: 10, fontWeight: 700, color: "var(--text-secondary)", marginTop: 5, letterSpacing: "0.1em", textTransform: "uppercase" }}>Diagnostics</div>
             </div>
           </div>
 
@@ -298,11 +294,11 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
               margin: "0 12px 12px",
               width: "calc(100% - 24px)",
               height: 44,
-              background: "#E53935",
-              color: "#fff",
+               background: "var(--accent-red)",
+               color: "var(--primary-foreground)",
               fontWeight: 700,
               borderRadius: 12,
-              boxShadow: "0 4px 12px rgba(229,57,53,0.3)",
+               boxShadow: "0 6px 18px color-mix(in oklab, var(--accent-red) 26%, transparent)",
               fontSize: 14,
             }}
           >
@@ -326,7 +322,7 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
               height: 42,
               gap: 8,
               background: session ? "var(--bg-elevated)" : "linear-gradient(135deg, var(--accent-sakura), var(--accent-sakura-dark))",
-              color: session ? "var(--text-secondary)" : "#fff",
+               color: session ? "var(--text-secondary)" : "var(--primary-foreground)",
               fontWeight: 700,
               fontSize: 13,
               borderRadius: 12,
@@ -361,8 +357,8 @@ export function HamburgerButton({ isOpen, onClick }: { isOpen: boolean; onClick:
       style={{
         width: 40, height: 40,
         background: "var(--bg-card)",
-        borderRadius: 12,
-        boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+        borderRadius: 14,
+        boxShadow: "0 3px 12px rgba(22,62,56,0.06)",
         border: "1px solid var(--border-subtle)",
       }}
     >
