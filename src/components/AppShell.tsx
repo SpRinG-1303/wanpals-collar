@@ -47,8 +47,8 @@ export function TopBar({
     <>
       <header className="sticky top-0 z-40 jaipur-header" style={{ background: "color-mix(in oklab, var(--bg-topbar) 96%, transparent)", backdropFilter: "blur(16px)" }}>
         <ScallopArch width={430} height={94} style={{ position: "absolute", inset: "0 0 auto", width: "100%", height: 94, color: "var(--accent-yuzu)", opacity: .34, pointerEvents: "none" }} />
-        <BotanicalSprig style={{ position: "absolute", left: -7, top: 2, width: 48, height: 82, opacity: .78, pointerEvents: "none" }} />
-        <BotanicalSprig flip style={{ position: "absolute", right: -7, top: 2, width: 48, height: 82, opacity: .78, pointerEvents: "none" }} />
+        <BotanicalSprig style={{ position: "absolute", left: 0, top: 2, width: 42, height: 82, opacity: .78, pointerEvents: "none" }} />
+        <BotanicalSprig flip style={{ position: "absolute", right: 0, top: 2, width: 42, height: 82, opacity: .78, pointerEvents: "none" }} />
         <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center relative" style={{ padding: "11px 16px 9px", minHeight: 76, gap: 10 }}>
           <div className="flex items-center" style={{ gap: 8 }}>
             {onMenuClick && <HamburgerButton isOpen={menuOpen} onClick={onMenuClick} />}
