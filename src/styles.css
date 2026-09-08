@@ -6,9 +6,9 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-sans: "IBM Plex Sans", system-ui, -apple-system, sans-serif;
-  --font-display: "Libre Baskerville", Georgia, serif;
-  --font-mono: "IBM Plex Sans", system-ui, sans-serif;
+  --font-sans: "Fira Sans", system-ui, -apple-system, sans-serif;
+  --font-display: "DM Serif Display", Georgia, serif;
+  --font-mono: "Fira Sans", system-ui, sans-serif;
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 16px;
@@ -44,18 +44,18 @@
 :root,
 [data-role="owner"] {
   /* === Jaipur botanical elegance: forest, sage, cream, terracotta === */
-  --bg-page: #F8F0DD;
+  --bg-page: #FBF7ED;
   --bg-outside: #EEF1EC;
   --bg-card: #FFFFFF;
   --bg-card-sakura: #EEF6F1;
   --bg-card-lavender: #EDF1F4;
-  --bg-card-mint: #BFD9CC;
-  --bg-card-yellow: #F8F0DD;
+  --bg-card-mint: #DCECE4;
+  --bg-card-yellow: #FBF7ED;
   --bg-card-blue: #E9EEF2;
   --bg-card-peach: #FCE9DF;
   --bg-surface: #FFFFFF;
-  --bg-elevated: #FFFCF4;
-  --bg-topbar: #F8F0DD;
+  --bg-elevated: #FFFDF8;
+  --bg-topbar: #FBF7ED;
   --bg-bottomnav: #FFFFFF;
   --bg-drawer: #FFFFFF;
   --bg-drawer-hero: linear-gradient(160deg, #EEF6F1 0%, #FFFDF8 60%, #FCE9DF 100%);
@@ -66,20 +66,20 @@
   --border-subtle: #E9E6DC;
   --border-card: #E4DED0;
   --shadow-nav: 0 -10px 30px rgba(15,107,91,0.07);
-  --accent-sakura: #075548;
-  --accent-sakura-dark: #043D35;
+  --accent-sakura: #0F6B5B;
+  --accent-sakura-dark: #075548;
   --accent-sakura-soft: #EEF6F1;
   --accent-matcha: #17866F;
-  --accent-fuji: #586F87;
-  --accent-yuzu: #D5A83C;
-  --accent-sora: #586F87;
-  --accent-red: #D95C38;
+  --accent-fuji: #71849A;
+  --accent-yuzu: #DFC694;
+  --accent-sora: #71849A;
+  --accent-red: #E77845;
   --acc-deep: #075548;
   --acc-strong: #0F6B5B;
   --acc-soft: #78A99B;
-  --acc-pale: #BFD9CC;
+  --acc-pale: #DCECE4;
   --acc2-deep: #C85D31;
-  --acc2-strong: #D95C38;
+  --acc2-strong: #E77845;
   --acc2-soft: #F3A179;
   --acc2-pale: #FCE9DF;
 
@@ -259,40 +259,6 @@
   color: var(--text-primary);
   isolation: isolate;
 }
-.jaipur-frame::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 110;
-  border: 3px solid var(--acc-deep);
-  border-radius: inherit;
-  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--accent-yuzu) 70%, transparent);
-}
-.jaipur-header::after {
-  content: "";
-  position: absolute;
-  left: 16px;
-  right: 16px;
-  bottom: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--accent-yuzu), transparent);
-}
-.jaipur-side-border {
-  position: absolute;
-  top: 78px;
-  bottom: 78px;
-  width: 9px;
-  z-index: 35;
-  pointer-events: none;
-  opacity: .48;
-  background-image: radial-gradient(circle, var(--acc2-strong) 0 2px, transparent 2.5px), linear-gradient(var(--acc-soft), var(--acc-soft));
-  background-size: 9px 23px, 1px 100%;
-  background-position: center, center;
-  background-repeat: repeat-y, no-repeat;
-}
-.jaipur-side-border-left { left: 1px; }
-.jaipur-side-border-right { right: 1px; transform: scaleX(-1); }
 .pawsitive-frame main { scrollbar-width: none; }
 .pawsitive-frame main::-webkit-scrollbar { display: none; }
 .pawsitive-frame input,
