@@ -13,6 +13,7 @@ import { usePet, displayName } from "@/context/PetContext";
 import { useGeoLocation } from "@/lib/useGeoLocation";
 import { useAuth } from "@/context/AuthContext";
 import VetHome from "@/components/vet/VetHome";
+import { Mandala, CornerScroll, Peacock } from "@/components/JaipurMotifs";
 
 export const Route = createFileRoute("/home")({ component: Home });
 
