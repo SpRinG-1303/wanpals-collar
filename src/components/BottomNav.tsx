@@ -63,6 +63,11 @@ export default function BottomNav() {
         justifyContent: "space-around",
       }}
     >
+      <div
+        className="jaipur-vine"
+        aria-hidden
+        style={{ position: "absolute", top: -1, left: 0, right: 0, height: 12, opacity: 0.5 }}
+      />
       {TABS.map((tab) => {
         const active = isActive(tab.route);
         const { Icon } = tab;
