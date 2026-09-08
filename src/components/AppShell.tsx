@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from "@tanstack/react-router";
-import { Bell, ArrowLeft, AlertTriangle, Heart, Syringe } from "lucide-react";
+import { Bell, ArrowLeft, AlertTriangle, Heart, Syringe, Phone } from "lucide-react";
 import { toast } from "sonner";
 import pawLogoAsset from "@/assets/paw-logo.png.asset.json";
 import { motion } from "framer-motion";
@@ -8,6 +8,7 @@ import { T, useT } from "@/context/LanguageContext";
 import SideDrawer, { HamburgerButton } from "@/components/SideDrawer";
 import BottomNav from "@/components/BottomNav";
 import { useAuth } from "@/context/AuthContext";
+import { BotanicalSprig, PalaceLandscape, ScallopArch } from "@/components/JaipurMotifs";
 
 /* Pet-owner routes that veterinarians must never see — vets only get the
    clinical console (/home), body map, e-Rx and their profile. */
@@ -44,8 +45,11 @@ export function TopBar({
   ];
   return (
     <>
-      <header className="sticky top-0 z-40" style={{ background: "color-mix(in oklab, var(--bg-topbar) 94%, transparent)", backdropFilter: "blur(16px)", borderBottom: "1px solid var(--border-subtle)" }}>
-        <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center" style={{ padding: "8px 16px", minHeight: 64, gap: 10 }}>
+      <header className="sticky top-0 z-40 jaipur-header" style={{ background: "color-mix(in oklab, var(--bg-topbar) 96%, transparent)", backdropFilter: "blur(16px)" }}>
+        <ScallopArch width={430} height={94} style={{ position: "absolute", inset: "0 0 auto", width: "100%", height: 94, color: "var(--accent-yuzu)", opacity: .34, pointerEvents: "none" }} />
+        <BotanicalSprig style={{ position: "absolute", left: -7, top: 2, width: 48, height: 82, opacity: .78, pointerEvents: "none" }} />
+        <BotanicalSprig flip style={{ position: "absolute", right: -7, top: 2, width: 48, height: 82, opacity: .78, pointerEvents: "none" }} />
+        <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center relative" style={{ padding: "11px 16px 9px", minHeight: 76, gap: 10 }}>
           <div className="flex items-center" style={{ gap: 8 }}>
             {onMenuClick && <HamburgerButton isOpen={menuOpen} onClick={onMenuClick} />}
             {showBack && (
@@ -67,13 +71,13 @@ export function TopBar({
               <img
                 src={pawLogoAsset.url}
                 alt="Pawsitive logo"
-                style={{ width: 36, height: 36, objectFit: "contain", display: "block" }}
+                style={{ width: 42, height: 42, objectFit: "contain", display: "block" }}
               />
               <div style={{ display: "flex", flexDirection: "column", lineHeight: 1.1 }}>
-                <span style={{ fontSize: 17, fontWeight: 500, color: "var(--text-primary)", fontFamily: "var(--font-display)" }}>
+                <span style={{ fontSize: 19, fontWeight: 700, color: "var(--text-primary)", fontFamily: "var(--font-display)" }}>
                   Pawsitive
                 </span>
-                <span style={{ fontSize: 9, fontWeight: 700, color: "var(--text-secondary)", textTransform: "uppercase", letterSpacing: "0.12em" }}>
+                <span style={{ fontSize: 10, fontWeight: 600, color: "var(--accent-fuji)", letterSpacing: "0.08em", fontFamily: "var(--font-display)" }}>
                   Diagnostics
                 </span>
               </div>
@@ -102,11 +106,11 @@ export function TopBar({
                 boxShadow: "0 6px 16px color-mix(in oklab, var(--accent-red) 24%, transparent)",
               }}
             >
-              SOS
+               <Phone size={14} strokeWidth={2.5} /> SOS
             </button>
           </div>
         </div>
-        {showTitle && <div className="px-4 pb-2 text-center text-sm font-semibold truncate" style={{ color: "var(--text-primary)" }}>{t(titleJp ?? "", titleEn ?? "")}</div>}
+        {showTitle && <div className="px-4 pb-2 text-center text-sm font-semibold truncate relative" style={{ color: "var(--text-primary)" }}>{t(titleJp ?? "", titleEn ?? "")}</div>}
         {bellOpen && (
           <>
             <div className="fixed inset-0 z-40" onClick={() => setBellOpen(false)} />
@@ -240,7 +244,7 @@ export default function AppShell({
     >
       <div
         data-role={hydrated && session?.role === "vet" ? "vet" : "owner"}
-        className="pawsitive-frame jaipur-buti"
+          className="pawsitive-frame jaipur-buti jaipur-frame"
         style={{
           position: "relative",
           overflow: "hidden",
@@ -290,6 +294,9 @@ export default function AppShell({
                 }
           }
         >
+        <div className="jaipur-side-border jaipur-side-border-left" aria-hidden />
+        <div className="jaipur-side-border jaipur-side-border-right" aria-hidden />
+          <PalaceLandscape style={{ position: "absolute", top: 58, left: 0, width: "100%", height: 132, opacity: .55, pointerEvents: "none", zIndex: -1 }} />
           {vetBlocked ? null : children}
         </main>
         <SideDrawer isOpen={menuOpen} onClose={() => setMenuOpen(false)} />

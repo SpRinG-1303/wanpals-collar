@@ -211,3 +211,70 @@ export function VineBand({ height = 18, style }: { height?: number; style?: CSSP
     />
   );
 }
+
+/** Painted palace landscape used behind the location area. */
+export function PalaceLandscape({ style }: { style?: CSSProperties }) {
+  return (
+    <svg viewBox="0 0 430 132" fill="none" aria-hidden style={style} preserveAspectRatio="none">
+      <path d="M0 112 44 91l26 10 37-30 30 28 36-45 34 38 31-28 38 33 37-45 31 38 34-24 52 37v29H0Z" fill="var(--acc-pale)" opacity=".72" />
+      <path d="M0 118 55 102l29 11 44-23 37 22 44-20 36 23 46-31 42 27 44-13 43 14v20H0Z" fill="var(--bg-card-mint)" opacity=".92" />
+      {[44, 92, 160, 245, 286, 356].map((x, index) => (
+        <g key={x} transform={`translate(${x} ${78 + (index % 2) * 12})`} stroke="var(--acc-soft)" strokeWidth="1.5">
+          <path d="M0 40V5" />
+          <path d="M0 11c-11 3-12 12 0 13M0 17c11 3 12 12 0 13M0 27c-9 2-10 9 0 10" />
+        </g>
+      ))}
+      <g transform="translate(342 43)" stroke="var(--accent-yuzu)" fill="var(--bg-page)" opacity=".8">
+        <path d="M8 69h61M15 69V36h47v33M21 36V22h35v14M27 22 38 6l12 16M38 6V0" />
+        <path d="M25 69V45h10v24M43 69V45h10v24M18 36h41M13 69h53" />
+        <path d="M38 2c8 5 10 10 0 16-10-6-8-11 0-16Z" fill="var(--accent-yuzu)" />
+      </g>
+      <g stroke="var(--acc-soft)" strokeWidth="1.4" strokeLinecap="round" opacity=".75">
+        <path d="M245 43q6-7 12 0M265 32q6-7 12 0M286 49q6-7 12 0" />
+      </g>
+    </svg>
+  );
+}
+
+/** Botanical corner flourish matching the painted frame around the reference. */
+export function BotanicalSprig({ flip = false, style }: { flip?: boolean; style?: CSSProperties }) {
+  return (
+    <svg viewBox="0 0 74 128" fill="none" aria-hidden style={{ transform: flip ? "scaleX(-1)" : undefined, ...style }}>
+      <path d="M5 126C14 91 32 67 58 34" stroke="var(--acc-strong)" strokeWidth="2" strokeLinecap="round" />
+      <g fill="var(--acc-soft)">
+        <ellipse cx="14" cy="102" rx="5" ry="13" transform="rotate(-38 14 102)"/><ellipse cx="25" cy="82" rx="5" ry="13" transform="rotate(36 25 82)"/>
+        <ellipse cx="34" cy="66" rx="5" ry="12" transform="rotate(-38 34 66)"/><ellipse cx="47" cy="48" rx="5" ry="12" transform="rotate(35 47 48)"/>
+        <ellipse cx="54" cy="30" rx="4" ry="10" transform="rotate(-28 54 30)"/>
+      </g>
+      <g fill="var(--acc2-strong)">
+        <circle cx="18" cy="91" r="4"/><circle cx="22" cy="87" r="4"/><circle cx="26" cy="92" r="4"/>
+        <circle cx="42" cy="55" r="4"/><circle cx="47" cy="52" r="4"/><circle cx="48" cy="58" r="4"/>
+      </g>
+      <g fill="var(--accent-yuzu)"><circle cx="22" cy="90" r="2"/><circle cx="46" cy="55" r="2"/></g>
+    </svg>
+  );
+}
+
+/** Full hand-painted livestock frieze that crowns the bottom navigation. */
+export function AnimalFrieze({ style }: { style?: CSSProperties }) {
+  const animals = [
+    { x: 22, body: "M0 22c4-10 25-10 30-1l-2 15h-4l-1-10H9L8 36H4L3 25", head: "M28 18l8-6 4 6-5 7" },
+    { x: 93, body: "M0 22c5-11 27-11 33-1l-2 15h-4l-1-10H10L9 36H5L4 25", head: "M31 18l9-7 3 7-5 8" },
+    { x: 168, body: "M0 21c5-9 24-9 29 0l-2 15h-4l-1-10H9L8 36H4L3 24", head: "M27 18l7-5 5 4-4 8" },
+    { x: 239, body: "M0 22c4-10 25-10 30-1l-2 15h-4l-1-10H9L8 36H4L3 25", head: "M28 18l8-6 4 6-5 7" },
+    { x: 310, body: "M0 21c5-9 24-9 29 0l-2 15h-4l-1-10H9L8 36H4L3 24", head: "M27 18l7-5 5 4-4 8" },
+    { x: 379, body: "M4 36V20c0-9 16-11 21-3l3 19h-4l-3-12H10L8 36Z", head: "M22 15l4-8 4 7-3 8" },
+  ];
+  return (
+    <svg viewBox="0 0 430 58" fill="none" aria-hidden style={style} preserveAspectRatio="none">
+      <path d="M0 47h430" stroke="var(--acc-strong)" strokeWidth="1.5"/>
+      <path d="M0 52h430" stroke="var(--accent-yuzu)" strokeWidth="2" strokeDasharray="3 3"/>
+      {animals.map((animal, i) => (
+        <g key={animal.x} transform={`translate(${animal.x} 7)`} fill={i % 3 === 1 ? "var(--acc-soft)" : i % 3 === 2 ? "var(--accent-yuzu)" : "var(--bg-card-yellow)"} stroke="var(--acc-deep)" strokeWidth="1.2" strokeLinejoin="round">
+          <path d={animal.body}/><path d={animal.head}/>
+        </g>
+      ))}
+      {[63, 141, 216, 288, 360].map((x, i) => <g key={x} transform={`translate(${x} 33)`}><path d="M0 15V2" stroke="var(--acc-strong)"/><path d="m0 5-5-4M0 8l6-5" stroke="var(--acc-strong)"/><circle cy="1" r="4" fill={i % 2 ? "var(--accent-yuzu)" : "var(--acc2-strong)"}/></g>)}
+    </svg>
+  );
+}
