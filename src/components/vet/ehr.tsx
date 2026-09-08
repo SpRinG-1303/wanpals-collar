@@ -7,7 +7,7 @@ import type { VetPatient } from "./vetData";
    steel-blue theme keeps working; status colors are fixed clinical hues. */
 export const E = {
   bg: "var(--ehr-bg, #F4F6FA)",
-  card: "#FFFFFF",
+  card: "var(--bg-card)",
   ink: "var(--ehr-navy, #1F2A44)",
   sub: "var(--text-secondary)",
   faint: "var(--text-placeholder)",
@@ -16,20 +16,20 @@ export const E = {
   pale: "var(--acc-pale)",
   border: "var(--border-card)",
   borderSubtle: "var(--border-subtle)",
-  green: "#2E8B62",
-  greenSoft: "#E8F5EE",
-  amber: "#B97E0F",
-  amberSoft: "#FBF3E1",
-  red: "#C24545",
-  redSoft: "#FAECEC",
+  green: "var(--accent-matcha)",
+  greenSoft: "var(--acc-pale)",
+  amber: "var(--acc2-deep)",
+  amberSoft: "var(--bg-card-peach)",
+  red: "var(--accent-red)",
+  redSoft: "var(--acc2-pale)",
   blue: "var(--acc-strong)",
   blueSoft: "var(--acc-pale)",
   grey: "#6B7686",
   greySoft: "#EFF1F5",
 };
 
-export const EHR_SHADOW = "0 1px 2px rgba(31,42,68,0.05)";
-export const EHR_RADIUS = 14;
+export const EHR_SHADOW = "var(--shadow-card)";
+export const EHR_RADIUS = 20;
 
 /* ============ Primitives ============ */
 
@@ -70,8 +70,8 @@ export function Chip({ tone = "grey", children, dot = false, style }: { tone?: T
         fontWeight: 600,
         color: s.fg,
         background: s.bg,
-        borderRadius: 7,
-        padding: "3px 9px",
+        borderRadius: 999,
+        padding: "4px 10px",
         whiteSpace: "nowrap",
         ...style,
       }}
@@ -86,7 +86,7 @@ export function SectionTitle({ children, sub, right }: { children: ReactNode; su
   return (
     <div className="flex items-end justify-between" style={{ marginBottom: 12 }}>
       <div>
-        <div style={{ fontSize: 15, fontWeight: 700, color: E.ink, letterSpacing: "-0.01em" }}>{children}</div>
+        <div style={{ fontSize: 17, fontWeight: 500, color: E.ink, fontFamily: "var(--font-display)" }}>{children}</div>
         {sub && <div style={{ fontSize: 12, color: E.sub, marginTop: 2 }}>{sub}</div>}
       </div>
       {right}
@@ -103,10 +103,10 @@ export function PrimaryBtn({ children, onClick, disabled, style }: { children: R
       style={{
         height: 38,
         padding: "0 16px",
-        borderRadius: 10,
+        borderRadius: 14,
         border: "none",
         background: disabled ? "var(--text-placeholder)" : E.accent,
-        color: "#fff",
+        color: "var(--primary-foreground)",
         fontSize: 13,
         fontWeight: 600,
         gap: 7,
@@ -127,7 +127,7 @@ export function GhostBtn({ children, onClick, style }: { children: ReactNode; on
       style={{
         height: 38,
         padding: "0 16px",
-        borderRadius: 10,
+        borderRadius: 14,
         border: `1px solid ${E.border}`,
         background: E.card,
         color: E.ink,
@@ -152,8 +152,8 @@ export function FieldLabel({ children }: { children: ReactNode }) {
 
 export const inputStyle: CSSProperties = {
   width: "100%",
-  height: 38,
-  borderRadius: 9,
+  height: 44,
+  borderRadius: 14,
   border: `1px solid ${E.border}`,
   background: E.card,
   padding: "0 11px",

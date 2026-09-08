@@ -4,13 +4,12 @@ import { useLanguage, useT } from "@/context/LanguageContext";
 import { SenseBanner } from "@/components/SenseBanner";
 
 /**
- * Premium Japanese health-tech IoT design system for all sense pages.
- * Soft, minimal, trustworthy. Sakura pink accents on a warm off-white canvas.
+ * Premium botanical health design system for all sense pages.
  */
 export const SP = {
   // Backgrounds
-  page: "#FAFAF9",
-  card: "#FFFFFF",
+  page: "var(--bg-page)",
+  card: "var(--bg-card)",
   // Text
   sumi: "var(--text-primary)",          // primary deep navy
   ink: "var(--text-secondary)",           // Japanese body
@@ -25,7 +24,7 @@ export const SP = {
   // Status
   ok: "var(--acc-strong)", okDot: "var(--acc2-deep)", okBg: "var(--acc-pale)",
   warn: "var(--acc-deep)", warnDot: "var(--acc-deep)", warnBg: "var(--acc-pale)",
-  danger: "#E11D48", dangerDot: "var(--acc-deep)", dangerBg: "#FFF1F2",
+  danger: "var(--accent-red)", dangerDot: "var(--accent-red)", dangerBg: "var(--acc2-pale)",
   // Legacy alias (kept so existing components compile without changes)
   sakura: "var(--acc-deep)",
   matcha: "var(--accent-matcha)",
@@ -35,7 +34,7 @@ export const SP = {
   sora: "var(--accent-sora)",
 };
 
-export const CARD_SHADOW = "0 2px 20px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.04)";
+export const CARD_SHADOW = "var(--shadow-card)";
 export const SAKURA_HEADER = "linear-gradient(180deg,var(--bg-card) 0%,var(--acc2-pale) 100%)";
 
 export function SensorPage({
@@ -82,12 +81,12 @@ export function SensorPage({
           subtitleEn={subtitleEn ?? titleEn}
           titleEn={titleEn}
           descriptorEn={descriptorEn ?? ""}
-          bgGradient={bannerGradient ?? "linear-gradient(135deg,var(--bg-card) 0%,var(--acc-pale) 100%)"}
+          bgGradient={bannerGradient ?? "linear-gradient(145deg,var(--acc-pale) 0%,var(--bg-page) 100%)"}
           subtitleColor={bannerSubtitleColor ?? "var(--acc-soft)"}
         />
 
         {/* Content */}
-        <div className="sp-stack" style={{ padding: "16px", position: "relative", zIndex: 2 }}>
+        <div className="sp-stack" style={{ padding: "0 16px 16px", marginTop: -36, position: "relative", zIndex: 2 }}>
           {children}
         </div>
       </div>
@@ -113,7 +112,8 @@ export function Card({
     <div
       style={{
         background: SP.card,
-        borderRadius: 20,
+        borderRadius: 24,
+        border: "1px solid var(--border-card)",
         boxShadow: CARD_SHADOW,
         padding: 20,
         marginBottom: 14,
@@ -131,8 +131,8 @@ export function TimeTabs({ value, onChange }: { value: string; onChange: (v: str
     <div
       className="flex"
       style={{
-        background: SP.divider,
-        borderRadius: 50,
+        background: "var(--bg-card-peach)",
+        borderRadius: 16,
         padding: 4,
         gap: 4,
         marginBottom: 14,
@@ -147,12 +147,12 @@ export function TimeTabs({ value, onChange }: { value: string; onChange: (v: str
             style={{
               flex: 1,
               height: 32,
-              borderRadius: 50,
+              borderRadius: 12,
               fontSize: 13,
               fontWeight: active ? 600 : 500,
               background: active ? SP.rose : "transparent",
-              color: active ? "#FFFFFF" : SP.muted,
-              letterSpacing: "0.04em",
+               color: active ? "var(--primary-foreground)" : SP.muted,
+               letterSpacing: 0,
               transition: "all 200ms ease",
             }}
           >
