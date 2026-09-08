@@ -12,7 +12,7 @@ export default function PhoneFrame({ children, innerStyle }: { children: ReactNo
       }}
     >
       <div
-        className="jaipur-jaali"
+        className="jaipur-buti"
         style={{
           position: "relative",
           overflow: "hidden",
