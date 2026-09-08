@@ -211,3 +211,150 @@ export function VineBand({ height = 18, style }: { height?: number; style?: CSSP
     />
   );
 }
+
+/** Inverted Rajput ogee boundary with a central lotus and faded edge botanicals. */
+export function HeaderArchBoundary({ style }: { style?: CSSProperties }) {
+  return (
+    <svg
+      viewBox="0 0 430 126"
+      preserveAspectRatio="none"
+      aria-hidden
+      style={style}
+    >
+      <defs>
+        <linearGradient id="branchFadeLeft" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stopColor="var(--acc-strong)" stopOpacity=".42" />
+          <stop offset="1" stopColor="var(--acc-strong)" stopOpacity="0" />
+        </linearGradient>
+        <linearGradient id="branchFadeRight" x1="1" y1="0" x2="0" y2="0">
+          <stop offset="0" stopColor="var(--acc-strong)" stopOpacity=".42" />
+          <stop offset="1" stopColor="var(--acc-strong)" stopOpacity="0" />
+        </linearGradient>
+      </defs>
+      <path
+        d="M0 0H430V60 C409 55 394 63 385 80 C368 70 350 72 338 89 C321 77 301 80 291 99 C271 87 247 92 237 111 C228 122 220 124 215 125 C210 124 202 122 193 111 C183 92 159 87 139 99 C129 80 109 77 92 89 C80 72 62 70 45 80 C36 63 21 55 0 60Z"
+        fill="var(--bg-elevated)"
+      />
+      <path
+        d="M0 60 C21 55 36 63 45 80 C62 70 80 72 92 89 C109 77 129 80 139 99 C159 87 183 92 193 111 C202 122 210 124 215 125 C220 124 228 122 237 111 C247 92 271 87 291 99 C301 80 321 77 338 89 C350 72 368 70 385 80 C394 63 409 55 430 60"
+        fill="none"
+        stroke="var(--accent-yuzu)"
+        strokeWidth="1.15"
+        opacity=".72"
+      />
+      <path
+        d="M0 67 C20 62 32 69 41 87 M430 67 C410 62 398 69 389 87"
+        fill="none"
+        stroke="var(--accent-yuzu)"
+        strokeWidth=".7"
+        opacity=".38"
+      />
+      <g transform="translate(215 108)" fill="var(--accent-yuzu)" opacity=".78">
+        <ellipse cx="0" cy="-4" rx="3.2" ry="8" />
+        <ellipse cx="-6" cy="-2" rx="2.8" ry="7" transform="rotate(-45 -6 -2)" />
+        <ellipse cx="6" cy="-2" rx="2.8" ry="7" transform="rotate(45 6 -2)" />
+        <ellipse cx="-9" cy="3" rx="2.4" ry="6" transform="rotate(-68 -9 3)" />
+        <ellipse cx="9" cy="3" rx="2.4" ry="6" transform="rotate(68 9 3)" />
+        <circle cy="2" r="2" fill="var(--acc2-strong)" />
+      </g>
+      <g fill="none" stroke="url(#branchFadeLeft)" strokeWidth="1.4" strokeLinecap="round">
+        <path d="M0 18 C18 24 23 39 30 59" />
+        <path d="M10 27 C15 20 18 17 23 13 M17 38 C8 36 5 32 2 28 M24 49 C31 43 34 39 35 34" />
+      </g>
+      <g fill="var(--acc2-strong)" opacity=".5">
+        <ellipse cx="22" cy="15" rx="5" ry="2.2" transform="rotate(-48 22 15)" />
+        <ellipse cx="5" cy="28" rx="5" ry="2.2" transform="rotate(34 5 28)" />
+        <ellipse cx="35" cy="35" rx="5" ry="2.2" transform="rotate(-57 35 35)" />
+      </g>
+      <g transform="translate(430 0) scale(-1 1)" fill="none" stroke="url(#branchFadeRight)" strokeWidth="1.4" strokeLinecap="round">
+        <path d="M0 18 C18 24 23 39 30 59" />
+        <path d="M10 27 C15 20 18 17 23 13 M17 38 C8 36 5 32 2 28 M24 49 C31 43 34 39 35 34" />
+      </g>
+    </svg>
+  );
+}
+
+function Lotus({ x }: { x: number }) {
+  return (
+    <g transform={`translate(${x} 40)`}>
+      <path d="M0 29 C-2 19 -1 9 0 1 M0 18 C-8 12 -11 8 -12 4 M0 21 C8 15 12 10 13 6" fill="none" stroke="var(--acc-strong)" strokeWidth="1.2" />
+      <path d="M0 6 C-9 2 -11 -5 -8 -10 C-2 -9 1 -5 0 6Z M0 6 C9 2 11 -5 8 -10 C2 -9 -1 -5 0 6Z M0 4 C-4 -4 -2 -11 0 -14 C4 -9 5 -3 0 4Z" fill="var(--acc2-strong)" stroke="var(--acc2-deep)" strokeWidth=".7" />
+      <ellipse cx="-10" cy="14" rx="6" ry="2.5" fill="var(--acc-soft)" transform="rotate(28 -10 14)" />
+      <ellipse cx="10" cy="17" rx="6" ry="2.5" fill="var(--acc-soft)" transform="rotate(-28 10 17)" />
+    </g>
+  );
+}
+
+function MiniatureAnimal({ x, kind, color }: { x: number; kind: "dog" | "sheep" | "calf"; color: string }) {
+  if (kind === "sheep") {
+    return (
+      <g transform={`translate(${x} 36)`} stroke="var(--text-secondary)" strokeWidth=".8" strokeLinecap="round">
+        <path d="M3 12 C0 4 8 0 17 3 C24 0 32 5 29 13 C23 18 8 18 3 12Z" fill={color} />
+        <path d="M28 8 C36 5 38 11 33 15 L28 14Z" fill="var(--accent-yuzu)" />
+        <path d="M8 15V24 M23 15V24 M6 24H11 M21 24H26" fill="none" />
+        <circle cx="34" cy="10" r=".8" fill="var(--text-primary)" stroke="none" />
+      </g>
+    );
+  }
+  if (kind === "calf") {
+    return (
+      <g transform={`translate(${x} 35)`} stroke="var(--text-secondary)" strokeWidth=".8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M2 7 C10 2 24 3 30 9 L28 18 H8 L4 12Z" fill={color} />
+        <path d="M28 8 L36 5 L40 9 L35 13 L29 12 M36 5 L34 1 M38 6 L41 3" fill={color} />
+        <path d="M9 17V26 M25 17V26 M7 26H12 M23 26H28 M4 9 C-2 5 0 1 2 0" fill="none" />
+        <circle cx="37" cy="8" r=".8" fill="var(--text-primary)" stroke="none" />
+      </g>
+    );
+  }
+  return (
+    <g transform={`translate(${x} 38)`} stroke="var(--text-secondary)" strokeWidth=".8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M3 8 C9 3 21 3 27 8 L25 15 H8 L5 12Z" fill={color} />
+      <path d="M25 8 L31 2 L36 5 L34 11 L27 12 M31 2 L30 -2 L34 1" fill={color} />
+      <path d="M9 14V22 M23 14V22 M7 22H11 M21 22H25 M5 8 C0 5 0 1 2 0" fill="none" />
+      <circle cx="33" cy="5" r=".8" fill="var(--text-primary)" stroke="none" />
+    </g>
+  );
+}
+
+/** Detailed miniature-painting animal garden and geometric band above navigation. */
+export function AnimalFrieze({ style }: { style?: CSSProperties }) {
+  return (
+    <svg viewBox="0 0 430 88" preserveAspectRatio="none" aria-hidden style={style}>
+      <path d="M0 28 Q12 28 17 15 Q24 30 36 30 Q45 30 51 20 Q58 32 70 32 L70 88 H0Z" fill="var(--bg-elevated)" stroke="var(--accent-yuzu)" strokeWidth="1" />
+      <path d="M70 32 Q84 32 91 18 Q99 31 112 31 Q126 31 135 13 Q144 31 158 31 Q172 31 182 19 Q190 32 204 32 Q216 32 225 14 Q234 32 248 32 Q262 32 271 19 Q280 31 294 31 Q308 31 317 13 Q326 31 340 31 Q353 31 361 18 Q368 32 382 32 Q397 32 405 15 Q411 28 430 28 V88 H70Z" fill="var(--bg-elevated)" stroke="var(--accent-yuzu)" strokeWidth="1" />
+      <path d="M0 34 Q15 34 20 22 Q28 35 42 35 M388 35 Q402 35 410 22 Q416 34 430 34" fill="none" stroke="var(--accent-yuzu)" strokeWidth=".65" opacity=".55" />
+      <Lotus x={46} /><Lotus x={132} /><Lotus x={218} /><Lotus x={304} /><Lotus x={390} />
+      <MiniatureAnimal x={65} kind="dog" color="var(--accent-yuzu)" />
+      <MiniatureAnimal x={148} kind="calf" color="var(--accent-fuji)" />
+      <MiniatureAnimal x={239} kind="sheep" color="var(--acc-pale)" />
+      <MiniatureAnimal x={323} kind="dog" color="var(--acc2-soft)" />
+      <g transform="translate(0 72)">
+        <rect width="430" height="16" fill="var(--bg-elevated)" />
+        <path d="M0 1H430 M0 15H430" stroke="var(--accent-yuzu)" strokeWidth=".8" />
+        {Array.from({ length: 29 }).map((_, i) => (
+          <g key={i} transform={`translate(${i * 15 + 7.5} 8)`}>
+            <rect x="-3.2" y="-3.2" width="6.4" height="6.4" rx=".5" transform="rotate(45)" fill={i % 2 ? "var(--acc2-strong)" : "var(--acc-strong)"} opacity=".82" />
+            <circle cx="7.3" cy="0" r="1.35" fill="var(--accent-yuzu)" />
+          </g>
+        ))}
+      </g>
+    </svg>
+  );
+}
+
+/** Fine botanical flourish for the inside corners of white information cards. */
+export function BotanicalCorner({ style }: { style?: CSSProperties }) {
+  return (
+    <svg viewBox="0 0 54 54" aria-hidden style={style}>
+      <g fill="none" stroke="var(--acc-soft)" strokeWidth="1.2" strokeLinecap="round" opacity=".42">
+        <path d="M3 51 C8 29 22 13 49 4" />
+        <path d="M12 35 C6 33 4 28 5 23 M20 24 C19 16 23 11 29 8 M29 17 C37 17 42 13 44 8" />
+      </g>
+      <g fill="var(--acc-pale)" opacity=".8">
+        <ellipse cx="6" cy="23" rx="5" ry="2.2" transform="rotate(48 6 23)" />
+        <ellipse cx="28" cy="8" rx="5" ry="2.2" transform="rotate(-55 28 8)" />
+        <ellipse cx="44" cy="8" rx="5" ry="2.2" transform="rotate(-35 44 8)" />
+      </g>
+    </svg>
+  );
+}

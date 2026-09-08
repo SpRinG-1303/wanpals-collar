@@ -2,6 +2,7 @@ import { useLocation, useNavigate } from "@tanstack/react-router";
 import { Home, MapPin, HeartPulse, Users, User, ScanSearch, Pill, type LucideIcon } from "lucide-react";
 import { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
+import { AnimalFrieze } from "@/components/JaipurMotifs";
 
 type Tab = {
   Icon: LucideIcon;
@@ -63,11 +64,7 @@ export default function BottomNav() {
         justifyContent: "space-around",
       }}
     >
-      <div
-        className="animal-frieze"
-        aria-hidden
-        style={{ position: "absolute", top: -18, left: 0, right: 0, height: 18, backgroundColor: "var(--bg-page)", borderTop: "1px solid var(--border-subtle)", opacity: 0.9 }}
-      />
+      <AnimalFrieze style={{ position: "absolute", left: 0, right: 0, top: -88, width: "100%", height: 88, pointerEvents: "none", filter: "drop-shadow(0 -3px 8px color-mix(in oklab, var(--text-primary) 5%, transparent))" }} />
       {TABS.map((tab) => {
         const active = isActive(tab.route);
         const { Icon } = tab;
