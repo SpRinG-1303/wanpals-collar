@@ -13,7 +13,7 @@ import { usePet, displayName } from "@/context/PetContext";
 import { useGeoLocation } from "@/lib/useGeoLocation";
 import { useAuth } from "@/context/AuthContext";
 import VetHome from "@/components/vet/VetHome";
-import { Mandala, CornerScroll, Peacock } from "@/components/JaipurMotifs";
+import { Mandala, CornerScroll, Peacock, BotanicalCorner } from "@/components/JaipurMotifs";
 
 export const Route = createFileRoute("/home")({ component: Home });
 
@@ -43,6 +43,7 @@ function JCard({
 }) {
   return (
     <div
+      className="botanical-info-card"
       style={{
         background: JP.card,
         borderRadius: 24,
@@ -51,6 +52,7 @@ function JCard({
         ...style,
       }}
     >
+      <BotanicalCorner style={{ position: "absolute", right: 3, bottom: 3, width: 42, height: 42, transform: "rotate(180deg)", pointerEvents: "none" }} />
       {children}
     </div>
   );

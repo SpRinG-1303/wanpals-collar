@@ -8,6 +8,7 @@ import { T, useT } from "@/context/LanguageContext";
 import SideDrawer, { HamburgerButton } from "@/components/SideDrawer";
 import BottomNav from "@/components/BottomNav";
 import { useAuth } from "@/context/AuthContext";
+import { HeaderArchBoundary } from "@/components/JaipurMotifs";
 
 /* Pet-owner routes that veterinarians must never see — vets only get the
    clinical console (/home), body map, e-Rx and their profile. */
@@ -44,8 +45,9 @@ export function TopBar({
   ];
   return (
     <>
-      <header className="sticky top-0 z-40" style={{ background: "color-mix(in oklab, var(--bg-topbar) 94%, transparent)", backdropFilter: "blur(16px)", borderBottom: "1px solid var(--border-subtle)" }}>
-        <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center" style={{ padding: "8px 16px", minHeight: 64, gap: 10 }}>
+      <header className="sticky top-0 z-40" style={{ background: "transparent", minHeight: 84 }}>
+        <HeaderArchBoundary style={{ position: "absolute", inset: "0 0 auto", width: "100%", height: 126, pointerEvents: "none", filter: "drop-shadow(0 5px 10px color-mix(in oklab, var(--text-primary) 5%, transparent))" }} />
+        <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center" style={{ padding: "10px 16px 18px", minHeight: 72, gap: 10, position: "relative", zIndex: 1 }}>
           <div className="flex items-center" style={{ gap: 8 }}>
             {onMenuClick && <HamburgerButton isOpen={menuOpen} onClick={onMenuClick} />}
             {showBack && (
