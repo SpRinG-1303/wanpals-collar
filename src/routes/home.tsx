@@ -232,9 +232,20 @@ function Home() {
             overflow: "hidden",
           }}
         >
-          {/* Decorative circles */}
-          <div style={{ position: "absolute", top: -30, right: 40, width: 90, height: 90, borderRadius: "50%", background: "rgba(255,255,255,0.08)", pointerEvents: "none" }} />
-          <div style={{ position: "absolute", bottom: -24, left: -16, width: 70, height: 70, borderRadius: "50%", background: "rgba(255,255,255,0.07)", pointerEvents: "none" }} />
+          {/* Jaipur fresco watermark — mandala medallion + arabesque corners */}
+          <Mandala
+            size={210}
+            style={{ position: "absolute", top: -58, right: -52, color: "#FFFFFF", opacity: 0.13, pointerEvents: "none" }}
+          />
+          <CornerScroll
+            size={56}
+            flipY
+            style={{ position: "absolute", left: 4, bottom: 4, color: "#FFFFFF", opacity: 0.22, pointerEvents: "none" }}
+          />
+          <Peacock
+            size={64}
+            style={{ position: "absolute", right: 10, bottom: -6, color: "#FFFFFF", opacity: 0.2, pointerEvents: "none" }}
+          />
 
           <div className="flex items-center" style={{ gap: 12, position: "relative", zIndex: 1 }}>
             <div
