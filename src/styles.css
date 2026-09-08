@@ -43,47 +43,45 @@
 
 :root,
 [data-role="owner"] {
-  /* === Jaipur "Peacock Pastel": cream, teal, coral, navy === */
-  --bg-page: #FDF9EC;
-  --bg-outside: #F2E7C6;
+  /* === Jaipur botanical elegance: forest, sage, cream, terracotta === */
+  --bg-page: #FBF7ED;
+  --bg-outside: #EEF1EC;
   --bg-card: #FFFFFF;
-  --bg-card-sakura: #FBEDE7;
-  --bg-card-lavender: #E8F1F0;
-  --bg-card-mint: #E4F0EC;
-  --bg-card-yellow: #FBF3D5;
-  --bg-card-blue: #E7EBF5;
-  --bg-card-peach: #FCEDE4;
+  --bg-card-sakura: #EEF6F1;
+  --bg-card-lavender: #EDF1F4;
+  --bg-card-mint: #DCECE4;
+  --bg-card-yellow: #FBF7ED;
+  --bg-card-blue: #E9EEF2;
+  --bg-card-peach: #FCE9DF;
   --bg-surface: #FFFFFF;
-  --bg-elevated: #FFFCF3;
-  --bg-topbar: #FDF9EC;
+  --bg-elevated: #FFFDF8;
+  --bg-topbar: #FBF7ED;
   --bg-bottomnav: #FFFFFF;
   --bg-drawer: #FFFFFF;
-  --bg-drawer-hero: linear-gradient(160deg, #FBF3D5 0%, #FFFCF3 55%, #E4F0EC 100%);
-  --text-primary: #1B2E63;
-  --text-secondary: #6C7896;
-  --text-placeholder: #A9B2C6;
-  --text-muted-soft: #9AA4BC;
-  --border-subtle: #F0E7CF;
-  --border-card: #EADFC2;
-  --shadow-nav: 0 -4px 20px rgba(27,46,99,0.07);
-  --accent-sakura: #1F7A72;
-  --accent-sakura-dark: #145E58;
-  --accent-sakura-soft: #E4F0EC;
-  --accent-matcha: #1F7A72;
-  --accent-fuji: #1B2E63;
-  --accent-yuzu: #E4A32C;
-  --accent-sora: #2E96A8;
-  --accent-red: #E4644F;
-  /* Accent family A — peacock teal */
-  --acc-deep: #12554F;
-  --acc-strong: #1F7A72;
-  --acc-soft: #9CCCC4;
-  --acc-pale: #E4F0EC;
-  /* Accent family B — coral */
-  --acc2-deep: #B84630;
-  --acc2-strong: #E4644F;
-  --acc2-soft: #F6C3B7;
-  --acc2-pale: #FCEDE7;
+  --bg-drawer-hero: linear-gradient(160deg, #EEF6F1 0%, #FFFDF8 60%, #FCE9DF 100%);
+  --text-primary: #163E38;
+  --text-secondary: #6E7E83;
+  --text-placeholder: #9AA8A8;
+  --text-muted-soft: #8A999A;
+  --border-subtle: #E9E6DC;
+  --border-card: #E4DED0;
+  --shadow-nav: 0 -10px 30px rgba(15,107,91,0.07);
+  --accent-sakura: #0F6B5B;
+  --accent-sakura-dark: #075548;
+  --accent-sakura-soft: #EEF6F1;
+  --accent-matcha: #17866F;
+  --accent-fuji: #71849A;
+  --accent-yuzu: #DFC694;
+  --accent-sora: #71849A;
+  --accent-red: #E77845;
+  --acc-deep: #075548;
+  --acc-strong: #0F6B5B;
+  --acc-soft: #78A99B;
+  --acc-pale: #DCECE4;
+  --acc2-deep: #C85D31;
+  --acc2-strong: #E77845;
+  --acc2-soft: #F3A179;
+  --acc2-pale: #FCE9DF;
 
   --background: oklch(0.977 0.022 95);
   --foreground: oklch(0.32 0.09 268);
@@ -110,13 +108,13 @@
   --border: oklch(0.92 0.025 95);
   --input: oklch(0.92 0.025 95);
   --ring: oklch(0.49 0.083 187);
-  --shadow-card: 0 4px 16px rgba(27,46,99,0.10);
+  --shadow-card: 0 10px 30px rgba(22,62,56,0.08), 0 2px 8px rgba(22,62,56,0.04);
 }
 
 /* === Veterinarian theme: Jaipur indigo & peacock === */
 [data-role="vet"] {
-  --bg-page: #F8FAFC;
-  --bg-outside: #DDE4F0;
+  --bg-page: #F6F8F6;
+  --bg-outside: #E8ECE9;
   --bg-card-sakura: #E7EBF5;
   --bg-card-lavender: #E4EDF6;
   --bg-card-mint: #E4F0EC;
@@ -127,25 +125,25 @@
   --bg-bottomnav: #FFFFFF;
   --bg-drawer: #FFFFFF;
   --bg-drawer-hero: linear-gradient(160deg, #E7EBF5 0%, #F8FAFC 60%, #E4F0EC 100%);
-  --text-primary: #16234A;
-  --text-secondary: #6B7590;
+  --text-primary: #163E38;
+  --text-secondary: #687A80;
   --text-placeholder: #AEB6C8;
   --text-muted-soft: #9AA3B8;
   --border-subtle: #E8ECF4;
   --border-card: #DFE5F0;
   --shadow-nav: 0 -4px 20px rgba(22,35,74,0.08);
-  --accent-sakura: #1B2E63;
-  --accent-sakura-dark: #121F45;
-  --accent-sakura-soft: #E7EBF5;
+  --accent-sakura: #0F6B5B;
+  --accent-sakura-dark: #075548;
+  --accent-sakura-soft: #EEF6F1;
   --accent-matcha: #1F7A72;
   --accent-fuji: #1B2E63;
   --accent-yuzu: #E4A32C;
   --accent-sora: #2E96A8;
   /* Accent family A — indigo */
-  --acc-deep: #121F45;
-  --acc-strong: #1B2E63;
-  --acc-soft: #A8B5D8;
-  --acc-pale: #E7EBF5;
+  --acc-deep: #075548;
+  --acc-strong: #0F6B5B;
+  --acc-soft: #8EA49F;
+  --acc-pale: #DCECE4;
   /* Accent family B — peacock teal */
   --acc2-deep: #12554F;
   --acc2-strong: #1F7A72;
@@ -177,7 +175,9 @@
   --border: oklch(0.92 0.01 265);
   --input: oklch(0.92 0.01 265);
   --ring: oklch(0.34 0.10 268);
-  --shadow-card: 0 4px 16px rgba(22,35,74,0.10);
+  --ehr-bg: #F6F8F6;
+  --ehr-navy: #163E38;
+  --shadow-card: 0 10px 30px rgba(22,62,56,0.08), 0 2px 8px rgba(22,62,56,0.04);
 }
 
 .dark {
@@ -247,11 +247,34 @@
   * { border-color: var(--color-border); }
   html, body { background-color: var(--color-background); color: var(--color-foreground); }
   body { font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
+  input, textarea, select { caret-color: var(--acc-strong); }
+  input::placeholder, textarea::placeholder { color: var(--text-placeholder); }
+  input:focus-visible, textarea:focus-visible, select:focus-visible, button:focus-visible, a:focus-visible {
+    outline: 2px solid color-mix(in oklab, var(--acc-strong) 42%, transparent);
+    outline-offset: 2px;
+  }
+}
+
+.pawsitive-frame {
+  color: var(--text-primary);
+  isolation: isolate;
+}
+.pawsitive-frame main { scrollbar-width: none; }
+.pawsitive-frame main::-webkit-scrollbar { display: none; }
+.pawsitive-frame input,
+.pawsitive-frame textarea,
+.pawsitive-frame select { font-family: var(--font-sans); }
+.pawsitive-frame [role="dialog"] { color: var(--text-primary); }
+@media (min-width: 540px) {
+  .pawsitive-frame { border-radius: 34px; margin-block: 18px; height: calc(100dvh - 36px) !important; }
+}
+@media (max-width: 374px) {
+  .pawsitive-frame main { font-size: 0.96em; }
 }
 
 @layer utilities {
-  .shadow-card { box-shadow: 0 2px 20px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.04); }
-  .shadow-soft { box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
+  .shadow-card { box-shadow: var(--shadow-card); }
+  .shadow-soft { box-shadow: 0 3px 14px rgba(22,62,56,0.06); }
   .tabular-nums { font-variant-numeric: tabular-nums; }
   @keyframes petalFall {
     0% { transform: translateY(-10px) rotate(0deg); opacity: 0; }
@@ -292,7 +315,7 @@ body, p, span, div, li, a, label, input, textarea, select {
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
   font-weight: 500;
-  letter-spacing: -0.01em;
+  letter-spacing: 0;
 }
 button {
   font-family: var(--font-sans);
@@ -359,8 +382,26 @@ body {
 
 /* Buti — scattered hand-block flower stamps. Soft page wash. */
 @utility jaipur-buti {
-  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='84' height='84' viewBox='0 0 84 84'><g fill='none' stroke='rgb(31,122,114)' stroke-opacity='0.16' stroke-width='1.4'><path d='M21 12c0 5-4 7-4 11s4 5 4 9'/><ellipse cx='14' cy='19' rx='5' ry='2.6' transform='rotate(-28 14 19)'/><ellipse cx='28' cy='24' rx='5' ry='2.6' transform='rotate(28 28 24)'/><circle cx='21' cy='9' r='3.2'/><path d='M63 54c0 5-4 7-4 11s4 5 4 9'/><ellipse cx='56' cy='61' rx='5' ry='2.6' transform='rotate(-28 56 61)'/><ellipse cx='70' cy='66' rx='5' ry='2.6' transform='rotate(28 70 66)'/><circle cx='63' cy='51' r='3.2'/></g><g fill='rgb(228,100,79)' fill-opacity='0.13'><rect x='60' y='16' width='7' height='7' transform='rotate(45 63.5 19.5)'/><rect x='18' y='58' width='7' height='7' transform='rotate(45 21.5 61.5)'/></g></svg>");
-  background-size: 84px 84px;
+  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='112' height='112' viewBox='0 0 112 112'><g fill='none' stroke='rgb(15,107,91)' stroke-opacity='.055' stroke-width='1.2'><path d='M22 14c0 7-5 9-5 15s5 7 5 12'/><ellipse cx='14' cy='23' rx='6' ry='2.8' transform='rotate(-28 14 23)'/><ellipse cx='30' cy='29' rx='6' ry='2.8' transform='rotate(28 30 29)'/><path d='M90 70c0 7-5 9-5 15s5 7 5 12'/><ellipse cx='82' cy='79' rx='6' ry='2.8' transform='rotate(-28 82 79)'/><ellipse cx='98' cy='85' rx='6' ry='2.8' transform='rotate(28 98 85)'/></g></svg>");
+  background-size: 112px 112px;
+}
+
+@utility botanical-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: 24px;
+  box-shadow: var(--shadow-card);
+}
+
+@utility botanical-input {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  box-shadow: 0 3px 14px rgba(22,62,56,0.04);
+}
+
+@utility animal-frieze {
+  background-image: radial-gradient(ellipse at 10% 80%, color-mix(in oklab, var(--acc-strong) 18%, transparent) 0 5px, transparent 5.5px), radial-gradient(ellipse at 30% 76%, color-mix(in oklab, var(--acc2-strong) 18%, transparent) 0 4px, transparent 4.5px), radial-gradient(ellipse at 50% 80%, color-mix(in oklab, var(--acc-strong) 18%, transparent) 0 6px, transparent 6.5px), radial-gradient(ellipse at 70% 76%, color-mix(in oklab, var(--acc2-strong) 18%, transparent) 0 4px, transparent 4.5px), radial-gradient(ellipse at 90% 80%, color-mix(in oklab, var(--acc-strong) 18%, transparent) 0 5px, transparent 5.5px);
 }
 
 /* Painted floral vine border band — divider under headers / above nav. */

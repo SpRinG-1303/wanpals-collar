@@ -27,12 +27,10 @@ const C = {
 };
 
 const glass: CSSProperties = {
-  background: "#FFFFFF",
-  backdropFilter: "blur(8px)",
-  WebkitBackdropFilter: "blur(8px)",
-  border: "1.5px solid color-mix(in oklab, var(--acc-strong) 22.0%, transparent)",
-  borderRadius: 20,
-  boxShadow: "0 4px 24px color-mix(in oklab, var(--acc-deep) 8.0%, transparent)",
+  background: "var(--bg-card)",
+  border: "1px solid var(--border-card)",
+  borderRadius: 24,
+  boxShadow: "var(--shadow-card)",
 };
 
 function Report() {
@@ -73,9 +71,9 @@ function Report() {
           {/* Time filter tabs */}
           <div
             style={{
-              background: "#FFFFFF",
+              background: "var(--bg-card)",
               border: "1px solid color-mix(in oklab, var(--acc-deep) 20.0%, transparent)",
-              borderRadius: 16,
+              borderRadius: 18,
               padding: 4,
               margin: "0 0 12px",
               display: "flex",

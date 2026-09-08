@@ -52,11 +52,11 @@ export default function BottomNav() {
         left: 0,
         right: 0,
         bottom: 0,
-        height: 62,
-        background: "var(--bg-bottomnav)",
+        height: 76,
+        background: "color-mix(in oklab, var(--bg-bottomnav) 96%, transparent)",
         borderTop: "1px solid var(--border-subtle)",
         boxShadow: "var(--shadow-nav)",
-        paddingBottom: "max(6px, env(safe-area-inset-bottom))",
+        padding: "8px 8px max(8px, env(safe-area-inset-bottom))",
         zIndex: 100,
         display: "flex",
         alignItems: "center",
@@ -64,9 +64,9 @@ export default function BottomNav() {
       }}
     >
       <div
-        className="jaipur-vine"
+        className="animal-frieze"
         aria-hidden
-        style={{ position: "absolute", top: -1, left: 0, right: 0, height: 12, opacity: 0.5 }}
+        style={{ position: "absolute", top: -18, left: 0, right: 0, height: 18, backgroundColor: "var(--bg-page)", borderTop: "1px solid var(--border-subtle)", opacity: 0.9 }}
       />
       {TABS.map((tab) => {
         const active = isActive(tab.route);
@@ -77,39 +77,40 @@ export default function BottomNav() {
           <button
             key={tab.route}
             onClick={() => handleTap(tab.route)}
-            className="flex flex-col items-center justify-center relative"
-            style={{ flex: 1, height: "100%", cursor: "pointer", gap: 3 }}
+            className="flex flex-col items-center justify-center relative press-pop"
+            style={{ flex: 1, height: "100%", cursor: "pointer", gap: 4 }}
             aria-label={tab.label}
             aria-current={active ? "page" : undefined}
           >
             <span
               style={{
                 position: "absolute",
-                top: 6,
-                width: 4,
-                height: 4,
-                borderRadius: "50%",
-                background: ACCENT,
-                transform: active ? "scale(1)" : "scale(0)",
-                transition: "transform 0.2s ease",
+                inset: "3px 10px 17px",
+                borderRadius: 14,
+                background: "var(--acc-pale)",
+                transform: active ? "scale(1)" : "scale(0.8)",
+                opacity: active ? 1 : 0,
+                transition: "transform 0.2s ease, opacity 0.2s ease",
               }}
             />
             <Icon
-              size={21}
+              size={20}
               strokeWidth={1.8}
               style={{
                 color: active ? ACCENT : INACTIVE,
-                transform: bouncingNow ? "scale(1.2)" : "scale(1)",
+                transform: bouncingNow ? "scale(1.12)" : "scale(1)",
                 transition: "transform 0.2s ease, color 0.2s ease",
+                zIndex: 1,
               }}
             />
             <span
               style={{
-                fontSize: 10,
+                fontSize: 9,
                 color: active ? ACCENT : INACTIVE,
                 fontWeight: active ? 700 : 500,
                 lineHeight: 1,
                 transition: "color 0.2s ease",
+                zIndex: 1,
               }}
             >
               {tab.label}

@@ -1,6 +1,5 @@
 /**
- * Shared sense-page banner. Soft pastel gradient, dark navy title,
- * white LIVE pill. Flat bottom edge, 186px tall.
+ * Shared sense-page banner for the botanical health design system.
  */
 export function SenseBanner({
   subtitleEn,
@@ -24,11 +23,12 @@ export function SenseBanner({
         style={{
           position: "relative",
           zIndex: 1,
-          height: 186,
-          padding: "20px 20px 36px 20px",
+          minHeight: 178,
+          padding: "24px 20px 36px",
           background: bgGradient,
-          overflow: "hidden",
+          overflow: "visible",
           boxSizing: "border-box",
+          borderRadius: "0 0 30px 30px",
         }}
       >
         <div
@@ -55,12 +55,12 @@ export function SenseBanner({
             </div>
             <div
               style={{
-                fontSize: 26,
+                fontSize: 28,
                 fontWeight: 700,
                 color: "var(--text-primary)",
                 lineHeight: 1.15,
                 marginTop: 4,
-                letterSpacing: "-0.01em",
+                letterSpacing: 0,
               }}
             >
               {titleEn}
@@ -81,7 +81,7 @@ export function SenseBanner({
             className="inline-flex items-center"
             style={{
               flexShrink: 0,
-              background: "#FFFFFF",
+               background: "var(--bg-card)",
               color: "var(--text-primary)",
               borderRadius: 50,
               padding: "5px 11px 5px 9px",
@@ -89,7 +89,7 @@ export function SenseBanner({
               fontWeight: 700,
               letterSpacing: "0.1em",
               gap: 6,
-              boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
+               boxShadow: "0 3px 14px rgba(22,62,56,0.08)",
             }}
           >
             <span
@@ -97,7 +97,7 @@ export function SenseBanner({
                 width: 6,
                 height: 6,
                 borderRadius: "50%",
-                background: "#E53935",
+                background: "var(--accent-red)",
                 animation: "sbLiveDot 1.5s ease-in-out infinite",
               }}
             />

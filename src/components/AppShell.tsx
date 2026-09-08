@@ -44,8 +44,8 @@ export function TopBar({
   ];
   return (
     <>
-      <header className="sticky top-0 z-40" style={{ background: "var(--bg-topbar)" }}>
-        <div className="flex items-center justify-between" style={{ padding: "0 16px", height: 60, gap: 10 }}>
+      <header className="sticky top-0 z-40" style={{ background: "color-mix(in oklab, var(--bg-topbar) 94%, transparent)", backdropFilter: "blur(16px)", borderBottom: "1px solid var(--border-subtle)" }}>
+        <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center" style={{ padding: "8px 16px", minHeight: 64, gap: 10 }}>
           <div className="flex items-center" style={{ gap: 8 }}>
             {onMenuClick && <HamburgerButton isOpen={menuOpen} onClick={onMenuClick} />}
             {showBack && (
@@ -67,52 +67,46 @@ export function TopBar({
               <img
                 src={pawLogoAsset.url}
                 alt="Pawsitive logo"
-                style={{ width: 40, height: 40, objectFit: "contain", display: "block" }}
+                style={{ width: 36, height: 36, objectFit: "contain", display: "block" }}
               />
               <div style={{ display: "flex", flexDirection: "column", lineHeight: 1.1 }}>
-                <span style={{ fontSize: 15, fontWeight: 800, color: "var(--text-primary)", letterSpacing: "-0.01em" }}>
+                <span style={{ fontSize: 17, fontWeight: 500, color: "var(--text-primary)", fontFamily: "var(--font-display)" }}>
                   Pawsitive
                 </span>
-                <span style={{ fontSize: 12, fontWeight: 600, color: "var(--text-secondary)" }}>
+                <span style={{ fontSize: 9, fontWeight: 700, color: "var(--text-secondary)", textTransform: "uppercase", letterSpacing: "0.12em" }}>
                   Diagnostics
                 </span>
               </div>
             </Link>
           </div>
-          {showTitle ? (
-            <div className="text-sm font-bold truncate flex-1 text-center" style={{ color: "var(--text-primary)", letterSpacing: "0.02em" }}>
-              {t(titleJp ?? "", titleEn ?? "")}
-            </div>
-          ) : (
-            <div className="flex-1" />
-          )}
-          <div className="flex items-center" style={{ gap: 0 }}>
+          <div className="flex items-center shrink-0" style={{ gap: 6 }}>
             <button
               onClick={() => setBellOpen((o) => !o)}
               className="flex items-center justify-center relative"
-              style={{ width: 36, height: 36, margin: "0 4px 0 8px", color: bellOpen ? "var(--acc-strong)" : "var(--text-secondary)" }}
+              style={{ width: 38, height: 38, borderRadius: 12, color: bellOpen ? "var(--acc-strong)" : "var(--text-secondary)", background: "var(--bg-card)", border: "1px solid var(--border-subtle)", boxShadow: "0 3px 12px rgba(22,62,56,0.05)" }}
               aria-label={t("通知", "Notifications")}
             >
               <Bell size={22} strokeWidth={1.75} />
-              <span style={{ position: "absolute", top: 6, right: 6, width: 8, height: 8, borderRadius: "50%", background: "#E53935", border: "2px solid var(--bg-topbar)" }} />
+              <span style={{ position: "absolute", top: 7, right: 7, width: 7, height: 7, borderRadius: "50%", background: "var(--accent-red)", border: "2px solid var(--bg-card)" }} />
             </button>
             <button
               onClick={() => setSosOpen(true)}
               className="font-bold flex items-center active:scale-95 transition-transform"
               style={{
-                background: "#E53935",
-                color: "#fff",
-                borderRadius: 20,
-                padding: "6px 12px",
-                fontSize: 12,
-                boxShadow: "0 2px 8px rgba(229,57,53,0.3)",
+                background: "var(--accent-red)",
+                color: "var(--primary-foreground)",
+                borderRadius: 12,
+                height: 38,
+                padding: "0 12px",
+                fontSize: 11,
+                boxShadow: "0 6px 16px color-mix(in oklab, var(--accent-red) 24%, transparent)",
               }}
             >
               SOS
             </button>
           </div>
         </div>
-        <div className="jaipur-vine" style={{ height: 16 }} aria-hidden />
+        {showTitle && <div className="px-4 pb-2 text-center text-sm font-semibold truncate" style={{ color: "var(--text-primary)" }}>{t(titleJp ?? "", titleEn ?? "")}</div>}
         {bellOpen && (
           <>
             <div className="fixed inset-0 z-40" onClick={() => setBellOpen(false)} />
@@ -120,7 +114,7 @@ export function TopBar({
               initial={{ opacity: 0, y: -6 }}
               animate={{ opacity: 1, y: 0 }}
               className="absolute right-3 z-50"
-              style={{ top: 62, width: 300, background: "#FFFFFF", borderRadius: 16, boxShadow: "0 12px 32px rgba(0,0,0,0.14)", padding: 8 }}
+              style={{ top: 64, width: "min(300px, calc(100vw - 24px))", background: "var(--bg-card)", borderRadius: 20, border: "1px solid var(--border-card)", boxShadow: "var(--shadow-card)", padding: 8 }}
             >
               <div style={{ fontSize: 12, fontWeight: 700, color: "var(--text-primary)", padding: "6px 10px 8px" }}>
                 {t("通知", "Notifications")}
@@ -144,10 +138,10 @@ export function TopBar({
         )}
       </header>
       {sosOpen && (
-        <div className="fixed inset-0 z-[120] bg-black/50 flex items-end sm:items-center justify-center p-4" onClick={() => setSosOpen(false)}>
+        <div className="fixed inset-0 z-[120] bg-foreground/40 flex items-end justify-center p-3" onClick={() => setSosOpen(false)}>
           <motion.div
             initial={{ y: 100, opacity: 0 }} animate={{ y: 0, opacity: 1 }}
-            className="bg-card rounded-2xl p-6 w-full max-w-sm shadow-card"
+            className="bg-card rounded-3xl p-6 w-full max-w-sm shadow-card border border-border"
             onClick={(e) => e.stopPropagation()}
           >
             <h3 className="text-lg font-bold text-destructive"> <T jp="緊急" en="Emergency"/></h3>
@@ -245,7 +239,8 @@ export default function AppShell({
       }}
     >
       <div
-        className="jaipur-buti"
+        data-role={hydrated && session?.role === "vet" ? "vet" : "owner"}
+        className="pawsitive-frame jaipur-buti"
         style={{
           position: "relative",
           overflow: "hidden",
@@ -259,6 +254,8 @@ export default function AppShell({
           // drawers and bottom sheets inside phone coordinates on desktop.
           transform: "translateZ(0)",
           clipPath: "inset(0)",
+          borderInline: "1px solid var(--border-subtle)",
+          boxShadow: "0 24px 70px rgba(22,62,56,0.12)",
         }}
       >
         {renderTopBar
@@ -272,7 +269,7 @@ export default function AppShell({
               />
             )}
         <main
-          className={noPadding ? "" : "px-4 py-4"}
+          className={noPadding ? "" : "px-4 py-5"}
           style={
             fullHeight
               ? {
@@ -281,7 +278,7 @@ export default function AppShell({
                   overflow: "hidden",
                   display: "flex",
                   flexDirection: "column",
-                  paddingBottom: hideBottomNav ? 0 : 64,
+                  paddingBottom: hideBottomNav ? 0 : 78,
                 }
               : {
                   flex: 1,
@@ -289,7 +286,7 @@ export default function AppShell({
                   overflowY: "auto",
                   overflowX: "hidden",
                   WebkitOverflowScrolling: "touch",
-                  paddingBottom: hideBottomNav ? undefined : 80,
+                  paddingBottom: hideBottomNav ? undefined : 104,
                 }
           }
         >

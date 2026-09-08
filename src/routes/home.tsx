@@ -17,9 +17,9 @@ import { Mandala, CornerScroll, Peacock } from "@/components/JaipurMotifs";
 
 export const Route = createFileRoute("/home")({ component: Home });
 
-/* ---------- Theme tokens (colors unchanged) ---------- */
+/* ---------- Shared botanical theme tokens ---------- */
 const JP = {
-  card: "#FFFFFF",
+  card: "var(--bg-card)",
   sumi: "var(--text-primary)",
   usuzumi: "var(--text-secondary)",
   sakura: "var(--accent-sakura)",
@@ -31,7 +31,7 @@ const JP = {
   yuzu: "var(--accent-yuzu)",
 };
 
-const CARD_SHADOW = "0 2px 20px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.04)";
+const CARD_SHADOW = "var(--shadow-card)";
 
 /* Clean white card — reference style: no strips, soft shadow, 20px radius */
 function JCard({
@@ -45,7 +45,8 @@ function JCard({
     <div
       style={{
         background: JP.card,
-        borderRadius: 20,
+        borderRadius: 24,
+        border: "1px solid var(--border-card)",
         boxShadow: CARD_SHADOW,
         ...style,
       }}
@@ -59,7 +60,7 @@ function JCard({
 function SectionHeader({ en, to }: { en: string; to?: string }) {
   const inner = (
     <>
-      <div style={{ fontSize: 16, fontWeight: 700, color: JP.sumi, letterSpacing: "-0.01em" }}>
+      <div style={{ fontSize: 18, fontWeight: 500, color: JP.sumi, fontFamily: "var(--font-display)" }}>
         {en}
       </div>
       {to && (
@@ -73,7 +74,7 @@ function SectionHeader({ en, to }: { en: string; to?: string }) {
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
-    margin: "22px 0 12px",
+    margin: "26px 0 12px",
   };
   return to ? (
     <Link to={to} style={style}>{inner}</Link>
@@ -146,7 +147,7 @@ function Home() {
 
   return (
     <AppShell titleJp="" titleEn="" noPadding>
-      <div style={{ padding: "8px 16px 0" }}>
+      <div style={{ padding: "12px 16px 0" }}>
 
         {/* Location header row — reference style */}
         <div className="flex items-center justify-between" style={{ marginTop: 4 }}>
@@ -183,7 +184,8 @@ function Home() {
             style={{
               height: 48,
               background: JP.card,
-              borderRadius: 14,
+               borderRadius: 16,
+               border: "1px solid var(--border-subtle)",
               boxShadow: CARD_SHADOW,
               padding: "0 14px",
               gap: 10,
@@ -207,12 +209,12 @@ function Home() {
             aria-label="Toggle sensor view"
             className="flex items-center justify-center active:scale-95 transition-transform"
             style={{
-              width: 48, height: 48, borderRadius: 14, flexShrink: 0,
+               width: 48, height: 48, borderRadius: 16, flexShrink: 0,
               background: viewMode === "list"
                 ? "var(--acc-pale)"
                 : `linear-gradient(135deg, ${JP.sakura}, var(--accent-sakura-dark))`,
               boxShadow: "0 6px 16px color-mix(in oklab, var(--accent-sakura) 35%, transparent)",
-              color: viewMode === "list" ? JP.sakura : "#FFFFFF",
+               color: viewMode === "list" ? JP.sakura : "var(--primary-foreground)",
             }}
           >
             <SlidersHorizontal size={19} strokeWidth={2.2} />
@@ -225,10 +227,10 @@ function Home() {
           style={{
             display: "block",
             marginTop: 18,
-            borderRadius: 20,
+            borderRadius: 28,
             background: "linear-gradient(135deg, var(--accent-sakura) 0%, var(--accent-sakura-dark) 100%)",
             boxShadow: "0 10px 28px color-mix(in oklab, var(--accent-sakura) 40%, transparent)",
-            padding: 16,
+            padding: 20,
             position: "relative",
             overflow: "hidden",
           }}
@@ -236,27 +238,27 @@ function Home() {
           {/* Jaipur fresco watermark — mandala medallion + arabesque corners */}
           <Mandala
             size={210}
-            style={{ position: "absolute", top: -58, right: -52, color: "#FFFFFF", opacity: 0.13, pointerEvents: "none" }}
+             style={{ position: "absolute", top: -58, right: -52, color: "var(--primary-foreground)", opacity: 0.1, pointerEvents: "none" }}
           />
           <CornerScroll
             size={56}
             flipY
-            style={{ position: "absolute", left: 4, bottom: 4, color: "#FFFFFF", opacity: 0.22, pointerEvents: "none" }}
+             style={{ position: "absolute", left: 4, bottom: 4, color: "var(--primary-foreground)", opacity: 0.16, pointerEvents: "none" }}
           />
           <Peacock
             size={64}
-            style={{ position: "absolute", right: 10, bottom: -6, color: "#FFFFFF", opacity: 0.2, pointerEvents: "none" }}
+             style={{ position: "absolute", right: 10, bottom: -6, color: "var(--primary-foreground)", opacity: 0.15, pointerEvents: "none" }}
           />
 
           <div className="flex items-center" style={{ gap: 12, position: "relative", zIndex: 1 }}>
             <div
               className="flex items-center justify-center"
-              style={{ width: 46, height: 46, borderRadius: "50%", background: "#FFFFFF", flexShrink: 0 }}
+               style={{ width: 48, height: 48, borderRadius: 16, background: "var(--bg-card)", flexShrink: 0 }}
             >
               <PawPrint size={22} strokeWidth={2} style={{ color: JP.sakura }} />
             </div>
             <div style={{ flex: 1, minWidth: 0 }}>
-              <div style={{ fontSize: 15, fontWeight: 700, color: "#FFFFFF", lineHeight: 1.2 }}>
+               <div style={{ fontSize: 18, fontWeight: 500, color: "var(--primary-foreground)", lineHeight: 1.2, fontFamily: "var(--font-display)" }}>
                 Overall Health Score
               </div>
               <div style={{ fontSize: 12, color: "rgba(255,255,255,0.85)", marginTop: 2 }}>
@@ -265,7 +267,7 @@ function Home() {
             </div>
             <div
               className="flex items-center justify-center"
-              style={{ width: 40, height: 40, borderRadius: "50%", background: "#FFFFFF", flexShrink: 0 }}
+               style={{ width: 40, height: 40, borderRadius: 14, background: "var(--bg-card)", flexShrink: 0 }}
             >
               <ArrowUpRight size={19} strokeWidth={2.4} style={{ color: JP.sakura }} />
             </div>
@@ -276,13 +278,13 @@ function Home() {
           <div className="flex items-center justify-between" style={{ position: "relative", zIndex: 1 }}>
             <div className="flex items-center" style={{ gap: 6 }}>
               <span className="relative inline-block" style={{ width: 8, height: 8 }}>
-                <span style={{ position: "absolute", inset: 0, borderRadius: "50%", background: "#FFFFFF" }} />
-                <span className="animate-ping" style={{ position: "absolute", inset: 0, borderRadius: "50%", background: "#FFFFFF", opacity: 0.6 }} />
+                 <span style={{ position: "absolute", inset: 0, borderRadius: "50%", background: "var(--primary-foreground)" }} />
+                 <span className="animate-ping" style={{ position: "absolute", inset: 0, borderRadius: "50%", background: "var(--primary-foreground)", opacity: 0.6 }} />
               </span>
-              <span style={{ fontSize: 11, fontWeight: 700, color: "#FFFFFF", letterSpacing: "0.06em" }}>LIVE</span>
+               <span style={{ fontSize: 10, fontWeight: 700, color: "var(--primary-foreground)", letterSpacing: "0.08em" }}>LIVE</span>
               <span style={{ fontSize: 11, color: "rgba(255,255,255,0.8)" }}>· All sensors active</span>
             </div>
-            <span style={{ fontSize: 17, fontWeight: 800, color: "#FFFFFF", fontVariantNumeric: "tabular-nums" }}>
+             <span style={{ fontSize: 24, fontWeight: 500, color: "var(--primary-foreground)", fontVariantNumeric: "tabular-nums", fontFamily: "var(--font-display)" }}>
               {score}<span style={{ fontSize: 12, fontWeight: 600, opacity: 0.8 }}> / 100</span>
             </span>
           </div>
@@ -367,7 +369,7 @@ function Home() {
                 height: 34, padding: "0 14px", borderRadius: 17, border: "none", flexShrink: 0,
                 fontSize: 12, fontWeight: 700,
                 background: collarState === "connected" ? "var(--accent-matcha)" : JP.sakura,
-                color: "#FFFFFF",
+                 color: "var(--primary-foreground)",
                 opacity: collarState === "connecting" ? 0.8 : 1,
               }}
             >

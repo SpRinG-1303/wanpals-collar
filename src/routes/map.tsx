@@ -13,11 +13,11 @@ import { useGeoLocation } from "@/lib/useGeoLocation";
 export const Route = createFileRoute("/map")({ component: MapScreen });
 
 /* Home-page card spec */
-const CARD_SHADOW = "0 2px 20px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.04)";
+const CARD_SHADOW = "var(--shadow-card)";
 
 function SectionHeader({ title }: { title: string }) {
   return (
-    <div style={{ margin: "20px 20px 10px", fontSize: 16, fontWeight: 700, color: "var(--text-primary)", letterSpacing: "-0.01em" }}>
+    <div style={{ margin: "24px 20px 10px", fontSize: 18, fontWeight: 500, color: "var(--text-primary)", fontFamily: "var(--font-display)" }}>
       {title}
     </div>
   );
@@ -58,7 +58,7 @@ function MapScreen() {
       `}</style>
 
       {/* LIVE STATUS BAR */}
-      <div style={{ margin: "8px 16px", padding: "12px 16px", background: "#FFFFFF", borderRadius: 20, boxShadow: CARD_SHADOW }}>
+      <div style={{ margin: "12px 16px", padding: "14px 16px", background: "var(--bg-card)", borderRadius: 24, border: "1px solid var(--border-card)", boxShadow: CARD_SHADOW }}>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <span className="relative inline-block green-pulse" style={{ width: 8, height: 8, borderRadius: "50%", background: "var(--accent-sakura)" }} />
@@ -75,7 +75,7 @@ function MapScreen() {
       </div>
 
       {/* MAP CARD */}
-      <div style={{ margin: "12px 16px", borderRadius: 20, overflow: "hidden", height: 320, position: "relative", boxShadow: CARD_SHADOW, background: "var(--acc-pale)" }}>
+      <div style={{ margin: "12px 16px", borderRadius: 28, overflow: "hidden", height: 320, position: "relative", boxShadow: CARD_SHADOW, border: "1px solid var(--border-card)", background: "var(--acc-pale)" }}>
         <div className="absolute inset-0" style={{ transform: `scale(${zoom})`, transformOrigin: "center center", transition: "transform 0.25s ease" }}>
         {/* Base watercolor map */}
         <div className="absolute inset-0" style={{
@@ -206,7 +206,7 @@ function MapScreen() {
 
       {/* DOG INFO CARD */}
       <SectionHeader title={t("マイペット", "My Pet")} />
-      <div style={{ margin: "0 16px 12px", background: "#FFFFFF", borderRadius: 20, boxShadow: CARD_SHADOW }}>
+      <div style={{ margin: "0 16px 12px", background: "var(--bg-card)", borderRadius: 24, border: "1px solid var(--border-card)", boxShadow: CARD_SHADOW }}>
         <div style={{ padding: 14 }}>
           <div className="flex items-start justify-between">
             <div className="flex items-start gap-3 flex-1 min-w-0">
@@ -243,7 +243,7 @@ function MapScreen() {
 
       {/* SAFE ZONE CARD */}
       <SectionHeader title={t("安全", "Safety")} />
-      <div style={{ margin: "0 16px 12px", background: "#FFFFFF", borderRadius: 20, boxShadow: CARD_SHADOW }}>
+      <div style={{ margin: "0 16px 12px", background: "var(--bg-card)", borderRadius: 24, border: "1px solid var(--border-card)", boxShadow: CARD_SHADOW }}>
         <div style={{ padding: 14 }}>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -274,10 +274,10 @@ function MapScreen() {
       {/* LOST MODE CARD */}
       <div style={{
         margin: "0 16px 12px",
-        background: "#FFFFFF",
-        borderRadius: 20,
+        background: "var(--bg-card)",
+        borderRadius: 24,
+        border: lost ? "2px solid var(--accent-red)" : "1px solid var(--border-card)",
         boxShadow: CARD_SHADOW,
-        border: lost ? "2px solid #E53935" : "none",
         animation: lost ? "borderPulse 1.6s infinite" : undefined,
         padding: 14,
       }}>
@@ -318,7 +318,7 @@ function MapScreen() {
 
       {/* LOCATION HISTORY */}
       <SectionHeader title={t("アクティビティ", "Activity")} />
-      <div style={{ margin: "0 16px 12px", background: "#FFFFFF", borderRadius: 20, boxShadow: CARD_SHADOW, padding: 14 }}>
+       <div style={{ margin: "0 16px 12px", background: "var(--bg-card)", borderRadius: 24, border: "1px solid var(--border-card)", boxShadow: CARD_SHADOW, padding: 14 }}>
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-2">
             <History size={18} style={{ color: "var(--accent-sakura)" }} />
@@ -355,7 +355,7 @@ function MapScreen() {
       </div>
 
       {/* NEARBY CLINIC */}
-      <button onClick={() => navigate({ to: "/clinics" })} className="w-full flex items-center gap-3" style={{ margin: "0 16px 24px", width: "calc(100% - 32px)", background: "#FFFFFF", boxShadow: CARD_SHADOW, borderRadius: 20, padding: 14, textAlign: "left" }}>
+      <button onClick={() => navigate({ to: "/clinics" })} className="w-full flex items-center gap-3" style={{ margin: "0 16px 24px", width: "calc(100% - 32px)", background: "var(--bg-card)", boxShadow: CARD_SHADOW, border: "1px solid var(--border-card)", borderRadius: 24, padding: 14, textAlign: "left" }}>
         <div className="flex items-center justify-center" style={{ width: 44, height: 44, borderRadius: "50%", background: "var(--accent-sakura-soft)" }}>
           <Stethoscope size={20} style={{ color: "var(--accent-sakura)" }} />
         </div>

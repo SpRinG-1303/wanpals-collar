@@ -145,7 +145,7 @@ function Settings() {
 
   return (
     <AppShell titleJp=" 設定" titleEn=" Settings">
-      <div className="bg-card rounded-2xl p-4 shadow-card flex items-center gap-3">
+      <div className="bg-card rounded-3xl border border-border p-5 shadow-card flex items-center gap-3">
         <div className="relative">
           <div className="w-16 h-16 rounded-full flex items-center justify-center" style={{ background: "var(--accent-sakura-soft)", border: "1.5px solid var(--acc-soft)" }}>
             <User size={26} style={{ color: "var(--accent-sakura)" }} />
@@ -266,7 +266,7 @@ function Settings() {
         </button>
       </Section>
 
-      <div className="mt-4 bg-gradient-to-br from-warning to-sakura rounded-2xl p-5 shadow-card text-primary">
+      <div className="mt-5 rounded-3xl border border-border p-5 shadow-card text-foreground" style={{ background: "linear-gradient(145deg,var(--bg-card-peach),var(--bg-card))" }}>
         <div className="flex items-center gap-2"><Crown className="w-5 h-5"/><div className="font-black">{t("プロプランにアップグレード", "Upgrade to Pawsitive Pro")}</div></div>
         <ul className="mt-3 text-xs space-y-1">
           <li>✓ {t("無制限AI診断", "Unlimited AI diagnosis")}</li>
@@ -274,7 +274,7 @@ function Settings() {
           <li>✓ {t("詳細レポート", "Detailed reports")}</li>
           <li>✓ {t("複数ペット対応", "Multiple pets")}</li>
         </ul>
-        <button onClick={() => toast.success(t("Proプランは近日公開 — 先行アクセスに登録しました", "Pawsitive Pro launches soon — you're on the early-access list"))} className="mt-3 w-full bg-primary text-primary-foreground rounded-xl py-3 font-bold text-sm">{t("月額 ¥980", "¥980 / month")} →</button>
+        <button onClick={() => toast.success(t("Proプランは近日公開 — 先行アクセスに登録しました", "Pawsitive Pro launches soon — you're on the early-access list"))} className="mt-3 w-full bg-primary text-primary-foreground rounded-2xl py-3 font-bold text-sm">{t("月額 ₹799", "₹799 / month")} →</button>
       </div>
 
       <div className="mt-6 border-t border-border pt-4">
@@ -391,7 +391,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
   return (
     <div className="mt-4">
       <div className="text-[10px] font-bold text-muted-foreground uppercase tracking-wide px-2 mb-1">{title}</div>
-      <div className="bg-card rounded-2xl p-4 shadow-card space-y-3">{children}</div>
+      <div className="bg-card rounded-3xl border border-border p-4 shadow-card space-y-3">{children}</div>
     </div>
   );
 }
