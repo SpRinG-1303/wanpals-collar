@@ -29,13 +29,13 @@ function SummaryCard({ Icon, label, value, tone }: { Icon: LucideIcon; label: st
     grey: { fg: E.grey, bg: E.greySoft },
   }[tone];
   return (
-    <Card style={{ padding: "14px 16px" }}>
+    <Card style={{ padding: "16px" }}>
       <div className="flex items-center" style={{ gap: 11 }}>
-        <span className="flex items-center justify-center" style={{ width: 36, height: 36, borderRadius: 10, background: toneMap.bg, color: toneMap.fg, flexShrink: 0 }}>
+        <span className="flex items-center justify-center" style={{ width: 38, height: 38, borderRadius: 14, background: toneMap.bg, color: toneMap.fg, flexShrink: 0 }}>
           <Icon size={17} strokeWidth={2} />
         </span>
         <div style={{ minWidth: 0 }}>
-          <div style={{ fontSize: 22, fontWeight: 800, color: E.ink, lineHeight: 1.1, fontVariantNumeric: "tabular-nums" }}>{value}</div>
+          <div style={{ fontSize: 24, fontWeight: 500, color: E.ink, lineHeight: 1.1, fontVariantNumeric: "tabular-nums", fontFamily: "var(--font-display)" }}>{value}</div>
           <div style={{ fontSize: 10.5, fontWeight: 600, color: E.sub, letterSpacing: "0.05em", textTransform: "uppercase", marginTop: 2 }}>{label}</div>
         </div>
       </div>
@@ -73,7 +73,7 @@ export default function VetHome() {
       {/* Greeting */}
       <div className="flex items-end justify-between flex-wrap" style={{ gap: 8, marginBottom: 18 }}>
         <div>
-          <h1 style={{ fontSize: 22, fontWeight: 800, color: E.ink, letterSpacing: "-0.015em", margin: 0 }}>
+          <h1 style={{ fontSize: 25, fontWeight: 500, color: E.ink, margin: 0 }}>
             {greet}, {drName}
           </h1>
           <div style={{ fontSize: 13, color: E.sub, marginTop: 3 }}>Here's your clinic overview for today · {today}</div>
@@ -99,65 +99,36 @@ export default function VetHome() {
                 View patients →
               </Link>
             </div>
-            <div style={{ overflowX: "auto" }}>
-              <table style={{ width: "100%", minWidth: 620, borderCollapse: "collapse" }}>
-                <thead>
-                  <tr style={{ background: E.bg }}>
-                    {["Time", "Patient", "Owner", "Reason", "Status", ""].map((h) => (
-                      <th key={h} style={{ textAlign: "left", fontSize: 10.5, fontWeight: 700, color: E.sub, letterSpacing: "0.05em", textTransform: "uppercase", padding: "9px 12px" }}>
-                        {h}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {APPOINTMENTS.map((a) => {
-                    const p = patientById(a.patientId)!;
-                    const meta = APPT_STATUS_META[a.status];
-                    return (
-                      <tr
-                        key={a.id}
-                        onClick={() => navigate({ to: "/vet-patient/$id", params: { id: p.id } })}
-                        style={{ borderTop: `1px solid ${E.borderSubtle}`, cursor: "pointer" }}
-                        className="group"
-                      >
-                        <td style={{ padding: "11px 12px", fontSize: 13, fontWeight: 700, color: E.ink, fontVariantNumeric: "tabular-nums", whiteSpace: "nowrap" }}>{a.time}</td>
-                        <td style={{ padding: "11px 12px" }}>
-                          <div className="flex items-center" style={{ gap: 9 }}>
-                            <PatientAvatar patient={p} size={30} />
-                            <div style={{ minWidth: 0 }}>
-                              <div style={{ fontSize: 13, fontWeight: 700, color: E.ink, whiteSpace: "nowrap" }}>{p.name}</div>
-                              <div style={{ fontSize: 11, color: E.sub, whiteSpace: "nowrap" }}>{p.breed}</div>
-                            </div>
-                          </div>
-                        </td>
-                        <td style={{ padding: "11px 12px", fontSize: 12.5, color: E.ink, whiteSpace: "nowrap" }}>{p.owner}</td>
-                        <td style={{ padding: "11px 12px", fontSize: 12.5, color: E.sub }}>
-                          <span className="flex items-center" style={{ gap: 6 }}>
-                            {a.reason}
-                            {a.type === "Video" && <Video size={13} style={{ color: E.accent, flexShrink: 0 }} />}
-                          </span>
-                        </td>
-                        <td style={{ padding: "11px 12px" }}>
-                          <Chip tone={meta.tone} dot>{meta.label}</Chip>
-                        </td>
-                        <td style={{ padding: "11px 12px", textAlign: "right", whiteSpace: "nowrap" }}>
-                          {(a.status === "waiting" || a.status === "in-consultation" || a.status === "checked-in") && (
-                            <Link
-                              to="/vet-consult"
-                              search={{ patient: p.id }}
-                              onClick={(e) => e.stopPropagation()}
-                              style={{ fontSize: 12, fontWeight: 700, color: E.accent, textDecoration: "none" }}
-                            >
-                              Start →
-                            </Link>
-                          )}
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              {APPOINTMENTS.map((a) => {
+                const p = patientById(a.patientId);
+                if (!p) return null;
+                const meta = APPT_STATUS_META[a.status];
+                return (
+                  <button
+                    key={a.id}
+                    onClick={() => navigate({ to: "/vet-patient/$id", params: { id: p.id } })}
+                    className="w-full grid grid-cols-[auto_minmax(0,1fr)_auto] items-center text-left press-pop"
+                    style={{ gap: 10, padding: "12px 14px", borderTop: `1px solid ${E.borderSubtle}`, background: "transparent" }}
+                  >
+                    <div style={{ textAlign: "center" }}>
+                      <div style={{ fontSize: 13, fontWeight: 700, color: E.ink, fontVariantNumeric: "tabular-nums" }}>{a.time}</div>
+                      <div style={{ fontSize: 9, color: E.faint, marginTop: 2 }}>{a.type}</div>
+                    </div>
+                    <div className="flex items-center min-w-0" style={{ gap: 9 }}>
+                      <PatientAvatar patient={p} size={34} />
+                      <span className="min-w-0">
+                        <span className="block truncate" style={{ fontSize: 13, fontWeight: 700, color: E.ink }}>{p.name} · {p.breed}</span>
+                        <span className="block truncate" style={{ fontSize: 11, color: E.sub, marginTop: 2 }}>{p.owner} · {a.reason}</span>
+                      </span>
+                    </div>
+                    <span className="flex flex-col items-end" style={{ gap: 6 }}>
+                      <Chip tone={meta.tone} dot>{meta.label}</Chip>
+                      {(a.status === "waiting" || a.status === "in-consultation" || a.status === "checked-in") && <span style={{ fontSize: 11, fontWeight: 700, color: E.accent }}>Start →</span>}
+                    </span>
+                  </button>
+                );
+              })}
             </div>
           </Card>
 

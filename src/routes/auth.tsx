@@ -421,10 +421,10 @@ function RoleCard({
       className="w-full flex items-center text-left"
       style={{
         gap: 14,
-        background: "#FFFFFF",
+        background: "var(--bg-card)",
         border: `1px solid ${LINE}`,
-        borderRadius: 18,
-        padding: "18px 16px",
+        borderRadius: 24,
+        padding: "20px 18px",
         boxShadow: CARD_SHADOW,
         transform: pressed ? "scale(0.98)" : "scale(1)",
         transition: "transform 0.15s ease, border-color 0.15s ease",
@@ -432,12 +432,12 @@ function RoleCard({
     >
       <div
         className="flex items-center justify-center shrink-0"
-        style={{ width: 54, height: 54, borderRadius: 14, background: soft }}
+        style={{ width: 54, height: 54, borderRadius: 18, background: soft }}
       >
         {icon}
       </div>
       <div style={{ flex: 1, minWidth: 0 }}>
-        <div style={{ fontSize: 16, fontWeight: 600, color: INK }}>{title}</div>
+        <div style={{ fontSize: 18, fontWeight: 500, color: INK, fontFamily: "var(--font-display)" }}>{title}</div>
         <div style={{ fontSize: 12.5, color: SUB, marginTop: 2, lineHeight: 1.45 }}>{desc}</div>
       </div>
       <ChevronRight size={18} style={{ color: tint, flexShrink: 0 }} />
@@ -455,11 +455,11 @@ function Chip({
       onClick={onClick}
       style={{
         padding: "9px 16px",
-        borderRadius: 20,
+        borderRadius: 14,
         fontSize: 13,
         fontWeight: 600,
         border: `1px solid ${active ? accent : LINE}`,
-        background: active ? soft : "#FFFFFF",
+        background: active ? soft : "var(--bg-card)",
         color: active ? accent : SUB,
         transition: "all 0.15s ease",
       }}

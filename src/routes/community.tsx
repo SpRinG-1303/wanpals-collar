@@ -217,7 +217,7 @@ function Community() {
     setComposeOpen(false);
     toast(t("投稿しました！", "Post published!"), {
       duration: 2500,
-      style: { background: "var(--text-primary)", color: "#fff", border: "none" },
+          style: { background: "var(--text-primary)", color: "var(--primary-foreground)", border: "none" },
     });
   }
 
@@ -235,8 +235,9 @@ function Community() {
       {/* ── Stats Bar ─────────────────────────────────────────── */}
       <div
         style={{
-          background: "#FFFFFF",
-          borderRadius: 16,
+          background: "var(--bg-card)",
+          borderRadius: 24,
+          border: "1px solid var(--border-card)",
           margin: "32px 16px 8px",
           padding: "12px 20px",
           boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
@@ -268,8 +269,8 @@ function Community() {
         {CATS.map((c, i) => {
           const active = sub === i;
           const style: React.CSSProperties = active
-            ? { background: "linear-gradient(135deg, var(--accent-sakura), var(--accent-sakura-dark))", color: "#fff", border: "1.5px solid transparent", boxShadow: "0 4px 12px color-mix(in srgb, var(--accent-sakura) calc(0.35 * 100%), transparent)" }
-            : { background: "#FFFFFF", color: "var(--text-secondary)", border: "1.5px solid var(--border-card)", boxShadow: "0 2px 6px rgba(0,0,0,0.05)" };
+            ? { background: "linear-gradient(135deg, var(--accent-sakura), var(--accent-sakura-dark))", color: "var(--primary-foreground)", border: "1.5px solid transparent", boxShadow: "0 4px 12px color-mix(in srgb, var(--accent-sakura) calc(0.35 * 100%), transparent)" }
+            : { background: "var(--bg-card)", color: "var(--text-secondary)", border: "1.5px solid var(--border-card)", boxShadow: "0 2px 6px rgba(22,62,56,0.05)" };
           return (
             <button
               key={c.en}
@@ -315,10 +316,11 @@ function Community() {
                 style={{
                   width: 160,
                   height: 104,
-                  borderRadius: 20,
+                  borderRadius: 16,
                   padding: 12,
-                  background: "#FFFFFF",
-                  boxShadow: "0 2px 20px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.04)",
+                  background: "var(--bg-card)",
+                  border: "1px solid var(--border-card)",
+                  boxShadow: "var(--shadow-card)",
                 }}
               >
                 <div className="flex items-center" style={{ gap: 6 }}>
@@ -362,9 +364,10 @@ function Community() {
               onClick={() => toast(`Joined "${g.name}"`, { description: "New discussions will appear in your feed.", duration: 1800 })}
               className="text-left active:scale-[0.97] transition-transform"
               style={{
-                background: "#FFFFFF",
-                borderRadius: 16,
-                boxShadow: "0 2px 20px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.04)",
+                 background: "var(--bg-card)",
+                 borderRadius: 20,
+                 border: "1px solid var(--border-card)",
+                 boxShadow: "var(--shadow-card)",
                 padding: "12px 14px",
               }}
             >

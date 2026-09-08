@@ -29,7 +29,7 @@ import { useT, useLanguage } from "@/context/LanguageContext";
 export const Route = createFileRoute("/clinics")({ component: Clinics });
 
 /* Home-page card spec */
-const CARD_SHADOW = "0 2px 20px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.04)";
+const CARD_SHADOW = "var(--shadow-card)";
 /* 8px grid · 16px side margins everywhere */
 const MX = 16;
 
@@ -63,8 +63,8 @@ const CATS: Cat[] = [
 function SectionLabel({ jp, en }: { jp: string; en: string }) {
   const t = useT();
   return (
-    <div style={{ margin: `20px ${MX}px 8px` }}>
-      <div style={{ fontSize: 11, fontWeight: 800, color: "var(--text-secondary)", letterSpacing: "0.14em", textTransform: "uppercase" }}>
+      <div style={{ margin: `24px ${MX}px 10px` }}>
+      <div style={{ fontSize: 18, fontWeight: 500, color: "var(--text-primary)", fontFamily: "var(--font-display)" }}>
         {t(jp, en)}
       </div>
     </div>
@@ -127,8 +127,8 @@ function Clinics() {
         <div
           className="flex items-center flex-1"
           style={{
-            background: "#FFFFFF",
-            borderRadius: 16,
+            background: "var(--bg-card)",
+            borderRadius: 18,
             height: 56,
             padding: "0 16px",
             gap: 10,
@@ -156,7 +156,7 @@ function Clinics() {
             width: 44, height: 44, borderRadius: 14, flexShrink: 0,
             background: "var(--accent-sakura)",
             boxShadow: "0 4px 10px color-mix(in oklab, var(--accent-sakura) 26%, transparent)",
-            color: "#FFFFFF",
+            color: "var(--primary-foreground)",
           }}
           aria-label={t("Filters", "Filters")}
         >
@@ -175,9 +175,9 @@ function Clinics() {
               onClick={() => setActive(i)}
               className="shrink-0 flex items-center active:scale-95"
               style={{
-                background: sel ? "var(--accent-sakura)" : "#FFFFFF",
+                background: sel ? "var(--accent-sakura)" : "var(--bg-card)",
                 border: `1.5px solid ${sel ? "var(--accent-sakura)" : "var(--border-card)"}`,
-                color: sel ? "#FFFFFF" : "var(--text-secondary)",
+                color: sel ? "var(--primary-foreground)" : "var(--text-secondary)",
                 fontWeight: sel ? 700 : 500,
                 fontSize: 12,
                 borderRadius: 999,
@@ -199,10 +199,10 @@ function Clinics() {
         className="flex items-center justify-between"
         style={{
           margin: `16px ${MX}px 0`,
-          background: "linear-gradient(135deg,#F25449,#E53935)",
-          borderRadius: 20,
+          background: "linear-gradient(135deg,var(--accent-red),var(--acc2-deep))",
+          borderRadius: 24,
           padding: "16px 20px",
-          color: "#fff",
+          color: "var(--primary-foreground)",
           boxShadow: "0 4px 12px rgba(229,57,53,0.18)",
           gap: 12,
         }}
@@ -222,7 +222,7 @@ function Clinics() {
           href="tel:+919820001234"
           className="flex items-center gap-1.5 shrink-0 active:scale-95 transition-transform"
           style={{
-            background: "#fff", color: "#E53935",
+            background: "var(--bg-card)", color: "var(--accent-red)",
             borderRadius: 999, padding: "8px 16px",
             fontSize: 12, fontWeight: 800,
           }}
@@ -239,9 +239,10 @@ function Clinics() {
         style={{
           margin: `12px ${MX}px 0`,
           width: `calc(100% - ${MX * 2}px)`,
-          background: "#FFFFFF",
+          background: "var(--bg-card)",
           boxShadow: CARD_SHADOW,
-          borderRadius: 20,
+          borderRadius: 24,
+          border: "1px solid var(--border-card)",
           padding: "14px 16px",
           gap: 12,
         }}
@@ -291,8 +292,9 @@ function Clinics() {
               onClick={() => setDirFor(c)}
               className="active:scale-[0.99] transition-transform"
               style={{
-                background: "#FFFFFF",
-                borderRadius: 20,
+                 background: "var(--bg-card)",
+                 borderRadius: 24,
+                 border: "1px solid var(--border-card)",
                 margin: `0 ${MX}px 12px`,
                 boxShadow: CARD_SHADOW,
                 padding: "14px 16px",
