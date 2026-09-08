@@ -240,7 +240,7 @@ export default function AppShell({
     >
       <div
         data-role={hydrated && session?.role === "vet" ? "vet" : "owner"}
-        className="jaipur-buti"
+        className="pawsitive-frame jaipur-buti"
         style={{
           position: "relative",
           overflow: "hidden",

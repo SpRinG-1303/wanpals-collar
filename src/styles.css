@@ -247,6 +247,29 @@
   * { border-color: var(--color-border); }
   html, body { background-color: var(--color-background); color: var(--color-foreground); }
   body { font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
+  input, textarea, select { caret-color: var(--acc-strong); }
+  input::placeholder, textarea::placeholder { color: var(--text-placeholder); }
+  input:focus-visible, textarea:focus-visible, select:focus-visible, button:focus-visible, a:focus-visible {
+    outline: 2px solid color-mix(in oklab, var(--acc-strong) 42%, transparent);
+    outline-offset: 2px;
+  }
+}
+
+.pawsitive-frame {
+  color: var(--text-primary);
+  isolation: isolate;
+}
+.pawsitive-frame main { scrollbar-width: none; }
+.pawsitive-frame main::-webkit-scrollbar { display: none; }
+.pawsitive-frame input,
+.pawsitive-frame textarea,
+.pawsitive-frame select { font-family: var(--font-sans); }
+.pawsitive-frame [role="dialog"] { color: var(--text-primary); }
+@media (min-width: 540px) {
+  .pawsitive-frame { border-radius: 34px; margin-block: 18px; height: calc(100dvh - 36px) !important; }
+}
+@media (max-width: 374px) {
+  .pawsitive-frame main { font-size: 0.96em; }
 }
 
 @layer utilities {

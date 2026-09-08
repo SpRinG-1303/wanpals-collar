@@ -163,6 +163,7 @@ export default function VetShell({
       }}
     >
       <div
+        className="pawsitive-frame"
         style={{
           position: "relative",
           overflow: "hidden",
