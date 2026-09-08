@@ -6,9 +6,9 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
-  --font-display: "Fraunces", Georgia, serif;
-  --font-mono: "Inter", system-ui, sans-serif;
+  --font-sans: "Fira Sans", system-ui, -apple-system, sans-serif;
+  --font-display: "DM Serif Display", Georgia, serif;
+  --font-mono: "Fira Sans", system-ui, sans-serif;
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 16px;
@@ -43,137 +43,141 @@
 
 :root,
 [data-role="owner"] {
-  /* === Pet parent theme: pastel purple & white (minimal, demure) === */
-  --bg-page: #FCFBFE;
-  --bg-outside: #ECE8F3;
+  /* === Jaipur "Peacock Pastel": cream, teal, coral, navy === */
+  --bg-page: #FDF9EC;
+  --bg-outside: #F2E7C6;
   --bg-card: #FFFFFF;
-  --bg-card-sakura: #F1EBFB;
-  --bg-card-lavender: #EDE8F9;
-  --bg-card-mint: #F0EAFB;
-  --bg-card-yellow: #F4EFFB;
-  --bg-card-blue: #ECE7FA;
-  --bg-card-peach: #F2EDFB;
+  --bg-card-sakura: #FBEDE7;
+  --bg-card-lavender: #E8F1F0;
+  --bg-card-mint: #E4F0EC;
+  --bg-card-yellow: #FBF3D5;
+  --bg-card-blue: #E7EBF5;
+  --bg-card-peach: #FCEDE4;
   --bg-surface: #FFFFFF;
-  --bg-elevated: #FCFBFE;
-  --bg-topbar: #FCFBFE;
+  --bg-elevated: #FFFCF3;
+  --bg-topbar: #FDF9EC;
   --bg-bottomnav: #FFFFFF;
   --bg-drawer: #FFFFFF;
-  --bg-drawer-hero: linear-gradient(160deg, #F4F0FC 0%, #FCFBFE 60%, #EFEAFB 100%);
-  --text-primary: #2A2730;
-  --text-secondary: #8B8794;
-  --text-placeholder: #C6C1CE;
-  --text-muted-soft: #B4AFC0;
-  --border-subtle: #EFEDF4;
-  --border-card: #E9E6F0;
-  --shadow-nav: 0 -4px 20px rgba(70,55,105,0.06);
-  --accent-sakura: #A78BDB;
-  --accent-sakura-dark: #8B6FC7;
-  --accent-sakura-soft: #F4F0FC;
-  --accent-matcha: #8B6FC7;
-  --accent-fuji: #8B6FC7;
-  --accent-yuzu: #B79CE8;
-  --accent-sora: #9A82D8;
-  --accent-red: #D9534F;
-  /* Accent family A — violet */
-  --acc-deep: #5F43A8;
-  --acc-strong: #8B6FC7;
-  --acc-soft: #C9B6EC;
-  --acc-pale: #F3EEFC;
-  /* Accent family B — lighter mauve */
-  --acc2-deep: #7A5FB8;
-  --acc2-strong: #A78BDB;
-  --acc2-soft: #DDD1F4;
-  --acc2-pale: #F8F5FE;
+  --bg-drawer-hero: linear-gradient(160deg, #FBF3D5 0%, #FFFCF3 55%, #E4F0EC 100%);
+  --text-primary: #1B2E63;
+  --text-secondary: #6C7896;
+  --text-placeholder: #A9B2C6;
+  --text-muted-soft: #9AA4BC;
+  --border-subtle: #F0E7CF;
+  --border-card: #EADFC2;
+  --shadow-nav: 0 -4px 20px rgba(27,46,99,0.07);
+  --accent-sakura: #1F7A72;
+  --accent-sakura-dark: #145E58;
+  --accent-sakura-soft: #E4F0EC;
+  --accent-matcha: #1F7A72;
+  --accent-fuji: #1B2E63;
+  --accent-yuzu: #E4A32C;
+  --accent-sora: #2E96A8;
+  --accent-red: #E4644F;
+  /* Accent family A — peacock teal */
+  --acc-deep: #12554F;
+  --acc-strong: #1F7A72;
+  --acc-soft: #9CCCC4;
+  --acc-pale: #E4F0EC;
+  /* Accent family B — coral */
+  --acc2-deep: #B84630;
+  --acc2-strong: #E4644F;
+  --acc2-soft: #F6C3B7;
+  --acc2-pale: #FCEDE7;
 
-  --background: oklch(0.987 0.004 300);
-  --foreground: oklch(0.28 0.015 300);
+  --background: oklch(0.977 0.022 95);
+  --foreground: oklch(0.32 0.09 268);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.28 0.015 300);
+  --card-foreground: oklch(0.32 0.09 268);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.28 0.015 300);
-  /* Pastel purple primary */
-  --primary: oklch(0.68 0.105 305);
+  --popover-foreground: oklch(0.32 0.09 268);
+  --primary: oklch(0.49 0.083 187);
   --primary-foreground: oklch(0.99 0 0);
-  --secondary: oklch(0.94 0.015 300);
-  --secondary-foreground: oklch(0.3 0.02 300);
-  --sakura: oklch(0.68 0.105 305);
-  --sakura-soft: oklch(0.96 0.015 305);
-  --muted: oklch(0.955 0.008 300);
-  --muted-foreground: oklch(0.56 0.02 300);
-  --accent: oklch(0.945 0.015 300);
-  --accent-foreground: oklch(0.3 0.02 300);
-  --success: oklch(0.78 0.07 160);
-  --success-foreground: oklch(0.25 0.04 160);
-  --warning: oklch(0.84 0.1 85);
+  --secondary: oklch(0.95 0.035 95);
+  --secondary-foreground: oklch(0.32 0.09 268);
+  --sakura: oklch(0.49 0.083 187);
+  --sakura-soft: oklch(0.95 0.025 180);
+  --muted: oklch(0.955 0.02 95);
+  --muted-foreground: oklch(0.56 0.04 268);
+  --accent: oklch(0.94 0.03 180);
+  --accent-foreground: oklch(0.32 0.09 268);
+  --success: oklch(0.62 0.09 165);
+  --success-foreground: oklch(0.99 0 0);
+  --warning: oklch(0.79 0.13 75);
   --warning-foreground: oklch(0.3 0.08 70);
-  --destructive: oklch(0.6 0.19 27);
+  --destructive: oklch(0.65 0.16 32);
   --destructive-foreground: oklch(0.99 0 0);
-  --border: oklch(0.925 0.008 300);
-  --input: oklch(0.925 0.008 300);
-  --ring: oklch(0.68 0.105 305);
-  --shadow-card: 0 4px 16px rgba(120,100,165,0.10);
+  --border: oklch(0.92 0.025 95);
+  --input: oklch(0.92 0.025 95);
+  --ring: oklch(0.49 0.083 187);
+  --shadow-card: 0 4px 16px rgba(27,46,99,0.10);
 }
 
-/* === Veterinarian theme: pastel dark blue & white === */
+/* === Veterinarian theme: Jaipur indigo & peacock === */
 [data-role="vet"] {
-  --bg-page: #F9FBFD;
-  --bg-outside: #E3E9F3;
-  --bg-card-sakura: #E8F0F9;
-  --bg-card-lavender: #E5EDF8;
-  --bg-card-mint: #E7EFF8;
-  --bg-card-yellow: #EBF1FA;
-  --bg-card-blue: #E4EDF8;
-  --bg-card-peach: #ECF2FA;
-  --bg-topbar: #F9FBFD;
+  --bg-page: #F8FAFC;
+  --bg-outside: #DDE4F0;
+  --bg-card-sakura: #E7EBF5;
+  --bg-card-lavender: #E4EDF6;
+  --bg-card-mint: #E4F0EC;
+  --bg-card-yellow: #FBF3D5;
+  --bg-card-blue: #E3EAF7;
+  --bg-card-peach: #FCEDE4;
+  --bg-topbar: #F8FAFC;
   --bg-bottomnav: #FFFFFF;
   --bg-drawer: #FFFFFF;
-  --bg-drawer-hero: linear-gradient(160deg, #EAF1F9 0%, #F9FBFD 60%, #EFF3FA 100%);
-  --text-primary: #242B36;
-  --text-secondary: #7E8797;
-  --text-placeholder: #BEC6D2;
-  --text-muted-soft: #A9B2C0;
-  --border-subtle: #EBEEF4;
-  --border-card: #E2E8F0;
-  --shadow-nav: 0 -4px 20px rgba(40,60,95,0.07);
-  --accent-sakura: #7CA3CF;
-  --accent-sakura-dark: #5C86B8;
-  --accent-sakura-soft: #EFF4FB;
-  --accent-matcha: #5C86B8;
-  --accent-fuji: #4E6E9E;
-  --accent-yuzu: #8FB4DC;
-  --accent-sora: #7CA3CF;
-  /* Accent family A — steel blue */
-  --acc-deep: #2E5A8A;
-  --acc-strong: #4A7AAF;
-  --acc-soft: #A8C8E8;
-  --acc-pale: #E9F1F9;
-  /* Accent family B — lighter blue */
-  --acc2-deep: #3E6B97;
-  --acc2-strong: #7CA3CF;
-  --acc2-soft: #C2D8EE;
-  --acc2-pale: #F2F7FC;
+  --bg-drawer-hero: linear-gradient(160deg, #E7EBF5 0%, #F8FAFC 60%, #E4F0EC 100%);
+  --text-primary: #16234A;
+  --text-secondary: #6B7590;
+  --text-placeholder: #AEB6C8;
+  --text-muted-soft: #9AA3B8;
+  --border-subtle: #E8ECF4;
+  --border-card: #DFE5F0;
+  --shadow-nav: 0 -4px 20px rgba(22,35,74,0.08);
+  --accent-sakura: #1B2E63;
+  --accent-sakura-dark: #121F45;
+  --accent-sakura-soft: #E7EBF5;
+  --accent-matcha: #1F7A72;
+  --accent-fuji: #1B2E63;
+  --accent-yuzu: #E4A32C;
+  --accent-sora: #2E96A8;
+  /* Accent family A — indigo */
+  --acc-deep: #121F45;
+  --acc-strong: #1B2E63;
+  --acc-soft: #A8B5D8;
+  --acc-pale: #E7EBF5;
+  /* Accent family B — peacock teal */
+  --acc2-deep: #12554F;
+  --acc2-strong: #1F7A72;
+  --acc2-soft: #9CCCC4;
+  --acc2-pale: #E4F0EC;
 
   --background: oklch(0.985 0.004 245);
-  --foreground: oklch(0.27 0.02 255);
+  --foreground: oklch(0.27 0.08 268);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.27 0.02 255);
+  --card-foreground: oklch(0.27 0.08 268);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.27 0.02 255);
-  /* Pastel steel blue primary */
-  --primary: oklch(0.62 0.085 255);
+  --popover-foreground: oklch(0.27 0.08 268);
+  --primary: oklch(0.34 0.10 268);
   --primary-foreground: oklch(0.99 0 0);
-  --secondary: oklch(0.94 0.012 250);
-  --secondary-foreground: oklch(0.3 0.02 255);
-  --sakura: oklch(0.62 0.085 255);
-  --sakura-soft: oklch(0.955 0.012 250);
-  --muted: oklch(0.955 0.006 250);
-  --muted-foreground: oklch(0.53 0.02 255);
-  --accent: oklch(0.945 0.012 250);
-  --accent-foreground: oklch(0.3 0.02 255);
-  --border: oklch(0.92 0.008 250);
-  --input: oklch(0.92 0.008 250);
-  --ring: oklch(0.62 0.085 255);
-  --shadow-card: 0 4px 16px rgba(70,100,150,0.10);
+  --secondary: oklch(0.94 0.015 265);
+  --secondary-foreground: oklch(0.3 0.06 268);
+  --sakura: oklch(0.34 0.10 268);
+  --sakura-soft: oklch(0.95 0.018 265);
+  --muted: oklch(0.955 0.008 265);
+  --muted-foreground: oklch(0.53 0.03 268);
+  --accent: oklch(0.945 0.015 265);
+  --accent-foreground: oklch(0.3 0.06 268);
+  --success: oklch(0.62 0.09 165);
+  --success-foreground: oklch(0.99 0 0);
+  --warning: oklch(0.79 0.13 75);
+  --warning-foreground: oklch(0.3 0.08 70);
+  --destructive: oklch(0.65 0.16 32);
+  --destructive-foreground: oklch(0.99 0 0);
+  --border: oklch(0.92 0.01 265);
+  --input: oklch(0.92 0.01 265);
+  --ring: oklch(0.34 0.10 268);
+  --shadow-card: 0 4px 16px rgba(22,35,74,0.10);
 }
 
 .dark {
@@ -335,5 +339,42 @@ body {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+/* === Jaipur fresco decoration (block-print motifs, scalloped arches) === */
+@utility jaipur-jaali {
+  background-image:
+    radial-gradient(circle at 12px 12px, color-mix(in oklab, var(--acc-strong) 12%, transparent) 2px, transparent 2.5px),
+    radial-gradient(circle at 36px 36px, color-mix(in oklab, var(--acc2-strong) 12%, transparent) 2px, transparent 2.5px),
+    radial-gradient(circle at 36px 12px, color-mix(in oklab, var(--accent-yuzu) 14%, transparent) 1.4px, transparent 2px),
+    radial-gradient(circle at 12px 36px, color-mix(in oklab, var(--accent-yuzu) 14%, transparent) 1.4px, transparent 2px);
+  background-size: 48px 48px;
+}
+
+@utility jaipur-arch {
+  border-top-left-radius: 999px 120px;
+  border-top-right-radius: 999px 120px;
+  overflow: hidden;
+}
+
+/* Thin band of block-print diamonds — use as a divider under headers */
+@utility jaipur-band {
+  height: 10px;
+  background-image:
+    linear-gradient(135deg, color-mix(in oklab, var(--acc2-strong) 55%, transparent) 25%, transparent 25%),
+    linear-gradient(225deg, color-mix(in oklab, var(--acc2-strong) 55%, transparent) 25%, transparent 25%),
+    linear-gradient(315deg, color-mix(in oklab, var(--acc-strong) 55%, transparent) 25%, transparent 25%),
+    linear-gradient(45deg,  color-mix(in oklab, var(--acc-strong) 55%, transparent) 25%, transparent 25%);
+  background-size: 14px 14px;
+  background-position: 0 0;
+  opacity: 0.55;
+}
+
+/* Fun tactile press feedback for cards & tiles */
+@utility press-pop {
+  transition: transform 0.16s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.16s ease;
+  &:active {
+    transform: scale(0.965);
   }
 }

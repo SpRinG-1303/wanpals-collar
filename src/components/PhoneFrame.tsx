@@ -12,13 +12,14 @@ export default function PhoneFrame({ children, innerStyle }: { children: ReactNo
       }}
     >
       <div
+        className="jaipur-jaali"
         style={{
           position: "relative",
           overflow: "hidden",
           width: "100%",
           maxWidth: 430,
           minHeight: "100dvh",
-          background: "var(--bg-page)",
+          backgroundColor: "var(--bg-page)",
           ...innerStyle,
         }}
       >
