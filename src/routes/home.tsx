@@ -92,22 +92,26 @@ type Sensor = {
   noteEn?: string;
 };
 
+/* All sensor icons share one pastel-green circle + deep-green glyph */
+const GREEN_BG = "var(--acc-pale)";
+const GREEN_ICON = "var(--acc-strong)";
+
 const sensors: Sensor[] = [
-  { Icon: Brain, accent: JP.fuji, iconBg: "var(--bg-card-lavender)", to: "/bark-sense",
+  { Icon: Brain, accent: GREEN_ICON, iconBg: GREEN_BG, to: "/bark-sense",
     en: "BarkSense AI", subEn: "Bark Analysis", valEn: "Calm" },
-  { Icon: Microscope, accent: JP.sakura, iconBg: "var(--bg-card-sakura)", to: "/skin-sense",
+  { Icon: Microscope, accent: GREEN_ICON, iconBg: GREEN_BG, to: "/skin-sense",
     en: "SkinSense AI", subEn: "Skin Health", valEn: "Normal" },
-  { Icon: Activity, accent: JP.sora, iconBg: "var(--acc2-pale)", to: "/motion-sense",
+  { Icon: Activity, accent: GREEN_ICON, iconBg: GREEN_BG, to: "/motion-sense",
     en: "MotionSense", subEn: "Activity Track", valEn: "2,340 steps", progress: 65 },
-  { Icon: Thermometer, accent: JP.momiji, iconBg: "var(--acc-pale)", to: "/temp-sense",
+  { Icon: Thermometer, accent: GREEN_ICON, iconBg: GREEN_BG, to: "/temp-sense",
     en: "TempSense AI", subEn: "Body Temp", valEn: "38.5°C", noteEn: "Normal Range" },
-  { Icon: MapPin, accent: JP.matcha, iconBg: "var(--acc-pale)", to: "/map",
+  { Icon: MapPin, accent: GREEN_ICON, iconBg: GREEN_BG, to: "/map",
     en: "LocationSense", subEn: "GPS + Map", valEn: "Bandra, Mumbai" },
-  { Icon: Wind, accent: JP.yuzu, iconBg: "var(--acc-pale)", to: "/pressure-sense",
+  { Icon: Wind, accent: GREEN_ICON, iconBg: GREEN_BG, to: "/pressure-sense",
     en: "PressureSense", subEn: "Pressure Data", valEn: "Normal Range" },
-  { Icon: Sun, accent: "var(--acc-deep)", iconBg: "var(--acc-pale)", to: "/light-sense",
+  { Icon: Sun, accent: GREEN_ICON, iconBg: GREEN_BG, to: "/light-sense",
     en: "LightSense AI", subEn: "RGB Light Data", valEn: "Indoor" },
-  { Icon: GitMerge, accent: "var(--accent-fuji)", iconBg: "var(--bg-card-lavender)", to: "/report",
+  { Icon: GitMerge, accent: GREEN_ICON, iconBg: GREEN_BG, to: "/report",
     en: "CombineSense", subEn: "Combined Analysis", valEn: "87/100" },
 ];
 
@@ -456,10 +460,10 @@ function Home() {
         <SectionHeader en="Quick Access" />
         <div className="flex" style={{ gap: 14, marginBottom: 20, justifyContent: "space-between" }}>
           {[
-            { to: "/report", Icon: Activity, label: "Health Report", sub: "87/100", bg: "var(--bg-card-lavender)", accent: "var(--accent-fuji)" },
-            { to: "/breeds", Icon: PawPrint, label: "Breed Guide", sub: "200+ breeds", bg: JP.sakuraSoft, accent: JP.sakura },
-            { to: "/community", Icon: HeartHandshake, label: "Pet Match", sub: "Find a match", bg: "var(--acc2-pale)", accent: "var(--accent-sora)" },
-            { to: "/clinics", Icon: Stethoscope, label: "Clinics", sub: "Vets near you", bg: "var(--acc-pale)", accent: "var(--accent-matcha)" },
+            { to: "/report", Icon: Activity, label: "Health Report", sub: "87/100", bg: GREEN_BG, accent: GREEN_ICON },
+            { to: "/breeds", Icon: PawPrint, label: "Breed Guide", sub: "200+ breeds", bg: GREEN_BG, accent: GREEN_ICON },
+            { to: "/community", Icon: HeartHandshake, label: "Pet Match", sub: "Find a match", bg: GREEN_BG, accent: GREEN_ICON },
+            { to: "/clinics", Icon: Stethoscope, label: "Clinics", sub: "Vets near you", bg: GREEN_BG, accent: GREEN_ICON },
           ].map((q) => (
             <Link
               key={q.label}
