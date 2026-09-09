@@ -297,8 +297,21 @@ function Clinics() {
         </div>
       )}
       {!vetsLoading && vets.length > 0 && (
-        <div style={{ margin: `0 ${MX}px 10px`, fontSize: 11, fontWeight: 600, color: "var(--accent-matcha)" }}>
-          {vets.length} real vet hospitals near your location
+        <div className="flex items-center justify-between gap-2" style={{ margin: `0 ${MX}px 10px` }}>
+          <span style={{ fontSize: 11, fontWeight: 600, color: "var(--accent-matcha)" }}>
+            {vets.length} real vet clinics near {vetsGeo.short || "you"}
+          </span>
+          <button onClick={refreshVets} style={{ fontSize: 11, fontWeight: 700, color: "var(--acc-strong)" }}>Refresh</button>
+        </div>
+      )}
+      {!vetsLoading && vets.length === 0 && (
+        <div className="flex items-center justify-between gap-2" style={{ margin: `0 ${MX}px 10px` }}>
+          <span style={{ fontSize: 11, fontWeight: 600, color: "var(--text-secondary)" }}>
+            {vetsGeo.denied
+              ? "Turn on location access to see clinics around you"
+              : vetsError ?? "Getting your location…"}
+          </span>
+          <button onClick={refreshVets} style={{ fontSize: 11, fontWeight: 700, color: "var(--acc-strong)" }}>Retry</button>
         </div>
       )}
       <div style={{ paddingBottom: 12 }}>
