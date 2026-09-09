@@ -166,18 +166,10 @@ function MapScreen() {
 
       {/* MAP CARD */}
       <div style={{ margin: "12px 16px", borderRadius: 28, overflow: "hidden", height: 320, position: "relative", boxShadow: CARD_SHADOW, border: "1px solid var(--border-card)", background: "var(--acc-pale)" }}>
-        {/* Real map / satellite tiles centered on live GPS */}
-        {geo.coords ? (
-          <iframe
-            key={`${mapType}-${geo.coords.lat.toFixed(4)}-${geo.coords.lon.toFixed(4)}`}
-            title="Live pet location map"
-            src={`https://maps.google.com/maps?q=${geo.coords.lat},${geo.coords.lon}&z=${Math.round(14 + zoom * 2)}&t=${mapType === "satellite" ? "k" : "m"}&output=embed`}
-            className="absolute inset-0"
-            style={{ width: "100%", height: "100%", border: 0, pointerEvents: "none" }}
-            loading="lazy"
-          />
-        ) : (
-          <div className="absolute inset-0 flex items-center justify-center" style={{ background: "var(--acc-pale)", color: "var(--text-secondary)", fontSize: 13, fontWeight: 600 }}>
+        {/* Real satellite / street tiles centered on live GPS */}
+        <div ref={mapEl} className="absolute inset-0" style={{ zIndex: 1 }} />
+        {!geo.coords && (
+          <div className="absolute inset-0 flex items-center justify-center" style={{ zIndex: 2, background: "var(--acc-pale)", color: "var(--text-secondary)", fontSize: 13, fontWeight: 600 }}>
             {geo.loading ? t("位置を取得中…", "Locating…") : t("位置情報オフ", "Location Off")}
           </div>
         )}
