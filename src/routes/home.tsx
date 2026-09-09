@@ -122,7 +122,7 @@ function Home() {
   const [factIdx, setFactIdx] = useState(0);
   const [query, setQuery] = useState("");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
-  const { state: collarState, live, battery, connect, disconnect } = useCollar();
+  const { state: collarState, live, battery, connect, disconnect, receiving, error: collarError } = useCollar();
 
   const { pet } = usePet();
   const sp = getSpecies(pet.species);
