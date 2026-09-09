@@ -1,3 +1,3 @@
 # Roadmap
-- [ ] Finish rename "Pawsitive" → "MOooMENTUM" (3 files remain: useGeoLocation, settings, AuthContext)
-- [ ] Make location live: real geolocation + continuous tracking on Home/Map/Clinics
+- [x] Rename "Pawsitive" → "MOooMENTUM" everywhere (visible text; internal storage keys kept to preserve sessions)
+- [x] Live location: watchPosition GPS tracking + reverse-geocoded label on Home/Map/Clinics directions
