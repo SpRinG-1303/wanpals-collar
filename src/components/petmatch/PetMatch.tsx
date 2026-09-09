@@ -15,6 +15,8 @@ import {
   ChevronLeft,
 } from "lucide-react";
 import { toast } from "sonner";
+import { usePet } from "@/context/PetContext";
+import { getSpecies, type Species } from "@/lib/species";
 
 /* ────────────────────────────────────────────────────────────
    Pet Match — responsible breeding & compatibility discovery
@@ -24,7 +26,8 @@ export type MatchProfile = {
   id: string;
   pet: string;
   breed: string;
-  slug: string; // dog.ceo breed slug
+  slug: string; // dog.ceo breed slug (dogs only)
+  photoUrl?: string; // direct photo for non-dog species
   age: number;
   gender: "Male" | "Female";
   km: number;
