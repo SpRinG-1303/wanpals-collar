@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import AppShell from "@/components/AppShell";
 import { CLINICS } from "@/lib/mock";
+import { useGeoLocation } from "@/lib/useGeoLocation";
 import {
   Search,
   SlidersHorizontal,
@@ -620,6 +621,7 @@ function Clinics() {
 /* ── Directions view — plays the route out to the clinic ────── */
 function DirectionsView({ clinic, onClose }: { clinic: (typeof CLINICS)[number]; onClose: () => void }) {
   const [playKey, setPlayKey] = useState(0);
+  const geo = useGeoLocation();
   const mins = Math.max(4, Math.round(clinic.km * 12));
   const routeD = "M 46 252 C 110 246, 128 196, 176 176 S 268 116, 336 58";
 
