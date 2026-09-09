@@ -11,6 +11,7 @@ import { toast } from "sonner";
 import { usePet, displayName } from "@/context/PetContext";
 import { useGeoLocation } from "@/lib/useGeoLocation";
 import { useAuth } from "@/context/AuthContext";
+import { useCollar } from "@/context/CollarContext";
 import VetHome from "@/components/vet/VetHome";
 import { Mandala, CornerScroll, Peacock } from "@/components/JaipurMotifs";
 
