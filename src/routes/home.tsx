@@ -138,7 +138,9 @@ function Home() {
   if (session?.role === "vet") return <VetHome />;
 
   const fact = sp.facts[factIdx % sp.facts.length];
-  const score = 87;
+  // Data-completeness score: only computed from real collar readings.
+  const activeSensors = (Object.keys(live) as (keyof typeof live)[]).filter((k) => live[k]).length;
+  const score = receiving ? Math.round((activeSensors / 6) * 100) : null;
 
   const petName = displayName(pet, `My ${sp.label}`);
   const mood = pet.name?.trim() ? `${petName} is feeling great` : "Feeling great";
@@ -157,9 +159,16 @@ function Home() {
     .map((s) => {
       if (s.en === "LocationSense") return s; // GPS comes from the phone, not the collar
       if (collarState !== "connected") return { ...s, valEn: "—", noteEn: undefined, progress: undefined };
-      if (s.en === "TempSense AI" && live.temp) return { ...s, valEn: `${live.temp.value}${live.temp.unit}` };
-      if (s.en === "MotionSense" && live.motion) return { ...s, valEn: `${live.motion.value.toLocaleString()} steps` };
-      return s;
+      const liveFor: Record<string, string | undefined> = {
+        "TempSense AI": live.temp ? `${live.temp.value}${live.temp.unit}` : undefined,
+        MotionSense: live.motion ? `${live.motion.value.toLocaleString()} steps` : undefined,
+        PressureSense: live.pressure ? `${live.pressure.value} ${live.pressure.unit}` : undefined,
+        LightSense: live.light ? `${live.light.value} ${live.light.unit}` : undefined,
+        CombineSense: score != null ? `${score}/100` : undefined,
+      };
+      const lv = liveFor[s.en];
+      if (lv) return { ...s, valEn: lv };
+      return { ...s, valEn: "—", noteEn: undefined, progress: undefined };
     });
 
   return (
@@ -299,10 +308,12 @@ function Home() {
                  <span className="animate-ping" style={{ position: "absolute", inset: 0, borderRadius: "50%", background: "var(--primary-foreground)", opacity: 0.6 }} />
               </span>
                <span style={{ fontSize: 10, fontWeight: 700, color: "var(--primary-foreground)", letterSpacing: "0.08em" }}>LIVE</span>
-              <span style={{ fontSize: 11, color: "rgba(255,255,255,0.8)" }}>· All sensors active</span>
+              <span style={{ fontSize: 11, color: "rgba(255,255,255,0.8)" }}>
+                {receiving ? `· ${activeSensors} of 6 sensors reporting` : "· Waiting for collar data"}
+              </span>
             </div>
              <span style={{ fontSize: 24, fontWeight: 500, color: "var(--primary-foreground)", fontVariantNumeric: "tabular-nums", fontFamily: "var(--font-display)" }}>
-              {score}<span style={{ fontSize: 12, fontWeight: 600, opacity: 0.8 }}> / 100</span>
+              {score ?? "—"}<span style={{ fontSize: 12, fontWeight: 600, opacity: 0.8 }}> / 100</span>
             </span>
           </div>
         </Link>
@@ -471,7 +482,7 @@ function Home() {
         <SectionHeader en="Quick Access" />
         <div className="flex" style={{ gap: 14, marginBottom: 20, justifyContent: "space-between" }}>
           {[
-            { to: "/report", Icon: Activity, label: "Health Report", sub: "87/100", bg: GREEN_BG, accent: GREEN_ICON },
+            { to: "/report", Icon: Activity, label: "Health Report", sub: score != null ? `${score}/100` : "—", bg: GREEN_BG, accent: GREEN_ICON },
             { to: "/breeds", Icon: PawPrint, label: "Breed Guide", sub: "200+ breeds", bg: GREEN_BG, accent: GREEN_ICON },
             { to: "/community", Icon: HeartHandshake, label: "Pet Match", sub: "Find a match", bg: GREEN_BG, accent: GREEN_ICON },
             { to: "/clinics", Icon: Stethoscope, label: "Clinics", sub: "Vets near you", bg: GREEN_BG, accent: GREEN_ICON },
