@@ -208,67 +208,9 @@ function MapScreen() {
           <Crosshair size={20} style={{ color: "var(--accent-sora)" }} />
         </button>
 
-        {/* Zoomable marker layer */}
-        <div className="absolute inset-0" style={{ transform: `scale(${zoom})`, transformOrigin: "center center", transition: "transform 0.25s ease", pointerEvents: "none" }}>
-        {/* Safe zone circle */}
-        {safeZone && (
-          <div className="absolute" style={{
-            left: "50%", top: "50%", width: 180, height: 180,
-            transform: "translate(-50%,-50%)",
-            borderRadius: "50%",
-            background: "color-mix(in oklab, var(--acc-strong) 6.0%, transparent)",
-          }}>
-            <div className="absolute inset-0 safe-rotate" style={{
-              borderRadius: "50%",
-              border: "2px dashed var(--accent-matcha)",
-            }} />
-            <div className="absolute" style={{ left: "50%", top: -10, transform: "translateX(-50%)", background: "#FFFFFF", border: "1px solid var(--accent-matcha)", color: "var(--accent-matcha)", fontSize: 10, fontWeight: 700, padding: "2px 8px", borderRadius: 20, whiteSpace: "nowrap" }}>
-              {t("安全ゾーン", "Safe Zone")}
-            </div>
-          </div>
-        )}
-
-        {/* Activity trail dots */}
-        {[{x:38,y:62,s:5},{x:42,y:58,s:4.5},{x:45,y:55,s:4},{x:47,y:52,s:3.5},{x:48,y:50,s:3}].map((d,i)=>(
-          <div key={i} className="absolute" style={{ left: `${d.x}%`, top: `${d.y}%`, width: d.s, height: d.s, borderRadius: "50%", background: `color-mix(in srgb, var(--accent-sakura) calc(${0.4-i*0.06} * 100%), transparent)` }} />
-        ))}
-
-        {/* Owner marker */}
-        <div className="absolute" style={{ left: "33%", top: "66%", transform: "translate(-50%,-50%)" }}>
-          <div className="absolute" style={{ left: "50%", top: "50%", transform: "translate(-50%,-50%)", width: 40, height: 40, borderRadius: "50%", background: "color-mix(in oklab, var(--acc-strong) 15.0%, transparent)", border: "1px dashed color-mix(in oklab, var(--acc-strong) 40.0%, transparent)" }} />
-          <div className="relative flex items-center justify-center" style={{ width: 16, height: 16, borderRadius: "50%", background: "var(--accent-sora)", border: "3px solid white", boxShadow: "0 2px 8px color-mix(in oklab, var(--acc-strong) 40.0%, transparent)" }}>
-            <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#fff" }} />
-          </div>
-          <div className="absolute" style={{ left: "50%", top: -22, transform: "translateX(-50%)", background: "var(--acc2-pale)", border: "1px solid var(--accent-sora)", color: "var(--accent-sora)", fontSize: 10, fontWeight: 700, padding: "2px 8px", borderRadius: 20, whiteSpace: "nowrap" }}>
-            {t("あなた", "You")}
-          </div>
-          <div className="absolute" style={{ left: "50%", top: 18, transform: "translateX(-50%)", fontSize: 9, color: "var(--text-secondary)", whiteSpace: "nowrap" }}>
-            {t("精度: ±5m", "±5m")}
-          </div>
-        </div>
-
-        {/* Pet marker center */}
-        <div className="absolute" style={{ left: "50%", top: "50%", transform: "translate(-50%,-50%)" }}>
-          {/* Pulse ring */}
-          <div className="absolute map-pulse-ring" style={{ left: "50%", top: "50%", transform: "translate(-50%,-50%)", width: 48, height: 48, borderRadius: "50%", background: "color-mix(in srgb, var(--accent-sakura) calc(0.15 * 100%), transparent)", border: "2px solid color-mix(in srgb, var(--accent-sakura) calc(0.4 * 100%), transparent)" }} />
-          {/* Middle */}
-          <div className="absolute" style={{ left: "50%", top: "50%", transform: "translate(-50%,-50%)", width: 32, height: 32, borderRadius: "50%", background: "color-mix(in srgb, var(--accent-sakura) calc(0.25 * 100%), transparent)", border: "2px solid var(--accent-sakura)" }} />
-          {/* Inner */}
-          <div className="relative flex items-center justify-center" style={{ width: 20, height: 20, borderRadius: "50%", background: "linear-gradient(135deg, var(--accent-sakura), var(--accent-sakura-dark))", boxShadow: "0 4px 12px color-mix(in srgb, var(--accent-sakura) calc(0.5 * 100%), transparent)" }}>
-            <span style={{ color: "#fff", fontSize: 10 }}></span>
-          </div>
-          {/* Pin tip */}
-          <div className="absolute" style={{ left: "50%", top: 20, transform: "translateX(-50%)", width: 0, height: 0, borderLeft: "4px solid transparent", borderRight: "4px solid transparent", borderTop: "6px solid var(--accent-sakura-dark)" }} />
-          {/* Name tag */}
-          <div className="absolute" style={{ left: "50%", top: -26, transform: "translateX(-50%)", background: "#FFFFFF", border: "1px solid var(--acc-pale)", color: "var(--accent-sakura)", fontSize: 11, fontWeight: 700, padding: "3px 8px", borderRadius: 20, whiteSpace: "nowrap", boxShadow: "0 2px 8px rgba(0,0,0,0.1)" }}>
-            {dogName} 
-          </div>
-        </div>
-
-        </div>
         {/* Attribution */}
-        <div className="absolute" style={{ bottom: 4, right: 8, fontSize: 8, color: "var(--text-secondary)", background: "rgba(255,255,255,0.7)", padding: "1px 6px", borderRadius: 6 }}>
-          © Google Maps
+        <div className="absolute" style={{ bottom: 4, left: 8, zIndex: 500, fontSize: 8, color: "var(--text-secondary)", background: "rgba(255,255,255,0.7)", padding: "1px 6px", borderRadius: 6 }}>
+          © Esri · © OpenStreetMap contributors
         </div>
       </div>
 
