@@ -13,5 +13,5 @@
 - [ ] Clinics directions UI: better navigation/map, real clinic data
 - [ ] Pet Match card species-aware (shows dog when cow selected)
 - [x] Pet Match card species-aware (shows cow when cow selected) — verified
-- [ ] Language selector: real full-app translation for all 41 languages (currently display-only)
-- [ ] Back/next navigation on every inner page where missing
+- [x] Language selector: live AI translation for all 41 languages (verified Hindi on home)
+- [x] Back navigation on every inner page (owner shell + vet console) — verified
