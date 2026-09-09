@@ -8,8 +8,6 @@ export type Species = {
   plural: string;     // "Cows"
   emoji: string;
   namePlaceholder: string;
-  soundLabel: string;   // sensor naming, e.g. "MooSense AI"
-  soundSub: string;
   tempRange: string;
   breeds: string[];
   facts: string[];
@@ -22,8 +20,6 @@ export const SPECIES: Species[] = [
     plural: "Cows",
     emoji: "🐄",
     namePlaceholder: "e.g. Gauri",
-    soundLabel: "MooSense AI",
-    soundSub: "Moo Analysis",
     tempRange: "38.0–39.3°C",
     breeds: ["Gir", "Sahiwal", "Red Sindhi", "Tharparkar", "Rathi", "Kankrej", "Holstein Friesian", "Jersey", "Mixed"],
     facts: [
@@ -40,8 +36,6 @@ export const SPECIES: Species[] = [
     plural: "Buffaloes",
     emoji: "🐃",
     namePlaceholder: "e.g. Kali",
-    soundLabel: "CallSense AI",
-    soundSub: "Call Analysis",
     tempRange: "37.5–39.0°C",
     breeds: ["Murrah", "Jaffarabadi", "Mehsana", "Nili-Ravi", "Surti", "Bhadawari", "Mixed"],
     facts: [
@@ -58,8 +52,6 @@ export const SPECIES: Species[] = [
     plural: "Goats",
     emoji: "🐐",
     namePlaceholder: "e.g. Chotu",
-    soundLabel: "BleatSense AI",
-    soundSub: "Bleat Analysis",
     tempRange: "38.5–39.7°C",
     breeds: ["Jamnapari", "Sirohi", "Beetal", "Barbari", "Osmanabadi", "Black Bengal", "Malabari", "Mixed"],
     facts: [
@@ -76,8 +68,6 @@ export const SPECIES: Species[] = [
     plural: "Sheep",
     emoji: "🐑",
     namePlaceholder: "e.g. Moti",
-    soundLabel: "BleatSense AI",
-    soundSub: "Bleat Analysis",
     tempRange: "38.3–39.9°C",
     breeds: ["Deccani", "Nellore", "Marwari", "Mandya", "Chokla", "Bannur", "Garole", "Mixed"],
     facts: [
@@ -94,8 +84,6 @@ export const SPECIES: Species[] = [
     plural: "Dogs",
     emoji: "🐕",
     namePlaceholder: "e.g. Bruno",
-    soundLabel: "BarkSense AI",
-    soundSub: "Bark Analysis",
     tempRange: "38.3–39.2°C",
     breeds: ["Indian Pariah Dog", "Labrador Retriever", "Golden Retriever", "Indian Spitz", "Pomeranian", "Shih Tzu", "Beagle", "Rajapalayam", "German Shepherd", "Mixed"],
     facts: [
@@ -112,8 +100,6 @@ export const SPECIES: Species[] = [
     plural: "Cats",
     emoji: "🐈",
     namePlaceholder: "e.g. Mishti",
-    soundLabel: "MeowSense AI",
-    soundSub: "Meow Analysis",
     tempRange: "38.1–39.2°C",
     breeds: ["Indian Billi (Domestic Shorthair)", "Persian", "Siamese", "Bombay", "Himalayan", "Maine Coon", "Mixed"],
     facts: [

@@ -138,7 +138,7 @@ function Home() {
   const fact = sp.facts[factIdx % sp.facts.length];
   // Data-completeness score: only computed from real collar readings.
   const activeSensors = (Object.keys(live) as (keyof typeof live)[]).filter((k) => live[k]).length;
-  const score = receiving ? Math.round((activeSensors / 6) * 100) : null;
+  const score = receiving ? Math.round((activeSensors / 5) * 100) : null;
 
   const petName = displayName(pet, `My ${sp.label}`);
   const mood = pet.name?.trim() ? `${petName} is feeling great` : "Feeling great";
