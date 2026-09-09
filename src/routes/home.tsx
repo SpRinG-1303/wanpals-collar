@@ -98,8 +98,6 @@ const GREEN_BG = "var(--acc-pale)";
 const GREEN_ICON = "var(--acc-strong)";
 
 const sensors: Sensor[] = [
-  { Icon: Brain, accent: GREEN_ICON, iconBg: GREEN_BG, to: "/bark-sense",
-    en: "BarkSense AI", subEn: "Bark Analysis", valEn: "Calm" },
   { Icon: Microscope, accent: GREEN_ICON, iconBg: GREEN_BG, to: "/skin-sense",
     en: "SkinSense AI", subEn: "Skin Health", valEn: "Normal" },
   { Icon: Activity, accent: GREEN_ICON, iconBg: GREEN_BG, to: "/motion-sense",
@@ -151,9 +149,6 @@ function Home() {
       )
     : sensors
   )
-    .map((s) =>
-      s.en === "BarkSense AI" ? { ...s, en: sp.soundLabel, subEn: sp.soundSub } : s
-    )
     .map((s) => (s.en === "LocationSense" ? { ...s, valEn: geo.loading ? "Locating…" : geo.short } : s))
     // No dummy numbers: readings only exist while a collar is connected.
     .map((s) => {
