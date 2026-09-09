@@ -27,6 +27,7 @@ import {
 import { useT, useLanguage } from "@/context/LanguageContext";
 import { usePet } from "@/context/PetContext";
 import { useCollar } from "@/context/CollarContext";
+import { useNearbyVets } from "@/lib/useNearbyVets";
 import DogAvatar from "@/components/DogAvatar";
 import { motion, AnimatePresence } from "framer-motion";
 import { detectIntent, NEARBY_CLINICS, VACCINE_RECORDS, type Intent } from "@/utils/chatResponses";
@@ -851,6 +852,8 @@ function EmergencyActionCard({ t }: { t: (jp: string, en: string) => string }) {
 }
 
 function FindVetCard({ t, onAll }: { t: (jp: string, en: string) => string; onAll: () => void }) {
+  const { vets, loading } = useNearbyVets();
+  const list = vets.slice(0, 3);
   return (
     <div
       className="w-full"
@@ -868,11 +871,18 @@ function FindVetCard({ t, onAll }: { t: (jp: string, en: string) => string; onAl
         </span>
       </div>
       <div style={{ fontSize: 11, color: "var(--text-secondary)", marginBottom: 10 }}>
-        {t("あなたの近くに 24 件のクリニックがあります", "24 clinics found near you")}
+        {loading
+          ? t("検索中…", "Searching near your location…")
+          : t("近くのクリニック", `${vets.length} clinics found near you`)}
       </div>
       <div className="space-y-1.5 mb-3">
-        {NEARBY_CLINICS.map((c, i) => {
-          const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(c.en)}`;
+        {!loading && list.length === 0 && (
+          <div style={{ fontSize: 12, color: "var(--text-secondary)", lineHeight: 1.5 }}>
+            {t("結果がありません。", "No clinics found yet — allow location access to search around you.")}
+          </div>
+        )}
+        {list.map((c, i) => {
+          const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${c.lat},${c.lon}`;
           return (
             <a
               key={i}
@@ -889,7 +899,7 @@ function FindVetCard({ t, onAll }: { t: (jp: string, en: string) => string; onAl
             >
               <Star size={11} fill="var(--accent-yuzu)" color="var(--accent-yuzu)" />
               <span style={{ fontSize: 13, fontWeight: 700, color: "var(--text-primary)", flex: 1 }}>{t(c.jp, c.en)}</span>
-              <span style={{ fontSize: 12, color: "var(--accent-sora)", fontWeight: 600 }}>{c.km}km</span>
+              <span style={{ fontSize: 12, color: "var(--accent-sora)", fontWeight: 600 }}>{c.km.toFixed(1)}km</span>
               <ChevronRight size={14} color="var(--accent-sora)" />
             </a>
           );
@@ -942,6 +952,11 @@ function VaccinesCard({
           </span>
         </div>
         <div className="space-y-1.5 mb-3">
+          {VACCINE_RECORDS.length === 0 && (
+            <div style={{ fontSize: 12, color: "var(--text-secondary)", lineHeight: 1.5 }}>
+              {t("記録はまだありません。", "No vaccination records saved yet.")}
+            </div>
+          )}
           {VACCINE_RECORDS.map((v, i) => {
             const overdue = v.status === "overdue";
             return (
