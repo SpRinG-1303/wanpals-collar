@@ -12,6 +12,9 @@ import {
 } from "lucide-react";
 import { useT, useLanguage } from "@/context/LanguageContext";
 import { usePet, type PetProfile } from "@/context/PetContext";
+import { useCollar } from "@/context/CollarContext";
+import { getSeries, average, type HistoryKey } from "@/lib/sensorHistory";
+import { useEffect } from "react";
 
 export const Route = createFileRoute("/report")({ component: Report });
 
@@ -41,12 +44,32 @@ function Report() {
 
   const dogName = pet.name || "your pet";
 
-  const dayLabels = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  // Real history only — series come from readings the collar actually sent.
+  const [, bump] = useState(0);
+  useEffect(() => {
+    const h = () => bump((n) => n + 1);
+    window.addEventListener("sensor-history", h);
+    return () => window.removeEventListener("sensor-history", h);
+  }, []);
 
-  const scoreData = [82, 85, 83, 87, 86, 88, 87].map((v, i) => ({ d: dayLabels[i], v }));
-  const tempData = [38.3, 38.6, 38.4, 38.8, 38.5, 38.7, 38.5].map((v, i) => ({ d: dayLabels[i], v }));
-  const stepsData = [1800, 2600, 2400, 2200, 2000, 2800, 3100].map((v, i) => ({ d: dayLabels[i], v }));
-  const sleepData = [7.2, 8.1, 7.5, 6.8, 7.9, 8.4, 7.5].map((v, i) => ({ d: dayLabels[i], v }));
+  const windowMs: Record<(typeof TABS)[number], number> = {
+    "1d": 864e5, "1w": 6048e5, "1m": 2592e6, "3m": 7776e6, "6m": 15552e6, "4y": 1261e8,
+  };
+  const series = (k: HistoryKey) =>
+    getSeries(k, windowMs[tab]).map((p) => ({
+      d: new Date(p.t).toLocaleDateString(undefined, { month: "short", day: "numeric" }),
+      v: p.v,
+    }));
+
+  const tempPoints = getSeries("temp", windowMs[tab]);
+  const motionPoints = getSeries("motion", windowMs[tab]);
+  const pressurePoints = getSeries("pressure", windowMs[tab]);
+  const tempData = series("temp");
+  const stepsData = series("motion");
+  const pressureData = series("pressure");
+  const avgTemp = average(tempPoints);
+  const avgSteps = average(motionPoints);
+  const avgPressure = average(pressurePoints);
 
   return (
     <AppShell
@@ -66,7 +89,7 @@ function Report() {
 
         <div style={{ position: "relative", zIndex: 1 }}>
           <HeroBanner pet={pet} />
-          <HeroCard pet={pet} dogName={dogName} />
+          <HeroCard avgTemp={avgTemp} avgSteps={avgSteps} avgPressure={avgPressure} />
 
           {/* Time filter tabs */}
           <div
