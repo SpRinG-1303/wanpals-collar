@@ -221,17 +221,20 @@ function Settings() {
       <Section title={t("マイペット", "My Pets")}>
         {displayPets.map((p) => {
           const active = p.name === pet.name;
+          const spImg = p.species ? getSpecies(p.species).image : null;
           return (
             <div key={p.id} className="flex items-center gap-3">
               <button onClick={() => switchPet(p)} className="flex items-center gap-3 flex-1 text-left min-w-0">
                 <span
-                  className="flex items-center justify-center shrink-0"
-                  style={{ width: 40, height: 40, borderRadius: "50%", background: "var(--acc-pale)" }}
+                  className="shrink-0 overflow-hidden"
+                  style={{ width: 48, height: 48, borderRadius: 12, background: "var(--acc-pale)" }}
                 >
-                  {p.species ? (
-                    <img src={getSpecies(p.species).image} alt={getSpecies(p.species).label} loading="lazy" width={512} height={512} style={{ width: 26, height: 26, borderRadius: "50%", objectFit: "cover" }} />
+                  {spImg ? (
+                    <img src={spImg} alt={getSpecies(p.species!).label} loading="lazy" width={512} height={512} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                   ) : (
-                    <PawPrint size={18} style={{ color: "var(--acc-strong)" }} />
+                    <span className="w-full h-full flex items-center justify-center">
+                      <PawPrint size={20} style={{ color: "var(--acc-strong)" }} />
+                    </span>
                   )}
                 </span>
                 <span className="flex-1 min-w-0">
@@ -268,9 +271,9 @@ function Settings() {
         <button onClick={() => setAddPetOpen(true)} className="w-full flex items-center gap-3 text-left pt-1">
           <span
             className="flex items-center justify-center shrink-0"
-            style={{ width: 40, height: 40, borderRadius: "50%", border: "1.5px dashed var(--acc-soft)", color: "var(--acc-strong)" }}
+            style={{ width: 48, height: 48, borderRadius: 12, border: "1.5px dashed var(--acc-soft)", color: "var(--acc-strong)" }}
           >
-            <Plus size={18} />
+            <Plus size={20} />
           </span>
           <span className="text-sm font-bold" style={{ color: "var(--acc-strong)" }}>{t("ペットを追加", "Add Another Pet")}</span>
         </button>
@@ -379,14 +382,39 @@ function Settings() {
                   <button
                     key={s.id}
                     onClick={() => setNewPetSpecies(s.id)}
-                    className="flex flex-col items-center justify-center rounded-xl py-2"
+                    className="relative overflow-hidden rounded-xl"
                     style={{
-                      border: `1.5px solid ${active ? "var(--acc-strong)" : "var(--border-card)"}`,
-                      background: active ? "var(--acc-pale)" : "transparent",
+                      aspectRatio: "1 / 1.1",
+                      border: `2px solid ${active ? "var(--acc-strong)" : "var(--border-card)"}`,
+                      background: "var(--bg-card)",
                     }}
                   >
-                    <img src={s.image} alt={s.label} loading="lazy" width={512} height={512} style={{ width: 28, height: 28, borderRadius: "50%", objectFit: "cover" }} />
-                    <span className="text-[10px] font-bold mt-1" style={{ color: active ? "var(--acc-strong)" : "var(--text-secondary)" }}>{s.label}</span>
+                    <img
+                      src={s.image}
+                      alt={s.label}
+                      loading="lazy"
+                      width={512}
+                      height={512}
+                      style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
+                    />
+                    <div
+                      style={{
+                        position: "absolute", inset: 0,
+                        background: active
+                          ? "linear-gradient(to top, var(--acc-strong)cc 0%, transparent 55%)"
+                          : "linear-gradient(to top, rgba(27,46,99,0.72) 0%, transparent 55%)",
+                      }}
+                    />
+                    <span
+                      className="text-[10px] font-bold"
+                      style={{
+                        position: "absolute", bottom: 8, left: 0, right: 0,
+                        textAlign: "center", color: "#fff",
+                        textShadow: "0 1px 3px rgba(0,0,0,0.35)",
+                      }}
+                    >
+                      {s.label}
+                    </span>
                   </button>
                 );
               })}
