@@ -6,3 +6,5 @@
 - [ ] Multi-pet profiles per account: add/switch animals, dashboard reflects active pet
 - [ ] Make all home circular icons one pastel green (like Temp/Location/Pressure)
 - [ ] Remove dummy sensor data; show real collar data or empty states (needs collar connection layer)
+- [ ] Connect collar via Web Bluetooth BLE (ESP32-C3 SuperMini), parse live sensor packets, drop all placeholder readings
+- [ ] Remove leftover "Diagnostics" brand line under MOooMENTUM (AppShell, SideDrawer)
