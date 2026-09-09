@@ -55,7 +55,7 @@ export function SensorPage({
   bannerSubtitleColor?: string;
   children: ReactNode;
 }) {
-  const { connected, connect, state } = useCollar();
+  const { connected, receiving, connect, state, error } = useCollar();
   return (
     <AppShell
       noPadding
@@ -91,7 +91,7 @@ export function SensorPage({
 
         {/* Content — real collar data only; no dummy numbers */}
         <div className="sp-stack" style={{ padding: "0 16px 16px", marginTop: -36, position: "relative", zIndex: 2 }}>
-          {connected ? children : (
+          {connected && receiving ? children : (
             <div
               style={{
                 background: SP.card,
