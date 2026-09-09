@@ -2,7 +2,7 @@ import { Link, useLocation, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import {
   LayoutDashboard, PawPrint, Stethoscope, Pill, Settings, Search, Bell,
-  Menu, X, ChevronDown, Siren, Phone, CalendarDays, FlaskConical, Syringe,
+  Menu, X, ChevronDown, Siren, ArrowLeft, Phone, CalendarDays, FlaskConical, Syringe,
   BarChart3, Package, Receipt, type LucideIcon,
 } from "lucide-react";
 import { toast } from "sonner";
@@ -183,6 +183,19 @@ export default function VetShell({
         {/* ===== Header ===== */}
         <header style={{ background: "color-mix(in oklab, var(--bg-card) 96%, transparent)", borderBottom: `1px solid ${E.border}`, flexShrink: 0, zIndex: 90, backdropFilter: "blur(16px)" }}>
           <div className="flex items-center" style={{ height: 64, padding: "0 12px", gap: 8 }}>
+            {loc.pathname !== "/home" && (
+              <button
+                onClick={() => {
+                  if (window.history.length > 1) window.history.back();
+                  else navigate({ to: "/home" });
+                }}
+                aria-label="Back"
+                className="flex items-center justify-center"
+                style={{ width: 38, height: 38, borderRadius: 14, border: `1px solid ${E.border}`, background: E.card, color: E.ink, flexShrink: 0 }}
+              >
+                <ArrowLeft size={18} />
+              </button>
+            )}
             <button
               onClick={() => setDrawerOpen(true)}
               aria-label="Open menu"
