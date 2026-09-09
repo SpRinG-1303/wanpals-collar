@@ -292,7 +292,7 @@ function Step1({
       <StepNav step={1} label="Dog Avatar" onBack={onBack} />
 
       <h2 style={{ textAlign: "center", fontSize: 22, fontWeight: 800, margin: "8px 16px 16px" }}>
-        Create Your Dog's Avatar
+        Create Your Pet's Avatar
       </h2>
 
       {/* Live preview */}
@@ -459,7 +459,7 @@ function Step2({
 
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, padding: "20px" }}>
         <UploadCard
-          label="Your Dog"
+          label="Your Pet"
           emoji=""
           uploaded={avatar.dogPhotoUploaded}
           onUpload={() => update({ dogPhotoUploaded: true })}

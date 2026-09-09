@@ -69,7 +69,7 @@ function Step1() {
         <Stepper current={2} path={pet.path} />
 
         <h1 className="text-[20px] font-bold text-center mt-2" style={{ color: "var(--text-primary)" }}>
-          {t("あなたのワンちゃんを作ろう！", "Create Your Dog's Avatar")}
+          {t("あなたのワンちゃんを作ろう！", "Create Your Pet's Avatar")}
         </h1>
 
         {/* Avatar preview */}

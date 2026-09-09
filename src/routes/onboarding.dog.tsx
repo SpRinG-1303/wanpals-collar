@@ -168,7 +168,7 @@ function Step2() {
           {/* Upload pair */}
           <div className="grid grid-cols-2 gap-3 mt-6">
             <UploadCard
-              label={t("ワンちゃん", "Your Dog")}
+              label={t("ワンちゃん", "Your Pet")}
               placeholderEmoji=""
               imageUrl={dogRawUrl}
               loading={false}

@@ -125,7 +125,7 @@ function Step4() {
           </div>
 
           <h1 className="text-[22px] font-extrabold text-center mt-3" style={{ color: "var(--text-primary)" }}>
-            {t("ワンちゃんのこと教えて ", "Tell Us About Your Dog ")}
+            {t("ワンちゃんのこと教えて ", "Tell Us About Your Pet ")}
           </h1>
           <p className="text-center text-[13px] mt-2 leading-relaxed" style={{ color: "var(--text-secondary)" }}>
             {t(
