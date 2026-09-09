@@ -766,7 +766,7 @@ function DirectionsView({ clinic, onClose }: { clinic: ClinicItem; onClose: () =
       .finally(() => { if (!cancelled) setLoadingRoute(false); });
     return () => { cancelled = true; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [geo.coords?.lat, geo.coords?.lon, clinic.lat, clinic.lon, clinic.en]);
+  }, [geo.coords?.lat, geo.coords?.lon, destLat, destLon, clinic.en]);
 
   useEffect(() => () => { leafletMap.current?.remove(); leafletMap.current = null; }, []);
 
