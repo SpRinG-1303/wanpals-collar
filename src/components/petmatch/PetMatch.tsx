@@ -230,11 +230,16 @@ function PetPhoto({ p, style }: { p: MatchProfile; style?: React.CSSProperties }
 
 /* ── Featured hero card (Community page) ───────────────────── */
 export function PetMatchSection() {
+  const { pet } = usePet();
+  const sp = getSpecies(pet.species);
+  const profiles = useMemo(() => profilesForSpecies(sp), [sp.id]);
   const [featIdx, setFeatIdx] = useState(0);
   const [discoveryOpen, setDiscoveryOpen] = useState(false);
-  const [startId, setStartId] = useState<string>(MATCH_PROFILES[0].id);
+  const [startId, setStartId] = useState<string>(profiles[0].id);
 
-  const featured = MATCH_PROFILES[featIdx % MATCH_PROFILES.length];
+  useEffect(() => { setFeatIdx(0); }, [sp.id]);
+
+  const featured = profiles[featIdx % profiles.length];
 
   function skip() {
     setFeatIdx((i) => i + 1);
@@ -317,7 +322,7 @@ export function PetMatchSection() {
                 fontFamily: "Fraunces, serif",
               }}
             >
-              Discover compatible pets
+              Discover compatible {sp.plural.toLowerCase()}
             </div>
           </div>
           <span
