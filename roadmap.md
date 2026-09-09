@@ -1,3 +1,6 @@
 # Roadmap
-- [x] Rename "Pawsitive" → "MOooMENTUM" everywhere (visible text; internal storage keys kept to preserve sessions)
-- [x] Live location: watchPosition GPS tracking + reverse-geocoded label on Home/Map/Clinics directions
+- [x] Rename "Pawsitive" → "MOooMENTUM" everywhere
+- [x] Live location: watchPosition GPS tracking on Home/Map/Clinics
+- [x] Replace dog-specific wording with animal-neutral wording in outer interfaces
+- [ ] Guest sign-in must also ask which type of animal
+- [ ] Multi-pet profiles per account: add/switch animals, dashboard reflects active pet
