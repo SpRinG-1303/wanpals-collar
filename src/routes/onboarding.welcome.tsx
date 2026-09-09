@@ -63,7 +63,7 @@ function Welcome() {
           >
             {t(
               "ワンちゃんのアバターを作って、スマート健康モニタリングを始めましょう。",
-              "Create your dog's avatar and get started with smart health monitoring."
+              "Create your pet's avatar and get started with smart health monitoring."
             )}
           </p>
         </div>
@@ -71,7 +71,7 @@ function Welcome() {
         {/* CTA */}
         <div className="mt-8">
           <PrimaryButton onClick={() => nav({ to: "/onboarding/dog" })}>
-             {t("マイドッグのアバターを作る", "Create My Dog's Avatar")}
+             {t("マイドッグのアバターを作る", "Create My Pet's Avatar")}
           </PrimaryButton>
           <div className="text-center mt-4">
             <Link

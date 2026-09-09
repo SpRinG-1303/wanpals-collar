@@ -39,7 +39,7 @@ function Report() {
   const { pet } = usePet();
   const [tab, setTab] = useState<(typeof TABS)[number]>("1w");
 
-  const dogName = pet.name || (language === "english" ? "your dog" : "ワンちゃん");
+  const dogName = pet.name || (language === "english" ? "your pet" : "ワンちゃん");
 
   const dayLabels = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
@@ -709,7 +709,7 @@ function HeroBanner({ pet }: { pet: PetProfile }) {
   const { language } = useLanguage();
   const breedEn = pet.breedEn || "Shiba Inu";
   const breedJp = pet.breedJp || "Shiba Inu";
-  const name = pet.name || (language === "english" ? "your dog" : "ワンちゃん");
+  const name = pet.name || (language === "english" ? "your pet" : "ワンちゃん");
 
   return (
     <div

@@ -62,7 +62,7 @@ const QUICK: { jp: string; en: string; icon: typeof Heart; color: string; bg: st
 ];
 
 const SUGGESTIONS = [
-  { jp: " うちの犬の健康状態を教えて", en: " Tell me my dog's health status", color: "var(--accent-sakura)" },
+  { jp: " うちの犬の健康状態を教えて", en: " Tell me my pet's health status", color: "var(--accent-sakura)" },
   { jp: " 次のワクチンはいつ？", en: " When is the next vaccine?", color: "var(--accent-matcha)" },
   { jp: " 近くの動物病院を探して", en: " Find nearby animal hospital", color: "var(--accent-sora)" },
 ];
@@ -78,7 +78,7 @@ function AI() {
   const { language } = useLanguage();
   const { pet } = usePet();
   const navigate = useNavigate();
-  const name = pet.name || (language === "japanese" ? "ワンちゃん" : "your dog");
+  const name = pet.name || (language === "japanese" ? "ワンちゃん" : "your pet");
   const suffix = language === "english" ? "" : "ちゃん";
 
   const [msgs, setMsgs] = useState<Msg[]>([
@@ -187,7 +187,7 @@ function AI() {
           const w = pet.weight ?? 8;
           pushAi(
             `${name}${suffix}の体重${w}kgに適した1日の食事量は約${Math.round(w * 30)}gです。バランスの良い食事を心がけましょう `,
-            `For a ${w}kg dog like ${name}, the recommended daily food is about ${Math.round(w * 30)}g. Keep a balanced diet `,
+            `For a ${w}kg pet like ${name}, the recommended daily food is about ${Math.round(w * 30)}g. Keep a balanced diet `,
           );
         } else if (/walk|exercise|散歩|運動/.test(m)) {
           pushAi("今日の運動データ：2,340歩 · 1.8km · 目標の80% ", "Today's activity: 2,340 steps · 1.8km · 80% of goal ");
@@ -198,7 +198,7 @@ function AI() {
         } else {
           pushAi(
             "わんちゃんについて何でも聞いてください！健康チェック、ワクチン、クリニック検索などお手伝いできます ",
-            "Feel free to ask anything about your dog! I can help with health checks, vaccines, finding clinics and more ",
+            "Feel free to ask anything about your pet! I can help with health checks, vaccines, finding clinics and more ",
           );
         }
       });

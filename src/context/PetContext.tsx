@@ -15,6 +15,7 @@ export type DogWeight = { value: number | null; unit: "kg" | "lbs" };
 export type VaccinationStatus = "yes" | "partial" | "unsure" | null;
 
 export type PetProfile = {
+  species: import("@/lib/species").SpeciesId;
   name: string;
   breed: string;
   breedEn: string;
@@ -47,6 +48,7 @@ export type PetProfile = {
 };
 
 export const DEFAULT_PET: PetProfile = {
+  species: "dog",
   name: "",
   breed: "shiba",
   breedEn: "Indian Pariah Dog",
@@ -136,6 +138,6 @@ export function usePet() {
   return useContext(PetContext);
 }
 
-export function displayName(pet: PetProfile, fallback = "My Dog") {
+export function displayName(pet: PetProfile, fallback = "My Pet") {
   return pet.name?.trim() ? pet.name : fallback;
 }

@@ -211,7 +211,7 @@ function SkinSensePage() {
                 </div>
                 <Bi
                   jp="愛犬の皮膚を撮影してください"
-                  en="Capture your dog's skin"
+                  en="Capture your pet's skin"
                   jpStyle={{ fontSize: 13, color: "var(--text-primary)", fontWeight: 500, marginTop: 12, textAlign: "center" }}
                   enStyle={{ fontSize: 11, color: C.text3, marginTop: 4, textAlign: "center" }}
                 />
@@ -493,7 +493,7 @@ function AIChat() {
   const [messages, setMessages] = useState<ChatMsg[]>([
     { role: "ai",
       jp: "こんにちは！皮膚の状態について何でも質問してください。",
-      en: "Hello! Feel free to ask me anything about your dog's skin condition." },
+      en: "Hello! Feel free to ask me anything about your pet's skin condition." },
   ]);
   const [input, setInput] = useState("");
   const [typing, setTyping] = useState(false);

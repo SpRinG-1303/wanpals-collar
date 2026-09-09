@@ -33,7 +33,7 @@ type TimeTab = typeof TIME_TABS[number];
 function PressureSensePage() {
   const t = useT();
   const { pet } = usePet();
-  const petName = pet?.name || (t("ワンちゃん", "your dog") as string);
+  const petName = pet?.name || (t("ワンちゃん", "your pet") as string);
   const [timeTab, setTimeTab] = useState<TimeTab>("1w");
   const [graphMode, setGraphMode] = useState<"pressure" | "count">("pressure");
 

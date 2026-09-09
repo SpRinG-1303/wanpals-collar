@@ -125,12 +125,12 @@ function Step4() {
           </div>
 
           <h1 className="text-[22px] font-extrabold text-center mt-3" style={{ color: "var(--text-primary)" }}>
-            {t("ワンちゃんのこと教えて ", "Tell Us About Your Dog ")}
+            {t("ワンちゃんのこと教えて ", "Tell Us About Your Pet ")}
           </h1>
           <p className="text-center text-[13px] mt-2 leading-relaxed" style={{ color: "var(--text-secondary)" }}>
             {t(
               "あなたの体験をパーソナライズし、ワンちゃんをより良く見守るために",
-              "Help us personalise your experience and monitor your dog better."
+              "Help us personalise your experience and monitor your pet better."
             )}
           </p>
 
@@ -146,7 +146,7 @@ function Step4() {
             <input
               value={name}
               onChange={(e) => { setName(e.target.value); if (nameError) setNameError(false); }}
-              placeholder={t("ワンちゃんの名前は？", "What's your dog's name?")}
+              placeholder={t("ワンちゃんの名前は？", "What's your pet's name?")}
               className="w-full bg-transparent outline-none transition-all"
               style={{
                 fontFamily: "var(--font-sans)",
@@ -161,7 +161,7 @@ function Step4() {
             />
             {nameError && (
               <div className="text-[11px] mt-1" style={{ color: "#E53935" }}>
-                {t("ワンちゃんの名前を入力してください", "Please enter your dog's name")}
+                {t("ワンちゃんの名前を入力してください", "Please enter your pet's name")}
               </div>
             )}
 
@@ -262,7 +262,7 @@ function Step4() {
             {/* Health */}
             <SectionLabel>{t("健康とケア", "Health & Care")}</SectionLabel>
 
-            <FieldLabel>{t("予防接種は済んでいますか？", "Is your dog vaccinated?")}</FieldLabel>
+            <FieldLabel>{t("予防接種は済んでいますか？", "Is your pet vaccinated?")}</FieldLabel>
             <div className="grid grid-cols-3 gap-2 mt-1">
               <PillButton small selected={vacc === "yes"} onClick={() => setVacc("yes")}>
                  {t("完了", "Yes, fully")}
