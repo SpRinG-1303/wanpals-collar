@@ -5,7 +5,9 @@ import { SenseBanner } from "@/components/SenseBanner";
 import { useLanguage } from "@/context/LanguageContext";
 import { useT } from "@/context/LanguageContext";
 import { usePet, displayName } from "@/context/PetContext";
-import { Activity, Moon, Flame, Clock, Sparkles, ArrowUp } from "lucide-react";
+import { Activity } from "lucide-react";
+import { useCollar } from "@/context/CollarContext";
+import { NoData, DASH } from "@/components/NoData";
 
 export const Route = createFileRoute("/motion-sense")({ component: MotionSensePage });
 
@@ -33,25 +35,6 @@ const C = {
   green: "var(--acc-strong)",
   greenBg: "var(--acc-pale)",
 };
-
-// ---------- Data ----------
-const WEEK = [
-  { jp: "月", en: "Mon", v: 3200 },
-  { jp: "火", en: "Tue", v: 4100 },
-  { jp: "水", en: "Wed", v: 2800 },
-  { jp: "木", en: "Thu", v: 5200 },
-  { jp: "金", en: "Fri", v: 3600 },
-  { jp: "土", en: "Sat", v: 4800 },
-  { jp: "日", en: "Sun", v: 2340 },
-];
-const TREND = [42, 58, 38, 82, 55, 74, 65];
-
-// Hourly intensity (0=none,1=low,2=med,3=high) for 24h
-const TIMELINE: number[] = [
-  0, 0, 0, 0, 0, 0, 1, 2, 3, 3, 3, 2,
-  1, 1, 2, 2, 1, 2, 3, 2, 1, 1, 0, 0,
-];
-const NOW_HOUR = 14;
 
 // ---------- Hooks ----------
 function useCount(target: number, duration = 1200) {
@@ -173,12 +156,14 @@ function MotionSensePage() {
 
         {/* CONTENT */}
         <div className="ms-stack" style={{ padding: "16px", display: "flex", flexDirection: "column", gap: 14, position: "relative", zIndex: 2 }}>
-          <HeroStepCard mounted={mounted} />
-          <WeeklyBarCard mounted={mounted} />
-          <MetricCards />
-          <TrendCard mounted={mounted} />
-          <TimelineCard />
-          <AIInsightBlock name={name} />
+          <HeroStepCard mounted={mounted} steps={steps} />
+          <CardBox>
+            <SectionHeader jp="週間アクティビティ" en="Weekly Activity" />
+            <NoData
+              title={t("記録はまだありません", "No activity history yet")}
+              hint={t("センサーのデータが記録されるとここに表示されます。", `Daily and weekly activity for ${name} will appear here once the collar has been recording.`)}
+            />
+          </CardBox>
         </div>
       </div>
     </AppShell>
