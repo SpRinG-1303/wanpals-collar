@@ -110,7 +110,7 @@ export function HeroIllustration({ compact = false }: { compact?: boolean }) {
           MOooMENTUM
         </div>
         <div className="mt-1.5 italic text-center" style={{ color: "var(--text-secondary)", fontSize: tagSize }}>
-          Closer to your beloved dog.
+          Closer to your beloved animal.
         </div>
       </div>
     </div>

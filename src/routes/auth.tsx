@@ -153,7 +153,7 @@ function AuthPage() {
             MOooMENTUM
           </div>
           <div style={{ marginTop: 4, fontSize: 13, fontWeight: 500, color: SUB, letterSpacing: "0.02em" }}>
-            Smart dog care, made simple
+            Smart animal care, made simple
           </div>
         </div>
 

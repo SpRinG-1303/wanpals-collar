@@ -142,7 +142,7 @@ function Step4() {
             <SectionLabel>{t("基本情報", "Basic Info")}</SectionLabel>
 
             {/* Name */}
-            <FieldLabel required>{t("ワンちゃんの名前", "Dog's Name")}</FieldLabel>
+            <FieldLabel required>{t("ワンちゃんの名前", "Pet's Name")}</FieldLabel>
             <input
               value={name}
               onChange={(e) => { setName(e.target.value); if (nameError) setNameError(false); }}

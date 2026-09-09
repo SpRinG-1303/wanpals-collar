@@ -158,7 +158,7 @@ function Community() {
   const [commentsByPost, setCommentsByPost] = useState<Record<string, CommentT[]>>(() => ({
     "1": [
       { id: "c1", user: "Priya & Bruno", time: "2h ago", text: "Mine had the same thing! The vet said she had a fever.", up: 8 },
-      { id: "c2", user: "Mumbai Dog Lover", time: "1h ago", text: "Please take him to the vet right away!", up: 12 },
+      { id: "c2", user: "Mumbai Animal Lover", time: "1h ago", text: "Please take him to the vet right away!", up: 12 },
     ],
   }));
 
@@ -249,7 +249,7 @@ function Community() {
         {[
           { icon: <UsersIcon size={14} style={{ color: "var(--accent-sakura)" }} />, n: "1,648", jp: "メンバー", en: "Members" },
           { icon: <FileText size={14} style={{ color: "var(--accent-fuji)" }} />, n: "3,420", jp: "投稿", en: "Posts" },
-          { icon: <PawPrint size={14} style={{ color: "var(--accent-matcha)" }} />, n: "892", jp: "ワンちゃん", en: "Dogs" },
+          { icon: <PawPrint size={14} style={{ color: "var(--accent-matcha)" }} />, n: "892", jp: "ワンちゃん", en: "Pets" },
         ].map((s, i, arr) => (
           <span key={s.en} style={{ display: "contents" }}>
             <div style={{ textAlign: "center" }}>
