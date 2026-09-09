@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export interface GeoState {
   /** Full label, e.g. "Bandra West, Mumbai" */
@@ -8,12 +8,17 @@ export interface GeoState {
   coords: { lat: number; lon: number } | null;
   loading: boolean;
   denied: boolean;
+  /** True while live GPS tracking (watchPosition) is active */
+  tracking: boolean;
 }
 
 const FALLBACK_LABEL = "Bandra, Mumbai";
 const FALLBACK_SHORT = "Bandra";
 const CACHE_KEY = "pawsitive_geo";
-const CACHE_TTL = 30 * 60 * 1000; // 30 min
+/** Only reverse-geocode again after moving this far (metres) */
+const REGEOCODE_MIN_MOVE_M = 150;
+/** Or at most this often (ms) */
+const REGEOCODE_MIN_INTERVAL = 60 * 1000;
 
 interface GeoCache {
   label: string;
@@ -34,87 +39,115 @@ function readCache(): GeoCache | null {
   }
 }
 
+function distanceM(a: { lat: number; lon: number }, b: { lat: number; lon: number }): number {
+  const R = 6371000;
+  const dLat = ((b.lat - a.lat) * Math.PI) / 180;
+  const dLon = ((b.lon - a.lon) * Math.PI) / 180;
+  const s =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos((a.lat * Math.PI) / 180) * Math.cos((b.lat * Math.PI) / 180) * Math.sin(dLon / 2) ** 2;
+  return 2 * R * Math.asin(Math.sqrt(s));
+}
+
+async function reverseGeocode(lat: number, lon: number): Promise<{ label: string; short: string } | null> {
+  try {
+    const res = await fetch(
+      `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=jsonv2&zoom=16`
+    );
+    const data = await res.json();
+    const a = data?.address ?? {};
+    const area: string =
+      a.suburb || a.neighbourhood || a.residential || a.village || a.town || a.city_district || "";
+    const city: string = a.city || a.town || a.village || a.state_district || a.state || "";
+    const short = area || city || "Current Location";
+    const label = city && area && area !== city ? `${area}, ${city}` : short;
+    return { label, short };
+  } catch {
+    return null;
+  }
+}
+
 /**
- * Real-time location: reads the device GPS via the Geolocation API and
- * reverse-geocodes to a friendly "Area, City" label. Caches for 30 min and
- * falls back to the last known (or default) location when denied/unavailable.
+ * Real-time location: starts live GPS tracking via watchPosition and keeps the
+ * "Area, City" label updated as the device moves. Coordinates update on every
+ * GPS fix; the reverse-geocoded label is refreshed only after moving ~150 m
+ * (or once a minute) to stay within the geocoder's fair-use limits.
+ * Falls back to the last cached (or default) location when denied/unavailable.
  */
 export function useGeoLocation(): GeoState {
-  const [state, setState] = useState<GeoState>({
-    label: FALLBACK_LABEL,
-    short: FALLBACK_SHORT,
-    coords: null,
-    loading: true,
-    denied: false,
+  const [state, setState] = useState<GeoState>(() => {
+    const cached = readCache();
+    return cached
+      ? {
+          label: cached.label,
+          short: cached.short,
+          coords: { lat: cached.lat, lon: cached.lon },
+          loading: true,
+          denied: false,
+          tracking: false,
+        }
+      : { label: FALLBACK_LABEL, short: FALLBACK_SHORT, coords: null, loading: true, denied: false, tracking: false };
   });
 
+  const lastGeocode = useRef<{ at: number; lat: number; lon: number } | null>(null);
+
   useEffect(() => {
-    let cancelled = false;
-    const cached = readCache();
-    const cachedFresh = cached && Date.now() - cached.ts < CACHE_TTL ? cached : null;
-
-    if (cachedFresh && !cancelled) {
-      setState({
-        label: cachedFresh.label,
-        short: cachedFresh.short,
-        coords: { lat: cachedFresh.lat, lon: cachedFresh.lon },
-        loading: true,
-        denied: false,
-      });
-    }
-
     if (!("geolocation" in navigator)) {
       setState((prev) => ({ ...prev, loading: false }));
       return;
     }
+    let cancelled = false;
+    let geocoding = false;
 
-    navigator.geolocation.getCurrentPosition(
-      async (pos) => {
-        const lat = pos.coords.latitude;
-        const lon = pos.coords.longitude;
-        try {
-          const res = await fetch(
-            `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=jsonv2&zoom=16`
-          );
-          const data = await res.json();
-          const a = data?.address ?? {};
-          const area: string =
-            a.suburb || a.neighbourhood || a.residential || a.village || a.town || a.city_district || "";
-          const city: string = a.city || a.town || a.village || a.state_district || a.state || "";
-          const short = area || city || "Current Location";
-          const label = city && area && area !== city ? `${area}, ${city}` : short;
-          if (cancelled) return;
-          setState({ label, short, coords: { lat, lon }, loading: false, denied: false });
+    const onFix = async (pos: GeolocationPosition) => {
+      if (cancelled) return;
+      const lat = pos.coords.latitude;
+      const lon = pos.coords.longitude;
+      const now = Date.now();
+
+      const last = lastGeocode.current;
+      const moved = last ? distanceM({ lat: last.lat, lon: last.lon }, { lat, lon }) : Infinity;
+      const stale = last ? now - last.at > REGEOCODE_MIN_INTERVAL : true;
+
+      if ((moved > REGEOCODE_MIN_MOVE_M || stale) && !geocoding) {
+        geocoding = true;
+        const geo = await reverseGeocode(lat, lon);
+        geocoding = false;
+        if (cancelled) return;
+        if (geo) {
+          lastGeocode.current = { at: now, lat, lon };
+          setState({ label: geo.label, short: geo.short, coords: { lat, lon }, loading: false, denied: false, tracking: true });
           try {
-            localStorage.setItem(CACHE_KEY, JSON.stringify({ label, short, lat, lon, ts: Date.now() }));
+            localStorage.setItem(CACHE_KEY, JSON.stringify({ ...geo, lat, lon, ts: now }));
           } catch {
             /* storage full — ignore */
           }
-        } catch {
-          if (!cancelled) {
-            setState({ label: "Current Location", short: "Nearby", coords: { lat, lon }, loading: false, denied: false });
-          }
+          return;
         }
-      },
-      () => {
-        if (cancelled) return;
-        setState(
-          cached
-            ? {
-                label: cached.label,
-                short: cached.short,
-                coords: { lat: cached.lat, lon: cached.lon },
-                loading: false,
-                denied: true,
-              }
-            : { label: FALLBACK_LABEL, short: FALLBACK_SHORT, coords: null, loading: false, denied: true }
-        );
-      },
-      { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
-    );
+      }
+
+      setState((prev) => ({ ...prev, coords: { lat, lon }, loading: false, denied: false, tracking: true }));
+    };
+
+    const onError = () => {
+      if (cancelled) return;
+      const cached = readCache();
+      setState(
+        cached
+          ? { label: cached.label, short: cached.short, coords: { lat: cached.lat, lon: cached.lon }, loading: false, denied: true, tracking: false }
+          : { label: FALLBACK_LABEL, short: FALLBACK_SHORT, coords: null, loading: false, denied: true, tracking: false }
+      );
+    };
+
+    const watchId = navigator.geolocation.watchPosition(onFix, onError, {
+      enableHighAccuracy: true,
+      timeout: 15000,
+      maximumAge: 5000,
+    });
 
     return () => {
       cancelled = true;
+      navigator.geolocation.clearWatch(watchId);
     };
   }, []);
 
