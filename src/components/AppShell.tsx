@@ -17,6 +17,9 @@ const VET_BLOCKED_PREFIXES = [
   "/pressure-sense", "/light-sense", "/avatar-setup", "/onboarding",
 ];
 
+/* Bottom-tab destinations — inner pages get an automatic back button. */
+const TAB_ROUTES = ["/home", "/map", "/clinics", "/community", "/settings", "/"];
+
 export function TopBar({
   titleJp,
   titleEn,
@@ -49,14 +52,18 @@ export function TopBar({
           <div className="flex items-center" style={{ gap: 8 }}>
             {onMenuClick && <HamburgerButton isOpen={menuOpen} onClick={onMenuClick} />}
             {showBack && (
-              <Link
-                to={backTo}
+              <button
+                type="button"
                 aria-label="Back"
+                onClick={() => {
+                  if (window.history.length > 1) window.history.back();
+                  else navigate({ to: backTo });
+                }}
                 className="flex items-center justify-center"
-                style={{ width: 36, height: 36, borderRadius: "50%", color: "var(--text-secondary)" }}
+                style={{ width: 36, height: 36, borderRadius: "50%", color: "var(--text-secondary)", background: "transparent" }}
               >
                 <ArrowLeft size={22} strokeWidth={2} />
-              </Link>
+              </button>
             )}
             <Link
               to="/home"
@@ -268,6 +275,7 @@ export default function AppShell({
                 titleEn={titleEn}
                 onMenuClick={onMenuClick}
                 menuOpen={menuOpen}
+                showBack={!TAB_ROUTES.some((r) => loc.pathname === r || loc.pathname.startsWith(r + "/"))}
               />
             )}
         <main

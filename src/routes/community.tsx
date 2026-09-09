@@ -23,7 +23,7 @@ import {
   Syringe,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useT, useLanguage } from "@/context/LanguageContext";
+import { useT } from "@/context/LanguageContext";
 import { PetMatchSection } from "@/components/petmatch/PetMatch";
 import { toast } from "sonner";
 
@@ -185,7 +185,7 @@ const SPECIES_POSTS: Record<SpeciesId, PostT[]> = {
 
 function Community() {
   const t = useT();
-  const { language } = useLanguage();
+  
   const { pet } = usePet();
   const sp = getSpecies(pet?.species);
   const myBreed = pet?.breedEn || sp.label;
@@ -228,7 +228,7 @@ function Community() {
   }
 
   async function sharePost(p: PostT) {
-    const title = language === "english" ? p.titleEn : p.titleJp;
+    const title = p.titleEn;
     const text = `${title} — MOooMENTUM Community`;
     if (typeof navigator !== "undefined" && (navigator as any).share) {
       try {
@@ -386,11 +386,11 @@ function Community() {
                     <Flame size={11} style={{ color: th.accent }} />
                   </div>
                   <span style={{ fontSize: 10, fontWeight: 700, color: th.accent, background: th.soft, padding: "2px 8px", borderRadius: 10 }}>
-                    #{language === "english" ? th.en : th.jp}
+                    #{th.en}
                   </span>
                 </div>
                 <div style={{ fontSize: 12, fontWeight: 700, lineHeight: 1.3, color: "var(--text-primary)", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
-                  {language === "english" ? p.titleEn : p.titleJp}
+                  {p.titleEn}
                 </div>
                 <div className="flex items-center" style={{ fontSize: 10, color: "var(--text-secondary)", gap: 4 }}>
                   <PawPrint size={10} style={{ color: "var(--accent-sakura)" }} />
@@ -548,7 +548,7 @@ function Community() {
                           boxShadow: `0 2px 6px ${th.accent}1f`,
                         }}
                       >
-                        <span>#{language === "english" ? th.en : th.jp}</span>
+                        <span>#{th.en}</span>
                       </div>
                     </div>
 
@@ -585,9 +585,9 @@ function Community() {
                         overflow: "hidden",
                       }}
                     >
-                      {language === "english" ? p.titleEn : p.titleJp}
+                      {p.titleEn}
                     </div>
-                    {language === "mixed" && (
+                    {false && (
                       <div style={{ fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.5 }}>{p.titleEn}</div>
                     )}
                   </button>
@@ -821,7 +821,7 @@ function Community() {
                       {i + 1}
                     </span>
                     <span className="flex-1 min-w-0" style={{ fontSize: 13, fontWeight: 600, color: "var(--text-primary)", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
-                      {language === "english" ? p.titleEn : p.titleJp}
+                      {p.titleEn}
                     </span>
                     <span style={{ fontSize: 12, fontWeight: 700, color: "var(--accent-sakura)", flexShrink: 0 }}>▲ {p.up}</span>
                   </button>
@@ -839,7 +839,7 @@ function Community() {
             onClose={() => setShareFor(null)}
             onCopy={() => {
               const p = posts.find((x) => x.id === shareFor);
-              const title = p ? (language === "english" ? p.titleEn : p.titleJp) : "";
+              const title = p ? (p.titleEn) : "";
               const url = typeof window !== "undefined" ? window.location.href : "";
               try {
                 navigator.clipboard?.writeText(`${title} — ${url}`);
@@ -849,7 +849,7 @@ function Community() {
             }}
             onLine={() => {
               const p = posts.find((x) => x.id === shareFor);
-              const title = p ? (language === "english" ? p.titleEn : p.titleJp) : "";
+              const title = p ? (p.titleEn) : "";
               const url = typeof window !== "undefined" ? window.location.href : "";
               const lineUrl = `https://social-plugins.line.me/lineit/share?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`;
               if (typeof window !== "undefined") window.open(lineUrl, "_blank");
@@ -887,7 +887,7 @@ function PostDetailSheet({
   onShare: () => void;
 }) {
   const t = useT();
-  const { language } = useLanguage();
+  
   const th = themeFor(post.flair);
   const pal = avatarPalette(post.user);
   const [text, setText] = useState("");
@@ -924,7 +924,7 @@ function PostDetailSheet({
             <div className="flex-1 min-w-0">
               <div style={{ fontSize: 14, fontWeight: 700, color: "var(--text-primary)" }}>{post.user}</div>
               <div style={{ fontSize: 11, color: "var(--text-placeholder)" }}>
-                {post.breed} · {post.time} · #{language === "english" ? th.en : th.jp}
+                {post.breed} · {post.time} · #{th.en}
               </div>
             </div>
             <button onClick={onClose} aria-label="close" style={{ width: 32, height: 32, borderRadius: "50%", background: "var(--bg-elevated)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--text-secondary)" }}>
@@ -933,9 +933,9 @@ function PostDetailSheet({
           </div>
 
           <h2 style={{ fontSize: 20, fontWeight: 800, color: "var(--text-primary)", marginTop: 14, lineHeight: 1.3 }}>
-            {language === "english" ? post.titleEn : post.titleJp}
+            {post.titleEn}
           </h2>
-          {language === "mixed" && <p style={{ fontSize: 12, color: "var(--text-secondary)", marginTop: 4 }}>{post.titleEn}</p>}
+          {false && <p style={{ fontSize: 12, color: "var(--text-secondary)", marginTop: 4 }}>{post.titleEn}</p>}
 
           {post.body && (
             <p style={{ fontSize: 14, color: "var(--text-primary)", marginTop: 14, lineHeight: 1.6, whiteSpace: "pre-wrap" }}>{post.body}</p>

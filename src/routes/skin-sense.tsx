@@ -32,8 +32,7 @@ function Bi({ jp, en, jpStyle, enStyle, as: As = "div" }: {
   jp: ReactNode; en: ReactNode; jpStyle?: CSSProperties; enStyle?: CSSProperties; as?: "div" | "span";
 }) {
   const { language } = useLanguage();
-  if (language === "english") return <As style={enStyle ?? jpStyle}>{en}</As>;
-  if (language === "japanese") return <As style={jpStyle}>{jp}</As>;
+  return <As style={enStyle ?? jpStyle}>{en}</As>;
   return (<><As style={jpStyle}>{jp}</As><As style={enStyle}>{en}</As></>);
 }
 

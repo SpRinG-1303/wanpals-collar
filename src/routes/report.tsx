@@ -39,7 +39,7 @@ function Report() {
   const { pet } = usePet();
   const [tab, setTab] = useState<(typeof TABS)[number]>("1w");
 
-  const dogName = pet.name || (language === "english" ? "your pet" : "ワンちゃん");
+  const dogName = pet.name || "your pet";
 
   const dayLabels = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
@@ -390,7 +390,7 @@ function ChartCard({
             <div style={{ fontSize: 14, fontWeight: 700, color: C.cafe }}>
               {t(titleJp, titleEn)}
             </div>
-            {language === "mixed" && (
+            {false && (
               <div style={{ fontSize: 11, color: C.moss }}>{titleEn}</div>
             )}
           </div>
@@ -709,7 +709,7 @@ function HeroBanner({ pet }: { pet: PetProfile }) {
   const { language } = useLanguage();
   const breedEn = pet.breedEn || "Shiba Inu";
   const breedJp = pet.breedJp || "Shiba Inu";
-  const name = pet.name || (language === "english" ? "your pet" : "ワンちゃん");
+  const name = pet.name || "your pet";
 
   return (
     <div

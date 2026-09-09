@@ -22,10 +22,14 @@ import {
   ChevronLeft,
   Clock,
   CornerUpRight,
+  CornerUpLeft,
+  ArrowUp,
+  RotateCcw,
+  Loader2,
   Flag,
   X,
 } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
 import { useT, useLanguage } from "@/context/LanguageContext";
@@ -221,7 +225,7 @@ function Clinics() {
             {t("Nearest 24H Hospital", "Nearest 24H Hospital")}
           </div>
           <div style={{ fontSize: 12, color: "rgba(255,255,255,0.9)", marginTop: 3, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-            {language === "english" ? emergencyClinic.en : emergencyClinic.jp} · {emergencyClinic.km}km {emergencyClinic.rating > 0 ? ` · ★ ${emergencyClinic.rating}` : ""}
+            {emergencyClinic.en} · {emergencyClinic.km}km {emergencyClinic.rating > 0 ? ` · ★ ${emergencyClinic.rating}` : ""}
           </div>
         </div>
         <a
@@ -328,7 +332,7 @@ function Clinics() {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center" style={{ gap: 6 }}>
                     <span className="truncate" style={{ fontSize: 15, fontWeight: 700, color: "var(--text-primary)", lineHeight: 1.25 }}>
-                      {language === "english" ? c.en : c.jp}
+                      {c.en}
                     </span>
                     {c.em && (
                       <span
@@ -632,18 +636,108 @@ function Clinics() {
   );
 }
 
-/* ── Directions view — plays the route out to the clinic ────── */
-function DirectionsView({ clinic, onClose }: { clinic: ClinicItem; onClose: () => void }) {
-  const [playKey, setPlayKey] = useState(0);
-  const geo = useGeoLocation();
-  const mins = Math.max(4, Math.round(clinic.km * 12));
-  const routeD = "M 46 252 C 110 246, 128 196, 176 176 S 268 116, 336 58";
+/* ── Directions view — real map + real road route (OSRM) ────── */
+type RouteStep = { text: string; dist: string; type: string; modifier?: string };
 
-  const steps = [
-    { icon: <Navigation size={13} />, text: "Head north on Linking Rd", dist: "400 m" },
-    { icon: <CornerUpRight size={13} />, text: "Turn right onto Waterfield Rd", dist: `${(clinic.km * 0.6).toFixed(1)} km` },
-    { icon: <Flag size={13} />, text: `Arrive at ${clinic.en}`, dist: `${(clinic.km * 0.3).toFixed(1)} km` },
-  ];
+function maneuverIcon(type: string, modifier?: string) {
+  if (type === "arrive") return <Flag size={13} />;
+  if (type === "depart") return <Navigation size={13} />;
+  if (type === "roundabout" || type === "rotary") return <RotateCcw size={13} />;
+  if (modifier?.includes("left")) return <CornerUpLeft size={13} />;
+  if (modifier?.includes("right")) return <CornerUpRight size={13} />;
+  if (type === "merge" || modifier === "uturn") return <CornerUpLeft size={13} style={{ transform: modifier === "uturn" ? "rotate(180deg)" : undefined }} />;
+  return <ArrowUp size={13} />;
+}
+
+function maneuverText(s: any): string {
+  const road = s.name && s.name !== "" ? ` onto ${s.name}` : "";
+  const mod = s.maneuver?.modifier;
+  switch (s.maneuver?.type) {
+    case "depart": return `Head ${mod ?? "forward"}${road}`;
+    case "arrive": return "Arrive at destination";
+    case "turn": return `Turn ${mod ?? ""}${road}`;
+    case "new name": return `Continue${road}`;
+    case "roundabout": case "rotary": return `At the roundabout, take the exit${road}`;
+    case "merge": return `Merge${road}`;
+    case "fork": return `Keep ${mod ?? ""} at the fork${road}`;
+    case "end of road": return `At the end of the road, turn ${mod ?? ""}${road}`;
+    case "continue": return `Continue${road}`;
+    default: return `${s.maneuver?.type ?? "Continue"} ${mod ?? ""}${road}`;
+  }
+}
+
+function fmtDist(m: number) {
+  return m >= 1000 ? `${(m / 1000).toFixed(1)} km` : `${Math.round(m)} m`;
+}
+
+function DirectionsView({ clinic, onClose }: { clinic: ClinicItem; onClose: () => void }) {
+  const geo = useGeoLocation();
+  const mapEl = useRef<HTMLDivElement | null>(null);
+  const leafletMap = useRef<any>(null);
+  const [route, setRoute] = useState<{ mins: number; km: number; steps: RouteStep[] } | null>(null);
+  const [routeErr, setRouteErr] = useState<string | null>(null);
+  const [loadingRoute, setLoadingRoute] = useState(false);
+
+  const canRoute = geo.coords != null && clinic.lat != null && clinic.lon != null;
+
+  // Fetch the real driving route from OSRM (open data, real roads)
+  useEffect(() => {
+    if (!canRoute) return;
+    const { lat: oLat, lon: oLon } = geo.coords!;
+    let cancelled = false;
+    setLoadingRoute(true);
+    setRouteErr(null);
+    fetch(`https://router.project-osrm.org/route/v1/driving/${oLon},${oLat};${clinic.lon},${clinic.lat}?overview=full&geometries=geojson&steps=true`)
+      .then((r) => r.json())
+      .then(async (data) => {
+        if (cancelled) return;
+        const r0 = data?.routes?.[0];
+        if (!r0) { setRouteErr("No driving route found to this clinic."); return; }
+        const coords: [number, number][] = r0.geometry.coordinates.map(([lon, lat]: [number, number]) => [lat, lon]);
+        const steps: RouteStep[] = (r0.legs?.[0]?.steps ?? [])
+          .filter((s: any) => s.distance > 0 || s.maneuver?.type === "arrive")
+          .map((s: any) => ({
+            text: s.maneuver?.type === "arrive" ? `Arrive at ${clinic.en}` : maneuverText(s),
+            dist: fmtDist(s.distance),
+            type: s.maneuver?.type ?? "continue",
+            modifier: s.maneuver?.modifier,
+          }));
+        setRoute({ mins: Math.max(1, Math.round(r0.duration / 60)), km: Math.round(r0.distance / 100) / 10, steps });
+
+        // Draw the real route on a Leaflet map
+        if (!document.getElementById("leaflet-css")) {
+          const link = document.createElement("link");
+          link.id = "leaflet-css";
+          link.rel = "stylesheet";
+          link.href = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
+          document.head.appendChild(link);
+        }
+        const L = await import("leaflet");
+        if (cancelled || !mapEl.current) return;
+        if (!leafletMap.current) {
+          leafletMap.current = L.map(mapEl.current, { zoomControl: false, attributionControl: false });
+          L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 19 }).addTo(leafletMap.current);
+        }
+        const map = leafletMap.current;
+        map.eachLayer((l: any) => { if (!(l instanceof L.TileLayer)) map.removeLayer(l); });
+
+        const line = L.polyline(coords, { color: "#1F7A72", weight: 5, opacity: 0.9, lineJoin: "round" }).addTo(map);
+        L.circleMarker(coords[0], { radius: 9, color: "#FFFFFF", weight: 3, fillColor: "#4A6FA5", fillOpacity: 1 }).addTo(map); // you
+        L.circleMarker(coords[coords.length - 1], { radius: 10, color: "#FFFFFF", weight: 3, fillColor: "#E4644F", fillOpacity: 1 }).addTo(map); // clinic
+        map.fitBounds(line.getBounds(), { padding: [44, 44] });
+        setTimeout(() => map.invalidateSize(), 250);
+      })
+      .catch(() => { if (!cancelled) setRouteErr("Couldn't load the route. Check your connection."); })
+      .finally(() => { if (!cancelled) setLoadingRoute(false); });
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [geo.coords?.lat, geo.coords?.lon, clinic.lat, clinic.lon, clinic.en]);
+
+  useEffect(() => () => { leafletMap.current?.remove(); leafletMap.current = null; }, []);
+
+  const fallbackMins = Math.max(4, Math.round(clinic.km * 12));
+  const mins = route?.mins ?? fallbackMins;
+  const km = route?.km ?? clinic.km;
 
   return (
     <motion.div
@@ -661,19 +755,19 @@ function DirectionsView({ clinic, onClose }: { clinic: ClinicItem; onClose: () =
             onClick={onClose}
             aria-label="Back"
             className="flex items-center justify-center shrink-0"
-            style={{ width: 34, height: 34, borderRadius: "50%", background: "#FFFFFF", boxShadow: CARD_SHADOW }}
+            style={{ width: 34, height: 34, borderRadius: "50%", background: "var(--bg-card,#fff)", boxShadow: CARD_SHADOW }}
           >
             <ChevronLeft size={17} style={{ color: "var(--text-primary)" }} />
           </button>
           <div className="min-w-0">
-            <div style={{ fontSize: 15, fontWeight: 800, color: "var(--text-primary)", fontFamily: "Fraunces, serif" }}>Directions</div>
+            <div style={{ fontSize: 15, fontWeight: 800, color: "var(--text-primary)", fontFamily: "var(--font-display)" }}>Directions</div>
             <div style={{ fontSize: 11, color: "var(--text-secondary)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
               to {clinic.en}
             </div>
           </div>
           <div className="shrink-0 flex flex-col items-end gap-1" style={{ marginLeft: "auto" }}>
             <span
-              style={{ background: "var(--accent-sakura-soft)", color: "var(--accent-sakura-dark)", fontSize: 11, fontWeight: 800, padding: "4px 12px", borderRadius: 999 }}
+              style={{ background: "var(--acc-pale)", color: "var(--acc-strong)", fontSize: 11, fontWeight: 800, padding: "4px 12px", borderRadius: 999 }}
             >
               {mins} min
             </span>
@@ -684,70 +778,47 @@ function DirectionsView({ clinic, onClose }: { clinic: ClinicItem; onClose: () =
           </div>
         </div>
 
-        {/* Map with animated route */}
-        <div style={{ margin: "4px 16px 0", borderRadius: 22, overflow: "hidden", boxShadow: CARD_SHADOW, position: "relative", background: "#F3F0FA" }}>
-          <svg key={playKey} viewBox="0 0 390 280" style={{ width: "100%", display: "block" }}>
-            {/* streets */}
-            <g fill="none" stroke="#FFFFFF" strokeWidth="10" strokeLinecap="round">
-              <path d="M -10 90 H 400" />
-              <path d="M -10 190 H 400" />
-              <path d="M 90 -10 V 290" />
-              <path d="M 230 -10 V 290" />
-              <path d="M 320 -10 V 290" />
-              <path d="M -10 140 C 120 130, 260 160, 400 120" />
-            </g>
-            <g fill="none" stroke="#E7E1F4" strokeWidth="2">
-              <path d="M -10 40 H 400" />
-              <path d="M -10 240 H 400" />
-              <path d="M 160 -10 V 290" />
-              <path d="M 280 -10 V 290" />
-            </g>
-            {/* park blocks */}
-            <rect x="108" y="106" width="52" height="30" rx="8" fill="#DFF0E4" />
-            <rect x="248" y="206" width="56" height="34" rx="8" fill="#DFF0E4" />
-
-            {/* route glow + draw-on animation */}
-            <path d={routeD} fill="none" stroke="var(--accent-sakura)" strokeWidth="10" strokeLinecap="round" opacity="0.18" />
-            <motion.path
-              d={routeD}
-              fill="none"
-              stroke="var(--accent-sakura)"
-              strokeWidth="5"
-              strokeLinecap="round"
-              strokeDasharray="1 0"
-              initial={{ pathLength: 0 }}
-              animate={{ pathLength: 1 }}
-              transition={{ duration: 2.2, ease: "easeInOut" }}
-            />
-            {/* moving dot along the route */}
-            <circle r="7" fill="#FFFFFF" stroke="var(--accent-sakura-dark)" strokeWidth="4">
-              <animateMotion dur="4.5s" repeatCount="indefinite" path={routeD} />
-            </circle>
-
-            {/* origin pin (you) */}
-            <circle cx="46" cy="252" r="9" fill="var(--accent-sora)" stroke="#fff" strokeWidth="3" />
-            {/* destination pin (clinic) */}
-            <g>
-              <circle cx="336" cy="58" r="12" fill="var(--accent-sakura)" stroke="#fff" strokeWidth="3" />
-              <circle cx="336" cy="58" r="4" fill="#fff" />
-            </g>
-          </svg>
+        {/* Real map with the real route */}
+        <div style={{ margin: "4px 16px 0", borderRadius: 22, overflow: "hidden", boxShadow: CARD_SHADOW, position: "relative", background: "#E9F0EA", minHeight: 300 }}>
+          {canRoute ? (
+            <>
+              <div ref={mapEl} style={{ width: "100%", height: 320 }} />
+              {loadingRoute && !route && (
+                <div className="absolute inset-0 flex flex-col items-center justify-center gap-2" style={{ background: "rgba(255,255,255,0.85)", zIndex: 500 }}>
+                  <Loader2 size={22} className="animate-spin" style={{ color: "var(--acc-strong)" }} />
+                  <span style={{ fontSize: 12, fontWeight: 700, color: "var(--text-secondary)" }}>Finding the best route…</span>
+                </div>
+              )}
+              {routeErr && (
+                <div className="absolute inset-0 flex items-center justify-center" style={{ background: "rgba(255,255,255,0.9)", zIndex: 500, padding: 24, textAlign: "center", fontSize: 12, color: "var(--text-secondary)", fontWeight: 600 }}>
+                  {routeErr}
+                </div>
+              )}
+            </>
+          ) : (
+            <div className="flex flex-col items-center justify-center gap-2" style={{ height: 320, padding: 24, textAlign: "center" }}>
+              <MapPin size={26} style={{ color: "var(--acc-strong)" }} />
+              <div style={{ fontSize: 13, fontWeight: 700, color: "var(--text-primary)" }}>
+                {clinic.lat == null ? "No coordinates saved for this clinic" : "Turn on location to see the live route"}
+              </div>
+              <div style={{ fontSize: 11, color: "var(--text-secondary)" }}>You can still open turn-by-turn navigation in Google Maps below.</div>
+            </div>
+          )}
 
           {/* ETA card */}
           <div
             className="flex items-center justify-between"
             style={{
-              position: "absolute", left: 12, right: 12, bottom: 12,
+              position: "absolute", left: 12, right: 12, bottom: 12, zIndex: 600,
               background: "rgba(255,255,255,0.94)", backdropFilter: "blur(8px)",
               borderRadius: 16, padding: "10px 14px",
               boxShadow: "0 6px 18px rgba(0,0,0,0.10)",
             }}
           >
             <div>
-              <div style={{ fontSize: 15, fontWeight: 800, color: "var(--text-primary)" }}>{mins} min · {clinic.km} km</div>
+              <div style={{ fontSize: 15, fontWeight: 800, color: "var(--text-primary)" }}>{mins} min · {km} km</div>
               <div style={{ fontSize: 10, color: "var(--text-secondary)", marginTop: 1 }}>
                 From: {geo.loading && !geo.coords ? "locating…" : geo.label}
-                {geo.coords ? ` (${geo.coords.lat.toFixed(4)}, ${geo.coords.lon.toFixed(4)})` : ""}
               </div>
             </div>
             <span className="flex items-center gap-1" style={{ fontSize: 10, fontWeight: 700, color: clinic.open ? "var(--accent-matcha)" : "#E53935" }}>
@@ -757,36 +828,27 @@ function DirectionsView({ clinic, onClose }: { clinic: ClinicItem; onClose: () =
           </div>
         </div>
 
-        {/* Turn-by-turn steps */}
-        <div style={{ margin: "14px 16px 0", background: "#FFFFFF", borderRadius: 20, boxShadow: CARD_SHADOW, padding: "6px 14px" }}>
-          {steps.map((s, i) => (
-            <div key={i} className="flex items-center gap-3" style={{ padding: "11px 0", borderBottom: i < steps.length - 1 ? "1px solid var(--bg-elevated)" : "none" }}>
-              <span className="flex items-center justify-center shrink-0" style={{ width: 30, height: 30, borderRadius: "50%", background: i === steps.length - 1 ? "var(--accent-sakura-soft)" : "var(--bg-page)", color: i === steps.length - 1 ? "var(--accent-sakura-dark)" : "var(--text-secondary)" }}>
-                {s.icon}
-              </span>
-              <span className="flex-1 min-w-0" style={{ fontSize: 12.5, fontWeight: 600, color: "var(--text-primary)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{s.text}</span>
-              <span style={{ fontSize: 11, color: "var(--text-placeholder)", flexShrink: 0 }}>{s.dist}</span>
+        {/* Real turn-by-turn steps */}
+        <div className="flex-1 overflow-y-auto" style={{ margin: "14px 16px 0", background: "var(--bg-card,#fff)", borderRadius: 20, boxShadow: CARD_SHADOW, padding: "6px 14px" }}>
+          {route && route.steps.length > 0 ? (
+            route.steps.slice(0, 12).map((s, i) => (
+              <div key={i} className="flex items-center gap-3" style={{ padding: "11px 0", borderBottom: i < Math.min(route.steps.length, 12) - 1 ? "1px solid var(--bg-elevated)" : "none" }}>
+                <span className="flex items-center justify-center shrink-0" style={{ width: 30, height: 30, borderRadius: "50%", background: s.type === "arrive" ? "var(--acc-pale)" : "var(--bg-page)", color: s.type === "arrive" ? "var(--acc-strong)" : "var(--text-secondary)" }}>
+                  {maneuverIcon(s.type, s.modifier)}
+                </span>
+                <span className="flex-1 min-w-0" style={{ fontSize: 12.5, fontWeight: 600, color: "var(--text-primary)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{s.text}</span>
+                <span style={{ fontSize: 11, color: "var(--text-placeholder)", flexShrink: 0 }}>{s.dist}</span>
+              </div>
+            ))
+          ) : (
+            <div style={{ padding: "16px 4px", fontSize: 12, color: "var(--text-secondary)", textAlign: "center" }}>
+              {loadingRoute ? "Loading turn-by-turn directions…" : canRoute ? "No detailed steps available." : "Steps appear once your location is on."}
             </div>
-          ))}
+          )}
         </div>
 
         {/* Actions */}
         <div className="flex gap-2" style={{ margin: "14px 16px 20px" }}>
-          <button
-            onClick={() => {
-              setPlayKey((k) => k + 1);
-              toast.success("Navigation started", { description: `Guiding you to ${clinic.en} · ${mins} min away`, duration: 2500 });
-            }}
-            className="flex items-center justify-center gap-1.5 active:scale-[0.97] transition-transform"
-            style={{
-              flex: 1, height: 44, borderRadius: 14,
-              background: "linear-gradient(135deg, var(--accent-sakura), var(--accent-sakura-dark))",
-              color: "#fff", fontSize: 13, fontWeight: 700,
-              boxShadow: "0 6px 16px color-mix(in oklab, var(--accent-sakura) 35%, transparent)",
-            }}
-          >
-            <Navigation size={13} /> Start Navigation
-          </button>
           <button
             onClick={() => {
               if (typeof window !== "undefined") {
@@ -794,9 +856,15 @@ function DirectionsView({ clinic, onClose }: { clinic: ClinicItem; onClose: () =
                 window.open(`https://www.google.com/maps/dir/?api=1${origin}&destination=${clinic.lat != null ? `${clinic.lat},${clinic.lon}` : encodeURIComponent(clinic.en)}`, "_blank");
               }
             }}
-            style={{ height: 44, padding: "0 16px", borderRadius: 14, background: "#FFFFFF", border: "1.5px solid var(--border-card)", color: "var(--text-secondary)", fontSize: 12, fontWeight: 700 }}
+            className="flex items-center justify-center gap-1.5 active:scale-[0.97] transition-transform"
+            style={{
+              flex: 1, height: 44, borderRadius: 14,
+              background: "linear-gradient(135deg, var(--acc-strong), var(--accent-matcha))",
+              color: "#fff", fontSize: 13, fontWeight: 700,
+              boxShadow: "0 6px 16px color-mix(in oklab, var(--acc-strong) 35%, transparent)",
+            }}
           >
-            Google Maps
+            <Navigation size={13} /> Start Navigation
           </button>
         </div>
       </div>

@@ -436,10 +436,10 @@ function OrangeAIInsightCard({ name }: { name: string }) {
       )}
       {language !== "japanese" && (
         <div style={{
-          fontSize: language === "english" ? 14 : 13,
+          fontSize: 14,
           lineHeight: 1.8,
-          color: language === "english" ? "#FFFFFF" : "rgba(255,255,255,0.7)",
-          marginTop: language === "mixed" ? 6 : 0,
+          color: "#FFFFFF",
+          marginTop: 0,
           position: "relative",
         }}>{en}</div>
       )}
