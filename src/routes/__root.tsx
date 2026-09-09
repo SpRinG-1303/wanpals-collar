@@ -12,6 +12,7 @@ import appCss from "../styles.css?url";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { PetProvider } from "@/context/PetContext";
 import { AuthProvider } from "@/context/AuthContext";
+import { CollarProvider } from "@/context/CollarContext";
 import { Toaster } from "@/components/ui/sonner";
 
 function NotFoundComponent() {
@@ -138,8 +139,10 @@ function RootComponent() {
       <LanguageProvider>
         <PetProvider>
           <AuthProvider>
-            <Outlet />
-            <Toaster />
+            <CollarProvider>
+              <Outlet />
+              <Toaster />
+            </CollarProvider>
           </AuthProvider>
         </PetProvider>
       </LanguageProvider>
