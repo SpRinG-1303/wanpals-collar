@@ -787,7 +787,7 @@ function Community() {
       {/* Compose sheet */}
       <AnimatePresence>
         {composeOpen && (
-          <ComposeSheet onClose={() => setComposeOpen(false)} onSubmit={addPost} />
+          <ComposeSheet breed={breed} onClose={() => setComposeOpen(false)} onSubmit={addPost} />
         )}
       </AnimatePresence>
 
@@ -1089,9 +1089,11 @@ function PostDetailSheet({
 // Compose Sheet
 // ═══════════════════════════════════════════════════════════════
 function ComposeSheet({
+  breed,
   onClose,
   onSubmit,
 }: {
+  breed: string;
   onClose: () => void;
   onSubmit: (data: { titleJp: string; titleEn: string; body: string; flair: string; images: string[]; location: string }) => void;
 }) {
@@ -1174,7 +1176,7 @@ function ComposeSheet({
             </div>
             <div>
               <div style={{ fontSize: 14, fontWeight: 700, color: "var(--text-primary)" }}>{ME.user}</div>
-              <div style={{ fontSize: 11, color: "var(--text-secondary)" }}>{myBreed}</div>
+              <div style={{ fontSize: 11, color: "var(--text-secondary)" }}>{breed}</div>
             </div>
           </div>
 
