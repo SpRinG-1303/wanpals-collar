@@ -6,3 +6,6 @@
 
 ## Open
 - [ ] Nearby vet hospitals from live location (real data, clinics screen)
+- [ ] Community feed specific to chosen animal species
+- [ ] Dark mode inside phone frame (not outer borders), verify all screens
+- [ ] Language picker: 22 Indian + 21 global languages, show count next to label
