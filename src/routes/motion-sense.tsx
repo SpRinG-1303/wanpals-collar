@@ -584,7 +584,7 @@ function AIInsightBlock({ name }: { name: string }) {
           fontSize: 14,
           color: "rgba(255,255,255,0.92)",
           lineHeight: 1.8,
-          marginTop: language === "mixed" ? 6 : 0,
+          marginTop: 0,
         }}>{en}</div>
       )}
 
