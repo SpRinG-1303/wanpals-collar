@@ -195,18 +195,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
   return (
     <LanguageContext.Provider
-      value={{
-        get language() {
-          return langRef.current;
-        },
-        setLanguage,
-        get translatedCount() {
-          return Object.keys(cacheRef.current).length;
-        },
-        get translating() {
-          return busyRef.current || pendingRef.current.size > 0;
-        },
-      }}
+      value={{ language, setLanguage, translatedCount, translating }}
     >
       {children}
     </LanguageContext.Provider>
