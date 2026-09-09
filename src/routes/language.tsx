@@ -1,118 +1,89 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { PawPrint } from "lucide-react";
-import pawLogoAsset from "@/assets/paw-logo.png.asset.json";
-import PhoneFrame from "@/components/PhoneFrame";
+import { Check, ChevronLeft, Globe } from "lucide-react";
+import { useState } from "react";
+import AppShell from "@/components/AppShell";
+import {
+  ALL_LANGUAGES,
+  INDIAN_LANGUAGES,
+  GLOBAL_LANGUAGES,
+  LANGUAGE_COUNT,
+  getDisplayLanguage,
+  setDisplayLanguage,
+} from "@/lib/languages";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/language")({ component: LanguagePicker });
 
-function LanguagePicker() {
-  const nav = useNavigate();
-  const choose = () => nav({ to: "/home" });
-
+function LangRow({ name, active, onPick }: { name: string; active: boolean; onPick: () => void }) {
   return (
-    <PhoneFrame>
-    <div className="min-h-screen flex flex-col" style={{ background: "var(--bg-page)" }}>
-      <HeroIllustration />
-      <div className="flex-1 px-6 pb-8 w-full">
-        <h1 className="text-base font-semibold text-center mt-2" style={{ color: "var(--text-primary)" }}>
-          App Language<br/>
-          <span className="text-xs font-normal" style={{ color: "var(--text-secondary)" }}>MOooMENTUM is available in English</span>
-        </h1>
-        <div className="mt-6 space-y-3">
-          <div
-            className="w-full h-16 rounded-2xl flex items-center justify-between px-5"
-            style={{
-              background: "var(--bg-card)",
-              border: "2px solid var(--accent-sakura)",
-              borderLeft: "4px solid var(--accent-sakura)",
-              boxShadow: "0 2px 12px rgba(0,0,0,0.06)",
-            }}
-          >
-            <div className="flex items-center gap-3">
-              <div className="text-left">
-                <div className="text-[15px] font-semibold" style={{ color: "var(--text-primary)" }}>English</div>
-                <div className="text-[12px]" style={{ color: "var(--text-secondary)" }}>Default app language</div>
-              </div>
-            </div>
-            <div
-              className="w-[22px] h-[22px] rounded-full flex items-center justify-center"
-              style={{ background: "var(--accent-sakura)" }}
-            >
-              <span className="w-2 h-2 rounded-full bg-white" />
-            </div>
-          </div>
-        </div>
-        <button
-          onClick={choose}
-          className="w-full mt-8 h-[52px] rounded-[14px] text-white font-bold text-[16px] flex items-center justify-center gap-2 active:scale-[0.98] transition-transform"
-          style={{
-            background: "linear-gradient(135deg, var(--accent-sakura), var(--accent-sakura-dark))",
-            boxShadow: "0 8px 20px color-mix(in srgb, var(--accent-sakura) calc(0.35 * 100%), transparent)",
-          }}
-        >
-          <PawPrint className="w-4 h-4" strokeWidth={2.2} />
-          Continue →
-        </button>
-      </div>
-    </div>
-    </PhoneFrame>
+    <button
+      onClick={onPick}
+      className="w-full text-left flex items-center justify-between"
+      style={{
+        padding: "12px 14px",
+        borderRadius: 14,
+        background: active ? "var(--acc-pale)" : "var(--bg-card)",
+        border: active ? "1.5px solid var(--acc-strong)" : "1px solid var(--border-card)",
+        marginBottom: 8,
+      }}
+    >
+      <span style={{ fontSize: 14, fontWeight: active ? 700 : 500, color: "var(--text-primary)" }}>{name}</span>
+      {active && <Check size={16} style={{ color: "var(--acc-strong)" }} />}
+    </button>
   );
 }
 
-export function HeroIllustration({ compact = false }: { compact?: boolean }) {
-  const H = compact ? 220 : 260;
-  const logo = compact ? 56 : 72;
-  const titleSize = compact ? 22 : 24;
-  const tagSize = compact ? 11 : 12;
+function LanguagePicker() {
+  const nav = useNavigate();
+  const [selected, setSelected] = useState(getDisplayLanguage());
+
+  const pick = (l: string) => {
+    setSelected(l);
+    setDisplayLanguage(l);
+    toast(`${l} selected`, { duration: 1500 });
+  };
+
   return (
-    <div
-      className="relative w-full overflow-hidden"
-      style={{
-        height: H,
-        background: "linear-gradient(160deg, var(--accent-sakura-soft) 0%, var(--acc-pale) 50%, #F0F5FF 100%)",
-      }}
-    >
-      <div
-        className="absolute -top-16 -right-16 rounded-full"
-        style={{ width: 200, height: 200, background: "var(--acc-pale)", opacity: 0.5, filter: "blur(40px)" }}
-      />
-      <svg className="absolute top-3 left-3" width="90" height="60" viewBox="0 0 90 60" style={{ opacity: 0.25 }}>
-        <path d="M2 8 Q 30 18, 60 12 T 88 22" stroke="var(--acc-deep)" strokeWidth="1.2" fill="none" />
-        <circle cx="20" cy="14" r="4" fill="var(--accent-sakura)" />
-        <circle cx="38" cy="16" r="3" fill="var(--accent-sakura)" />
-        <circle cx="55" cy="12" r="3.5" fill="var(--accent-sakura)" />
-        <circle cx="72" cy="18" r="3" fill="var(--accent-sakura)" />
-      </svg>
-      {[
-        { l: "20%", t: "30%", s: 8, c: "var(--accent-sakura)", d: 0 },
-        { l: "70%", t: "20%", s: 10, c: "var(--acc2-pale)", d: 1 },
-        { l: "85%", t: "55%", s: 6, c: "var(--accent-sakura)", d: 2 },
-        { l: "15%", t: "65%", s: 9, c: "var(--acc2-pale)", d: 3 },
-        { l: "55%", t: "75%", s: 7, c: "var(--accent-sakura)", d: 1.5 },
-      ].map((p, i) => (
-        <div
-          key={i}
-          className="absolute rounded-full"
-          style={{
-            left: p.l, top: p.t, width: p.s, height: p.s * 1.4,
-            background: p.c, transform: `rotate(${i * 35}deg)`,
-            animation: `petalFall 10s ease-in-out ${p.d}s infinite`,
-          }}
-        />
-      ))}
-      <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <img
-          src={pawLogoAsset.url}
-          alt="MOooMENTUM logo"
-          style={{ width: logo, height: logo, objectFit: "contain", filter: "drop-shadow(0 8px 24px rgba(167,139,219,0.25))" }}
-        />
-        <div className="mt-2 font-bold leading-none" style={{ color: "var(--text-primary)", fontSize: titleSize, letterSpacing: "0.05em" }}>
-          MOooMENTUM
+    <AppShell titleEn="Language" titleJp="言語" hideTopBar>
+      <div style={{ padding: "16px 16px 24px" }}>
+        <div className="flex items-center" style={{ gap: 10, marginBottom: 14 }}>
+          <button
+            onClick={() => nav({ to: "/settings" })}
+            aria-label="Back to settings"
+            className="flex items-center justify-center"
+            style={{ width: 34, height: 34, borderRadius: "50%", background: "var(--bg-card)", border: "1px solid var(--border-card)" }}
+          >
+            <ChevronLeft size={17} style={{ color: "var(--text-primary)" }} />
+          </button>
+          <div>
+            <div style={{ fontSize: 17, fontWeight: 800, color: "var(--text-primary)", fontFamily: "var(--font-display)" }}>
+              App Language
+            </div>
+            <div className="flex items-center" style={{ gap: 5, fontSize: 11, color: "var(--text-secondary)" }}>
+              <Globe size={11} style={{ color: "var(--acc-strong)" }} />
+              {LANGUAGE_COUNT} languages available
+            </div>
+          </div>
         </div>
-        <div className="mt-1.5 italic text-center" style={{ color: "var(--text-secondary)", fontSize: tagSize }}>
-          Closer to your beloved animal.
+
+        <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--text-secondary)", margin: "6px 2px 8px" }}>
+          Indian languages · {INDIAN_LANGUAGES.length}
+        </div>
+        {INDIAN_LANGUAGES.map((l) => (
+          <LangRow key={l} name={l} active={selected === l} onPick={() => pick(l)} />
+        ))}
+
+        <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--text-secondary)", margin: "16px 2px 8px" }}>
+          Global languages · {GLOBAL_LANGUAGES.length}
+        </div>
+        {GLOBAL_LANGUAGES.filter((l) => l !== "English").map((l) => (
+          <LangRow key={l} name={l} active={selected === l} onPick={() => pick(l)} />
+        ))}
+
+        <div style={{ fontSize: 10, color: "var(--text-placeholder)", textAlign: "center", marginTop: 14 }}>
+          App interface translation is rolling out — your choice is saved for when your language goes live.
         </div>
       </div>
-    </div>
+    </AppShell>
   );
 }

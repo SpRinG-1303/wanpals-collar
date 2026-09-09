@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import AppShell from "@/components/AppShell";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Navigation, AlertTriangle, Phone, Shield, History, Crosshair,
   Plus, Minus, Satellite, ChevronRight, Stethoscope,
@@ -32,11 +32,96 @@ function MapScreen() {
   const [lost, setLost] = useState(false);
   const [safeZone, setSafeZone] = useState(true);
   const [radius, setRadius] = useState<100 | 200 | 500 | 1000>(200);
-  const [mapType, setMapType] = useState<"map" | "satellite">("map");
-  const [zoom, setZoom] = useState(1);
-  const [showAllHistory, setShowAllHistory] = useState(false);
+  const [mapType, setMapType] = useState<"map" | "satellite">("satellite");
+    const [showAllHistory, setShowAllHistory] = useState(false);
   const [sosActive, setSosActive] = useState(false);
   const geo = useGeoLocation();
+
+  const mapEl = useRef<HTMLDivElement>(null);
+  const leafletMap = useRef<any>(null);
+  const layers = useRef<any>({});
+  const mapTypeRef = useRef(mapType);
+  mapTypeRef.current = mapType;
+
+  // Init + update real satellite/street map (client only)
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      if (!document.getElementById("leaflet-css")) {
+        const link = document.createElement("link");
+        link.id = "leaflet-css";
+        link.rel = "stylesheet";
+        link.href = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
+        document.head.appendChild(link);
+      }
+      const L = await import("leaflet");
+      if (cancelled || !mapEl.current) return;
+
+      if (!leafletMap.current) {
+        const map = L.map(mapEl.current, { zoomControl: false, attributionControl: false }).setView([20.5937, 78.9629], 5);
+        const satellite = L.tileLayer(
+          "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+          { maxZoom: 19 }
+        );
+        const street = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 19 });
+        layers.current = { satellite, street };
+        satellite.addTo(map);
+        leafletMap.current = map;
+      }
+      const map = leafletMap.current;
+
+      // Toggle base layer
+      const target = mapTypeRef.current === "satellite" ? "satellite" : "street";
+      Object.entries(layers.current).forEach(([k, layer]: any) => {
+        if (k === target) { if (!map.hasLayer(layer)) layer.addTo(map); }
+        else if (map.hasLayer(layer)) map.removeLayer(layer);
+      });
+
+      if (geo.coords) {
+        const petPos: [number, number] = [geo.coords.lat + 0.0004, geo.coords.lon + 0.0003];
+        const youPos: [number, number] = [geo.coords.lat, geo.coords.lon];
+        map.setView(petPos, map.getZoom() < 10 ? 17 : map.getZoom());
+
+        (layers.current.overlays ?? []).forEach((o: any) => map.removeLayer(o));
+        const overlays: any[] = [];
+
+        if (safeZone) {
+          overlays.push(L.circle(petPos, {
+            radius, color: "#3E7C59", weight: 2, dashArray: "6 6",
+            fillColor: "#3E7C59", fillOpacity: 0.08,
+          }));
+          overlays.push(L.marker(petPos, { interactive: false, icon: L.divIcon({
+            className: "", iconSize: [80, 20], iconAnchor: [40, -radius * 0 - 6],
+            html: `<div style="background:#fff;border:1px solid #3E7C59;color:#3E7C59;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;white-space:nowrap;width:max-content;transform:translateY(-14px)">Safe Zone</div>`,
+          })}));
+        }
+
+        overlays.push(L.marker(youPos, { interactive: false, icon: L.divIcon({
+          className: "", iconSize: [16, 16], iconAnchor: [8, 8],
+          html: `<div style="position:relative;width:16px;height:16px">
+            <div style="position:absolute;inset:-12px;border-radius:50%;background:rgba(90,124,158,.15);border:1px dashed rgba(90,124,158,.4)"></div>
+            <div style="position:absolute;inset:0;border-radius:50%;background:#5A7C9E;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.3)"></div>
+            <div style="position:absolute;top:-24px;left:50%;transform:translateX(-50%);background:#fff;border:1px solid #5A7C9E;color:#5A7C9E;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;white-space:nowrap">You</div>
+          </div>`,
+        })}));
+
+        overlays.push(L.marker(petPos, { interactive: false, icon: L.divIcon({
+          className: "", iconSize: [20, 20], iconAnchor: [10, 10],
+          html: `<div style="position:relative;width:20px;height:20px">
+            <div style="position:absolute;inset:-14px;border-radius:50%;background:rgba(31,122,114,.15);border:2px solid rgba(31,122,114,.4);animation:mapPulse 2s ease-in-out infinite"></div>
+            <div style="position:absolute;inset:0;border-radius:50%;background:#1F7A72;border:3px solid #fff;box-shadow:0 4px 12px rgba(0,0,0,.35)"></div>
+            <div style="position:absolute;top:-26px;left:50%;transform:translateX(-50%);background:#fff;border:1px solid #1F7A72;color:#1F7A72;font-size:11px;font-weight:700;padding:3px 8px;border-radius:20px;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,.15)">${dogName}</div>
+          </div>`,
+        })}));
+
+        overlays.forEach((o) => o.addTo(map));
+        layers.current.overlays = overlays;
+      }
+    })();
+    return () => { cancelled = true; };
+  }, [geo.coords?.lat, geo.coords?.lon, mapType, safeZone, radius, dogName]);
+
+  useEffect(() => () => { leafletMap.current?.remove(); leafletMap.current = null; }, []);
 
   const openDirections = () => {
     const dest = geo.coords
@@ -80,43 +165,21 @@ function MapScreen() {
 
       {/* MAP CARD */}
       <div style={{ margin: "12px 16px", borderRadius: 28, overflow: "hidden", height: 320, position: "relative", boxShadow: CARD_SHADOW, border: "1px solid var(--border-card)", background: "var(--acc-pale)" }}>
-        <div className="absolute inset-0" style={{ transform: `scale(${zoom})`, transformOrigin: "center center", transition: "transform 0.25s ease" }}>
-        {/* Base watercolor map */}
-        <div className="absolute inset-0" style={{
-          background: `
-            linear-gradient(135deg, color-mix(in oklab, var(--acc-soft) 60.0%, transparent) 0%, transparent 30%),
-            linear-gradient(135deg, transparent 60%, color-mix(in oklab, var(--acc-soft) 50.0%, transparent) 60%, color-mix(in oklab, var(--acc-soft) 50.0%, transparent) 68%, transparent 68%),
-            repeating-linear-gradient(90deg, transparent 0 58px, rgba(255,255,255,0.85) 58px 60px, transparent 60px 140px, rgba(255,255,255,0.9) 140px 144px),
-            repeating-linear-gradient(0deg, transparent 0 50px, rgba(255,255,255,0.8) 50px 52px, transparent 52px 110px, rgba(255,255,255,0.9) 110px 114px),
-            repeating-linear-gradient(45deg, transparent 0 100px, rgba(255,255,255,0.4) 100px 102px),
-            var(--acc-pale)
-          `,
-        }} />
-        {/* City blocks */}
-        <div className="absolute" style={{ left: 20, top: 30, width: 60, height: 40, background: "var(--acc-pale)", borderRadius: 3 }} />
-        <div className="absolute" style={{ left: 90, top: 25, width: 80, height: 50, background: "var(--acc-pale)", borderRadius: 3 }} />
-        <div className="absolute" style={{ left: 200, top: 40, width: 70, height: 60, background: "var(--acc-pale)", borderRadius: 3 }} />
-        <div className="absolute" style={{ left: 30, top: 120, width: 90, height: 50, background: "var(--acc-pale)", borderRadius: 3 }} />
-        <div className="absolute" style={{ left: 180, top: 180, width: 100, height: 60, background: "var(--acc-pale)", borderRadius: 3 }} />
-        <div className="absolute" style={{ left: 50, top: 240, width: 70, height: 50, background: "var(--acc-pale)", borderRadius: 3 }} />
-        {/* Parks */}
-        <div className="absolute" style={{ left: 140, top: 90, width: 50, height: 50, background: "var(--acc2-soft)", borderRadius: 12 }} />
-        <div className="absolute" style={{ right: 30, top: 130, width: 60, height: 40, background: "var(--acc2-soft)", borderRadius: 12 }} />
-        <div className="absolute" style={{ left: 25, bottom: 30, width: 45, height: 45, background: "var(--acc2-soft)", borderRadius: 14 }} />
-        {/* Map labels */}
-        <span className="absolute" style={{ left: 30, top: 80, fontSize: 9, color: "var(--acc-strong)", opacity: 0.4 }}>Linking Road</span>
-        <span className="absolute" style={{ left: 150, top: 110, fontSize: 9, color: "var(--acc-strong)", opacity: 0.4 }}>Joggers Park</span>
-        <span className="absolute" style={{ right: 40, top: 200, fontSize: 9, color: "var(--acc-strong)", opacity: 0.4 }}>Bandra Stn</span>
-        <span className="absolute" style={{ left: 200, bottom: 60, fontSize: 9, color: "var(--acc-strong)", opacity: 0.4 }}>Carter Road</span>
-        </div>
+        {/* Real satellite / street tiles centered on live GPS */}
+        <div ref={mapEl} className="absolute inset-0" style={{ zIndex: 1 }} />
+        {!geo.coords && (
+          <div className="absolute inset-0 flex items-center justify-center" style={{ zIndex: 2, background: "var(--acc-pale)", color: "var(--text-secondary)", fontSize: 13, fontWeight: 600 }}>
+            {geo.loading ? t("位置を取得中…", "Locating…") : t("位置情報オフ", "Location Off")}
+          </div>
+        )}
 
         {/* Collar GPS badge top-left */}
-        <div className="absolute" style={{ top: 12, left: 12, background: "#FFFFFF", padding: "5px 10px", borderRadius: 12, fontSize: 11, color: "var(--accent-matcha)", fontWeight: 700, boxShadow: "0 2px 8px rgba(0,0,0,0.08)" }}>
+        <div className="absolute" style={{ zIndex: 500, top: 12, left: 12, background: "#FFFFFF", padding: "5px 10px", borderRadius: 12, fontSize: 11, color: "var(--accent-matcha)", fontWeight: 700, boxShadow: "0 2px 8px rgba(0,0,0,0.08)" }}>
            {t("カラーGPS", "Collar GPS")}
         </div>
 
         {/* Map type toggle top-left lower */}
-        <div className="absolute flex" style={{ top: 48, left: 12, background: "rgba(255,255,255,0.85)", backdropFilter: "blur(8px)", borderRadius: 14, padding: 3, fontSize: 11, fontWeight: 600 }}>
+        <div className="absolute flex" style={{ zIndex: 500, top: 48, left: 12, background: "rgba(255,255,255,0.85)", backdropFilter: "blur(8px)", borderRadius: 14, padding: 3, fontSize: 11, fontWeight: 600 }}>
           {(["map", "satellite"] as const).map(m => (
             <button key={m} onClick={() => setMapType(m)} style={{
               padding: "4px 10px", borderRadius: 12,
@@ -129,82 +192,24 @@ function MapScreen() {
         </div>
 
         {/* Zoom controls top-right */}
-        <div className="absolute" style={{ top: 12, right: 12, background: "rgba(255,255,255,0.9)", backdropFilter: "blur(8px)", borderRadius: 12, boxShadow: "0 2px 8px rgba(0,0,0,0.1)" }}>
-          <button onClick={() => setZoom((z) => Math.min(2, +(z + 0.25).toFixed(2)))} aria-label="Zoom in" className="flex items-center justify-center" style={{ width: 36, height: 36, color: "var(--text-primary)" }}><Plus size={16} /></button>
+        <div className="absolute" style={{ zIndex: 500, top: 12, right: 12, background: "rgba(255,255,255,0.9)", backdropFilter: "blur(8px)", borderRadius: 12, boxShadow: "0 2px 8px rgba(0,0,0,0.1)" }}>
+          <button onClick={() => leafletMap.current?.zoomIn()} aria-label="Zoom in" className="flex items-center justify-center" style={{ width: 36, height: 36, color: "var(--text-primary)" }}><Plus size={16} /></button>
           <div style={{ height: 1, background: "var(--border-card)" }} />
-          <button onClick={() => setZoom((z) => Math.max(1, +(z - 0.25).toFixed(2)))} aria-label="Zoom out" className="flex items-center justify-center" style={{ width: 36, height: 36, color: "var(--text-primary)" }}><Minus size={16} /></button>
+          <button onClick={() => leafletMap.current?.zoomOut()} aria-label="Zoom out" className="flex items-center justify-center" style={{ width: 36, height: 36, color: "var(--text-primary)" }}><Minus size={16} /></button>
         </div>
 
         {/* My location button bottom-right */}
         <button
-          onClick={() => { setZoom(1); toast.success(t("ペットの位置に移動しました", "Centered on your pet")); }}
+          onClick={() => { if (geo.coords) leafletMap.current?.setView([geo.coords.lat + 0.0004, geo.coords.lon + 0.0003], 17); toast.success(t("ペットの位置に移動しました", "Centered on your pet")); }}
           aria-label="Center on pet"
-          className="absolute flex items-center justify-center active:scale-90 transition-transform" style={{ bottom: 14, right: 12, width: 40, height: 40, borderRadius: "50%", background: "rgba(255,255,255,0.9)", backdropFilter: "blur(8px)", boxShadow: "0 2px 8px rgba(0,0,0,0.1)" }}
+          className="absolute flex items-center justify-center active:scale-90 transition-transform" style={{ zIndex: 500, bottom: 14, right: 12, width: 40, height: 40, borderRadius: "50%", background: "rgba(255,255,255,0.9)", backdropFilter: "blur(8px)", boxShadow: "0 2px 8px rgba(0,0,0,0.1)" }}
         >
           <Crosshair size={20} style={{ color: "var(--accent-sora)" }} />
         </button>
 
-        {/* Zoomable marker layer */}
-        <div className="absolute inset-0" style={{ transform: `scale(${zoom})`, transformOrigin: "center center", transition: "transform 0.25s ease", pointerEvents: "none" }}>
-        {/* Safe zone circle */}
-        {safeZone && (
-          <div className="absolute" style={{
-            left: "50%", top: "50%", width: 180, height: 180,
-            transform: "translate(-50%,-50%)",
-            borderRadius: "50%",
-            background: "color-mix(in oklab, var(--acc-strong) 6.0%, transparent)",
-          }}>
-            <div className="absolute inset-0 safe-rotate" style={{
-              borderRadius: "50%",
-              border: "2px dashed var(--accent-matcha)",
-            }} />
-            <div className="absolute" style={{ left: "50%", top: -10, transform: "translateX(-50%)", background: "#FFFFFF", border: "1px solid var(--accent-matcha)", color: "var(--accent-matcha)", fontSize: 10, fontWeight: 700, padding: "2px 8px", borderRadius: 20, whiteSpace: "nowrap" }}>
-              {t("安全ゾーン", "Safe Zone")}
-            </div>
-          </div>
-        )}
-
-        {/* Activity trail dots */}
-        {[{x:38,y:62,s:5},{x:42,y:58,s:4.5},{x:45,y:55,s:4},{x:47,y:52,s:3.5},{x:48,y:50,s:3}].map((d,i)=>(
-          <div key={i} className="absolute" style={{ left: `${d.x}%`, top: `${d.y}%`, width: d.s, height: d.s, borderRadius: "50%", background: `color-mix(in srgb, var(--accent-sakura) calc(${0.4-i*0.06} * 100%), transparent)` }} />
-        ))}
-
-        {/* Owner marker */}
-        <div className="absolute" style={{ left: "33%", top: "66%", transform: "translate(-50%,-50%)" }}>
-          <div className="absolute" style={{ left: "50%", top: "50%", transform: "translate(-50%,-50%)", width: 40, height: 40, borderRadius: "50%", background: "color-mix(in oklab, var(--acc-strong) 15.0%, transparent)", border: "1px dashed color-mix(in oklab, var(--acc-strong) 40.0%, transparent)" }} />
-          <div className="relative flex items-center justify-center" style={{ width: 16, height: 16, borderRadius: "50%", background: "var(--accent-sora)", border: "3px solid white", boxShadow: "0 2px 8px color-mix(in oklab, var(--acc-strong) 40.0%, transparent)" }}>
-            <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#fff" }} />
-          </div>
-          <div className="absolute" style={{ left: "50%", top: -22, transform: "translateX(-50%)", background: "var(--acc2-pale)", border: "1px solid var(--accent-sora)", color: "var(--accent-sora)", fontSize: 10, fontWeight: 700, padding: "2px 8px", borderRadius: 20, whiteSpace: "nowrap" }}>
-            {t("あなた", "You")}
-          </div>
-          <div className="absolute" style={{ left: "50%", top: 18, transform: "translateX(-50%)", fontSize: 9, color: "var(--text-secondary)", whiteSpace: "nowrap" }}>
-            {t("精度: ±5m", "±5m")}
-          </div>
-        </div>
-
-        {/* Pet marker center */}
-        <div className="absolute" style={{ left: "50%", top: "50%", transform: "translate(-50%,-50%)" }}>
-          {/* Pulse ring */}
-          <div className="absolute map-pulse-ring" style={{ left: "50%", top: "50%", transform: "translate(-50%,-50%)", width: 48, height: 48, borderRadius: "50%", background: "color-mix(in srgb, var(--accent-sakura) calc(0.15 * 100%), transparent)", border: "2px solid color-mix(in srgb, var(--accent-sakura) calc(0.4 * 100%), transparent)" }} />
-          {/* Middle */}
-          <div className="absolute" style={{ left: "50%", top: "50%", transform: "translate(-50%,-50%)", width: 32, height: 32, borderRadius: "50%", background: "color-mix(in srgb, var(--accent-sakura) calc(0.25 * 100%), transparent)", border: "2px solid var(--accent-sakura)" }} />
-          {/* Inner */}
-          <div className="relative flex items-center justify-center" style={{ width: 20, height: 20, borderRadius: "50%", background: "linear-gradient(135deg, var(--accent-sakura), var(--accent-sakura-dark))", boxShadow: "0 4px 12px color-mix(in srgb, var(--accent-sakura) calc(0.5 * 100%), transparent)" }}>
-            <span style={{ color: "#fff", fontSize: 10 }}></span>
-          </div>
-          {/* Pin tip */}
-          <div className="absolute" style={{ left: "50%", top: 20, transform: "translateX(-50%)", width: 0, height: 0, borderLeft: "4px solid transparent", borderRight: "4px solid transparent", borderTop: "6px solid var(--accent-sakura-dark)" }} />
-          {/* Name tag */}
-          <div className="absolute" style={{ left: "50%", top: -26, transform: "translateX(-50%)", background: "#FFFFFF", border: "1px solid var(--acc-pale)", color: "var(--accent-sakura)", fontSize: 11, fontWeight: 700, padding: "3px 8px", borderRadius: 20, whiteSpace: "nowrap", boxShadow: "0 2px 8px rgba(0,0,0,0.1)" }}>
-            {dogName} 
-          </div>
-        </div>
-
-        </div>
         {/* Attribution */}
-        <div className="absolute" style={{ bottom: 4, right: 8, fontSize: 8, color: "var(--text-secondary)" }}>
-          © OpenStreetMap contributors
+        <div className="absolute" style={{ bottom: 4, left: 8, zIndex: 500, fontSize: 8, color: "var(--text-secondary)", background: "rgba(255,255,255,0.7)", padding: "1px 6px", borderRadius: 6 }}>
+          © Esri · © OpenStreetMap contributors
         </div>
       </div>
 
