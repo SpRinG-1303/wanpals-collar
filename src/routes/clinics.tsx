@@ -834,7 +834,7 @@ function DirectionsView({ clinic, onClose }: { clinic: ClinicItem; onClose: () =
             <div className="flex flex-col items-center justify-center gap-2" style={{ height: 320, padding: 24, textAlign: "center" }}>
               <MapPin size={26} style={{ color: "var(--acc-strong)" }} />
               <div style={{ fontSize: 13, fontWeight: 700, color: "var(--text-primary)" }}>
-                {clinic.lat == null ? "No coordinates saved for this clinic" : "Turn on location to see the live route"}
+                {destLat == null ? "Pinpointing this clinic on the map…" : "Turn on location to see the live route"}
               </div>
               <div style={{ fontSize: 11, color: "var(--text-secondary)" }}>You can still open turn-by-turn navigation in Google Maps below.</div>
             </div>
