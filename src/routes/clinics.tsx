@@ -96,7 +96,7 @@ function Clinics() {
   const [visible, setVisible] = useState(5);
   const [videoBooking, setVideoBooking] = useState(false);
   const [dirFor, setDirFor] = useState<ClinicItem | null>(null);
-  const { vets, loading: vetsLoading } = useNearbyVets();
+  const { vets, loading: vetsLoading, error: vetsError, refresh: refreshVets, geo: vetsGeo } = useNearbyVets();
   const source: ClinicItem[] = vets.length ? vets : CLINICS;
 
   const filtered = useMemo(() => {
@@ -297,8 +297,21 @@ function Clinics() {
         </div>
       )}
       {!vetsLoading && vets.length > 0 && (
-        <div style={{ margin: `0 ${MX}px 10px`, fontSize: 11, fontWeight: 600, color: "var(--accent-matcha)" }}>
-          {vets.length} real vet hospitals near your location
+        <div className="flex items-center justify-between gap-2" style={{ margin: `0 ${MX}px 10px` }}>
+          <span style={{ fontSize: 11, fontWeight: 600, color: "var(--accent-matcha)" }}>
+            {vets.length} real vet clinics near {vetsGeo.short || "you"}
+          </span>
+          <button onClick={refreshVets} style={{ fontSize: 11, fontWeight: 700, color: "var(--acc-strong)" }}>Refresh</button>
+        </div>
+      )}
+      {!vetsLoading && vets.length === 0 && (
+        <div className="flex items-center justify-between gap-2" style={{ margin: `0 ${MX}px 10px` }}>
+          <span style={{ fontSize: 11, fontWeight: 600, color: "var(--text-secondary)" }}>
+            {vetsGeo.denied
+              ? "Turn on location access to see clinics around you"
+              : vetsError ?? "Getting your location…"}
+          </span>
+          <button onClick={refreshVets} style={{ fontSize: 11, fontWeight: 700, color: "var(--acc-strong)" }}>Retry</button>
         </div>
       )}
       <div style={{ paddingBottom: 12 }}>
@@ -677,8 +690,30 @@ function DirectionsView({ clinic, onClose }: { clinic: ClinicItem; onClose: () =
   const [route, setRoute] = useState<{ mins: number; km: number; steps: RouteStep[] } | null>(null);
   const [routeErr, setRouteErr] = useState<string | null>(null);
   const [loadingRoute, setLoadingRoute] = useState(false);
+  const [resolved, setResolved] = useState<{ lat: number; lon: number } | null>(null);
 
-  const canRoute = geo.coords != null && clinic.lat != null && clinic.lon != null;
+  // If this clinic has no stored coordinates, find them on the map by name near the user
+  useEffect(() => {
+    if (clinic.lat != null && clinic.lon != null) { setResolved(null); return; }
+    let cancelled = false;
+    const near = geo.coords
+      ? `&viewbox=${geo.coords.lon - 0.4},${geo.coords.lat + 0.4},${geo.coords.lon + 0.4},${geo.coords.lat - 0.4}&bounded=0`
+      : "";
+    const q = encodeURIComponent(`${clinic.en} ${clinic.address ?? geo.label ?? ""}`.trim());
+    fetch(`https://nominatim.openstreetmap.org/search?q=${q}&format=jsonv2&limit=1${near}`)
+      .then((r) => r.json())
+      .then((rows) => {
+        if (cancelled || !Array.isArray(rows) || !rows[0]) return;
+        setResolved({ lat: parseFloat(rows[0].lat), lon: parseFloat(rows[0].lon) });
+      })
+      .catch(() => { /* ignore */ });
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [clinic.en, clinic.lat, clinic.lon, geo.coords?.lat, geo.coords?.lon]);
+
+  const destLat = clinic.lat ?? resolved?.lat ?? null;
+  const destLon = clinic.lon ?? resolved?.lon ?? null;
+  const canRoute = geo.coords != null && destLat != null && destLon != null;
 
   // Fetch the real driving route from OSRM (open data, real roads)
   useEffect(() => {
@@ -687,7 +722,7 @@ function DirectionsView({ clinic, onClose }: { clinic: ClinicItem; onClose: () =
     let cancelled = false;
     setLoadingRoute(true);
     setRouteErr(null);
-    fetch(`https://router.project-osrm.org/route/v1/driving/${oLon},${oLat};${clinic.lon},${clinic.lat}?overview=full&geometries=geojson&steps=true`)
+    fetch(`https://router.project-osrm.org/route/v1/driving/${oLon},${oLat};${destLon},${destLat}?overview=full&geometries=geojson&steps=true`)
       .then((r) => r.json())
       .then(async (data) => {
         if (cancelled) return;
@@ -731,7 +766,7 @@ function DirectionsView({ clinic, onClose }: { clinic: ClinicItem; onClose: () =
       .finally(() => { if (!cancelled) setLoadingRoute(false); });
     return () => { cancelled = true; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [geo.coords?.lat, geo.coords?.lon, clinic.lat, clinic.lon, clinic.en]);
+  }, [geo.coords?.lat, geo.coords?.lon, destLat, destLon, clinic.en]);
 
   useEffect(() => () => { leafletMap.current?.remove(); leafletMap.current = null; }, []);
 
@@ -799,7 +834,7 @@ function DirectionsView({ clinic, onClose }: { clinic: ClinicItem; onClose: () =
             <div className="flex flex-col items-center justify-center gap-2" style={{ height: 320, padding: 24, textAlign: "center" }}>
               <MapPin size={26} style={{ color: "var(--acc-strong)" }} />
               <div style={{ fontSize: 13, fontWeight: 700, color: "var(--text-primary)" }}>
-                {clinic.lat == null ? "No coordinates saved for this clinic" : "Turn on location to see the live route"}
+                {destLat == null ? "Pinpointing this clinic on the map…" : "Turn on location to see the live route"}
               </div>
               <div style={{ fontSize: 11, color: "var(--text-secondary)" }}>You can still open turn-by-turn navigation in Google Maps below.</div>
             </div>
@@ -851,9 +886,18 @@ function DirectionsView({ clinic, onClose }: { clinic: ClinicItem; onClose: () =
         <div className="flex gap-2" style={{ margin: "14px 16px 20px" }}>
           <button
             onClick={() => {
-              if (typeof window !== "undefined") {
-                const origin = geo.coords ? `&origin=${geo.coords.lat},${geo.coords.lon}` : "";
-                window.open(`https://www.google.com/maps/dir/?api=1${origin}&destination=${clinic.lat != null ? `${clinic.lat},${clinic.lon}` : encodeURIComponent(clinic.en)}`, "_blank");
+              if (typeof window === "undefined") return;
+              const origin = geo.coords ? `&origin=${geo.coords.lat},${geo.coords.lon}` : "";
+              const destination =
+                destLat != null && destLon != null
+                  ? `${destLat},${destLon}`
+                  : encodeURIComponent(`${clinic.en} ${clinic.address ?? ""}`.trim());
+              const url = `https://www.google.com/maps/dir/?api=1${origin}&destination=${destination}&travelmode=driving&dir_action=navigate`;
+              const win = window.open(url, "_blank", "noopener,noreferrer");
+              if (!win) {
+                // Preview iframes can block popups — navigate the top window instead
+                try { (window.top ?? window).location.href = url; }
+                catch { window.location.href = url; }
               }
             }}
             className="flex items-center justify-center gap-1.5 active:scale-[0.97] transition-transform"
