@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import AppShell from "@/components/AppShell";
 import { useEffect, useState, type ReactNode } from "react";
-import { DAILY_FACTS } from "@/lib/mock";
+import { getSpecies } from "@/lib/species";
 import {
   Brain, Microscope, Activity, Thermometer, MapPin, Wind, Sun, GitMerge,
   Bluetooth, BatteryMedium, PawPrint, Search, SlidersHorizontal,
@@ -121,29 +121,34 @@ function Home() {
   const [collarState, setCollarState] = useState<"idle" | "connecting" | "connected">("idle");
   const { language } = useLanguage();
   const { pet } = usePet();
+  const sp = getSpecies(pet.species);
   const geo = useGeoLocation();
   useEffect(() => {
-    const tm = setInterval(() => setFactIdx((i) => (i + 1) % DAILY_FACTS.length), 10000);
+    const tm = setInterval(() => setFactIdx((i) => (i + 1) % sp.facts.length), 10000);
     return () => clearInterval(tm);
-  }, []);
+  }, [sp]);
   // Wait for the session to load from storage so vets never see a flash
   // of the pet-owner home (or vice versa) on reload.
   if (!hydrated) return null;
   // Veterinarians get a dedicated clinical console instead of the owner home
   if (session?.role === "vet") return <VetHome />;
 
-  const fact = DAILY_FACTS[factIdx];
+  const fact = sp.facts[factIdx % sp.facts.length];
   const score = 87;
 
-  const dogName = displayName(pet);
-  const mood = pet.name?.trim() ? `${dogName} is feeling great` : "Feeling great";
+  const petName = displayName(pet, `My ${sp.label}`);
+  const mood = pet.name?.trim() ? `${petName} is feeling great` : "Feeling great";
 
   const filtered = (query.trim()
     ? sensors.filter((s) =>
         (s.en + " " + s.subEn).toLowerCase().includes(query.trim().toLowerCase())
       )
     : sensors
-  ).map((s) => (s.en === "LocationSense" ? { ...s, valEn: geo.loading ? "Locating…" : geo.short } : s));
+  )
+    .map((s) =>
+      s.en === "BarkSense AI" ? { ...s, en: sp.soundLabel, subEn: sp.soundSub } : s
+    )
+    .map((s) => (s.en === "LocationSense" ? { ...s, valEn: geo.loading ? "Locating…" : geo.short } : s));
 
   return (
     <AppShell titleJp="" titleEn="" noPadding>
@@ -292,7 +297,7 @@ function Home() {
 
         {/* Daily fact — clean white card, above sensors (lightweight CSS fade, no animation lib) */}
         <style>{`@keyframes factFade { from { opacity: 0; } to { opacity: 1; } }`}</style>
-        <SectionHeader en="Daily Dog Fact" />
+        <SectionHeader en={`Daily ${sp.label} Fact`} />
         <div key={factIdx} style={{ animation: "factFade 0.3s ease" }}>
           <JCard style={{ padding: 16 }}>
             <div className="flex items-center" style={{ gap: 10 }}>
@@ -307,11 +312,8 @@ function Home() {
               </span>
             </div>
             <div style={{ marginTop: 10, fontSize: 14, lineHeight: 1.55, color: JP.sumi, fontWeight: 500 }}>
-              {language === "english" ? fact.en : fact.jp}
+              {fact}
             </div>
-            {language === "mixed" && (
-              <div style={{ marginTop: 6, fontSize: 11, color: JP.usuzumi, lineHeight: 1.5 }}>{fact.en}</div>
-            )}
           </JCard>
         </div>
 
