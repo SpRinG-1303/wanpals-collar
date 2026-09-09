@@ -26,6 +26,7 @@ import {
 } from "lucide-react";
 import { useT, useLanguage } from "@/context/LanguageContext";
 import { usePet } from "@/context/PetContext";
+import { useCollar } from "@/context/CollarContext";
 import DogAvatar from "@/components/DogAvatar";
 import { motion, AnimatePresence } from "framer-motion";
 import { detectIntent, NEARBY_CLINICS, VACCINE_RECORDS, type Intent } from "@/utils/chatResponses";
@@ -80,6 +81,12 @@ function AI() {
   const navigate = useNavigate();
   const name = pet.name || "your pet";
   const suffix = "";
+  const { live } = useCollar();
+  // Only report values the collar actually sent — never invent numbers.
+  const liveText = (k: "temp" | "motion" | "pressure" | "light" | "skin", _jpFallback: string, fallback: string) => {
+    const r = live[k];
+    return r ? `Current reading: ${r.value}${r.unit ?? ""} (updated ${new Date(r.at).toLocaleTimeString()})` : fallback;
+  };
 
   const [msgs, setMsgs] = useState<Msg[]>([
     {
@@ -156,8 +163,8 @@ function AI() {
         pushAi("", "", "vaccines");
         setTimeout(() => {
           pushAi(
-            "フィラリアのワクチンが期限切れです！早めに動物病院へ行くことをおすすめします ",
-            "Heartworm vaccine is overdue! Please visit a vet soon ",
+            "ワクチン記録はまだありません。",
+            "No vaccination records saved yet — add them in your pet's profile or ask your vet to upload them.",
           );
         }, 900);
       }, 500);
