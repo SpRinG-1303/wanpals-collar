@@ -32,7 +32,7 @@ function MapScreen() {
   const [lost, setLost] = useState(false);
   const [safeZone, setSafeZone] = useState(true);
   const [radius, setRadius] = useState<100 | 200 | 500 | 1000>(200);
-  const [mapType, setMapType] = useState<"map" | "satellite">("map");
+  const [mapType, setMapType] = useState<"map" | "satellite">("satellite");
   const [zoom, setZoom] = useState(1);
   const [showAllHistory, setShowAllHistory] = useState(false);
   const [sosActive, setSosActive] = useState(false);
