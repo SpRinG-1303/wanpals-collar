@@ -289,34 +289,16 @@ function SkinSensePage() {
             <PinkCard style={{ animation: "ssIn 400ms cubic-bezier(.2,.7,.2,1) both" }}>
               <Label jp="診断結果" en="Diagnosis Result" />
 
-              <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                <img src={photo} alt="result" style={{ width: 60, height: 60, borderRadius: 16, objectFit: "cover", flexShrink: 0 }} />
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <Bi
-                    jp="正常"
-                    en="Normal"
-                    jpStyle={{ fontSize: 16, fontWeight: 700, color: C.text }}
-                    enStyle={{ fontSize: 13, fontWeight: 600, color: C.text2 }}
-                  />
-                  <div style={{ fontSize: 12, color: "var(--acc-soft)", marginTop: 2, fontWeight: 600 }}>
-                    {t("信頼度 96%", "Confidence 96%")}
-                  </div>
+              <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
+                <img src={photo} alt="scan" style={{ width: 60, height: 60, borderRadius: 16, objectFit: "cover", flexShrink: 0 }} />
+                <div style={{ flex: 1, minWidth: 0, fontSize: 12, color: C.text2, lineHeight: 1.5 }}>
+                  {t("スキャンを保存しました。", "Scan saved. Results appear once your sensors report a reading.")}
                 </div>
-                <ScoreRing value={94} />
               </div>
-
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginTop: 14 }}>
-                <Metric icon={<Droplet size={16} />} iconBg="var(--acc-pale)" iconColor="var(--acc-strong)"
-                  jp="水分量" en="Hydration" value="82%" />
-                <Metric icon={<Layers size={16} />} iconBg="var(--acc2-pale)" iconColor={C.ok}
-                  jp="質感" en="Texture" value={t("正常", "Normal")} />
-                <Metric icon={<Palette size={16} />} iconBg="var(--acc-soft)" iconColor={C.mild}
-                  jp="色素" en="Pigmentation" value={t("健康", "Healthy")} />
-                <Metric icon={<Flame size={16} />} iconBg="var(--acc-pale)" iconColor={C.sev}
-                  jp="炎症" en="Inflammation" value={t("なし", "None")} />
-              </div>
-
-              <DetailedGuide />
+              <NoData
+                title={t("結果はまだありません", "No result yet")}
+                hint={t("センサーからのデータを待っています。", "Waiting for your collar sensors to report skin readings.")}
+              />
             </PinkCard>
           )}
 
