@@ -189,8 +189,8 @@ function MapScreen() {
 
         </div>
         {/* Attribution */}
-        <div className="absolute" style={{ bottom: 4, right: 8, fontSize: 8, color: "var(--text-secondary)" }}>
-          © OpenStreetMap contributors
+        <div className="absolute" style={{ bottom: 4, right: 8, fontSize: 8, color: "var(--text-secondary)", background: "rgba(255,255,255,0.7)", padding: "1px 6px", borderRadius: 6 }}>
+          © Google Maps
         </div>
       </div>
 
