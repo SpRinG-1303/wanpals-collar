@@ -27,7 +27,7 @@ function MapScreen() {
   const t = useT();
   const navigate = useNavigate();
   const { pet } = usePet();
-  const dogName = displayName(pet, t("ワンちゃん", "My Dog"));
+  const dogName = displayName(pet, t("ワンちゃん", "My Pet"));
 
   const [lost, setLost] = useState(false);
   const [safeZone, setSafeZone] = useState(true);

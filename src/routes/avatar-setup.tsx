@@ -180,10 +180,10 @@ function Welcome({ onStart, avatar }: { onStart: () => void; avatar: AvatarState
         Welcome to Pawsitive!
       </h1>
       <p style={{ fontSize: 15, color: MUTED, margin: "0 12px 32px", lineHeight: 1.5 }}>
-        Create your dog's avatar and get started with smart health monitoring.
+        Create your pet's avatar and get started with smart health monitoring.
       </p>
 
-      <PrimaryButton onClick={onStart}> Create My Dog's Avatar</PrimaryButton>
+      <PrimaryButton onClick={onStart}> Create My Pet's Avatar</PrimaryButton>
 
       <button
         onClick={onStart}
@@ -453,7 +453,7 @@ function Step2({
       <div style={{ padding: "8px 20px 0", textAlign: "center" }}>
         <h2 style={{ fontSize: 22, fontWeight: 800, margin: "8px 0 6px" }}>Add Your Photos</h2>
         <p style={{ fontSize: 14, color: MUTED, lineHeight: 1.5, margin: 0 }}>
-          Upload photos of your dog and yourself. We'll transform them into a beautiful illustrated art duo 
+          Upload photos of your pet and yourself. We'll transform them into a beautiful illustrated art duo 
         </p>
       </div>
 

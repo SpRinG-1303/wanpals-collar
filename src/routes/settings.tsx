@@ -50,7 +50,7 @@ function Settings() {
   const displayPets: PetEntry[] = pets.length
     ? pets
     : pet.name
-      ? [{ id: "current", name: pet.name, breed: pet.breedEn || pet.breed || "Indian Pariah Dog" }]
+      ? [{ id: "current", name: pet.name, breed: pet.breedEn || pet.breed || "Mixed" }]
       : [];
 
   function switchPet(p: PetEntry) {
@@ -375,7 +375,7 @@ function Settings() {
               value={newPetBreed}
               onChange={(e) => setNewPetBreed(e.target.value)}
               onKeyDown={(e) => { if (e.key === "Enter") savePet(); }}
-              placeholder="Breed (e.g. Indian Pariah Dog)"
+              placeholder="Breed"
               className="w-full rounded-xl px-4 py-3 text-sm outline-none mt-2"
               style={{ background: "var(--acc-pale)", color: "var(--text-primary)" }}
             />

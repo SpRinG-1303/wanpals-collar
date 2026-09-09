@@ -161,7 +161,7 @@ function Step2() {
           <p className="text-center text-[13px] mt-2 leading-relaxed" style={{ color: "var(--text-secondary)" }}>
             {t(
               "ワンちゃんとあなたの写真をアップロード。美しいイラストのアートコンビに変身させます ",
-              "Upload photos of your dog and yourself. We'll transform them into a beautiful illustrated art duo "
+              "Upload photos of your pet and yourself. We'll transform them into a beautiful illustrated art duo "
             )}
           </p>
 
@@ -323,7 +323,7 @@ function Step2() {
               icon={<Camera className="w-5 h-5" />}
               label={
                 sheet === "dog"
-                  ? t("ワンちゃんを撮影 ", "Take my dog's photo ")
+                  ? t("ワンちゃんを撮影 ", "Take my pet's photo ")
                   : t("セルフィーを撮る ", "Take a selfie ")
               }
               onClick={triggerCamera}
