@@ -131,46 +131,18 @@ function Report() {
 
           <SectionDivider jp="センサーデータ" en="Sensor Data" />
 
-          {/* Health Score */}
-          <ChartCard
-            accent={C.kombu}
-            icon={<Activity size={18} color={C.kombu} />}
-            titleJp="健康スコア推移"
-            titleEn="Health Score"
-            chipText="87 / 100"
-            chipBg="color-mix(in oklab, var(--acc-deep) 10.0%, transparent)"
-            chipBorder="color-mix(in oklab, var(--acc-deep) 20.0%, transparent)"
-            chipColor={C.kombu}
-          >
-            <ResponsiveContainer width="100%" height={160}>
-              <AreaChart data={scoreData} margin={{ top: 8, right: 8, left: -16, bottom: 0 }}>
-                <defs>
-                  <linearGradient id="scoreFill" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor={C.kombu} stopOpacity={0.2} />
-                    <stop offset="100%" stopColor={C.kombu} stopOpacity={0} />
-                  </linearGradient>
-                </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="color-mix(in oklab, var(--acc-deep) 10.0%, transparent)" vertical={false} />
-                <XAxis dataKey="d" tick={{ fill: C.moss, fontSize: 10 }} axisLine={false} tickLine={false} />
-                <YAxis domain={[60, 100]} tick={{ fill: C.moss, fontSize: 10 }} axisLine={false} tickLine={false} />
-                <Tooltip content={<NiceTooltip suffix="" />} />
-                <Area type="monotone" dataKey="v" stroke={C.kombu} strokeWidth={2.5} fill="url(#scoreFill)" isAnimationActive={false}
-                  dot={{ r: 3, fill: C.kombu, stroke: C.bone, strokeWidth: 1.5 }} animationDuration={1000} />
-              </AreaChart>
-            </ResponsiveContainer>
-          </ChartCard>
-
           {/* Temperature */}
           <ChartCard
             accent={C.moss}
             icon={<Thermometer size={18} color={C.moss} />}
             titleJp="体温履歴"
             titleEn="Temperature History"
-            chipText="Avg 38.5°C"
+            chipText={avgTemp == null ? "—" : `Avg ${avgTemp.toFixed(1)}°C`}
             chipBg="color-mix(in oklab, var(--acc-deep) 15.0%, transparent)"
             chipBorder="color-mix(in oklab, var(--acc-deep) 30.0%, transparent)"
             chipColor={C.moss}
           >
+            {tempData.length === 0 ? <EmptyChart /> : (
             <ResponsiveContainer width="100%" height={160}>
               <AreaChart data={tempData} margin={{ top: 8, right: 8, left: -16, bottom: 0 }}>
                 <defs>
@@ -190,6 +162,7 @@ function Report() {
                   dot={{ r: 3, fill: C.moss, stroke: C.bone, strokeWidth: 1.5 }} animationDuration={1000} />
               </AreaChart>
             </ResponsiveContainer>
+            )}
           </ChartCard>
 
           {/* Activity Steps */}
@@ -198,11 +171,12 @@ function Report() {
             icon={<Footprints size={18} color={C.kombu} />}
             titleJp="運動・歩数"
             titleEn="Activity Steps"
-            chipText="Avg 2,340"
+            chipText={avgSteps == null ? "—" : `Avg ${Math.round(avgSteps).toLocaleString()}`}
             chipBg="color-mix(in oklab, var(--acc-strong) 30.0%, transparent)"
             chipBorder="color-mix(in oklab, var(--acc-strong) 60.0%, transparent)"
             chipColor={C.cafe}
           >
+            {stepsData.length === 0 ? <EmptyChart /> : (
             <ResponsiveContainer width="100%" height={160}>
               <BarChart data={stepsData} margin={{ top: 8, right: 8, left: -16, bottom: 0 }}>
                 <defs>
@@ -220,35 +194,31 @@ function Report() {
                 <Bar dataKey="v" fill="url(#stepsFill)" radius={[6, 6, 0, 0]} isAnimationActive={false} />
               </BarChart>
             </ResponsiveContainer>
+            )}
           </ChartCard>
 
-          {/* Sleep */}
+          {/* Pressure */}
           <ChartCard
             accent={C.cafe}
-            icon={<Moon size={18} color={C.cafe} />}
-            titleJp="睡眠パターン"
-            titleEn="Sleep Pattern"
-            chipText="Avg 7.5h"
+            icon={<Activity size={18} color={C.cafe} />}
+            titleJp="圧力センサー"
+            titleEn="Paw Pressure"
+            chipText={avgPressure == null ? "—" : `Avg ${avgPressure.toFixed(1)}`}
             chipBg="color-mix(in oklab, var(--acc-deep) 12.0%, transparent)"
             chipBorder="color-mix(in oklab, var(--acc-deep) 25.0%, transparent)"
             chipColor={C.cafe}
           >
+            {pressureData.length === 0 ? <EmptyChart /> : (
             <ResponsiveContainer width="100%" height={160}>
-              <BarChart data={sleepData} margin={{ top: 8, right: 8, left: -16, bottom: 0 }}>
-                <defs>
-                  <linearGradient id="sleepFill" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor={C.cafe} stopOpacity={1} />
-                    <stop offset="100%" stopColor={C.moss} stopOpacity={1} />
-                  </linearGradient>
-                </defs>
+              <BarChart data={pressureData} margin={{ top: 8, right: 8, left: -16, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="color-mix(in oklab, var(--acc-deep) 10.0%, transparent)" vertical={false} />
                 <XAxis dataKey="d" tick={{ fill: C.moss, fontSize: 10 }} axisLine={false} tickLine={false} />
-                <YAxis domain={[0, 12]} tick={{ fill: C.moss, fontSize: 10 }} axisLine={false} tickLine={false} />
-                <ReferenceArea y1={8} y2={10} fill={C.moss} fillOpacity={0.08} />
-                <Tooltip content={<NiceTooltip suffix="h" />} />
-                <Bar dataKey="v" fill="url(#sleepFill)" radius={[6, 6, 0, 0]} isAnimationActive={false} />
+                <YAxis tick={{ fill: C.moss, fontSize: 10 }} axisLine={false} tickLine={false} />
+                <Tooltip content={<NiceTooltip suffix="" />} />
+                <Bar dataKey="v" fill={C.kombu} radius={[6, 6, 0, 0]} isAnimationActive={false} />
               </BarChart>
             </ResponsiveContainer>
+            )}
           </ChartCard>
 
           <SectionDivider jp="健康記録" en="Health Records" />
