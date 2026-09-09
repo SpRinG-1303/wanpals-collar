@@ -287,6 +287,16 @@ function Clinics() {
 
       {/* ── Nearby clinics list ────────────────────────────── */}
       <SectionLabel jp="Nearby" en="Nearby" />
+      {vetsLoading && (
+        <div style={{ margin: `0 ${MX}px 10px`, fontSize: 11, fontWeight: 600, color: "var(--text-secondary)" }}>
+          Finding vet hospitals near you…
+        </div>
+      )}
+      {!vetsLoading && vets.length > 0 && (
+        <div style={{ margin: `0 ${MX}px 10px`, fontSize: 11, fontWeight: 600, color: "var(--accent-matcha)" }}>
+          {vets.length} real vet hospitals near your location
+        </div>
+      )}
       <div style={{ paddingBottom: 12 }}>
         {filtered.slice(0, visible).map((c, i) => {
           const th = CLINIC_THEMES[i % CLINIC_THEMES.length];
