@@ -334,8 +334,8 @@ function Step4() {
             />
             <div className="text-[11px] mt-1.5" style={{ color: "var(--text-secondary)" }}>
               {t(
-                "Pawsitive 首輪の裏面に記載されています",
-                "Find this on the back of your Pawsitive collar"
+                "MOooMENTUM 首輪の裏面に記載されています",
+                "Find this on the back of your MOooMENTUM collar"
               )}
             </div>
 

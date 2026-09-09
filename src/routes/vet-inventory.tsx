@@ -9,9 +9,9 @@ import { INVENTORY, type StockLevel } from "@/components/vet/vetData";
 export const Route = createFileRoute("/vet-inventory")({
   head: () => ({
     meta: [
-      { title: "Inventory — Pawsitive Diagnostics Veterinary" },
+      { title: "Inventory — MOooMENTUM Veterinary" },
       { name: "description", content: "Clinic pharmacy and consumables stock levels with low-stock alerts." },
-      { property: "og:title", content: "Inventory — Pawsitive Diagnostics Veterinary" },
+      { property: "og:title", content: "Inventory — MOooMENTUM Veterinary" },
       { property: "og:description", content: "Clinic inventory and stock management." },
     ],
   }),

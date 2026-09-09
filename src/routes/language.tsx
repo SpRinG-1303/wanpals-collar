@@ -16,7 +16,7 @@ function LanguagePicker() {
       <div className="flex-1 px-6 pb-8 w-full">
         <h1 className="text-base font-semibold text-center mt-2" style={{ color: "var(--text-primary)" }}>
           App Language<br/>
-          <span className="text-xs font-normal" style={{ color: "var(--text-secondary)" }}>Pawsitive is available in English</span>
+          <span className="text-xs font-normal" style={{ color: "var(--text-secondary)" }}>MOooMENTUM is available in English</span>
         </h1>
         <div className="mt-6 space-y-3">
           <div
@@ -103,11 +103,11 @@ export function HeroIllustration({ compact = false }: { compact?: boolean }) {
       <div className="absolute inset-0 flex flex-col items-center justify-center">
         <img
           src={pawLogoAsset.url}
-          alt="Pawsitive logo"
+          alt="MOooMENTUM logo"
           style={{ width: logo, height: logo, objectFit: "contain", filter: "drop-shadow(0 8px 24px rgba(167,139,219,0.25))" }}
         />
         <div className="mt-2 font-bold leading-none" style={{ color: "var(--text-primary)", fontSize: titleSize, letterSpacing: "0.05em" }}>
-          Pawsitive
+          MOooMENTUM
         </div>
         <div className="mt-1.5 italic text-center" style={{ color: "var(--text-secondary)", fontSize: tagSize }}>
           Closer to your beloved dog.

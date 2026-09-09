@@ -184,7 +184,7 @@ function Community() {
 
   async function sharePost(p: PostT) {
     const title = language === "english" ? p.titleEn : p.titleJp;
-    const text = `${title} — Pawsitive Diagnostics Community`;
+    const text = `${title} — MOooMENTUM Community`;
     if (typeof navigator !== "undefined" && (navigator as any).share) {
       try {
         await (navigator as any).share({ title, text, url: typeof window !== "undefined" ? window.location.href : "" });

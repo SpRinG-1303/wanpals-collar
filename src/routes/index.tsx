@@ -6,9 +6,9 @@ import { useAuth } from "@/context/AuthContext";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Pawsitive — AI Smart Dog Collar" },
-      { name: "description", content: "Pawsitive: AI-powered smart dog collar app for pet parents and vets across India." },
-      { property: "og:title", content: "Pawsitive — AI Smart Dog Collar" },
+      { title: "MOooMENTUM — AI Smart Dog Collar" },
+      { name: "description", content: "MOooMENTUM: AI-powered smart dog collar app for pet parents and vets across India." },
+      { property: "og:title", content: "MOooMENTUM — AI Smart Dog Collar" },
       { property: "og:description", content: "AI-powered smart dog collar app for pet parents and vets across India." },
     ],
   }),
@@ -44,7 +44,7 @@ function Splash() {
 
         <img
           src={pawLogoAsset.url}
-          alt="Pawsitive logo"
+          alt="MOooMENTUM logo"
           style={{ width: 84, height: 84, objectFit: "contain", animation: "splashFadeUp 0.5s ease both" }}
         />
         <div
@@ -53,7 +53,7 @@ function Splash() {
             animation: "splashFadeUp 0.5s ease 0.15s both", fontFamily: "var(--font-display)",
           }}
         >
-          Pawsitive
+          MOooMENTUM
         </div>
         <div
           style={{
