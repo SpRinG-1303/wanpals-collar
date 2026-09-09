@@ -78,8 +78,8 @@ function AI() {
   const { language } = useLanguage();
   const { pet } = usePet();
   const navigate = useNavigate();
-  const name = pet.name || (language === "japanese" ? "ワンちゃん" : "your pet");
-  const suffix = language === "english" ? "" : "ちゃん";
+  const name = pet.name || "your pet";
+  const suffix = "";
 
   const [msgs, setMsgs] = useState<Msg[]>([
     {
@@ -538,7 +538,7 @@ function AI() {
                   }}
                 >
                   <Icon size={12} strokeWidth={2.5} />
-                  {language === "english" ? q.en : q.jp}
+                  {q.en}
                 </button>
               );
             })}
@@ -659,7 +659,7 @@ function WelcomeState({
         {SUGGESTIONS.map((s, i) => (
           <button
             key={i}
-            onClick={() => onPick(language === "english" ? s.en : s.jp)}
+            onClick={() => onPick(s.en)}
             className="w-full text-left transition-transform active:scale-[0.98]"
             style={{
               background: "#FFFFFF",
@@ -671,7 +671,7 @@ function WelcomeState({
               color: "var(--text-primary)",
             }}
           >
-            {language === "english" ? s.en : s.jp}
+            {s.en}
           </button>
         ))}
       </div>
