@@ -657,12 +657,17 @@ function DirectionsView({ clinic, onClose }: { clinic: (typeof CLINICS)[number];
               to {clinic.en}
             </div>
           </div>
-          <span
-            className="shrink-0"
-            style={{ marginLeft: "auto", background: "var(--accent-sakura-soft)", color: "var(--accent-sakura-dark)", fontSize: 11, fontWeight: 800, padding: "4px 12px", borderRadius: 999 }}
-          >
-            {mins} min
-          </span>
+          <div className="shrink-0 flex flex-col items-end gap-1" style={{ marginLeft: "auto" }}>
+            <span
+              style={{ background: "var(--accent-sakura-soft)", color: "var(--accent-sakura-dark)", fontSize: 11, fontWeight: 800, padding: "4px 12px", borderRadius: 999 }}
+            >
+              {mins} min
+            </span>
+            <span className="flex items-center gap-1" style={{ fontSize: 9, fontWeight: 800, letterSpacing: "0.06em", color: geo.tracking ? "var(--accent-matcha)" : "var(--text-placeholder)" }}>
+              <span style={{ width: 5, height: 5, borderRadius: "50%", background: "currentColor" }} className={geo.tracking ? "animate-pulse" : ""} />
+              {geo.tracking ? "LIVE GPS" : geo.loading ? "LOCATING…" : "GPS OFF"}
+            </span>
+          </div>
         </div>
 
         {/* Map with animated route */}
@@ -726,7 +731,10 @@ function DirectionsView({ clinic, onClose }: { clinic: (typeof CLINICS)[number];
           >
             <div>
               <div style={{ fontSize: 15, fontWeight: 800, color: "var(--text-primary)" }}>{mins} min · {clinic.km} km</div>
-              <div style={{ fontSize: 10, color: "var(--text-secondary)", marginTop: 1 }}>Fastest route · light traffic</div>
+              <div style={{ fontSize: 10, color: "var(--text-secondary)", marginTop: 1 }}>
+                From: {geo.loading && !geo.coords ? "locating…" : geo.label}
+                {geo.coords ? ` (${geo.coords.lat.toFixed(4)}, ${geo.coords.lon.toFixed(4)})` : ""}
+              </div>
             </div>
             <span className="flex items-center gap-1" style={{ fontSize: 10, fontWeight: 700, color: clinic.open ? "var(--accent-matcha)" : "#E53935" }}>
               <span style={{ width: 6, height: 6, borderRadius: "50%", background: "currentColor" }} />
@@ -768,7 +776,8 @@ function DirectionsView({ clinic, onClose }: { clinic: (typeof CLINICS)[number];
           <button
             onClick={() => {
               if (typeof window !== "undefined") {
-                window.open(`https://maps.google.com/?q=${encodeURIComponent(clinic.en)}`, "_blank");
+                const origin = geo.coords ? `&origin=${geo.coords.lat},${geo.coords.lon}` : "";
+                window.open(`https://www.google.com/maps/dir/?api=1${origin}&destination=${encodeURIComponent(clinic.en)}`, "_blank");
               }
             }}
             style={{ height: 44, padding: "0 16px", borderRadius: 14, background: "#FFFFFF", border: "1.5px solid var(--border-card)", color: "var(--text-secondary)", fontSize: 12, fontWeight: 700 }}
