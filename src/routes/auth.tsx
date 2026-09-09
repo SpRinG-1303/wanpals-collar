@@ -8,7 +8,7 @@ import { toast } from "sonner";
 import pawLogoAsset from "@/assets/paw-logo.png.asset.json";
 import { useAuth, type UserRole } from "@/context/AuthContext";
 import { usePet } from "@/context/PetContext";
-import { BREEDS } from "@/lib/mock";
+import { SPECIES, getSpecies, type SpeciesId } from "@/lib/species";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({
@@ -33,7 +33,7 @@ const INPUT_BG = "var(--bg-card)";
 const DANGER = "var(--accent-red)";
 const CARD_SHADOW = "var(--shadow-card)";
 
-type Step = "role" | "auth" | "profile";
+type Step = "role" | "auth" | "species" | "profile";
 type Mode = "login" | "signup";
 
 function AuthPage() {
@@ -54,8 +54,9 @@ function AuthPage() {
   const [password, setPassword] = useState("");
 
   // owner profile setup
+  const [species, setSpecies] = useState<SpeciesId>(pet.species ?? "dog");
   const [petName, setPetName] = useState(pet.name ?? "");
-  const [breed, setBreed] = useState(pet.breedEn || "Indian Pariah Dog");
+  const [breed, setBreed] = useState(getSpecies(pet.species).breeds[0]);
   const [age, setAge] = useState("");
   const [weight, setWeight] = useState("");
   const [gender, setGender] = useState<"male" | "female" | null>(null);
@@ -68,7 +69,8 @@ function AuthPage() {
     document.documentElement.dataset.role = role;
   }, [role]);
 
-  const breedOptions = Array.from(new Set([breed, ...BREEDS.map((b) => b.en)]));
+  const sp = getSpecies(species);
+  const breedOptions = Array.from(new Set([breed, ...sp.breeds]));
 
   function validateAuth(): string | null {
     if (mode === "signup" && !name.trim()) return "Please enter your name.";
@@ -95,7 +97,7 @@ function AuthPage() {
     });
     if (err) { setError(err); return; }
     if (role === "owner") {
-      setStep("profile");
+      setStep("species");
     } else {
       const vetName = /^dr\.?/i.test(name.trim()) ? name.trim() : `Dr. ${name.trim()}`;
       toast.success(`Welcome, ${vetName}!`);
@@ -107,6 +109,7 @@ function AuthPage() {
     if (!skip) {
       if (!petName.trim()) { setError("Pet name is required."); return; }
       updatePet({
+        species,
         name: petName.trim(),
         breedEn: breed,
         breedJp: breed,
@@ -118,6 +121,8 @@ function AuthPage() {
         justCompletedOnboarding: true,
       });
       toast.success(`Profile saved — welcome, ${petName.trim()}!`);
+    } else {
+      updatePet({ species });
     }
     navigate({ to: "/home" });
   }
@@ -154,7 +159,7 @@ function AuthPage() {
 
         {step !== "role" && (
           <button
-            onClick={() => { setError(null); setStep(step === "profile" ? "auth" : "role"); }}
+            onClick={() => { setError(null); setStep(step === "profile" ? "species" : step === "species" ? "auth" : "role"); }}
             className="flex items-center"
             style={{ gap: 4, fontSize: 13, fontWeight: 600, color: SUB, marginBottom: 14 }}
           >
@@ -175,7 +180,7 @@ function AuthPage() {
             <RoleCard
               tint={OWNER.accent} soft={OWNER.soft}
               title="Pet Parent"
-              desc="Track your dog's health, location and wellbeing"
+              desc="Track your animal's health, location and wellbeing"
               icon={
                 <div className="relative">
                   <PawPrint size={26} strokeWidth={1.8} style={{ color: OWNER.accent }} />
@@ -309,20 +314,65 @@ function AuthPage() {
           </div>
         )}
 
+        {/* STEP 2b — species selection */}
+        {step === "species" && (
+          <div style={{ background: "var(--bg-card)", borderRadius: 24, boxShadow: CARD_SHADOW, border: `1px solid ${LINE}`, padding: "22px 20px" }}>
+            <div style={{ fontSize: 20, fontWeight: 500, color: INK, fontFamily: "var(--font-display)" }}>What kind of pet do you have?</div>
+            <div style={{ fontSize: 12.5, color: SUB, marginTop: 4, marginBottom: 18, lineHeight: 1.5 }}>
+              Your dashboard, facts and breed list will be tailored to it.
+            </div>
+
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+              {SPECIES.map((s) => {
+                const active = species === s.id;
+                return (
+                  <button
+                    key={s.id}
+                    onClick={() => { setSpecies(s.id); setBreed(s.breeds[0]); }}
+                    className="press-pop flex flex-col items-center justify-center"
+                    style={{
+                      padding: "16px 8px",
+                      borderRadius: 18,
+                      border: `1.5px solid ${active ? OWNER.accent : LINE}`,
+                      background: active ? OWNER.soft : "var(--bg-card)",
+                      transition: "all 0.15s ease",
+                    }}
+                  >
+                    <span style={{ fontSize: 30, lineHeight: 1 }}>{s.emoji}</span>
+                    <span style={{ marginTop: 8, fontSize: 14, fontWeight: 600, color: active ? OWNER.accent : INK }}>{s.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+
+            <button
+              onClick={() => { setError(null); setStep("profile"); }}
+              className="w-full flex items-center justify-center active:scale-[0.98] transition-transform"
+              style={{
+                marginTop: 20, height: 52, borderRadius: 16, fontSize: 15, fontWeight: 600,
+                color: "var(--primary-foreground)", gap: 8,
+                background: OWNER.accent, boxShadow: `0 6px 16px ${OWNER.accent}40`,
+              }}
+            >
+              Continue <ChevronRight size={16} />
+            </button>
+          </div>
+        )}
+
         {/* STEP 3 — owner profile setup */}
         {step === "profile" && (
            <div style={{ background: "var(--bg-card)", borderRadius: 24, boxShadow: CARD_SHADOW, border: `1px solid ${LINE}`, padding: "22px 20px" }}>
-            <div style={{ fontSize: 20, fontWeight: 500, color: INK, fontFamily: "var(--font-display)" }}>Set up your pet's profile</div>
+            <div style={{ fontSize: 20, fontWeight: 500, color: INK, fontFamily: "var(--font-display)" }}>Set up your {sp.label.toLowerCase()}'s profile</div>
             <div style={{ fontSize: 12.5, color: SUB, marginTop: 4, marginBottom: 18, lineHeight: 1.5 }}>
               Only the pet name is required — you can fill in the rest anytime.
             </div>
 
-            <Label required>Pet Name</Label>
+            <Label required>{sp.label} Name</Label>
             <Field icon={PawPrint}>
-              <input style={inputStyle} placeholder="e.g. Bruno" value={petName} onChange={(e) => { setPetName(e.target.value); setError(null); }} />
+              <input style={inputStyle} placeholder={sp.namePlaceholder} value={petName} onChange={(e) => { setPetName(e.target.value); setError(null); }} />
             </Field>
 
-            <Label>Breed <span style={{ fontWeight: 400, color: SUB }}>(pre-filled from selection)</span></Label>
+            <Label>Breed <span style={{ fontWeight: 400, color: SUB }}>({sp.label.toLowerCase()} breeds)</span></Label>
             <Field icon={ChevronRight}>
               <select style={{ ...inputStyle, appearance: "none" }} value={breed} onChange={(e) => setBreed(e.target.value)}>
                 {breedOptions.map((b) => <option key={b} value={b}>{b}</option>)}
