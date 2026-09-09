@@ -330,17 +330,40 @@ function AuthPage() {
                   <button
                     key={s.id}
                     onClick={() => { setSpecies(s.id); setBreed(s.breeds[0]); }}
-                    className="press-pop flex flex-col items-center justify-center"
+                    className="press-pop relative overflow-hidden"
                     style={{
-                      padding: "16px 8px",
+                      aspectRatio: "1 / 1.15",
                       borderRadius: 18,
-                      border: `1.5px solid ${active ? OWNER.accent : LINE}`,
-                      background: active ? OWNER.soft : "var(--bg-card)",
+                      border: `2.5px solid ${active ? OWNER.accent : LINE}`,
+                      background: "var(--bg-card)",
                       transition: "all 0.15s ease",
                     }}
                   >
-                    <img src={s.image} alt={s.label} loading="lazy" width={512} height={512} style={{ width: 52, height: 52, borderRadius: "50%", objectFit: "cover" }} />
-                    <span style={{ marginTop: 8, fontSize: 14, fontWeight: 600, color: active ? OWNER.accent : INK }}>{s.label}</span>
+                    <img
+                      src={s.image}
+                      alt={s.label}
+                      loading="lazy"
+                      width={512}
+                      height={512}
+                      style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
+                    />
+                    <div
+                      style={{
+                        position: "absolute", inset: 0,
+                        background: active
+                          ? `linear-gradient(to top, ${OWNER.accent}cc 0%, transparent 55%)`
+                          : "linear-gradient(to top, rgba(27,46,99,0.72) 0%, transparent 55%)",
+                      }}
+                    />
+                    <span
+                      style={{
+                        position: "absolute", bottom: 10, left: 0, right: 0,
+                        textAlign: "center", fontSize: 14, fontWeight: 700,
+                        color: "#fff", textShadow: "0 1px 3px rgba(0,0,0,0.35)",
+                      }}
+                    >
+                      {s.label}
+                    </span>
                   </button>
                 );
               })}
