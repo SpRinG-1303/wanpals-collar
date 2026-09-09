@@ -200,9 +200,16 @@ function Settings() {
       </Section>
 
       <Section title={t("言語", "Language")}>
-        <LanguageSwitcher variant="panel" />
-        <button onClick={() => nav({ to: "/language" })} className="w-full text-left text-sm flex items-center justify-between mt-3">
-          <span>{t("言語を変更", "Change Language")}</span><ChevronRight className="w-4 h-4 text-muted-foreground"/>
+        <button
+          onClick={() => nav({ to: "/language" })}
+          className="w-full text-left text-sm flex items-center justify-between"
+          style={{ padding: "12px 14px", borderRadius: 14, background: "var(--bg-card)", border: "1px solid var(--border-card)" }}
+        >
+          <span>
+            <span className="block font-semibold" style={{ color: "var(--text-primary)" }}>{displayLang}</span>
+            <span className="block text-xs" style={{ color: "var(--text-secondary)" }}>{LANGUAGE_COUNT} languages available</span>
+          </span>
+          <ChevronRight className="w-4 h-4 text-muted-foreground"/>
         </button>
       </Section>
 
