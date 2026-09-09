@@ -74,7 +74,8 @@ export function TopBar({
                   MOooMENTUM
                 </span>
                 <span style={{ fontSize: 9, fontWeight: 700, color: "var(--text-secondary)", textTransform: "uppercase", letterSpacing: "0.12em" }}>
-                  Diagnostics
+                  Smart Animal Care
+                
                 </span>
               </div>
             </Link>
