@@ -8,7 +8,6 @@ import {
   ChevronDown, ArrowUpRight, HeartHandshake, Stethoscope, type LucideIcon,
 } from "lucide-react";
 import { toast } from "sonner";
-import { useLanguage } from "@/context/LanguageContext";
 import { usePet, displayName } from "@/context/PetContext";
 import { useGeoLocation } from "@/lib/useGeoLocation";
 import { useAuth } from "@/context/AuthContext";
@@ -119,7 +118,7 @@ function Home() {
   const [query, setQuery] = useState("");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [collarState, setCollarState] = useState<"idle" | "connecting" | "connected">("idle");
-  const { language } = useLanguage();
+
   const { pet } = usePet();
   const sp = getSpecies(pet.species);
   const geo = useGeoLocation();
