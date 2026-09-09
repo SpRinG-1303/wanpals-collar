@@ -116,6 +116,7 @@ export default function VetShell({
 }) {
   const { session } = useAuth();
   const navigate = useNavigate();
+  const loc = useLocation();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [bellOpen, setBellOpen] = useState(false);
   const [sosOpen, setSosOpen] = useState(false);
