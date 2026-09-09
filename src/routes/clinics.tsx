@@ -22,10 +22,14 @@ import {
   ChevronLeft,
   Clock,
   CornerUpRight,
+  CornerUpLeft,
+  ArrowUp,
+  RotateCcw,
+  Loader2,
   Flag,
   X,
 } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
 import { useT, useLanguage } from "@/context/LanguageContext";
