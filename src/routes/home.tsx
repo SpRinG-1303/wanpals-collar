@@ -121,7 +121,7 @@ function Home() {
   const [factIdx, setFactIdx] = useState(0);
   const [query, setQuery] = useState("");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
-  const [collarState, setCollarState] = useState<"idle" | "connecting" | "connected">("idle");
+  const { state: collarState, live, battery, connect, disconnect } = useCollar();
 
   const { pet } = usePet();
   const sp = getSpecies(pet.species);
@@ -151,7 +151,15 @@ function Home() {
     .map((s) =>
       s.en === "BarkSense AI" ? { ...s, en: sp.soundLabel, subEn: sp.soundSub } : s
     )
-    .map((s) => (s.en === "LocationSense" ? { ...s, valEn: geo.loading ? "Locating…" : geo.short } : s));
+    .map((s) => (s.en === "LocationSense" ? { ...s, valEn: geo.loading ? "Locating…" : geo.short } : s))
+    // No dummy numbers: readings only exist while a collar is connected.
+    .map((s) => {
+      if (s.en === "LocationSense") return s; // GPS comes from the phone, not the collar
+      if (collarState !== "connected") return { ...s, valEn: "—", noteEn: undefined, progress: undefined };
+      if (s.en === "TempSense AI" && live.temp) return { ...s, valEn: `${live.temp.value}${live.temp.unit}` };
+      if (s.en === "MotionSense" && live.motion) return { ...s, valEn: `${live.motion.value.toLocaleString()} steps` };
+      return s;
+    });
 
   return (
     <AppShell titleJp="" titleEn="" noPadding>
