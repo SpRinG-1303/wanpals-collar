@@ -4,6 +4,7 @@ import { Camera, Image as ImageIcon, Sparkles, Send, Droplet, Layers, Palette, F
 import AppShell, { TopBar } from "@/components/AppShell";
 import { SenseBanner } from "@/components/SenseBanner";
 import { useLanguage, useT } from "@/context/LanguageContext";
+import { NoData, DASH } from "@/components/NoData";
 
 export const Route = createFileRoute("/skin-sense")({ component: SkinSensePage });
 
@@ -75,12 +76,6 @@ const SEV: Record<Severity, { color: string; bg: string; jp: string; en: string 
   severe:   { color: C.sev, bg: "var(--acc-pale)", jp: "重度",   en: "Severe" },
 };
 
-/* ---------- History ---------- */
-const HISTORY = [
-  { date: "2025-05-12", jpDate: "2025年5月12日", jp: "正常", en: "Normal", score: 94, sev: "normal" as Severity, tags: [{ jp: "正常な色素", en: "Normal Pigment" }, { jp: "健康な質感", en: "Healthy Texture" }] },
-  { date: "2025-04-28", jpDate: "2025年4月28日", jp: "軽い乾燥", en: "Mild Dryness", score: 78, sev: "mild" as Severity, tags: [{ jp: "軽度乾燥", en: "Slight Dryness" }] },
-  { date: "2025-04-10", jpDate: "2025年4月10日", jp: "正常", en: "Normal", score: 91, sev: "normal" as Severity, tags: [{ jp: "良好な水分", en: "Good Hydration" }] },
-];
 
 /* ---------- AI chat canned responses ---------- */
 const AI_RESPONSES = [
@@ -154,9 +149,9 @@ function SkinSensePage() {
             gridTemplateColumns: "1fr 1fr 1fr",
           }}>
             {[
-              { label: t("皮膚スコア", "SKIN SCORE"), value: "94", color: "var(--acc-soft)" },
-              { label: t("最終スキャン", "LAST SCAN"), value: t("5月12日", "May 12"), color: C.text },
-              { label: t("状態", "CONDITION"), value: t("正常", "Normal"), color: C.ok },
+              { label: t("皮膚スコア", "SKIN SCORE"), value: DASH, color: "var(--acc-soft)" },
+              { label: t("最終スキャン", "LAST SCAN"), value: DASH, color: C.text },
+              { label: t("状態", "CONDITION"), value: DASH, color: C.ok },
             ].map((s, i) => (
               <div key={i} style={{
                 textAlign: "center",
