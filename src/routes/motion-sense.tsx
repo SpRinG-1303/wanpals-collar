@@ -101,6 +101,8 @@ function MotionSensePage() {
   const name = displayName(pet, "Fluffy");
   const [tab, setTab] = useState<"1d" | "1w" | "1m">("1d");
   const mounted = useMounted(80);
+  const { live } = useCollar();
+  const steps = live.motion?.value ?? null;
 
   return (
     <AppShell
