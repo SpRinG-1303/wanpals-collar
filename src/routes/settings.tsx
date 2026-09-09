@@ -135,11 +135,11 @@ function Settings() {
     if (typeof window === "undefined") return;
     const d = localStorage.getItem("wancare-theme") === "dark";
     setDark(d);
-    document.documentElement.classList.toggle("dark", d);
+    document.getElementById("mooomentum-frame")?.classList.toggle("dark", d);
   }, []);
   const toggleDark = (v: boolean) => {
     setDark(v);
-    document.documentElement.classList.toggle("dark", v);
+    document.getElementById("mooomentum-frame")?.classList.toggle("dark", v);
     if (typeof window !== "undefined") localStorage.setItem("wancare-theme", v ? "dark" : "light");
   };
 

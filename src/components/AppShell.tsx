@@ -200,7 +200,7 @@ export default function AppShell({
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    if (localStorage.getItem("wancare-theme") === "dark") document.documentElement.classList.add("dark");
+    if (localStorage.getItem("wancare-theme") === "dark") document.getElementById("mooomentum-frame")?.classList.add("dark");
   }, []);
 
   // Swipe-from-left to open
@@ -240,6 +240,7 @@ export default function AppShell({
       }}
     >
       <div
+        id="mooomentum-frame"
         data-role={hydrated && session?.role === "vet" ? "vet" : "owner"}
         className="mooomentum-frame jaipur-buti"
         style={{
