@@ -75,6 +75,7 @@ const BREEDS: Breed[] = [
     groupJp: "トイ", groupEn: "Toy",
     temperamentJp: "愛情深い・遊び好き・賢い", temperamentEn: "Affectionate, Playful, Clever",
     lifeSpan: "10-16 years",
+    diagnosticNoteJp: "短頭種のため、呼吸と体温を注意深く監視。",
     diagnosticNoteEn: "Brachycephalic breed — monitor breathing and temperature closely.",
     image: "https://images.unsplash.com/photo-1591768793355-74d04bb6608f?w=400&q=80&auto=format&fit=crop",
     bannerBg: "linear-gradient(135deg, var(--acc-soft), var(--acc-strong))",
