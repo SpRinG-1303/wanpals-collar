@@ -352,8 +352,12 @@ function Home() {
                     ? "Pairing…"
                     : "Collar Not Connected"}
               </div>
-              <div style={{ fontSize: 11, color: JP.usuzumi, marginTop: 1 }}>
-                {collarState === "connected" ? "Live data streaming" : "Tap connect to sync"}
+              <div style={{ fontSize: 11, color: collarError ? "var(--accent-red)" : JP.usuzumi, marginTop: 1 }}>
+                {collarError
+                  ? collarError
+                  : collarState === "connected"
+                    ? receiving ? "Live data streaming" : "Connected — waiting for readings…"
+                    : "Tap connect to pair over Bluetooth"}
               </div>
             </div>
             {collarState === "connected" && battery != null && (
@@ -375,7 +379,6 @@ function Home() {
                   return;
                 }
                 connect();
-                setTimeout(() => toast.success("Collar connected — live data streaming"), 1500);
               }}
               className="flex items-center justify-center active:scale-95 transition-transform"
               style={{
