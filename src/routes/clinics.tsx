@@ -690,8 +690,30 @@ function DirectionsView({ clinic, onClose }: { clinic: ClinicItem; onClose: () =
   const [route, setRoute] = useState<{ mins: number; km: number; steps: RouteStep[] } | null>(null);
   const [routeErr, setRouteErr] = useState<string | null>(null);
   const [loadingRoute, setLoadingRoute] = useState(false);
+  const [resolved, setResolved] = useState<{ lat: number; lon: number } | null>(null);
 
-  const canRoute = geo.coords != null && clinic.lat != null && clinic.lon != null;
+  // If this clinic has no stored coordinates, find them on the map by name near the user
+  useEffect(() => {
+    if (clinic.lat != null && clinic.lon != null) { setResolved(null); return; }
+    let cancelled = false;
+    const near = geo.coords
+      ? `&viewbox=${geo.coords.lon - 0.4},${geo.coords.lat + 0.4},${geo.coords.lon + 0.4},${geo.coords.lat - 0.4}&bounded=0`
+      : "";
+    const q = encodeURIComponent(`${clinic.en} ${clinic.address ?? geo.label ?? ""}`.trim());
+    fetch(`https://nominatim.openstreetmap.org/search?q=${q}&format=jsonv2&limit=1${near}`)
+      .then((r) => r.json())
+      .then((rows) => {
+        if (cancelled || !Array.isArray(rows) || !rows[0]) return;
+        setResolved({ lat: parseFloat(rows[0].lat), lon: parseFloat(rows[0].lon) });
+      })
+      .catch(() => { /* ignore */ });
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [clinic.en, clinic.lat, clinic.lon, geo.coords?.lat, geo.coords?.lon]);
+
+  const destLat = clinic.lat ?? resolved?.lat ?? null;
+  const destLon = clinic.lon ?? resolved?.lon ?? null;
+  const canRoute = geo.coords != null && destLat != null && destLon != null;
 
   // Fetch the real driving route from OSRM (open data, real roads)
   useEffect(() => {
@@ -700,7 +722,7 @@ function DirectionsView({ clinic, onClose }: { clinic: ClinicItem; onClose: () =
     let cancelled = false;
     setLoadingRoute(true);
     setRouteErr(null);
-    fetch(`https://router.project-osrm.org/route/v1/driving/${oLon},${oLat};${clinic.lon},${clinic.lat}?overview=full&geometries=geojson&steps=true`)
+    fetch(`https://router.project-osrm.org/route/v1/driving/${oLon},${oLat};${destLon},${destLat}?overview=full&geometries=geojson&steps=true`)
       .then((r) => r.json())
       .then(async (data) => {
         if (cancelled) return;
