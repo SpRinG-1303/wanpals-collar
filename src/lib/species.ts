@@ -1,9 +1,16 @@
-import cowImg from "@/assets/species-cow.jpg";
-import buffaloImg from "@/assets/species-buffalo.jpg";
-import goatImg from "@/assets/species-goat.jpg";
-import sheepImg from "@/assets/species-sheep.jpg";
-import dogImg from "@/assets/species-dog.jpg";
-import catImg from "@/assets/species-cat.jpg";
+import cowAsset from "@/assets/species-cow.jpg.asset.json";
+import buffaloAsset from "@/assets/species-buffalo.jpg.asset.json";
+import goatAsset from "@/assets/species-goat.jpg.asset.json";
+import sheepAsset from "@/assets/species-sheep.jpg.asset.json";
+import dogAsset from "@/assets/species-dog.jpg.asset.json";
+import catAsset from "@/assets/species-cat.jpg.asset.json";
+
+const cowImg = cowAsset.url;
+const buffaloImg = buffaloAsset.url;
+const goatImg = goatAsset.url;
+const sheepImg = sheepAsset.url;
+const dogImg = dogAsset.url;
+const catImg = catAsset.url;
 
 /* Species catalogue — the whole owner experience adapts to the pet type. */
 
