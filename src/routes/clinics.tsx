@@ -96,7 +96,7 @@ function Clinics() {
   const [visible, setVisible] = useState(5);
   const [videoBooking, setVideoBooking] = useState(false);
   const [dirFor, setDirFor] = useState<ClinicItem | null>(null);
-  const { vets, loading: vetsLoading } = useNearbyVets();
+  const { vets, loading: vetsLoading, error: vetsError, refresh: refreshVets, geo: vetsGeo } = useNearbyVets();
   const source: ClinicItem[] = vets.length ? vets : CLINICS;
 
   const filtered = useMemo(() => {
