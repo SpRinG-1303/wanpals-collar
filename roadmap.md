@@ -12,3 +12,6 @@
 - [ ] Use user's uploaded animal photo grid as species picker images (replace generated)
 - [ ] Clinics directions UI: better navigation/map, real clinic data
 - [ ] Pet Match card species-aware (shows dog when cow selected)
+- [x] Pet Match card species-aware (shows cow when cow selected) — verified
+- [ ] Language selector: real full-app translation for all 41 languages (currently display-only)
+- [ ] Back/next navigation on every inner page where missing
