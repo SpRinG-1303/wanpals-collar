@@ -355,27 +355,26 @@ function Home() {
                 {collarState === "connected" ? "Synced just now" : "Tap connect to sync"}
               </div>
             </div>
-            <div
-              className="flex items-center"
-              style={{ gap: 4, flexShrink: 0, background: "var(--acc-pale)", borderRadius: 20, padding: "5px 10px" }}
-              aria-label="Collar battery 87 percent"
-            >
-              <BatteryMedium size={14} strokeWidth={2} style={{ color: JP.sora }} />
-              <span style={{ fontSize: 12, fontWeight: 700, color: JP.sora, fontVariantNumeric: "tabular-nums" }}>87%</span>
-            </div>
+            {collarState === "connected" && battery != null && (
+              <div
+                className="flex items-center"
+                style={{ gap: 4, flexShrink: 0, background: "var(--acc-pale)", borderRadius: 20, padding: "5px 10px" }}
+                aria-label={`Collar battery ${battery} percent`}
+              >
+                <BatteryMedium size={14} strokeWidth={2} style={{ color: JP.sora }} />
+                <span style={{ fontSize: 12, fontWeight: 700, color: JP.sora, fontVariantNumeric: "tabular-nums" }}>{battery}%</span>
+              </div>
+            )}
             <button
               disabled={collarState === "connecting"}
               onClick={() => {
                 if (collarState === "connected") {
-                  setCollarState("idle");
+                  disconnect();
                   toast.info("Collar disconnected");
                   return;
                 }
-                setCollarState("connecting");
-                setTimeout(() => {
-                  setCollarState("connected");
-                  toast.success("Collar connected — data synced just now");
-                }, 1400);
+                connect();
+                setTimeout(() => toast.success("Collar connected — live data streaming"), 1500);
               }}
               className="flex items-center justify-center active:scale-95 transition-transform"
               style={{
