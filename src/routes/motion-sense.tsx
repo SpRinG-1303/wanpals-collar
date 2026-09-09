@@ -581,9 +581,9 @@ function AIInsightBlock({ name }: { name: string }) {
       )}
       {language !== "japanese" && (
         <div style={{
-          fontSize: language === "english" ? 14 : 12,
-          color: language === "english" ? "rgba(255,255,255,0.92)" : "rgba(255,255,255,0.7)",
-          lineHeight: language === "english" ? 1.8 : 1.6,
+          fontSize: 14,
+          color: "rgba(255,255,255,0.92)",
+          lineHeight: 1.8,
           marginTop: language === "mixed" ? 6 : 0,
         }}>{en}</div>
       )}

@@ -375,13 +375,5 @@ export function Bi({
   enStyle?: CSSProperties;
   as?: "div" | "span";
 }) {
-  const { language } = useLanguage();
-  if (language === "english") return <As style={enStyle ?? jpStyle}>{en}</As>;
-  if (language === "japanese") return <As style={jpStyle}>{jp}</As>;
-  return (
-    <>
-      <As style={jpStyle}>{jp}</As>
-      <As style={enStyle}>{en}</As>
-    </>
-  );
+  return <As style={enStyle ?? jpStyle}>{en}</As>;
 }

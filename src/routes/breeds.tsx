@@ -1889,11 +1889,7 @@ function Breeds() {
       {/* RESULT COUNT */}
       {hasQuery && filtered.length > 0 && (
         <div style={{ padding: "10px 20px 0", fontSize: 12, fontWeight: 700, color: "var(--text-secondary)" }}>
-          {language === "english"
-            ? `${filtered.length} ${filtered.length === 1 ? "breed" : "breeds"} found`
-            : language === "japanese"
-            ? `${filtered.length}件の犬種`
-            : `${filtered.length}件の犬種 / ${filtered.length} found`}
+           {`${filtered.length} ${filtered.length === 1 ? "breed" : "breeds"} found`}
         </div>
       )}
 
@@ -1987,7 +1983,7 @@ function SadDog() {
 function BreedCard({ breed, onOpen, language, t, matches }: { breed: Breed; onOpen: () => void; language: string; t: (jp: string, en: string) => string; matches?: readonly FuseResultMatch[] }) {
   const Icon = breed.Icon;
   const primaryName = breed.en;
-  const primaryKey = language === "english" ? "name_en" : "name_jp";
+  const primaryKey = "name_en";
   const showSecondary = language !== "japanese" && primaryName !== breed.en;
   const { url: imgUrl, loading: imgLoading, refresh: refreshImg } = useBreedImage(breed.en);
 
@@ -2088,11 +2084,7 @@ function BreedCard({ breed, onOpen, language, t, matches }: { breed: Breed; onOp
               {t(r.jp, r.en)}
             </div>
             <div style={{ fontSize: 12.5, color: "var(--text-primary)", fontWeight: 600, lineHeight: 1.35 }}>
-              {language === "japanese" ? (
-                <Highlight text={r.valueJp} matches={matches} keyName={r.keyJp ?? ""} />
-              ) : (
-                <Highlight text={r.valueEn} matches={matches} keyName={r.keyEn ?? ""} />
-              )}
+              <Highlight text={r.valueEn} matches={matches} keyName={r.keyEn ?? ""} />
             </div>
           </div>
         ))}
@@ -2113,11 +2105,7 @@ function BreedCard({ breed, onOpen, language, t, matches }: { breed: Breed; onOp
               {t("診断ノート", "Diagnostic Note")}
             </div>
             <div style={{ fontSize: 11.5, color: "var(--acc2-deep)", fontWeight: 500, lineHeight: 1.4 }}>
-              {language === "japanese" ? (
-                <Highlight text={breed.diagnosticNoteJp} matches={matches} keyName="diagnostic_jp" />
-              ) : (
-                <Highlight text={breed.diagnosticNoteEn} matches={matches} keyName="diagnostic_en" />
-              )}
+              <Highlight text={breed.diagnosticNoteEn} matches={matches} keyName="diagnostic_en" />
             </div>
           </div>
         </div>
