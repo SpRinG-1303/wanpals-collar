@@ -229,7 +229,7 @@ function Settings() {
                   style={{ width: 40, height: 40, borderRadius: "50%", background: "var(--acc-pale)" }}
                 >
                   {p.species ? (
-                    <span style={{ fontSize: 19, lineHeight: 1 }}>{getSpecies(p.species).emoji}</span>
+                    <img src={getSpecies(p.species).image} alt={getSpecies(p.species).label} loading="lazy" width={512} height={512} style={{ width: 26, height: 26, borderRadius: "50%", objectFit: "cover" }} />
                   ) : (
                     <PawPrint size={18} style={{ color: "var(--acc-strong)" }} />
                   )}
@@ -385,7 +385,7 @@ function Settings() {
                       background: active ? "var(--acc-pale)" : "transparent",
                     }}
                   >
-                    <span style={{ fontSize: 20, lineHeight: 1 }}>{s.emoji}</span>
+                    <img src={s.image} alt={s.label} loading="lazy" width={512} height={512} style={{ width: 28, height: 28, borderRadius: "50%", objectFit: "cover" }} />
                     <span className="text-[10px] font-bold mt-1" style={{ color: active ? "var(--acc-strong)" : "var(--text-secondary)" }}>{s.label}</span>
                   </button>
                 );

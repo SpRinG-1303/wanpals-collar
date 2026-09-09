@@ -339,7 +339,7 @@ function AuthPage() {
                       transition: "all 0.15s ease",
                     }}
                   >
-                    <span style={{ fontSize: 30, lineHeight: 1 }}>{s.emoji}</span>
+                    <img src={s.image} alt={s.label} loading="lazy" width={512} height={512} style={{ width: 52, height: 52, borderRadius: "50%", objectFit: "cover" }} />
                     <span style={{ marginTop: 8, fontSize: 14, fontWeight: 600, color: active ? OWNER.accent : INK }}>{s.label}</span>
                   </button>
                 );
