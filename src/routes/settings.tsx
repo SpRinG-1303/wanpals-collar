@@ -382,14 +382,39 @@ function Settings() {
                   <button
                     key={s.id}
                     onClick={() => setNewPetSpecies(s.id)}
-                    className="flex flex-col items-center justify-center rounded-xl py-2"
+                    className="relative overflow-hidden rounded-xl"
                     style={{
-                      border: `1.5px solid ${active ? "var(--acc-strong)" : "var(--border-card)"}`,
-                      background: active ? "var(--acc-pale)" : "transparent",
+                      aspectRatio: "1 / 1.1",
+                      border: `2px solid ${active ? "var(--acc-strong)" : "var(--border-card)"}`,
+                      background: "var(--bg-card)",
                     }}
                   >
-                    <img src={s.image} alt={s.label} loading="lazy" width={512} height={512} style={{ width: 28, height: 28, borderRadius: "50%", objectFit: "cover" }} />
-                    <span className="text-[10px] font-bold mt-1" style={{ color: active ? "var(--acc-strong)" : "var(--text-secondary)" }}>{s.label}</span>
+                    <img
+                      src={s.image}
+                      alt={s.label}
+                      loading="lazy"
+                      width={512}
+                      height={512}
+                      style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
+                    />
+                    <div
+                      style={{
+                        position: "absolute", inset: 0,
+                        background: active
+                          ? "linear-gradient(to top, var(--acc-strong)cc 0%, transparent 55%)"
+                          : "linear-gradient(to top, rgba(27,46,99,0.72) 0%, transparent 55%)",
+                      }}
+                    />
+                    <span
+                      className="text-[10px] font-bold"
+                      style={{
+                        position: "absolute", bottom: 8, left: 0, right: 0,
+                        textAlign: "center", color: "#fff",
+                        textShadow: "0 1px 3px rgba(0,0,0,0.35)",
+                      }}
+                    >
+                      {s.label}
+                    </span>
                   </button>
                 );
               })}
