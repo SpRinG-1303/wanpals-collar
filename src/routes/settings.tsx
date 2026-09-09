@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import { useT, useLanguage, type Language } from "@/context/LanguageContext";
 import { useAuth } from "@/context/AuthContext";
 import { usePet } from "@/context/PetContext";
-import LanguageSwitcher from "@/components/LanguageSwitcher";
+import { LANGUAGE_COUNT, getDisplayLanguage } from "@/lib/languages";
 import { SPECIES, getSpecies, type SpeciesId } from "@/lib/species";
 
 export const Route = createFileRoute("/settings")({ component: Settings });
@@ -15,6 +15,7 @@ function Settings() {
   const nav = useNavigate();
   const t = useT();
   const { language, setLanguage } = useLanguage();
+  const [displayLang] = useState(getDisplayLanguage);
   const { session, signOut, updateProfile } = useAuth();
   const [dark, setDark] = useState(false);
   const [editField, setEditField] = useState<"name" | "email" | "password" | null>(null);
