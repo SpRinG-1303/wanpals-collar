@@ -194,14 +194,14 @@ function MapScreen() {
 
         {/* Zoom controls top-right */}
         <div className="absolute" style={{ top: 12, right: 12, background: "rgba(255,255,255,0.9)", backdropFilter: "blur(8px)", borderRadius: 12, boxShadow: "0 2px 8px rgba(0,0,0,0.1)" }}>
-          <button onClick={() => setZoom((z) => Math.min(2, +(z + 0.25).toFixed(2)))} aria-label="Zoom in" className="flex items-center justify-center" style={{ width: 36, height: 36, color: "var(--text-primary)" }}><Plus size={16} /></button>
+          <button onClick={() => leafletMap.current?.zoomIn()} aria-label="Zoom in" className="flex items-center justify-center" style={{ width: 36, height: 36, color: "var(--text-primary)" }}><Plus size={16} /></button>
           <div style={{ height: 1, background: "var(--border-card)" }} />
-          <button onClick={() => setZoom((z) => Math.max(1, +(z - 0.25).toFixed(2)))} aria-label="Zoom out" className="flex items-center justify-center" style={{ width: 36, height: 36, color: "var(--text-primary)" }}><Minus size={16} /></button>
+          <button onClick={() => leafletMap.current?.zoomOut()} aria-label="Zoom out" className="flex items-center justify-center" style={{ width: 36, height: 36, color: "var(--text-primary)" }}><Minus size={16} /></button>
         </div>
 
         {/* My location button bottom-right */}
         <button
-          onClick={() => { setZoom(1); toast.success(t("ペットの位置に移動しました", "Centered on your pet")); }}
+          onClick={() => { if (geo.coords) leafletMap.current?.setView([geo.coords.lat + 0.0004, geo.coords.lon + 0.0003], 17); toast.success(t("ペットの位置に移動しました", "Centered on your pet")); }}
           aria-label="Center on pet"
           className="absolute flex items-center justify-center active:scale-90 transition-transform" style={{ bottom: 14, right: 12, width: 40, height: 40, borderRadius: "50%", background: "rgba(255,255,255,0.9)", backdropFilter: "blur(8px)", boxShadow: "0 2px 8px rgba(0,0,0,0.1)" }}
         >
