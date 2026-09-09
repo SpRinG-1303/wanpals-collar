@@ -40,11 +40,8 @@ export function TopBar({
   const navigate = useNavigate();
   const t = useT();
   const showTitle = Boolean(titleJp || titleEn);
-  const notifications = [
-    { Icon: Heart, color: "var(--accent-sakura)", text: t("健康スコアが更新されました", "Health score updated: 87/100"), time: "2m" },
-    { Icon: Syringe, color: "var(--accent-matcha)", text: t("ワクチン接種のリマインダー", "Vaccination reminder: rabies booster due"), time: "1h" },
-    { Icon: AlertTriangle, color: "var(--accent-yuzu)", text: t("活動量がいつもより少なめです", "Activity is lower than usual today"), time: "3h" },
-  ];
+  // Notifications come from real events only — nothing is pre-filled.
+  const notifications: { Icon: typeof Heart; color: string; text: string; time: string }[] = [];
   return (
     <>
       <header className="sticky top-0 z-40" style={{ background: "color-mix(in oklab, var(--bg-topbar) 94%, transparent)", backdropFilter: "blur(16px)", borderBottom: "1px solid var(--border-subtle)" }}>
@@ -127,6 +124,11 @@ export function TopBar({
               <div style={{ fontSize: 12, fontWeight: 700, color: "var(--text-primary)", padding: "6px 10px 8px" }}>
                 {t("通知", "Notifications")}
               </div>
+              {notifications.length === 0 && (
+                <div style={{ padding: "10px 12px 14px", fontSize: 12, color: "var(--text-secondary)", lineHeight: 1.5 }}>
+                  {t("通知はありません", "No notifications yet. Alerts from your collar and clinic will show up here.")}
+                </div>
+              )}
               {notifications.map((n, i) => (
                 <button
                   key={i}

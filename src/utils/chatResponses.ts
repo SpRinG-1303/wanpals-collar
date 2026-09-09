@@ -21,8 +21,4 @@ export const NEARBY_CLINICS = [
   { jp: "Andheri 24x7 Animal Medical", en: "Andheri 24x7 Animal Medical", km: 2.1, rating: 4.8, em: true, phone: "+91-22-4890-9012" },
 ];
 
-export const VACCINE_RECORDS = [
-  { jp: "狂犬病", en: "Rabies", last: "2024-03-15", next: "2025-03-15", status: "ok" as const },
-  { jp: "混合ワクチン", en: "Combined", last: "2024-01-10", next: "2025-01-10", status: "ok" as const },
-  { jp: "フィラリア", en: "Heartworm", last: "2023-05-01", next: "2024-05-01", status: "overdue" as const },
-];
+export const VACCINE_RECORDS: { jp: string; en: string; last: string; next: string; status: "ok" | "overdue" }[] = [];

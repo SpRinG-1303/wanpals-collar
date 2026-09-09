@@ -99,19 +99,19 @@ const GREEN_ICON = "var(--acc-strong)";
 
 const sensors: Sensor[] = [
   { Icon: Microscope, accent: GREEN_ICON, iconBg: GREEN_BG, to: "/skin-sense",
-    en: "SkinSense AI", subEn: "Skin Health", valEn: "Normal" },
+    en: "SkinSense AI", subEn: "Skin Health", valEn: "—" },
   { Icon: Activity, accent: GREEN_ICON, iconBg: GREEN_BG, to: "/motion-sense",
-    en: "MotionSense", subEn: "Activity Track", valEn: "2,340 steps", progress: 65 },
+    en: "MotionSense", subEn: "Activity Track", valEn: "—" },
   { Icon: Thermometer, accent: GREEN_ICON, iconBg: GREEN_BG, to: "/temp-sense",
-    en: "TempSense AI", subEn: "Body Temp", valEn: "38.5°C", noteEn: "Normal Range" },
+    en: "TempSense AI", subEn: "Body Temp", valEn: "—" },
   { Icon: MapPin, accent: GREEN_ICON, iconBg: GREEN_BG, to: "/map",
-    en: "LocationSense", subEn: "GPS + Map", valEn: "Bandra, Mumbai" },
+    en: "LocationSense", subEn: "GPS + Map", valEn: "—" },
   { Icon: Wind, accent: GREEN_ICON, iconBg: GREEN_BG, to: "/pressure-sense",
-    en: "PressureSense", subEn: "Pressure Data", valEn: "Normal Range" },
+    en: "PressureSense", subEn: "Pressure Data", valEn: "—" },
   { Icon: Sun, accent: GREEN_ICON, iconBg: GREEN_BG, to: "/light-sense",
-    en: "LightSense AI", subEn: "RGB Light Data", valEn: "Indoor" },
+    en: "LightSense AI", subEn: "RGB Light Data", valEn: "—" },
   { Icon: GitMerge, accent: GREEN_ICON, iconBg: GREEN_BG, to: "/report",
-    en: "CombineSense", subEn: "Combined Analysis", valEn: "87/100" },
+    en: "CombineSense", subEn: "Combined Analysis", valEn: "—" },
 ];
 
 /* ---------- Page ---------- */
@@ -304,7 +304,7 @@ function Home() {
               </span>
                <span style={{ fontSize: 10, fontWeight: 700, color: "var(--primary-foreground)", letterSpacing: "0.08em" }}>LIVE</span>
               <span style={{ fontSize: 11, color: "rgba(255,255,255,0.8)" }}>
-                {receiving ? `· ${activeSensors} of 6 sensors reporting` : "· Waiting for collar data"}
+                {receiving ? `· ${activeSensors} of 5 sensors reporting` : "· Waiting for collar data"}
               </span>
             </div>
              <span style={{ fontSize: 24, fontWeight: 500, color: "var(--primary-foreground)", fontVariantNumeric: "tabular-nums", fontFamily: "var(--font-display)" }}>

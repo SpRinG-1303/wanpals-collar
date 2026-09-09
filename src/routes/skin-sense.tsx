@@ -4,6 +4,7 @@ import { Camera, Image as ImageIcon, Sparkles, Send, Droplet, Layers, Palette, F
 import AppShell, { TopBar } from "@/components/AppShell";
 import { SenseBanner } from "@/components/SenseBanner";
 import { useLanguage, useT } from "@/context/LanguageContext";
+import { NoData, DASH } from "@/components/NoData";
 
 export const Route = createFileRoute("/skin-sense")({ component: SkinSensePage });
 
@@ -75,12 +76,6 @@ const SEV: Record<Severity, { color: string; bg: string; jp: string; en: string 
   severe:   { color: C.sev, bg: "var(--acc-pale)", jp: "重度",   en: "Severe" },
 };
 
-/* ---------- History ---------- */
-const HISTORY = [
-  { date: "2025-05-12", jpDate: "2025年5月12日", jp: "正常", en: "Normal", score: 94, sev: "normal" as Severity, tags: [{ jp: "正常な色素", en: "Normal Pigment" }, { jp: "健康な質感", en: "Healthy Texture" }] },
-  { date: "2025-04-28", jpDate: "2025年4月28日", jp: "軽い乾燥", en: "Mild Dryness", score: 78, sev: "mild" as Severity, tags: [{ jp: "軽度乾燥", en: "Slight Dryness" }] },
-  { date: "2025-04-10", jpDate: "2025年4月10日", jp: "正常", en: "Normal", score: 91, sev: "normal" as Severity, tags: [{ jp: "良好な水分", en: "Good Hydration" }] },
-];
 
 /* ---------- AI chat canned responses ---------- */
 const AI_RESPONSES = [
@@ -154,9 +149,9 @@ function SkinSensePage() {
             gridTemplateColumns: "1fr 1fr 1fr",
           }}>
             {[
-              { label: t("皮膚スコア", "SKIN SCORE"), value: "94", color: "var(--acc-soft)" },
-              { label: t("最終スキャン", "LAST SCAN"), value: t("5月12日", "May 12"), color: C.text },
-              { label: t("状態", "CONDITION"), value: t("正常", "Normal"), color: C.ok },
+              { label: t("皮膚スコア", "SKIN SCORE"), value: DASH, color: "var(--acc-soft)" },
+              { label: t("最終スキャン", "LAST SCAN"), value: DASH, color: C.text },
+              { label: t("状態", "CONDITION"), value: DASH, color: C.ok },
             ].map((s, i) => (
               <div key={i} style={{
                 textAlign: "center",
@@ -294,34 +289,16 @@ function SkinSensePage() {
             <PinkCard style={{ animation: "ssIn 400ms cubic-bezier(.2,.7,.2,1) both" }}>
               <Label jp="診断結果" en="Diagnosis Result" />
 
-              <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                <img src={photo} alt="result" style={{ width: 60, height: 60, borderRadius: 16, objectFit: "cover", flexShrink: 0 }} />
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <Bi
-                    jp="正常"
-                    en="Normal"
-                    jpStyle={{ fontSize: 16, fontWeight: 700, color: C.text }}
-                    enStyle={{ fontSize: 13, fontWeight: 600, color: C.text2 }}
-                  />
-                  <div style={{ fontSize: 12, color: "var(--acc-soft)", marginTop: 2, fontWeight: 600 }}>
-                    {t("信頼度 96%", "Confidence 96%")}
-                  </div>
+              <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
+                <img src={photo} alt="scan" style={{ width: 60, height: 60, borderRadius: 16, objectFit: "cover", flexShrink: 0 }} />
+                <div style={{ flex: 1, minWidth: 0, fontSize: 12, color: C.text2, lineHeight: 1.5 }}>
+                  {t("スキャンを保存しました。", "Scan saved. Results appear once your sensors report a reading.")}
                 </div>
-                <ScoreRing value={94} />
               </div>
-
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginTop: 14 }}>
-                <Metric icon={<Droplet size={16} />} iconBg="var(--acc-pale)" iconColor="var(--acc-strong)"
-                  jp="水分量" en="Hydration" value="82%" />
-                <Metric icon={<Layers size={16} />} iconBg="var(--acc2-pale)" iconColor={C.ok}
-                  jp="質感" en="Texture" value={t("正常", "Normal")} />
-                <Metric icon={<Palette size={16} />} iconBg="var(--acc-soft)" iconColor={C.mild}
-                  jp="色素" en="Pigmentation" value={t("健康", "Healthy")} />
-                <Metric icon={<Flame size={16} />} iconBg="var(--acc-pale)" iconColor={C.sev}
-                  jp="炎症" en="Inflammation" value={t("なし", "None")} />
-              </div>
-
-              <DetailedGuide />
+              <NoData
+                title={t("結果はまだありません", "No result yet")}
+                hint={t("センサーからのデータを待っています。", "Waiting for your collar sensors to report skin readings.")}
+              />
             </PinkCard>
           )}
 
@@ -331,56 +308,10 @@ function SkinSensePage() {
           {/* ===== SECTION 5: HISTORY ===== */}
           <PinkCard>
             <Label jp="分析履歴" en="Analysis History" />
-            <div>
-              {HISTORY.map((h, i) => {
-                const s = SEV[h.sev];
-                return (
-                  <div key={h.date} style={{
-                    display: "flex", alignItems: "center", gap: 12,
-                    padding: "12px 0",
-                    borderTop: i === 0 ? "none" : `1px solid ${C.soft}`,
-                  }}>
-                    <div style={{
-                      width: 48, height: 48, borderRadius: "50%", flexShrink: 0,
-                      background: "linear-gradient(135deg, var(--acc-pale), var(--bg-page))",
-                      display: "flex", alignItems: "center", justifyContent: "center",
-                    }}>
-                      <PawIcon color="var(--acc-soft)" size={22} />
-                    </div>
-                    <div style={{ flex: 1, minWidth: 0 }}>
-                      <Bi jp={h.jp} en={h.en}
-                        jpStyle={{ fontSize: 14, fontWeight: 600, color: C.text }}
-                        enStyle={{ fontSize: 11, color: C.text2, marginTop: 1 }}
-                      />
-                      <div style={{ fontSize: 11, color: C.text3, marginTop: 3 }}>{t(h.jpDate, h.date)}</div>
-                      <div style={{ display: "flex", gap: 4, marginTop: 5, flexWrap: "wrap" }}>
-                        {h.tags.map((tag, ti) => (
-                          <span key={ti} style={{
-                            background: C.soft, color: "var(--acc-deep)",
-                            fontSize: 9, fontWeight: 600, borderRadius: 50,
-                            padding: "2px 8px",
-                          }}>{t(tag.jp, tag.en)}</span>
-                        ))}
-                      </div>
-                    </div>
-                    <div style={{ textAlign: "right", flexShrink: 0 }}>
-                      <div style={{ fontSize: 22, fontWeight: 800, color: "var(--acc-soft)", lineHeight: 1 }}>{h.score}</div>
-                      <span style={{
-                        display: "inline-block", marginTop: 4, padding: "3px 8px",
-                        borderRadius: 50, background: s.bg, color: s.color,
-                        fontSize: 10, fontWeight: 700,
-                      }}>{t(s.jp, s.en)}</span>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-            <button style={{
-              width: "100%", marginTop: 10, padding: "8px 0", border: "none", background: "transparent",
-              color: "var(--acc-soft)", fontSize: 13, fontWeight: 600,
-            }}>
-              {t("履歴をすべて見る ›", "View Full History ›")}
-            </button>
+            <NoData
+              title={t("履歴はまだありません", "No analyses yet")}
+              hint={t("スキャンすると履歴がここに表示されます。", "Your scans and sensor readings will be listed here once recorded.")}
+            />
           </PinkCard>
 
           {/* ===== SECTION 6: AI INSIGHT ===== */}

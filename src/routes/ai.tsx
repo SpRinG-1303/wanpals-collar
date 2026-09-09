@@ -26,6 +26,8 @@ import {
 } from "lucide-react";
 import { useT, useLanguage } from "@/context/LanguageContext";
 import { usePet } from "@/context/PetContext";
+import { useCollar } from "@/context/CollarContext";
+import { useNearbyVets } from "@/lib/useNearbyVets";
 import DogAvatar from "@/components/DogAvatar";
 import { motion, AnimatePresence } from "framer-motion";
 import { detectIntent, NEARBY_CLINICS, VACCINE_RECORDS, type Intent } from "@/utils/chatResponses";
@@ -80,6 +82,12 @@ function AI() {
   const navigate = useNavigate();
   const name = pet.name || "your pet";
   const suffix = "";
+  const { live } = useCollar();
+  // Only report values the collar actually sent — never invent numbers.
+  const liveText = (k: "temp" | "motion" | "pressure" | "light" | "skin", _jpFallback: string, fallback: string) => {
+    const r = live[k];
+    return r ? `Current reading: ${r.value}${r.unit ?? ""} (updated ${new Date(r.at).toLocaleTimeString()})` : fallback;
+  };
 
   const [msgs, setMsgs] = useState<Msg[]>([
     {
@@ -156,8 +164,8 @@ function AI() {
         pushAi("", "", "vaccines");
         setTimeout(() => {
           pushAi(
-            "フィラリアのワクチンが期限切れです！早めに動物病院へ行くことをおすすめします ",
-            "Heartworm vaccine is overdue! Please visit a vet soon ",
+            "ワクチン記録はまだありません。",
+            "No vaccination records saved yet — add them in your pet's profile or ask your vet to upload them.",
           );
         }, 900);
       }, 500);
@@ -190,11 +198,20 @@ function AI() {
             `For a ${w}kg pet like ${name}, the recommended daily food is about ${Math.round(w * 30)}g. Keep a balanced diet `,
           );
         } else if (/walk|exercise|散歩|運動/.test(m)) {
-          pushAi("今日の運動データ：2,340歩 · 1.8km · 目標の80% ", "Today's activity: 2,340 steps · 1.8km · 80% of goal ");
+          pushAi(
+            liveText("motion", "運動データはまだありません。首輪を接続してください。", "No activity data yet — connect the collar to start tracking."),
+            liveText("motion", "No activity data yet — connect the collar to start tracking.", "No activity data yet — connect the collar to start tracking."),
+          );
         } else if (/temperature|fever|体温|熱/.test(m)) {
-          pushAi("現在の体温は38.5℃ — 正常範囲内です ", "Current temperature is 38.5°C — within normal range ");
+          pushAi(
+            liveText("temp", "体温データはまだありません。首輪を接続してください。", "No temperature reading yet — connect the collar."),
+            liveText("temp", "No temperature reading yet — connect the collar.", "No temperature reading yet — connect the collar."),
+          );
         } else if (/sleep|tired|眠/.test(m)) {
-          pushAi("昨夜の睡眠は7.5時間、質は良好です ", "Last night's sleep was 7.5 hours, quality is good ");
+          pushAi(
+            "睡眠センサーはまだありません。",
+            "Sleep isn't measured by the collar yet, so there's no data to report.",
+          );
         } else {
           pushAi(
             "わんちゃんについて何でも聞いてください！健康チェック、ワクチン、クリニック検索などお手伝いできます ",
@@ -835,6 +852,8 @@ function EmergencyActionCard({ t }: { t: (jp: string, en: string) => string }) {
 }
 
 function FindVetCard({ t, onAll }: { t: (jp: string, en: string) => string; onAll: () => void }) {
+  const { vets, loading } = useNearbyVets();
+  const list = vets.slice(0, 3);
   return (
     <div
       className="w-full"
@@ -852,11 +871,18 @@ function FindVetCard({ t, onAll }: { t: (jp: string, en: string) => string; onAl
         </span>
       </div>
       <div style={{ fontSize: 11, color: "var(--text-secondary)", marginBottom: 10 }}>
-        {t("あなたの近くに 24 件のクリニックがあります", "24 clinics found near you")}
+        {loading
+          ? t("検索中…", "Searching near your location…")
+          : t("近くのクリニック", `${vets.length} clinics found near you`)}
       </div>
       <div className="space-y-1.5 mb-3">
-        {NEARBY_CLINICS.map((c, i) => {
-          const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(c.en)}`;
+        {!loading && list.length === 0 && (
+          <div style={{ fontSize: 12, color: "var(--text-secondary)", lineHeight: 1.5 }}>
+            {t("結果がありません。", "No clinics found yet — allow location access to search around you.")}
+          </div>
+        )}
+        {list.map((c, i) => {
+          const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${c.lat},${c.lon}`;
           return (
             <a
               key={i}
@@ -873,7 +899,7 @@ function FindVetCard({ t, onAll }: { t: (jp: string, en: string) => string; onAl
             >
               <Star size={11} fill="var(--accent-yuzu)" color="var(--accent-yuzu)" />
               <span style={{ fontSize: 13, fontWeight: 700, color: "var(--text-primary)", flex: 1 }}>{t(c.jp, c.en)}</span>
-              <span style={{ fontSize: 12, color: "var(--accent-sora)", fontWeight: 600 }}>{c.km}km</span>
+              <span style={{ fontSize: 12, color: "var(--accent-sora)", fontWeight: 600 }}>{c.km.toFixed(1)}km</span>
               <ChevronRight size={14} color="var(--accent-sora)" />
             </a>
           );
@@ -926,6 +952,11 @@ function VaccinesCard({
           </span>
         </div>
         <div className="space-y-1.5 mb-3">
+          {VACCINE_RECORDS.length === 0 && (
+            <div style={{ fontSize: 12, color: "var(--text-secondary)", lineHeight: 1.5 }}>
+              {t("記録はまだありません。", "No vaccination records saved yet.")}
+            </div>
+          )}
           {VACCINE_RECORDS.map((v, i) => {
             const overdue = v.status === "overdue";
             return (
@@ -1045,11 +1076,18 @@ function FollowupChips({
 }
 
 function HealthCard({ t }: { t: (jp: string, en: string) => string }) {
+  const { live, receiving } = useCollar();
+  const activeSensors = (Object.keys(live) as (keyof typeof live)[]).filter((k) => live[k]).length;
+  const score = receiving ? Math.round((activeSensors / 5) * 100) : null;
+  const fmt = (k: keyof typeof live) => {
+    const r = live[k];
+    return r ? `${r.value}${r.unit ?? ""}` : "—";
+  };
   const metrics = [
-    { jp: "体温", en: "Temp", value: "38.5°C", pct: 80, color: "var(--acc-strong)", bg: "var(--acc-pale)", Icon: Thermometer },
-    { jp: "運動", en: "Activity", value: "2,340歩", pct: 90, color: "var(--accent-sora)", bg: "var(--acc2-pale)", Icon: Activity },
-    { jp: "睡眠", en: "Sleep", value: "7.5h", pct: 75, color: "var(--accent-fuji)", bg: "var(--acc-pale)", Icon: Moon },
-    { jp: "食事", en: "Diet", value: t("良好", "Good"), pct: 85, color: "var(--accent-yuzu)", bg: "var(--acc-pale)", Icon: UtensilsCrossed },
+    { jp: "体温", en: "Temp", value: fmt("temp"), pct: live.temp ? 100 : 0, color: "var(--acc-strong)", bg: "var(--acc-pale)", Icon: Thermometer },
+    { jp: "運動", en: "Activity", value: fmt("motion"), pct: live.motion ? 100 : 0, color: "var(--accent-sora)", bg: "var(--acc2-pale)", Icon: Activity },
+    { jp: "圧力", en: "Pressure", value: fmt("pressure"), pct: live.pressure ? 100 : 0, color: "var(--accent-fuji)", bg: "var(--acc-pale)", Icon: Moon },
+    { jp: "光", en: "Light", value: fmt("light"), pct: live.light ? 100 : 0, color: "var(--accent-yuzu)", bg: "var(--acc-pale)", Icon: UtensilsCrossed },
   ];
 
   const points = [22, 18, 20, 14, 16, 10, 8];
@@ -1084,17 +1122,19 @@ function HealthCard({ t }: { t: (jp: string, en: string) => string }) {
             borderRadius: 20,
           }}
         >
-          ✓ {t("良好", "Good")}
+          {receiving ? `✓ ${t("受信中", "Live")}` : t("データなし", "No data")}
         </span>
       </div>
       <div className="flex items-end justify-between px-4 pb-3">
         <div>
           <div style={{ fontSize: 42, fontWeight: 800, color: "var(--text-primary)", lineHeight: 1, letterSpacing: "-0.02em" }}>
-            87
-            <span style={{ fontSize: 18, color: "var(--text-secondary)", fontWeight: 600 }}>/100</span>
+            {score ?? "—"}
+            {score != null && <span style={{ fontSize: 18, color: "var(--text-secondary)", fontWeight: 600 }}>/100</span>}
           </div>
           <div style={{ fontSize: 12, color: "var(--accent-matcha)", marginTop: 2 }}>
-            {t("全体的に健康です", "Overall healthy")}
+            {score == null
+              ? t("首輪が未接続です", "Collar not connected")
+              : t("センサー受信中", `${activeSensors} of 5 sensors reporting`)}
           </div>
         </div>
         <svg width="60" height="30" viewBox="0 -2 65 30" fill="none">

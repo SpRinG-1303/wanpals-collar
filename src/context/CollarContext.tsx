@@ -94,10 +94,19 @@ function parsePacket(text: string, prev: LiveMap): { live: LiveMap; battery: num
   return { live, battery, got };
 }
 
+import { appendReading, type HistoryKey } from "@/lib/sensorHistory";
+
 export function CollarProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<CollarState>("idle");
   const [battery, setBattery] = useState<number | null>(null);
   const [live, setLive] = useState<LiveMap>(EMPTY_LIVE);
+  // Persist every real reading so the health report can show true history.
+  useEffect(() => {
+    (Object.keys(live) as SensorKey[]).forEach((k) => {
+      const r = live[k];
+      if (r && typeof r.value === "number") appendReading(k as HistoryKey, r.value, r.at ?? Date.now());
+    });
+  }, [live]);
   const [receiving, setReceiving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const deviceRef = useRef<BLEDevice | null>(null);

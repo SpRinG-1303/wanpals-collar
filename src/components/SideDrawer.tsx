@@ -4,6 +4,7 @@ import { Home, MapPin, Bot, HeartPulse, Users, FileHeart, BookOpen, Settings, Ch
 import { useT } from "@/context/LanguageContext";
 import { usePet, displayName } from "@/context/PetContext";
 import { useAuth } from "@/context/AuthContext";
+import { useCollar } from "@/context/CollarContext";
 import pawLogoAsset from "@/assets/paw-logo.png.asset.json";
 
 type Item = {
@@ -53,6 +54,9 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
   const t = useT();
   const { pet } = usePet();
   const { session, signOut, hydrated } = useAuth();
+  const { connected, receiving, live } = useCollar();
+  const activeSensors = (Object.keys(live) as (keyof typeof live)[]).filter((k) => live[k]).length;
+  const collarScore = receiving ? Math.round((activeSensors / 5) * 100) : null;
   // Time-of-day greeting is client-only to avoid hydration mismatch.
   const [greet, setGreet] = useState("Hello!");
   useEffect(() => { setGreet(greeting()); }, []);
@@ -277,12 +281,16 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
                 <div>
                   <div style={{ fontSize: 13, fontWeight: 700, color: "var(--text-primary)", lineHeight: 1 }}>{name}</div>
                   <div className="flex items-center gap-1" style={{ marginTop: 3 }}>
-                    <span className="pulse" style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--accent-matcha)" }} />
-                    <span style={{ fontSize: 11, color: "var(--accent-matcha)" }}>{t("首輪接続中", "Collar Connected")}</span>
+                    <span className="pulse" style={{ width: 6, height: 6, borderRadius: "50%", background: connected ? "var(--accent-matcha)" : "var(--text-placeholder)" }} />
+                    <span style={{ fontSize: 11, color: connected ? "var(--accent-matcha)" : "var(--text-secondary)" }}>
+                      {connected ? t("首輪接続中", "Collar Connected") : t("未接続", "Collar Not Connected")}
+                    </span>
                   </div>
                 </div>
               </div>
-              <div style={{ fontSize: 11, color: "var(--accent-sakura)", fontWeight: 600 }}>87/100 ✦</div>
+              <div style={{ fontSize: 11, color: "var(--accent-sakura)", fontWeight: 600 }}>
+                {collarScore == null ? "—" : `${collarScore}/100`} ✦
+              </div>
             </div>
           </div>
           )}
