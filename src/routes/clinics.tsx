@@ -1,6 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import AppShell from "@/components/AppShell";
 import { CLINICS } from "@/lib/mock";
+import { useNearbyVets } from "@/lib/useNearbyVets";
+
+type ClinicItem = { jp: string; en: string; rating: number; km: number; open: boolean; em: boolean; lat?: number; lon?: number; address?: string; real?: boolean };
 import { useGeoLocation } from "@/lib/useGeoLocation";
 import {
   Search,
@@ -88,13 +91,15 @@ function Clinics() {
   const [applied, setApplied] = useState({ minStars: 0, distance: 50, openOnly: false, emOnly: false });
   const [visible, setVisible] = useState(5);
   const [videoBooking, setVideoBooking] = useState(false);
-  const [dirFor, setDirFor] = useState<(typeof CLINICS)[number] | null>(null);
+  const [dirFor, setDirFor] = useState<ClinicItem | null>(null);
+  const { vets, loading: vetsLoading } = useNearbyVets();
+  const source: ClinicItem[] = vets.length ? vets : CLINICS;
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    let list = CLINICS.filter((c) => {
+    let list = source.filter((c) => {
       if (q && !c.en.toLowerCase().includes(q) && !c.jp.includes(query.trim())) return false;
-      if (c.rating < applied.minStars) return false;
+      if (c.rating > 0 && c.rating < applied.minStars) return false;
       if (c.km > applied.distance) return false;
       if (applied.openOnly && !c.open) return false;
       if (applied.emOnly && !c.em) return false;
@@ -106,7 +111,7 @@ function Clinics() {
     else if (active === 3) list = list.filter((_, i) => i % 4 === 1 || i % 4 === 4); // Specialized
     else if (active === 4) list = list.filter((c) => c.em); // 24H Open
     return list;
-  }, [query, applied, active]);
+  }, [query, applied, active, source]);
 
   function bookVideoConsult() {
     if (videoBooking) return;
@@ -118,7 +123,7 @@ function Clinics() {
     }, 1800);
   }
 
-  const emergencyClinic = CLINICS.find((c) => c.em && c.open) ?? CLINICS[0];
+  const emergencyClinic = source.find((c) => c.em && c.open) ?? source[0];
 
   return (
     <AppShell noPadding>
@@ -216,7 +221,7 @@ function Clinics() {
             {t("Nearest 24H Hospital", "Nearest 24H Hospital")}
           </div>
           <div style={{ fontSize: 12, color: "rgba(255,255,255,0.9)", marginTop: 3, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-            {language === "english" ? emergencyClinic.en : emergencyClinic.jp} · {emergencyClinic.km}km · ★ {emergencyClinic.rating}
+            {language === "english" ? emergencyClinic.en : emergencyClinic.jp} · {emergencyClinic.km}km {emergencyClinic.rating > 0 ? ` · ★ ${emergencyClinic.rating}` : ""}
           </div>
         </div>
         <a
@@ -355,8 +360,7 @@ function Clinics() {
               <div className="flex items-center" style={{ marginTop: 10, gap: 10, flexWrap: "wrap" }}>
                 <span className="flex items-center" style={{ gap: 4 }}>
                   <Star size={11} style={{ color: "var(--accent-yuzu)" }} fill="var(--accent-yuzu)" />
-                  <span style={{ fontSize: 12, fontWeight: 700, color: "var(--text-primary)" }}>{c.rating}</span>
-                  <span style={{ fontSize: 11, color: "var(--text-placeholder)" }}>(47)</span>
+                  <span style={{ fontSize: 12, fontWeight: 700, color: "var(--text-primary)" }}>{c.rating > 0 ? c.rating : "—"}</span>
                 </span>
                 <span className="flex items-center" style={{ gap: 4, fontSize: 12, color: "var(--text-secondary)" }}>
                   <MapPin size={11} style={{ color: "var(--accent-sakura)" }} /> {c.km} km
@@ -601,7 +605,7 @@ function Clinics() {
                 boxShadow: "0 6px 16px color-mix(in srgb, var(--accent-sakura) calc(0.35 * 100%), transparent)",
               }}
             >
-              {t("Apply Filters", "Apply Filters")} · {CLINICS.filter((c) => c.rating >= minStars && c.km <= distance && (!openOnly || c.open) && (!emOnly || c.em)).length}{t(" results", " results")}
+              {t("Apply Filters", "Apply Filters")} · {CLINICS.filter((c) => (c.rating >= minStars || c.rating === 0) && c.km <= distance && (!openOnly || c.open) && (!emOnly || c.em)).length}{t(" results", " results")}
             </button>
             <button onClick={() => setFilter(false)} className="w-full flex items-center justify-center gap-1" style={{ fontSize: 12, color: "var(--text-secondary)", padding: "8px 0" }}>
               <X size={12} /> {t("Cancel", "Cancel")}
@@ -619,7 +623,7 @@ function Clinics() {
 }
 
 /* ── Directions view — plays the route out to the clinic ────── */
-function DirectionsView({ clinic, onClose }: { clinic: (typeof CLINICS)[number]; onClose: () => void }) {
+function DirectionsView({ clinic, onClose }: { clinic: ClinicItem; onClose: () => void }) {
   const [playKey, setPlayKey] = useState(0);
   const geo = useGeoLocation();
   const mins = Math.max(4, Math.round(clinic.km * 12));
@@ -777,7 +781,7 @@ function DirectionsView({ clinic, onClose }: { clinic: (typeof CLINICS)[number];
             onClick={() => {
               if (typeof window !== "undefined") {
                 const origin = geo.coords ? `&origin=${geo.coords.lat},${geo.coords.lon}` : "";
-                window.open(`https://www.google.com/maps/dir/?api=1${origin}&destination=${encodeURIComponent(clinic.en)}`, "_blank");
+                window.open(`https://www.google.com/maps/dir/?api=1${origin}&destination=${clinic.lat != null ? `${clinic.lat},${clinic.lon}` : encodeURIComponent(clinic.en)}`, "_blank");
               }
             }}
             style={{ height: 44, padding: "0 16px", borderRadius: 14, background: "#FFFFFF", border: "1.5px solid var(--border-card)", color: "var(--text-secondary)", fontSize: 12, fontWeight: 700 }}
