@@ -1,13 +1,5 @@
 # Roadmap
-- [x] Rename "Pawsitive" → "MOooMENTUM" everywhere
-- [x] Live location: watchPosition GPS tracking on Home/Map/Clinics
-- [x] Replace dog-specific wording with animal-neutral wording in outer interfaces
-- [ ] Guest sign-in must also ask which type of animal
-- [ ] Multi-pet profiles per account: add/switch animals, dashboard reflects active pet
-- [ ] Make all home circular icons one pastel green (like Temp/Location/Pressure)
-- [ ] Remove dummy sensor data; show real collar data or empty states (needs collar connection layer)
-- [ ] Connect collar via Web Bluetooth BLE (ESP32-C3 SuperMini), parse live sensor packets, drop all placeholder readings
-- [ ] Remove leftover "Diagnostics" brand line under MOooMENTUM (AppShell, SideDrawer)
-- [ ] Replace species emojis with real, consistent-aesthetic animal photos (cow, buffalo, goat, sheep, dog, cat)
-- [ ] Remove BarkSense AI from everywhere (route, home grid, references)
-- [ ] Restore original Collar GPS map design (safe zone, My Pet/You pills, Map/Satellite toggle, zoom) with real-time location underneath
+- [x] Remove BarkSense AI everywhere
+- [x] Real species photos instead of emojis (signup picker + multi-pet list)
+- [x] Real ESP32-C3 BLE collar data (Web Bluetooth NUS), no fake readings
+- [x] Map restored to original Collar GPS design with live GPS underneath
