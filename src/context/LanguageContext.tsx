@@ -65,16 +65,21 @@ function worthTranslating(s: string): boolean {
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
   clearLegacyLangKeys();
-  const langRef = useRef<Language>(getDisplayLanguage());
+  const [language, setLanguageState] = useState<Language>(() => getDisplayLanguage());
+  const [translatedCount, setTranslatedCount] = useState(0);
+  const [translating, setTranslating] = useState(false);
+  const langRef = useRef<Language>(language);
   // originals: text node -> its English source text
   const originalsRef = useRef<WeakMap<Text, string>>(new WeakMap());
   const cacheRef = useRef<Record<string, string>>({});
   const pendingRef = useRef<Set<string>>(new Set());
   const timerRef = useRef<number | undefined>(undefined);
   const busyRef = useRef(false);
-  const listenersRef = useRef(new Set<() => void>());
 
-  const notify = () => listenersRef.current.forEach((f) => f());
+  const notify = () => {
+    setTranslatedCount(Object.keys(cacheRef.current).length);
+    setTranslating(busyRef.current || pendingRef.current.size > 0);
+  };
 
   const collectNodes = (): Text[] => {
     const out: Text[] = [];
