@@ -58,7 +58,7 @@ function MapScreen() {
       if (cancelled || !mapEl.current) return;
 
       if (!leafletMap.current) {
-        const map = L.map(mapEl.current, { zoomControl: false, attributionControl: false });
+        const map = L.map(mapEl.current, { zoomControl: false, attributionControl: false }).setView([20.5937, 78.9629], 5);
         const satellite = L.tileLayer(
           "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
           { maxZoom: 19 }
