@@ -7,6 +7,7 @@ import { useT, useLanguage, type Language } from "@/context/LanguageContext";
 import { useAuth } from "@/context/AuthContext";
 import { usePet } from "@/context/PetContext";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
+import { SPECIES, getSpecies, type SpeciesId } from "@/lib/species";
 
 export const Route = createFileRoute("/settings")({ component: Settings });
 
@@ -26,11 +27,12 @@ function Settings() {
   // ---- Multi-pet management ----
   const { pet, updatePet } = usePet();
   const PETS_KEY = "pawsitive_pets";
-  type PetEntry = { id: string; name: string; breed: string };
+  type PetEntry = { id: string; name: string; breed: string; species?: SpeciesId };
   const [pets, setPets] = useState<PetEntry[]>([]);
   const [addPetOpen, setAddPetOpen] = useState(false);
   const [newPetName, setNewPetName] = useState("");
   const [newPetBreed, setNewPetBreed] = useState("");
+  const [newPetSpecies, setNewPetSpecies] = useState<SpeciesId>("dog");
 
   useEffect(() => {
     if (typeof window === "undefined") return;
