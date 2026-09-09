@@ -61,12 +61,16 @@ function MapScreen() {
       <div style={{ margin: "12px 16px", padding: "14px 16px", background: "var(--bg-card)", borderRadius: 24, border: "1px solid var(--border-card)", boxShadow: CARD_SHADOW }}>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="relative inline-block green-pulse" style={{ width: 8, height: 8, borderRadius: "50%", background: "var(--accent-sakura)" }} />
-            <span style={{ fontSize: 13, fontWeight: 700, color: "var(--text-primary)" }}>{t("ライブ追跡中", "Live Tracking")}</span>
+            <span className="relative inline-block green-pulse" style={{ width: 8, height: 8, borderRadius: "50%", background: geo.tracking ? "var(--accent-sakura)" : "var(--text-placeholder)" }} />
+            <span style={{ fontSize: 13, fontWeight: 700, color: "var(--text-primary)" }}>
+              {geo.tracking ? t("ライブ追跡中", "Live Tracking") : geo.loading ? t("位置を取得中…", "Locating…") : t("位置情報オフ", "Location Off")}
+            </span>
           </div>
-          <div className="flex items-center gap-1.5" style={{ color: "var(--accent-sakura)" }}>
+          <div className="flex items-center gap-1.5" style={{ color: geo.tracking ? "var(--accent-sakura)" : "var(--text-placeholder)" }}>
             <Satellite size={14} />
-            <span style={{ fontSize: 12, fontWeight: 600 }}>GPS ✓</span>
+            <span style={{ fontSize: 12, fontWeight: 600 }}>
+              {geo.coords ? `${geo.coords.lat.toFixed(4)}, ${geo.coords.lon.toFixed(4)}` : "GPS —"}
+            </span>
           </div>
         </div>
         <div style={{ fontSize: 11, color: "var(--text-secondary)", marginTop: 2 }}>
