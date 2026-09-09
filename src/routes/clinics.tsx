@@ -886,9 +886,18 @@ function DirectionsView({ clinic, onClose }: { clinic: ClinicItem; onClose: () =
         <div className="flex gap-2" style={{ margin: "14px 16px 20px" }}>
           <button
             onClick={() => {
-              if (typeof window !== "undefined") {
-                const origin = geo.coords ? `&origin=${geo.coords.lat},${geo.coords.lon}` : "";
-                window.open(`https://www.google.com/maps/dir/?api=1${origin}&destination=${clinic.lat != null ? `${clinic.lat},${clinic.lon}` : encodeURIComponent(clinic.en)}`, "_blank");
+              if (typeof window === "undefined") return;
+              const origin = geo.coords ? `&origin=${geo.coords.lat},${geo.coords.lon}` : "";
+              const destination =
+                destLat != null && destLon != null
+                  ? `${destLat},${destLon}`
+                  : encodeURIComponent(`${clinic.en} ${clinic.address ?? ""}`.trim());
+              const url = `https://www.google.com/maps/dir/?api=1${origin}&destination=${destination}&travelmode=driving&dir_action=navigate`;
+              const win = window.open(url, "_blank", "noopener,noreferrer");
+              if (!win) {
+                // Preview iframes can block popups — navigate the top window instead
+                try { (window.top ?? window).location.href = url; }
+                catch { window.location.href = url; }
               }
             }}
             className="flex items-center justify-center gap-1.5 active:scale-[0.97] transition-transform"
