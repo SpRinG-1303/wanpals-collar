@@ -12,11 +12,11 @@ export const BREEDS = [
 ];
 
 export const DAILY_FACTS = [
-  { jp: "Animals have unique nose prints, just like human fingerprints.", en: "Dogs have unique nose prints, just like human fingerprints." },
+  { jp: "Animals have unique nose prints, just like human fingerprints.", en: "Animals have unique nose prints, just like human fingerprints." },
   { jp: "The Indian Pariah Dog is one of the world's oldest naturally evolved breeds — hardy, smart and perfectly suited to India's climate.", en: "The Indian Pariah Dog is one of the world's oldest naturally evolved breeds — hardy, smart and perfectly suited to India's climate." },
-  { jp: "Each animal's normal body temperature is 38.3–39.2°C, higher than humans.", en: "A dog's normal body temperature is 38.3–39.2°C, higher than humans." },
+  { jp: "Each animal's normal body temperature is 38.3–39.2°C, higher than humans.", en: "Each animal's normal body temperature is 38.3–39.2°C, higher than humans." },
   { jp: "Dogs can distinguish around 10,000 different scents.", en: "Dogs can distinguish around 10,000 different scents." },
-  { jp: "Animals dream too — they twitch during REM sleep.", en: "Dogs dream too — they twitch during REM sleep." },
+  { jp: "Animals dream too — they twitch during REM sleep.", en: "Animals dream too — they twitch during REM sleep." },
 ];
 
 export const CLINICS = [
