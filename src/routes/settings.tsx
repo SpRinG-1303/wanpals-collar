@@ -52,24 +52,28 @@ function Settings() {
   const displayPets: PetEntry[] = pets.length
     ? pets
     : pet.name
-      ? [{ id: "current", name: pet.name, breed: pet.breedEn || pet.breed || "Mixed" }]
+      ? [{ id: "current", name: pet.name, breed: pet.breedEn || pet.breed || "Mixed", species: pet.species }]
       : [];
 
   function switchPet(p: PetEntry) {
-    updatePet({ name: p.name, breed: p.breed, breedEn: p.breed });
+    const sp = p.species ?? pet.species ?? "dog";
+    updatePet({ name: p.name, breed: p.breed, breedEn: p.breed, breedJp: p.breed, species: sp });
     toast.success(`Switched to ${p.name}`);
   }
 
   function savePet() {
     const name = newPetName.trim();
     if (!name) { toast.error("Please enter your pet's name."); return; }
-    const entry: PetEntry = { id: `p${Date.now()}`, name, breed: newPetBreed.trim() || "Mixed Breed" };
+    const sp = getSpecies(newPetSpecies);
+    const breed = newPetBreed.trim() || sp.breeds[0];
+    const entry: PetEntry = { id: `p${Date.now()}`, name, breed, species: newPetSpecies };
     persistPets([...(pets.length ? pets : displayPets), entry]);
-    updatePet({ name: entry.name, breed: entry.breed, breedEn: entry.breed });
-    toast.success(`${name} added to your family.`);
+    updatePet({ name: entry.name, breed: entry.breed, breedEn: entry.breed, breedJp: entry.breed, species: newPetSpecies });
+    toast.success(`${name} the ${sp.label.toLowerCase()} added to your family.`);
     setAddPetOpen(false);
     setNewPetName("");
     setNewPetBreed("");
+    setNewPetSpecies("dog");
   }
 
   function removePet(id: string) {
@@ -224,7 +228,11 @@ function Settings() {
                   className="flex items-center justify-center shrink-0"
                   style={{ width: 40, height: 40, borderRadius: "50%", background: "var(--acc-pale)" }}
                 >
-                  <PawPrint size={18} style={{ color: "var(--accent-sakura)" }} />
+                  {p.species ? (
+                    <span style={{ fontSize: 19, lineHeight: 1 }}>{getSpecies(p.species).emoji}</span>
+                  ) : (
+                    <PawPrint size={18} style={{ color: "var(--acc-strong)" }} />
+                  )}
                 </span>
                 <span className="flex-1 min-w-0">
                   <span className="flex items-center gap-1.5 text-sm font-bold" style={{ color: "var(--text-primary)" }}>
@@ -363,12 +371,32 @@ function Settings() {
               <div className="font-bold">Add a Pet</div>
               <button onClick={() => setAddPetOpen(false)} aria-label="Close"><X className="w-5 h-5 text-muted-foreground" /></button>
             </div>
+            <div className="text-[11px] font-bold mb-2" style={{ color: "var(--text-secondary)" }}>What kind of animal?</div>
+            <div className="grid grid-cols-3 gap-2 mb-3">
+              {SPECIES.map((s) => {
+                const active = newPetSpecies === s.id;
+                return (
+                  <button
+                    key={s.id}
+                    onClick={() => setNewPetSpecies(s.id)}
+                    className="flex flex-col items-center justify-center rounded-xl py-2"
+                    style={{
+                      border: `1.5px solid ${active ? "var(--acc-strong)" : "var(--border-card)"}`,
+                      background: active ? "var(--acc-pale)" : "transparent",
+                    }}
+                  >
+                    <span style={{ fontSize: 20, lineHeight: 1 }}>{s.emoji}</span>
+                    <span className="text-[10px] font-bold mt-1" style={{ color: active ? "var(--acc-strong)" : "var(--text-secondary)" }}>{s.label}</span>
+                  </button>
+                );
+              })}
+            </div>
             <input
               autoFocus
               type="text"
               value={newPetName}
               onChange={(e) => setNewPetName(e.target.value)}
-              placeholder="Pet name *"
+              placeholder={`${getSpecies(newPetSpecies).label} name *`}
               className="w-full rounded-xl px-4 py-3 text-sm outline-none"
               style={{ background: "var(--acc-pale)", color: "var(--text-primary)" }}
             />
