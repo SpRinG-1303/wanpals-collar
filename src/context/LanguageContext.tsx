@@ -165,6 +165,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
   const setLanguage = (l: Language) => {
     langRef.current = l;
+    setLanguageState(l);
     setDisplayLanguage(l);
     cacheRef.current = loadCache(l);
     pendingRef.current.clear();
