@@ -9,6 +9,8 @@ import { toast } from "sonner";
 import { useT } from "@/context/LanguageContext";
 import { usePet, displayName } from "@/context/PetContext";
 import { useGeoLocation } from "@/lib/useGeoLocation";
+import { recordPoint, readTrail, distanceKm, type TrailPoint } from "@/lib/locationTrail";
+import { useNearbyVets } from "@/lib/useNearbyVets";
 
 export const Route = createFileRoute("/map")({ component: MapScreen });
 
@@ -36,6 +38,15 @@ function MapScreen() {
     const [showAllHistory, setShowAllHistory] = useState(false);
   const [sosActive, setSosActive] = useState(false);
   const geo = useGeoLocation();
+  const { vets } = useNearbyVets();
+  const nearestVet = vets[0];
+  // Real GPS trail — recorded from actual device positions only.
+  const [trail, setTrail] = useState<TrailPoint[]>(() => readTrail());
+  useEffect(() => {
+    if (!geo.coords) return;
+    const next = recordPoint(geo.coords.lat, geo.coords.lon, geo.label);
+    if (next) setTrail(next);
+  }, [geo.coords?.lat, geo.coords?.lon, geo.label]);
 
   const mapEl = useRef<HTMLDivElement>(null);
   const leafletMap = useRef<any>(null);
@@ -336,27 +347,31 @@ function MapScreen() {
           <span style={{ fontSize: 11, fontWeight: 600, color: "var(--accent-sakura)", background: "var(--accent-sakura-soft)", padding: "3px 10px", borderRadius: 20 }}>{t("今日", "Today")}</span>
         </div>
 
-        {[
-          { time: "14:30", jp: "ジョガーズパーク", en: "Joggers Park", dist: "+1.2km", color: "var(--accent-yuzu)" },
-          { time: "12:15", jp: "", en: "Near Bandra Stn", dist: "+0.5km", color: "var(--accent-sora)" },
-          { time: "09:00", jp: "自宅", en: "Home", dist: t("出発地", "Start"), color: "var(--accent-matcha)" },
-          ...(showAllHistory ? [
-            { time: "昨日 18:10", jp: "", en: "Carter Road Promenade", dist: "+2.1km", color: "var(--accent-yuzu)" },
-            { time: "昨日 07:45", jp: "", en: "Joggers Park", dist: "+1.4km", color: "var(--accent-sora)" },
-            { time: "月曜 17:20", jp: "", en: "Bandra Fort", dist: "+3.0km", color: "var(--accent-matcha)" },
-          ] : []),
-        ].map((h, i) => (
-          <div key={i} className="flex items-center gap-3" style={{ padding: "8px 0", borderTop: i === 0 ? "none" : "1px solid var(--bg-elevated)" }}>
-            <span style={{ width: 8, height: 8, borderRadius: "50%", background: h.color, flexShrink: 0 }} />
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-2">
-                <span style={{ fontSize: 12, color: "var(--text-secondary)" }}> {h.time}</span>
-                <span style={{ fontSize: 13, fontWeight: 700, color: "var(--text-primary)" }}> {t(h.jp, h.en)}</span>
-              </div>
-            </div>
-            <span style={{ fontSize: 11, color: "var(--accent-sakura)", fontWeight: 600 }}>{h.dist}</span>
+        {trail.length === 0 && (
+          <div style={{ fontSize: 12, color: "var(--text-secondary)", padding: "6px 0", lineHeight: 1.5 }}>
+            {t("履歴はまだありません。", "No movement recorded yet — allow location access and your real trail will appear here.")}
           </div>
-        ))}
+        )}
+        {[...trail].reverse().slice(0, showAllHistory ? 20 : 3).map((p, i, arr) => {
+          const prev = arr[i + 1];
+          const dist = prev ? `+${distanceKm(prev, p).toFixed(2)}km` : t("出発地", "Start");
+          return (
+            <div key={p.t} className="flex items-center gap-3" style={{ padding: "8px 0", borderTop: i === 0 ? "none" : "1px solid var(--bg-elevated)" }}>
+              <span style={{ width: 8, height: 8, borderRadius: "50%", background: "var(--accent-matcha)", flexShrink: 0 }} />
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2">
+                  <span style={{ fontSize: 12, color: "var(--text-secondary)" }}>
+                    {new Date(p.t).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                  </span>
+                  <span style={{ fontSize: 13, fontWeight: 700, color: "var(--text-primary)" }} className="truncate">
+                    {p.label || `${p.lat.toFixed(4)}, ${p.lon.toFixed(4)}`}
+                  </span>
+                </div>
+              </div>
+              <span style={{ fontSize: 11, color: "var(--accent-sakura)", fontWeight: 600 }}>{dist}</span>
+            </div>
+          );
+        })}
 
         <button onClick={() => setShowAllHistory((s) => !s)} className="flex items-center gap-1 mt-2" style={{ fontSize: 12, color: "var(--accent-sakura)", fontWeight: 600 }}>
           {showAllHistory ? t("履歴を閉じる", "Show Less") : t("全履歴を見る", "View Full History")} <ChevronRight size={14} style={{ transform: showAllHistory ? "rotate(90deg)" : "none", transition: "transform 0.2s" }} />
@@ -373,7 +388,9 @@ function MapScreen() {
             {t("最寄りの動物病院", "Nearest Animal Hospital")}
           </div>
           <div style={{ fontSize: 12, color: "var(--text-secondary)", marginTop: 2 }}>
-             {"Bandra Pet Hosp."} · 0.8km · 4.6 · 24H
+            {nearestVet
+              ? `${nearestVet.en} · ${nearestVet.km.toFixed(1)}km${nearestVet.em ? " · 24H" : ""}`
+              : t("検索中…", "Searching near your location…")}
           </div>
         </div>
         <div className="flex items-center justify-center" style={{ width: 36, height: 36, borderRadius: "50%", background: "var(--accent-sakura)", color: "#fff", flexShrink: 0 }}>
