@@ -226,7 +226,7 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
             </div>
             <div>
                <div style={{ fontSize: 21, fontWeight: 500, color: "var(--text-primary)", lineHeight: 1, fontFamily: "var(--font-display)" }}>MOooMENTUM</div>
-               <div style={{ fontSize: 10, fontWeight: 700, color: "var(--text-secondary)", marginTop: 5, letterSpacing: "0.1em", textTransform: "uppercase" }}>Diagnostics</div>
+               <div style={{ fontSize: 10, fontWeight: 700, color: "var(--text-secondary)", marginTop: 5, letterSpacing: "0.1em", textTransform: "uppercase" }}>Smart Animal Care</div>
             </div>
           </div>
 
