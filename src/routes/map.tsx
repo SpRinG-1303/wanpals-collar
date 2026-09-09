@@ -80,35 +80,21 @@ function MapScreen() {
 
       {/* MAP CARD */}
       <div style={{ margin: "12px 16px", borderRadius: 28, overflow: "hidden", height: 320, position: "relative", boxShadow: CARD_SHADOW, border: "1px solid var(--border-card)", background: "var(--acc-pale)" }}>
-        <div className="absolute inset-0" style={{ transform: `scale(${zoom})`, transformOrigin: "center center", transition: "transform 0.25s ease" }}>
-        {/* Base watercolor map */}
-        <div className="absolute inset-0" style={{
-          background: `
-            linear-gradient(135deg, color-mix(in oklab, var(--acc-soft) 60.0%, transparent) 0%, transparent 30%),
-            linear-gradient(135deg, transparent 60%, color-mix(in oklab, var(--acc-soft) 50.0%, transparent) 60%, color-mix(in oklab, var(--acc-soft) 50.0%, transparent) 68%, transparent 68%),
-            repeating-linear-gradient(90deg, transparent 0 58px, rgba(255,255,255,0.85) 58px 60px, transparent 60px 140px, rgba(255,255,255,0.9) 140px 144px),
-            repeating-linear-gradient(0deg, transparent 0 50px, rgba(255,255,255,0.8) 50px 52px, transparent 52px 110px, rgba(255,255,255,0.9) 110px 114px),
-            repeating-linear-gradient(45deg, transparent 0 100px, rgba(255,255,255,0.4) 100px 102px),
-            var(--acc-pale)
-          `,
-        }} />
-        {/* City blocks */}
-        <div className="absolute" style={{ left: 20, top: 30, width: 60, height: 40, background: "var(--acc-pale)", borderRadius: 3 }} />
-        <div className="absolute" style={{ left: 90, top: 25, width: 80, height: 50, background: "var(--acc-pale)", borderRadius: 3 }} />
-        <div className="absolute" style={{ left: 200, top: 40, width: 70, height: 60, background: "var(--acc-pale)", borderRadius: 3 }} />
-        <div className="absolute" style={{ left: 30, top: 120, width: 90, height: 50, background: "var(--acc-pale)", borderRadius: 3 }} />
-        <div className="absolute" style={{ left: 180, top: 180, width: 100, height: 60, background: "var(--acc-pale)", borderRadius: 3 }} />
-        <div className="absolute" style={{ left: 50, top: 240, width: 70, height: 50, background: "var(--acc-pale)", borderRadius: 3 }} />
-        {/* Parks */}
-        <div className="absolute" style={{ left: 140, top: 90, width: 50, height: 50, background: "var(--acc2-soft)", borderRadius: 12 }} />
-        <div className="absolute" style={{ right: 30, top: 130, width: 60, height: 40, background: "var(--acc2-soft)", borderRadius: 12 }} />
-        <div className="absolute" style={{ left: 25, bottom: 30, width: 45, height: 45, background: "var(--acc2-soft)", borderRadius: 14 }} />
-        {/* Map labels */}
-        <span className="absolute" style={{ left: 30, top: 80, fontSize: 9, color: "var(--acc-strong)", opacity: 0.4 }}>Linking Road</span>
-        <span className="absolute" style={{ left: 150, top: 110, fontSize: 9, color: "var(--acc-strong)", opacity: 0.4 }}>Joggers Park</span>
-        <span className="absolute" style={{ right: 40, top: 200, fontSize: 9, color: "var(--acc-strong)", opacity: 0.4 }}>Bandra Stn</span>
-        <span className="absolute" style={{ left: 200, bottom: 60, fontSize: 9, color: "var(--acc-strong)", opacity: 0.4 }}>Carter Road</span>
-        </div>
+        {/* Real map / satellite tiles centered on live GPS */}
+        {geo.coords ? (
+          <iframe
+            key={`${mapType}-${geo.coords.lat.toFixed(4)}-${geo.coords.lon.toFixed(4)}`}
+            title="Live pet location map"
+            src={`https://maps.google.com/maps?q=${geo.coords.lat},${geo.coords.lon}&z=${Math.round(14 + zoom * 2)}&t=${mapType === "satellite" ? "k" : "m"}&output=embed`}
+            className="absolute inset-0"
+            style={{ width: "100%", height: "100%", border: 0, pointerEvents: "none" }}
+            loading="lazy"
+          />
+        ) : (
+          <div className="absolute inset-0 flex items-center justify-center" style={{ background: "var(--acc-pale)", color: "var(--text-secondary)", fontSize: 13, fontWeight: 600 }}>
+            {geo.loading ? t("位置を取得中…", "Locating…") : t("位置情報オフ", "Location Off")}
+          </div>
+        )}
 
         {/* Collar GPS badge top-left */}
         <div className="absolute" style={{ top: 12, left: 12, background: "#FFFFFF", padding: "5px 10px", borderRadius: 12, fontSize: 11, color: "var(--accent-matcha)", fontWeight: 700, boxShadow: "0 2px 8px rgba(0,0,0,0.08)" }}>
