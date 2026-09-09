@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import AppShell from "@/components/AppShell";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Navigation, AlertTriangle, Phone, Shield, History, Crosshair,
   Plus, Minus, Satellite, ChevronRight, Stethoscope,
@@ -37,6 +37,92 @@ function MapScreen() {
   const [showAllHistory, setShowAllHistory] = useState(false);
   const [sosActive, setSosActive] = useState(false);
   const geo = useGeoLocation();
+
+  const mapEl = useRef<HTMLDivElement>(null);
+  const leafletMap = useRef<any>(null);
+  const layers = useRef<any>({});
+  const mapTypeRef = useRef(mapType);
+  mapTypeRef.current = mapType;
+
+  // Init + update real satellite/street map (client only)
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      if (!document.getElementById("leaflet-css")) {
+        const link = document.createElement("link");
+        link.id = "leaflet-css";
+        link.rel = "stylesheet";
+        link.href = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
+        document.head.appendChild(link);
+      }
+      const L = await import("leaflet");
+      if (cancelled || !mapEl.current) return;
+
+      if (!leafletMap.current) {
+        const map = L.map(mapEl.current, { zoomControl: false, attributionControl: false });
+        const satellite = L.tileLayer(
+          "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+          { maxZoom: 19 }
+        );
+        const street = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 19 });
+        layers.current = { satellite, street };
+        satellite.addTo(map);
+        leafletMap.current = map;
+      }
+      const map = leafletMap.current;
+
+      // Toggle base layer
+      const target = mapTypeRef.current === "satellite" ? "satellite" : "street";
+      Object.entries(layers.current).forEach(([k, layer]: any) => {
+        if (k === target) { if (!map.hasLayer(layer)) layer.addTo(map); }
+        else if (map.hasLayer(layer)) map.removeLayer(layer);
+      });
+
+      if (geo.coords) {
+        const petPos: [number, number] = [geo.coords.lat + 0.0004, geo.coords.lon + 0.0003];
+        const youPos: [number, number] = [geo.coords.lat, geo.coords.lon];
+        map.setView(petPos, map.getZoom() < 10 ? 17 : map.getZoom());
+
+        (layers.current.overlays ?? []).forEach((o: any) => map.removeLayer(o));
+        const overlays: any[] = [];
+
+        if (safeZone) {
+          overlays.push(L.circle(petPos, {
+            radius, color: "#3E7C59", weight: 2, dashArray: "6 6",
+            fillColor: "#3E7C59", fillOpacity: 0.08,
+          }));
+          overlays.push(L.marker(petPos, { interactive: false, icon: L.divIcon({
+            className: "", iconSize: [80, 20], iconAnchor: [40, -radius * 0 - 6],
+            html: `<div style="background:#fff;border:1px solid #3E7C59;color:#3E7C59;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;white-space:nowrap;width:max-content;transform:translateY(-14px)">Safe Zone</div>`,
+          })}));
+        }
+
+        overlays.push(L.marker(youPos, { interactive: false, icon: L.divIcon({
+          className: "", iconSize: [16, 16], iconAnchor: [8, 8],
+          html: `<div style="position:relative;width:16px;height:16px">
+            <div style="position:absolute;inset:-12px;border-radius:50%;background:rgba(90,124,158,.15);border:1px dashed rgba(90,124,158,.4)"></div>
+            <div style="position:absolute;inset:0;border-radius:50%;background:#5A7C9E;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.3)"></div>
+            <div style="position:absolute;top:-24px;left:50%;transform:translateX(-50%);background:#fff;border:1px solid #5A7C9E;color:#5A7C9E;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;white-space:nowrap">You</div>
+          </div>`,
+        })}));
+
+        overlays.push(L.marker(petPos, { interactive: false, icon: L.divIcon({
+          className: "", iconSize: [20, 20], iconAnchor: [10, 10],
+          html: `<div style="position:relative;width:20px;height:20px">
+            <div style="position:absolute;inset:-14px;border-radius:50%;background:rgba(31,122,114,.15);border:2px solid rgba(31,122,114,.4);animation:mapPulse 2s ease-in-out infinite"></div>
+            <div style="position:absolute;inset:0;border-radius:50%;background:#1F7A72;border:3px solid #fff;box-shadow:0 4px 12px rgba(0,0,0,.35)"></div>
+            <div style="position:absolute;top:-26px;left:50%;transform:translateX(-50%);background:#fff;border:1px solid #1F7A72;color:#1F7A72;font-size:11px;font-weight:700;padding:3px 8px;border-radius:20px;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,.15)">${dogName}</div>
+          </div>`,
+        })}));
+
+        overlays.forEach((o) => o.addTo(map));
+        layers.current.overlays = overlays;
+      }
+    })();
+    return () => { cancelled = true; };
+  }, [geo.coords?.lat, geo.coords?.lon, mapType, safeZone, radius, dogName]);
+
+  useEffect(() => () => { leafletMap.current?.remove(); leafletMap.current = null; }, []);
 
   const openDirections = () => {
     const dest = geo.coords
