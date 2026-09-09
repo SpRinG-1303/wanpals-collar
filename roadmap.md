@@ -10,3 +10,4 @@
 - [ ] Remove leftover "Diagnostics" brand line under MOooMENTUM (AppShell, SideDrawer)
 - [ ] Replace species emojis with real, consistent-aesthetic animal photos (cow, buffalo, goat, sheep, dog, cat)
 - [ ] Remove BarkSense AI from everywhere (route, home grid, references)
+- [ ] Restore original Collar GPS map design (safe zone, My Pet/You pills, Map/Satellite toggle, zoom) with real-time location underneath
