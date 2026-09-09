@@ -8,7 +8,7 @@ import {
   type ReactNode,
 } from "react";
 
-export type SensorKey = "bark" | "skin" | "motion" | "temp" | "pressure" | "light";
+export type SensorKey = "skin" | "motion" | "temp" | "pressure" | "light";
 
 export interface LiveReading {
   value: number;
@@ -20,7 +20,7 @@ export interface LiveReading {
 type LiveMap = Record<SensorKey, LiveReading | null>;
 
 const EMPTY_LIVE: LiveMap = {
-  bark: null, skin: null, motion: null, temp: null, pressure: null, light: null,
+  skin: null, motion: null, temp: null, pressure: null, light: null,
 };
 
 export type CollarState = "idle" | "connecting" | "connected";
@@ -48,7 +48,7 @@ const BATTERY_SERVICE = 0x180f;
 const BATTERY_LEVEL = 0x2a19;
 
 const UNITS: Record<SensorKey, string> = {
-  bark: "dB", skin: "", motion: "steps", temp: "°C", pressure: "kPa", light: "lux",
+  skin: "", motion: "steps", temp: "°C", pressure: "kPa", light: "lux",
 };
 
 interface BLEDevice {

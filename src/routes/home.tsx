@@ -3,7 +3,7 @@ import AppShell from "@/components/AppShell";
 import { useEffect, useState, type ReactNode } from "react";
 import { getSpecies } from "@/lib/species";
 import {
-  Brain, Microscope, Activity, Thermometer, MapPin, Wind, Sun, GitMerge,
+  Microscope, Activity, Thermometer, MapPin, Wind, Sun, GitMerge,
   Bluetooth, BatteryMedium, PawPrint, Search, SlidersHorizontal,
   ChevronDown, ArrowUpRight, HeartHandshake, Stethoscope, type LucideIcon,
 } from "lucide-react";
