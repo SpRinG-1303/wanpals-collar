@@ -474,6 +474,9 @@ function applyFilters(list: MatchProfile[], f: Filters) {
 
 /* ── Full-screen discovery ─────────────────────────────────── */
 export function PetMatchDiscovery({ startId, onClose }: { startId: string; onClose: () => void }) {
+  const { pet } = usePet();
+  const sp = getSpecies(pet.species);
+  const profiles = useMemo(() => profilesForSpecies(sp), [sp.id]);
   const [filters, setFilters] = useState<Filters>(DEFAULT_FILTERS);
   const [draft, setDraft] = useState<Filters>(DEFAULT_FILTERS);
   const [filtersOpen, setFiltersOpen] = useState(false);
@@ -482,8 +485,8 @@ export function PetMatchDiscovery({ startId, onClose }: { startId: string; onClo
   const [interestedIds, setInterestedIds] = useState<Record<string, boolean>>({});
   const [dir, setDir] = useState<1 | -1>(1);
 
-  const list = useMemo(() => applyFilters(MATCH_PROFILES, filters), [filters]);
-  const [index, setIndex] = useState(() => Math.max(0, MATCH_PROFILES.findIndex((p) => p.id === startId)));
+  const list = useMemo(() => applyFilters(profiles, filters), [profiles, filters]);
+  const [index, setIndex] = useState(() => Math.max(0, profiles.findIndex((p) => p.id === startId)));
 
   useEffect(() => {
     // clamp when filters change
