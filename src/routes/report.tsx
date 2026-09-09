@@ -238,58 +238,67 @@ function Report() {
   );
 }
 
-/* ─────────── Health Summary Card ─────────── */
-function HeroCard({ pet: _pet, dogName: _dogName }: { pet: PetProfile; dogName: string }) {
+/* ─────────── Health Summary Card (real data only) ─────────── */
+function EmptyChart() {
   const t = useT();
-  const score = 87;
-  const r = 44;
-  const circ = 2 * Math.PI * r;
-  const offset = circ - (score / 100) * circ;
-
   return (
     <div style={{
-      ...glass,
-      marginBottom: 16,
-      overflow: "hidden",
-      borderRadius: 24,
+      height: 160, display: "flex", flexDirection: "column", alignItems: "center",
+      justifyContent: "center", gap: 6, textAlign: "center", padding: "0 20px",
     }}>
+      <span style={{ fontSize: 22, color: C.moss }}>—</span>
+      <span style={{ fontSize: 12, color: C.moss, lineHeight: 1.4 }}>
+        {t("データがありません", "No readings recorded yet. Connect the collar to start collecting data.")}
+      </span>
+    </div>
+  );
+}
+
+function HeroCard({ avgTemp, avgSteps, avgPressure }: {
+  avgTemp: number | null; avgSteps: number | null; avgPressure: number | null;
+}) {
+  const t = useT();
+  const { connected, receiving, live } = useCollar();
+  const active = (Object.keys(live) as (keyof typeof live)[]).filter((k) => live[k]).length;
+  const score = receiving ? Math.round((active / 5) * 100) : null;
+  const r = 44;
+  const circ = 2 * Math.PI * r;
+  const offset = circ - ((score ?? 0) / 100) * circ;
+
+  return (
+    <div style={{ ...glass, marginBottom: 16, overflow: "hidden", borderRadius: 24 }}>
       <div style={{ height: 8, background: `linear-gradient(90deg, ${C.kombu}, ${C.moss}, ${C.tan})` }} />
       <div style={{ padding: 20 }}>
-        {/* Ring + stats */}
         <div style={{ display: "grid", gridTemplateColumns: "auto 1fr", gap: 20, alignItems: "center" }}>
           <div style={{ position: "relative", width: 100, height: 100 }}>
             <svg width={100} height={100} viewBox="0 0 100 100">
               <circle cx={50} cy={50} r={r} stroke="color-mix(in oklab, var(--acc-deep) 25.0%, transparent)" strokeWidth={10} fill="none" />
-              <circle
-                cx={50} cy={50} r={r} stroke={C.kombu} strokeWidth={10} fill="none"
-                strokeLinecap="round" strokeDasharray={circ} strokeDashoffset={offset}
-                transform="rotate(-90 50 50)"
-              />
+              {score != null && (
+                <circle cx={50} cy={50} r={r} stroke={C.kombu} strokeWidth={10} fill="none"
+                  strokeLinecap="round" strokeDasharray={circ} strokeDashoffset={offset}
+                  transform="rotate(-90 50 50)" />
+              )}
             </svg>
-            <div style={{
-              position: "absolute", inset: 0,
-              display: "flex", flexDirection: "column",
-              alignItems: "center", justifyContent: "center",
-            }}>
+            <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
               <div style={{ display: "flex", alignItems: "baseline", gap: 2 }}>
-                <span style={{ fontSize: 28, fontWeight: 700, color: C.cafe, lineHeight: 1 }}>{score}</span>
-                <span style={{ fontSize: 12, color: C.moss }}>/100</span>
+                <span style={{ fontSize: 28, fontWeight: 700, color: C.cafe, lineHeight: 1 }}>{score ?? "—"}</span>
+                {score != null && <span style={{ fontSize: 12, color: C.moss }}>/100</span>}
               </div>
               <span style={{ fontSize: 9, color: C.moss, letterSpacing: "0.1em", marginTop: 2 }}>
-                {t("スコア", "SCORE")}
+                {t("スコア", "SENSORS")}
               </span>
             </div>
           </div>
 
           <div style={{ display: "flex", flexDirection: "column" }}>
             <StatRow icon={<Thermometer size={16} color={C.kombu} />}
-              labelJp="体温" labelEn="Avg Temp" value="38.5°C" />
+              labelJp="体温" labelEn="Avg Temp" value={avgTemp == null ? "—" : `${avgTemp.toFixed(1)}°C`} />
             <div style={{ height: 1, background: "color-mix(in oklab, var(--acc-deep) 20.0%, transparent)" }} />
             <StatRow icon={<Footprints size={16} color={C.kombu} />}
-              labelJp="歩数" labelEn="Avg Steps" value="2,340" />
+              labelJp="歩数" labelEn="Avg Motion" value={avgSteps == null ? "—" : Math.round(avgSteps).toLocaleString()} />
             <div style={{ height: 1, background: "color-mix(in oklab, var(--acc-deep) 20.0%, transparent)" }} />
-            <StatRow icon={<Moon size={16} color={C.kombu} />}
-              labelJp="睡眠" labelEn="Sleep" value="7.5h" />
+            <StatRow icon={<Activity size={16} color={C.kombu} />}
+              labelJp="圧力" labelEn="Avg Pressure" value={avgPressure == null ? "—" : avgPressure.toFixed(1)} />
           </div>
         </div>
 
@@ -299,12 +308,12 @@ function HeroCard({ pet: _pet, dogName: _dogName }: { pet: PetProfile; dogName: 
           <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
             <CheckCircle2 size={14} color={C.moss} />
             <span style={{ fontSize: 12, color: C.moss, fontWeight: 600 }}>
-              {t("全センサー正常", "All sensors normal")}
+              {connected
+                ? t("センサー受信中", `${active} of 5 sensors reporting`)
+                : t("首輪が未接続です", "Collar not connected")}
             </span>
           </div>
-          <span style={{ fontSize: 11, color: C.tan }}>
-            {t("2026年5月16日", "May 16, 2026")}
-          </span>
+          <span style={{ fontSize: 11, color: C.tan }}>{new Date().toLocaleDateString()}</span>
         </div>
       </div>
     </div>
@@ -422,27 +431,13 @@ function NiceTooltip({ active, payload, label, suffix }: any) {
   );
 }
 
-/* ─────────── Vaccination Card ─────────── */
-type VaxStatus = "current" | "soon";
+/* ─────────── Vaccination Card (user records only) ─────────── */
 function VaccinationCard() {
   const t = useT();
-  const vaccines: { jp: string; en: string; date: string; status: VaxStatus }[] = [
-    { jp: "狂犬病", en: "Rabies", date: "2025/04/15", status: "current" },
-    { jp: "混合ワクチン", en: "Combination", date: "2025/03/02", status: "current" },
-    { jp: "フィラリア", en: "Heartworm", date: "2026/01/20", status: "current" },
-    { jp: "ノミ・マダニ", en: "Flea & Tick", date: t("次回 2026年6月", "Next: Jun 2026"), status: "soon" },
-  ];
+  const vaccines: { en: string; date: string }[] = [];
   return (
-    <div style={{
-      ...glass,
-      marginBottom: 12,
-      overflow: "hidden",
-      borderLeft: `4px solid ${C.moss}`,
-    }}>
-      <div style={{
-        display: "flex", justifyContent: "space-between", alignItems: "center",
-        padding: "14px 16px 10px",
-      }}>
+    <div style={{ ...glass, marginBottom: 12, overflow: "hidden", borderLeft: `4px solid ${C.moss}` }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "14px 16px 10px" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <Syringe size={18} color={C.moss} />
           <span style={{ fontSize: 14, fontWeight: 700, color: C.cafe }}>
@@ -452,80 +447,28 @@ function VaccinationCard() {
         <span style={{
           background: "color-mix(in oklab, var(--acc-deep) 15.0%, transparent)", color: C.kombu, fontSize: 11, fontWeight: 700,
           padding: "3px 10px", borderRadius: 20, border: `1px solid ${C.moss}`,
-        }}>{t("4件", "4 records")}</span>
+        }}>{vaccines.length} {t("件", "records")}</span>
       </div>
-      <div>
-        {vaccines.map((v, i) => <VaccineRow key={v.en} {...v} isLast={i === vaccines.length - 1} />)}
+      <div style={{ padding: "0 16px 16px", fontSize: 12, color: C.moss, lineHeight: 1.5 }}>
+        {t("記録はまだありません。", "No vaccination records yet — they appear here once your vet adds them.")}
       </div>
     </div>
   );
 }
 
-function VaccineRow({ jp, en, date, status, isLast }: {
-  jp: string; en: string; date: string; status: VaxStatus; isLast: boolean;
-}) {
-  const t = useT();
-  const cfg = status === "current"
-    ? {
-        icon: <Check size={16} color={C.kombu} />,
-        bg: "color-mix(in oklab, var(--acc-deep) 10.0%, transparent)",
-        chipBg: C.kombu,
-        chipBorder: C.kombu,
-        chipColor: C.bone,
-        chipText: t("最新", "Current"),
-      }
-    : {
-        icon: <Clock size={16} color={C.cafe} />,
-        bg: "color-mix(in oklab, var(--acc-strong) 30.0%, transparent)",
-        chipBg: C.tan,
-        chipBorder: C.tan,
-        chipColor: C.cafe,
-        chipText: t("もうすぐ", "Soon"),
-      };
-  return (
-    <div style={{
-      display: "flex", alignItems: "center", gap: 12,
-      padding: "0 16px", height: 56,
-      borderBottom: isLast ? "none" : "1px solid color-mix(in oklab, var(--acc-deep) 15.0%, transparent)",
-    }}>
-      <div style={{
-        width: 32, height: 32, borderRadius: "50%", background: cfg.bg,
-        display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
-      }}>{cfg.icon}</div>
-      <div style={{ flex: 1, minWidth: 0 }}>
-        <div style={{ fontSize: 14, fontWeight: 600, color: C.cafe, lineHeight: 1.2 }}>
-          {t(jp, en)}
-        </div>
-        <div style={{ fontSize: 11, color: C.moss }}>{en}</div>
-      </div>
-      <span style={{ fontSize: 12, color: C.moss, whiteSpace: "nowrap" }}>{date}</span>
-      <span style={{
-        background: cfg.chipBg, color: cfg.chipColor, fontSize: 10, fontWeight: 700,
-        padding: "3px 8px", borderRadius: 12, whiteSpace: "nowrap",
-        border: `1px solid ${cfg.chipBorder}`,
-      }}>{cfg.chipText}</span>
-    </div>
-  );
-}
-
-/* ─────────── Last Visit Card ─────────── */
+/* ─────────── Last Visit Card (no records yet) ─────────── */
 function LastVisitCard() {
   const t = useT();
   const nav = useNavigate();
   return (
-    <div style={{
-      ...glass,
-      marginBottom: 12,
-      overflow: "hidden",
-      borderLeft: `4px solid ${C.kombu}`,
-    }}>
+    <div style={{ ...glass, marginBottom: 12, overflow: "hidden", borderLeft: `4px solid ${C.kombu}` }}>
       <div style={{ padding: "14px 16px 4px", display: "flex", alignItems: "center", gap: 10 }}>
         <Stethoscope size={18} color={C.cafe} />
         <span style={{ fontSize: 14, fontWeight: 700, color: C.cafe }}>
           {t("最後の診察", "Last Vet Visit")}
         </span>
       </div>
-      <div style={{ padding: "8px 16px 12px", display: "flex", gap: 12, alignItems: "center" }}>
+      <div style={{ padding: "8px 16px 14px", display: "flex", gap: 12, alignItems: "center" }}>
         <div style={{
           width: 48, height: 48, borderRadius: "50%", background: "color-mix(in oklab, var(--acc-deep) 12.0%, transparent)",
           display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
@@ -533,18 +476,10 @@ function LastVisitCard() {
           <Cross size={22} color={C.kombu} />
         </div>
         <div style={{ flex: 1 }}>
-          <div style={{ fontSize: 15, fontWeight: 700, color: C.cafe, lineHeight: 1.2 }}>
-            {t("渋谷動物病院", "Shibuya Animal Hospital")}
+          <div style={{ fontSize: 14, fontWeight: 700, color: C.cafe, lineHeight: 1.3 }}>—</div>
+          <div style={{ fontSize: 12, color: C.moss, marginTop: 2, lineHeight: 1.4 }}>
+            {t("診察記録はまだありません。", "No visits recorded yet. Book a clinic to start your pet's history.")}
           </div>
-          <div style={{ fontSize: 12, color: C.moss, marginTop: 2 }}>
-            {t("2026年4月20日", "Apr 20, 2026")}
-          </div>
-          <span style={{
-            display: "inline-block", marginTop: 6, fontSize: 11, fontWeight: 700,
-            background: "color-mix(in oklab, var(--acc-deep) 10.0%, transparent)", color: C.kombu,
-            border: "1px solid color-mix(in oklab, var(--acc-deep) 25.0%, transparent)",
-            padding: "3px 10px", borderRadius: 20,
-          }}>{t("健康診断: 異常なし ✓", "Health check: All clear ✓")}</span>
         </div>
       </div>
       <div style={{
@@ -553,19 +488,14 @@ function LastVisitCard() {
       }}>
         <div>
           <div style={{ fontSize: 11, color: C.moss }}>{t("次回予約", "Next Appointment")}</div>
-          <div style={{ fontSize: 12, color: C.cafe, fontWeight: 600 }}>
-            {t("未定", "Not scheduled")}
-          </div>
+          <div style={{ fontSize: 12, color: C.cafe, fontWeight: 600 }}>{t("未定", "Not scheduled")}</div>
         </div>
         <button
           onClick={() => nav({ to: "/clinics" })}
           style={{
             background: "color-mix(in oklab, var(--acc-deep) 8.0%, transparent)", color: C.kombu, fontSize: 12, fontWeight: 700,
             border: `1px solid ${C.kombu}`, borderRadius: 12, padding: "6px 16px",
-            transition: "background 0.2s",
           }}
-          onMouseEnter={(e) => (e.currentTarget.style.background = "color-mix(in oklab, var(--acc-deep) 16.0%, transparent)")}
-          onMouseLeave={(e) => (e.currentTarget.style.background = "color-mix(in oklab, var(--acc-deep) 8.0%, transparent)")}
         >
           {t("予約する →", "Book Now →")}
         </button>
