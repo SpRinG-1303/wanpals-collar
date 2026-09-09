@@ -33,8 +33,8 @@ type Breed = {
   temperamentJp: string;
   temperamentEn: string;
   lifeSpan: string;
-  diagnosticNoteJp?: string;
-  diagnosticNoteEn?: string;
+  diagnosticNoteJp: string;
+  diagnosticNoteEn: string;
   // Banner styling
   bannerBg: string;
   rankBg: string;
