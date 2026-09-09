@@ -787,7 +787,7 @@ function Community() {
       {/* Compose sheet */}
       <AnimatePresence>
         {composeOpen && (
-          <ComposeSheet breed={breed} onClose={() => setComposeOpen(false)} onSubmit={addPost} />
+          <ComposeSheet breed={myBreed} onClose={() => setComposeOpen(false)} onSubmit={addPost} />
         )}
       </AnimatePresence>
 
