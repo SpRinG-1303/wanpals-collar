@@ -278,11 +278,7 @@ function AI() {
   };
   const focusInput = () => inputRef.current?.focus();
 
-  const pickText = (m: Msg) => {
-    if (language === "english") return m.en;
-    if (language === "japanese") return m.jp;
-    return null;
-  };
+  const pickText = (m: Msg) => m.en;
 
   return (
     <AppShell
