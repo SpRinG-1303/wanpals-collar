@@ -289,7 +289,7 @@ function Step1({
 
   return (
     <div style={{ paddingBottom: 120 }}>
-      <StepNav step={1} label="Dog Avatar" onBack={onBack} />
+      <StepNav step={1} label="Pet Avatar" onBack={onBack} />
 
       <h2 style={{ textAlign: "center", fontSize: 22, fontWeight: 800, margin: "8px 16px 16px" }}>
         Create Your Pet's Avatar
@@ -529,7 +529,7 @@ function Step2({
             />
           </div>
           <p style={{ fontSize: 12, color: MUTED, margin: 0, lineHeight: 1.5 }}>
-            Your customised dog avatar will be used as a fallback for your sticker pack.
+            Your customised pet avatar will be used as a fallback for your sticker pack.
           </p>
         </div>
       </div>

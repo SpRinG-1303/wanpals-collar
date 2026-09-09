@@ -12,11 +12,11 @@ export const BREEDS = [
 ];
 
 export const DAILY_FACTS = [
-  { jp: "Dogs have unique nose prints, just like human fingerprints.", en: "Dogs have unique nose prints, just like human fingerprints." },
+  { jp: "Animals have unique nose prints, just like human fingerprints.", en: "Animals have unique nose prints, just like human fingerprints." },
   { jp: "The Indian Pariah Dog is one of the world's oldest naturally evolved breeds — hardy, smart and perfectly suited to India's climate.", en: "The Indian Pariah Dog is one of the world's oldest naturally evolved breeds — hardy, smart and perfectly suited to India's climate." },
-  { jp: "A dog's normal body temperature is 38.3–39.2°C, higher than humans.", en: "A dog's normal body temperature is 38.3–39.2°C, higher than humans." },
+  { jp: "Each animal's normal body temperature is 38.3–39.2°C, higher than humans.", en: "Each animal's normal body temperature is 38.3–39.2°C, higher than humans." },
   { jp: "Dogs can distinguish around 10,000 different scents.", en: "Dogs can distinguish around 10,000 different scents." },
-  { jp: "Dogs dream too — they twitch during REM sleep.", en: "Dogs dream too — they twitch during REM sleep." },
+  { jp: "Animals dream too — they twitch during REM sleep.", en: "Animals dream too — they twitch during REM sleep." },
 ];
 
 export const CLINICS = [
@@ -29,7 +29,7 @@ export const CLINICS = [
 
 export const POSTS = [
   { id: "1", user: "Priya & Bruno", breed: "Indian Pariah Dog", time: "3h ago", titleJp: "My Indie's temp seems high", titleEn: "My Indie's temp seems high", flair: "健康", up: 47, com: 12, location: "Bandra, Mumbai" },
-  { id: "2", user: "Mumbai Dog Lover", breed: "Indian Spitz", time: "5h ago", titleJp: "Recommended vet in Mumbai?", titleEn: "Recommended vet in Mumbai?", flair: "獣医Q&A", up: 23, com: 34, location: "Andheri, Mumbai" },
+  { id: "2", user: "Mumbai Animal Lover", breed: "Indian Spitz", time: "5h ago", titleJp: "Recommended vet in Mumbai?", titleEn: "Recommended vet in Mumbai?", flair: "獣医Q&A", up: 23, com: 34, location: "Andheri, Mumbai" },
   { id: "3", user: "Arjun's Pack", breed: "Labrador Retriever", time: "Yesterday", titleJp: "Our daily walk routine at Marine Drive", titleEn: "Our daily walk routine at Marine Drive", flair: "日常", up: 89, com: 6, location: "Marine Drive, Mumbai" },
   { id: "4", user: "Lost Pet Support", breed: "Mixed Breed", time: "2h ago", titleJp: "Did you see a black Indie near Bandra station?", titleEn: "Did you see a black Indie near Bandra station?", flair: "迷子", up: 156, com: 28, location: "Bandra, Mumbai" },
 ];

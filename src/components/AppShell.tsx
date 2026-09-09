@@ -13,7 +13,7 @@ import { useAuth } from "@/context/AuthContext";
    clinical console (/home), body map, e-Rx and their profile. */
 const VET_BLOCKED_PREFIXES = [
   "/map", "/clinics", "/community", "/ai", "/breeds", "/report",
-  "/bark-sense", "/skin-sense", "/motion-sense", "/temp-sense",
+  "/skin-sense", "/motion-sense", "/temp-sense",
   "/pressure-sense", "/light-sense", "/avatar-setup", "/onboarding",
 ];
 
@@ -74,7 +74,8 @@ export function TopBar({
                   MOooMENTUM
                 </span>
                 <span style={{ fontSize: 9, fontWeight: 700, color: "var(--text-secondary)", textTransform: "uppercase", letterSpacing: "0.12em" }}>
-                  Diagnostics
+                  Smart Animal Care
+                
                 </span>
               </div>
             </Link>

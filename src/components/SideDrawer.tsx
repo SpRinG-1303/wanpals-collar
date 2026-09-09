@@ -22,7 +22,7 @@ const MAIN_ITEMS: Item[] = [
   { route: "/map", Icon: MapPin, iconBg: "var(--acc2-pale)", iconColor: "var(--accent-sora)", labelJp: "地図", labelEn: "Map", subJp: "位置トラッカー", subEn: "Location Tracker" },
   { route: "/ai", Icon: Bot, iconBg: "var(--acc-pale)", iconColor: "var(--accent-fuji)", labelJp: "AIアシスタント", labelEn: "AI Assistant", subJp: "AIチャット", subEn: "MOooMENTUM AI" },
   { route: "/clinics", Icon: HeartPulse, iconBg: "var(--acc-pale)", iconColor: "var(--accent-sora)", labelJp: "クリニック", labelEn: "Clinics", subJp: "獣医を探す", subEn: "Find Vets" },
-  { route: "/community", Icon: Users, iconBg: "var(--acc-pale)", iconColor: "var(--accent-yuzu)", labelJp: "コミュニティ", labelEn: "Community", subJp: "犬の家族", subEn: "Dog Families" },
+  { route: "/community", Icon: Users, iconBg: "var(--acc-pale)", iconColor: "var(--accent-yuzu)", labelJp: "コミュニティ", labelEn: "Community", subJp: "犬の家族", subEn: "Animal Families" },
 ];
 
 const SECONDARY_ITEMS: Item[] = [
@@ -159,7 +159,7 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
 
   const Divider = () => <div style={{ height: 1, background: "var(--border-subtle)", margin: "8px 20px" }} />;
 
-  const name = displayName(pet, t("ワンちゃん", "My Dog"));
+  const name = displayName(pet, t("ワンちゃん", "My Pet"));
 
   return (
     <>
@@ -226,7 +226,7 @@ export default function SideDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
             </div>
             <div>
                <div style={{ fontSize: 21, fontWeight: 500, color: "var(--text-primary)", lineHeight: 1, fontFamily: "var(--font-display)" }}>MOooMENTUM</div>
-               <div style={{ fontSize: 10, fontWeight: 700, color: "var(--text-secondary)", marginTop: 5, letterSpacing: "0.1em", textTransform: "uppercase" }}>Diagnostics</div>
+               <div style={{ fontSize: 10, fontWeight: 700, color: "var(--text-secondary)", marginTop: 5, letterSpacing: "0.1em", textTransform: "uppercase" }}>Smart Animal Care</div>
             </div>
           </div>
 

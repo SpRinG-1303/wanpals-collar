@@ -6,10 +6,10 @@ import { useAuth } from "@/context/AuthContext";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "MOooMENTUM — AI Smart Dog Collar" },
-      { name: "description", content: "MOooMENTUM: AI-powered smart dog collar app for pet parents and vets across India." },
-      { property: "og:title", content: "MOooMENTUM — AI Smart Dog Collar" },
-      { property: "og:description", content: "AI-powered smart dog collar app for pet parents and vets across India." },
+      { title: "MOooMENTUM — AI Smart Animal Collar" },
+      { name: "description", content: "MOooMENTUM: AI-powered smart animal collar app for pet parents and vets across India." },
+      { property: "og:title", content: "MOooMENTUM — AI Smart Animal Collar" },
+      { property: "og:description", content: "AI-powered smart animal collar app for pet parents and vets across India." },
     ],
   }),
   component: Splash,
@@ -61,7 +61,7 @@ function Splash() {
             animation: "splashFadeUp 0.5s ease 0.3s both",
           }}
         >
-          Smart dog care, made simple
+          Smart animal care, made simple
         </div>
 
         <div className="flex" style={{ gap: 7, marginTop: 36 }}>

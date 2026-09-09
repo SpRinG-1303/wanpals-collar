@@ -240,7 +240,7 @@ export function Stepper({ current, path }: { current: 1 | 2 | 3 | 4; path?: "A" 
     t("アートアバターを作る", "Create Your Art Avatar"),
     t("アバターをカスタマイズ", "Customise Avatar"),
     t("ポーズパック", "Pose Pack"),
-    t("犬の詳細", "Dog Details"),
+    t("犬の詳細", "Pet Details"),
   ];
   return (
     <div className="mb-3">

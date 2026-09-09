@@ -12,6 +12,7 @@ import appCss from "../styles.css?url";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { PetProvider } from "@/context/PetContext";
 import { AuthProvider } from "@/context/AuthContext";
+import { CollarProvider } from "@/context/CollarContext";
 import { Toaster } from "@/components/ui/sonner";
 
 function NotFoundComponent() {
@@ -76,16 +77,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "MOooMENTUM — AI Smart Dog Collar" },
-      { name: "description", content: "MOooMENTUM: AI-powered smart dog collar app. Track health, location, and connect with vets." },
+      { title: "MOooMENTUM — AI Smart Animal Collar" },
+      { name: "description", content: "MOooMENTUM: AI-powered smart animal collar app. Track health, location, and connect with vets." },
       { name: "author", content: "MOooMENTUM" },
-      { property: "og:title", content: "MOooMENTUM — AI Smart Dog Collar" },
-      { property: "og:description", content: "MOooMENTUM: AI-powered smart dog collar app. Track health, location, and connect with vets." },
+      { property: "og:title", content: "MOooMENTUM — AI Smart Animal Collar" },
+      { property: "og:description", content: "MOooMENTUM: AI-powered smart animal collar app. Track health, location, and connect with vets." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
-      { name: "twitter:title", content: "MOooMENTUM — AI Smart Dog Collar" },
-      { name: "twitter:description", content: "MOooMENTUM: AI-powered smart dog collar app. Track health, location, and connect with vets." },
+      { name: "twitter:title", content: "MOooMENTUM — AI Smart Animal Collar" },
+      { name: "twitter:description", content: "MOooMENTUM: AI-powered smart animal collar app. Track health, location, and connect with vets." },
       { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/1e8ba9b0-3cf5-48b4-be41-64daca59a4d4/id-preview-ddaf86dc--22baf40d-8881-43ee-9d9d-200361b609e2.lovable.app-1778769244598.png" },
       { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/1e8ba9b0-3cf5-48b4-be41-64daca59a4d4/id-preview-ddaf86dc--22baf40d-8881-43ee-9d9d-200361b609e2.lovable.app-1778769244598.png" },
     ],
@@ -138,8 +139,10 @@ function RootComponent() {
       <LanguageProvider>
         <PetProvider>
           <AuthProvider>
-            <Outlet />
-            <Toaster />
+            <CollarProvider>
+              <Outlet />
+              <Toaster />
+            </CollarProvider>
           </AuthProvider>
         </PetProvider>
       </LanguageProvider>

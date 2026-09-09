@@ -31,7 +31,6 @@ import { Route as HomeRouteImport } from './routes/home'
 import { Route as CommunityRouteImport } from './routes/community'
 import { Route as ClinicsRouteImport } from './routes/clinics'
 import { Route as BreedsRouteImport } from './routes/breeds'
-import { Route as BarkSenseRouteImport } from './routes/bark-sense'
 import { Route as AvatarSetupRouteImport } from './routes/avatar-setup'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AiRouteImport } from './routes/ai'
@@ -153,11 +152,6 @@ const BreedsRoute = BreedsRouteImport.update({
   path: '/breeds',
   getParentRoute: () => rootRouteImport,
 } as any)
-const BarkSenseRoute = BarkSenseRouteImport.update({
-  id: '/bark-sense',
-  path: '/bark-sense',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AvatarSetupRoute = AvatarSetupRouteImport.update({
   id: '/avatar-setup',
   path: '/avatar-setup',
@@ -214,7 +208,6 @@ export interface FileRoutesByFullPath {
   '/ai': typeof AiRoute
   '/auth': typeof AuthRoute
   '/avatar-setup': typeof AvatarSetupRoute
-  '/bark-sense': typeof BarkSenseRoute
   '/breeds': typeof BreedsRoute
   '/clinics': typeof ClinicsRoute
   '/community': typeof CommunityRoute
@@ -249,7 +242,6 @@ export interface FileRoutesByTo {
   '/ai': typeof AiRoute
   '/auth': typeof AuthRoute
   '/avatar-setup': typeof AvatarSetupRoute
-  '/bark-sense': typeof BarkSenseRoute
   '/breeds': typeof BreedsRoute
   '/clinics': typeof ClinicsRoute
   '/community': typeof CommunityRoute
@@ -285,7 +277,6 @@ export interface FileRoutesById {
   '/ai': typeof AiRoute
   '/auth': typeof AuthRoute
   '/avatar-setup': typeof AvatarSetupRoute
-  '/bark-sense': typeof BarkSenseRoute
   '/breeds': typeof BreedsRoute
   '/clinics': typeof ClinicsRoute
   '/community': typeof CommunityRoute
@@ -322,7 +313,6 @@ export interface FileRouteTypes {
     | '/ai'
     | '/auth'
     | '/avatar-setup'
-    | '/bark-sense'
     | '/breeds'
     | '/clinics'
     | '/community'
@@ -357,7 +347,6 @@ export interface FileRouteTypes {
     | '/ai'
     | '/auth'
     | '/avatar-setup'
-    | '/bark-sense'
     | '/breeds'
     | '/clinics'
     | '/community'
@@ -392,7 +381,6 @@ export interface FileRouteTypes {
     | '/ai'
     | '/auth'
     | '/avatar-setup'
-    | '/bark-sense'
     | '/breeds'
     | '/clinics'
     | '/community'
@@ -428,7 +416,6 @@ export interface RootRouteChildren {
   AiRoute: typeof AiRoute
   AuthRoute: typeof AuthRoute
   AvatarSetupRoute: typeof AvatarSetupRoute
-  BarkSenseRoute: typeof BarkSenseRoute
   BreedsRoute: typeof BreedsRoute
   ClinicsRoute: typeof ClinicsRoute
   CommunityRoute: typeof CommunityRoute
@@ -615,13 +602,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BreedsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/bark-sense': {
-      id: '/bark-sense'
-      path: '/bark-sense'
-      fullPath: '/bark-sense'
-      preLoaderRoute: typeof BarkSenseRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/avatar-setup': {
       id: '/avatar-setup'
       path: '/avatar-setup'
@@ -700,7 +680,6 @@ const rootRouteChildren: RootRouteChildren = {
   AiRoute: AiRoute,
   AuthRoute: AuthRoute,
   AvatarSetupRoute: AvatarSetupRoute,
-  BarkSenseRoute: BarkSenseRoute,
   BreedsRoute: BreedsRoute,
   ClinicsRoute: ClinicsRoute,
   CommunityRoute: CommunityRoute,

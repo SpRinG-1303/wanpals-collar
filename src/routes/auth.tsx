@@ -43,6 +43,7 @@ function AuthPage() {
 
   const [step, setStep] = useState<Step>("role");
   const [role, setRole] = useState<UserRole>("owner");
+  const [guest, setGuest] = useState(false);
   const [mode, setMode] = useState<Mode>("login");
   const [showPw, setShowPw] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -153,13 +154,13 @@ function AuthPage() {
             MOooMENTUM
           </div>
           <div style={{ marginTop: 4, fontSize: 13, fontWeight: 500, color: SUB, letterSpacing: "0.02em" }}>
-            Smart dog care, made simple
+            Smart animal care, made simple
           </div>
         </div>
 
         {step !== "role" && (
           <button
-            onClick={() => { setError(null); setStep(step === "profile" ? "species" : step === "species" ? "auth" : "role"); }}
+            onClick={() => { setError(null); setStep(step === "profile" ? "species" : step === "species" ? (guest ? "role" : "auth") : "role"); }}
             className="flex items-center"
             style={{ gap: 4, fontSize: 13, fontWeight: 600, color: SUB, marginBottom: 14 }}
           >
@@ -216,7 +217,7 @@ function AuthPage() {
             />
 
             <button
-              onClick={() => navigate({ to: "/home" })}
+              onClick={() => { setGuest(true); setRole("owner"); setError(null); setStep("species"); }}
               style={{ display: "block", margin: "26px auto 0", fontSize: 13, fontWeight: 600, color: SUB, textDecoration: "underline", textUnderlineOffset: 3 }}
             >
               Continue as guest
@@ -338,7 +339,7 @@ function AuthPage() {
                       transition: "all 0.15s ease",
                     }}
                   >
-                    <span style={{ fontSize: 30, lineHeight: 1 }}>{s.emoji}</span>
+                    <img src={s.image} alt={s.label} loading="lazy" width={512} height={512} style={{ width: 52, height: 52, borderRadius: "50%", objectFit: "cover" }} />
                     <span style={{ marginTop: 8, fontSize: 14, fontWeight: 600, color: active ? OWNER.accent : INK }}>{s.label}</span>
                   </button>
                 );
@@ -346,7 +347,16 @@ function AuthPage() {
             </div>
 
             <button
-              onClick={() => { setError(null); setStep("profile"); }}
+              onClick={() => {
+                setError(null);
+                if (guest) {
+                  updatePet({ species, breedEn: getSpecies(species).breeds[0], breedJp: getSpecies(species).breeds[0] });
+                  toast.success(`Welcome! Your dashboard is now tailored to your ${getSpecies(species).label.toLowerCase()}.`);
+                  navigate({ to: "/home" });
+                  return;
+                }
+                setStep("profile");
+              }}
               className="w-full flex items-center justify-center active:scale-[0.98] transition-transform"
               style={{
                 marginTop: 20, height: 52, borderRadius: 16, fontSize: 15, fontWeight: 600,

@@ -1,6 +1,9 @@
 import { useState, type ReactNode, type CSSProperties } from "react";
+import { Link } from "@tanstack/react-router";
+import { Bluetooth } from "lucide-react";
 import AppShell, { TopBar } from "@/components/AppShell";
 import { useLanguage, useT } from "@/context/LanguageContext";
+import { useCollar } from "@/context/CollarContext";
 import { SenseBanner } from "@/components/SenseBanner";
 
 /**
@@ -52,6 +55,7 @@ export function SensorPage({
   bannerSubtitleColor?: string;
   children: ReactNode;
 }) {
+  const { connected, receiving, connect, state, error } = useCollar();
   return (
     <AppShell
       noPadding
@@ -85,9 +89,61 @@ export function SensorPage({
           subtitleColor={bannerSubtitleColor ?? "var(--acc-soft)"}
         />
 
-        {/* Content */}
+        {/* Content — real collar data only; no dummy numbers */}
         <div className="sp-stack" style={{ padding: "0 16px 16px", marginTop: -36, position: "relative", zIndex: 2 }}>
-          {children}
+          {connected && receiving ? children : (
+            <div
+              style={{
+                background: SP.card,
+                borderRadius: 24,
+                border: "1px solid var(--border-card)",
+                boxShadow: CARD_SHADOW,
+                padding: "32px 24px",
+                textAlign: "center",
+              }}
+            >
+              <div
+                className="flex items-center justify-center"
+                style={{
+                  width: 64, height: 64, borderRadius: "50%",
+                  background: "var(--acc-pale)", margin: "0 auto 14px",
+                }}
+              >
+                <Bluetooth size={28} strokeWidth={1.8} style={{ color: "var(--acc-strong)" }} />
+              </div>
+              <div style={{ fontSize: 16, fontWeight: 700, color: SP.sumi, fontFamily: "var(--font-display)" }}>
+                {connected ? "Waiting for readings…" : "No collar connected"}
+              </div>
+              <div style={{ fontSize: 13, color: SP.usuzumi, lineHeight: 1.6, marginTop: 6, maxWidth: 260, marginInline: "auto" }}>
+                {connected
+                  ? "Your collar is paired. Live data will appear here as soon as it starts streaming from the sensors."
+                  : "This page shows live readings from your pet's smart collar. Connect the collar over Bluetooth to start receiving real sensor data."}
+              </div>
+              {error && (
+                <div style={{ fontSize: 12, color: "var(--accent-red)", marginTop: 10, lineHeight: 1.5 }}>{error}</div>
+              )}
+              {!connected && (
+                <button
+                  onClick={connect}
+                  disabled={state === "connecting"}
+                  className="press-pop"
+                  style={{
+                    marginTop: 18, height: 42, padding: "0 26px", borderRadius: 21, border: "none",
+                    background: "var(--acc-strong)", color: "var(--primary-foreground)",
+                    fontSize: 14, fontWeight: 700, cursor: "pointer",
+                    opacity: state === "connecting" ? 0.7 : 1,
+                  }}
+                >
+                  {state === "connecting" ? "Pairing…" : "Connect Collar"}
+                </button>
+              )}
+              <div style={{ marginTop: 12 }}>
+                <Link to="/home" style={{ fontSize: 12, fontWeight: 600, color: SP.usuzumi, textDecoration: "underline" }}>
+                  Back to Home
+                </Link>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </AppShell>

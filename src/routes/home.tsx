@@ -3,7 +3,7 @@ import AppShell from "@/components/AppShell";
 import { useEffect, useState, type ReactNode } from "react";
 import { getSpecies } from "@/lib/species";
 import {
-  Brain, Microscope, Activity, Thermometer, MapPin, Wind, Sun, GitMerge,
+  Microscope, Activity, Thermometer, MapPin, Wind, Sun, GitMerge,
   Bluetooth, BatteryMedium, PawPrint, Search, SlidersHorizontal,
   ChevronDown, ArrowUpRight, HeartHandshake, Stethoscope, type LucideIcon,
 } from "lucide-react";
@@ -11,6 +11,7 @@ import { toast } from "sonner";
 import { usePet, displayName } from "@/context/PetContext";
 import { useGeoLocation } from "@/lib/useGeoLocation";
 import { useAuth } from "@/context/AuthContext";
+import { useCollar } from "@/context/CollarContext";
 import VetHome from "@/components/vet/VetHome";
 import { Mandala, CornerScroll, Peacock } from "@/components/JaipurMotifs";
 
@@ -92,22 +93,24 @@ type Sensor = {
   noteEn?: string;
 };
 
+/* All sensor icons share one pastel-green circle + deep-green glyph */
+const GREEN_BG = "var(--acc-pale)";
+const GREEN_ICON = "var(--acc-strong)";
+
 const sensors: Sensor[] = [
-  { Icon: Brain, accent: JP.fuji, iconBg: "var(--bg-card-lavender)", to: "/bark-sense",
-    en: "BarkSense AI", subEn: "Bark Analysis", valEn: "Calm" },
-  { Icon: Microscope, accent: JP.sakura, iconBg: "var(--bg-card-sakura)", to: "/skin-sense",
+  { Icon: Microscope, accent: GREEN_ICON, iconBg: GREEN_BG, to: "/skin-sense",
     en: "SkinSense AI", subEn: "Skin Health", valEn: "Normal" },
-  { Icon: Activity, accent: JP.sora, iconBg: "var(--acc2-pale)", to: "/motion-sense",
+  { Icon: Activity, accent: GREEN_ICON, iconBg: GREEN_BG, to: "/motion-sense",
     en: "MotionSense", subEn: "Activity Track", valEn: "2,340 steps", progress: 65 },
-  { Icon: Thermometer, accent: JP.momiji, iconBg: "var(--acc-pale)", to: "/temp-sense",
+  { Icon: Thermometer, accent: GREEN_ICON, iconBg: GREEN_BG, to: "/temp-sense",
     en: "TempSense AI", subEn: "Body Temp", valEn: "38.5°C", noteEn: "Normal Range" },
-  { Icon: MapPin, accent: JP.matcha, iconBg: "var(--acc-pale)", to: "/map",
+  { Icon: MapPin, accent: GREEN_ICON, iconBg: GREEN_BG, to: "/map",
     en: "LocationSense", subEn: "GPS + Map", valEn: "Bandra, Mumbai" },
-  { Icon: Wind, accent: JP.yuzu, iconBg: "var(--acc-pale)", to: "/pressure-sense",
+  { Icon: Wind, accent: GREEN_ICON, iconBg: GREEN_BG, to: "/pressure-sense",
     en: "PressureSense", subEn: "Pressure Data", valEn: "Normal Range" },
-  { Icon: Sun, accent: "var(--acc-deep)", iconBg: "var(--acc-pale)", to: "/light-sense",
+  { Icon: Sun, accent: GREEN_ICON, iconBg: GREEN_BG, to: "/light-sense",
     en: "LightSense AI", subEn: "RGB Light Data", valEn: "Indoor" },
-  { Icon: GitMerge, accent: "var(--accent-fuji)", iconBg: "var(--bg-card-lavender)", to: "/report",
+  { Icon: GitMerge, accent: GREEN_ICON, iconBg: GREEN_BG, to: "/report",
     en: "CombineSense", subEn: "Combined Analysis", valEn: "87/100" },
 ];
 
@@ -117,7 +120,7 @@ function Home() {
   const [factIdx, setFactIdx] = useState(0);
   const [query, setQuery] = useState("");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
-  const [collarState, setCollarState] = useState<"idle" | "connecting" | "connected">("idle");
+  const { state: collarState, live, battery, connect, disconnect, receiving, error: collarError } = useCollar();
 
   const { pet } = usePet();
   const sp = getSpecies(pet.species);
@@ -133,7 +136,9 @@ function Home() {
   if (session?.role === "vet") return <VetHome />;
 
   const fact = sp.facts[factIdx % sp.facts.length];
-  const score = 87;
+  // Data-completeness score: only computed from real collar readings.
+  const activeSensors = (Object.keys(live) as (keyof typeof live)[]).filter((k) => live[k]).length;
+  const score = receiving ? Math.round((activeSensors / 5) * 100) : null;
 
   const petName = displayName(pet, `My ${sp.label}`);
   const mood = pet.name?.trim() ? `${petName} is feeling great` : "Feeling great";
@@ -144,10 +149,22 @@ function Home() {
       )
     : sensors
   )
-    .map((s) =>
-      s.en === "BarkSense AI" ? { ...s, en: sp.soundLabel, subEn: sp.soundSub } : s
-    )
-    .map((s) => (s.en === "LocationSense" ? { ...s, valEn: geo.loading ? "Locating…" : geo.short } : s));
+    .map((s) => (s.en === "LocationSense" ? { ...s, valEn: geo.loading ? "Locating…" : geo.short } : s))
+    // No dummy numbers: readings only exist while a collar is connected.
+    .map((s) => {
+      if (s.en === "LocationSense") return s; // GPS comes from the phone, not the collar
+      if (collarState !== "connected") return { ...s, valEn: "—", noteEn: undefined, progress: undefined };
+      const liveFor: Record<string, string | undefined> = {
+        "TempSense AI": live.temp ? `${live.temp.value}${live.temp.unit}` : undefined,
+        MotionSense: live.motion ? `${live.motion.value.toLocaleString()} steps` : undefined,
+        PressureSense: live.pressure ? `${live.pressure.value} ${live.pressure.unit}` : undefined,
+        LightSense: live.light ? `${live.light.value} ${live.light.unit}` : undefined,
+        CombineSense: score != null ? `${score}/100` : undefined,
+      };
+      const lv = liveFor[s.en];
+      if (lv) return { ...s, valEn: lv };
+      return { ...s, valEn: "—", noteEn: undefined, progress: undefined };
+    });
 
   return (
     <AppShell titleJp="" titleEn="" noPadding>
@@ -286,10 +303,12 @@ function Home() {
                  <span className="animate-ping" style={{ position: "absolute", inset: 0, borderRadius: "50%", background: "var(--primary-foreground)", opacity: 0.6 }} />
               </span>
                <span style={{ fontSize: 10, fontWeight: 700, color: "var(--primary-foreground)", letterSpacing: "0.08em" }}>LIVE</span>
-              <span style={{ fontSize: 11, color: "rgba(255,255,255,0.8)" }}>· All sensors active</span>
+              <span style={{ fontSize: 11, color: "rgba(255,255,255,0.8)" }}>
+                {receiving ? `· ${activeSensors} of 6 sensors reporting` : "· Waiting for collar data"}
+              </span>
             </div>
              <span style={{ fontSize: 24, fontWeight: 500, color: "var(--primary-foreground)", fontVariantNumeric: "tabular-nums", fontFamily: "var(--font-display)" }}>
-              {score}<span style={{ fontSize: 12, fontWeight: 600, opacity: 0.8 }}> / 100</span>
+              {score ?? "—"}<span style={{ fontSize: 12, fontWeight: 600, opacity: 0.8 }}> / 100</span>
             </span>
           </div>
         </Link>
@@ -339,31 +358,33 @@ function Home() {
                     ? "Pairing…"
                     : "Collar Not Connected"}
               </div>
-              <div style={{ fontSize: 11, color: JP.usuzumi, marginTop: 1 }}>
-                {collarState === "connected" ? "Synced just now" : "Tap connect to sync"}
+              <div style={{ fontSize: 11, color: collarError ? "var(--accent-red)" : JP.usuzumi, marginTop: 1 }}>
+                {collarError
+                  ? collarError
+                  : collarState === "connected"
+                    ? receiving ? "Live data streaming" : "Connected — waiting for readings…"
+                    : "Tap connect to pair over Bluetooth"}
               </div>
             </div>
-            <div
-              className="flex items-center"
-              style={{ gap: 4, flexShrink: 0, background: "var(--acc-pale)", borderRadius: 20, padding: "5px 10px" }}
-              aria-label="Collar battery 87 percent"
-            >
-              <BatteryMedium size={14} strokeWidth={2} style={{ color: JP.sora }} />
-              <span style={{ fontSize: 12, fontWeight: 700, color: JP.sora, fontVariantNumeric: "tabular-nums" }}>87%</span>
-            </div>
+            {collarState === "connected" && battery != null && (
+              <div
+                className="flex items-center"
+                style={{ gap: 4, flexShrink: 0, background: "var(--acc-pale)", borderRadius: 20, padding: "5px 10px" }}
+                aria-label={`Collar battery ${battery} percent`}
+              >
+                <BatteryMedium size={14} strokeWidth={2} style={{ color: JP.sora }} />
+                <span style={{ fontSize: 12, fontWeight: 700, color: JP.sora, fontVariantNumeric: "tabular-nums" }}>{battery}%</span>
+              </div>
+            )}
             <button
               disabled={collarState === "connecting"}
               onClick={() => {
                 if (collarState === "connected") {
-                  setCollarState("idle");
+                  disconnect();
                   toast.info("Collar disconnected");
                   return;
                 }
-                setCollarState("connecting");
-                setTimeout(() => {
-                  setCollarState("connected");
-                  toast.success("Collar connected — data synced just now");
-                }, 1400);
+                connect();
               }}
               className="flex items-center justify-center active:scale-95 transition-transform"
               style={{
@@ -456,10 +477,10 @@ function Home() {
         <SectionHeader en="Quick Access" />
         <div className="flex" style={{ gap: 14, marginBottom: 20, justifyContent: "space-between" }}>
           {[
-            { to: "/report", Icon: Activity, label: "Health Report", sub: "87/100", bg: "var(--bg-card-lavender)", accent: "var(--accent-fuji)" },
-            { to: "/breeds", Icon: PawPrint, label: "Breed Guide", sub: "200+ breeds", bg: JP.sakuraSoft, accent: JP.sakura },
-            { to: "/community", Icon: HeartHandshake, label: "Pet Match", sub: "Find a match", bg: "var(--acc2-pale)", accent: "var(--accent-sora)" },
-            { to: "/clinics", Icon: Stethoscope, label: "Clinics", sub: "Vets near you", bg: "var(--acc-pale)", accent: "var(--accent-matcha)" },
+            { to: "/report", Icon: Activity, label: "Health Report", sub: score != null ? `${score}/100` : "—", bg: GREEN_BG, accent: GREEN_ICON },
+            { to: "/breeds", Icon: PawPrint, label: "Breed Guide", sub: "200+ breeds", bg: GREEN_BG, accent: GREEN_ICON },
+            { to: "/community", Icon: HeartHandshake, label: "Pet Match", sub: "Find a match", bg: GREEN_BG, accent: GREEN_ICON },
+            { to: "/clinics", Icon: Stethoscope, label: "Clinics", sub: "Vets near you", bg: GREEN_BG, accent: GREEN_ICON },
           ].map((q) => (
             <Link
               key={q.label}

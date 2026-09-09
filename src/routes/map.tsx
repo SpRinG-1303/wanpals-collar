@@ -183,7 +183,7 @@ function MapScreen() {
           </div>
         </div>
 
-        {/* Dog marker center */}
+        {/* Pet marker center */}
         <div className="absolute" style={{ left: "50%", top: "50%", transform: "translate(-50%,-50%)" }}>
           {/* Pulse ring */}
           <div className="absolute map-pulse-ring" style={{ left: "50%", top: "50%", transform: "translate(-50%,-50%)", width: 48, height: 48, borderRadius: "50%", background: "color-mix(in srgb, var(--accent-sakura) calc(0.15 * 100%), transparent)", border: "2px solid color-mix(in srgb, var(--accent-sakura) calc(0.4 * 100%), transparent)" }} />
@@ -208,7 +208,7 @@ function MapScreen() {
         </div>
       </div>
 
-      {/* DOG INFO CARD */}
+      {/* PET INFO CARD */}
       <SectionHeader title={t("マイペット", "My Pet")} />
       <div style={{ margin: "0 16px 12px", background: "var(--bg-card)", borderRadius: 24, border: "1px solid var(--border-card)", boxShadow: CARD_SHADOW }}>
         <div style={{ padding: 14 }}>
