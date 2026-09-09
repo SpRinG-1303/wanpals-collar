@@ -353,7 +353,7 @@ function Home() {
                     : "Collar Not Connected"}
               </div>
               <div style={{ fontSize: 11, color: JP.usuzumi, marginTop: 1 }}>
-                {collarState === "connected" ? "Synced just now" : "Tap connect to sync"}
+                {collarState === "connected" ? "Live data streaming" : "Tap connect to sync"}
               </div>
             </div>
             {collarState === "connected" && battery != null && (
