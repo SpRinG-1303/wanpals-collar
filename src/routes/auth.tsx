@@ -43,6 +43,7 @@ function AuthPage() {
 
   const [step, setStep] = useState<Step>("role");
   const [role, setRole] = useState<UserRole>("owner");
+  const [guest, setGuest] = useState(false);
   const [mode, setMode] = useState<Mode>("login");
   const [showPw, setShowPw] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -159,7 +160,7 @@ function AuthPage() {
 
         {step !== "role" && (
           <button
-            onClick={() => { setError(null); setStep(step === "profile" ? "species" : step === "species" ? "auth" : "role"); }}
+            onClick={() => { setError(null); setStep(step === "profile" ? "species" : step === "species" ? (guest ? "role" : "auth") : "role"); }}
             className="flex items-center"
             style={{ gap: 4, fontSize: 13, fontWeight: 600, color: SUB, marginBottom: 14 }}
           >
@@ -216,7 +217,7 @@ function AuthPage() {
             />
 
             <button
-              onClick={() => navigate({ to: "/home" })}
+              onClick={() => { setGuest(true); setRole("owner"); setError(null); setStep("species"); }}
               style={{ display: "block", margin: "26px auto 0", fontSize: 13, fontWeight: 600, color: SUB, textDecoration: "underline", textUnderlineOffset: 3 }}
             >
               Continue as guest
@@ -346,7 +347,16 @@ function AuthPage() {
             </div>
 
             <button
-              onClick={() => { setError(null); setStep("profile"); }}
+              onClick={() => {
+                setError(null);
+                if (guest) {
+                  updatePet({ species, breedEn: getSpecies(species).breeds[0], breedJp: getSpecies(species).breeds[0] });
+                  toast.success(`Welcome! Your dashboard is now tailored to your ${getSpecies(species).label.toLowerCase()}.`);
+                  navigate({ to: "/home" });
+                  return;
+                }
+                setStep("profile");
+              }}
               className="w-full flex items-center justify-center active:scale-[0.98] transition-transform"
               style={{
                 marginTop: 20, height: 52, borderRadius: 16, fontSize: 15, fontWeight: 600,
