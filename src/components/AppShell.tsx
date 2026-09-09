@@ -17,6 +17,9 @@ const VET_BLOCKED_PREFIXES = [
   "/pressure-sense", "/light-sense", "/avatar-setup", "/onboarding",
 ];
 
+/* Bottom-tab destinations — inner pages get an automatic back button. */
+const TAB_ROUTES = ["/home", "/map", "/clinics", "/community", "/settings", "/"];
+
 export function TopBar({
   titleJp,
   titleEn,
@@ -272,6 +275,7 @@ export default function AppShell({
                 titleEn={titleEn}
                 onMenuClick={onMenuClick}
                 menuOpen={menuOpen}
+                showBack={!TAB_ROUTES.some((r) => loc.pathname === r || loc.pathname.startsWith(r + "/"))}
               />
             )}
         <main
