@@ -8,3 +8,5 @@
 - [ ] Remove dummy sensor data; show real collar data or empty states (needs collar connection layer)
 - [ ] Connect collar via Web Bluetooth BLE (ESP32-C3 SuperMini), parse live sensor packets, drop all placeholder readings
 - [ ] Remove leftover "Diagnostics" brand line under MOooMENTUM (AppShell, SideDrawer)
+- [ ] Replace species emojis with real, consistent-aesthetic animal photos (cow, buffalo, goat, sheep, dog, cat)
+- [ ] Remove BarkSense AI from everywhere (route, home grid, references)
