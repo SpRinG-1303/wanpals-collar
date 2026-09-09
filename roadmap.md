@@ -9,3 +9,5 @@
 - [x] Community feed specific to chosen animal species
 - [x] Dark mode inside phone frame (not outer borders), verified
 - [x] Language picker: 41 languages with count next to label
+- [ ] Use user's uploaded animal photo grid as species picker images (replace generated)
+- [ ] Clinics directions UI: better navigation/map, real clinic data
