@@ -23,7 +23,7 @@ import {
   Syringe,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useT, useLanguage } from "@/context/LanguageContext";
+import { useT } from "@/context/LanguageContext";
 import { PetMatchSection } from "@/components/petmatch/PetMatch";
 import { toast } from "sonner";
 
