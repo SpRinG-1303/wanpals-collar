@@ -225,7 +225,7 @@ function Clinics() {
             {t("Nearest 24H Hospital", "Nearest 24H Hospital")}
           </div>
           <div style={{ fontSize: 12, color: "rgba(255,255,255,0.9)", marginTop: 3, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-            {language === "english" ? emergencyClinic.en : emergencyClinic.jp} · {emergencyClinic.km}km {emergencyClinic.rating > 0 ? ` · ★ ${emergencyClinic.rating}` : ""}
+            {emergencyClinic.en} · {emergencyClinic.km}km {emergencyClinic.rating > 0 ? ` · ★ ${emergencyClinic.rating}` : ""}
           </div>
         </div>
         <a
@@ -332,7 +332,7 @@ function Clinics() {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center" style={{ gap: 6 }}>
                     <span className="truncate" style={{ fontSize: 15, fontWeight: 700, color: "var(--text-primary)", lineHeight: 1.25 }}>
-                      {language === "english" ? c.en : c.jp}
+                      {c.en}
                     </span>
                     {c.em && (
                       <span

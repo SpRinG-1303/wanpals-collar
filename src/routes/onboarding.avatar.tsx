@@ -59,7 +59,7 @@ function Step1() {
   const selectCollar = (c: string) => { setCollar(c); updateAvatar({ collarColor: c }); };
 
   const breedLabel = (jp: string, en: string) =>
-    language === "english" ? en : language === "japanese" ? jp : `${jp} / ${en}`;
+    en;
 
   return (
     <PhoneFrame>
@@ -113,9 +113,9 @@ function Step1() {
                   className="font-bold mt-1 text-center leading-tight"
                   style={{ color: "var(--text-primary)", fontSize: b.jp.length > 8 ? 9 : 11 }}
                 >
-                  {language === "english" ? b.en : b.jp}
+                  {b.en}
                 </span>
-                {language === "mixed" && (
+                {false && (
                   <span className="text-[9px] text-center leading-tight" style={{ color: "var(--text-secondary)" }}>
                     {b.en}
                   </span>
@@ -161,7 +161,7 @@ function Step1() {
                     color: sel ? "var(--accent-sakura)" : "var(--text-primary)",
                   }}
                 >
-                  {language === "english" ? e.en : e.jp}
+                  {e.en}
                 </button>
               );
             })}
@@ -181,7 +181,7 @@ function Step1() {
                     border: sel ? "1.5px solid var(--accent-sakura)" : "1.5px solid var(--border-card)",
                     color: sel ? "var(--accent-sakura)" : "var(--text-primary)",
                   }}
-                  aria-label={language === "english" ? e.en : e.jp}
+                  aria-label={e.en}
                 >
                   {e.glyph}
                 </button>

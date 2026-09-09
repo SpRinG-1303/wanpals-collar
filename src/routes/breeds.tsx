@@ -1986,7 +1986,7 @@ function SadDog() {
 
 function BreedCard({ breed, onOpen, language, t, matches }: { breed: Breed; onOpen: () => void; language: string; t: (jp: string, en: string) => string; matches?: readonly FuseResultMatch[] }) {
   const Icon = breed.Icon;
-  const primaryName = language === "english" ? breed.en : breed.jp;
+  const primaryName = breed.en;
   const primaryKey = language === "english" ? "name_en" : "name_jp";
   const showSecondary = language !== "japanese" && primaryName !== breed.en;
   const { url: imgUrl, loading: imgLoading, refresh: refreshImg } = useBreedImage(breed.en);
@@ -2250,7 +2250,7 @@ function BreedDetail({ breed, onClose }: { breed: Breed; onClose: () => void }) 
         {/* NAME */}
         <div style={{ padding: "20px 20px 8px" }}>
           <div style={{ fontSize: 24, fontWeight: 800, color: "var(--text-primary)", letterSpacing: "-0.01em" }}>
-            {language === "english" ? breed.en : breed.jp}
+            {breed.en}
           </div>
           {language !== "japanese" && (
             <div style={{ fontSize: 14, color: "var(--text-secondary)", marginTop: 2 }}>{breed.en}</div>
