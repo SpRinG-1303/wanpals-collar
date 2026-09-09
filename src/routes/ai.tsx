@@ -324,7 +324,7 @@ function AI() {
           </div>
           <div className="flex-1 min-w-0">
             <div className="flex items-baseline gap-1.5 truncate">
-              <span style={{ fontSize: 14, fontWeight: 800, color: "var(--text-primary)" }}>Pawsitive AI</span>
+              <span style={{ fontSize: 14, fontWeight: 800, color: "var(--text-primary)" }}>MOooMENTUM AI</span>
             </div>
             <div className="flex items-center gap-1 mt-0.5">
               <span className="relative inline-block" style={{ width: 5, height: 5 }}>

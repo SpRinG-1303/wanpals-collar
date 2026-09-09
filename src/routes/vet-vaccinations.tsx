@@ -9,9 +9,9 @@ import { VET_PATIENTS, patientById, recordFor, type VaccineRecord } from "@/comp
 export const Route = createFileRoute("/vet-vaccinations")({
   head: () => ({
     meta: [
-      { title: "Vaccinations — Pawsitive Diagnostics Veterinary" },
+      { title: "Vaccinations — MOooMENTUM Veterinary" },
       { name: "description", content: "Vaccination records, due and overdue boosters, and vaccine administration tracking for clinic patients." },
-      { property: "og:title", content: "Vaccinations — Pawsitive Diagnostics Veterinary" },
+      { property: "og:title", content: "Vaccinations — MOooMENTUM Veterinary" },
       { property: "og:description", content: "Vaccination records and booster tracking." },
     ],
   }),

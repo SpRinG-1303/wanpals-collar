@@ -267,14 +267,14 @@ function Settings() {
       </Section>
 
       <div className="mt-5 rounded-3xl border border-border p-5 shadow-card text-foreground" style={{ background: "linear-gradient(145deg,var(--bg-card-peach),var(--bg-card))" }}>
-        <div className="flex items-center gap-2"><Crown className="w-5 h-5"/><div className="font-black">{t("プロプランにアップグレード", "Upgrade to Pawsitive Pro")}</div></div>
+        <div className="flex items-center gap-2"><Crown className="w-5 h-5"/><div className="font-black">{t("プロプランにアップグレード", "Upgrade to MOooMENTUM Pro")}</div></div>
         <ul className="mt-3 text-xs space-y-1">
           <li>✓ {t("無制限AI診断", "Unlimited AI diagnosis")}</li>
           <li>✓ {t("24時間獣医チャット", "24h vet chat")}</li>
           <li>✓ {t("詳細レポート", "Detailed reports")}</li>
           <li>✓ {t("複数ペット対応", "Multiple pets")}</li>
         </ul>
-        <button onClick={() => toast.success(t("Proプランは近日公開 — 先行アクセスに登録しました", "Pawsitive Pro launches soon — you're on the early-access list"))} className="mt-3 w-full bg-primary text-primary-foreground rounded-2xl py-3 font-bold text-sm">{t("月額 ₹799", "₹799 / month")} →</button>
+        <button onClick={() => toast.success(t("Proプランは近日公開 — 先行アクセスに登録しました", "MOooMENTUM Pro launches soon — you're on the early-access list"))} className="mt-3 w-full bg-primary text-primary-foreground rounded-2xl py-3 font-bold text-sm">{t("月額 ₹799", "₹799 / month")} →</button>
       </div>
 
       <div className="mt-6 border-t border-border pt-4">

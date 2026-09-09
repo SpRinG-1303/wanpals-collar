@@ -16,9 +16,9 @@ import {
 export const Route = createFileRoute("/vet-patient/$id")({
   head: () => ({
     meta: [
-      { title: "Patient Record — Pawsitive Diagnostics Veterinary" },
+      { title: "Patient Record — MOooMENTUM Veterinary" },
       { name: "description", content: "Veterinary patient profile: clinical summary, visits, diagnoses, medications, vaccinations and lab results." },
-      { property: "og:title", content: "Patient Record — Pawsitive Diagnostics Veterinary" },
+      { property: "og:title", content: "Patient Record — MOooMENTUM Veterinary" },
       { property: "og:description", content: "Veterinary patient profile and medical record." },
     ],
   }),

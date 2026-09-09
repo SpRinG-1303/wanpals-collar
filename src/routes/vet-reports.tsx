@@ -9,9 +9,9 @@ import { APPOINTMENTS, INVOICES, PATIENT_RECORDS, VET_PATIENTS } from "@/compone
 export const Route = createFileRoute("/vet-reports")({
   head: () => ({
     meta: [
-      { title: "Reports — Pawsitive Diagnostics Veterinary" },
+      { title: "Reports — MOooMENTUM Veterinary" },
       { name: "description", content: "Clinic performance reports: appointments, revenue, common diagnoses and vaccination coverage." },
-      { property: "og:title", content: "Reports — Pawsitive Diagnostics Veterinary" },
+      { property: "og:title", content: "Reports — MOooMENTUM Veterinary" },
       { property: "og:description", content: "Clinic analytics and reports." },
     ],
   }),

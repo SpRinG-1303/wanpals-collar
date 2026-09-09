@@ -15,9 +15,9 @@ import {
 export const Route = createFileRoute("/vet-rx")({
   head: () => ({
     meta: [
-      { title: "e-Prescription & Toxicity Calculator — Pawsitive Diagnostics Vet" },
+      { title: "e-Prescription & Toxicity Calculator — MOooMENTUM Vet" },
       { name: "description", content: "Canine e-prescription with MDR1 toxic-check engine and a weight-synced toxin dose calculator." },
-      { property: "og:title", content: "e-Prescription & Toxicity Calculator — Pawsitive Diagnostics Vet" },
+      { property: "og:title", content: "e-Prescription & Toxicity Calculator — MOooMENTUM Vet" },
       { property: "og:description", content: "Canine e-prescription with breed-aware safety checks and toxicity calculator." },
     ],
   }),

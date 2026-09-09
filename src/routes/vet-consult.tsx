@@ -20,9 +20,9 @@ export const Route = createFileRoute("/vet-consult")({
   validateSearch: (s: Record<string, unknown>): Search => ({ patient: typeof s.patient === "string" ? s.patient : undefined }),
   head: () => ({
     meta: [
-      { title: "Consultation — Pawsitive Diagnostics Veterinary" },
+      { title: "Consultation — MOooMENTUM Veterinary" },
       { name: "description", content: "Clinical consultation workspace: vitals, examination findings, diagnosis, prescription and follow-up." },
-      { property: "og:title", content: "Consultation — Pawsitive Diagnostics Veterinary" },
+      { property: "og:title", content: "Consultation — MOooMENTUM Veterinary" },
       { property: "og:description", content: "Clinical consultation workspace for veterinarians." },
     ],
   }),

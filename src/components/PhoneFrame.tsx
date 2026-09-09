@@ -12,7 +12,7 @@ export default function PhoneFrame({ children, innerStyle }: { children: ReactNo
       }}
     >
       <div
-        className="pawsitive-frame jaipur-buti"
+        className="mooomentum-frame jaipur-buti"
         style={{
           position: "relative",
           overflow: "hidden",
