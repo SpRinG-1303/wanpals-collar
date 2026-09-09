@@ -331,56 +331,10 @@ function SkinSensePage() {
           {/* ===== SECTION 5: HISTORY ===== */}
           <PinkCard>
             <Label jp="分析履歴" en="Analysis History" />
-            <div>
-              {HISTORY.map((h, i) => {
-                const s = SEV[h.sev];
-                return (
-                  <div key={h.date} style={{
-                    display: "flex", alignItems: "center", gap: 12,
-                    padding: "12px 0",
-                    borderTop: i === 0 ? "none" : `1px solid ${C.soft}`,
-                  }}>
-                    <div style={{
-                      width: 48, height: 48, borderRadius: "50%", flexShrink: 0,
-                      background: "linear-gradient(135deg, var(--acc-pale), var(--bg-page))",
-                      display: "flex", alignItems: "center", justifyContent: "center",
-                    }}>
-                      <PawIcon color="var(--acc-soft)" size={22} />
-                    </div>
-                    <div style={{ flex: 1, minWidth: 0 }}>
-                      <Bi jp={h.jp} en={h.en}
-                        jpStyle={{ fontSize: 14, fontWeight: 600, color: C.text }}
-                        enStyle={{ fontSize: 11, color: C.text2, marginTop: 1 }}
-                      />
-                      <div style={{ fontSize: 11, color: C.text3, marginTop: 3 }}>{t(h.jpDate, h.date)}</div>
-                      <div style={{ display: "flex", gap: 4, marginTop: 5, flexWrap: "wrap" }}>
-                        {h.tags.map((tag, ti) => (
-                          <span key={ti} style={{
-                            background: C.soft, color: "var(--acc-deep)",
-                            fontSize: 9, fontWeight: 600, borderRadius: 50,
-                            padding: "2px 8px",
-                          }}>{t(tag.jp, tag.en)}</span>
-                        ))}
-                      </div>
-                    </div>
-                    <div style={{ textAlign: "right", flexShrink: 0 }}>
-                      <div style={{ fontSize: 22, fontWeight: 800, color: "var(--acc-soft)", lineHeight: 1 }}>{h.score}</div>
-                      <span style={{
-                        display: "inline-block", marginTop: 4, padding: "3px 8px",
-                        borderRadius: 50, background: s.bg, color: s.color,
-                        fontSize: 10, fontWeight: 700,
-                      }}>{t(s.jp, s.en)}</span>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-            <button style={{
-              width: "100%", marginTop: 10, padding: "8px 0", border: "none", background: "transparent",
-              color: "var(--acc-soft)", fontSize: 13, fontWeight: 600,
-            }}>
-              {t("履歴をすべて見る ›", "View Full History ›")}
-            </button>
+            <NoData
+              title={t("履歴はまだありません", "No analyses yet")}
+              hint={t("スキャンすると履歴がここに表示されます。", "Your scans and sensor readings will be listed here once recorded.")}
+            />
           </PinkCard>
 
           {/* ===== SECTION 6: AI INSIGHT ===== */}
