@@ -221,17 +221,20 @@ function Settings() {
       <Section title={t("マイペット", "My Pets")}>
         {displayPets.map((p) => {
           const active = p.name === pet.name;
+          const spImg = p.species ? getSpecies(p.species).image : null;
           return (
             <div key={p.id} className="flex items-center gap-3">
               <button onClick={() => switchPet(p)} className="flex items-center gap-3 flex-1 text-left min-w-0">
                 <span
-                  className="flex items-center justify-center shrink-0"
-                  style={{ width: 40, height: 40, borderRadius: "50%", background: "var(--acc-pale)" }}
+                  className="shrink-0 overflow-hidden"
+                  style={{ width: 48, height: 48, borderRadius: 12, background: "var(--acc-pale)" }}
                 >
-                  {p.species ? (
-                    <img src={getSpecies(p.species).image} alt={getSpecies(p.species).label} loading="lazy" width={512} height={512} style={{ width: 26, height: 26, borderRadius: "50%", objectFit: "cover" }} />
+                  {spImg ? (
+                    <img src={spImg} alt={getSpecies(p.species!).label} loading="lazy" width={512} height={512} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                   ) : (
-                    <PawPrint size={18} style={{ color: "var(--acc-strong)" }} />
+                    <span className="w-full h-full flex items-center justify-center">
+                      <PawPrint size={20} style={{ color: "var(--acc-strong)" }} />
+                    </span>
                   )}
                 </span>
                 <span className="flex-1 min-w-0">
@@ -268,9 +271,9 @@ function Settings() {
         <button onClick={() => setAddPetOpen(true)} className="w-full flex items-center gap-3 text-left pt-1">
           <span
             className="flex items-center justify-center shrink-0"
-            style={{ width: 40, height: 40, borderRadius: "50%", border: "1.5px dashed var(--acc-soft)", color: "var(--acc-strong)" }}
+            style={{ width: 48, height: 48, borderRadius: 12, border: "1.5px dashed var(--acc-soft)", color: "var(--acc-strong)" }}
           >
-            <Plus size={18} />
+            <Plus size={20} />
           </span>
           <span className="text-sm font-bold" style={{ color: "var(--acc-strong)" }}>{t("ペットを追加", "Add Another Pet")}</span>
         </button>
