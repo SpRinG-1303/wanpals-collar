@@ -78,7 +78,7 @@ export function TopBar({
                   Pawsitive Diagnostics
                 </span>
                 <span style={{ fontSize: 9, fontWeight: 700, color: "var(--text-secondary)", textTransform: "uppercase", letterSpacing: "0.12em" }}>
-                  Smart Animal Care
+                  Smart Dog Care
                 
                 </span>
               </div>

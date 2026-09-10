@@ -16,7 +16,6 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { usePet } from "@/context/PetContext";
-import { getSpecies, type Species } from "@/lib/species";
 
 /* ────────────────────────────────────────────────────────────
    Pet Match — responsible breeding & compatibility discovery
@@ -96,46 +95,6 @@ export const MATCH_PROFILES: MatchProfile[] = [
     mutual: false,
   },
 ];
-
-/* ── species-aware profiles ──────────────────────────────────
-   Pet Match follows the animal chosen on Home. Dogs use real
-   breed photos (Dog CEO); other species use the species portrait. */
-const SPECIES_PET_NAMES: Record<string, string[]> = {
-  cow: ["Gauri", "Nandini", "Kamdhenu", "Radha", "Lakshmi", "Ganga"],
-  buffalo: ["Kali", "Bhoori", "Meena", "Kajal", "Rani", "Heera"],
-  goat: ["Chotu", "Guddu", "Meethi", "Banno", "Sheru", "Champa"],
-  sheep: ["Moti", "Reshma", "Bholu", "Kesar", "Chitra", "Nandu"],
-  cat: ["Mishti", "Milo", "Simba", "Laila", "Billo", "Chintu"],
-};
-
-const SPECIES_OWNERS = [
-  { owner: "Arjun Mehta", area: "Bandra West, Mumbai", since: "2023", posts: 34, ownerPets: 2 },
-  { owner: "Priya Sharma", area: "Juhu, Mumbai", since: "2024", posts: 18, ownerPets: 1 },
-  { owner: "Rohan Iyer", area: "Andheri West, Mumbai", since: "2022", posts: 57, ownerPets: 3 },
-  { owner: "Sneha Kulkarni", area: "Powai, Mumbai", since: "2024", posts: 9, ownerPets: 1 },
-  { owner: "Vikram Rao", area: "Dadar, Mumbai", since: "2023", posts: 22, ownerPets: 2 },
-  { owner: "Ananya Das", area: "Chembur, Mumbai", since: "2022", posts: 41, ownerPets: 2 },
-];
-
-export function profilesForSpecies(sp: Species): MatchProfile[] {
-  if (sp.id === "dog") return MATCH_PROFILES;
-  const names = SPECIES_PET_NAMES[sp.id] ?? SPECIES_PET_NAMES.cow;
-  const breeds = sp.breeds.filter((b) => b !== "Mixed");
-  return names.map((name, i) => {
-    const base = MATCH_PROFILES[i % MATCH_PROFILES.length];
-    const o = SPECIES_OWNERS[i % SPECIES_OWNERS.length];
-    return {
-      ...base,
-      id: `pm-${sp.id}-${i}`,
-      pet: name,
-      breed: breeds[i % breeds.length],
-      slug: "",
-      photoUrl: sp.image,
-      summary: `Same species • ${i % 2 === 0 ? "Compatible age" : "Healthy lineage"} • Nearby`,
-      ...o,
-    };
-  });
-}
 
 /* ── photo cache (24h) ─────────────────────────────────────── */
 const PHOTO_CACHE = "petmatch_photos";
@@ -230,14 +189,11 @@ function PetPhoto({ p, style }: { p: MatchProfile; style?: React.CSSProperties }
 
 /* ── Featured hero card (Community page) ───────────────────── */
 export function PetMatchSection() {
-  const { pet } = usePet();
-  const sp = getSpecies(pet.species);
-  const profiles = useMemo(() => profilesForSpecies(sp), [sp.id]);
+  const profiles = MATCH_PROFILES;
   const [featIdx, setFeatIdx] = useState(0);
   const [discoveryOpen, setDiscoveryOpen] = useState(false);
   const [startId, setStartId] = useState<string>(profiles[0].id);
 
-  useEffect(() => { setFeatIdx(0); }, [sp.id]);
 
   const featured = profiles[featIdx % profiles.length];
 
@@ -322,7 +278,7 @@ export function PetMatchSection() {
                 fontFamily: "Fraunces, serif",
               }}
             >
-              Discover compatible {sp.plural.toLowerCase()}
+               Discover compatible dogs
             </div>
           </div>
           <span
