@@ -2,7 +2,8 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 
 /**
- * Batch-translate UI strings via the Lovable AI Gateway.
+ * Batch-translate UI strings via any OpenAI-compatible chat endpoint,
+ * configured with AI_API_URL / AI_API_KEY / AI_MODEL.
  * Key stays server-side. Returns translations in the same order.
  */
 export const translateTexts = createServerFn({ method: "POST" })
@@ -16,18 +17,20 @@ export const translateTexts = createServerFn({ method: "POST" })
   )
   .handler(async ({ data }) => {
     if (data.target === "English") return { translations: data.texts };
-    const key = process.env.LOVABLE_API_KEY;
+    const key = process.env.AI_API_KEY;
+    const url = process.env.AI_API_URL ?? "https://api.openai.com/v1/chat/completions";
+    const model = process.env.AI_MODEL ?? "gpt-4o-mini";
     if (!key) return { translations: data.texts };
 
     try {
-      const res = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+      const res = await fetch(url, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${key}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          model: "google/gemini-2.5-flash-lite",
+          model,
           messages: [
             {
               role: "user",
