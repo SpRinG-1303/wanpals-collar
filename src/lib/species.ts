@@ -1,6 +1,6 @@
-import dogAsset from "@/assets/species-dog.jpg.asset.json";
+import dogImg from "@/assets/species-dog.jpg";
 
-const dogImg = dogAsset.url;
+
 
 /* Dog profile data shared across the owner experience. */
 
