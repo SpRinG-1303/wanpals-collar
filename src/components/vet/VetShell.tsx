@@ -6,7 +6,7 @@ import {
   BarChart3, Package, Receipt, type LucideIcon,
 } from "lucide-react";
 import { toast } from "sonner";
-import pawLogoAsset from "@/assets/paw-logo.png.asset.json";
+import pawLogo from "@/assets/paw-logo.png";
 import { useAuth } from "@/context/AuthContext";
 import { E, PatientAvatar } from "./ehr";
 import { CLINIC_BRANCHES, VET_PATIENTS } from "./vetData";
@@ -52,7 +52,7 @@ const NOTIFS = [
 function BrandBlock() {
   return (
     <Link to="/home" className="flex items-center" style={{ gap: 9, textDecoration: "none", minWidth: 0 }}>
-      <img src={pawLogoAsset.url} alt="Pawsitive Diagnostics logo" style={{ width: 32, height: 32, objectFit: "contain", flexShrink: 0 }} />
+      <img src={pawLogo} alt="Pawsitive Diagnostics logo" style={{ width: 32, height: 32, objectFit: "contain", flexShrink: 0 }} />
       <span style={{ lineHeight: 1.12, minWidth: 0 }}>
         <span style={{ display: "block", fontSize: 13.5, fontWeight: 800, color: E.ink, letterSpacing: "-0.01em", whiteSpace: "nowrap" }}>
           Pawsitive Diagnostics

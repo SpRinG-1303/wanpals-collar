@@ -5,7 +5,7 @@ import {
   ArrowLeft, Eye, EyeOff, ChevronRight,
 } from "lucide-react";
 import { toast } from "sonner";
-import pawLogoAsset from "@/assets/paw-logo.png.asset.json";
+import pawLogo from "@/assets/paw-logo.png";
 import { useAuth, type UserRole } from "@/context/AuthContext";
 import { usePet } from "@/context/PetContext";
 import { getSpecies } from "@/lib/species";
@@ -148,7 +148,7 @@ function AuthPage() {
       >
         {/* Brand header */}
         <div className="flex flex-col items-center" style={{ marginBottom: 30, marginTop: 8 }}>
-          <img src={pawLogoAsset.url} alt="Pawsitive Diagnostics logo" style={{ width: 68, height: 68, objectFit: "contain" }} />
+          <img src={pawLogo} alt="Pawsitive Diagnostics logo" style={{ width: 68, height: 68, objectFit: "contain" }} />
           <div style={{ marginTop: 12, fontSize: 30, fontWeight: 500, color: INK, fontFamily: "var(--font-display)" }}>
             Pawsitive Diagnostics
           </div>

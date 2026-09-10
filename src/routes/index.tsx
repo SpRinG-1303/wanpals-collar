@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
-import pawLogoAsset from "@/assets/paw-logo.png.asset.json";
+import pawLogo from "@/assets/paw-logo.png";
 import { useAuth } from "@/context/AuthContext";
 
 export const Route = createFileRoute("/")({
@@ -45,7 +45,7 @@ function Splash() {
         `}</style>
 
         <img
-          src={pawLogoAsset.url}
+          src={pawLogo}
           alt="Pawsitive Diagnostics logo"
           style={{ width: 84, height: 84, objectFit: "contain", animation: "splashFadeUp 0.5s ease both" }}
         />

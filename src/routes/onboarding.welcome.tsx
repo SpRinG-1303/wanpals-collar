@@ -2,7 +2,7 @@ import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import DogAvatar from "@/components/DogAvatar";
 import PhoneFrame from "@/components/PhoneFrame";
 import { PrimaryButton } from "@/components/PrimaryButton";
-import pawLogoAsset from "@/assets/paw-logo.png.asset.json";
+import pawLogo from "@/assets/paw-logo.png";
 import { useT } from "@/context/LanguageContext";
 
 export const Route = createFileRoute("/onboarding/welcome")({ component: Welcome });
@@ -19,7 +19,7 @@ function Welcome() {
       >
         {/* Logo */}
         <div className="flex flex-col items-center gap-2">
-          <img src={pawLogoAsset.url} alt="Pawsitive Diagnostics logo" style={{ width: 72, height: 72, objectFit: "contain" }} />
+          <img src={pawLogo} alt="Pawsitive Diagnostics logo" style={{ width: 72, height: 72, objectFit: "contain" }} />
           <div className="text-[22px] font-extrabold tracking-tight" style={{ color: "var(--text-primary)" }}>
             Pawsit<span style={{ position: "relative" }}>
               i

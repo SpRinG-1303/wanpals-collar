@@ -1,7 +1,7 @@
 import { Link, useLocation, useNavigate } from "@tanstack/react-router";
 import { Bell, ArrowLeft, AlertTriangle, Heart, Syringe } from "lucide-react";
 import { toast } from "sonner";
-import pawLogoAsset from "@/assets/paw-logo.png.asset.json";
+import pawLogo from "@/assets/paw-logo.png";
 import { motion } from "framer-motion";
 import { useState, useEffect, type ReactNode } from "react";
 import { T, useT } from "@/context/LanguageContext";
@@ -69,7 +69,7 @@ export function TopBar({
               aria-label="Home"
             >
               <img
-                src={pawLogoAsset.url}
+                src={pawLogo}
                 alt="Pawsitive Diagnostics logo"
                 style={{ width: 36, height: 36, objectFit: "contain", display: "block" }}
               />
