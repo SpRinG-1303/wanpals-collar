@@ -18,6 +18,7 @@ type Ctx = {
   hydrated: boolean;
   signIn: (email: string, password: string, expectedRole?: UserRole) => string | null;
   signUp: (u: StoredUser) => string | null;
+  continueAsGuest: () => void;
   signOut: () => void;
   updateProfile: (patch: { name?: string; email?: string; password?: string }) => string | null;
 };
@@ -27,6 +28,7 @@ const AuthContext = createContext<Ctx>({
   hydrated: false,
   signIn: () => "Not ready",
   signUp: () => "Not ready",
+  continueAsGuest: () => {},
   signOut: () => {},
   updateProfile: () => "Not ready",
 });
@@ -99,6 +101,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signOut = () => persistSession(null);
 
+  const continueAsGuest = () => {
+    persistSession({ role: "owner", name: "Guest", email: "guest@local.pawsitive" });
+  };
+
   const updateProfile = (patch: { name?: string; email?: string; password?: string }): string | null => {
     if (!session) return "Not signed in.";
     const users = readUsers();
@@ -121,7 +127,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ session, hydrated, signIn, signUp, signOut, updateProfile }}>
+    <AuthContext.Provider value={{ session, hydrated, signIn, signUp, continueAsGuest, signOut, updateProfile }}>
       {children}
     </AuthContext.Provider>
   );

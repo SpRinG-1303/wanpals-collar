@@ -62,7 +62,7 @@ function Settings() {
 
   function savePet() {
     const name = newPetName.trim();
-    if (!name) { toast.error("Please enter your pet's name."); return; }
+    if (!name) { toast.error("Please enter your dog's name."); return; }
     const sp = getSpecies("dog");
     const breed = newPetBreed.trim() || sp.breeds[0];
     const entry: PetEntry = { id: `p${Date.now()}`, name, breed };
@@ -79,7 +79,7 @@ function Settings() {
     const next = pets.filter((p) => p.id !== id);
     persistPets(next);
     if (removed && removed.name === pet.name && next.length > 0) switchPet(next[0]);
-    toast.success("Pet removed.");
+    toast.success("Dog removed.");
   }
 
 

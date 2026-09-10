@@ -38,7 +38,7 @@ type Mode = "login" | "signup";
 
 function AuthPage() {
   const navigate = useNavigate();
-  const { signIn, signUp } = useAuth();
+  const { signIn, signUp, continueAsGuest } = useAuth();
   const { pet, updatePet } = usePet();
 
   const [step, setStep] = useState<Step>("role");
@@ -221,6 +221,7 @@ function AuthPage() {
                  setRole("owner");
                  setError(null);
                  updatePet({ species: "dog" });
+                 continueAsGuest();
                  toast.success("Welcome to Pawsitive Diagnostics!");
                  navigate({ to: "/home" });
                }}
