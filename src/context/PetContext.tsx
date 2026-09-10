@@ -109,16 +109,17 @@ export function PetProvider({ children }: { children: ReactNode }) {
       const raw = localStorage.getItem(KEY);
       if (raw) {
         const parsed = JSON.parse(raw);
-        setPetState({ ...DEFAULT_PET, ...parsed, avatar: { ...DEFAULT_PET.avatar, ...(parsed.avatar ?? {}) } });
+        setPetState({ ...DEFAULT_PET, ...parsed, species: "dog", avatar: { ...DEFAULT_PET.avatar, ...(parsed.avatar ?? {}) } });
       }
     } catch {}
     hydrated.current = true;
   }, []);
 
   const persist = (next: PetProfile) => {
-    setPetState(next);
+    const dogOnly = { ...next, species: "dog" as const };
+    setPetState(dogOnly);
     if (typeof window !== "undefined") {
-      try { localStorage.setItem(KEY, JSON.stringify(next)); } catch {}
+      try { localStorage.setItem(KEY, JSON.stringify(dogOnly)); } catch {}
     }
   };
 
