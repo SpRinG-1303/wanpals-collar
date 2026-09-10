@@ -19,7 +19,7 @@ function Welcome() {
       >
         {/* Logo */}
         <div className="flex flex-col items-center gap-2">
-          <img src={pawLogoAsset.url} alt="MOooMENTUM logo" style={{ width: 72, height: 72, objectFit: "contain" }} />
+          <img src={pawLogoAsset.url} alt="Pawsitive Diagnostics logo" style={{ width: 72, height: 72, objectFit: "contain" }} />
           <div className="text-[22px] font-extrabold tracking-tight" style={{ color: "var(--text-primary)" }}>
             Pawsit<span style={{ position: "relative" }}>
               i
@@ -55,7 +55,7 @@ function Welcome() {
             className="text-center mt-8 text-[26px] font-extrabold leading-tight"
             style={{ color: "var(--text-primary)" }}
           >
-            {t("MOooMENTUMへようこそ！", "Welcome to MOooMENTUM!")}
+            {t("Pawsitive Diagnosticsへようこそ！", "Welcome to Pawsitive Diagnostics!")}
           </h1>
           <p
             className="text-center mt-3 text-[14px] leading-relaxed max-w-[300px]"

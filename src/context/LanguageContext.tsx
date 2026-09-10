@@ -60,7 +60,7 @@ function clearLegacyLangKeys() {
 function worthTranslating(s: string): boolean {
   if (s.length < 2 || s.length > 240) return false;
   if (!/[A-Za-z]/.test(s)) return false;
-  if (s.includes("MOooMENTUM")) return false;
+  if (s.includes("Pawsitive Diagnostics")) return false;
   return true;
 }
 

@@ -9,9 +9,9 @@ import { VET_PATIENTS, patientById, recordFor, type LabResult } from "@/componen
 export const Route = createFileRoute("/vet-lab")({
   head: () => ({
     meta: [
-      { title: "Laboratory — MOooMENTUM Veterinary" },
+      { title: "Laboratory — Pawsitive Diagnostics Veterinary" },
       { name: "description", content: "Veterinary laboratory results: CBC, blood chemistry, urinalysis and imaging with abnormal values highlighted." },
-      { property: "og:title", content: "Laboratory — MOooMENTUM Veterinary" },
+      { property: "og:title", content: "Laboratory — Pawsitive Diagnostics Veterinary" },
       { property: "og:description", content: "Veterinary lab results and orders." },
     ],
   }),

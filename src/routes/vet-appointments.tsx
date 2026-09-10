@@ -9,9 +9,9 @@ import { APPOINTMENTS, APPT_STATUS_META, VET_PATIENTS, patientById, type ApptSta
 export const Route = createFileRoute("/vet-appointments")({
   head: () => ({
     meta: [
-      { title: "Appointments — MOooMENTUM Veterinary" },
+      { title: "Appointments — Pawsitive Diagnostics Veterinary" },
       { name: "description", content: "Clinic appointment schedule: check patients in, start consultations and manage the daily queue." },
-      { property: "og:title", content: "Appointments — MOooMENTUM Veterinary" },
+      { property: "og:title", content: "Appointments — Pawsitive Diagnostics Veterinary" },
       { property: "og:description", content: "Clinic appointment schedule and consultation queue." },
     ],
   }),

@@ -34,7 +34,7 @@ export const translateTexts = createServerFn({ method: "POST" })
               content:
                 `Translate these mobile-app UI strings from English to ${data.target}. ` +
                 `Rules: return ONLY a JSON array of strings in the exact same order and count; ` +
-                `keep numbers, units (kg, km, °C, %), emojis, brand name "MOooMENTUM", and proper nouns unchanged; ` +
+                `keep numbers, units (kg, km, °C, %), emojis, brand name "Pawsitive Diagnostics", and proper nouns unchanged; ` +
                 `use short natural mobile-UI wording.\n\n` +
                 JSON.stringify(data.texts),
             },

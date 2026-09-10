@@ -13,10 +13,10 @@ import { SPECIES, getSpecies, type SpeciesId } from "@/lib/species";
 export const Route = createFileRoute("/auth")({
   head: () => ({
     meta: [
-      { title: "Sign In — MOooMENTUM" },
-      { name: "description", content: "Log in or create your MOooMENTUM account as a pet parent or veterinarian." },
-      { property: "og:title", content: "Sign In — MOooMENTUM" },
-      { property: "og:description", content: "Log in or create your MOooMENTUM account as a pet parent or veterinarian." },
+      { title: "Sign In — Pawsitive Diagnostics" },
+      { name: "description", content: "Log in or create your Pawsitive Diagnostics account as a pet parent or veterinarian." },
+      { property: "og:title", content: "Sign In — Pawsitive Diagnostics" },
+      { property: "og:description", content: "Log in or create your Pawsitive Diagnostics account as a pet parent or veterinarian." },
     ],
   }),
   component: AuthPage,
@@ -149,9 +149,9 @@ function AuthPage() {
       >
         {/* Brand header */}
         <div className="flex flex-col items-center" style={{ marginBottom: 30, marginTop: 8 }}>
-          <img src={pawLogoAsset.url} alt="MOooMENTUM logo" style={{ width: 68, height: 68, objectFit: "contain" }} />
+          <img src={pawLogoAsset.url} alt="Pawsitive Diagnostics logo" style={{ width: 68, height: 68, objectFit: "contain" }} />
           <div style={{ marginTop: 12, fontSize: 30, fontWeight: 500, color: INK, fontFamily: "var(--font-display)" }}>
-            MOooMENTUM
+            Pawsitive Diagnostics
           </div>
           <div style={{ marginTop: 4, fontSize: 13, fontWeight: 500, color: SUB, letterSpacing: "0.02em" }}>
             Smart animal care, made simple
@@ -175,7 +175,7 @@ function AuthPage() {
               Welcome
             </div>
             <div style={{ textAlign: "center", fontSize: 13.5, color: SUB, marginBottom: 26, lineHeight: 1.5 }}>
-              Choose how you'll use MOooMENTUM
+              Choose how you'll use Pawsitive Diagnostics
             </div>
 
             <RoleCard

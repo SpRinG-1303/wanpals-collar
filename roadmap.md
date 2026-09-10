@@ -15,3 +15,8 @@
 - [x] Pet Match card species-aware (shows cow when cow selected) — verified
 - [x] Language selector: live AI translation for all 41 languages (verified Hindi on home)
 - [x] Back navigation on every inner page (owner shell + vet console) — verified
+
+## Current
+- [ ] Rebrand all visible MOooMENTUM references to Pawsitive Diagnostics
+- [ ] Make signup, guest entry, profiles, home and community dog-only
+- [ ] Remove non-dog interface data and verify key phone flows

@@ -12,9 +12,9 @@ export const Route = createFileRoute("/vet-patients")({
   validateSearch: (s: Record<string, unknown>): Search => ({ q: typeof s.q === "string" ? s.q : undefined }),
   head: () => ({
     meta: [
-      { title: "Patients — MOooMENTUM Veterinary" },
+      { title: "Patients — Pawsitive Diagnostics Veterinary" },
       { name: "description", content: "Veterinary patient directory: search by name, owner, phone, microchip or medical record number." },
-      { property: "og:title", content: "Patients — MOooMENTUM Veterinary" },
+      { property: "og:title", content: "Patients — Pawsitive Diagnostics Veterinary" },
       { property: "og:description", content: "Veterinary patient directory and medical records." },
     ],
   }),

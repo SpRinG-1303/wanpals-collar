@@ -229,7 +229,7 @@ function Community() {
 
   async function sharePost(p: PostT) {
     const title = p.titleEn;
-    const text = `${title} — MOooMENTUM Community`;
+    const text = `${title} — Pawsitive Diagnostics Community`;
     if (typeof navigator !== "undefined" && (navigator as any).share) {
       try {
         await (navigator as any).share({ title, text, url: typeof window !== "undefined" ? window.location.href : "" });
