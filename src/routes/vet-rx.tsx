@@ -259,7 +259,7 @@ function VetRx() {
           </div>
 
           <div style={{ marginTop: 14 }}>
-            <label style={{ fontSize: 10.5, fontWeight: 700, color: T.sub, letterSpacing: "0.04em", textTransform: "uppercase" }}>Animal ate…</label>
+            <label style={{ fontSize: 10.5, fontWeight: 700, color: T.sub, letterSpacing: "0.04em", textTransform: "uppercase" }}>Dog ate…</label>
             <div className="flex flex-wrap" style={{ gap: 7, marginTop: 6 }}>
               {TOXINS.map((tx) => {
                 const active = tx.id === toxinId;
