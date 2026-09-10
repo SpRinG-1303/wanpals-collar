@@ -487,21 +487,9 @@ Danger Zone (bottom, separated):
 - Add subtle animations (fade in cards, pulse on live indicators)
 - The overall feel should be: trustworthy, kawaii, medical-grade
 
-This project was built with [Lovable](https://lovable.dev).
-
-**Live app**: https://wanpals-collar.lovable.app
-
-## Build with Lovable
-
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/22baf40d-8881-43ee-9d9d-200361b609e2).
-
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
-
 ## Development
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+Requires Node.js (or Bun) and npm.
 
 ```sh
 git clone <this-repository-url>
@@ -509,3 +497,10 @@ cd <repository-name>
 npm i
 npm run dev
 ```
+
+Build for production with `npm run build`.
+
+### Optional environment variables
+
+- `AI_API_URL`, `AI_API_KEY`, `AI_MODEL` — any OpenAI-compatible chat endpoint, used for in-app UI translation. Without them the app stays in English.
+- `REPLICATE_API_KEY` — avatar illustration generation.
