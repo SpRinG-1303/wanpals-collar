@@ -604,9 +604,7 @@ function defaultRecord(p: VetPatient): PatientRecord {
     diagnoses: p.conditions.map((c) => ({ date: p.lastVisit, name: c, status: "Active" as const })),
     medications: p.currentMeds.map((m) => ({ name: m, dose: "As directed", route: "Oral", frequency: "Twice daily", duration: "7 days", prescribed: p.lastVisit, status: "Active" as const })),
     vaccinations: [
-      p.species === "cat"
-        ? { name: "FVRCP", date: "01 Aug 2025", nextDue: "01 Sep 2026", status: p.vaccinationStatus === "Up to date" ? "Administered" as const : "Due" as const }
-        : { name: "Rabies", date: "15 Mar 2026", nextDue: "15 Mar 2027", status: "Administered" as const },
+      { name: "Rabies", date: "15 Mar 2026", nextDue: "15 Mar 2027", status: "Administered" as const },
     ],
     labs: [
       { id: `l-${p.id}-cbc`, name: "CBC", date: p.lastVisit, status: "pending", values: [] },

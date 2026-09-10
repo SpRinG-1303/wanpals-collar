@@ -8,8 +8,8 @@ export type SpeciesId = "dog";
 
 export type Species = {
   id: SpeciesId;
-  label: string;      // "Cow"
-  plural: string;     // "Cows"
+  label: string;
+  plural: string;
   emoji: string;
   image: string;
   namePlaceholder: string;

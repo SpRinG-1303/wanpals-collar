@@ -436,7 +436,7 @@ function VetPatientProfile() {
               <div>
                 <FieldLabel>Vaccine</FieldLabel>
                 <select value={vaxForm.name} onChange={(e) => setVaxForm({ ...vaxForm, name: e.target.value })} style={{ ...inputStyle, appearance: "none" }}>
-                  {(patient.species === "cat" ? ["FVRCP", "Rabies", "FeLV"] : ["Rabies", "DHPP", "Leptospirosis", "Kennel Cough (Bordetella)"]).map((v) => <option key={v}>{v}</option>)}
+                  {["Rabies", "DHPP", "Leptospirosis", "Kennel Cough (Bordetella)"].map((v) => <option key={v}>{v}</option>)}
                 </select>
               </div>
               <div>

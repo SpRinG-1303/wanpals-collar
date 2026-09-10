@@ -316,7 +316,7 @@ function Step2() {
             </div>
             <div className="px-5 pt-2 pb-2 text-[12px] font-bold" style={{ color: "var(--text-secondary)" }}>
               {sheet === "dog"
-                ? t("ワンちゃんの写真を選ぶ", "Choose animal photo")
+                ? t("ワンちゃんの写真を選ぶ", "Choose dog photo")
                 : t("あなたの写真を選ぶ", "Choose your photo")}
             </div>
             <SheetRow
