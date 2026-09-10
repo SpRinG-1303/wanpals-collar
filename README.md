@@ -486,6 +486,7 @@ Danger Zone (bottom, separated):
 - Every screen should feel complete, not wireframe-like
 - Add subtle animations (fade in cards, pulse on live indicators)
 - The overall feel should be: trustworthy, kawaii, medical-grade
+
 ## Development
 
 Requires Node.js (or Bun) and npm.
