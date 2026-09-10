@@ -15,7 +15,6 @@ import {
   ChevronLeft,
 } from "lucide-react";
 import { toast } from "sonner";
-import { usePet } from "@/context/PetContext";
 
 /* ────────────────────────────────────────────────────────────
    Pet Match — responsible breeding & compatibility discovery
@@ -26,7 +25,7 @@ export type MatchProfile = {
   pet: string;
   breed: string;
   slug: string; // dog.ceo breed slug (dogs only)
-  photoUrl?: string; // direct photo for non-dog species
+  photoUrl?: string;
   age: number;
   gender: "Male" | "Female";
   km: number;
@@ -430,9 +429,7 @@ function applyFilters(list: MatchProfile[], f: Filters) {
 
 /* ── Full-screen discovery ─────────────────────────────────── */
 export function PetMatchDiscovery({ startId, onClose }: { startId: string; onClose: () => void }) {
-  const { pet } = usePet();
-  const sp = getSpecies(pet.species);
-  const profiles = useMemo(() => profilesForSpecies(sp), [sp.id]);
+  const profiles = MATCH_PROFILES;
   const [filters, setFilters] = useState<Filters>(DEFAULT_FILTERS);
   const [draft, setDraft] = useState<Filters>(DEFAULT_FILTERS);
   const [filtersOpen, setFiltersOpen] = useState(false);

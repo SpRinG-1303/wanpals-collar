@@ -172,30 +172,8 @@ export const textareaStyle: CSSProperties = {
   resize: "vertical",
 };
 
-/* Compact professional patient avatar — real photo-style avatar for dogs,
-   initials monogram for cats/other species. */
+/* Compact professional dog patient avatar. */
 export function PatientAvatar({ patient, size = 44 }: { patient: VetPatient; size?: number }) {
-  if (patient.species !== "dog") {
-    return (
-      <span
-        className="flex items-center justify-center"
-        style={{
-          width: size,
-          height: size,
-          borderRadius: "50%",
-          background: E.pale,
-          border: `1px solid ${E.border}`,
-          color: E.accentDeep,
-          fontSize: size * 0.36,
-          fontWeight: 700,
-          flexShrink: 0,
-        }}
-        aria-label={patient.name}
-      >
-        {patient.name.slice(0, 1)}
-      </span>
-    );
-  }
   return (
     <span style={{ width: size, height: size, flexShrink: 0, display: "block" }}>
       <DogAvatar breed={patient.breedKey} size={size} ring={false} showCollar={false} showCheeks={false} />

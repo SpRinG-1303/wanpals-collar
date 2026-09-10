@@ -3,7 +3,7 @@ import type { BreedKey } from "@/components/DogAvatar";
 /* ================= Patients ================= */
 
 export type SizeClass = "toy" | "small" | "medium" | "large" | "giant";
-export type Species = "dog" | "cat" | "other";
+export type Species = "dog";
 export type RiskTone = "red" | "amber" | "blue";
 
 export type VetPatient = {
@@ -80,16 +80,6 @@ export const VET_PATIENTS: VetPatient[] = [
     allergies: [], currentMeds: ["Carprofen 6.25 mg"],
     vaccinationStatus: "Up to date", lastVisit: "15 Aug 2026", nextFollowUp: "26 Aug 2026", tempC: 38.7,
   },
-  {
-    id: "p6", name: "Mili", species: "cat", breed: "Domestic Shorthair", breedKey: "mixed",
-    size: "small", age: "2y 0m", weightKg: 3.8, gender: "female",
-    owner: "Nisha Verma", ownerPhone: "+91 98100 98765",
-    patientCode: "PT-10355", microchip: "982000123450355",
-    status: "Active Patient",
-    conditions: ["Gingivitis (mild)"],
-    allergies: [], currentMeds: [],
-    vaccinationStatus: "Due soon", lastVisit: "01 Aug 2026", nextFollowUp: "29 Aug 2026", tempC: 38.6,
-  },
 ];
 
 export function patientById(id: string | undefined): VetPatient | undefined {
@@ -131,7 +121,6 @@ const BREED_RISKS: Record<string, RiskTag[]> = {
   ],
   Dachshund: [{ label: "IVDD / Back Risk", tone: "red" }],
   "Indian Pariah Dog": [{ label: "Tick-Borne Disease", tone: "amber" }],
-  "Domestic Shorthair": [{ label: "Dental Disease", tone: "amber" }],
 };
 
 export function riskTagsFor(patient: VetPatient): RiskTag[] {
@@ -154,10 +143,8 @@ export const VITAL_BASELINES: Record<SizeClass, VitalBaseline> = {
   giant: { hr: [60, 90], temp: [38.0, 39.0], rr: [12, 24] },
 };
 
-export const CAT_BASELINE: VitalBaseline = { hr: [140, 220], temp: [38.1, 39.2], rr: [20, 30] };
-
 export function baselineFor(patient: VetPatient): VitalBaseline {
-  return patient.species === "cat" ? CAT_BASELINE : VITAL_BASELINES[patient.size];
+  return VITAL_BASELINES[patient.size];
 }
 
 export const SIZE_LABEL: Record<SizeClass, string> = {
@@ -612,7 +599,7 @@ export const PATIENT_RECORDS: Record<string, PatientRecord> = {
 function defaultRecord(p: VetPatient): PatientRecord {
   return {
     visits: [
-      { date: p.lastVisit, reason: p.species === "cat" ? "Wellness exam" : "General consultation", vet: VET_NAME, summary: "Examined. No acute findings on physical exam." },
+      { date: p.lastVisit, reason: "General consultation", vet: VET_NAME, summary: "Examined. No acute findings on physical exam." },
     ],
     diagnoses: p.conditions.map((c) => ({ date: p.lastVisit, name: c, status: "Active" as const })),
     medications: p.currentMeds.map((m) => ({ name: m, dose: "As directed", route: "Oral", frequency: "Twice daily", duration: "7 days", prescribed: p.lastVisit, status: "Active" as const })),

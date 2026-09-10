@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import AppShell from "@/components/AppShell";
 import { usePet } from "@/context/PetContext";
-import { getSpecies } from "@/lib/species";
 import { useEffect, useMemo, useState, useRef } from "react";
 import {
   PenLine,
@@ -155,8 +154,7 @@ function Community() {
   const t = useT();
   
   const { pet } = usePet();
-  const sp = getSpecies(pet?.species);
-  const myBreed = pet?.breedEn || sp.label;
+  const myBreed = pet?.breedEn || "Indian Pariah Dog";
   const [sub, setSub] = useState(0);
   const [open, setOpen] = useState<string | null>(null);
   const [upvoted, setUpvoted] = useState<Record<string, boolean>>({});
