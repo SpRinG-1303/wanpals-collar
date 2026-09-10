@@ -52,10 +52,10 @@ const NOTIFS = [
 function BrandBlock() {
   return (
     <Link to="/home" className="flex items-center" style={{ gap: 9, textDecoration: "none", minWidth: 0 }}>
-      <img src={pawLogoAsset.url} alt="MOooMENTUM logo" style={{ width: 32, height: 32, objectFit: "contain", flexShrink: 0 }} />
+      <img src={pawLogoAsset.url} alt="Pawsitive Diagnostics logo" style={{ width: 32, height: 32, objectFit: "contain", flexShrink: 0 }} />
       <span style={{ lineHeight: 1.12, minWidth: 0 }}>
         <span style={{ display: "block", fontSize: 13.5, fontWeight: 800, color: E.ink, letterSpacing: "-0.01em", whiteSpace: "nowrap" }}>
-          MOooMENTUM
+          Pawsitive Diagnostics
         </span>
         <span style={{ display: "block", fontSize: 10, fontWeight: 600, color: E.sub }}>Veterinary Clinic</span>
       </span>

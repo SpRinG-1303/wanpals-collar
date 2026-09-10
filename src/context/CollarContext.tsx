@@ -132,7 +132,7 @@ export function CollarProvider({ children }: { children: ReactNode }) {
     void (async () => {
       try {
         const device = await nav.bluetooth!.requestDevice({
-          filters: [{ services: [UART_SERVICE] }, { namePrefix: "MOooMENTUM" }, { namePrefix: "ESP32" }],
+          filters: [{ services: [UART_SERVICE] }, { namePrefix: "Pawsitive Diagnostics" }, { namePrefix: "ESP32" }],
           optionalServices: [UART_SERVICE, BATTERY_SERVICE],
         });
         device.addEventListener("gattserverdisconnected", teardown);

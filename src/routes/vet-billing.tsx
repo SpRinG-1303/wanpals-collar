@@ -9,9 +9,9 @@ import { INVOICES, patientById } from "@/components/vet/vetData";
 export const Route = createFileRoute("/vet-billing")({
   head: () => ({
     meta: [
-      { title: "Billing — MOooMENTUM Veterinary" },
+      { title: "Billing — Pawsitive Diagnostics Veterinary" },
       { name: "description", content: "Clinic invoices, pending payments and revenue summary." },
-      { property: "og:title", content: "Billing — MOooMENTUM Veterinary" },
+      { property: "og:title", content: "Billing — Pawsitive Diagnostics Veterinary" },
       { property: "og:description", content: "Clinic invoices and payments." },
     ],
   }),

@@ -7,7 +7,7 @@ import { useT, useLanguage, type Language } from "@/context/LanguageContext";
 import { useAuth } from "@/context/AuthContext";
 import { usePet } from "@/context/PetContext";
 import { LANGUAGE_COUNT, getDisplayLanguage } from "@/lib/languages";
-import { SPECIES, getSpecies, type SpeciesId } from "@/lib/species";
+import { getSpecies } from "@/lib/species";
 
 export const Route = createFileRoute("/settings")({ component: Settings });
 
@@ -28,12 +28,11 @@ function Settings() {
   // ---- Multi-pet management ----
   const { pet, updatePet } = usePet();
   const PETS_KEY = "pawsitive_pets";
-  type PetEntry = { id: string; name: string; breed: string; species?: SpeciesId };
+  type PetEntry = { id: string; name: string; breed: string };
   const [pets, setPets] = useState<PetEntry[]>([]);
   const [addPetOpen, setAddPetOpen] = useState(false);
   const [newPetName, setNewPetName] = useState("");
   const [newPetBreed, setNewPetBreed] = useState("");
-  const [newPetSpecies, setNewPetSpecies] = useState<SpeciesId>("dog");
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -53,28 +52,26 @@ function Settings() {
   const displayPets: PetEntry[] = pets.length
     ? pets
     : pet.name
-      ? [{ id: "current", name: pet.name, breed: pet.breedEn || pet.breed || "Mixed", species: pet.species }]
+      ? [{ id: "current", name: pet.name, breed: pet.breedEn || pet.breed || "Mixed" }]
       : [];
 
   function switchPet(p: PetEntry) {
-    const sp = p.species ?? pet.species ?? "dog";
-    updatePet({ name: p.name, breed: p.breed, breedEn: p.breed, breedJp: p.breed, species: sp });
+    updatePet({ name: p.name, breed: p.breed, breedEn: p.breed, breedJp: p.breed, species: "dog" });
     toast.success(`Switched to ${p.name}`);
   }
 
   function savePet() {
     const name = newPetName.trim();
-    if (!name) { toast.error("Please enter your pet's name."); return; }
-    const sp = getSpecies(newPetSpecies);
+    if (!name) { toast.error("Please enter your dog's name."); return; }
+    const sp = getSpecies("dog");
     const breed = newPetBreed.trim() || sp.breeds[0];
-    const entry: PetEntry = { id: `p${Date.now()}`, name, breed, species: newPetSpecies };
+    const entry: PetEntry = { id: `p${Date.now()}`, name, breed };
     persistPets([...(pets.length ? pets : displayPets), entry]);
-    updatePet({ name: entry.name, breed: entry.breed, breedEn: entry.breed, breedJp: entry.breed, species: newPetSpecies });
-    toast.success(`${name} the ${sp.label.toLowerCase()} added to your family.`);
+    updatePet({ name: entry.name, breed: entry.breed, breedEn: entry.breed, breedJp: entry.breed, species: "dog" });
+    toast.success(`${name} was added to your family.`);
     setAddPetOpen(false);
     setNewPetName("");
     setNewPetBreed("");
-    setNewPetSpecies("dog");
   }
 
   function removePet(id: string) {
@@ -82,7 +79,7 @@ function Settings() {
     const next = pets.filter((p) => p.id !== id);
     persistPets(next);
     if (removed && removed.name === pet.name && next.length > 0) switchPet(next[0]);
-    toast.success("Pet removed.");
+    toast.success("Dog removed.");
   }
 
 
@@ -229,7 +226,7 @@ function Settings() {
       <Section title={t("マイペット", "My Pets")}>
         {displayPets.map((p) => {
           const active = p.name === pet.name;
-          const spImg = p.species ? getSpecies(p.species).image : null;
+          const spImg = getSpecies("dog").image;
           return (
             <div key={p.id} className="flex items-center gap-3">
               <button onClick={() => switchPet(p)} className="flex items-center gap-3 flex-1 text-left min-w-0">
@@ -238,7 +235,7 @@ function Settings() {
                   style={{ width: 48, height: 48, borderRadius: 12, background: "var(--acc-pale)" }}
                 >
                   {spImg ? (
-                    <img src={spImg} alt={getSpecies(p.species!).label} loading="lazy" width={512} height={512} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                    <img src={spImg} alt="Dog" loading="lazy" width={512} height={512} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                   ) : (
                     <span className="w-full h-full flex items-center justify-center">
                       <PawPrint size={20} style={{ color: "var(--acc-strong)" }} />
@@ -288,14 +285,14 @@ function Settings() {
       </Section>
 
       <div className="mt-5 rounded-3xl border border-border p-5 shadow-card text-foreground" style={{ background: "linear-gradient(145deg,var(--bg-card-peach),var(--bg-card))" }}>
-        <div className="flex items-center gap-2"><Crown className="w-5 h-5"/><div className="font-black">{t("プロプランにアップグレード", "Upgrade to MOooMENTUM Pro")}</div></div>
+        <div className="flex items-center gap-2"><Crown className="w-5 h-5"/><div className="font-black">{t("プロプランにアップグレード", "Upgrade to Pawsitive Diagnostics Pro")}</div></div>
         <ul className="mt-3 text-xs space-y-1">
           <li>✓ {t("無制限AI診断", "Unlimited AI diagnosis")}</li>
           <li>✓ {t("24時間獣医チャット", "24h vet chat")}</li>
           <li>✓ {t("詳細レポート", "Detailed reports")}</li>
           <li>✓ {t("複数ペット対応", "Multiple pets")}</li>
         </ul>
-        <button onClick={() => toast.success(t("Proプランは近日公開 — 先行アクセスに登録しました", "MOooMENTUM Pro launches soon — you're on the early-access list"))} className="mt-3 w-full bg-primary text-primary-foreground rounded-2xl py-3 font-bold text-sm">{t("月額 ₹799", "₹799 / month")} →</button>
+        <button onClick={() => toast.success(t("Proプランは近日公開 — 先行アクセスに登録しました", "Pawsitive Diagnostics Pro launches soon — you're on the early-access list"))} className="mt-3 w-full bg-primary text-primary-foreground rounded-2xl py-3 font-bold text-sm">{t("月額 ₹799", "₹799 / month")} →</button>
       </div>
 
       <div className="mt-6 border-t border-border pt-4">
@@ -382,57 +379,12 @@ function Settings() {
               <div className="font-bold">Add a Pet</div>
               <button onClick={() => setAddPetOpen(false)} aria-label="Close"><X className="w-5 h-5 text-muted-foreground" /></button>
             </div>
-            <div className="text-[11px] font-bold mb-2" style={{ color: "var(--text-secondary)" }}>What kind of animal?</div>
-            <div className="grid grid-cols-3 gap-2 mb-3">
-              {SPECIES.map((s) => {
-                const active = newPetSpecies === s.id;
-                return (
-                  <button
-                    key={s.id}
-                    onClick={() => setNewPetSpecies(s.id)}
-                    className="relative overflow-hidden rounded-xl"
-                    style={{
-                      aspectRatio: "1 / 1.1",
-                      border: `2px solid ${active ? "var(--acc-strong)" : "var(--border-card)"}`,
-                      background: "var(--bg-card)",
-                    }}
-                  >
-                    <img
-                      src={s.image}
-                      alt={s.label}
-                      loading="lazy"
-                      width={512}
-                      height={512}
-                      style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
-                    />
-                    <div
-                      style={{
-                        position: "absolute", inset: 0,
-                        background: active
-                          ? "linear-gradient(to top, var(--acc-strong)cc 0%, transparent 55%)"
-                          : "linear-gradient(to top, rgba(27,46,99,0.72) 0%, transparent 55%)",
-                      }}
-                    />
-                    <span
-                      className="text-[10px] font-bold"
-                      style={{
-                        position: "absolute", bottom: 8, left: 0, right: 0,
-                        textAlign: "center", color: "#fff",
-                        textShadow: "0 1px 3px rgba(0,0,0,0.35)",
-                      }}
-                    >
-                      {s.label}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
             <input
               autoFocus
               type="text"
               value={newPetName}
               onChange={(e) => setNewPetName(e.target.value)}
-              placeholder={`${getSpecies(newPetSpecies).label} name *`}
+              placeholder="Dog name *"
               className="w-full rounded-xl px-4 py-3 text-sm outline-none"
               style={{ background: "var(--acc-pale)", color: "var(--text-primary)" }}
             />

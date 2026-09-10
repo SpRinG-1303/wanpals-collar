@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import AppShell from "@/components/AppShell";
 import { usePet } from "@/context/PetContext";
-import { getSpecies, type SpeciesId } from "@/lib/species";
 import { useEffect, useMemo, useState, useRef } from "react";
 import {
   PenLine,
@@ -143,59 +142,25 @@ const TAGS: { key: string; jp: string; en: string }[] = [
 // Current logged-in user (mock)
 const ME = { user: "You", userEn: "You", breed: "Shiba Inu" };
 
-// Species-specific seed feeds — the community follows the animal you chose
-const SPECIES_POSTS: Record<SpeciesId, PostT[]> = {
-  cow: [
-    { id: "1", user: "Ramesh Patel", breed: "Gir", time: "2h ago", titleJp: "My Gir cow's milk yield dropped suddenly", titleEn: "My Gir cow's milk yield dropped suddenly", flair: "健康", up: 34, com: 11, location: "Anand, Gujarat" },
-    { id: "2", user: "Lakshmi Dairy Farm", breed: "Sahiwal", time: "5h ago", titleJp: "Best fodder mix for summer?", titleEn: "Best fodder mix for summer?", flair: "日常", up: 58, com: 23, location: "Karnal, Haryana" },
-    { id: "3", user: "Vet Dr. Kulkarni", breed: "Cow", time: "1d ago", titleJp: "Heat stress signs every cow owner should know", titleEn: "Heat stress signs every cow owner should know", flair: "獣医Q&A", up: 92, com: 17, location: "Pune, Maharashtra" },
-    { id: "4", user: "Suresh Yadav", breed: "Red Sindhi", time: "3h ago", titleJp: "Lost: brown cow near Shivaji Nagar", titleEn: "Lost: brown cow near Shivaji Nagar", flair: "迷子", up: 121, com: 30, location: "Shivaji Nagar, Pune" },
-  ],
-  buffalo: [
-    { id: "1", user: "Gurpreet Singh", breed: "Murrah", time: "1h ago", titleJp: "Murrah buffalo not eating after calving", titleEn: "Murrah buffalo not eating after calving", flair: "健康", up: 41, com: 14, location: "Ludhiana, Punjab" },
-    { id: "2", user: "Kaka's Farm", breed: "Jaffarabadi", time: "4h ago", titleJp: "Wallowing tank tips for buffaloes", titleEn: "Wallowing tank tips for buffaloes", flair: "しつけ", up: 36, com: 9, location: "Junagadh, Gujarat" },
-    { id: "3", user: "Meena Dairy Coop", breed: "Mehsana", time: "Yesterday", titleJp: "How I improved fat % in buffalo milk", titleEn: "How I improved fat % in buffalo milk", flair: "日常", up: 77, com: 26, location: "Mehsana, Gujarat" },
-    { id: "4", user: "Vet Dr. Rao", breed: "Buffalo", time: "6h ago", titleJp: "Foot-and-mouth vaccination schedule reminder", titleEn: "Foot-and-mouth vaccination schedule reminder", flair: "獣医Q&A", up: 105, com: 19, location: "Vijayawada, AP" },
-  ],
-  goat: [
-    { id: "1", user: "Salim Khan", breed: "Jamunapari", time: "3h ago", titleJp: "My Jamunapari doe is due next week — any tips?", titleEn: "My Jamunapari doe is due next week — any tips?", flair: "日常", up: 29, com: 12, location: "Etawah, UP" },
-    { id: "2", user: "Hill Goat Rearer", breed: "Black Bengal", time: "7h ago", titleJp: "Black Bengal kids not gaining weight", titleEn: "Black Bengal kids not gaining weight", flair: "健康", up: 45, com: 18, location: "Malda, West Bengal" },
-    { id: "3", user: "Vet Dr. Iyer", breed: "Goat", time: "1d ago", titleJp: "Deworming calendar for goats in monsoon", titleEn: "Deworming calendar for goats in monsoon", flair: "獣医Q&A", up: 88, com: 21, location: "Coimbatore, TN" },
-    { id: "4", user: "Firoz Ansari", breed: "Sirohi", time: "5h ago", titleJp: "Best stall-feeding setup on a budget", titleEn: "Best stall-feeding setup on a budget", flair: "しつけ", up: 33, com: 8, location: "Sirohi, Rajasthan" },
-  ],
-  sheep: [
-    { id: "1", user: "Tsering Dorje", breed: "Changthangi", time: "2h ago", titleJp: "Shearing time — how often do you shear?", titleEn: "Shearing time — how often do you shear?", flair: "日常", up: 24, com: 7, location: "Leh, Ladakh" },
-    { id: "2", user: "Deccan Shepherds", breed: "Deccani", time: "6h ago", titleJp: "Lamb has diarrhoea since morning", titleEn: "Lamb has diarrhoea since morning", flair: "健康", up: 38, com: 15, location: "Solapur, Maharashtra" },
-    { id: "3", user: "Vet Dr. Nair", breed: "Sheep", time: "Yesterday", titleJp: "Blue tongue signs in sheep — act fast", titleEn: "Blue tongue signs in sheep — act fast", flair: "獣医Q&A", up: 71, com: 13, location: "Kochi, Kerala" },
-    { id: "4", user: "Rabari Community", breed: "Marwari", time: "4h ago", titleJp: "Lost: 3 ewes near grazing ground", titleEn: "Lost: 3 ewes near grazing ground", flair: "迷子", up: 96, com: 22, location: "Barmer, Rajasthan" },
-  ],
-  dog: [
+// Dog-only community feed.
+const DOG_POSTS: PostT[] = [
     { id: "1", user: "Priya & Bruno", breed: "Indian Pariah Dog", time: "3h ago", titleJp: "My Indie's temp seems high", titleEn: "My Indie's temp seems high", flair: "健康", up: 47, com: 12, location: "Bandra, Mumbai" },
     { id: "2", user: "Mumbai Animal Lover", breed: "Indian Spitz", time: "5h ago", titleJp: "Recommended vet in Mumbai?", titleEn: "Recommended vet in Mumbai?", flair: "獣医Q&A", up: 23, com: 34, location: "Andheri, Mumbai" },
     { id: "3", user: "Arjun's Pack", breed: "Labrador Retriever", time: "Yesterday", titleJp: "Our daily walk routine at Marine Drive", titleEn: "Our daily walk routine at Marine Drive", flair: "日常", up: 89, com: 6, location: "Marine Drive, Mumbai" },
     { id: "4", user: "Lost Pet Support", breed: "Mixed Breed", time: "2h ago", titleJp: "Did you see a black Indie near Bandra station?", titleEn: "Did you see a black Indie near Bandra station?", flair: "迷子", up: 156, com: 28, location: "Bandra, Mumbai" },
-  ],
-  cat: [
-    { id: "1", user: "Aisha & Milo", breed: "Indie Cat", time: "1h ago", titleJp: "My cat stopped eating wet food suddenly", titleEn: "My cat stopped eating wet food suddenly", flair: "健康", up: 31, com: 16, location: "Koramangala, Bengaluru" },
-    { id: "2", user: "Cat Parent Diaries", breed: "Persian", time: "4h ago", titleJp: "How do you manage shedding season?", titleEn: "How do you manage shedding season?", flair: "日常", up: 52, com: 19, location: "Powai, Mumbai" },
-    { id: "3", user: "Vet Dr. Menon", breed: "Cat", time: "Yesterday", titleJp: "Feline vaccination schedule explained", titleEn: "Feline vaccination schedule explained", flair: "獣医Q&A", up: 84, com: 11, location: "Chennai, TN" },
-    { id: "4", user: "Rescue Whiskers", breed: "Mixed Breed", time: "3h ago", titleJp: "Found: ginger kitten near Metro station", titleEn: "Found: ginger kitten near Metro station", flair: "迷子", up: 118, com: 25, location: "Karol Bagh, Delhi" },
-  ],
-};
+];
 
 function Community() {
   const t = useT();
   
   const { pet } = usePet();
-  const sp = getSpecies(pet?.species);
-  const myBreed = pet?.breedEn || sp.label;
+  const myBreed = pet?.breedEn || "Indian Pariah Dog";
   const [sub, setSub] = useState(0);
   const [open, setOpen] = useState<string | null>(null);
   const [upvoted, setUpvoted] = useState<Record<string, boolean>>({});
   const [bookmarked, setBookmarked] = useState<Record<string, boolean>>({});
   const [burst, setBurst] = useState<string | null>(null);
-  const [posts, setPosts] = useState<PostT[]>(() => SPECIES_POSTS[sp.id]);
-  useEffect(() => { setPosts(SPECIES_POSTS[sp.id]); setOpen(null); }, [sp.id]);
+  const [posts, setPosts] = useState<PostT[]>(() => DOG_POSTS);
   const [composeOpen, setComposeOpen] = useState(false);
   const [shareFor, setShareFor] = useState<string | null>(null);
 
@@ -229,7 +194,7 @@ function Community() {
 
   async function sharePost(p: PostT) {
     const title = p.titleEn;
-    const text = `${title} — MOooMENTUM Community`;
+    const text = `${title} — Pawsitive Diagnostics Community`;
     if (typeof navigator !== "undefined" && (navigator as any).share) {
       try {
         await (navigator as any).share({ title, text, url: typeof window !== "undefined" ? window.location.href : "" });
@@ -277,15 +242,15 @@ function Community() {
       {/* ── Pet Match (signature feature) ────────────────────── */}
       <PetMatchSection />
 
-      {/* ── Species community header ──────────────────────────── */}
+      {/* ── Dog community header ──────────────────────────────── */}
       <div style={{ margin: "24px 16px 0", display: "flex", alignItems: "center", gap: 10 }}>
-        <span style={{ fontSize: 20 }}>{sp.emoji}</span>
+        <PawPrint size={20} style={{ color: "var(--acc-strong)" }} />
         <div>
           <div style={{ fontSize: 17, fontWeight: 800, color: "var(--text-primary)", fontFamily: "var(--font-display)" }}>
-            {sp.label} Community
+             Dog Community
           </div>
           <div style={{ fontSize: 11, color: "var(--text-secondary)" }}>
-            {t("この動物の飼い主さんの投稿", `Posts from fellow ${sp.plural.toLowerCase()} owners`)}
+             {t("犬の飼い主さんの投稿", "Posts from fellow dog owners")}
           </div>
         </div>
       </div>

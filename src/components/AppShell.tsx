@@ -70,15 +70,15 @@ export function TopBar({
             >
               <img
                 src={pawLogoAsset.url}
-                alt="MOooMENTUM logo"
+                alt="Pawsitive Diagnostics logo"
                 style={{ width: 36, height: 36, objectFit: "contain", display: "block" }}
               />
               <div style={{ display: "flex", flexDirection: "column", lineHeight: 1.1 }}>
                 <span style={{ fontSize: 17, fontWeight: 500, color: "var(--text-primary)", fontFamily: "var(--font-display)" }}>
-                  MOooMENTUM
+                  Pawsitive Diagnostics
                 </span>
                 <span style={{ fontSize: 9, fontWeight: 700, color: "var(--text-secondary)", textTransform: "uppercase", letterSpacing: "0.12em" }}>
-                  Smart Animal Care
+                  Smart Dog Care
                 
                 </span>
               </div>

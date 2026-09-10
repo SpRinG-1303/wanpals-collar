@@ -4,7 +4,7 @@ import { Search, Plus, ChevronRight, Phone, X } from "lucide-react";
 import { toast } from "sonner";
 import VetShell from "@/components/vet/VetShell";
 import { Card, Chip, E, FieldLabel, GhostBtn, PatientAvatar, PrimaryBtn, inputStyle } from "@/components/vet/ehr";
-import { VET_PATIENTS, type Species, type VetPatient } from "@/components/vet/vetData";
+import { VET_PATIENTS, type VetPatient } from "@/components/vet/vetData";
 
 type Search = { q?: string };
 
@@ -12,38 +12,29 @@ export const Route = createFileRoute("/vet-patients")({
   validateSearch: (s: Record<string, unknown>): Search => ({ q: typeof s.q === "string" ? s.q : undefined }),
   head: () => ({
     meta: [
-      { title: "Patients — MOooMENTUM Veterinary" },
+      { title: "Patients — Pawsitive Diagnostics Veterinary" },
       { name: "description", content: "Veterinary patient directory: search by name, owner, phone, microchip or medical record number." },
-      { property: "og:title", content: "Patients — MOooMENTUM Veterinary" },
+      { property: "og:title", content: "Patients — Pawsitive Diagnostics Veterinary" },
       { property: "og:description", content: "Veterinary patient directory and medical records." },
     ],
   }),
   component: VetPatients,
 });
 
-const SPECIES_FILTERS: { id: Species | "all"; label: string }[] = [
-  { id: "all", label: "All" },
-  { id: "dog", label: "Dogs" },
-  { id: "cat", label: "Cats" },
-  { id: "other", label: "Other" },
-];
-
 function VetPatients() {
   const { q } = Route.useSearch();
   const navigate = useNavigate();
   const [query, setQuery] = useState(q ?? "");
-  const [species, setSpecies] = useState<Species | "all">("all");
   const [addOpen, setAddOpen] = useState(false);
   const [extra, setExtra] = useState<VetPatient[]>([]);
-  const [form, setForm] = useState({ name: "", species: "dog" as Species, breed: "", owner: "", phone: "" });
+  const [form, setForm] = useState({ name: "", breed: "", owner: "", phone: "" });
 
   const all = useMemo(() => [...VET_PATIENTS, ...extra], [extra]);
   const results = useMemo(() => {
     const term = query.trim().toLowerCase();
     return all
-      .filter((p) => species === "all" || p.species === species)
       .filter((p) => !term || [p.name, p.owner, p.microchip, p.patientCode, p.ownerPhone].join(" ").toLowerCase().includes(term));
-  }, [all, query, species]);
+  }, [all, query]);
 
   const savePatient = () => {
     if (!form.name.trim() || !form.owner.trim()) {
@@ -53,8 +44,8 @@ function VetPatients() {
     const np: VetPatient = {
       id: `p-new-${Date.now()}`,
       name: form.name.trim(),
-      species: form.species,
-      breed: form.breed.trim() || (form.species === "cat" ? "Domestic Shorthair" : "Mixed Breed"),
+      species: "dog",
+      breed: form.breed.trim() || "Mixed Breed",
       breedKey: "mixed",
       size: "medium",
       age: "—",
@@ -75,7 +66,7 @@ function VetPatients() {
     };
     setExtra((x) => [...x, np]);
     setAddOpen(false);
-    setForm({ name: "", species: "dog", breed: "", owner: "", phone: "" });
+    setForm({ name: "", breed: "", owner: "", phone: "" });
     toast.success(`${np.name} registered — record ${np.patientCode} created.`);
     navigate({ to: "/vet-patient/$id", params: { id: np.id } });
   };
@@ -88,7 +79,7 @@ function VetPatients() {
     >
       {/* Search + filters */}
       <Card style={{ padding: 14, marginBottom: 14 }}>
-        <div className="flex items-center flex-wrap" style={{ gap: 10 }}>
+          <div className="flex items-center" style={{ gap: 10 }}>
           <div className="flex items-center" style={{ gap: 9, height: 40, borderRadius: 10, border: `1px solid ${E.border}`, background: E.bg, padding: "0 13px", flex: 1, minWidth: 220 }}>
             <Search size={16} style={{ color: E.faint, flexShrink: 0 }} />
             <input
@@ -97,24 +88,6 @@ function VetPatients() {
               placeholder="Search patient, owner, microchip ID…"
               style={{ flex: 1, minWidth: 0, border: "none", background: "transparent", outline: "none", fontSize: 13.5, color: E.ink }}
             />
-          </div>
-          <div className="flex" style={{ gap: 7 }}>
-            {SPECIES_FILTERS.map((f) => {
-              const active = species === f.id;
-              return (
-                <button
-                  key={f.id}
-                  onClick={() => setSpecies(f.id)}
-                  style={{
-                    height: 32, padding: "0 14px", borderRadius: 8, fontSize: 12, fontWeight: 600,
-                    border: active ? "none" : `1px solid ${E.border}`,
-                    background: active ? E.accent : E.card, color: active ? "#fff" : E.sub,
-                  }}
-                >
-                  {f.label}
-                </button>
-              );
-            })}
           </div>
         </div>
       </Card>
@@ -176,15 +149,7 @@ function VetPatients() {
                 <FieldLabel>Patient name *</FieldLabel>
                 <input autoFocus value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="e.g. Rocky" style={inputStyle} />
               </div>
-              <div className="grid grid-cols-2" style={{ gap: 10 }}>
-                <div>
-                  <FieldLabel>Species</FieldLabel>
-                  <select value={form.species} onChange={(e) => setForm({ ...form, species: e.target.value as Species })} style={{ ...inputStyle, appearance: "none" }}>
-                    <option value="dog">Dog</option>
-                    <option value="cat">Cat</option>
-                    <option value="other">Other</option>
-                  </select>
-                </div>
+              <div>
                 <div>
                   <FieldLabel>Breed</FieldLabel>
                   <input value={form.breed} onChange={(e) => setForm({ ...form, breed: e.target.value })} placeholder="Breed" style={inputStyle} />

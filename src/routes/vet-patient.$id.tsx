@@ -16,9 +16,9 @@ import {
 export const Route = createFileRoute("/vet-patient/$id")({
   head: () => ({
     meta: [
-      { title: "Patient Record — MOooMENTUM Veterinary" },
+      { title: "Patient Record — Pawsitive Diagnostics Veterinary" },
       { name: "description", content: "Veterinary patient profile: clinical summary, visits, diagnoses, medications, vaccinations and lab results." },
-      { property: "og:title", content: "Patient Record — MOooMENTUM Veterinary" },
+      { property: "og:title", content: "Patient Record — Pawsitive Diagnostics Veterinary" },
       { property: "og:description", content: "Veterinary patient profile and medical record." },
     ],
   }),
@@ -436,7 +436,7 @@ function VetPatientProfile() {
               <div>
                 <FieldLabel>Vaccine</FieldLabel>
                 <select value={vaxForm.name} onChange={(e) => setVaxForm({ ...vaxForm, name: e.target.value })} style={{ ...inputStyle, appearance: "none" }}>
-                  {(patient.species === "cat" ? ["FVRCP", "Rabies", "FeLV"] : ["Rabies", "DHPP", "Leptospirosis", "Kennel Cough (Bordetella)"]).map((v) => <option key={v}>{v}</option>)}
+                  {["Rabies", "DHPP", "Leptospirosis", "Kennel Cough (Bordetella)"].map((v) => <option key={v}>{v}</option>)}
                 </select>
               </div>
               <div>

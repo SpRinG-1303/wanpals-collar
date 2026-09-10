@@ -10,16 +10,9 @@ import VetShell from "./VetShell";
 import { Card, Chip, E, PatientAvatar } from "./ehr";
 import {
   APPOINTMENTS, APPT_STATUS_META, CLINICAL_ALERTS, FOLLOW_UPS,
-  VET_PATIENTS, patientById, type Species,
+  VET_PATIENTS, patientById,
 } from "./vetData";
 import { useAuth } from "@/context/AuthContext";
-
-const SPECIES_FILTERS: { id: Species | "all"; label: string }[] = [
-  { id: "all", label: "All" },
-  { id: "dog", label: "Dogs" },
-  { id: "cat", label: "Cats" },
-  { id: "other", label: "Other" },
-];
 
 function SummaryCard({ Icon, label, value, tone }: { Icon: LucideIcon; label: string; value: number; tone: "blue" | "amber" | "green" | "grey" }) {
   const toneMap = {
@@ -47,7 +40,6 @@ export default function VetHome() {
   const { session } = useAuth();
   const navigate = useNavigate();
   const [q, setQ] = useState("");
-  const [species, setSpecies] = useState<Species | "all">("all");
 
   // Compute time-based greeting only after mount — server (UTC) and client
   // (local timezone) clocks differ and would break hydration.
@@ -63,10 +55,9 @@ export default function VetHome() {
 
   const results = useMemo(() => {
     const term = q.trim().toLowerCase();
-    return VET_PATIENTS.filter((p) => species === "all" || p.species === species)
-      .filter((p) => !term || [p.name, p.owner, p.microchip, p.patientCode, p.ownerPhone].join(" ").toLowerCase().includes(term))
+    return VET_PATIENTS.filter((p) => !term || [p.name, p.owner, p.microchip, p.patientCode, p.ownerPhone].join(" ").toLowerCase().includes(term))
       .slice(0, 5);
-  }, [q, species]);
+  }, [q]);
 
   return (
     <VetShell>
@@ -144,24 +135,6 @@ export default function VetHome() {
                 placeholder="Search patient, owner, microchip ID…"
                 style={{ flex: 1, minWidth: 0, border: "none", background: "transparent", outline: "none", fontSize: 13.5, color: E.ink }}
               />
-            </div>
-            <div className="flex" style={{ gap: 7, marginTop: 10, flexWrap: "wrap" }}>
-              {SPECIES_FILTERS.map((f) => {
-                const active = species === f.id;
-                return (
-                  <button
-                    key={f.id}
-                    onClick={() => setSpecies(f.id)}
-                    style={{
-                      height: 30, padding: "0 13px", borderRadius: 8, fontSize: 12, fontWeight: 600,
-                      border: active ? "none" : `1px solid ${E.border}`,
-                      background: active ? E.accent : E.card, color: active ? "#fff" : E.sub,
-                    }}
-                  >
-                    {f.label}
-                  </button>
-                );
-              })}
             </div>
             <div style={{ marginTop: 10 }}>
               {results.length === 0 ? (

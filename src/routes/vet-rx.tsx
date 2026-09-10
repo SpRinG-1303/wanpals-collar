@@ -15,9 +15,9 @@ import {
 export const Route = createFileRoute("/vet-rx")({
   head: () => ({
     meta: [
-      { title: "e-Prescription & Toxicity Calculator — MOooMENTUM Vet" },
+      { title: "e-Prescription & Toxicity Calculator — Pawsitive Diagnostics Vet" },
       { name: "description", content: "Canine e-prescription with MDR1 toxic-check engine and a weight-synced toxin dose calculator." },
-      { property: "og:title", content: "e-Prescription & Toxicity Calculator — MOooMENTUM Vet" },
+      { property: "og:title", content: "e-Prescription & Toxicity Calculator — Pawsitive Diagnostics Vet" },
       { property: "og:description", content: "Canine e-prescription with breed-aware safety checks and toxicity calculator." },
     ],
   }),
@@ -259,7 +259,7 @@ function VetRx() {
           </div>
 
           <div style={{ marginTop: 14 }}>
-            <label style={{ fontSize: 10.5, fontWeight: 700, color: T.sub, letterSpacing: "0.04em", textTransform: "uppercase" }}>Animal ate…</label>
+            <label style={{ fontSize: 10.5, fontWeight: 700, color: T.sub, letterSpacing: "0.04em", textTransform: "uppercase" }}>Dog ate…</label>
             <div className="flex flex-wrap" style={{ gap: 7, marginTop: 6 }}>
               {TOXINS.map((tx) => {
                 const active = tx.id === toxinId;

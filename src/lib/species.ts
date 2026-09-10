@@ -1,25 +1,15 @@
-import cowAsset from "@/assets/species-cow.jpg.asset.json";
-import buffaloAsset from "@/assets/species-buffalo.jpg.asset.json";
-import goatAsset from "@/assets/species-goat.jpg.asset.json";
-import sheepAsset from "@/assets/species-sheep.jpg.asset.json";
 import dogAsset from "@/assets/species-dog.jpg.asset.json";
-import catAsset from "@/assets/species-cat.jpg.asset.json";
 
-const cowImg = cowAsset.url;
-const buffaloImg = buffaloAsset.url;
-const goatImg = goatAsset.url;
-const sheepImg = sheepAsset.url;
 const dogImg = dogAsset.url;
-const catImg = catAsset.url;
 
-/* Species catalogue — the whole owner experience adapts to the pet type. */
+/* Dog profile data shared across the owner experience. */
 
-export type SpeciesId = "cow" | "buffalo" | "goat" | "sheep" | "dog" | "cat";
+export type SpeciesId = "dog";
 
 export type Species = {
   id: SpeciesId;
-  label: string;      // "Cow"
-  plural: string;     // "Cows"
+  label: string;
+  plural: string;
   emoji: string;
   image: string;
   namePlaceholder: string;
@@ -29,74 +19,6 @@ export type Species = {
 };
 
 export const SPECIES: Species[] = [
-  {
-    id: "cow",
-    label: "Cow",
-    plural: "Cows",
-    emoji: "🐄",
-    image: cowImg,
-    namePlaceholder: "e.g. Gauri",
-    tempRange: "38.0–39.3°C",
-    breeds: ["Gir", "Sahiwal", "Red Sindhi", "Tharparkar", "Rathi", "Kankrej", "Holstein Friesian", "Jersey", "Mixed"],
-    facts: [
-      "Cows have almost 360° panoramic vision and can sense danger from all directions.",
-      "The Gir cow of Gujarat is one of India's hardiest breeds, prized for A2 milk.",
-      "A cow's normal body temperature is 38.0–39.3°C.",
-      "Cows form close friendships and get stressed when separated from their herd mates.",
-      "A healthy cow chews her cud for around 8 hours a day.",
-    ],
-  },
-  {
-    id: "buffalo",
-    label: "Buffalo",
-    plural: "Buffaloes",
-    emoji: "🐃",
-    image: buffaloImg,
-    namePlaceholder: "e.g. Kali",
-    tempRange: "37.5–39.0°C",
-    breeds: ["Murrah", "Jaffarabadi", "Mehsana", "Nili-Ravi", "Surti", "Bhadawari", "Mixed"],
-    facts: [
-      "Murrah buffaloes give some of the richest milk in the world — over 7% fat.",
-      "Buffaloes wallow in mud to cool down; they have far fewer sweat glands than cattle.",
-      "A buffalo's normal body temperature is 37.5–39.0°C.",
-      "Buffaloes recognise their handlers by voice and routine.",
-      "India is home to more than half of the world's buffalo population.",
-    ],
-  },
-  {
-    id: "goat",
-    label: "Goat",
-    plural: "Goats",
-    emoji: "🐐",
-    image: goatImg,
-    namePlaceholder: "e.g. Chotu",
-    tempRange: "38.5–39.7°C",
-    breeds: ["Jamnapari", "Sirohi", "Beetal", "Barbari", "Osmanabadi", "Black Bengal", "Malabari", "Mixed"],
-    facts: [
-      "Goats have rectangular pupils, giving them a very wide field of view.",
-      "The Jamnapari goat of Uttar Pradesh is known as the 'Pride of India'.",
-      "A goat's normal body temperature is 38.5–39.7°C.",
-      "Goats call to each other in accents that change with their herd.",
-      "Goats are excellent climbers and love raised platforms in their shed.",
-    ],
-  },
-  {
-    id: "sheep",
-    label: "Sheep",
-    plural: "Sheep",
-    emoji: "🐑",
-    image: sheepImg,
-    namePlaceholder: "e.g. Moti",
-    tempRange: "38.3–39.9°C",
-    breeds: ["Deccani", "Nellore", "Marwari", "Mandya", "Chokla", "Bannur", "Garole", "Mixed"],
-    facts: [
-      "Sheep can remember the faces of around 50 other sheep for years.",
-      "Marwari sheep of Rajasthan thrive in dry desert grazing conditions.",
-      "A sheep's normal body temperature is 38.3–39.9°C.",
-      "Sheep have a strong flocking instinct and get anxious when alone.",
-      "Regular shearing prevents heat stress and skin infections.",
-    ],
-  },
   {
     id: "dog",
     label: "Dog",
@@ -114,25 +36,8 @@ export const SPECIES: Species[] = [
       "Dogs dream too — they twitch during REM sleep.",
     ],
   },
-  {
-    id: "cat",
-    label: "Cat",
-    plural: "Cats",
-    emoji: "🐈",
-    image: catImg,
-    namePlaceholder: "e.g. Mishti",
-    tempRange: "38.1–39.2°C",
-    breeds: ["Indian Billi (Domestic Shorthair)", "Persian", "Siamese", "Bombay", "Himalayan", "Maine Coon", "Mixed"],
-    facts: [
-      "Cats meow mainly to talk to humans, rarely to other cats.",
-      "A cat's normal body temperature is 38.1–39.2°C.",
-      "Cats spend nearly 70% of their life sleeping.",
-      "A cat's purr vibrates at a frequency that helps heal bone and tissue.",
-      "Whiskers help cats judge whether they can fit through a gap.",
-    ],
-  },
 ];
 
-export function getSpecies(id: string | null | undefined): Species {
-  return SPECIES.find((s) => s.id === id) ?? SPECIES[4];
+export function getSpecies(_id?: string | null): Species {
+  return SPECIES[0];
 }

@@ -6,10 +6,12 @@ import { useAuth } from "@/context/AuthContext";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "MOooMENTUM — AI Smart Animal Collar" },
-      { name: "description", content: "MOooMENTUM: AI-powered smart animal collar app for pet parents and vets across India." },
-      { property: "og:title", content: "MOooMENTUM — AI Smart Animal Collar" },
-      { property: "og:description", content: "AI-powered smart animal collar app for pet parents and vets across India." },
+      { title: "Pawsitive Diagnostics — Smart Dog Care" },
+      { name: "description", content: "Pawsitive Diagnostics: AI-powered smart dog collar app for pet parents and vets across India." },
+      { property: "og:title", content: "Pawsitive Diagnostics — Smart Dog Care" },
+      { property: "og:description", content: "AI-powered smart dog collar app for pet parents and vets across India." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: Splash,
@@ -44,7 +46,7 @@ function Splash() {
 
         <img
           src={pawLogoAsset.url}
-          alt="MOooMENTUM logo"
+          alt="Pawsitive Diagnostics logo"
           style={{ width: 84, height: 84, objectFit: "contain", animation: "splashFadeUp 0.5s ease both" }}
         />
         <div
@@ -53,7 +55,7 @@ function Splash() {
             animation: "splashFadeUp 0.5s ease 0.15s both", fontFamily: "var(--font-display)",
           }}
         >
-          MOooMENTUM
+          Pawsitive Diagnostics
         </div>
         <div
           style={{
@@ -61,7 +63,7 @@ function Splash() {
             animation: "splashFadeUp 0.5s ease 0.3s both",
           }}
         >
-          Smart animal care, made simple
+          Smart dog care, made simple
         </div>
 
         <div className="flex" style={{ gap: 7, marginTop: 36 }}>

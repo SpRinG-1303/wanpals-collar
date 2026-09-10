@@ -316,7 +316,7 @@ function Step2() {
             </div>
             <div className="px-5 pt-2 pb-2 text-[12px] font-bold" style={{ color: "var(--text-secondary)" }}>
               {sheet === "dog"
-                ? t("ワンちゃんの写真を選ぶ", "Choose animal photo")
+                ? t("ワンちゃんの写真を選ぶ", "Choose dog photo")
                 : t("あなたの写真を選ぶ", "Choose your photo")}
             </div>
             <SheetRow
@@ -699,7 +699,7 @@ function AnimationField({
 }
 
 /* ============================================================ */
-/*  PawBot — the MOooMENTUM mascot                   */
+/*  PawBot — the Pawsitive Diagnostics mascot                   */
 /* ============================================================ */
 
 function PawBot({ palette }: { palette?: DogPalette }) {
@@ -948,7 +948,7 @@ function PawBotSVG({ palette }: { palette?: DogPalette }) {
       {/* Chest patch */}
       <ellipse cx="50" cy="76" rx="10" ry="6" fill={CHEST} />
 
-      {/* Collar (MOooMENTUM brand) */}
+      {/* Collar (Pawsitive Diagnostics brand) */}
       <path d="M36 66 Q50 70 64 66 L64 70 Q50 74 36 70 Z"
         fill={COLLAR} stroke={OUTLINE} strokeWidth="2.5" strokeLinejoin="round" />
       {/* Collar tag */}

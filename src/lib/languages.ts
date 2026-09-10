@@ -1,4 +1,4 @@
-/* Language catalogue — 43 languages supported by MOooMENTUM. */
+/* Language catalogue — 43 languages supported by Pawsitive Diagnostics. */
 
 export const INDIAN_LANGUAGES = [
   "Hindi", "English", "Bengali", "Telugu", "Marathi", "Tamil", "Urdu",

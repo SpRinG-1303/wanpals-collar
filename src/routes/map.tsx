@@ -385,7 +385,7 @@ function MapScreen() {
         </div>
         <div className="flex-1 min-w-0">
           <div style={{ fontSize: 14, fontWeight: 700, color: "var(--text-primary)" }}>
-            {t("最寄りの動物病院", "Nearest Animal Hospital")}
+            {t("最寄りの動物病院", "Nearest Veterinary Hospital")}
           </div>
           <div style={{ fontSize: 12, color: "var(--text-secondary)", marginTop: 2 }}>
             {nearestVet

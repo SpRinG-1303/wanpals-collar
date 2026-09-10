@@ -8,7 +8,7 @@ export const Route = createFileRoute("/avatar-setup")({
 });
 
 /* ────────────────────────────────────────────────────────────────────────
- *  Avatar Setup — onboarding flow for MOooMENTUM
+ *  Avatar Setup — onboarding flow for Pawsitive Diagnostics
  *  ────────────────────────────────────────────────────────────────────────
  *  Backend pipeline (for Step 2 → Step 3, documented for integration):
  *    1. Photo upload → Replicate API
@@ -177,7 +177,7 @@ function Welcome({ onStart, avatar }: { onStart: () => void; avatar: AvatarState
       </div>
 
       <h1 style={{ fontSize: 28, fontWeight: 800, margin: "32px 0 8px", color: TEXT }}>
-        Welcome to MOooMENTUM!
+        Welcome to Pawsitive Diagnostics!
       </h1>
       <p style={{ fontSize: 15, color: MUTED, margin: "0 12px 32px", lineHeight: 1.5 }}>
         Create your pet's avatar and get started with smart health monitoring.

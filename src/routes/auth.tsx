@@ -8,15 +8,15 @@ import { toast } from "sonner";
 import pawLogoAsset from "@/assets/paw-logo.png.asset.json";
 import { useAuth, type UserRole } from "@/context/AuthContext";
 import { usePet } from "@/context/PetContext";
-import { SPECIES, getSpecies, type SpeciesId } from "@/lib/species";
+import { getSpecies } from "@/lib/species";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({
     meta: [
-      { title: "Sign In — MOooMENTUM" },
-      { name: "description", content: "Log in or create your MOooMENTUM account as a pet parent or veterinarian." },
-      { property: "og:title", content: "Sign In — MOooMENTUM" },
-      { property: "og:description", content: "Log in or create your MOooMENTUM account as a pet parent or veterinarian." },
+      { title: "Sign In — Pawsitive Diagnostics" },
+      { name: "description", content: "Log in or create your Pawsitive Diagnostics account as a pet parent or veterinarian." },
+      { property: "og:title", content: "Sign In — Pawsitive Diagnostics" },
+      { property: "og:description", content: "Log in or create your Pawsitive Diagnostics account as a pet parent or veterinarian." },
     ],
   }),
   component: AuthPage,
@@ -33,12 +33,12 @@ const INPUT_BG = "var(--bg-card)";
 const DANGER = "var(--accent-red)";
 const CARD_SHADOW = "var(--shadow-card)";
 
-type Step = "role" | "auth" | "species" | "profile";
+type Step = "role" | "auth" | "profile";
 type Mode = "login" | "signup";
 
 function AuthPage() {
   const navigate = useNavigate();
-  const { signIn, signUp } = useAuth();
+  const { signIn, signUp, continueAsGuest } = useAuth();
   const { pet, updatePet } = usePet();
 
   const [step, setStep] = useState<Step>("role");
@@ -55,9 +55,8 @@ function AuthPage() {
   const [password, setPassword] = useState("");
 
   // owner profile setup
-  const [species, setSpecies] = useState<SpeciesId>(pet.species ?? "dog");
   const [petName, setPetName] = useState(pet.name ?? "");
-  const [breed, setBreed] = useState(getSpecies(pet.species).breeds[0]);
+  const [breed, setBreed] = useState(getSpecies("dog").breeds[0]);
   const [age, setAge] = useState("");
   const [weight, setWeight] = useState("");
   const [gender, setGender] = useState<"male" | "female" | null>(null);
@@ -70,7 +69,7 @@ function AuthPage() {
     document.documentElement.dataset.role = role;
   }, [role]);
 
-  const sp = getSpecies(species);
+  const sp = getSpecies("dog");
   const breedOptions = Array.from(new Set([breed, ...sp.breeds]));
 
   function validateAuth(): string | null {
@@ -98,7 +97,7 @@ function AuthPage() {
     });
     if (err) { setError(err); return; }
     if (role === "owner") {
-      setStep("species");
+      setStep("profile");
     } else {
       const vetName = /^dr\.?/i.test(name.trim()) ? name.trim() : `Dr. ${name.trim()}`;
       toast.success(`Welcome, ${vetName}!`);
@@ -110,7 +109,7 @@ function AuthPage() {
     if (!skip) {
       if (!petName.trim()) { setError("Pet name is required."); return; }
       updatePet({
-        species,
+        species: "dog",
         name: petName.trim(),
         breedEn: breed,
         breedJp: breed,
@@ -123,7 +122,7 @@ function AuthPage() {
       });
       toast.success(`Profile saved — welcome, ${petName.trim()}!`);
     } else {
-      updatePet({ species });
+      updatePet({ species: "dog" });
     }
     navigate({ to: "/home" });
   }
@@ -149,18 +148,18 @@ function AuthPage() {
       >
         {/* Brand header */}
         <div className="flex flex-col items-center" style={{ marginBottom: 30, marginTop: 8 }}>
-          <img src={pawLogoAsset.url} alt="MOooMENTUM logo" style={{ width: 68, height: 68, objectFit: "contain" }} />
+          <img src={pawLogoAsset.url} alt="Pawsitive Diagnostics logo" style={{ width: 68, height: 68, objectFit: "contain" }} />
           <div style={{ marginTop: 12, fontSize: 30, fontWeight: 500, color: INK, fontFamily: "var(--font-display)" }}>
-            MOooMENTUM
+            Pawsitive Diagnostics
           </div>
           <div style={{ marginTop: 4, fontSize: 13, fontWeight: 500, color: SUB, letterSpacing: "0.02em" }}>
-            Smart animal care, made simple
+            Smart dog care, made simple
           </div>
         </div>
 
         {step !== "role" && (
           <button
-            onClick={() => { setError(null); setStep(step === "profile" ? "species" : step === "species" ? (guest ? "role" : "auth") : "role"); }}
+            onClick={() => { setError(null); setStep(step === "profile" ? (guest ? "role" : "auth") : "role"); }}
             className="flex items-center"
             style={{ gap: 4, fontSize: 13, fontWeight: 600, color: SUB, marginBottom: 14 }}
           >
@@ -175,13 +174,13 @@ function AuthPage() {
               Welcome
             </div>
             <div style={{ textAlign: "center", fontSize: 13.5, color: SUB, marginBottom: 26, lineHeight: 1.5 }}>
-              Choose how you'll use MOooMENTUM
+              Choose how you'll use Pawsitive Diagnostics
             </div>
 
             <RoleCard
               tint={OWNER.accent} soft={OWNER.soft}
               title="Pet Parent"
-              desc="Track your animal's health, location and wellbeing"
+               desc="Track your dog's health, location and wellbeing"
               icon={
                 <div className="relative">
                   <PawPrint size={26} strokeWidth={1.8} style={{ color: OWNER.accent }} />
@@ -217,7 +216,15 @@ function AuthPage() {
             />
 
             <button
-              onClick={() => { setGuest(true); setRole("owner"); setError(null); setStep("species"); }}
+               onClick={() => {
+                 setGuest(true);
+                 setRole("owner");
+                 setError(null);
+                 updatePet({ species: "dog" });
+                 continueAsGuest();
+                 toast.success("Welcome to Pawsitive Diagnostics!");
+                 navigate({ to: "/home" });
+               }}
               style={{ display: "block", margin: "26px auto 0", fontSize: 13, fontWeight: 600, color: SUB, textDecoration: "underline", textUnderlineOffset: 3 }}
             >
               Continue as guest
@@ -315,97 +322,20 @@ function AuthPage() {
           </div>
         )}
 
-        {/* STEP 2b — species selection */}
-        {step === "species" && (
-          <div style={{ background: "var(--bg-card)", borderRadius: 24, boxShadow: CARD_SHADOW, border: `1px solid ${LINE}`, padding: "22px 20px" }}>
-            <div style={{ fontSize: 20, fontWeight: 500, color: INK, fontFamily: "var(--font-display)" }}>What kind of pet do you have?</div>
-            <div style={{ fontSize: 12.5, color: SUB, marginTop: 4, marginBottom: 18, lineHeight: 1.5 }}>
-              Your dashboard, facts and breed list will be tailored to it.
-            </div>
-
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
-              {SPECIES.map((s) => {
-                const active = species === s.id;
-                return (
-                  <button
-                    key={s.id}
-                    onClick={() => { setSpecies(s.id); setBreed(s.breeds[0]); }}
-                    className="press-pop relative overflow-hidden"
-                    style={{
-                      aspectRatio: "1 / 1.15",
-                      borderRadius: 18,
-                      border: `2.5px solid ${active ? OWNER.accent : LINE}`,
-                      background: "var(--bg-card)",
-                      transition: "all 0.15s ease",
-                    }}
-                  >
-                    <img
-                      src={s.image}
-                      alt={s.label}
-                      loading="lazy"
-                      width={512}
-                      height={512}
-                      style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
-                    />
-                    <div
-                      style={{
-                        position: "absolute", inset: 0,
-                        background: active
-                          ? `linear-gradient(to top, ${OWNER.accent}cc 0%, transparent 55%)`
-                          : "linear-gradient(to top, rgba(27,46,99,0.72) 0%, transparent 55%)",
-                      }}
-                    />
-                    <span
-                      style={{
-                        position: "absolute", bottom: 10, left: 0, right: 0,
-                        textAlign: "center", fontSize: 14, fontWeight: 700,
-                        color: "#fff", textShadow: "0 1px 3px rgba(0,0,0,0.35)",
-                      }}
-                    >
-                      {s.label}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-
-            <button
-              onClick={() => {
-                setError(null);
-                if (guest) {
-                  updatePet({ species, breedEn: getSpecies(species).breeds[0], breedJp: getSpecies(species).breeds[0] });
-                  toast.success(`Welcome! Your dashboard is now tailored to your ${getSpecies(species).label.toLowerCase()}.`);
-                  navigate({ to: "/home" });
-                  return;
-                }
-                setStep("profile");
-              }}
-              className="w-full flex items-center justify-center active:scale-[0.98] transition-transform"
-              style={{
-                marginTop: 20, height: 52, borderRadius: 16, fontSize: 15, fontWeight: 600,
-                color: "var(--primary-foreground)", gap: 8,
-                background: OWNER.accent, boxShadow: `0 6px 16px ${OWNER.accent}40`,
-              }}
-            >
-              Continue <ChevronRight size={16} />
-            </button>
-          </div>
-        )}
-
         {/* STEP 3 — owner profile setup */}
         {step === "profile" && (
            <div style={{ background: "var(--bg-card)", borderRadius: 24, boxShadow: CARD_SHADOW, border: `1px solid ${LINE}`, padding: "22px 20px" }}>
-            <div style={{ fontSize: 20, fontWeight: 500, color: INK, fontFamily: "var(--font-display)" }}>Set up your {sp.label.toLowerCase()}'s profile</div>
+            <div style={{ fontSize: 20, fontWeight: 500, color: INK, fontFamily: "var(--font-display)" }}>Set up your dog's profile</div>
             <div style={{ fontSize: 12.5, color: SUB, marginTop: 4, marginBottom: 18, lineHeight: 1.5 }}>
               Only the pet name is required — you can fill in the rest anytime.
             </div>
 
-            <Label required>{sp.label} Name</Label>
+            <Label required>Dog Name</Label>
             <Field icon={PawPrint}>
               <input style={inputStyle} placeholder={sp.namePlaceholder} value={petName} onChange={(e) => { setPetName(e.target.value); setError(null); }} />
             </Field>
 
-            <Label>Breed <span style={{ fontWeight: 400, color: SUB }}>({sp.label.toLowerCase()} breeds)</span></Label>
+            <Label>Breed <span style={{ fontWeight: 400, color: SUB }}>(dog breeds)</span></Label>
             <Field icon={ChevronRight}>
               <select style={{ ...inputStyle, appearance: "none" }} value={breed} onChange={(e) => setBreed(e.target.value)}>
                 {breedOptions.map((b) => <option key={b} value={b}>{b}</option>)}
